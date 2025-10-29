@@ -2,7 +2,7 @@
 <img src="./Basemark.png" alt="Base logo" width="480" />
 </p>
 
-<!-- Badge row 1 - status -->
+<!-- Блок 1 - статус -->
 
 [![GitHub contributors](https://img.shields.io/github/contributors/base/docs)](https://github.com/base/docs/graphs/contributors)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/w/base/docs)](https://github.com/base/docs/graphs/contributors)
@@ -10,7 +10,7 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/base/docs)
 [![GitHub](https://img.shields.io/github/license/base/docs?color=blue)](https://github.com/base/docs/blob/main/LICENSE.md)
 
-<!-- Badge row 2 - links and profiles -->
+<!-- Блок 2 - ссылки и профили -->
 
 [![Website base.org](https://img.shields.io/website-up-down-green-red/https/base.org.svg)](https://base.org)
 [![Blog](https://img.shields.io/badge/blog-up-green)](https://base.mirror.xyz/)
@@ -18,149 +18,149 @@
 [![Discord](https://img.shields.io/discord/1067165013397213286?label=discord)](https://base.org/discord)
 [![Twitter Base](https://img.shields.io/twitter/follow/Base?style=social)](https://twitter.com/Base)
 
-<!-- Badge row 3 - detailed status -->
+<!-- Блок 3 - детальный статус -->
 
 [![GitHub pull requests by-label](https://img.shields.io/github/issues-pr-raw/base/docs)](https://github.com/base/docs/pulls)
 [![GitHub Issues](https://img.shields.io/github/issues-raw/base/docs.svg)](https://github.com/base/docs/issues)
 
-Base Docs are community-managed. We welcome and encourage contributions from everyone to keep these docs accurate, helpful, and up to date.
+Документация Base управляется сообществом. Мы приветствуем и поощряем вклад каждого, чтобы поддерживать эти документы точными, полезными и актуальными.
 
-> Note: This repository powers the public Base documentation site. Content lives under `docs/`.
+> Примечание: Этот репозиторий используется для публичного сайта документации Base. Контент находится в папке `docs/`.
 
-## Local development
+## Локальная разработка
 
-Prerequisite: Node.js v19+.
+Предварительное требование: Node.js v19+.
 
-1. Clone the repository.
-2. Install the Mint CLI to preview documentation changes locally:
+1. Клонируйте репозиторий.
+2. Установите Mint CLI для локального просмотра изменений документации:
 
 ```bash
 npm i -g mint
 ```
 
-3. Preview locally (run from the `docs/` directory where `docs.json` lives):
+3. Просмотр локально (запустите из директории docs/, где находится docs.json):
 
 ```bash
 cd docs
 mint dev
 ```
 
-Alternatively, without a global install:
+Альтернативно, без глобальной установки:
 
 ```bash
 npx mint dev
 ```
 
-### Troubleshooting
+### Устранение неполадок
 
-- Ensure Node.js v19+ is installed and that you run `mint dev` from the directory containing `docs.json` (usually `docs/`).
-- Local preview differs from production: run `mint update` to update the CLI.
+- Убедитесь, что установлена Node.js версии 19 или выше, и что вы запускаете команду mint dev из каталога, содержащего файл docs.json (обычно это папка docs/).
+- Локальный просмотр отличается от продакшена: выполните `mint update` для обновления CLI.
 
-## How to contribute
+## Как внести вклад
 
-1. **Fork and branch**: Fork `base/docs` and create a descriptive branch for your change.
-2. **Edit content in `docs/`**: Follow the structure and style guidelines below. Preview locally with the Mint CLI.
-3. **Open a pull request**: Provide a clear summary and links to related pages. The docs team and community will review.
+1. **Fork and branch (Сделайте форк и ветку)**: Сделайте форк `base/docs` и создайте описательную ветку для ваших изменений.
+2. **Edit content in `docs/` (Редактируйте контент в `docs/`)**: Следуйте структуре и стилю, указанным ниже. Просматривайте изменения локально с помощью Mint CLI.
+3. **Open a pull request (Откройте pull request)**: Предоставьте четкое описание и ссылки на связанные страницы. Команда документации и сообщество проведут ревью.
 
-> Tip: Prefer small, focused PRs. Link related guides and references directly in your content.
+> Совет: Отдавайте предпочтение небольшим, сфокусированным PR (Pull Request). Связывайте связанные руководства и ссылки непосредственно в вашем контенте.
 
-## Documentation structure
+## Структура документации
 
-### Core principle: maintain existing structure
+### Основной принцип: сохраняйте существующую структуру
 
-> Warning: Do not create new top-level sections. Place all new content within existing folders under `docs/`.
+> Предупреждение: Не создавайте новые разделы верхнего уровня. Размещайте весь новый контент в существующих папках внутри `docs/`.
 
-The Base documentation is organized into established sections (for example: `get-started/`, `learn/`, `base-account/`, `base-app/`, `base-chain/`, `cookbook/`, `mini-apps/`, `onchainkit/`). Fit new content into the most relevant existing section.
+Документация Base организована в установленные разделы (например: `get-started/`, `learn/`, `base-account/`, `base-app/`, `base-chain/`, `cookbook/`, `mini-apps/`, `onchainkit/`). Размещайте новый контент в наиболее подходящем существующем разделе.
 
-### Navigation policy
+### Политика навигации
 
-> Note: We generally do not change the global navigation (top-level tabs) or sidebar sections unless there is a clear, broadly beneficial need. Contributions should focus on improving existing pages and adding new pages within current sections.
+> Примечание: Мы обычно не меняем глобальную навигацию (вкладки верхнего уровня) или разделы боковой панели, если нет четкой, широко полезной необходимости. Вклад должен быть сосредоточен на улучшении существующих страниц и добавлении новых страниц в текущих разделах.
 
-### Section purpose and placement
+### Назначение и размещение разделов
 
-- **Quickstart**: End-to-end setup to first success. Keep concise and current.
-- **Concepts**: Explanations of components, architecture, and design philosophy.
-- **Guides**: Step-by-step, action-oriented tutorials for specific tasks.
-- **Examples**: Complete, runnable examples demonstrating real-world usage.
-- **Technical Reference**: API/method/component specs with parameters and return types.
-- **Contribute**: Information for contributors and process updates.
+- **Quickstart (Быстрый старт)**: Полная настройка до первого успеха. Сохраняйте лаконичность и актуальность.
+- **Concepts (Концепции)**: Объяснения компонентов, архитектуры и философии дизайна.
+- **Guides (Руководства)**: Пошаговые, ориентированные на действие туториалы для конкретных задач.
+- **Examples (Примеры)**: Полные, запускаемые примеры, демонстрирующие реальное использование.
+- **Technical Reference (Техническая справка)**: Спецификации API/методов/компонентов с параметрами и типами возвращаемых значений.
+- **Contribute (Вклад)**: Информация для контрибьюторов и обновления процессов.
 
-#### Cookbook scope
+#### Область применения Cookbook
 
-- The `cookbook/` section hosts use case-focused guides and patterns, not product-specific documentation.
-- Prefer cross-cutting solutions that illustrate how to build on Base across tools and scenarios.
+- Раздел `cookbook/` содержит руководства и паттерны, ориентированные на варианты использования, а не на документацию по конкретным продуктам.
+- Отдавайте предпочтение комплексным решениям, демонстрирующим, как создавать проекты на Base с использованием различных инструментов и сценариев.
 
-> Warning: Avoid subsection proliferation:
-> - Put all guides at the same level within the Guides section.
-> - Organize Reference by component/feature, not per use case.
-> - Use cross-links instead of adding new structural layers.
+> Предупреждение: Избегайте разрастания подразделов:
+> - Размещайте все руководства на одном уровне внутри раздела Guides.
+> - Организуйте Reference по компонентам/функциям, а не по вариантам использования.
+> - Используйте перекрестные ссылки вместо добавления новых структурных слоев.
 
-## Style and formatting
+## Стиль и форматирование
 
-### Writing style
+### Стиль написания
 
-1. Be concise and consistent; use active voice and second person.
-2. Focus on the happy path; mention alternatives briefly where relevant.
-3. Use explicit, descriptive headings and filenames.
-4. Maintain consistent terminology; introduce abbreviations on first use.
+1. Будьте краткими и последовательными; используйте активный залог и второе лицо.
+2. Сосредоточьтесь на основном сценарии; кратко упоминайте альтернативы там, где это уместно.
+3. Используйте явные, описательные заголовки и имена файлов.
+4. Сохраняйте единообразную терминологию; вводите сокращения при первом использовании.
 
-### AI-friendly content
+### Контент, удобный для ИИ
 
-- Use clear, explicit language and link related pages directly.
-- Prefer bulleted lists for options/steps when not sequential.
-- Name and reference libraries and tools explicitly.
-- Use semantic, readable URLs and avoid ambiguous abbreviations.
+- Используйте ясный, однозначный язык и напрямую связывайте связанные страницы.
+- Предпочитайте маркированные списки для опций/шагов, когда они не являются последовательными.
+- Явно называйте и ссылайтесь на библиотеки и инструменты.
+- Используйте семантические, читаемые URL и избегайте неоднозначных сокращений.
 
-> Checklist:
-> - Would a Large Language Model understand and follow this content?
-> - Can an engineer copy, paste, and run the examples as-is?
+> Контрольный список:
+> - Поймёт ли большая языковая модель этот контент и сможет ли корректно следовать ему?
+> - Может ли инженер скопировать, вставить и запустить примеры как есть?
 
-### Mintlify formatting
+### Форматирование Mintlify
 
-- Start main sections with H2 (`##`) and subsections with H3 (`###`).
-- Use fenced code blocks with language and optional filename.
-- Wrap images in `<Frame>` and include `alt` text.
-- Use callouts for emphasis: `<Note>`, `<Tip>`, `<Warning>`, `<Info>`, `<Check>`.
-- For procedures, prefer `<Steps>` / `<Step>`.
-- For alternatives, use `<Tabs>` / `<Tab>`.
-- For API docs, use `<ParamField>`, `<ResponseField>`, and request/response examples.
+- Начинайте основные разделы с H2 (`##`) и подразделы с H3 (`###`).
+- Используйте блоки кода с указанием языка и необязательным именем файла.
+- Оберните изображения в <Frame> и добавьте `alt` текст.
+- Используйте callouts для выделения: `<Note>`, `<Tip>`, `<Warning>`, `<Info>`, `<Check>`.
+- Для процедур предпочитайте `<Steps>` / `<Step>`.
+- Для альтернатив используйте `<Tabs>` / `<Tab>`.
+- Для документации API используйте `<ParamField>`, `<ResponseField>` и примеры запросов/ответов.
 
-### Code examples
+### Примеры кода
 
-- Provide complete, runnable examples with realistic data.
-- Include proper error handling and edge cases.
-- Specify language and filename when helpful.
-- Show expected output or verification steps.
+- Предоставляйте полные, запускаемые примеры с реалистичными данными.
+- Включайте правильную обработку ошибок и граничные случаи.
+- Указывайте язык и имя файла, когда это полезно.
+- Показывайте ожидаемый вывод или шаги проверки.
 
-## Third-party guides policy
+## Политика сторонних руководств
 
-> Warning: We generally do not accept guides that primarily document a third-party product. Exceptions require a clear Base-focused use case and a tight integration with Base products. Simply deploying on Base or connecting to Base Account/Base App is not sufficient.
+> Предупреждение: Мы обычно не принимаем руководства, которые в основном документируют сторонний продукт. Исключения требуют четкого варианта использования, ориентированного на Base, и тесной интеграции с продуктами Base. Простое развертывание на Base или подключение к Base Account/Base App недостаточно.
 
-If your goal is to increase discoverability of your product, please request inclusion on the Base Ecosystem page instead. See the instructions for [updating the Base Ecosystem page](https://github.com/base/web?tab=readme-ov-file#updating-the-base-ecosystem-page).
+Если ваша цель - повысить видимость вашего продукта, пожалуйста, запросите включение на странице Base Ecosystem вместо этого. Смотрите инструкции по [обновлению страницы Base Ecosystem](https://github.com/base/web?tab=readme-ov-file#updating-the-base-ecosystem-page).
 
-## Review checklist (before submitting a PR)
+## Контрольный список для проверки (перед отправкой PR)
 
-- [ ] Fits within existing structure (no new top-level sections)
-- [ ] Minimal, necessary subsections only
-- [ ] Consistent terminology; abbreviations introduced on first use
-- [ ] Code examples are complete, runnable, and validated
-- [ ] Cross-links to related guides/examples/references are included
-- [ ] Uses Mintlify components and heading hierarchy correctly
-- [ ] Accessible images with descriptive `alt` text and frames
-- [ ] AI-friendly: explicit, link-rich, and easy to follow
+- [ ] Соответствует существующей структуре (без новых разделов верхнего уровня)
+- [ ] Только минимальные, необходимые подразделы
+- [ ] Единообразная терминология; сокращения вводятся при первом использовании
+- [ ] Примеры кода должны быть полными, корректно выполняться и проходить проверку.
+- [ ] Включены перекрестные ссылки на связанные руководства/примеры/справочники
+- [ ] Корректно использует компоненты Mintlify и иерархию заголовков
+- [ ] Доступные изображения с описательным `alt` текстом и фреймами
+- [ ] Удобно для ИИ: явный, богатый ссылками и легкий для понимания
 
-## Submission process
+## Процесс отправки
 
-1. Create a PR to `https://github.com/base/docs` with your changes.
-2. Include a clear description of the change and impacted pages.
-3. Request review from the docs team.
-4. Address feedback and iterate.
-5. Once approved, changes will be merged and published.
+1. Создайте PR (pull request) в `https://github.com/base/docs` с вашими изменениями.
+2. Включите четкое описание изменений и затронутых страниц.
+3. Запросите ревью у команды документации.
+4. Учитывайте обратную связь и итерируйте.
+5. После одобрения изменения будут объединены и опубликованы.
 
-## Publishing changes
+## Публикация изменений
 
-The core team will review opened PRs. The SLA is 2 weeks, generally on a first-come, first-served basis outside of urgent changes. 
+Основная команда просматривает открытые PR. Время обработки (SLA) составляет 2 недели — обычно в порядке очереди, за исключением срочных изменений.
 
-## Storybook for UI components
+## Storybook для UI компонентов
 
-See `storybook/README.md` for details on local Storybook and component docs.
+Смотрите `storybook/README.md` для деталей о локальном Storybook и документации компонентов.
