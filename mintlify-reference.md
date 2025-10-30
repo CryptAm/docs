@@ -1,49 +1,49 @@
-## Mintlify component reference
-Full mintlify reference docs can be found at https://www.mintlify.com/docs/llms.txt
+## Справочник компонентов Mintlify
+Полная документация Mintlify доступна по ссылке: https://www.mintlify.com/docs/llms.txt
 
 ### docs.json
 
-- Refer to the [docs.json schema](https://mintlify.com/docs.json) when building the docs.json file and site navigation
-- If any documents have been removed from the /docs folder, ensure that a redirect is implemented
+- Обращайтесь к [схеме docs.json](https://mintlify.com/docs.json) при создании файла docs.json и навигации по сайту
+- Если какие-либо документы были удалены из папки /docs, убедитесь, что реализовано перенаправление
 
-### Callout components
-Use these sparingly, only when it's important to highlight information which might otherwise be missed by someone scanning the page.
+### Компоненты Callout
+Используйте их экономно, только когда важно выделить информацию, которая может быть пропущена при беглом просмотре страницы.
 
-#### Note - Additional helpful information
+#### Примечание - Дополнительная полезная информация
 
 <Note>
-Supplementary information that supports the main content without interrupting flow
+Дополнительная информация, которая поддерживает основной контент, не прерывая поток
 </Note>
 
-#### Tip - Best practices and pro tips
+#### Совет - Лучшие практики и профессиональные советы
 
 <Tip>
-Expert advice, shortcuts, or best practices that enhance user success
+Экспертные рекомендации, сокращения или лучшие практики, которые повышают успех пользователя
 </Tip>
 
-#### Warning - Important cautions
+#### Предупреждение - Важные предостережения
 
 <Warning>
-Critical information about potential issues, breaking changes, or destructive actions
+Критическая информация о потенциальных проблемах, breaking changes или деструктивных действиях
 </Warning>
 
-#### Info - Neutral contextual information
+#### Информация - Нейтральная контекстная информация
 
 <Info>
-Background information, context, or neutral announcements
+Фоновая информация, контекст или нейтральные объявления
 </Info>
 
-#### Check - Success confirmations
+#### Галочка - Подтверждения успеха
 
 <Check>
-Positive confirmations, successful completions, or achievement indicators
+Положительные подтверждения, успешные завершения или индикаторы достижений
 </Check>
 
-### Code components
+### Компоненты кода
 
-#### Code group with multiple languages
+#### Code group с несколькими языками
 
-Example of a code group:
+Пример code group:
 
 <CodeGroup>
 ```javascript Node.js
@@ -65,25 +65,25 @@ curl -X GET '/api/endpoint' \
 </CodeGroup>
 
 
-### Structural components
+### Структурные компоненты
 
-#### Steps for procedures
+#### Шаги для процедур
 
-Example of step-by-step instructions:
+Пример пошаговых инструкций:
 
 <Steps>
 <Step title="Install dependencies">
-  Run `npm install` to install required packages.
+  Выполните `npm install` для установки необходимых пакетов.
 </Step>
 
 <Step title="Configure environment">
-  Create a `.env` file with your API credentials.
+  Создайте файл `.env` с вашими API-учетными данными.
 </Step>
 </Steps>
 
-#### Tabs for alternative content
+#### Вкладки для альтернативного контента
 
-Example of tabbed content:
+Пример контента с вкладками:
 
 <Tabs>
   <Tab title="macOS">
@@ -94,9 +94,9 @@ Example of tabbed content:
   </Tab>
 </Tabs>
 
-#### Accordions for collapsible content
+#### Accordions для сворачиваемого контента
 
-Example of accordion groups:
+Пример групп аккордеонов:
 
 <AccordionGroup>
 <Accordion title="Troubleshooting connection issues">
@@ -115,91 +115,91 @@ Example of accordion groups:
 </Accordion>
 </AccordionGroup>
 
-### Cards and columns for emphasizing information
+### Карточки и колонки для акцентирования информации
 
-Example of cards and card groups:
+Пример карточек и групп карточек:
 
-<Card title="Getting started guide" icon="rocket" href="/quickstart">
-Complete walkthrough from installation to your first API call in under 10 minutes.
+<Card title="Руководство по началу работы" icon="rocket" href="/quickstart">
+Пошаговое руководство — от установки до первого вызова API менее чем за 10 минут.
 </Card>
 
 <CardGroup cols={2}>
-<Card title="Authentication" icon="key" href="/auth">
-  Learn how to authenticate requests using API keys or JWT tokens.
+<Card title="Аутентификация" icon="key" href="/auth">
+  Узнайте, как аутентифицировать запросы с помощью API-ключей или токенов JWT.
 </Card>
 
-<Card title="Rate limiting" icon="clock" href="/rate-limits">
-  Understand rate limits and best practices for high-volume usage.
+<Card title="Ограничение скорости" icon="clock" href="/rate-limits">
+  Поймите, как работают лимиты запросов и как соблюдать лучшие практики при большом объёме трафика.
 </Card>
 </CardGroup>
 
-### API documentation components
+### Компоненты документации API
 
-#### Parameter fields
+#### Поля параметров
 
-Example of parameter documentation:
+Пример описания параметров:
 
 <ParamField path="user_id" type="string" required>
-Unique identifier for the user. Must be a valid UUID v4 format.
+Уникальный идентификатор пользователя. Должен соответствовать формату UUID v4.
 </ParamField>
 
 <ParamField body="email" type="string" required>
-User's email address. Must be valid and unique within the system.
+Адрес электронной почты пользователя. Должен быть действительным и уникальным в системе.
 </ParamField>
 
 <ParamField query="limit" type="integer" default="10">
-Maximum number of results to return. Range: 1-100.
+Максимальное количество возвращаемых результатов. Диапазон: 1–100.
 </ParamField>
 
 <ParamField header="Authorization" type="string" required>
-Bearer token for API authentication. Format: `Bearer YOUR_API_KEY`
+Токен типа Bearer для аутентификации в API. Формат: `Bearer YOUR_API_KEY`
 </ParamField>
 
-#### Response fields
+#### Поля ответа
 
-Example of response field documentation:
+Пример описания полей ответа:
 
 <ResponseField name="user_id" type="string" required>
-Unique identifier assigned to the newly created user.
+Уникальный идентификатор, присвоенный вновь созданному пользователю.
 </ResponseField>
 
 <ResponseField name="created_at" type="timestamp">
-ISO 8601 formatted timestamp of when the user was created.
+Отметка времени в формате ISO 8601, когда пользователь был создан.
 </ResponseField>
 
 <ResponseField name="permissions" type="array">
-List of permission strings assigned to this user.
+Список строк разрешений, назначенных данному пользователю.
 </ResponseField>
 
-#### Expandable nested fields
+#### Разворачиваемые вложенные поля
 
-Example of nested field documentation:
+Пример описания вложенных полей:
 
 <ResponseField name="user" type="object">
-Complete user object with all associated data.
+Полный объект пользователя со всеми связанными данными.
 
 <Expandable title="User properties">
   <ResponseField name="profile" type="object">
-  User profile information including personal details.
+  Информация профиля пользователя, включая личные данные.
   
   <Expandable title="Profile details">
     <ResponseField name="first_name" type="string">
-    User's first name as entered during registration.
+    Имя пользователя, указанное при регистрации.
     </ResponseField>
     
     <ResponseField name="avatar_url" type="string | null">
-    URL to user's profile picture. Returns null if no avatar is set.
+    URL изображения профиля пользователя. Возвращает null, если аватар не установлен.
     </ResponseField>
   </Expandable>
   </ResponseField>
 </Expandable>
 </ResponseField>
 
-### Media and advanced components
+### Медиа и расширенные компоненты
 
-#### Frames for images
+#### Рамки для изображений
 
-Wrap all images in frames:
+Все изображения следует помещать в рамки:
 
 <Frame>
 <img src="/images/dashboard.png" alt="Main dashboard showing analytics overview" />
@@ -209,9 +209,9 @@ Wrap all images in frames:
 <img src="/images/analytics.png" alt="Analytics dashboard with charts" />
 </Frame>
 
-#### Videos
+#### Видео
 
-Use the HTML video element for self-hosted video content:
+Используйте HTML-элемент video для видео, размещённого на вашем сервере:
 
 <video
   controls
@@ -219,7 +219,7 @@ Use the HTML video element for self-hosted video content:
   src="link-to-your-video.com"
 ></video>
 
-Embed YouTube videos using iframe elements:
+Для вставки видео с YouTube используйте элемент iframe:
 
 <iframe
   className="w-full aspect-video rounded-xl"
@@ -230,25 +230,26 @@ Embed YouTube videos using iframe elements:
   allowFullScreen
 ></iframe>
 
-#### Tooltips
+#### Подсказки
 
-Example of tooltip usage:
+Пример использования всплывающих подсказок:
 
-<Tooltip tip="Application Programming Interface - protocols for building software">
+<Tooltip tip="Application Programming Interface (API) - протоколы для создания программного обеспечения">
 API
 </Tooltip>
 
-#### Updates
+#### Обновления
 
-Use updates for changelogs:
+Используйте компонент обновлений для описания изменений
 
 <Update label="Version 2.1.0" description="Released March 15, 2024">
-## New features
-- Added bulk user import functionality
-- Improved error messages with actionable suggestions
+  
+## Новые возможности
+- Добавлена функция массового импорта пользователей
+- Улучшены сообщения об ошибках — теперь они содержат полезные рекомендации
 
-## Bug fixes
-- Fixed pagination issue with large datasets
-- Resolved authentication timeout problems
+## Исправления ошибок
+- Исправлена проблема с пагинацией при работе с большими наборами данных
+- Решена проблема тайм-аута при аутентификации
 </Update>
 
