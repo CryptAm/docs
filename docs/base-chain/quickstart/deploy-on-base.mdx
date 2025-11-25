@@ -1,126 +1,126 @@
 ---
-title: 'Deploy on Base'
+title: 'Развёртывание на Base'
 ---
 
-Welcome to the Base deployment quickstart guide! This comprehensive walkthrough will help you set up your environment and deploy smart contracts on Base. Whether you're a seasoned developer or just starting out, this guide has got you covered.
+Добро пожаловать в быстрый старт по развёртыванию на Base! Этот подробный гид поможет вам настроить окружение и развернуть смарт-контракты на Base. Независимо от того, опытный вы разработчик или только начинаете, это руководство будет полезно.
 
-## What You'll Achieve
+## Что вы достигнете
 
-By the end of this quickstart, you'll be able to:
+К концу этого быстрого старта вы сможете:
 
-- Set up your development environment to deploy on Base
-- Deploy your smart contracts to Base
-- Connect your frontend to your smart contracts
+- Настроить своё окружение для разработки и развёртывания на Base
+- Развернуть смарт-контракты на Base
+- Подключить фронтенд к вашим смарт-контрактам
 
 <Tip>
-**Why Base?**
+**Почему Base?**
 
-Base is a fast, low-cost, builder-friendly Ethereum L2 built to bring the next billion users onchain. By following this guide, you'll join a vibrant ecosystem of developers, creators, and innovators who are building a global onchain economy.
+Base - это быстрый, недорогой и удобный для разработчиков Ethereum L2, созданный для того, чтобы вывести следующий миллиард пользователей ончейн. Следуя этому руководству, вы присоединитесь к живой экосистеме разработчиков, креаторов и новаторов, которые строят глобальную ончейн-экономику.
 </Tip>
 
 
-## Set Up Your Development Environment
+## Настройка окружения для разработки
 
-1. Create a new project directory
+1. Создайте новую директорию проекта
 
 ```bash
 mkdir my-base-project && cd my-base-project
 ```
 
-2. Install Foundry, a powerful framework for smart contract development
+2. Установите Foundry - мощный фреймворк для разработки смарт-контрактов
 
 ```bash
 curl -L https://foundry.paradigm.xyz | bash
 foundryup
 ```
 
-This installs Foundry and updates it to the latest version.
+Эта команда установит Foundry и обновит его до последней версии.
 
-3. Initialize a new Solidity project
+3. Инициализируйте новый Solidity-проект
 
 ```bash
 forge init
 ```
 
-Your Foundry project is now ready. You'll find an example contract in the `src` directory, which you can replace with your own contracts. For the purposes of this guide, we'll use the Counter contract provided in `/src/Counter.sol`
+Ваш проект Foundry готов. В директории src вы найдёте пример контракта, который можно заменить своими собственными контрактами. Для целей этого руководства мы будем использовать контракт `Counter` из `/src/Counter.sol`.
 
 <Tip>
-Foundry provides a suite of tools for Ethereum application development, including Forge (for testing), Cast (for interacting with the chain), and Anvil (for setting up a local node). You can learn more about Foundry [here](https://book.getfoundry.sh/).
+Foundry предоставляет набор инструментов для разработки приложений на Ethereum, включая Forge (для тестирования), Cast (для взаимодействия с блокчейном) и Anvil (для локального узла). Подробнее о Foundry можно узнать [здесь](https://book.getfoundry.sh/).
 </Tip>
 
 
-## Configure Foundry with Base
+## Настройка Foundry для работы с Base
 
-To deploy your smart contracts to Base, you need two key components:
+Чтобы развернуть смарт-контракты на Base, вам понадобятся два ключевых компонента:
 
-1. A node connection to interact with the Base network
-2. A funded private key to deploy the contract
+1. Подключение к ноде для взаимодействия с сетью Base
+2. Приватный ключ с балансом для деплоя контракта
 
-Let's set up both of these:
+Давайте настроим оба компонента:
 
-### 1. Set up your node connection
+### 1. Настройка подключения к ноде
 
-1. Create a `.env` file in your project's root directory
-2. Add the Base network RPC URL to your `.env` file
+1. Создайте файл `.env` в корневой директории проекта
+2. Добавьте URL RPC сети Base в ваш `.env` файл
 
 ```bash
 BASE_RPC_URL="https://mainnet.base.org"
 BASE_SEPOLIA_RPC_URL="https://sepolia.base.org"
 ```
 
-3. Load your environment variables
+3. Загрузите переменные окружения
 
 ```bash
 source .env
 ```
 
 <Tip>
-Base Sepolia is the test network for Base, which we will use for the rest of this guide. You can obtain free Base Sepolia ETH from one of the [faucets listed here](/base-chain/tools/network-faucets).
+Base Sepolia - это тестовая сеть Base, которую мы будем использовать для остальной части руководства. Вы можете получить бесплатный Base Sepolia ETH через один из [кранов, перечисленных здесь](/base-chain/tools/network-faucets).
 </Tip>
 
 
-### 2. Secure your private key
+### 2. Безопасное хранение приватного ключа
 
-1. Store your private key in Foundry's secure keystore
+1. Сохраните ваш приватный ключ в безопасном хранилище Foundry
 
 ```bash
 cast wallet import deployer --interactive
 ```
 
-2. When prompted enter your private key and a password.
+2. При запросе введите ваш приватный ключ и пароль.
 
-Your private key is stored in `~/.foundry/keystores` which is not tracked by git.
+Ваш приватный ключ будет сохранён в `~/.foundry/keystores` - эта директория не отслеживается Git.
 
 <Warning>
-Never share or commit your private key. Always keep it secure and handle with care.
+Никогда не делитесь своим приватным ключом и не коммитьте его. Всегда храните его в безопасности и обращайтесь с ним осторожно.
 </Warning>
 
 
-## Deploy Your Contracts
+## Развёртывание ваших контрактов
 
-Now that your environment is set up, let's deploy your contracts to Base Sepolia.
+Теперь, когда среда настроена, давайте развернём ваши контракты на Base Sepolia.
 
-1. (Optional) First, perform a dry run to simulate the deployment and verify everything is configured correctly:
+1. (Опционально) Сначала выполните тестовый запуск (dry run), чтобы симулировать деплой и убедиться, что всё настроено корректно:
 
 ```bash
 forge create ./src/Counter.sol:Counter --rpc-url $BASE_SEPOLIA_RPC_URL --account deployer
 ```
 
-This performs a simulation without broadcasting the transaction to the network. You'll see the transaction details and contract ABI, but no actual deployment will occur.
+Это выполняет симуляцию без отправки транзакции в сеть. Вы увидите детали транзакции и ABI контракта, но фактического развёртывания не произойдёт.
 
-2. Deploy your contract by adding the `--broadcast` flag:
+2. Разверните контракт, добавив флаг `--broadcast`:
 
 ```bash
 forge create ./src/Counter.sol:Counter --rpc-url $BASE_SEPOLIA_RPC_URL --account deployer --broadcast
 ```
 
 <Tip>
-The `--broadcast` flag is **required** to actually deploy your contract to the network. Without it, Foundry only performs a dry run simulation.
+Флаг `--broadcast` **обязателен**, чтобы реально развернуть контракт в сети. Без него Foundry выполняет только симуляцию dry run.
 </Tip>
 
-Note the format of the contract being deployed is `<contract-path>:<contract-name>`.
+Обратите внимание: формат развёртываемого контракта выглядит так: `<contract-path>:<contract-name>`.
 
-3. After successful deployment, you'll see output including:
+3. После успешного развёртывания вы увидите вывод, включающий:
 
 ```
 Deployer: 0x...
@@ -128,46 +128,46 @@ Deployed to: 0x...  <-- YOUR CONTRACT ADDRESS
 Transaction hash: 0x...
 ```
 
-4. Copy the deployed contract address and add it to your `.env` file:
+4. Скопируйте адрес развернутого контракта и добавьте его в файл `.env`:
 
 ```bash
 COUNTER_CONTRACT_ADDRESS="0x..."
 ```
 
-Replace `0x...` with your actual deployed contract address from the output above.
+Замените `0x...` на фактический адрес контракта из вывода выше.
 
-5. Load the new environment variable:
+5. Загрузите новую переменную окружения:
 
 ```bash
 source .env
 ```
 
 <Tip>
-You need to run `source .env` after modifying your `.env` file to load the new variables in your current terminal session.
+После изменения файла `.env` необходимо выполнить `source .env`, чтобы новые переменные загрузились в текущую сессию терминала.
 </Tip>
 
-### Verify Your Deployment
+### Проверка развёртывания
 
-To ensure your contract was deployed successfully:
+Чтобы убедиться, что ваш контракт был успешно развернут:
 
-1. Check the transaction on [Sepolia Basescan](https://sepolia.basescan.org/) using your transaction hash
-2. Use the `cast` command to interact with your deployed contract from the command line:
+1. Проверьте транзакцию на [Sepolia Basescan](https://sepolia.basescan.org/) с использованием хеша вашей транзакции.
+2. Используйте команду `cast`, чтобы взаимодействовать с развернутым контрактом через командную строку:
 
 ```bash
 cast call $COUNTER_CONTRACT_ADDRESS "number()(uint256)" --rpc-url $BASE_SEPOLIA_RPC_URL
 ```
 
 <Tip>
-Make sure you've added `COUNTER_CONTRACT_ADDRESS` to your `.env` file and run `source .env` before running this command. Otherwise, the environment variable will be undefined and the command will fail.
+Убедитесь, что вы добавили `COUNTER_CONTRACT_ADDRESS` в файл `.env` и выполнили `source .env` перед запуском этой команды. В противном случае переменная окружения будет неопределена, и команда не сработает.
 </Tip>
 
-This will return the initial value of the Counter contract's `number` storage variable, which will be `0`.
+Эта команда вернёт начальное значение переменной number контракта `Counter`, которое будет равно `0`.
 
-**Congratulations! You've deployed your smart contracts to Base Sepolia!**
+**Поздравляем! Вы успешно развернули свои смарт-контракты на Base Sepolia!**
 
-## Next Steps
+## Следующие шаги
 
-- Use [Onchainkit](https://onchainkit.com) to connect your frontend to your contracts! Onchainkit is a library of ready-to-use React components and Typescript utilities.
-- Learn more about interacting with your contracts in the command line using Foundry from our [Foundry tutorial](/learn/foundry/deploy-with-foundry).
+- Используйте [Onchainkit](https://onchainkit.com) чтобы подключить ваш фронтенд к контрактам! OnchainKit - это библиотека готовых React-компонентов и утилит на TypeScript.
+- Узнайте больше о взаимодействии с контрактами через командную строку с помощью Foundry в нашем [руководстве Foundry](/learn/foundry/deploy-with-foundry).
 
 
