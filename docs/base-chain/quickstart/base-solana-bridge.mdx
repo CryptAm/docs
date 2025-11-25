@@ -1,63 +1,61 @@
 ---
-title: "Base-Solana Bridge"
-description: "Bridge tokens and messages between Base and Solana"
+title: "Мост Base-Solana"
+description: "Мост для токенов и сообщений между Base и Solana"
 icon: "bridge"
 ---
 
 import { GithubRepoCard } from "/snippets/GithubRepoCard.mdx"
 
 <Warning>
-  The Base-Solana bridge is currently in **testnet only** (Base Sepolia ↔ Solana Devnet).
+  Мост Base-Solana сейчас работает только в тестнете (Base Sepolia ↔ Solana Devnet)..
 </Warning>
 
-The Base-Solana bridge enables bidirectional token transfers and message passing between Base and Solana networks. This bridge allows you to:
+Мост Base–Solana предоставляет двусторонние переводы токенов и передачу сообщений между сетями Base и Solana. С его помощью можно:
 
-* **Transfer tokens** between Base and Solana
-* **Send arbitrary cross-chain messages**
-* **Combine both flows (transfer with arbitrary calls)**
-* **Deploy wrapped tokens** on either chain
+* **Отправлять токены** между Base и Solana
+* **Отправлять произвольные кроссчейн-сообщения**
+* **Комбинировать перевод и вызов функций**
+* **Развёртывать врапнутые токены** на любой из сетей
 
-This guide covers the bridge architecture and provides practical examples for implementation.
+Руководство объясняет архитектуру бриджа и содержит практические примеры реализации.
 
-## How it works
+## Как это работает
 
-### On Base
-The Base bridge contract locks or burns tokens when sending messages to Solana,
-and mints or unlocks tokens when receiving messages from Solana.
-The Bridge contract itself builds Merkle trees from outgoing messages.
-Validators verify the Merkle root every 300 finalized blocks and relay it to Solana.
-You then prove your message exists in the tree to complete the transfer on Solana.
+### В сети Base
+Контракт моста на Base блокирует или сжигает токены, когда сообщение отправляется в Solana,
+и минтит или разблокирует токены, когда сообщение приходит из Solana.
+Сам контракт бриджа строит Merkle-дерево для исходящих сообщений.
+Валидаторы проверяют Merkle root каждые 300 финализированных блоков и отправляют его в Solana.
+Затем вы доказываете, что ваше сообщение существует в `tree`, чтобы завершить перевод на Solana.
 
 <Info>
-Tokens that are native to Base are locked and tokens that are native to Solana are burned when bridging to Solana.
-Tokens that are native to Solana are minted and tokens that are native to Base are unlocked when bridging to Base.
+Tokens that are native to Base are locked and tokens that are native to Solana are burned when bridging to Solana. При переводе в Solana токены, нативные для Base(ETH), блокируются, а нативные для Solana(SOL) - сжигаются.
+При переносе в Base токены, нативные для Solana - минтятся, а нативные токены Base - разблокируются.
 </Info>
 
-**Key Smart contracts:**
-- [**Bridge Contract**](https://github.com/base/bridge/blob/main/base/src/Bridge.sol): Handles outgoing transfers
-- [**CrossChainERC20**](https://github.com/base/bridge/blob/main/base/src/CrossChainERC20.sol): Mintable/burnable tokens for cross-chain transfers
-- [**BridgeValidator**](https://github.com/base/bridge/blob/main/base/src/BridgeValidator.sol): Validates messages with oracle signatures
-- [**Twin Contract**](https://github.com/base/bridge/blob/main/base/src/Twin.sol): Your personal smart contract on Base for executing calls from Solana
+**Основные смарт-контракты:**
+- [**Bridge Contract**](https://github.com/base/bridge/blob/main/base/src/Bridge.sol): обрабатывает исходящие переводы
+- [**CrossChainERC20**](https://github.com/base/bridge/blob/main/base/src/CrossChainERC20.sol): токены, которые можно минтить/сжигать при кроссчейн-переводах
+- [**BridgeValidator**](https://github.com/base/bridge/blob/main/base/src/BridgeValidator.sol): проверяет сообщения по подписям валидаторов
+- [**Twin Contract**](https://github.com/base/bridge/blob/main/base/src/Twin.sol): ваш персональный контракт на Base, в котором выполняются вызовы с Solana
 
 <Tip>
-**What is the Twin Contract?**
-The Twin Contract is a smart contract that acts as your execution context on Base.
-It represents the `msg.sender` on Base when you send an arbitrary contract call from Solana.
+**Что такое Twin Contract?**
+Twin Contract - это смарт-контракт на Base, который действует как ваш `msg.sender`, когда вы отправляете произвольный вызов контракта из Solana.
 </Tip>
 
-### On Solana
-The Solana bridge program handles token transfers by locking or burning tokens and emitting events. For messaging, validators relay these messages to Base where they're executed through your personal Twin contract - a smart contract that acts as your execution context on Base.
+### В сети Solana
+Мост на Solana обрабатывает переводы токенов, блокируя или сжигая их. Для сообщений валидаторы передают их в Base, где они выполняются через персональный Twin Contract.
 
-**Key Programs:**
-- [**Bridge Program**](https://github.com/base/bridge/blob/main/solana/programs/bridge): Handles outgoing transfers
-- [**Base Relayer Program**](https://github.com/base/bridge/blob/main/solana/programs/base_relayer): Coordinates message relay (not part of the core bridge)
+**Основные Solana-программы:**
+- [**Bridge Program**](https://github.com/base/bridge/blob/main/solana/programs/bridge): обрабатывает исходящие трансферы
+- [**Base Relayer Program**](https://github.com/base/bridge/blob/main/solana/programs/base_relayer): координирует передачу сообщений (не часть ядра бриджа)
 
-You can access the full repository from the link below:
+Полный репозиторий:
 <GithubRepoCard title="Base Bridge - Official Repository" githubUrl="https://github.com/base/bridge" />
 
 <Info>
-The relayer program is not part of the core bridge.
-This is a convenience feature built on top of the bridge to reduce friction in the Solana -> Base direction.
+Программа relayer’а — это дополнительный модуль, не обязательный для работы моста. Она просто облегчает процесс передачи сообщений Solana → Base.
 </Info>
 
 ## Bridging Flows
