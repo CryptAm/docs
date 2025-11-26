@@ -58,43 +58,43 @@ Twin Contract - это смарт-контракт на Base, который д�
 Программа relayer’а — это дополнительный модуль, не обязательный для работы моста. Она просто облегчает процесс передачи сообщений Solana → Base.
 </Info>
 
-## Bridging Flows
+## Потоки работы моста
 
 <CardGroup cols={3}>
-  <Card title="Solana to Base" icon="arrow-right" href="#solana-to-base">
-    Automatic relay system for seamless transfers
+  <Card title="Solana → Base" icon="arrow-right" href="#solana-to-base">
+    Автоматическая система ретрансляции для бесшовных переводов
   </Card>
 
-  <Card title="Base to Solana" icon="arrow-left" href="#base-to-solana">
-    Manual proof-based transfers with full control
+  <Card title="Base → Solana" icon="arrow-left" href="#base-to-solana">
+    Ручные переводы на основе доказательств с полным контролем
   </Card>
 
-  <Card title="Full Stack Example" icon="code" href="#sol2base%3A-full-stack-example">
-    Complete application with frontend integration
+  <Card title="Полный Full Stack пример" icon="code" href="#sol2base%3A-full-stack-example">
+    Полноценное приложение с интеграцией фронтенда
   </Card>
 </CardGroup>
 
-## Solana to Base
+## Solana → Base
 
-**Flow:** Lock SOL → Wait for Validator Pre-approval → Execute on Base
+**Процесс:** Блокировка SOL → Ожидание предварительного одобрения валидаторами → Выполнение на Base
 
-The Solana to Base bridge uses a pull-based model that requires 3 steps:
+Мост Solana → Base использует pull-based модель, которая включает 3 шага:
 
-1. **Initiate the bridge on Solana** - Lock your SOL or native SPL token in a Solana vault
-2. **Wait for validators to pre-approve the message** - Validators verify and approve your bridge message
-3. **Execute the message on Base** - The approved message is executed on Base to mint SOL and execute any additional arbitrary calls
+1. **Инициация моста в Solana** - заблокируйте свои SOL или нативный SPL-токен в Solana vault.
+2. **Ожидание предварительного одобрения сообщения валидаторами** - валидаторы проверяют и подтверждают ваш перевод.
+3. **Выполнение перевода на Base** - подтверждённый перевод выполняется на Base для минта SOL и выполнения любых дополнительных произвольных вызовов.
 
 <Info>
-Tokens that are native to Solana are locked and tokens that are native to Base are burned when bridging to Solana.
-Tokens that are native to Base are minted and tokens that are native to Solana are unlocked when bridging to Base.
+Токены, нативные для Solana, блокируются, а токены, нативные для Base, сжигаются при отправке в Solana. 
+Токены, нативные для Base, минтятся, а токены, нативные для Solana, разблокируются при отправке в Base.
 </Info>
 
-For convenience, a relayer service is available that automatically handles step 3 for users who only want to worry about the initial transaction on Solana. This provides a seamless bridging experience while maintaining the security of the pull-based model.
+Для удобства доступен relayer-сервис, который автоматически выполняет шаг 3 для пользователей, желающих заботиться только об исходной транзакции в Solana. Это обеспечивает максимально плавный опыт работы с мостом при сохранении безопасности pull-based модели.
 
 <GithubRepoCard title="Solana to Base Relay Script" githubUrl="https://github.com/base/bridge/blob/main/scripts/src/commands/sol/onchain/bridge/solana-to-base/bridge-sol.handler.ts" />
 
-### Auto-Relay Example
-This is a sample script that shows how to bridge SOL with auto-relay
+### Пример авто-релея
+Это пример скрипта, который показывает, как отправлять SOL через мост с авто-релеем.
 
 ```typescript solToBaseWithAutoRelay/index.ts expandable
 // Configure
@@ -119,13 +119,12 @@ const ixs = [
 await buildAndSendTransaction(SOLANA_RPC_URL, ixs, payer);
 ```
 
-For more details, see the [Solana to Base Relay Script](https://github.com/base/bridge/blob/main/scripts/src/commands/sol/onchain/bridge/solana-to-base/bridge-sol.handler.ts).
+Подробнее см. в разделе [Solana to Base Relay Script](https://github.com/base/bridge/blob/main/scripts/src/commands/sol/onchain/bridge/solana-to-base/bridge-sol.handler.ts).
 
-### Wrap Custom SPL Tokens
+### Обертка кастомных SPL-токенов
 
-The example above shows how to bridge native SOL to Base.
-To bridge custom SPL tokens,
-you need to create wrapped ERC20 representations on Base using the CrossChainERC20Factory.
+Пример выше показывает, как отправлять через мост нативный SOL на Base.
+Чтобы отправлять кастомные SPL-токены, нужно создать их обертку ERC20-представления на Base, используя CrossChainERC20Factory.
 
 <GithubRepoCard title="Token Wrapping Example" githubUrl="https://github.com/base/bridge/blob/main/scripts/src/commands/sol/onchain/bridge/solana-to-base/wrap-token.handler.ts" />
 
@@ -141,11 +140,12 @@ await client.writeContract({
 });
 ```
 
-## Base to Solana
+## Base → Solana
 
-**Flow:** Burn SOL (on Base) → Wait 15min → Generate Proof → Execute on Solana
+**Процесс:** Сжигание SOL (на Base) → ожидание ~15 минут → генерация proof → выполнение на Solana
 
-The Base to Solana flow requires manual proof generation. You burn wrapped SOL on Base, wait for finalization, then generate a cryptographic proof to execute on Solana and receive native SOL.
+Отправка SOL через мост из Base в Solana требует ручной генерации доказательства.
+Вы сжигаете обернутый SOL на Base, ждёте финализации, затем создаёте криптографическое доказательство, чтобы выполнить транзакцию на Solana и получить нативный SOL.
 
 <GithubRepoCard title="Base to Solana Example" githubUrl="https://github.com/base/bridge/blob/main/scripts/src/internal/sol/base.ts" />
 
@@ -185,17 +185,15 @@ const relayIx = getRelayMessageInstruction({ message: messagePda });
 await buildAndSendTransaction(SOLANA_RPC_URL, [proveIx, relayIx], payer);
 ```
 
-## Utilities
+## Утилити
 
-The repository includes utilities for converting between Solana and Base address formats,
-getting your Solana CLI keypair for signing transactions,
-and building and sending Solana transactions.
+Репозиторий содержит утилити для конвертации адресов между форматами Solana и Base, получения ключей из Solana CLI для подписания транзакций, а также для сборки и отправки Solana-транзакций.
 
 <GithubRepoCard title="Base Bridge Examples - Utilities" githubUrl="https://github.com/base/bridge/tree/main/scripts/src/commands" />
 
-### Address Conversion
+### Конвертация адресов
 
-Convert Solana pubkey to bytes32 for Base contracts:
+Конвертация Solana pubkey в bytes32 для контрактов Base:
 ```typescript example.ts
 // Convert Solana pubkey to bytes32 for Base contracts
 import { pubkeyToBytes32 } from "./utils/pubkeyToBytes32";
@@ -203,9 +201,9 @@ import { pubkeyToBytes32 } from "./utils/pubkeyToBytes32";
 const bytes32Address = pubkeyToBytes32(solanaAddress);
 ```
 
-### Keypair Management
+### Управление ключами
 
-Get your Solana CLI keypair for signing transactions:
+Получение ключей из Solana CLI для подписания транзакций:
 
 ```typescript example.ts
 import { getSolanaCliConfigKeypairSigner } from "./utils/keypair";
@@ -213,9 +211,9 @@ import { getSolanaCliConfigKeypairSigner } from "./utils/keypair";
 const payer = await getSolanaCliConfigKeypairSigner();
 ```
 
-### Transaction Building
+### Сборка транзакций
 
-Build and send Solana transactions:
+Сборка и отправка Solana-транзакций:
 
 ```typescript example.ts
 import { buildAndSendTransaction } from "./utils/buildAndSendTransaction";
@@ -223,15 +221,15 @@ import { buildAndSendTransaction } from "./utils/buildAndSendTransaction";
 const signature = await buildAndSendTransaction(SOLANA_RPC_URL, ixs, payer);
 ```
 
-## Sol2Base: Full Stack Example
+## Sol2Base: Full Stack Пример
 
 <GithubRepoCard title="Sol2Base - Full Stack Bridge App" githubUrl="https://github.com/base/sol2base" />
 
-Sol2Base is a production-ready Next.js application that demonstrates how to build a complete frontend for the Base-Solana bridge. It features a "hacker" aesthetic with Matrix-style animations and includes wallet integration, CDP faucet, ENS/Basename resolution, and real-time transaction monitoring.
+Sol2Base - это готовое к продакшену приложение на Next.js, которое показывает, как создать полноценный фронтенд для моста между Base и Solana. В нём используется «хакерская» стилистика с анимациями в духе «Матрицы». Приложение поддерживает подключение кошельков, CDP faucet, разрешение ENS/Basename и мониторинг транзакций в реальном времени.
 
 ### Bridge Service Implementation
 
-The core bridge service handles SOL transfers with automatic relay and address resolution:
+!!!!!Остановился здесь!!!!!
 
 ```typescript src/lib/bridge.ts expandable
 export class SolanaBridge {
