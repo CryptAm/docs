@@ -7,101 +7,100 @@ icon: "bridge"
 import { GithubRepoCard } from "/snippets/GithubRepoCard.mdx"
 
 <Warning>
-  Мост Base-Solana сейчас работает только в тестнете (Base Sepolia ↔ Solana Devnet)..
+  Мост Base-Solana сейчас работает только в тестовых сетях (Base Sepolia ↔ Solana Devnet)..
 </Warning>
 
-Мост Base–Solana предоставляет двусторонние переводы токенов и передачу сообщений между сетями Base и Solana. С его помощью можно:
+Мост Base–Solana обеспечивает двусторонние переводы токенов и передачу сообщений между сетями Base и Solana. С его помощью можно:
 
-* **Отправлять токены** между Base и Solana
+* **Переводить токены** между Base и Solana
 * **Отправлять произвольные кроссчейн-сообщения**
-* **Комбинировать перевод и вызов функций**
-* **Развёртывать врапнутые токены** на любой из сетей
+* **Комбинировать переводы и вызовы функций**
+* **Развёртывать обернутые токены** в любой из сетей
 
-Руководство объясняет архитектуру бриджа и содержит практические примеры реализации.
+Данное руководство объясняет архитектуру моста и содержит практические примеры реализации.
 
 ## Как это работает
 
 ### В сети Base
-Контракт моста на Base блокирует или сжигает токены, когда сообщение отправляется в Solana,
-и минтит или разблокирует токены, когда сообщение приходит из Solana.
-Сам контракт бриджа строит Merkle-дерево для исходящих сообщений.
-Валидаторы проверяют Merkle root каждые 300 финализированных блоков и отправляют его в Solana.
-Затем вы доказываете, что ваше сообщение существует в `tree`, чтобы завершить перевод на Solana.
+Контракт моста в Base блокирует или сжигает токены при отправке сообщения в Solana и выпускает или разблокирует токены при получении сообщения из Solana.
+Сам контракт моста строит дерево Меркла для исходящих сообщений.
+Валидаторы проверяют корень Меркла каждые 300 финализированных блоков и отправляют его в Solana.
+Затем вы можете доказать, что ваше сообщение существует в дереве, чтобы завершить перевод в Solana.
 
 <Info>
-Tokens that are native to Base are locked and tokens that are native to Solana are burned when bridging to Solana. При переводе в Solana токены, нативные для Base(ETH), блокируются, а нативные для Solana(SOL) - сжигаются.
-При переносе в Base токены, нативные для Solana - минтятся, а нативные токены Base - разблокируются.
+При переводе в Solana токены, нативные для Base(ETH), блокируются, а нативные для Solana(SOL) сжигаются.
+При переносе в Base токены, нативные для Solana выпускаются, а нативные токены Base разблокируются.
 </Info>
 
 **Основные смарт-контракты:**
 - [**Bridge Contract**](https://github.com/base/bridge/blob/main/base/src/Bridge.sol): обрабатывает исходящие переводы
-- [**CrossChainERC20**](https://github.com/base/bridge/blob/main/base/src/CrossChainERC20.sol): токены, которые можно минтить/сжигать при кроссчейн-переводах
+- [**CrossChainERC20**](https://github.com/base/bridge/blob/main/base/src/CrossChainERC20.sol): токены, которые можно выпускать/сжигать при кроссчейн-переводах
 - [**BridgeValidator**](https://github.com/base/bridge/blob/main/base/src/BridgeValidator.sol): проверяет сообщения по подписям валидаторов
-- [**Twin Contract**](https://github.com/base/bridge/blob/main/base/src/Twin.sol): ваш персональный контракт на Base, в котором выполняются вызовы с Solana
+- [**Twin Contract**](https://github.com/base/bridge/blob/main/base/src/Twin.sol): ваш персональный контракт в Base, в котором выполняются вызовы из Solana
 
 <Tip>
 **Что такое Twin Contract?**
-Twin Contract - это смарт-контракт на Base, который действует как ваш `msg.sender`, когда вы отправляете произвольный вызов контракта из Solana.
+Twin Contract - это смарт-контракт в Base, который действует как ваш `msg.sender` при отправке произвольных вызовов контрактов из Solana.
 </Tip>
 
 ### В сети Solana
-Мост на Solana обрабатывает переводы токенов, блокируя или сжигая их. Для сообщений валидаторы передают их в Base, где они выполняются через персональный Twin Contract.
+Мост в Solana обрабатывает переводы токенов, блокируя или сжигая их. Для сообщений валидаторы передают их в Base, где они выполняются через персональный Twin Contract.
 
-**Основные Solana-программы:**
-- [**Bridge Program**](https://github.com/base/bridge/blob/main/solana/programs/bridge): обрабатывает исходящие трансферы
-- [**Base Relayer Program**](https://github.com/base/bridge/blob/main/solana/programs/base_relayer): координирует передачу сообщений (не часть ядра бриджа)
+**Основные программы Solana:**
+- [**Bridge Program**](https://github.com/base/bridge/blob/main/solana/programs/bridge): обрабатывает исходящие переводы
+- [**Base Relayer Program**](https://github.com/base/bridge/blob/main/solana/programs/base_relayer): координирует передачу сообщений (не является частью основной системы моста)
 
 Полный репозиторий:
-<GithubRepoCard title="Base Bridge - Official Repository" githubUrl="https://github.com/base/bridge" />
+<GithubRepoCard title="Base Bridge - Официальный репозиторий" githubUrl="https://github.com/base/bridge" />
 
 <Info>
-Программа relayer’а — это дополнительный модуль, не обязательный для работы моста. Она просто облегчает процесс передачи сообщений Solana → Base.
+Программа ретранслятора — это дополнительный модуль, не являющийся обязательным для работы моста. Она просто облегчает процесс передачи сообщений из Solana в Base.
 </Info>
 
-## Потоки работы моста
+## Процессы работы моста
 
 <CardGroup cols={3}>
-  <Card title="Solana → Base" icon="arrow-right" href="#solana-to-base">
+  <Card title="Из Solana в Base" icon="arrow-right" href="#solana-to-base">
     Автоматическая система ретрансляции для бесшовных переводов
   </Card>
 
-  <Card title="Base → Solana" icon="arrow-left" href="#base-to-solana">
+  <Card title="Из Base в Solana" icon="arrow-left" href="#base-to-solana">
     Ручные переводы на основе доказательств с полным контролем
   </Card>
 
-  <Card title="Полный Full Stack пример" icon="code" href="#sol2base%3A-full-stack-example">
+  <Card title="Полнофункциональный пример" icon="code" href="#sol2base%3A-full-stack-example">
     Полноценное приложение с интеграцией фронтенда
   </Card>
 </CardGroup>
 
-## Solana → Base
+## Из Solana в Base
 
-**Процесс:** Блокировка SOL → Ожидание предварительного одобрения валидаторами → Выполнение на Base
+**Процесс:** Блокировка SOL → Ожидание предварительного подтверждения валидаторами → Выполнение в Base
 
-Мост Solana → Base использует pull-based модель, которая включает 3 шага:
+Мост из Solana в Base использует можель на основе pull-запросов, которая включает 3 шага:
 
-1. **Инициация моста в Solana** - заблокируйте свои SOL или нативный SPL-токен в Solana vault.
-2. **Ожидание предварительного одобрения сообщения валидаторами** - валидаторы проверяют и подтверждают ваш перевод.
-3. **Выполнение перевода на Base** - подтверждённый перевод выполняется на Base для минта SOL и выполнения любых дополнительных произвольных вызовов.
+1. **Инициированиея перевода в Solana** - заблокируйте свои SOL или нативные SPL-токены в хранилище Solana.
+2. **Ожидание предварительного подтверждения сообщения валидаторами** - валидаторы проверяют и подтверждают ваш перевод.
+3. **Выполнение перевода в Base** - подтверждённый перевод выполняется в Base для выпуска SOL и выполнения любых дополнительных произвольных вызовов.
 
 <Info>
 Токены, нативные для Solana, блокируются, а токены, нативные для Base, сжигаются при отправке в Solana. 
-Токены, нативные для Base, минтятся, а токены, нативные для Solana, разблокируются при отправке в Base.
+Токены, нативные для Base, выпускаются, а токены, нативные для Solana, разблокируются при отправке в Base.
 </Info>
 
-Для удобства доступен relayer-сервис, который автоматически выполняет шаг 3 для пользователей, желающих заботиться только об исходной транзакции в Solana. Это обеспечивает максимально плавный опыт работы с мостом при сохранении безопасности pull-based модели.
+Для удобства доступен сервис ретрансляции, который автоматически выполняет этап 3 для пользователей, желающих ограничиться только исходной транзакцией в Solana. Это обеспечивает максимально плавный опыт использования моста при сохранении безопасности модели на основе pull-запросов.
 
-<GithubRepoCard title="Solana to Base Relay Script" githubUrl="https://github.com/base/bridge/blob/main/scripts/src/commands/sol/onchain/bridge/solana-to-base/bridge-sol.handler.ts" />
+<GithubRepoCard title="Скрипт ретрансляции из Solana в Base" githubUrl="https://github.com/base/bridge/blob/main/scripts/src/commands/sol/onchain/bridge/solana-to-base/bridge-sol.handler.ts" />
 
-### Пример авто-релея
-Это пример скрипта, который показывает, как отправлять SOL через мост с авто-релеем.
+### Пример автоматической ретрансляции
+Это пример скрипта, который показывает, как отправлять SOL через мост с автоматической ретрансляцией.
 
 ```typescript solToBaseWithAutoRelay/index.ts expandable
-// Configure
-const TO = "0x8c1a617bdb47342f9c17ac8750e0b070c372c721"; // Base address
-const AMOUNT = 0.001; // SOL amount
+// Настройка
+const TO = "0x8c1a617bdb47342f9c17ac8750e0b070c372c721"; // адрес Base
+const AMOUNT = 0.001; // количество SOL
 
-// Bridge SOL with auto-relay
+// Перевод SOL с автоматической ретрансляцией
 const ixs = [
   getBridgeSolInstruction({
     payer,
@@ -110,7 +109,7 @@ const ixs = [
     bridge: bridgeAccountAddress,
     outgoingMessage,
     to: toBytes(TO),
-    remoteToken: toBytes("0xC5b9112382f3c87AFE8e1A28fa52452aF81085AD"), // SOL on Base
+    remoteToken: toBytes("0xC5b9112382f3c87AFE8e1A28fa52452aF81085AD"), // SOL в Base
     amount: BigInt(AMOUNT * 10**9),
   }),
   await buildPayForRelayIx(RELAYER_PROGRAM_ID, outgoingMessage, payer)
@@ -119,17 +118,17 @@ const ixs = [
 await buildAndSendTransaction(SOLANA_RPC_URL, ixs, payer);
 ```
 
-Подробнее см. в разделе [Solana to Base Relay Script](https://github.com/base/bridge/blob/main/scripts/src/commands/sol/onchain/bridge/solana-to-base/bridge-sol.handler.ts).
+Подробнее см. в разделе [Скрипт ретрансляции из Solana в Base](https://github.com/base/bridge/blob/main/scripts/src/commands/sol/onchain/bridge/solana-to-base/bridge-sol.handler.ts).
 
-### Обертка кастомных SPL-токенов
+### Обертка пользовательских SPL-токенов
 
-Пример выше показывает, как отправлять через мост нативный SOL на Base.
-Чтобы отправлять кастомные SPL-токены, нужно создать их обертку ERC20-представления на Base, используя CrossChainERC20Factory.
+Пример выше показывает, как переводить нативный SOL в Base через мост.
+Чтобы преводить пользовательские SPL-токены, необходимо создать их обернутые ERC20-представления в Base с помощью CrossChainERC20Factory.
 
-<GithubRepoCard title="Token Wrapping Example" githubUrl="https://github.com/base/bridge/blob/main/scripts/src/commands/sol/onchain/bridge/solana-to-base/wrap-token.handler.ts" />
+<GithubRepoCard title="Пример обертывания токенов" githubUrl="https://github.com/base/bridge/blob/main/scripts/src/commands/sol/onchain/bridge/solana-to-base/wrap-token.handler.ts" />
 
 ```typescript wrapSolTokenOnBase/index.ts expandable
-// Deploy wrapped token on Base
+// Развертывание обернутого токена в Base
 const mintBytes32 = getBase58Codec().encode(SOLANA_SPL_MINT_ADDRESS).toHex();
 
 await client.writeContract({
@@ -140,39 +139,39 @@ await client.writeContract({
 });
 ```
 
-## Base → Solana
+## Из Base в Solana
 
-**Процесс:** Сжигание SOL (на Base) → ожидание ~15 минут → генерация proof → выполнение на Solana
+**Процесс:** Сжигание SOL (в Base) → ожидание ~15 минут → генерация доказательства → выполнение в Solana
 
 Отправка SOL через мост из Base в Solana требует ручной генерации доказательства.
-Вы сжигаете обернутый SOL на Base, ждёте финализации, затем создаёте криптографическое доказательство, чтобы выполнить транзакцию на Solana и получить нативный SOL.
+Вы сжигаете обернутый SOL в Base, ждете финализации, затем создаете криптографическое доказательство, чтобы выполнить транзакцию в Solana и получить нативный SOL.
 
-<GithubRepoCard title="Base to Solana Example" githubUrl="https://github.com/base/bridge/blob/main/scripts/src/internal/sol/base.ts" />
+<GithubRepoCard title="Пример из Base в Solana" githubUrl="https://github.com/base/bridge/blob/main/scripts/src/internal/sol/base.ts" />
 
 
 ```typescript bridgeSolFromBaseToSolana/index.ts expandable
-// Step 1: Burn SOL on Base
+// Шаг 1: Сжигание SOL в Base
 const transfer = {
-  localToken: "0xC5b9112382f3c87AFE8e1A28fa52452aF81085AD", // SOL (on Base)
+  localToken: "0xC5b9112382f3c87AFE8e1A28fa52452aF81085AD", // SOL (в Base)
   remoteToken: pubkeyToBytes32(SOL_ADDRESS),
   to: pubkeyToBytes32(solanaAddress),
   remoteAmount: BigInt(AMOUNT * 10**9),
 };
 
 const txHash = await client.writeContract({
-  address: "0xB2068ECCDb908902C76E3f965c1712a9cF64171E", // Bridge
+  address: "0xB2068ECCDb908902C76E3f965c1712a9cF64171E", // Мост
   abi: Bridge,
   functionName: "bridgeToken",
   args: [transfer, []],
 });
 
-// Step 2: Wait for finalization
+// Шаг 2: Ожидание финализации
 const isProvable = await isBridgeMessageProvable(txHash);
 
-// Step 3: Generate proof
+// Шаг 3: Генерация доказательства
 const { event, rawProof } = await generateProof(txHash, baseBlockNumber);
 
-// Step 4: Execute on Solana
+// Шаг 4: Выполнение в Solana
 const proveIx = getProveMessageInstruction({
   nonce: event.message.nonce,
   sender: toBytes(event.message.sender),
@@ -187,15 +186,15 @@ await buildAndSendTransaction(SOLANA_RPC_URL, [proveIx, relayIx], payer);
 
 ## Утилити
 
-Репозиторий содержит утилити для конвертации адресов между форматами Solana и Base, получения ключей из Solana CLI для подписания транзакций, а также для сборки и отправки Solana-транзакций.
+Репозиторий содержит утилити для преобразования адресов между форматами Solana и Base, получения ключей из Solana CLI для подписания транзакций, а также для сборки и отправки транзакций Solana.
 
-<GithubRepoCard title="Base Bridge Examples - Utilities" githubUrl="https://github.com/base/bridge/tree/main/scripts/src/commands" />
+<GithubRepoCard title="Примеры моста Base - Утилити" githubUrl="https://github.com/base/bridge/tree/main/scripts/src/commands" />
 
-### Конвертация адресов
+### Преобразование адресов
 
-Конвертация Solana pubkey в bytes32 для контрактов Base:
+Преобразование публичного ключа Solana в bytes32 для контрактов Base:
 ```typescript example.ts
-// Convert Solana pubkey to bytes32 for Base contracts
+// Преобразование открытого ключа Solana в bytes32 для контрактов Base
 import { pubkeyToBytes32 } from "./utils/pubkeyToBytes32";
 
 const bytes32Address = pubkeyToBytes32(solanaAddress);
@@ -213,7 +212,7 @@ const payer = await getSolanaCliConfigKeypairSigner();
 
 ### Сборка транзакций
 
-Сборка и отправка Solana-транзакций:
+Сборка и отправка транзакций Solana:
 
 ```typescript example.ts
 import { buildAndSendTransaction } from "./utils/buildAndSendTransaction";
@@ -221,15 +220,15 @@ import { buildAndSendTransaction } from "./utils/buildAndSendTransaction";
 const signature = await buildAndSendTransaction(SOLANA_RPC_URL, ixs, payer);
 ```
 
-## Sol2Base: Full Stack Пример
+## Sol2Base: Полнофункциональный пример
 
-<GithubRepoCard title="Sol2Base - Full Stack Bridge App" githubUrl="https://github.com/base/sol2base" />
+<GithubRepoCard title="Sol2Base - Полнофункциональное приложение моста" githubUrl="https://github.com/base/sol2base" />
 
-Sol2Base - это готовое к продакшену приложение на Next.js, которое показывает, как создать полноценный фронтенд для моста между Base и Solana. В нём используется «хакерская» стилистика с анимациями в духе «Матрицы». Приложение поддерживает подключение кошельков, CDP faucet, разрешение ENS/Basename и мониторинг транзакций в реальном времени.
+Sol2Base - это готовое к использованию приложение на Next.js, которое демонстрирует создание полноценного фронтенда для моста между Base и Solana. В нём используется «хакерская» стилистика с анимациями в духе «Матрицы». Приложение поддерживает подключение кошельков, кран CDP, разрешение ENS/Basename и мониторинг транзакций в реальном времени.
 
-### Bridge Service Implementation
+### Реализация сервиса моста
 
-!!!!!Остановился здесь!!!!!
+Основной сервис моста обрабатывает переводы SOL с автоматической ретрансляцией и разрешением адресов:
 
 ```typescript src/lib/bridge.ts expandable
 export class SolanaBridge {
@@ -245,26 +244,26 @@ export class SolanaBridge {
     destinationAddress: string,
     signTransaction: (transaction: Transaction) => Promise<Transaction>
   ): Promise<string> {
-    // Import address resolver and real bridge
+    // Импорт преобразователя адресов и реализации моста
     const { addressResolver } = await import('./addressResolver');
     const { realBridgeImplementation } = await import('./realBridgeImplementation');
     
-    // Resolve destination address (handles ENS/basename)
+    // Разрешение адреса назначения (обрабатывает ENS/basename)
     const resolvedAddress = await addressResolver.resolveAddress(destinationAddress);
 
-    // Validate amount
+    // Проверка суммы
     if (amount < BRIDGE_CONFIG.minBridgeAmount / Math.pow(10, 9)) {
       throw new Error(`Minimum bridge amount is ${BRIDGE_CONFIG.minBridgeAmount / Math.pow(10, 9)} SOL`);
     }
 
-    // Create the real bridge transaction
+    // Создание фактической транзакции моста
     const transaction = await realBridgeImplementation.createBridgeTransaction(
       walletAddress,
       amount,
       resolvedAddress
     );
 
-    // Submit the transaction
+    // Отправка транзакции
     const signature = await realBridgeImplementation.submitBridgeTransaction(
       transaction,
       walletAddress,
@@ -275,26 +274,26 @@ export class SolanaBridge {
   }
 }
 ```
-### Address Resolution Service
+### Сервис разрешения адресов
 
-Supports ENS names and Basenames for user-friendly addressing:
+Поддерживает ENS и Basename для удобной адресации:
 
 ```typescript src/lib/addressResolver.ts expandable
 export class AddressResolver {
   async resolveAddress(input: string): Promise<string> {
     const trimmedInput = input.trim();
 
-    // If it's already a valid Ethereum address, return as-is
+    // Если это уже действительный адрес Ethereum, возвращаем как есть
     if (this.isValidEthereumAddress(trimmedInput)) {
       return trimmedInput;
     }
 
-    // Handle ENS names (.eth)
+    // Обработка ENS имен (.eth)
     if (trimmedInput.endsWith('.eth') && !trimmedInput.endsWith('.base.eth')) {
       return await this.resolveEns(trimmedInput);
     }
 
-    // Handle basenames (.base.eth or .base)
+    // Обработка basenames (.base.eth or .base)
     if (trimmedInput.endsWith('.base.eth') || trimmedInput.endsWith('.base')) {
       return await this.resolveBasename(trimmedInput);
     }
@@ -315,9 +314,9 @@ export class AddressResolver {
 }
 ```
 
-### React Bridge Interface
+### Интерфейс моста React
 
-Complete UI component with wallet integration and form validation:
+Полноценный компонент пользовательского интерфейса с интеграцией кошелька и проверкой данных формы:
 
 ```typescript src/components/BridgeInterface.tsx expandable
 export const BridgeInterface: React.FC = () => {
@@ -325,7 +324,7 @@ export const BridgeInterface: React.FC = () => {
   const [solBalance, setSolBalance] = useState<number>(0);
   const [transactions, setTransactions] = useState<BridgeTransaction[]>([]);
 
-  // Handle bridge transaction
+  // Обработка транзакции моста
   const handleBridge = async (amount: number, destinationAddress: string) => {
     if (!publicKey || !signTransaction) {
       setError('Wallet not connected');
@@ -340,7 +339,7 @@ export const BridgeInterface: React.FC = () => {
         signTransaction
       );
 
-      // Add to transaction history
+      // Добавление в историю транзакций
       const newTransaction: BridgeTransaction = {
         txHash,
         amount,
@@ -369,9 +368,9 @@ export const BridgeInterface: React.FC = () => {
 };
 ```
 
-### Bridge Form with Address Resolution
+### Форма моста с разрешением адресов
 
-Smart form component with ENS/Basename support and validation:
+Интеллектуальный компонент формы с поддержкой ENS/Basename и проверкой данных:
 
 ```typescript src/components/BridgeForm.tsx expandable
 export const BridgeForm: React.FC<BridgeFormProps> = ({ onBridge, maxAmount }) => {
@@ -380,7 +379,7 @@ export const BridgeForm: React.FC<BridgeFormProps> = ({ onBridge, maxAmount }) =
   const [resolvedAddress, setResolvedAddress] = useState<string>('');
   const [isResolvingAddress, setIsResolvingAddress] = useState<boolean>(false);
 
-  // Debounced address resolution
+  // Отложенное разрешение адреса
   const resolveAddress = useCallback(async (address: string) => {
     if (!address.trim()) return;
 
@@ -434,31 +433,31 @@ export const BridgeForm: React.FC<BridgeFormProps> = ({ onBridge, maxAmount }) =
 };
 ```
 
-### Setup and Development
+### Установка и разработка
 
 ```bash Terminal expandable
-# Clone and setup
+# Клонирование и настройка
 git clone https://github.com/base/sol2base.git
 cd sol2base
 npm install --legacy-peer-deps
 
-# Environment setup
+# Настройка окружения
 cp env.template .env.local
-# Add Coinbase Developer Platform (CDP) API credentials for faucet (optional)
+# Добавьте учетные данные API платформы разработчиков Coinbase (CDP) для крана (опционально)
 
-# Start development server
+# Запуск сервера разработки
 npm run dev
-# Open http://localhost:3000
+# Откройте http://localhost:3000
 ```
 
 <Tip>
-**Get your Coinbase Developer Platform (CDP) API credentials from the [the portal](https://portal.cdp.coinbase.com/projects/api-keys/client-key).**
+**Получите учетные данные API платформы разработчиков Coinbase (CDP) в [портале](https://portal.cdp.coinbase.com/projects/api-keys/client-key).**
 
-The example above uses the Coinbase Developer Platform faucet for SOL.
-To get access to the faucet API, you can follow the instructions [here](https://docs.cdp.coinbase.com/faucets/introduction/welcome).
+В приведенном выше примере используется кран платформы разработчиков Coinbase для SOL.
+Чтобы получить доступ к API крана, вы можете следовать инструкциям [здесь](https://docs.cdp.coinbase.com/faucets/introduction/welcome).
 </Tip>
 
-## Contract Addresses
+## Адреса контрактов
 
 ### Base Sepolia
 
@@ -479,65 +478,65 @@ To get access to the faucet API, you can follow the instructions [here](https://
 }
 ```
 
-## Troubleshooting
+## Решение проблем
 
 <AccordionGroup>
-  <Accordion title="Transaction failed on Base">
-    * Ensure sufficient ETH for gas fees
-    * For ERC20 tokens, approve the bridge contract first using `approve()`
-    * Verify token addresses are correct and match the expected format
-    * Check that your private key is correctly set in the `.env` file
+  <Accordion title="Транзакция не выполнена в Base">
+    * Убедитесь в достаточном количестве ETH для комиссий за газ
+    * Для токенов ERC20 сначала утвердите контракт моста с помощью `approve()`
+    * Проверьте правильность адресов токенов и их соответствие ожидаемому формату
+    * Убедитесь, что ваш приватный ключ правильно установлен в файле `.env`
   </Accordion>
 
-  <Accordion title="Message not appearing on Solana">
-    * Wait at least 15 minutes for message relay
-    * Check that your Base transaction was successful and included a `MessageRegistered` event
-    * Verify you're using the correct network (testnet/devnet)
-    * Ensure the Solana bridge has processed the Base block number
+  <Accordion title="Сообщение не появляется в Solana">
+    * Подождите не менее 15 минут для ретрансляции сообщения
+    * Убедитесь, что ваша транзакция на Base была успешной и содержала событие `MessageRegistered`
+    * Проверьте, что вы используете правильную сеть (testnet/devnet)
+    * Убедитесь, что мост Solana обработал номер блока Base
   </Accordion>
 
-  <Accordion title="Proof verification failed">
-    * Ensure you're using the latest Base block number from the Solana bridge
-    * Verify the message hash matches the original transaction
-    * Check that the proof was generated at the correct block height
-    * Make sure all account addresses are correctly derived
+  <Accordion title="Ошибка проверки доказательства">
+    * Убедитесь, что вы используете последний номер блока Base из моста Solana
+    * Проверьте соответствие хэша сообщения исходной транзакции
+    * Убедитесь, что доказательство было сгенерировано на правильной высоте блока
+    * Проверьте правильность получения всех адресов аккаунтов
   </Accordion>
 
-  <Accordion title="Auto-relay not working">
-    * Verify you have sufficient SOL to pay for relay fees
-    * Check that the Base Relayer program is properly configured
-    * Ensure the outgoing message was created successfully
-    * Monitor both Solana and Base explorers for transaction status
+  <Accordion title="Автоматическая ретрансляция не работает">
+    * Убедитесь в достаточном количестве SOL для оплаты комиссий ретрансляции
+    * Проверьте правильность настройки программы ретранслятора Base
+    * Убедитесь, что исходящее сообщение было успешно создано
+    * Отслеживайте статус транзакций в обоих обозревателях Solana и Base
   </Accordion>
 </AccordionGroup>
 
-## Security
+## Безопасность
 
 <Warning>
-  **Important Security Notes:**
+  **Важные замечания по безопасности:**
 
-  * Only use testnet funds (Solana devnet SOL and Base Sepolia ETH)
-  * Validate all addresses before bridging
-  * Monitor transactions on both chains
-  * Keep your private keys secure and never share them
+  * Используйте только тестовые средства (SOL сети devnet Solana и ETH сети Sepolia Base)
+  * Проверяйте все адреса перед использованием моста
+  * Отслеживайте транзакции в обеих сетях
+  * Обеспечьте безопасность ваших приватных ключей и никогда не делитесь ими
 </Warning>
 
-## Resources
+## Ресурсы
 
 <CardGroup cols={2}>
-  <Card title="GitHub Repository" icon="github" href="https://github.com/base/bridge">
-    View source code and examples
+  <Card title="Репозиторий GitHub" icon="github" href="https://github.com/base/bridge">
+    Просмотр исходного кода и примеров
   </Card>
 
-  <Card title="Solana Explorer" icon="magnifying-glass" href="https://explorer.solana.com/?cluster=devnet">
-    Monitor Solana devnet transactions
+  <Card title="Обозреватель Solana" icon="magnifying-glass" href="https://explorer.solana.com/?cluster=devnet">
+    Мониторинг транзакций в сети devnet Solana
   </Card>
 
-  <Card title="Base Sepolia Explorer" icon="magnifying-glass" href="https://sepolia.basescan.org/">
-    Monitor Base Sepolia transactions
+  <Card title="Обозреватель Base Sepoliar" icon="magnifying-glass" href="https://sepolia.basescan.org/">
+    Мониторинг транзакций в сети Base Sepolia
   </Card>
 
-  <Card title="Discord Support" icon="discord" href="https://base.org/discord">
-    Get help from the community
+  <Card title="Поддержка в Discord" icon="discord" href="https://base.org/discord">
+    Получите помощь от сообщества
   </Card>
 </CardGroup>
