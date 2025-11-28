@@ -1,60 +1,60 @@
 ---
-title: 'Getting Started'
-description: A tutorial that teaches how to set up and run a Base Node.
+title: 'Начало работы'
+description: Учебное пособие по настройке и запуску узла Base.
 ---
 
-This tutorial will walk you through setting up your own [Base Node](https://github.com/base-org/node).
+Это руководство проведет вас через процесс настройки вашего собственного [узла Base](https://github.com/base-org/node).
 
-## Objectives
+## Цели
 
-By the end of this tutorial you should be able to:
+К концу этого руководства вы сможете:
 
-- Deploy and sync a Base node
+- Развернуть и синхронизировать узел Base
 
-## Prerequisites
+## Предварительные требования
 
 <Warning>
-Running a node is time consuming, resource expensive, and potentially costly. If you don't already know why you want to run your own node, you probably don't need to.
+Запуск узла требует много времени, ресурсов и может быть дорогостоящим. Если вы еще не знаете, зачем вам запускать собственный узел, вероятно, он вам не нужен.
 
-If you're just getting started and need an RPC URL, you can use our free endpoints:
+Если вы только начинаете и вам нужен RPC URL, вы можете использовать наши бесплатные RPC:
 
 - **Mainnet**: `https://mainnet.base.org`
 - **Testnet (Sepolia)**: `https://sepolia.base.org`
 
-**Note:** Our RPCs are rate-limited, they are not suitable for production apps.
+**Примечание:** Наши RPC имеют ограничения по частоте запросов и не подходят для промышленных приложений.
 
-If you're looking to harden your app and avoid rate-limiting for your users, please consider using an endpoint from one of our [partners](/base-chain/tools/node-providers).
+Если вы хотите усилить безопасность вашего приложения и избежать ограничений по частоте для ваших пользователей, рассмотрите возможность использования конечной точки от одного из наших [партнеров](/base-chain/tools/node-providers).
 </Warning>
 
 
-### Hardware requirements
+### Аппаратные требования
 
-We recommend you have this configuration to run a node:
+Мы рекомендуем следующую конфигурацию для запуска узла:
 
-- 8-Core CPU
-- at least 16 GB RAM
-- a locally attached NVMe SSD drive
-- adequate storage capacity to accommodate both the snapshot restoration process (if restoring from snapshot) and chain data, ensuring a minimum of (2 \* current_chain_size) + snapshot_size + 20%\_buffer
+- 8-ядерный процессор
+- не менее 16 ГБ оперативной памяти
+- локально подключенный NVMe SSD диск
+- достаточный объем памяти для размещения как процесса восстановления из снепшота (при восстановлении из снепшота), так и данных цепи, обеспечивая минимум (2 * текущий_размер_цепи) + размер_снепшота + 20%_буфер
 
 <Note>
-If utilizing Amazon Elastic Block Store (EBS), ensure timing buffered disk reads are fast enough in order to avoid latency issues alongside the rate of new blocks added to Base during the initial synchronization process; `io2 block express` is recommended.
+При использовании Amazon Elastic Block Store (EBS) убедитесь, что время буферизованных операций чтения с диска достаточно быстрое, чтобы избежать проблем с задержками, особенно учитывая скорость добавления новых блоков в Base во время процесса начальной синхронизации; рекомендуется использовать `io2 block express`.
 </Note>
 
 
 ### Docker
 
-This tutorial assumes you are familiar with [Docker](https://www.docker.com/) and have it running on your machine.
+Это руководство предполагает, что вы знакомы с [Docker](https://www.docker.com/) и он запущен на вашем компьютере.
 
 ### L1 RPC URL
 
-You'll need your own L1 RPC URL. This can be one that you run yourself, or via a third-party provider, such as our [partners].
+Вам понадобится ваш собственный L1 RPC URL. Это может быть узел, который вы запускаете самостоятельно, или через стороннего провайдера, такого как наши [партнеры].
 
-## Running a Node
+## Запуск узла
 
-1. Clone the [repo](https://github.com/base-org/node).
-2. Ensure you have an Ethereum L1 full node RPC available (not Base), and set `OP_NODE_L1_ETH_RPC` & `OP_NODE_L1_BEACON` (in the `.env.*` file if using `docker-compose`). If running your own L1 node, it needs to be synced before Base will be able to fully sync.
-3. Uncomment the line relevant to your network (`.env.sepolia`, or `.env.mainnet`) under the 2 `env_file` keys in `docker-compose.yml`.
-4. Run `docker compose up`. Confirm you get a response from:
+1. Клонируйте [репозиторий](https://github.com/base-org/node).
+2. Убедитесь, что у вас доступен полный узел Ethereum L1 RPC (не Base), и установите `OP_NODE_L1_ETH_RPC` & `OP_NODE_L1_BEACON` (в файле `.env.*`, если используете `docker-compose`). Если вы запускаете свой собственный узел L1, он должен быть синхронизирован, прежде чем Base сможет полностью синхронизироваться.
+3. Раскомментируйте строку, соответствующую вашей сети (`.env.sepolia` или `.env.mainnet`), под двумя ключами `env_file` в `docker-compose.yml`.
+4. Запустите `docker compose up`. Убедитесь, что получаете ответ от:
 
 ```bash Terminal
 curl -d '{"id":0,"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["latest",false]}' \
@@ -62,20 +62,20 @@ curl -d '{"id":0,"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["late
 ```
 
 <Warning>
-Syncing your node may take **days** and will consume a vast amount of your requests quota. Be sure to monitor usage and up your plan if needed.
+Синхронизация вашего узла может занять **дни** и потребует огромного количества ваших запросов. Обязательно отслеживайте использование и увеличьте ваш тарифный план при необходимости.
 </Warning>
 
-### Snapshots
+### Снепшоты
 
 <Note>
-Geth Archive Nodes are no longer supported. For Archive functionality, use Reth, which provides significantly better performance in Base’s high-throughput environment.
+Архивные узлы Geth больше не поддерживаются. Для архивной функциональности используйте Reth, который обеспечивает значительно лучшую производительность в среде с высокой пропускной способностью Base.
 </Note>
 
-If you're a Base Node operator and would like to save significant time on the initial sync, you may [restore from a snapshot](/base-chain/node-operators/snapshots#restoring-from-snapshot). The snapshots are updated every week.
+Если вы оператор узла Base и хотите значительно сэкономить время на начальной синхронизации, вы можете [восстановить из снимка](/base-chain/node-operators/snapshots#restoring-from-snapshot). Снимок обновляется каждую неделю.
 
-### Syncing
+### Синхронизация
 
-You can monitor the progress of your sync with:
+Вы можете отслеживать прогресс синхронизации с помощью:
 
 ```bash Terminal
 echo Latest synced block behind by: $((($(date +%s)-$( \
@@ -84,4 +84,4 @@ echo Latest synced block behind by: $((($(date +%s)-$( \
   jq -r .result.unsafe_l2.timestamp))/60)) minutes
 ```
 
-You'll also know that the sync hasn't completed if you get `Error: nonce has already been used` if you try to deploy using your node.
+Вы также поймете, что синхронизация не завершена, если при попытке развертывания с использованием вашего узла вы получите `Error: nonce has already been used`.
