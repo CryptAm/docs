@@ -1,41 +1,41 @@
 ---
-title: How to host Flashblocks-aware RPC nodes
-sidebarTitle: Node Providers
+title: Как размещать RPC-узлы с поддержкой Flashblocks
+sidebarTitle: Провайдеры узлов
 ---
 
-## Quick Start
+## Быстрый старт
 
-1. **Prerequisites**:
-  - Docker and Docker Compose
-  - Minimum hardware requirements (see [node README](https://github.com/base/node?tab=readme-ov-file#hardware-requirements))
-  - Access to a Flashblocks websocket endpoint, we provide public endpoints in the env files in the repo
+1. **Предварительные требования:**:
+  - Docker и Docker Compose
+  - Минимальные аппаратные требования (смотреть [node README](https://github.com/base/node?tab=readme-ov-file#hardware-requirements))
+  - Доступ к конечной точке WebSocket Flashblocks, мы предоставляем публичные конечные точки в файлах `env` в репозитории
 
-2. **Set Up Environment**:
+2. **Настройка окружения**:
 
   ```sh
-  # Clone the repository
+  # Клонируйте репозиторий
   git clone https://github.com/base/node.git
   cd node
   ```
 
-3. **Start the Node with Flashblocks Support**:
+3. **Запустите узел с поддержкой Flashblocks**:
 
   ```sh
   NODE_TYPE=base CLIENT=reth RETH_FB_WEBSOCKET_URL="wss://mainnet.flashblocks.base.org/ws" docker-compose up
   ```
 
-## Configuration Options
+## Параметры конфигурации
 
-- Node Type: Use `NODE_TYPE=base` to enable base reth node with Flashblocks functionality
-- Network: Use `NETWORK_ENV=.env.mainnet` for mainnet or `NETWORK_ENV=.env.sepolia` for testnet
+- Тип узла: Используйте `NODE_TYPE=base` для включения базового узла `reth` с функциональностью Flashblocks
+- Сеть: Используйте `NETWORK_ENV=.env.mainnet` для mainnet или `NETWORK_ENV=.env.sepolia` для testnet
 
-Ensure the RETH_FB_WEBSOCKET_URL is set. Base offers the following public rate limited RPC's:
-- For Mainnet: `RETH_FB_WEBSOCKET_URL=wss://mainnet.flashblocks.base.org/ws`
-- For Sepolia: `RETH_FB_WEBSOCKET_URL=wss://sepolia.flashblocks.base.org/ws`
+Убедитесь, что установлена переменная `RETH_FB_WEBSOCKET_URL`. Base предлагает следующие публичные RPC с ограничением скорости:
+- Для Mainnet: `RETH_FB_WEBSOCKET_URL=wss://mainnet.flashblocks.base.org/ws`
+- Для Sepolia: `RETH_FB_WEBSOCKET_URL=wss://sepolia.flashblocks.base.org/ws`
 
-## Verifying Flashblocks Functionality
+## Проверка функциональности Flashblocks
 
-Test that your node is properly supporting Flashblocks by querying a pending block:
+Протестируйте, что ваш узел правильно поддерживает Flashblocks, запросив ожидающий блок:
 
 ```sh
 curl -X POST \
@@ -43,26 +43,27 @@ curl -X POST \
   http://localhost:8545
 ```
 
-## Available RPC Methods
+## Доступные методы RPC
 
-Flashblocks-aware nodes provide all standard Ethereum JSON-RPC methods plus specialized Flashblocks endpoints. For more details, see the [Flashblocks RPC API documentation](/base-chain/flashblocks/apps#rpc-api).
+Узлы с поддержкой Flashblocks предоставляют все стандартные методы Ethereum JSON-RPC плюс специализированные конечные точки Flashblocks. Для получения более подробной информации смотреть [Flashblocks RPC API documentation](/base-chain/flashblocks/apps#rpc-api).
 
 
 ## WebSocket API
 
-The websocket API is intended to stream Flashblock data to nodes, so they can expose it via their RPC APIs. The endpoints are available at:
+WebSocket API предназначен для потоковой передачи данных Flashblock узлам, чтобы они могли предоставлять их через свои RPC API. Конечные точки доступны по адресам:
 
-   | Network            | URL                                   |
+   | Сеть               | URL                                   |
    | :----------------- | :------------------------------------ |
    | Mainnet            | wss://mainnet.flashblocks.base.org/ws |
    | Sepolia            | wss://sepolia.flashblocks.base.org/ws |
 
 
-#### Interpreting the data
+#### Интерпретация данных
 
-To minimize the amount of data sent to nodes, each Flashblock only includes the diff data from the previous block. The initial Flashblock (when index is zero) includes the block properties (e.g. number, gas limit) and the subsequent Flashblocks only include the diff data (e.g. transactions that are present in that Flashblock).
+Чтобы минимизировать объём данных, отправляемых нодам, каждый Flashblock содержит только данные изменений (diff) относительно предыдущего блока.
+Начальный Flashblock (когда индекс равен нулю) включает полные свойства блока (например, номер, лимит газа), а все последующие Flashblocks содержат только данные diff - например, транзакции, которые присутствуют именно в этом Flashblock.
 
-**Example Initial Response**
+**Пример начального ответа**
 ```
 {
   "payload_id": "0x03997352d799c31a",
@@ -74,7 +75,7 @@ To minimize the amount of data sent to nodes, each Flashblock only includes the 
     "gas_limit": "0x3938700",
     "timestamp": "0x67bf8332",
     "base_fee_per_gas": "0xfa"
-    // ... other base fields ...
+    // ... другие базрвые поля ...
   },
   "diff": {
     "state_root": "0x208fd63edc0681161105f27d03daf9f8c726d8c94e584a3c0696c98291c24333",
@@ -84,20 +85,20 @@ To minimize the amount of data sent to nodes, each Flashblock only includes the 
       "0x7ef8f8a0b4afc0b7ce10e150801bbaf08ac33fecb0f38311793abccb022120d321c6d276..."
     ],
     "withdrawals": []
-    // ... other diff fields ...
+    // ... другие различные поля ...
   },
   "metadata": {
     "block_number": 22585577,
     "new_account_balances": {
       "0x000f3df6d732807ef1319fb7b8bb8522d0beac02": "0x0",
-      // ... other balances ...
+      // ... другие балансы ...
     },
     "receipts": {
       "0x07d7f06b06fea714c1d1d446efa2790c6970aa74ee006186a32b5b7dd8ca2d82": {
         "Deposit": {
           "status": "0x1",
           "depositNonce": "0x158a0ea"
-          // ... other receipt fields ...
+          // ... другие поля квитанции ...
         }
       }
     }
@@ -105,7 +106,7 @@ To minimize the amount of data sent to nodes, each Flashblock only includes the 
 }
 ```
 
-**Example Diff Response**
+**Пример ответа с различиями**
 ```
 {
   "payload_id": "0x03e303378749418d",
@@ -118,28 +119,28 @@ To minimize the amount of data sent to nodes, each Flashblock only includes the 
       "0x7ef8f8a0b4afc0b7ce10e150801bbaf08ac33fecb0f38311793abccb022120d321c6d276..."
     ],
     "withdrawals": []
-    // ... other diff fields ...
+    // ... другие различные поля ...
   },
   "metadata": {
     "block_number": 22585577,
     "new_account_balances": {
       "0x000f3df6d732807ef1319fb7b8bb8522d0beac02": "0x0",
       "0x4200000000000000000000000000000000000015": "0x1234"
-      // ... other balances ...
+      // ... другие балансы ...
     },
     "receipts": {
       "0x07d7f06b06fea714c1d1d446efa2790c6970aa74ee006186a32b5b7dd8ca2d82": {
         "status": "0x1",
         "gasUsed": "0x1234f",
         "logs": []
-        // ... other receipt fields ...
+        // ... другие поля квитанции ...
       }
     }
   }
 }
 ```
 
-## Further Resources
+## Дополнительные ресурсы
 
-For detailed information about node setup, including hardware requirements and additional configuration options, refer to the [Reth node README](https://github.com/base/node/tree/main/reth#readme).
+Для получения подробной информации о настройке узла, включая аппаратные требования и дополнительные параметры конфигурации, обратитесь к [Reth node README](https://github.com/base/node/tree/main/reth#readme).
 
