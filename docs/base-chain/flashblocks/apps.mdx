@@ -1,33 +1,33 @@
 ---
 title: Flashblocks
-sidebarTitle: Apps
-description: Experience lightning-fast transaction confirmations of Base by using Flashblocks. Preconfirmations happen in just 200 milliseconds—designed for real-time apps, games, and seamless UX.
+sidebarTitle: Приложения
+description: Испытайте мгновенные подтверждения транзакций в Base с помощью Flashblocks. Предподтверждения происходят всего за 200 миллисекунд - создано для приложений реального времени, игр и бесшовного пользовательского опыта.
 ---
 
-## Overview
+## Обзор
 
-Flashblocks enable up to 200 millisecond transaction confirmations on Base by leveraging preconfirmations, ultra-fast signals that arrive before the next block is sealed. Built for developers who demand instant UX, it's ideal for high-frequency apps, games, and real-time interactions where waiting even a few seconds is too long. By integrating directly within Base's infrastructure, Flashblocks enables, seamless, ultrafast and snappy user experiences without compromising security.
+Flashblocks обеспечивают подтверждение транзакций в Base за время до 200 миллисекунд за счет использования предподтверждений - сверхбыстрых сигналов, которые поступают до закрытия следующего блока. Созданный для разработчиков, требующих мгновенного пользовательского опыта, он идеально подходит для высокочастотных приложений, игр и интерактивных взаимодействий в реальном времени, где ожидание даже нескольких секунд является слишком долгим. Интегрируясь непосредственно в инфраструктуру Base, Flashblocks обеспечивает бесшовный, сверхбыстрый и отзывчивый пользовательский опыт без компромиссов в безопасности.
 
-## Integrating Flashblocks
+## Интеграция Flashblocks
 
-Flashblocks is enabled for developers on Base. There are two ways you can integrate with Flashblocks data. You can either use the WebSocket API to stream real-time block updates, or use the RPC API to query the Flashblocks-aware RPC endpoint.
+Flashblocks доступен для разработчиков на Base. Существует два способа интеграции с данными Flashblocks. Вы можете использовать WebSocket API для потоковой передачи обновлений блоков в реальном времени или использовать RPC API для запросов к конечной точке RPC с поддержкой Flashblocks.
 
 ### RPC API
 
-Base offers the following public Flashblocks aware RPC endpoints. These are rate limited and may not be suitable for production use - we recommend using a node provider that runs Flashblocks integrated nodes.
-Major node providers such as Alchemy, Infura, QuickNode and dRPC have Flashblocks-aware RPCs that can be leveraged
+Base предлагает следующие публичные конечные точки RPC с поддержкой Flashblocks. Они имеют ограничения по частоте запросов и могут не подходить для промышленного использования - мы рекомендуем использовать провайдера узлов, который запускает узлы с интеграцией Flashblocks.
+Крупные провайдеры узлов, такие как Alchemy, Infura, QuickNode и dRPC, имеют RPC с поддержкой Flashblocks, которые можно использовать.
 
-   | Network            | URL                              |
+   | Сеть               | URL                              |
    | :----------------- | :------------------------------- |
    | Mainnet            | https://mainnet-preconf.base.org |
    | Sepolia            | https://sepolia-preconf.base.org |
 
 
-The following RPC methods can return Flashblocks specific data. All standard Ethereum JSON-RPC methods are still supported as usual.
+Следующие методы RPC могут возвращать данные, специфичные для Flashblocks. Все стандартные методы Ethereum JSON-RPC по-прежнему поддерживаются как обычно.
 
 #### eth_getBlockByNumber
 
-Use the `pending` tag to retrieve the latest Flashblock:
+Используйте тег `pending`, чтобы получить последний Flashblock:
 ```
 curl https://sepolia-preconf.base.org -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["pending",true],"id":1}'
 ```
@@ -47,7 +47,7 @@ curl https://sepolia-preconf.base.org -X POST -H "Content-Type: application/json
 
 #### eth_getTransactionReceipt
 
-Use the existing receipt RPC to get preconfirmed receipts:
+Используйте существующий RPC для получения квитанций, чтобы получить результат выполнения транзакции:
 ```
 curl https://sepolia-preconf.base.org -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"eth_getTransactionReceipt","params":["0x..."],"id":1}'
 ```
@@ -67,12 +67,12 @@ curl https://sepolia-preconf.base.org -X POST -H "Content-Type: application/json
 
 #### eth_getBalance
 
-Use the `pending` tag to get the address balance in the latest Flashblock:
+Используйте тег `pending`, чтобы получить баланс адреса в последнем Flashblock:
 ```
 curl https://sepolia-preconf.base.org -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"eth_getBalance","params":["0x...","pending"],"id":1}'
 ```
 
-**Example Response**
+**Пример ответа**
 ```
 {
   "jsonrpc": "2.0",
@@ -83,28 +83,28 @@ curl https://sepolia-preconf.base.org -X POST -H "Content-Type: application/json
 
 #### eth_getTransactionCount
 
-Use the `pending` tag to get the address nonce in the latest Flashblock:
+Используйте тег `pending`, чтобы получить `nonce` адреса в последнем Flashblock:
 ```
 curl https://sepolia-preconf.base.org -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"eth_getTransactionCount","params":["0x...","pending"],"id":1}'
 ```
 
-**Example Response**
+**Пример ответа**
 ```
 {
   "jsonrpc": "2.0",
   "id": 1,
-  "result": "0x1b" // 27 transactions
+  "result": "0x1b" // 27 транзакций
 }
 ```
 
 #### eth_getTransactionByHash
 
-Use the existing get transaction by hash RPC to get preconfirmed transactions:
+Используйте существующий RPC получения транзакции по хешу, чтобы получить предподтвержденные транзакции:
 ```
 curl https://sepolia-preconf.base.org -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"eth_getTransactionByHash","params":["0x..."],"id":1}'
 ```
 
-**Example Response**
+**Пример ответа**
 ```
 {
   "type": "0x2",
@@ -116,12 +116,12 @@ curl https://sepolia-preconf.base.org -X POST -H "Content-Type: application/json
 
 #### eth_call
 
-Use the `pending` tag to execute a smart contract call against the latest Flashblock:
+Используйте тег `pending`, чтобы выполнить вызов смарт-контракта против последнего Flashblock:
 ```
 curl https://sepolia-preconf.base.org -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"eth_call","params":[{"to":"0x...","data":"0x..."},"pending"],"id":1}'
 ```
 
-**Example Response**
+**Пример ответа**
 ```
 {
   "jsonrpc": "2.0",
@@ -132,12 +132,12 @@ curl https://sepolia-preconf.base.org -X POST -H "Content-Type: application/json
 
 #### eth_simulateV1
 
-Use the `pending` tag to simulate transactions against the latest Flashblock:
+Используйте тег `pending` для симуляции транзакций против последнего Flashblock:
 ```
 curl https://sepolia-preconf.base.org -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"eth_simulateV1","params":[{"blockStateCalls":[{"calls":[{"to":"0x...","data":"0x..."}],"stateOverrides":{}}],"traceTransfers":true,"validation":true},"pending"],"id":1}'
 ```
 
-**Example Response**
+**Пример ответа**
 ```
 {
   "jsonrpc": "2.0",
@@ -158,12 +158,12 @@ curl https://sepolia-preconf.base.org -X POST -H "Content-Type: application/json
 
 #### eth_estimateGas
 
-Use the `pending` tag to estimate gas against the latest Flashblock:
+Используйте тег `pending` для оценки расхода газа против последнего Flashblock:
 ```
 curl https://sepolia-preconf.base.org -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"eth_estimateGas","params":[{"to":"0x...","data":"0x..."},"pending"],"id":1}'
 ```
 
-**Example Response**
+**Пример ответа**
 ```
 {
   "jsonrpc": "2.0",
@@ -174,12 +174,12 @@ curl https://sepolia-preconf.base.org -X POST -H "Content-Type: application/json
 
 #### eth_getLogs
 
-Use the `pending` tag for `toBlock` to retrieve logs from the latest Flashblock:
+Используйте тег `pending` для параметра `toBlock`, чтобы получить логи из последнего Flashblock:
 ```
 curl https://sepolia-preconf.base.org -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"eth_getLogs","params":[{"fromBlock":"latest","toBlock":"pending","address":"0x...","topics":["0x..."]}],"id":1}'
 ```
 
-**Example Response**
+**Пример ответа**
 ```
 {
   "jsonrpc": "2.0",
@@ -200,13 +200,13 @@ curl https://sepolia-preconf.base.org -X POST -H "Content-Type: application/json
 }
 ```
 
-### Libraries
+### Библиотеки
 
-You will need to use a Flashblocks-aware RPC endpoint to use Flashblocks with the following libraries:
+Вам потребуется использовать конечную точку RPC с поддержкой Flashblocks для работы с Flashblocks в следующих библиотеках:
 
 #### [Wagmi](https://wagmi.sh)
 
-To use Flashblocks with Wagmi, you will need to use the `basePreconf` chain in the Wagmi Config (see `config.ts`).
+Чтобы использовать Flashblocks с Wagmi, вам необходимо использовать цепь `basePreconf` в конфигурации Wagmi (смотреть `config.ts`).
 
 <CodeGroup>
 
@@ -276,7 +276,7 @@ import { createWalletClient, http, parseEther, publicActions } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { baseSepoliaPreconf } from "viem/chains";
 
-// Create client with the Flashblocks-aware chain.
+// Создаем клиент с цепью, поддерживающей Flashblocks.
 const account = privateKeyToAccount(`0x${process.env.PRIVATE_KEY}`);
 const client = createWalletClient({
   account,
@@ -288,14 +288,14 @@ const client = createWalletClient({
 const submissionTime = new Date();
 console.log(`Submitting transaction at: ${submissionTime.toISOString()}`);
 
-// Send transaction.
+// Отправляем транзакцию.
 const hash = await client.sendTransaction({
   to: "0x...",
   value: parseEther('0.0001'),
 });
 console.log(`Transaction hash: ${hash}`);
 
-// Wait for transaction to be included.
+// Ожидаем включение транзакции.
 const receipt = await client.waitForTransactionReceipt({ hash });
 const confirmTime = new Date();
 
@@ -313,20 +313,20 @@ console.log(`Time difference: ${confirmTime - submissionTime}ms`);
   const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, providerA);
 
   try {
-    // Create a simple transaction (sending 0.001 ETH to a random address)
+    // Создаем пустую транзакцию (отправка 0.001 ETH на случайный адрес)
     const tx = {
       to: "<SOME ADDRESS>",
       value: ethers.parseEther("0.0000001"),
     };
 
-    // Submit transaction
+    // Отправляем транзауцию
     const submissionTime = new Date();
     const transaction = await wallet.sendTransaction(tx);
 
     console.log(`Submitting transaction at: ${submissionTime.toISOString()}`);
     console.log(`Transaction hash: ${transaction.hash}`);
 
-    await transaction.wait(0); // Make sure to set the confirmation count to 0
+    await transaction.wait(0); // Убедитесь, что установили количество подтверждений в 0
 
     console.log("Transaction confirmed");
     const confirmationTime = new Date();
@@ -335,8 +335,8 @@ console.log(`Time difference: ${confirmTime - submissionTime}ms`);
   }
 ```
 
-You should see the confirmation time significantly lower than the standard RPC endpoint.
+Вы должны увидеть, что время подтверждения значительно ниже, чем при использовании стандартной конечной точки RPC.
 
-## Support
+## Поддержка
 
-For feedback, support or questions about Flashblocks, please don't hesitate to contact us in the `#developer-chat` channel in the [Base Discord](https://base.org/discord).
+Для отзывов, поддержки или вопросов о Flashblocks, пожалуйста, не стесняйтесь обращаться к нам в канале `#developer-chat` в [Base Discord](https://base.org/discord).
