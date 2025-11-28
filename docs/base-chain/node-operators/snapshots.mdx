@@ -1,81 +1,81 @@
 ---
-title: Node Snapshots
-sidebarTitle: Snapshots
+title: Снепшоты узла
+sidebarTitle: Снепшоты
 ---
 
-Using a snapshot significantly reduces the initial time required to sync a Base node. Snapshots are updated regularly.
+Использование снепшота значительно сокращает начальное время, необходимое для синхронизации узла Base. Снепшоты регулярно обновляются.
 
 <Warning>
-Geth Archive Nodes are no longer supported via snapshots due to performance limitations. For Archive functionality, please use Reth.
+Архивные узлы Geth больше не поддерживаются через снепшоты из-за ограничений производительности. Для архивной функциональности используйте Reth.
 </Warning>
 
-If you're a prospective or current Base node operator, you can restore from a snapshot to speed up your initial sync. Follow the steps below carefully.
+Если вы потенциальный или текущий оператор узла Base, вы можете восстановиться из снепшота, чтобы ускорить начальную синхронизацию. Внимательно следуйте приведенным ниже шагам.
 
-## Restoring from Snapshot
+## Восстановление из снепшота
 
-These steps assume you are in the cloned `node` directory (the one containing `docker-compose.yml`).
+Эти шаги предполагают, что вы находитесь в клонированной директории `node` (той, которая содержит `docker-compose.yml`).
 
-1. **Prepare Data Directory**:
-    - **Before running Docker for the first time**, create the data directory on your host machine that will be mapped into the Docker container. This directory must match the `volumes` mapping in the `docker-compose.yml` file for the client you intend to use.  
-      - For Reth (recommended):  
+1. **Подготовка директории данных**:
+    - **Перед первым запуском Docker** создайте директорию данных на вашей хост-машине, которая будет сопоставлена с контейнером Docker. Эта директория должна соответствовать сопоставлению `volumes` в файле `docker-compose.yml` для клиента, который вы собираетесь использовать.
+      - Для Reth (рекомендуется):  
         ```bash
         mkdir ./reth-data
         ```  
-      - For Geth:  
+      - Для Geth:  
         ```bash
         mkdir ./geth-data
         ```  
-    - If you have previously run the node and have an existing data directory, **stop the node** (`docker compose down`), remove the _contents_ of the existing directory (e.g. `rm -rf ./reth-data/*`), and proceed.
+    - Если вы ранее запускали узел и у вас есть существующая директория данных, **остановите узел** (`docker compose down`), удалите содержимое существующей директории (например, `rm -rf ./reth-data/*`) и продолжите.
 
-2. **Download Snapshot**: Choose the appropriate snapshot for your network and client from the table below. Use `wget` (or similar) to download it into the `node` directory.
+2. **Загрузите снепшот**: Выберите подходящий снепшот для вашей сети и клиента из таблицы ниже. Используйте `wget` (или аналогичную утилиту) для его загрузки в директорию `node`.
 
-    | Network  | Client | Snapshot Type | Download Command (`wget …`)                                                                                       |
+    | Сеть     | Клиент | Тип снепшота  | Команда загрузки (`wget …`)                                                                                       |
     | -------- | ------ | ------------- | ----------------------------------------------------------------------------------------------------------------- |
-    | Testnet  | Reth   | Archive (recommended)| `wget https://sepolia-reth-archive-snapshots.base.org/$(curl https://sepolia-reth-archive-snapshots.base.org/latest)` |
-    | Testnet  | Reth   | Full                 | Coming Soon                 |
-    | Testnet  | Geth   | Full                 | `wget https://sepolia-full-snapshots.base.org/$(curl https://sepolia-full-snapshots.base.org/latest)`             |
-    | Mainnet  | Reth   | Archive (recommended)| `wget https://mainnet-reth-archive-snapshots.base.org/$(curl https://mainnet-reth-archive-snapshots.base.org/latest)` |
-    | Testnet  | Reth   | Full                 | Coming Soon                 |
-    | Mainnet  | Geth   | Full                 | `wget https://mainnet-full-snapshots.base.org/$(curl https://mainnet-full-snapshots.base.org/latest)`             |
+    | Testnet  | Reth   | Архивный (рекомендуется) | `wget https://sepolia-reth-archive-snapshots.base.org/$(curl https://sepolia-reth-archive-snapshots.base.org/latest)` |
+    | Testnet  | Reth   | Полный                   | Coming Soon                 |
+    | Testnet  | Geth   | Полный                   | `wget https://sepolia-full-snapshots.base.org/$(curl https://sepolia-full-snapshots.base.org/latest)`                 |
+    | Mainnet  | Reth   | Архивный (рекомендуется) | `wget https://mainnet-reth-archive-snapshots.base.org/$(curl https://mainnet-reth-archive-snapshots.base.org/latest)` |
+    | Testnet  | Reth   | Полный                   | Coming Soon                 |
+    | Mainnet  | Geth   | Полный                   | `wget https://mainnet-full-snapshots.base.org/$(curl https://mainnet-full-snapshots.base.org/latest)`                 |
 
     <Note>
-    Ensure you have enough free disk space to download the snapshot archive (`.tar.gz` file) _and_ extract its contents. The extracted data will be significantly larger than the archive.
+    Убедитесь, что у вас достаточно свободного места на диске для загрузки архива снепшота (файл `.tar.gz`) _и_ извлечения его содержимого. Извлеченные данные будут значительно больше архива.
     </Note>
 
-3. **Extract Snapshot**: Untar the downloaded snapshot archive. Replace `<snapshot-filename.tar.gz>` with the actual downloaded filename:
+3. **Извлечение снепшота**: Распакуйте загруженный архив снепшота. Замените `<snapshot-filename.tar.gz>` на фактическое имя загруженного файла:
 
     ```bash
     tar -xzvf <snapshot-filename.tar.gz>
     ```
 
-4. **Move Data**: The extraction process will likely create a directory (e.g., `reth` or `geth`). 
+4. **Перемещение данных**: Процесс извлечения, вероятно, создаст директорию (например, `reth` или `geth`). 
 
-    * Move the *contents* of that directory into the data directory you created in Step 1.
-        * Example (if archive extracted to a reth folder - **verify actual folder name**):
+    * Переместите содержимое этой директории в директорию данных, которую вы создали в Шаге 1.
+        * Пример (если архив извлекся в папку reth - **проверьте фактическое имя папки**):
 
           ```bash
           # For Reth
           mv ./reth/* ./reth-data/
-          rm -rf ./reth    # Clean up empty extracted folder
+          rm -rf ./reth    # Очистка пустой извлеченной папки
           ```
 
-        * Example (if archive extracted to a geth folder):
+        * Пример (если архив извлекся в папку geth):
 
           ```bash
           # For Geth
           mv ./geth/* ./geth-data/
-          rm -rf ./geth    # Clean up empty extracted folder
+          rm -rf ./geth    # Очистка пустой извлеченной папки
           ```
 
-    * The goal is to have the chain data directories (e.g., `chaindata`, `nodes`, `segments`, etc.) directly inside `./reth-data` or `./geth-data`, not nested within another subfolder.
+    * Цель состоит в том, чтобы каталоги данных цепочки (например, `chaindata`, `nodes`, `segments` и т.д.) находились непосредственно внутри `./reth-data` или `./geth-data`, а не были вложены в другую подпапку.
 
-5. **Start the Node**: Now that the snapshot data is in place, return the root of your Base node folder and start the node:
+5. **Запуск узла**: Теперь, когда данные снепшота на месте, вернитесь в корень папки вашего узла Base и запустите узел:
 
     ```bash
     cd ..
     docker compose up --build
     ```
 
-  Your node should begin syncing from the last block in the snapshot.
+  Ваш узел должен начать синхронизацию с последнего блока в снепшоте.
 
-6. **Verify and Clean Up**: Monitor the node logs (`docker compose logs -f <service_name>`) or use the [sync monitoring](/base-chain/node-operators/run-a-base-node#syncing) command to ensure the node starts syncing from the snapshot's block height. Once confirmed, you can safely delete the downloaded snapshot archive (`.tar.gz` file) to free up disk space.
+6. **Проверка и очистка**: Следите за логами узла (`docker compose logs -f <имя_службы>`) или используйте команду [мониторинга синхронизации](/base-chain/node-operators/run-a-base-node#syncing) чтобы убедиться, что узел начинает синхронизацию с высоты блока снепшота. После подтверждения вы можете безопасно удалить загруженный архив снепшота (файл `.tar.gz`), чтобы освободить место на диске.
