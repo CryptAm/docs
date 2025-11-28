@@ -1,76 +1,76 @@
 ---
-title: "Flashblocks FAQ"
+title: "Flashblocks: Часто задаваемые вопросы"
 ---
 
-## Flashblocks Block Building
+## Построение блоков Flashblocks
 
-### Are flashblocks optional?
+### Являются ли Flashblocks опциональными?
 
-All Base blocks are built by the Flashblocks builder, meaning Flashblocks are always live. However, apps may choose not to rely on preconfirmations and are welcome to continue to have an integration that does not rely on Flashblocks.
+Все блоки в Base строятся сборщиком Flashblocks, что означает, что Flashblocks всегда активны. Однако приложения могут не полагаться на предподтверждения и могут продолжать использовать интеграцию, не зависящую от Flashblocks.
 
-### Is there any difference in tx inclusion for flashblocks vs. 2s block?
+### Есть ли разница во включении транзакций между Flashblocks и 2-секундными блоками?
 
-No particular differences except more frequent timing, both still pick txs based on tx fees ordering. You can read more about it here (https://docs.base.org/base-chain/network-information/block-building#flashblocks).
+Особых различий нет, кроме более частого времени построения. Оба метода по-прежнему выбирают транзакции на основе упорядочивания по комиссиям. Подробнее об этом можно прочитать здесь (https://docs.base.org/base-chain/network-information/block-building#flashblocks).
 
-### Is it possible for the sequencer to stop publishing flashblocks, if so what happens?
+### Может ли секвенсер прекратить публикацию Flashblocks, и если да, то что произойдет?
 
-The sequencer will not stop publishing flashblocks, unless an extreme circumstance arises, that causes running flashblocks to be unsafe. If this happens, the preconfirmation is disabled across the network and confirmation falls back to 2s blocks.
+Секвенсер не прекратит публикацию Flashblocks, за исключением чрезвычайных обстоятельств, которые делают работу Flashblocks небезопасной. Если это произойдет, предподтверждения будут отключены по всей сети, и подтверждение вернется к 2-секундным блокам.
 
-### Why is my tx having trouble getting included now?
+### Почему у моей транзакции возникают проблемы с включением сейчас?
 
-It's possible that larger txs (> 15m gas limit) will have a harder time to land. This is due to how the builder allocates gas, it incrementally adds 1/10th of the total block gas limit to each flashblock. You can read more about it here (https://docs.base.org/base-chain/network-information/block-building#flashblocks).
+Возможно, что более крупные транзакции (> 15 млн лимита газа) будут включаться сложнее. Это связано с тем, как сборщик распределяет газ - он постепенно добавляет 1/10 от общего лимита газа блока к каждому Flashblock. Подробнее об этом можно прочитать здесь (https://docs.base.org/base-chain/network-information/block-building#flashblocks).
 
-### How do I ensure my TX is in the first flashblock?
+### Как мне гарантировать, что моя транзакция попадет в первый Flashblock?
 
-Unfortunately there's no way to guarantee which flashblock a transaction lands in, similar to how it cannot be guaranteed that a transaction lands in a specific block. To ensure quick inclusion, you may set a higher priority fee on your transaction.
+К сожалению, нет способа гарантировать, в какой именно Flashblock попадет транзакция, подобно тому, как нельзя гарантировать попадание транзакции в конкретный блок. Чтобы обеспечить быстрое включение, вы можете установить более высокую приоритетную комиссию для вашей транзакции.
 
-### How frequently do flashblocks reorg happen?
+### Как часто происходят реорги Flashblocks?
 
-Flashblocks reorgs on Base Mainnet is currently effectively zero, with only rare exceptions. We are committed to maintaining a reorg rate below 0.01% going forward. You can check the latest metrics in the Flashblocks section at https://base.org/stats
+Реорги Flashblocks в Base Mainnet в настоящее время практически отсутствуют, за редкими исключениями. Мы стремимся поддерживать уровень реоргов ниже 0,01% в будущем. Вы можете проверить последние метрики в разделе Flashblocks на https://base.org/stats
 
-### What does it mean when a flashblock is reorged?
+### Что означает, когда Flashblock подвергается реоргу?
 
-It means when a flashblock was streamed out as preconfirmation but it didn't end up getting included in that particular block. Currently applications building with flashblocks should have this expectation in mind but we are actively working on reducing reorgs to 0.
+Это означает, что Flashblock был распространен как предподтверждение, но в итоге не был включен в этот конкретный блок. В настоящее время приложения, создаваемые с использованием Flashblocks, должны учитывать эту возможность, но мы активно работаем над сокращением реоргов до 0.
 
-## Flashblocks Websockets
+## WebSocket Flashblocks
 
-### Why are there 11 flashblocks?
+### Почему существует 11 Flashblocks?
 
-Index 0 only contains the system txs but doesn't use any gas limit, thus index 1-10 are the actual flashblocks that take pending txs from the txpool to build blocks.
+Индекс 0 содержит только системные транзакции, но не использует лимит газа, поэтому индексы 1-10 - это фактические Flashblocks, которые берут ожидающие транзакции из мемпула для построения блоков.
 
-### Why sometimes there are less than 10 flashblocks?
+### Почему иногда бывает меньше 10 Flashblocks?
 
-This is expected for now, it happens when the previous block takes too long to build the system then compensates by having less time to build the next block, resulting in less flashblocks.
+Пока это ожидаемо. Это происходит, когда предыдущий блок занимает слишком много времени для построения системы, и тогда компенсирует это, имея меньше времени на построение следующего блока, что приводит к меньшему количеству Flashblocks.
 
-### What encoding format is the data in transactions?
+### В каком формате кодирования представлены данные в транзакциях?
 
-Those data are RLP encoded.
+Эти данные закодированы в формате RLP.
 
-### Why am I getting rate limited?
+### Почему я получаю ограничение по частоте запросов?
 
-We currently set the maximum number of connections to our public websocket. We are aiming to have websocket supported on the RPC nodes soon, thus will soon encourage everyone to connect to the RPC for websocket stream rather than connecting to the websocket proxy directly.
+В настоящее время мы устанавливаем максимальное количество подключений к нашему публичному WebSocket. Мы стремимся вскоре обеспечить поддержку WebSocket на RPC-узлах, поэтому вскоре будем рекомендовать всем подключаться к RPC для WebSocket-потока, а не подключаться непосредственно к WebSocket-прокси.
 
 ## RPC
 
-### Why am I getting rate limited using mainnet-preconf.base.org?
+### Почему я получаю ограничение по частоте запросов при использовании mainnet-preconf.base.org?
 
-We set explicit rate limiting on the public endpoint. In order to not get rate limited, we strongly encourage utilizing third party node providers, most of which already support flashblocks aware RPCs on Base today.
+Мы устанавливаем явное ограничение скорости на публичной конечной точке. Чтобы избежать ограничений, мы настоятельно рекомендуем использовать сторонних провайдеров узлов, большинство из которых уже поддерживают RPC с поддержкой Flashblocks в Base.
 
-### What RPC methods do you currently support that have flashblocks enabled?
+### Какие методы RPC в настоящее время поддерживаются с включенной поддержкой Flashblocks?
 
-Currently the ones that have flashblocks enabled are:
-- eth_getBlockByNumber (with pending tag)
-- eth_getBalance (with pending tag)
+В настоящее время с поддержкой Flashblocks работают:
+- eth_getBlockByNumber (с тегом `pending`)
+- eth_getBalance (с тегом `pending`)
 - eth_getTransactionReceipt
-- eth_getTransactionByHash (with pending tag)
-- eth_getTransactionCount (with pending tag)
-- eth_call (with pending tag)
-- eth_simulateV1 (with pending tag)
-- eth_estimateGas (with pending tag)
-- eth_getLogs (with pending tag)
+- eth_getTransactionByHash (с тегом `pending`)
+- eth_getTransactionCount (с тегом `pending`)
+- eth_call с тегом `pending`)
+- eth_simulateV1 с тегом `pending`)
+- eth_estimateGas (с тегом `pending`)
+- eth_getLogs (с тегом `pending`)
 
-## Node
+## Узлы
 
-### How can I set up a RPC node that's flashblocks-aware?
+### Как я могу настроить RPC-узел с поддержкой Flashblocks?
 
-In order to set up a node that's flashblocks-aware you must use the reth binary that we provide under https://github.com/base/node/tree/main/reth.
+Чтобы настроить узел с поддержкой Flashblocks, вы должны использовать бинарный файл reth, который мы предоставляем по адресу https://github.com/base/node/tree/main/reth.
