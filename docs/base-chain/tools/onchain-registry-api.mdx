@@ -1,35 +1,35 @@
 ---
 title: Onchain Registry API
-description: Documentation for the Onchain Registry API.
+description: Документация для Onchain Registry API.
 ---
 
 <Note>
-The base url for our API endpoints is [https://base.org/api/registry/](https://base.org/api/registry/). The use of Onchain Registry API is governed by the license terms outlined in our [Terms & Conditions](#terms--conditions).
+Базовый URL для наших конечных точек API: [https://base.org/api/registry/](https://base.org/api/registry/). Использование Onchain Registry API регулируется условиями лицензии, изложенными в наших [Условиях использования](#terms--conditions).
 </Note>
 
 
-## Instructions
+## Инструкции
 
-1. Users of this API can use the `/entries` and `/featured` endpoints to display Onchain Registry entries on their own surfaces
-2. If your team would like to use referral codes to point your users to entries, we recommend appending your referral code to the link provided in the `target_url` field
-3. If your team would like to filter entries based on where they are hosted or by creator, we recommend implementing logic based on the `target_url` and `creator_name` fields
+1. Пользователи этого API могут использовать конечные точки `/entries` и `/featured` для отображения записей Onchain Registry на своих платформах
+2. Если ваша команда хочет использовать реферальные коды для направления пользователей к записям, мы рекомендуем добавлять ваш реферальный код к ссылке, указанной в поле `target_url`
+3. Если ваша команда хочет фильтровать записи на основе того, где они размещены или по создателю, мы рекомендуем реализовать логику на основе полей `target_url` и `creator_name`
 
-## Endpoints
+## Конечные точки
 
 ### GET /entries
 
-This endpoint will display all Onchain Registry entries subject to any query parameters set below
+Эта конечная точка отображает все записи Onchain Registry с учетом любых установленных параметров запроса
 
-#### Query Parameters
+#### Параметры запроса
 
-| Name     | Type   | Description                                                                                                    |
-| :------- | :----- | :------------------------------------------------------------------------------------------------------------- |
-| page     | number | The page number (default 1)                                                                                    |
-| limit    | number | The number of entries per page (default 10)                                                                    |
-| category | array  | The category or categories of the entries of interest <br/> (Options: Games, Social, Creators, Finance, Media) |
-| curation | string | The entry's level of curation <br/> (Options: Featured, Curated, Community)                                    |
+| Название     | Тип    | Описание                                                                                                        |
+| :-------     | :----- | :-------------------------------------------------------------------------------------------------------------  |
+| page         | number | Номер страницы (по умолчанию 1)                                                                                 |
+| limit        | number | Количество записей на странице (по умолчанию 10)                                                                |
+| category     | array  | Категория или категории интересующих записей <br/> (Варианты: Games, Social, Creators, Finance, Media)          |
+| curation     | string | Уровень курации записи <br/> (Варианты: Featured, Curated, Community)                                           |
 
-#### Response
+#### Ответ
 
 ```json JSON
 {
@@ -94,9 +94,9 @@ This endpoint will display all Onchain Registry entries subject to any query par
 
 ### GET /featured
 
-This endpoint will display a single Onchain Registry entry that is being actively featured
+Эта конечная точка отображает одну запись Onchain Registry, которая в настоящее время активно продвигается
 
-#### Response
+#### Ответ
 
 ```json JSON
 {
@@ -127,31 +127,31 @@ This endpoint will display a single Onchain Registry entry that is being activel
 }
 ```
 
-## Entry Schema
+## Схема записи
 
-| Name               | Type             | Description                                                                                                                                                                                                    |
-| :----------------- | :--------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| id                 | string           | Unique entry ID                                                                                                                                                                                                |
-| category           | string           | The category of the entry <br/>(Options: Games, Social, Creators, Finance, Media)                                                                                                                              |
-| title              | string           | The title of the entry                                                                                                                                                                                         |
-| short_description  | string           | Short version of the entry description (max 30 char)                                                                                                                                                           |
-| full_description   | string           | Full version of the entry description (max 200 char)                                                                                                                                                           |
-| image_url          | string           | URL of the entry's featured image                                                                                                                                                                              |
-| target_url         | string           | URL for the entry's desired user action                                                                                                                                                                        |
-| cta_text           | string           | This is the type of user action for the entry <br/> (Options: Play, Mint, Buy, Trade, Explore)                                                                                                                 |
-| function_signature | string           | The function signature associated with the desired user action on the entry's contract                                                                                                                         |
-| contract_address   | string           | The contract address associated with the entry                                                                                                                                                                 |
-| token_id           | string           | The token ID if this is an ERC-1155                                                                                                                                                                            |
-| token_amount       | string           | The price of the entry's desired user action                                                                                                                                                                   |
-| featured           | boolean          | A true or false based on whether the entry is actively featured                                                                                                                                                |
-| creator_name       | string           | The name of the entry's creator                                                                                                                                                                                |
-| creator_image_url  | string           | The logo of the entry's creator                                                                                                                                                                                |
-| curation           | string           | The entry's level of curation <br/> <br/> Options: <ul><li>Featured - one entry per day with top placement</li><li>Curated - community entries being</li><li>Community - all other community entries</li></ul> |
-| start_ts           | string           | The UTC timestamp that the entry is open to users                                                                                                                                                              |
-| expiration_ts      | string           | The UTC timestamp that the entry is no longer open to users                                                                                                                                                    |
-| updated_at         | string \|\| null | The UTC timestamp that the entry was last updated (null if the entry has not been updated since creation)                                                                                                      |
-| created_at         | string           | The UTC timestamp that the entry was created                                                                                                                                                                   |
+| Название               | Тип              | Описание                                                                                                                                                                                                              |
+| :--------------------- | :--------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| id                     | string           | Уникальный идентификатор записи                                                                                                                                                                                       |
+| category               | string           | Категория записи <br/>(Варианты: Games, Social, Creators, Finance, Media)                                                                                                                                             |
+| title                  | string           | Заголовок записи                                                                                                                                                                                                      |
+| short_description      | string           | Краткая версия описания записи (макс. 30 символов)                                                                                                                                                                    |
+| full_description       | string           | Полная версия описания записи (макс. 200 символов)                                                                                                                                                                    |
+| image_url              | string           | URL основного изображения записи                                                                                                                                                                                      |
+| target_url             | string           | URL для целевого действия пользователя с записью                                                                                                                                                                      |
+| cta_text               | string           | Тип действия пользователя для записи <br/> (Варианты: Play, Mint, Buy, Trade, Explore)                                                                                                                                |
+| function_signature     | string           | Сигнатура функции, связанная с целевым действием пользователя в контракте записи                                                                                                                                      |
+| contract_address       | string           | Адрес контракта, связанный с записью                                                                                                                                                                                  |
+| token_id               | string           | Идентификатор токена, если это ERC-1155                                                                                                                                                                               |
+| token_amount           | string           | Стоимость целевого действия пользователя с записью                                                                                                                                                                    |
+| featured               | boolean          | Значение true или false в зависимости от того, активно ли продвигается запись                                                                                                                                         |
+| creator_name           | string           | Имя создателя записи                                                                                                                                                                                                  |
+| creator_image_url      | string           | Логотип создателя записи                                                                                                                                                                                              |
+| curation               | string           | Уровень курации записи <br/> <br/> Варианты: <ul><li>Featured - одна запись в день с верхним размещением</li><li>Curated - курируемые записи сообщества</li><li>Community - все остальные записи сообщества</li></ul> |
+| start_ts               | string           | Метка времени UTC, когда запись становится доступной пользователям                                                                                                                                                    |
+| expiration_ts          | string           | Метка времени UTC, когда запись перестает быть доступной пользователям                                                                                                                                                |
+| updated_at             | string \|\| null | Метка времени UTC последнего обновления записи (null, если запись не обновлялась с момента создания)                                                                                                                  |
+| created_at             | string           | Метка времени UTC создания записи                                                                                                                                                                                     |
 
-## Terms & Conditions
+## Условия использования
 
-We grant third parties a non-exclusive, worldwide, royalty-free license to use the Onchain Registry API solely for the purpose of integrating it into their applications or services. This license does not extend to any data or content accessed through the Onchain API, which remains the sole responsibility of the third party. By using the Onchain Registry API, third parties agree to comply with our license terms and any applicable laws and regulations as set forth in Coinbase Developer Platform Terms of Service. We make no warranties regarding the Onchain Registry API, and users accept all risks associated with its use. The Onchain App Registry API is an Early Access Product per Section 18 of the [Coinbase Developer Platform Terms of Service](https://www.coinbase.com/legal/developer-platform/terms-of-service) and the Coinbase [Prohibited Use Policy](https://www.coinbase.com/legal/prohibited_use), and all terms and conditions therein govern your use of the Onchain Registry API.
+Мы предоставляем третьим сторонам неисключительную, всемирную, безвозмездную лицензию на использование Onchain Registry API исключительно с целью его интеграции в их приложения или сервисы. Данная лицензия не распространяется на любые данные или контент, доступ к которому осуществляется через Onchain API, ответственность за которые полностью лежит на третьей стороне. Используя Onchain Registry API, третьи стороны соглашаются соблюдать условия нашей лицензии и любые применимые законы и нормативные акты, изложенные в Условиях обслуживания Платформы разработчиков Coinbase. Мы не даем никаких гарантий в отношении Onchain Registry API, и пользователи принимают на себя все риски, связанные с его использованием. Onchain App Registry API является продуктом раннего доступа в соответствии с Разделом 18 [Условий обслуживания Платформы разработчиков Coinbase](https://www.coinbase.com/legal/developer-platform/terms-of-service) и [Политики запрещенного использования Coinbase](https://www.coinbase.com/legal/prohibited_use), и все условия и положения, изложенные в них, регулируют ваше использование Onchain Registry API.
