@@ -1,15 +1,15 @@
 ---
 title: "Web (Next.js)"
-description: "Quickly add Sign in with Base and Base Pay to any Next.js app"
+description: "Быстро добавьте Sign in with Base и Base Pay в любое приложение Next.js"
 ---
 
 import { GithubRepoCard } from "/snippets/GithubRepoCard.mdx"
 
-This quick-start shows the **minimum** code required to add Sign in with Base (SIWB) and Base Pay to any Next.js app using the Base Account SDK.
+Этот быстрый старт показывает минимальный код, необходимый для добавления Sign in with Base (SIWB) и Base Pay в любое приложение Next.js с использованием Base Account SDK.
 
-## 1. Create a new Next.js app
+## 1. Создайте новое приложение Next.js
 
-If you're starting fresh, create a new Next.js app:
+Если вы начинаете с нуля, создайте новое приложение Next.js:
 
 <CodeGroup>
 ```bash npm
@@ -33,9 +33,9 @@ cd base-account-quickstart
 ```
 </CodeGroup>
 
-When prompted during setup, you can choose the default options or customize as needed. For this quickstart, the default settings work perfectly.
+При настройке вы можете выбрать стандартные параметры или изменить их по необходимости. Для этого быстрого старта стандартные настройки подходят идеально.
 
-## 2. Install the SDK
+## 2. Установите SDK
 
 <CodeGroup>
 ```bash npm
@@ -56,14 +56,14 @@ bun add @base-org/account @base-org/account-ui
 </CodeGroup>
 
 <Tip>
-**Got a peer dependency error?**
+**Получили ошибку о peer dependency?**
 
-Use `--legacy-peer-deps` flag if you get a peer dependency error.
+Используйте флаг `--legacy-peer-deps`, если получили ошибку о peer dependency.
 </Tip>
 
-## 3. Create the main component
+## 3. Создайте основной компонент
 
-Replace the contents of `app/page.tsx` (or `app/page.js` if not using TypeScript) with this component:
+Замените содержимое `app/page.tsx` (или `app/page.js`, если не используете TypeScript) этим компонентом:
 
 ```jsx title="app/page.tsx" lineNumbers
 'use client';
@@ -78,7 +78,7 @@ export default function Home() {
   const [paymentId, setPaymentId] = useState('');
   const [theme, setTheme] = useState('light');
 
-  // Initialize SDK
+  // Инициализируем SDK
   const sdk = createBaseAccountSDK(
     {
       appName: 'Base Account Quick-start',
@@ -86,7 +86,7 @@ export default function Home() {
     }
   );
 
-  // Optional sign-in step – not required for `pay()`, but useful to get the user address
+  // Опциональный шаг входа – не требуется для `pay()`, но полезен для получения адреса пользователя
   const handleSignIn = async () => {
     try {
       await sdk.getProvider().request({ method: 'wallet_connect' });
@@ -96,13 +96,13 @@ export default function Home() {
     }
   };
 
-  // One-tap USDC payment using the pay() function
+  // Платеж USDC в одно нажатие с использованием функции `pay()`
   const handlePayment = async () => {
     try {
       const { id } = await pay({
-        amount: '0.01', // USD – SDK quotes equivalent USDC
-        to: '0xRecipientAddress', // Replace with your recipient address
-        testnet: true // set to false or omit for Mainnet
+        amount: '0.01', // USD – SDK конвертирует в эквивалент USDC
+        to: '0xRecipientAddress', // Замените на адрес получателя
+        testnet: true // установите false или опустите для Mainnet
       });
 
       setPaymentId(id);
@@ -113,7 +113,7 @@ export default function Home() {
     }
   };
 
-  // Check payment status using stored payment ID
+  // Проверка статуса платежа с использованием сохраненного ID платежа
   const handleCheckStatus = async () => {
     if (!paymentId) {
       setPaymentStatus('No payment ID found. Please make a payment first.');
