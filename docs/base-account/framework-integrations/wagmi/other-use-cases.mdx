@@ -1,17 +1,17 @@
 ---
-title: "Other Use Cases"
-description: "Access the Base Account provider from Wagmi for advanced functionality like Sub Accounts, Spend Permissions, and more"
+title: "Другие варианты использования"
+description: "Получите доступ к провайдеру Base Account из Wagmi для расширенной функциональности, такой как субаккаунты, разрешения на траты и многое другое"
 ---
 
-Learn how to access the Base Account provider through Wagmi to unlock advanced Base Account features beyond basic authentication and payments.
+Узнайте, как получить доступ к провайдеру Base Account через Wagmi, чтобы разблокировать расширенные функции Base Account, выходящие за рамки базовой аутентификации и платежей.
 
-## Prerequisites
+## Предварительные требования
 
-Make sure you have [set up Wagmi with Base Account](/base-account/framework-integrations/wagmi/setup) before following this guide.
+Перед тем как следовать этому руководству, убедитесь, что вы [настроили Wagmi с Base Account](/base-account/framework-integrations/wagmi/setup).
 
-## Getting the Provider
+## Получение провайдера
 
-The key to accessing advanced Base Account functionality is getting the provider from your Wagmi connector. Once you have the provider, you can use any Base Account RPC method.
+Ключом к доступу к расширенным функциям Base Account является получение провайдера из вашего коннектора Wagmi. Как только у вас есть провайдер, вы можете использовать любой RPC-метод Base Account.
 
 <CodeGroup>
 ```tsx Hook
@@ -84,31 +84,31 @@ export function BaseAccountFeatures() {
 ```
 </CodeGroup>
 
-## Available Use Cases
+## Доступные варианты использования
 
-Once you have the provider, you can access all Base Account functionality:
+Получив провайдер, вы можете получить доступ ко всей функциональности Base Account:
 
-### Sub Accounts
-Create and manage child accounts for improved UX.
+### Субаккаунты
+Создавайте дочерние аккаунты и управляйте ими для улучшения пользовательского опыта.
 
-**Learn more:** [Sub Accounts Guide](/base-account/improve-ux/sub-accounts) | [Sub Accounts RPC Method](/base-account/reference/core/provider-rpc-methods/wallet_addSubAccount)
+**Подробнее:** [Руководство по субаккаунтам](/base-account/improve-ux/sub-accounts) | [RPC-метод субаккаунтов](/base-account/reference/core/provider-rpc-methods/wallet_addSubAccount)
 
-### Spend Permissions
-Allow apps to spend on behalf of users with predefined limits.
+### Разрешения на траты
+Позволяйте приложениям тратить средства от имени пользователей в рамках предустановленных лимитов.
 
-**Learn more:** [Spend Permissions Guide](/base-account/improve-ux/spend-permissions) | [Spend Permissions Reference](/base-account/reference/spend-permission-utilities/requestSpendPermission)
+**Подробнее:** [Руководство по разрешениям на траты](/base-account/improve-ux/spend-permissions) | [Справочник по разрешениям на траты](/base-account/reference/spend-permission-utilities/requestSpendPermission)
 
-### Batch Transactions
-Execute multiple transactions in a single user confirmation.
+### Пакетные транзакции
+Выполняйте несколько транзакций при одном подтверждении пользователя.
 
-**Learn more:** [Batch Transactions Guide](/base-account/improve-ux/batch-transactions) | [`wallet_sendCalls` Reference](/base-account/reference/core/provider-rpc-methods/wallet_sendCalls)
+**Подробнее:** [Руководство по пакетным транзакциям](/base-account/improve-ux/batch-transactions) | [Справочник по `wallet_sendCalls`](/base-account/reference/core/provider-rpc-methods/wallet_sendCalls)
 
-### Gasless Transactions
-Sponsor gas fees for your users.
+### Бесплатные транзакции
+Оплачивайте комиссию газа за ваших пользователей.
 
-**Learn more:** [Gasless Transactions Guide](/base-account/improve-ux/sponsor-gas/paymasters) | [Coinbase Developer Platform Paymaster](https://docs.cdp.coinbase.com/paymaster/introduction/welcome)
+**Подробнее:** [Руководство по бесплатным транзакциям](/base-account/improve-ux/sponsor-gas/paymasters) | [Paymaster от Coinbase Developer Platform](https://docs.cdp.coinbase.com/paymaster/introduction/welcome)
 
-### Full list of provider methods and capabilities
-Access the full list of Base Account provider methods and capabilities.
+### Полный список методов и возможностей провайдера
+Получите доступ к полному списку методов и возможностей провайдера Base Account.
 
-**Learn more:** [Provider RPC Methods](/base-account/reference/core/provider-rpc-methods/request-overview) | [Capabilities](/base-account/reference/core/capabilities/overview)
+**Подробнее:** [RPC-методы провайдера](/base-account/reference/core/provider-rpc-methods/request-overview) | [Возможности](/base-account/reference/core/capabilities/overview)
