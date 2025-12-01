@@ -1,21 +1,21 @@
 ---
 title: "Basenames"
-description: "Add support for Base names in your application using Wagmi and Viem"
+description: "Добавьте поддержку имен Base (Basenames) в ваше приложение с помощью Wagmi и Viem"
 ---
 
 
 
-## Overview
+## Обзор
 
-Basenames are human-readable names for addresses on Base.
-They are built on top of the ENS protocol and comply with [ENSIP-19](https://docs.ens.domains/ensip/19/).
-To learn more about Basenames, check out the [Basenames FAQ](/base-account/basenames/basenames-faq).
+Basenames (имена Base) - это удобочитаемые имена для адресов в сети Base.
+Они построены поверх протокола ENS и соответствуют [ENSIP-19](https://docs.ens.domains/ensip/19/).
+Чтобы узнать больше о Basenames, ознакомьтесь с [часто задаваемыми вопросами о Basenames](/base-account/basenames/basenames-faq).
 
-This guide will show you how to add support for Basenames to your application using [Viem](https://viem.sh/).
+В этом руководстве показано, как добавить поддержку Basenames в ваше приложение с помощью [Viem](https://viem.sh/).
 
-## Usage
+## Использование
 
-Use `getEnsName` to retrieve the primary ENS name for an address on Base:
+Используйте `getEnsName`, чтобы получить основное ENS-имя для адреса в сети Base:
 
 ```ts
 import { createPublicClient, http, toCoinType } from 'viem'
@@ -34,13 +34,13 @@ const name = await client.getEnsName({
 
 <Tip>
 
-It is necessary to use a private RPC provider (`YOUR_PRIVATE_RPC_URL`) due to the computational demands associated with some of the ENSIP-19 resolution steps.
+Необходимо использовать приватный RPC-провайдер (`YOUR_PRIVATE_RPC_URL`) из-за высоких вычислительных затрат, связанных с некоторыми шагами разрешения имен по спецификации ENSIP-19.
 
 </Tip>
 
 <Warning>
 
-There may be some latency between the initial registration of a Basename and the ability to resolve this name via ENSIP-19 due to the slow production of state proofs necessary for trustless resolution.
+Может возникать некоторая задержка между первоначальной регистрацией Basename и возможностью разрешить это имя через ENSIP-19 из-за медленного создания доказательств состояния, необходимых для разрешения имен без необходимости доверия.
 </Warning>
 
-[Learn more about getEnsName →](https://viem.sh/docs/ens/actions/getEnsName)
+[Узнайте больше о getEnsName →](https://viem.sh/docs/ens/actions/getEnsName)
