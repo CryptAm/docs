@@ -1,43 +1,41 @@
 ---
-title: "Auth (Sign In With Base)"
-description: "Manage user authentication with Privy and Base Account"
+title: "Аутентификация (Sign In With Base)"
+description: "Управляйте аутентификацией пользователей с помощью Privy и Base Account"
 ---
 
 import { GithubRepoCard } from "/snippets/GithubRepoCard.mdx";
 
-Learn how to handle authentication flows with Privy and Base Account, including both Privy-managed authentication and custom backend verification.
+Узнайте, как обрабатывать потоки аутентификации с Privy и Base Account, включая как аутентификацию, управляемую Privy, так и пользовательскую проверку на бэкенде.
 
-## Overview
+## Обзор
 
-Privy handles the initial authentication flow, managing user sessions and wallet connections. You can also implement additional authentication layers for enhanced security or custom requirements.
+Privy обрабатывает первоначальный поток аутентификации, управляя сессиями пользователей и подключениями кошельков. Вы также можете реализовать дополнительные уровни аутентификации для повышенной безопасности или пользовательских требований.
 
-The code snippets in this guide are based on the following example project:
+Фрагменты кода в этом руководстве основаны на следующем примере проекта:
 <GithubRepoCard
   title="Base Account Privy Template"
   githubUrl="https://github.com/base/base-account-privy"
 />
 
-## Authentication Flow
+## Поток аутентификации
 
-Privy manages the primary authentication before users enter your application:
+Privy управляет основной аутентификацией до того, как пользователи войдут в ваше приложение:
 
 <div style={{ display: 'flex', justifyContent: 'center'}}>
   <img src="/images/base-account/privy-base-auth.gif" alt="Privy Base Auth" style={{ width: '600px', height: 'auto' }} />
 </div>
 
-## Custom Authentication
+## Пользовательская аутентификация
 
-For additional security or custom authentication requirements, you can implement backend verification using Sign-In with Ethereum (SIWE)
-with the Base Account SDK.
+Для дополнительной безопасности или пользовательских требований к аутентификации вы можете реализовать проверку на бэкенде с использованием Sign-In with Ethereum (SIWE) и SDK Base Account.
 
-### Setup
+### Настройка
 
-Follow the [Setup](/base-account/framework-integrations/privy/setup) guide to set up Privy with Base Account.
+Следуйте руководству [настройки](/base-account/framework-integrations/privy/setup) чтобы настроить Privy с Base Account.
 
-### Frontend Component (Sign In With Base)
+### Фронтенд-компонент (Sign In With Base)
 
-We use the [`SignInWithBaseButton`](/base-account/reference/ui-elements/sign-in-with-base-button) component from the `@base-org/account-ui/react` package to make sure
-we are following the brand guidelines.
+Мы используем компонент [`SignInWithBaseButton`](/base-account/reference/ui-elements/sign-in-with-base-button) из пакета `@base-org/account-ui/react`, чтобы обеспечить соответствие руководству по бренду.
 
 <CodeGroup>
 ```tsx Authentication Component (components/sections/authentication.tsx) expandable
@@ -60,17 +58,17 @@ export const Authentication = () => {
     try {
       setLoading(true);
 
-      // Get a fresh nonce from backend
+      // Получаем свежий nonce с бэкенда
       const nonceResponse = await fetch("/api/auth/nonce");
       const { nonce } = await nonceResponse.json();
 
-      // Switch to Base Chain
+      // Переключаемся на сеть Base
       await provider.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0x2105" }],
       });
 
-      // Connect and authenticate with SIWE
+      // Подключаемся и аутентифицируемся с помощью SIWE
       const response = (await provider.request({
         method: "wallet_connect",
         params: [{
@@ -94,7 +92,7 @@ export const Authentication = () => {
       const { address } = response.accounts[0];
       const { message, signature } = response.accounts[0].capabilities.signInWithEthereum;
 
-      // Verify with backend
+      // Проверяем на бэкенде
       const verifyResponse = await fetch("/api/auth/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -124,9 +122,9 @@ export default Authentication;
 ```
 </CodeGroup>
 
-### Using the Authentication Component
+### Использование компонента аутентификации
 
-Add the Authentication component to your page to enable Sign In with Base functionality:
+Добавьте компонент Authentication на вашу страницу, чтобы включить функциональность Sign In with Base:
 
 <CodeGroup>
 ```tsx Page Implementation (app/page.tsx)
@@ -181,10 +179,10 @@ export default function Dashboard() {
 ```
 </CodeGroup>
 
-### Backend Implementation
+### Реализация бэкенда
 
 <Warning>
-**Development Only**: This backend implementation is not production-ready. The nonce management system needs proper persistence and security enhancements for production use.
+**Только для разработки**: Эта реализация бэкенда не готова для продакшена. Система управления nonce требует правильного постоянного хранения и улучшений безопасности для использования в производственной среде.
 </Warning>
 
 <CodeGroup>
@@ -223,7 +221,7 @@ export async function POST(request: NextRequest) {
   try {
     const { address, message, signature } = await request.json();
 
-    // Extract nonce from SIWE message
+    // Извлекаем nonce из сообщения SIWE
     const nonce = message.match(/Nonce: (\w+)/)?.[1];
     
     if (!nonce || !nonceStore.consume(nonce)) {
@@ -233,7 +231,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Verify signature using viem
+    // Проверяем подпись с помощью viem
     const valid = await client.verifyMessage({ 
       address: address as `0x${string}`, 
       message, 
@@ -263,8 +261,8 @@ export async function POST(request: NextRequest) {
 ```
 
 ```ts Nonce Store (lib/nonce-store.ts) expandable
-// Simple in-memory nonce store
-// In production, use Redis or a database
+// Простое хранилище nonce в памяти
+// В продакшене используйте Redis или базу данных
 class NonceStore {
   private nonces = new Set<string>();
 
@@ -281,11 +279,11 @@ export const nonceStore = new NonceStore();
 ```
 </CodeGroup>
 
-### Production Considerations
+### Рекомендации для продакшена
 
-For production deployments, enhance the backend implementation with:
+Для развертывания в продакшен улучшите реализацию бэкенда следующим образом:
 
-- **Persistent storage**: Use Redis or a database instead of in-memory storage
-- **Rate limiting**: Implement request rate limiting for nonce generation
-- **Session management**: Create proper JWT tokens or session cookies
-- **Nonce expiration**: Add timestamp-based nonce expiration
+**Постоянное хранение**: Используйте Redis или базу данных вместо хранения в памяти
+**Ограничение запросов (Rate limiting)**: Реализуйте ограничение частоты запросов для генерации nonce
+**Управление сессиями**: Создавайте правильные JWT-токены или куки сессий
+**Срок действия nonce**: Добавьте истечение срока действия nonce на основе меток времени
