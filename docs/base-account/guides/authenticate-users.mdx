@@ -142,19 +142,19 @@ export async function verifySig(req, res) {
 ```
 </CodeGroup>
 
-<Примечание type="tip">
+<Note type="tip">
 Если используете код выше за пределами Base Account, обратите внимание, что не все кошельки еще поддерживают новый метод [<code>wallet_connect</code> method](/base-account/reference/core/provider-rpc-methods/wallet_connect).  Если вызов выбрасывает ошибку [<code>method_not_supported</code>], вернитесь к использованию <code>eth_requestAccounts</code> и <code>personal_sign</code>.
-</Примечание>
+</Note>
 
-<Примечание type="tip">
+<Note type="tip">
 Чтобы избежать [блокировки всплывающих окон](/base-account/more/troubleshooting/usage-details/popups#default-blocking-behavior), получайте или генерируйте nonce <strong>до</strong> того, как пользователь нажмет "Sign in with Base" (например, при загрузке страницы). Для безопасности требуется только, чтобы ваш бэкенд отслеживал каждый nonce и отклонял те, которые используются повторно – независимо от их происхождения.
-</Примечание>
+</Note>
 
 {/* 
 TODO: Link Wagmi Sign in with Base guide
-<Примечание>
+<Note>
 Полный пример на React смотрите в <a href="/docs/base-account/framework-integrations/react-wagmi">руководстве по React + Wagmi</a>.
-</Примечание> */}
+</Note> */}
 
 ### Пример сервера на Express
 
