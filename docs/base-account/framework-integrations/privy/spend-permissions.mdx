@@ -1,39 +1,39 @@
 ---
-title: "Spend Permissions"
-description: "Enable trusted spenders to move assets without additional signatures"
+title: "Разрешения на траты"
+description: "Включите доверенным сторонам возможность перемещать активы без дополнительных подписей"
 ---
 
 import { GithubRepoCard } from "/snippets/GithubRepoCard.mdx";
 
-Learn how to create and manage Spend Permissions that allow trusted spenders to move assets from Base Accounts without requiring additional user signatures.
+Узнайте, как создавать и управлять Разрешениями на траты, которые позволяют доверенным сторонам перемещать активы из Base Accounts без необходимости дополнительных подписей пользователя.
 
-## Overview
+## Обзор
 
-Spend Permissions enable users to grant timely allowances to trusted spenders, allowing them to move assets on behalf of the user within defined limits. This creates seamless user experiences for recurring payments, subscriptions, and automated transactions.
+Разрешения на траты позволяют пользователям предоставлять своевременные лимиты доверенным сторонам, позволяя им перемещать активы от имени пользователя в рамках определенных ограничений. Это создает бесшовный пользовательский опыт для повторяющихся платежей, подписок и автоматизированных транзакций.
 
-### What you'll achieve
+### Что вы получите
 
-By the end of this guide, you will:
+К концу этого руководства вы сможете:
 
-- Create Spend Permissions with specific allowances and time periods
-- Fetch and manage existing Spend Permissions
-- Use Spend Permissions to execute transactions
-- Implement Spend Permission functionality in your React application
+- Создавать Разрешения на траты с определенными лимитами и временными периодами
+- Получать и управлять существующими разрешениями
+- Использовать Разрешения на траты для выполнения транзакций
+- Реализовать функциональность Разрешений на траты в вашем React-приложении
 
-The code snippets in this guide are based on the following example project:
+Фрагменты кода в этом руководстве основаны на следующем примере проекта:
 
 <GithubRepoCard
-  title="Base Account Privy Template"
+  title="Шаблон Base Account Privy"
   githubUrl="https://github.com/base/base-account-privy"
 />
 
-## Setup
+## Настройка
 
-Follow the [Setup](/base-account/framework-integrations/privy/setup) guide to set up Privy with Base Account.
+Следуйте руководству [настройки](/base-account/framework-integrations/privy/setup) чтобы настроить Privy с Base Account.
 
-## Implementation
+## Реализация
 
-### Component Setup
+### Настройка компонента
 
 <CodeGroup>
 ```tsx Spend Permissions Component (components/sections/spend-permissions.tsx) expandable
@@ -57,11 +57,11 @@ export const SpendPermissions = () => {
   const [selectedPermission, setSelectedPermission] = useState<SpendPermission | null>(null);
   const [loading, setLoading] = useState(false);
   
-  // Configuration
+  // Конфигурация
   const spenderAddress = "0xd8da6bf26964af9d7eed9e03e53415d37aa96045";
   const tokenAddress = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"; // USDC on Base
 
-  // Find the Base Account wallet
+  // Находим кошелек Base Account
   const baseAccount = useMemo(() => {
     return wallets.find((wallet) => wallet.walletClientType === 'base_account');
   }, [wallets]);
@@ -118,7 +118,7 @@ export const SpendPermissions = () => {
     try {
       setLoading(true);
       
-      // Check permission status
+      // Проверяем статус разрешения
       const { isActive, remainingSpend } = await getPermissionStatus(selectedPermission);
       
       if (!isActive) {
@@ -133,7 +133,7 @@ export const SpendPermissions = () => {
         return;
       }
 
-      // Prepare spend calls
+      // Подготавливаем вызовы для траты
       const spendCalls = await prepareSpendCallData(selectedPermission, spendAmount);
       console.log("Spend calls prepared:", spendCalls);
       
@@ -152,25 +152,25 @@ export const SpendPermissions = () => {
           disabled={loading || !account}
           className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
         >
-          Create Spend Permission
+          Создать Разрешение на траты
         </button>
         <button 
           onClick={loadPermissions}
           disabled={loading || !account}
           className="px-4 py-2 bg-green-600 text-white rounded disabled:opacity-50"
         >
-          Load Permissions
+          Загрузить разрешения
         </button>
         <button 
           onClick={handleUseSpendPermission}
           disabled={loading || !selectedPermission}
           className="px-4 py-2 bg-purple-600 text-white rounded disabled:opacity-50"
         >
-          Use Permission
+          Использовать разрешения
         </button>
       </div>
 
-      {/* Configuration display */}
+      {/* Отображение конфигурации */}
       <div className="p-4 rounded-lg">
         <h4 className="font-semibold mb-3">Configuration</h4>
         <div className="text-sm space-y-1">
@@ -180,7 +180,7 @@ export const SpendPermissions = () => {
         </div>
       </div>
 
-      {/* Permissions list */}
+      {/* Список разрешений */}
       {permissions.length > 0 && (
         <div className="p-4 rounded-lg">
           <h4 className="font-semibold mb-3">Existing Permissions</h4>
@@ -211,11 +211,11 @@ export const SpendPermissions = () => {
 ```
 </CodeGroup>
 
-### Key Methods
+### Ключевые методы
 
-#### Creating Spend Permissions
+#### Создание Разрешений на траты
 
-Use `requestSpendPermission` to create new Spend Permissions:
+Используйте `requestSpendPermission` для создания новых Разрешений на траты:
 
 ```tsx
 const permission = await requestSpendPermission({
@@ -224,14 +224,14 @@ const permission = await requestSpendPermission({
   token: tokenAddress,
   chainId: base.id,
   allowance: BigInt(1) * BigInt(10 ** 6), // 1 USDC
-  periodInDays: 1, // 1 day
+  periodInDays: 1, // 1 день
   provider,
 });
 ```
 
-#### Fetching Permissions
+#### Получение разрешений
 
-Use `fetchPermissions` to retrieve existing permissions:
+Используйте `fetchPermissions` для получения существующих разрешений:
 
 ```tsx
 const permissions = await fetchPermissions({
@@ -242,49 +242,49 @@ const permissions = await fetchPermissions({
 });
 ```
 
-#### Using Permissions
+#### Использование разрешений
 
-Check permission status and prepare spend calls:
+Проверьте статус разрешения и подготовьте вызовы для траты:
 
 ```tsx
-// Check if permission is active
+// Проверяем, активно ли разрешение
 const { isActive, remainingSpend } = await getPermissionStatus(permission);
 
-// Prepare spend transaction data
+// Подготавливаем данные транзакции для траты
 const spendCalls = await prepareSpendCallData(permission, spendAmount);
 ```
 
-### Configuration Options
+### Параметры конфигурации
 
-#### Allowance and Period
+#### Лимит и период
 
-Configure spending limits and time periods:
+Настройте лимиты трат и временные периоды:
 
 ```tsx
 {
   allowance: BigInt(100) * BigInt(10 ** 6), // 100 USDC (6 decimals)
-  periodInDays: 7, // 7 days
+  periodInDays: 7, // 7 дней
 }
 ```
 
-#### Token Addresses
+#### Адреса токенов
 
-Common token addresses on Base:
+Распространенные адреса токенов в сети Base:
 
 - **USDC**: `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913`
 - **ETH**: Native token `0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE`
 - **DAI**: `0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb`
 
-### Use Cases
+### Сценарии использования
 
-Spend permissions are ideal for:
+Разрешения на траты идеально подходят для:
 
-- **Subscriptions**: Recurring payments without user interaction
-- **DeFi protocols**: Automated trading and yield farming
-- **Gaming**: In-game purchases and rewards
-- **Commerce**: Streamlined checkout experiences
+- **Подписок**: Повторяющиеся платежи без взаимодействия с пользователем
+- **DeFi-протоколов**: Автоматизированная торговля и фарминг доходности
+- **Игр**: Внутриигровые покупки и награды
+- **Электронной коммерции**: Упрощенные процессы оформления заказа
 
 <GithubRepoCard
-  title="Base Account Privy Template"
+  title="Шаблон Base Account Privy"
   githubUrl="https://github.com/base/base-account-privy"
 />
