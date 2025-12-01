@@ -1,52 +1,52 @@
 ---
-title: "Migrate from Coinbase Wallet SDK"
-description: "A guide to migrating from the Coinbase Wallet SDK to the Base Account SDK"
+title: "Переход с Coinbase Wallet SDK"
+description: "Руководство по переходу с Coinbase Wallet SDK на Base Account SDK"
 ---
 
-## Overview
+## Обзор
 
-The Base Account SDK allows Base Account users to connect 3rd party mobile and web applications. The Base Account SDK is the successor to the Coinbase Wallet SDK, which is now considered legacy.  
+Base Account SDK позволяет пользователям Base Account подключать сторонние мобильные и веб-приложения. Base Account SDK является преемником Coinbase Wallet SDK, который теперь считается устаревшим.
 
-Developers should integrate the Base Account SDK such that users connect to use it via a "Sign in with Base" or "Base" button. 
+Разработчикам следует интегрировать Base Account SDK таким образом, чтобы пользователи подключались через кнопку "Sign in with Base" или "Base". 
 
-We do not recommend immediately replacing existing "Coinbase Wallet" buttons in your app, but rather add the Base Account button as an additional option, next to a "Coinbase Wallet" button. This will allow a transition period for users to get familiar with the new Base brand. 
+Мы не рекомендуем немедленно заменять существующие кнопки "Coinbase Wallet" в вашем приложении. Вместо этого лучше добавить кнопку Base Account как дополнительную опцию рядом с кнопкой "Coinbase Wallet". Это позволит обеспечить переходный период, в течение которого пользователи смогут ознакомиться с новым брендом Base.
 
-Driving this change is a transition of our mobile app: the Coinbase Wallet app is now the Base app. We are gradually transitioning all of our users to have Base Accounts, which are powered by our Smart Wallet platform. 
+Эти изменения связаны с переходом нашего мобильного приложения: приложение Coinbase Wallet теперь стало приложением Base. Мы постепенно переводим всех наших пользователей на Base Accounts, которые работают на нашей платформе смарт-кошельков. 
 
-Below is a table of existing users and how they will connect to apps now and in the future:
+Ниже приведена таблица, показывающая, как существующие пользователи подключаются к приложениям сейчас и как будут подключаться в будущем:
 
-| User Type | Today | Future (~Fall 2025) |
-|-----------|-------|---------------------|
-| Smart Wallet users (web and mobile app) | Automatically have a Base Account, can use "Sign in with Base" | No change |
-| New Base app users | Automatically have a Base Account, can use "Sign in with Base" | No change |
-| Coinbase Wallet Extension Users | Should continue to connect with "Coinbase Wallet" button | Will have a path to migrate to Base Account and use "Sign in with Base" |
-| Coinbase Wallet mobile app EOA users | Should continue to connect with "Coinbase Wallet" button | Will have a path to migrate to Base Account and use "Sign in with Base" |
+| Тип пользователя | Сейчас | Будущее (~Осень 2025) |
+|------------------|--------|-----------------------|
+| Пользователи смарт-кошельков (веб и мобильное приложение) | Автоматически имеют Base Account, могут использовать "Sign in with Base" | Без изменений |
+| Новые пользователи приложения Base | Автоматически имеют Base Account, могут использовать "Sign in with Base" | Без изменений |
+| Пользователи расширения Coinbase Wallet | Продолжают подключаться через кнопку "Coinbase Wallet" | Получат возможность перейти на Base Account и использовать "Sign in with Base" |
+| Пользователи мобильного приложения Coinbase Wallet с EOA-кошельками | Продолжают подключаться через кнопку "Coinbase Wallet" | Получат возможность перейти на Base Account и использовать "Sign in with Base" |
 
-## Changes to user experience when click "Coinbase Wallet" 
+## Изменения в пользовательском опыте при нажатии на "Coinbase Wallet"
 
-As of SDK v4.0, users without Coinbase Wallet extension are directed to a popup window where they can choose to connect with the mobile app, via WalletLink, or use a passkey-powered Smart Wallet natively on the web. 
+Начиная с SDK v4.0, пользователи без расширения Coinbase Wallet перенаправляются во всплывающее окно, где они могут выбрать подключение через мобильное приложение (через WalletLink) или использовать смарт-кошелек на основе пасскей непосредственно в вебе.
 
-This will continue to be the case, but the logged out experience has changed to educate Smart Wallet users that they should be using "Sign in with Base" in the future. Here is how it looks on desktop.
+Этот механизм сохранится, но опыт для неавторизованных пользователей изменился: теперь он информирует пользователей смарт-кошельков о том, что в будущем им следует использовать "Sign in with Base". Вот как это выглядит на десктопе.
 
 <div style={{ display: 'flex', justifyContent: 'center', margin: '2rem 0' }}>
   <img src="/images/base-account/CreateWalletFlow.png" alt="Create Wallet Flow" style={{ width: '300px', height: 'auto' }} />
 </div>
 
 <div style={{ textAlign: 'center', fontStyle: 'italic', marginBottom: '2rem' }}>
-  Desktop experience showing the updated logged out flow for Coinbase Wallet users
+  Опыт работы на десктопе, показывающий обновленный процесс для неавторизованных пользователей Coinbase Wallet
 </div>
 
 <Tip>
-If you would like to avoid users seeing any popup window, we recommend using a version of the Coinbase Wallet SDK < 4.0.
+Если вы хотите, чтобы пользователи вообще не видели всплывающих окон, мы рекомендуем использовать версию Coinbase Wallet SDK < 4.0.
 
-You can find the latest version of the Coinbase Wallet SDK [here](https://github.com/coinbase/coinbase-wallet-sdk/releases).
+Вы можете найти последнюю версию Coinbase Wallet SDK [здесь](https://github.com/coinbase/coinbase-wallet-sdk/releases).
 </Tip>
 
 
 
-## How to migrate?
+## Как выполнить переход?
 
-If you're using the SDK, you can simply replace the Coinbase Wallet SDK with the Base Account SDK.
+Если вы используете SDK напрямую, вы можете просто заменить Coinbase Wallet SDK на Base Account SDK.
 
 ```tsx
 import { createBaseAccountSDK } from "@base-org/account";
@@ -56,10 +56,10 @@ const baseAccount = createBaseAccountSDK({
 });
 ```
 
-For more information please refer to the [Quickstart](/base-account/quickstart/web) guide.
+Для получения дополнительной информации обратитесь к руководству [Быстрый старт](/base-account/quickstart/web).
 
-If you're using a third party library, you can follow the [Wagmi](/base-account/framework-integrations/wagmi/setup), [Dynamic](/base-account/framework-integrations/nextjs-with-dynamic) or [Privy](/base-account/framework-integrations/privy/setup) guides.
+Если вы используете стороннюю библиотеку, вы можете следовать руководствам по интеграции с [Wagmi](/base-account/framework-integrations/wagmi/setup), [Dynamic](/base-account/framework-integrations/nextjs-with-dynamic) или [Privy](/base-account/framework-integrations/privy/setup).
 
-We will have a more complete migration guide in the near future.
+В ближайшем будущем мы представим более полное руководство по миграции.
 
 
