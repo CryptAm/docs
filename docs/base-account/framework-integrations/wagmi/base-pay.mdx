@@ -1,28 +1,28 @@
 ---
 title: "Base Pay"
-description: "Accept USDC payments with Base Pay in your Wagmi-powered React application"
+description: "Принимайте платежи в USDC с помощью Base Pay в вашем React-приложении на Wagmi"
 ---
 
-Base Pay works the same way in Wagmi applications as it does anywhere else - it operates independently of wallet connections and uses the Base Account SDK directly.
+Base Pay работает в приложениях на Wagmi точно так же, как и везде - он функционирует независимо от подключений кошелька и использует Base Account SDK напрямую.
 
-## Implementation
+## Реализация
 
-Base Pay doesn't require any special Wagmi integration. Simply follow the [Accept Payments guide](/base-account/guides/accept-payments) - all the code examples work exactly the same in your Wagmi app.
+Для Base Pay не требуется какая-либо специальная интеграция с Wagmi. Просто следуйте [руководству по приему платежей (Accept Payments)](/base-account/guides/accept-payments) - все примеры кода работают точно так же и в вашем приложении на Wagmi.
 
-The key points:
+Ключевые моменты:
 
-- **No wallet connection needed** - Base Pay handles everything through the SDK
-- **Same API** - Use `pay()` and `getPaymentStatus()` exactly as shown in the main guide
-- **Works alongside Wagmi** - You can display the user's connected address from `useAccount()` but it's not required for payments
+- **Не требуется подключение кошелька** - Base Pay обрабатывает все через SDK
+- **Тот же API** - Используйте `pay()` и `getPaymentStatus()` точно так, как показано в основном руководстве
+- **Работает совместно с Wagmi** - Вы можете отображать подключенный адрес пользователя из `useAccount()`, но это не обязательно для платежей
 
-## Quick Example
+## Краткий пример
 
 ```tsx
 import { pay } from '@base-org/account'
-import { useAccount } from 'wagmi' // Optional - just for display
+import { useAccount } from 'wagmi' // Опционально - только для отображения
 
 export function CheckoutButton() {
-  const { address } = useAccount() // Optional
+  const { address } = useAccount() // Опционально
 
   const handlePayment = async () => {
     try {
@@ -49,12 +49,12 @@ export function CheckoutButton() {
 ```
 
 <Warning>
-**Please Follow the Brand Guidelines** 
+**Пожалуйста, следуйте руководству по бренду** 
 
-If you intend on using the `BasePayButton`, please follow the [Brand Guidelines](/base-account/reference/ui-elements/brand-guidelines) to ensure consistency across your application.
+Если вы планируете использовать BasePayButton, пожалуйста, следуйте [руководству по бренду](/base-account/reference/ui-elements/brand-guidelines) чтобы обеспечить единообразие в вашем приложении.
 
 </Warning>
 
-## Learn More
+## Узнать больше
 
-For complete implementation details, examples, and advanced features like collecting user information, see the main [Accept Payments guide](/base-account/guides/accept-payments).
+Полные детали реализации, примеры и расширенные функции, такие как сбор информации о пользователе, смотрите в основном [руководстве по приему платежей (Accept Payments)](/base-account/guides/accept-payments).
