@@ -1,37 +1,37 @@
 ---
-title: "Setup"
-description: "Configure Privy with Base Account for your React application"
+title: "Настройка"
+description: "Настройте Privy с Base Account для вашего React-приложения"
 ---
 
 import { GithubRepoCard } from "/snippets/GithubRepoCard.mdx";
 
-Learn how to set up Privy with Base Account to enable seamless user authentication and wallet management.
+Узнайте, как настроить Privy с Base Account для включения бесшовной аутентификации пользователей и управления кошельками.
 
-## Overview
+## Обзор
 
-[Privy](https://www.privy.io/) provides user authentication and wallet management solutions for onchain applications.
-By integrating Privy with Base Account,
-you can access all the Privy hooks and methods
-while having access to the users of Base Account.
+[Privy](https://www.privy.io/) предоставляет решения для аутентификации пользователей и управления кошельками в ончейн-приложениях. 
+Интегрируя Privy с Base Account, вы 
+получаете доступ ко всем хукам и методам Privy, 
+а также к пользователям Base Account.
 
-### What you'll achieve
+### Что вы получите
 
-By the end of this guide, you will:
+К концу этого руководства вы:
 
-- Set up Privy with Base Account support
-- Have Base Account set up as the main authentication option
-- Be able to access Base Account SDK from Privy's React SDK
+- Настроите Privy с поддержкой Base Account
+- Установите Base Account как основной вариант аутентификации
+- Сможете получить доступ к Base Account SDK из React SDK Privy
 
-You can jump ahead and use the [Base Account Privy Template](https://github.com/base/base-account-privy) to get started.
+Вы можете сразу перейти к использованию [шаблону Base Account Privy](https://github.com/base/base-account-privy) чтобы начать работу.
 
 <GithubRepoCard
-  title="Base Account Privy Template"
+  title="Шаблон Base Account Privy"
   githubUrl="https://github.com/base/base-account-privy"
 />
 
-## Installation
+## Установка
 
-### 1. Create a new Next.js project
+### 1. Создайте новый проект Next.js
 <CodeGroup>
 ```bash npm
 npx create-next-app@latest base-account-privy
@@ -44,71 +44,71 @@ cd base-account-privy
 ```
 </CodeGroup>
 
-### 2. Override the Base Account SDK version
+### 2. Переопределите версию Base Account SDK
 
-In order to access the latest version of the Base Account SDK, you need to override the Privy pinned version in your package.json file.
+Чтобы получить доступ к последней версии Base Account SDK, вам нужно переопределить версию, зафиксированную Privy, в вашем файле package.json.
 
-To do this, you can use the following command to override it:
+Для этого вы можете использовать следующую команду:
 
 <CodeGroup>
 ```bash npm
 npm pkg set overrides.@base-org/account="latest"
-# OR manually add to package.json:
+# ИЛИ добавьте вручную в package.json:
 # "overrides": { "@base-org/account": "latest" }
 ```
 
 ```bash pnpm
-# pnpm requires manual addition to package.json:
+# pnpm требует ручного добавления в package.json:
 # "pnpm": { "overrides": { "@base-org/account": "latest" } }
 ```
 
 ```bash yarn
-# yarn uses resolutions - add manually to package.json:
+# yarn использует resolutions - добавьте вручную в package.json:
 # "resolutions": { "@base-org/account": "latest" }
 ```
 
 ```bash bun
-# bun supports overrides - add manually to package.json:
+# bun поддерживает overrides - добавьте вручную в package.json:
 # "overrides": { "@base-org/account": "latest" }
 ```
 
 </CodeGroup>
 
-Or you can use a specific version by adding the version to the overrides:
+Или вы можете использовать конкретную версию, добавив ее в `overrides`:
 
 <CodeGroup>
 ```bash npm
 npm pkg set overrides.@base-org/account="2.2.0"
-# OR manually add to package.json:
+# ИЛИ добавьте вручную в package.json:
 # "overrides": { "@base-org/account": "2.2.0" }
 ```
 
 ```bash pnpm
-# pnpm requires manual addition to package.json:
+# pnpm требует ручного добавления в package.json:
 # "pnpm": { "overrides": { "@base-org/account": "2.2.0" } }
 ```
 
 ```bash yarn
-# yarn uses resolutions - add manually to package.json:
+# yarn использует resolutions - добавьте вручную в package.json:
 # "resolutions": { "@base-org/account": "2.2.0" }
 ```
 
 ```bash bun
-# bun supports overrides - add manually to package.json:
+# bun поддерживает overrides - добавьте вручную в package.json:
 # "overrides": { "@base-org/account": "2.2.0" }
 ```
 
 </CodeGroup>
 
 <Tip>
-**If you're not starting a new projects**
+**Если вы не начинаете новый проект**
 
-Make sure to delete your `node_modules` and `package-lock.json` and run a new install to ensure the overrides are applied.
+Убедитесь, что удалили папку `node_modules` и файл `package-lock.json`, а затем выполните новую установку, чтобы переопределения применились.
 </Tip>
 
-### 3. Install the dependencies
+### 3. Установите зависимости
 
-Install the dependencies with your package manager of choice:
+Установите зависимости с помощью вашего предпочтительного менеджера пакетов:
 
 <CodeGroup>
 ```bash npm
@@ -129,21 +129,21 @@ bun add @privy-io/react-auth @privy-io/chains @privy-io/wagmi-connector wagmi vi
 
 </CodeGroup>
 
-## Configuration
+## Конфигурация
 
-### 1. Set up Environment Variables
+### 1. Настройте переменные окружения
 
-Create a `.env.local` file in your project root:
+Создайте файл `.env.local` в корне вашего проекта:
 
 ```bash
 NEXT_PUBLIC_PRIVY_APP_ID=your_privy_app_id
 ```
 
-Get your Privy App ID from the [Privy Dashboard](https://dashboard.privy.io/).
+Получите ваш Privy App ID в [панеле управлений Privy](https://dashboard.privy.io/).
 
-### 2. Configure Privy Provider
+### 2. Настройте провайдер Privy
 
-Create your Privy configuration with Base Account as the default login method and update the layout to include the `PrivyProvider`.
+Создайте конфигурацию Privy с Base Account в качестве метода входа по умолчанию и обновите layout, чтобы включить `PrivyProvider`.
 
 <CodeGroup>
 ```tsx Create Provider (app/providers.tsx) expandable
@@ -208,11 +208,11 @@ export default function RootLayout({
 ```
 </CodeGroup>
 
-## Usage
+## Использование
 
-### 1. Update the App Page
+### 1. Обновите главную страницу приложения
 
-Update the `app/page.tsx` file to show the authentication flow:
+Обновите файл `app/page.tsx`, чтобы показать процесс аутентификации:
 
 ```tsx app/page.tsx expandable
 "use client";
@@ -282,9 +282,9 @@ function Home() {
 export default Home;
 ```
 
-### 2. Run the project locally
+### 2. Запустите проект локально
 
-You're done! You can now run the project locally:
+Готово! Теперь вы можете запустить проект локально:
 
 <CodeGroup>
 ```bash npm
@@ -301,15 +301,15 @@ bun dev
 ```
 </CodeGroup>
 
-You should see a page that looks like this:
+Вы должны увидеть страницу, которая выглядит следующим образом:
 
 <div style={{ display: 'flex', justifyContent: 'center'}}>
   <img src="/images/base-account/Privy-Base-Account.png" alt="Base × Privy Demo" style={{ width: '600px', height: 'auto' }} />
 </div>
 
-### 3. Get the Base Account SDK instance (Optional)
+### 3. Получите экземпляр Base Account SDK (Опционально)
 
-You can access the Base Account SDK from Privy using the `useBaseAccount` hook.
+Вы можете получить доступ к Base Account SDK из Privy с помощью хука `useBaseAccountSdk`.
 
 ```tsx Get the SDK instance
 import { useBaseAccountSdk } from '@privy-io/react-auth';
