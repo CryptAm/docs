@@ -1,35 +1,35 @@
 ---
-title: "Sign and Verify Typed Data"
-description: "EIP-712 structured data signing and verification for Base Account"
+title: "Подпись и проверка типизированных данных"
+description: "Подпись и проверка структурированных данных EIP-712 для Base Account"
 ---
 
-## Overview
+## Обзор
 
-Base Account uses [Smart Wallet contracts](https://github.com/coinbase/smart-wallet) under the hood. Smart contract wallets introduce a few differences in how messages are signed compared to traditional Externally Owned Accounts (EOAs). This guide explains how to properly implement message signing using Base Account, covering both standard messages and typed data signatures, as well as some edge cases.
+Base Account использует [контракты смарт-кошельков](https://github.com/coinbase/smart-wallet). Смарт-контрактные кошельки имеют некоторые отличия в том, как подписываются сообщения, по сравнению с традиционными аккаунтами, контролируемыми извне (Externally Owned Accounts, EOA). В этом руководстве объясняется, как правильно реализовать подпись сообщений с помощью Base Account, рассматривая как стандартные сообщения, так и подписи типизированных данных, а также некоторые частные случаи.
 
-## Introduction
+## Введение
 
-Before walking through the details of how to sign and verify messages using Base Account, it's important to understand some of the use cases of signing messages with wallets, as well as the key differences between EOAs and smart contracts when it comes to signing messages.
+Прежде чем углубляться в детали того, как подписывать и проверять сообщения с помощью Base Account, важно понять некоторые сценарии использования подписей кошелька, а также ключевые различия между EOA и смарт-контрактами в части подписи сообщений.
 
-### Use Cases for Wallet Signatures
+### Сценарии использования подписей кошелька
 
-Blockchain-based apps use wallet signatures for two main categories:
+Приложения на основе блокчейна используют подписи кошелька для двух основных целей:
 
-1. **Signatures for offchain verification**: Used for authenticating users in onchain apps (e.g., Sign-In with Ethereum) to avoid spoofing. The signature is not used for any onchain action.
+1. **Подписи для оффчейн-верификации**: Используются для аутентификации пользователей в ончейн-приложениях (например, Sign-In with Ethereum), чтобы предотвратить спуфинг (подмену). Подпись не используется для каких-либо действий в блокчейне.
 
-2. **Signatures for onchain verification**: Used for signing onchain permissions (e.g., [Permit2](https://github.com/Uniswap/permit2)) or batching transactions. The signature is usually stored for future transactions.
+2. **Подписи для ончейн-верификации**:Используются для подписи разрешений в блокчейне (например, [Permit2](https://github.com/Uniswap/permit2)) или пакетной обработки транзакций. Подпись обычно хранится для будущих транзакций.
 
-### Smart Contract Wallet Differences
+### Отличия смарт-контрактных кошельков
 
-Smart contract wallets handle signatures differently from EOAs in several ways:
+Смарт-контрактные кошельки обрабатывают подписи иначе, чем EOA, несколькими способами:
 
-- The contract itself doesn't produce signatures - instead, the owner (e.g., passkey) signs messages
-- Verification happens through the `isValidSignature` function defined in [EIP-1271](https://eips.ethereum.org/EIPS/eip-1271)
-- Smart contract wallet addresses are often deterministic, allowing signature support before deployment via [ERC-6492](https://eips.ethereum.org/EIPS/eip-6492)
+- Сам контракт не создает подписи - вместо этого сообщения подписывает владелец (например, passkey).
+- Проверка происходит через функцию `isValidSignature`, определенную в [EIP-1271](https://eips.ethereum.org/EIPS/eip-1271)
+- Адреса смарт-контрактных кошельков часто детерминированы, что позволяет поддерживать подписи еще до развертывания кошелька через [ERC-6492](https://eips.ethereum.org/EIPS/eip-6492)
 
-## High-level flow
+## Общая схема процесса
 
-In this guide, we'll walk through the high-level flow of signing and verifying messages using Base Account.
+В этом руководстве мы рассмотрим общую схему подписи и проверки сообщений с помощью Base Account.
 
 ```mermaid
 sequenceDiagram
@@ -39,35 +39,35 @@ sequenceDiagram
     participant SDK
     participant Account
 
-    User->>Browser: Trigger signing action
+    User->>Browser: Инициирует действие подписи
     Browser->>AppServer: GET /typed-data/prepare
-    AppServer-->>Browser: EIP-712 payload
+    AppServer-->>Browser: Полезная нагрузка EIP-712
 
     Browser->>SDK: eth_signTypedData_v4
     SDK->>Account: eth_signTypedData_v4(payload)
-    User->>Account: Review and approve signature
-    Account-->>SDK: signature
-    SDK-->>Browser: signature
+    User->>Account: Проверяет и подтверждает подпись
+    Account-->>SDK: подпись
+    SDK-->>Browser: подпись
 
     Browser-->>AppServer: POST /typed-data/verify {payload, signature}
-    AppServer-->>Browser: verification result
+    AppServer-->>Browser: результат проверки
 ```
 
-## Implementation
+## Реализация
 
-For the purposes of this guide, we'll use a simple example of a typed data payload that contains a permission
-to spend user's funds (see [Spend Permissions](/base-account/improve-ux/spend-permissions))
+Для целей этого руководства мы используем простой пример полезной нагрузки типизированных данных, 
+содержащей разрешение на трату средств пользователя (см. [Spend Permissions](/base-account/improve-ux/spend-permissions))
 
-### Code Snippets
+### Примеры кода
 
 <CodeGroup>
 ```ts Browser (SDK)
 import { createBaseAccountSDK } from "@base-org/account";
 
-// Initialize the SDK
+// Инициализируем SDK
 const provider = createBaseAccountSDK().getProvider();
 
-// 1 — Prepare the typed data payload
+// 1 — Подготавливаем полезную нагрузку типизированных данных
 const typedData = {
   domain: {
     name: 'Spend Permission Manager',
@@ -92,7 +92,7 @@ const typedData = {
   message: spendPermissionData,
 };
 
-// 2 — Request signature from user
+// 2 — Запрашиваем подпись у пользователя
 try {
   const accounts = await provider.request({
     method: 'eth_requestAccounts'
@@ -103,7 +103,7 @@ try {
     params: [accounts[0], JSON.stringify(typedData)]
   });
 
-  // 3 — Send to backend for verification
+  // 3 — Отправляем на бэкенд для проверки
   const response = await fetch('/typed-data/verify', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -134,7 +134,7 @@ export async function verifyTypedData(req, res) {
   const { typedData, signature, address } = req.body;
   
   try {
-    // Verify the typed data signature
+    // Проверяем подпись типизированных данных
     const valid = await client.verifyTypedData({
       address,
       domain: typedData.domain,
@@ -148,14 +148,14 @@ export async function verifyTypedData(req, res) {
       return res.status(401).json({ error: 'Invalid signature' });
     }
 
-    // Additional validation logic here
+    // Дополнительная логика проверки здесь
     // e.g., check expiry, nonce, permissions, etc.
     const now = Math.floor(Date.now() / 1000);
     if (typedData.message.expiry < now) {
       return res.status(401).json({ error: 'Signature expired' });
     }
 
-    // Process the verified typed data
+    // Обрабатываем проверенные типизированные данные
     res.json({ 
       valid: true, 
       message: 'Signature verified successfully',
@@ -169,7 +169,7 @@ export async function verifyTypedData(req, res) {
 ```
 </CodeGroup>
 
-## Example Express Server
+## Пример сервера на Express
 
 ```ts title="server/typed-data.ts"
 import express from 'express';
@@ -184,17 +184,17 @@ const client = createPublicClient({
   transport: http() 
 });
 
-// Simple nonce store (use Redis/DB in production)
+// Простое хранилище nonce (используйте Redis/БД в продакшене)
 const usedNonces = new Set<string>();
 
 app.get('/typed-data/prepare', (req, res) => {
   const { userAddress, action, resource } = req.query;
   
   const nonce = Math.floor(Math.random() * 1000000);
-  const expiry = Math.floor(Date.now() / 1000) + 3600; // 1 hour
+  const expiry = Math.floor(Date.now() / 1000) + 3600; // 1 час
   
   const typedData = {
-    // YOUR TYPED DATA HERE
+    // ВАШИ ТИПИЗИРОВАННЫЕ ДАННЫЕ ЗДЕСЬ
   }
   
   res.json(typedData);
@@ -204,19 +204,19 @@ app.post('/typed-data/verify', async (req, res) => {
   const { typedData, signature, address } = req.body;
   
   try {
-    // 1. Check nonce hasn't been reused
+    // 1. Проверяем, что nonce не использовался повторно
     const nonceKey = `${address}-${typedData.message.nonce}`;
     if (usedNonces.has(nonceKey)) {
       return res.status(400).json({ error: 'Nonce already used' });
     }
     
-    // 2. Check expiry
+    // 2. Проверяем срок действия
     const now = Math.floor(Date.now() / 1000);
     if (typedData.message.expiry < now) {
       return res.status(400).json({ error: 'Signature expired' });
     }
     
-    // 3. Verify signature
+    // 3. Проверяем подпись
     const valid = await client.verifyTypedData({
       address,
       domain: typedData.domain,
@@ -230,10 +230,10 @@ app.post('/typed-data/verify', async (req, res) => {
       return res.status(401).json({ error: 'Invalid signature' });
     }
     
-    // 4. Mark nonce as used
+    // 4. Помечаем nonce как использованный
     usedNonces.add(nonceKey);
     
-    // 5. Process the verified action
+    // 5. Обрабатываем проверенное действие
     res.json({ 
       valid: true,
       message: 'Typed data verified successfully',
@@ -249,34 +249,34 @@ app.post('/typed-data/verify', async (req, res) => {
 app.listen(3001, () => console.log('Typed data server listening on :3001'));
 ```
 
-## Best Practices
+## Рекомендуемые практики
 
-### Domain Separation
-Always use unique domain parameters to prevent signature replay across different applications:
+### Разделение доменов
+Всегда используйте уникальные параметры домена, чтобы предотвратить повторное использование подписи в разных приложениях:
 
 ```tsx
 const domain = {
-  name: 'Your App Name',           // Unique app identifier
-  version: '1',                    // Version your types
-  chainId: 8453,                   // Network-specific
-  verifyingContract: contractAddr   // Contract that will verify
+  name: 'Your App Name',           // Уникальный идентификатор приложения
+  version: '1',                    // Версионируйте ваши типы данных
+  chainId: 8453,                   // Определено для конкретной сети
+  verifyingContract: contractAddr   // Контракт, который будет выполнять проверку
 };
 ```
 
-### Nonce Management
-Include nonces to prevent replay attacks:
+### Управление nonce
+Включайте nonce, чтобы предотвратить атаки повторного использования:
 
 ```tsx
-// Generate unique nonces
+// Генерируем уникальные nonce
 const nonce = crypto.randomBytes(16).toString('hex');
 
-// Store and validate nonces server-side
+// Храните и проверяйте nonce на стороне сервера
 const usedNonces = new Set(); // Use Redis/DB in production
 ```
 
-### Expiry Times
-Always include expiry timestamps for time-bound signatures:
+### Сроки действия
+Всегда включайте метки времени истечения срока действия для ограниченных по времени подписей:
 
 ```tsx
-const expiry = Math.floor(Date.now() / 1000) + 3600; // 1 hour
+const expiry = Math.floor(Date.now() / 1000) + 3600; // 1 час
 ```
