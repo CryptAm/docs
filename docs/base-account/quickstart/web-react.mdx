@@ -205,37 +205,37 @@ export default function Home() {
 ```
 
 <Note>
-**Note:**
+**Примечание:**
 
-Make sure to replace `0xRecipientAddress` with your recipient address.
+Убедитесь, что заменили `0xRecipientAddress` на адрес вашего получателя.
 </Note>
 
 <Tip>
-**Base Pay and SIWB are independent**
+**Base Pay и SIWB работают независимо**
 
-You DO NOT need to use SIWB to use Base Pay. You can just call the `pay()` function without any additional setup.
+Вам НЕ нужно использовать Sign in with Base (SIWB) для работы с Base Pay. Вы можете просто вызвать функцию `pay()` без какой-либо дополнительной настройки.
 </Tip>
 
-## 4. Start your app
+## 4. Запустите ваше приложение
 
 ```bash
 npm run dev
 ```
 
-Open http://localhost:3000, click **Sign in with Base** (optional) and then **Pay**, approve the transaction, and you've sent 5 USDC on Base Sepolia—done! 🎉
+Откройте http://localhost:3000, нажмите **Sign in with Base** (опционально) а затем **Pay**, подтвердите транзакцию, и вы отправили 5 USDC в сети Base Sepolia — готово! 🎉
 
-**Note:** If you have an existing Next.js app, just install the SDK (`npm install @base-org/account @base-org/account-ui`) and add the component above to your project. For other React frameworks, you can adapt this component as needed.
+**Примечание:** Если у вас уже есть приложение на Next.js, просто установите SDK (`npm install @base-org/account @base-org/account-ui`) и добавьте приведенный выше компонент в ваш проект. Для других React-фреймворков вы можете адаптировать этот компонент по необходимости.
 
-## Next steps
+## Следующие шаги
 
-* **[Authenticate Users](/base-account/guides/authenticate-users)** - strong authentication by setting up Sign in with Base with backend verification
-* **[Accept Payments](/base-account/guides/accept-payments)** explore all the features of Base Pay
-* **[Sign in with Base Button](/base-account/reference/ui-elements/sign-in-with-base-button)** – use the Sign in with Base Button component to quickly add authentication to your app
-* **[Base Pay Button](/base-account/reference/ui-elements/base-pay-button)** – use the Base Pay Button component to quickly add payments to your app
+* **[Аутентификация пользователей](/base-account/guides/authenticate-users)** - настройка надежной аутентификации с помощью Sign in with Base и проверкой на стороне сервера
+* **[Прием платежей](/base-account/guides/accept-payments)** изучите все возможности Base Pay
+* **[Кнопка Sign in with Base](/base-account/reference/ui-elements/sign-in-with-base-button)** – используйте компонент кнопки для быстрого добавления аутентификации в ваше приложение
+* **[Кнопка Base Pay](/base-account/reference/ui-elements/base-pay-button)** – используйте компонент кнопки для быстрого добавления платежей в ваше приложение
 
 <Warning>
-**Please Follow the Brand Guidelines** 
+**Пожалуйста, следуйте руководству по бренду** 
 
-If you intend on using the `SignInWithBaseButton` or `BasePayButton`, please follow the [Brand Guidelines](/base-account/reference/ui-elements/brand-guidelines) to ensure consistency across your application.
+Если вы планируете использовать SignInWithBaseButton или BasePayButton, пожалуйста, следуйте [руководству по бренду](/base-account/reference/ui-elements/brand-guidelines) чтобы обеспечить единообразие в вашем приложении.
 
 </Warning>
