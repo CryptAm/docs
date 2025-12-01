@@ -1,23 +1,23 @@
 ---
-title: "Using Sub Accounts"
-description: "Implement Base Account Sub Accounts using Wagmi"
+title: "Использование субаккаунтов"
+description: "Реализуйте субаккаунты Base Account с помощью Wagmi"
 ---
 
-Learn how to create and manage Sub Accounts using Wagmi hooks and Base Account provider methods.
+Узнайте, как создавать субаккаунты и управлять ими с помощью хуков Wagmi и методов провайдера Base Account.
 
-## Prerequisites
+## Предварительные требования
 
-Make sure you have:
-- [Set up Wagmi with Base Account](/base-account/framework-integrations/wagmi/setup)
-- [Implemented Sign in with Base](/base-account/framework-integrations/wagmi/sign-in-with-base)
+Убедитесь, что вы:
+- [Настроили Wagmi с Base Account](/base-account/framework-integrations/wagmi/setup)
+- [Реализовали Sign in with Base](/base-account/framework-integrations/wagmi/sign-in-with-base)
 
-## Overview
+## Обзор
 
-Sub Accounts allow you to create child accounts that can spend from the parent account's balance using [Spend Permissions](/base-account/improve-ux/spend-permissions). This reduces the need for frequent user signatures and improves the user experience.
+Субаккаунты позволяют создавать дочерние аккаунты, которые могут тратить средства с баланса родительского аккаунта, используя [Разрешения на траты (Spend Permissions)](/base-account/improve-ux/spend-permissions). Это снижает потребность в частых подписях пользователя и улучшает пользовательский опыт.
 
-## Creating Sub Accounts
+## Создание субаккаунтов
 
-Use the Base Account provider to create Sub Accounts:
+Используйте провайдер Base Account для создания субаккаунтов:
 
 ```tsx
 import { useAccount, useConnector } from 'wagmi'
@@ -36,7 +36,7 @@ export function CreateSubAccount() {
     try {
       const provider = connector.provider
       
-      // Create a new Sub Account
+      // Создаем новый субаккаунт
       const result = await provider?.request({
         method: 'wallet_addSubAccount',
         params: [{
@@ -81,9 +81,9 @@ export function CreateSubAccount() {
 }
 ```
 
-## Listing Sub Accounts
+## Получение списка субаккаунтов
 
-Retrieve existing Sub Accounts for the connected wallet:
+Получите существующие субаккаунты для подключенного кошелька:
 
 ```tsx
 import { useAccount, useConnector } from 'wagmi'
@@ -162,9 +162,9 @@ export function SubAccountsList() {
 }
 ```
 
-## Using Sub Accounts for Transactions
+## Использование субаккаунтов для транзакций
 
-Once you have Sub Accounts, you can use them to perform transactions:
+Получив субаккаунты, вы можете использовать их для выполнения транзакций:
 
 ```tsx
 import { useAccount, useConnector, useWriteContract } from 'wagmi'
@@ -183,13 +183,13 @@ export function SubAccountTransactions() {
     try {
       const provider = connector.provider
       
-      // Send transaction using Sub Account
+      // Отправляем транзакцию с использованием субаккаунта
       const result = await provider?.request({
         method: 'wallet_sendCalls',
         params: [{
           version: '1.0',
           chainId: `0x${Number(8453).toString(16)}`,
-          from: selectedSubAccount, // Use Sub Account as sender
+          from: selectedSubAccount, //Используем субаккаунт как отправителя
           calls: [{
             to: '0x...' as `0x${string}`,
             value: '0x0',
@@ -233,9 +233,9 @@ export function SubAccountTransactions() {
 }
 ```
 
-## Complete Example
+## Полный пример
 
-Here's a complete component that combines all Sub Account functionality:
+Вот полный компонент, объединяющий всю функциональность работы с субаккаунтами:
 
 ```tsx
 import { useAccount, useConnector } from 'wagmi'
@@ -289,7 +289,7 @@ export function SubAccountManager() {
       })
 
       if (result?.subAccount) {
-        // Refresh the list
+        // Обновляем список
         await fetchSubAccounts()
       }
     } catch (error) {
@@ -359,8 +359,8 @@ export function SubAccountManager() {
 }
 ```
 
-## Learn More
+## Узнать больше
 
-- [Sub Accounts overview](/base-account/improve-ux/sub-accounts)
-- [Spend Permissions](/base-account/improve-ux/spend-permissions)
-- [Base Account RPC methods](/base-account/reference/core/provider-rpc-methods/wallet_addSubAccount)
+- [Обзор субаккаунтов](/base-account/improve-ux/sub-accounts)
+- [Разрешения на траты](/base-account/improve-ux/spend-permissions)
+- [RPC-методы Base Account](/base-account/reference/core/provider-rpc-methods/wallet_addSubAccount)
