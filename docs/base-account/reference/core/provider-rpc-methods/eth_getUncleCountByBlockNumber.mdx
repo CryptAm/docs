@@ -1,24 +1,24 @@
 ---
 title: "eth_getUncleCountByBlockNumber"
-description: "Get the number of uncles in a block by block number"
+description: "Получить количество дядей в блоке по номеру блока"
 ---
 
-Defined in the [Ethereum JSON-RPC Specification](https://ethereum.org/en/developers/docs/apis/json-rpc/)
+Определено в [Спецификации Ethereum JSON-RPC](https://ethereum.org/en/developers/docs/apis/json-rpc/)
 
 <Info>
-Returns the number of uncles in a block by block number.
+Возвращает количество дядей в блоке по его номеру.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="blockParameter" type="string" required>
-Integer block number, or the string "latest", "earliest" or "pending".
+Номер блока в виде целого числа или строки "latest", "earliest" или "pending".
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="string">
-The number of uncles in this block as a hexadecimal string.
+Количество дядей в этом блоке в виде шестнадцатеричной строки (hex).
 </ResponseField>
 
 <RequestExample>
@@ -63,15 +63,15 @@ The number of uncles in this block as a hexadecimal string.
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code   | Message                        | Description |
+| Код    | Сообщение                      | Описание    |
 | ------ | ------------------------------ | ----------- |
-| -32602 | Invalid block parameter        | The provided block parameter is invalid |
-| 4100   | Requested method not supported | The method is not supported by the wallet |
+| -32602 | Invalid block parameter        | Указан некорректный параметр блока |
+| 4100   | Requested method not supported | Метод не поддерживается кошельком |
 
 <Info>
-Uncle blocks are blocks that were mined but not included in the main blockchain. This method returns their count for a specific block number.
+Uncle-блоки - это блоки, которые были добыты, но не включены в основную цепочку блоков. Этот метод возвращает их количество для конкретного номера блока.
 </Info>
 
 ```
