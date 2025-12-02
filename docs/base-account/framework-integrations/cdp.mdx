@@ -1,50 +1,50 @@
 ---
 title: "Coinbase Developer Platform"
-description: "Build onchain apps supporting both Base Account and CDP Embedded Wallets"
+description: "Создавайте ончейн-приложения с поддержкой Base Account и встроенных кошельков CDP"
 ---
 
-# Integrate Base Account with CDP Embedded Wallets
+# Интеграция Base Account с встроенными кошельками CDP
 
-Learn how to build an onchain app that seamlessly supports both **existing Base Account users** and **new users** through CDP Embedded Wallets, providing unified authentication and wallet management.
+Узнайте, как создать ончейн-приложение, которое бесшовно поддерживает как **существующих пользователей Base Account**, так и **новых пользователей** через встроенные кошельки CDP, предоставляя единую аутентификацию и управление кошельками.
 
-## Overview
+## Обзор
 
-This integration enables your app to serve two distinct user types:
-- **Existing Base users**: Connect with their Base Account for a familiar experience
-- **New onchain users**: Create CDP Embedded Wallets via email, mobile, or social authentication
+Эта интеграция позволяет вашему приложению обслуживать два различных типа пользователей:
+- **Существующие пользователи Base**: Подключаются со своим Base Account для привычного опыта
+- **Новые ончейн-пользователи**: Создают встроенные кошельки CDP через email, мобильную или социальную аутентификацию
 
-Both user types get the same app functionality while using their preferred wallet type.
+Оба типа пользователей получают одинаковую функциональность приложения, используя предпочитаемый тип кошелька.
 
-## What you'll build
+## Что вы создадите
 
-- **Unified authentication flow**: Single sign-in supporting both wallet types
-- **Automatic wallet detection**: Smart routing based on user's existing wallet status  
-- **Consistent user experience**: Both wallet types access the same app features
+- **Единый процесс аутентификации**: Единый вход, поддерживающий оба типа кошельков
+- **Автоматическое определение кошелька**: Умная маршрутизация на основе существующего статуса кошелька пользователя 
+- **Последовательный пользовательский опыт**: Оба типа кошельков получают доступ к одинаковым функциям приложения
 
-## Prerequisites
+## Предварительные требования
 
-- Node.js 18+ installed
-- React application (Next.js recommended)
-- [CDP Portal account](https://portal.cdp.coinbase.com/) with Project ID
-- Basic familiarity with Wagmi and React hooks
+- Установленный Node.js 18+
+- React-приложение (рекомендуется Next.js)
+- [Аккаунт CDP Portal](https://portal.cdp.coinbase.com/) с Project ID
+- Базовое знакомство с Wagmi и React-хуками
 
-## Installation
+## Установка
 
-Install the required packages for both CDP Embedded Wallets and Base Account support:
+Установите необходимые пакеты для поддержки как встроенных кошельков CDP, так и Base Account:
 
 ```bash
 npm install @coinbase/cdp-core @coinbase/cdp-hooks @base-org/account @tanstack/react-query viem wagmi
 ```
 
-## Step-by-step implementation
+## Пошаговая реализация
 
-Since native CDP + Base Account integration is under development, this guide uses a **dual connector approach** where both wallet types are supported through separate, coordinated connectors.
+Поскольку нативная интеграция CDP + Base Account находится в разработке, это руководство использует подход с двойными коннекторами, где оба типа кошельков поддерживаются через отдельные, но согласованные коннекторы.
 
-You can use the Base Account Wagmi connector alongside CDP's React provider system to create a unified experience that properly handles wallet persistence for both wallet types.
+Вы можете использовать коннектор Wagmi для Base Account вместе с системой провайдеров React от CDP, чтобы создать единый опыт, который правильно обрабатывает сохранение кошельков для обоих типов.
 
-### Step 1: Environment configuration
+### Шаг 1: Конфигурация окружения
 
-Create environment variables for your CDP project:
+Создайте переменные окружения для вашего проекта CDP:
 
 ```bash
 # .env.local
@@ -52,13 +52,13 @@ NEXT_PUBLIC_CDP_PROJECT_ID=your_cdp_project_id
 NEXT_PUBLIC_APP_NAME="Your App Name"
 ```
 
-Get your CDP Project ID from the [CDP Portal](https://portal.cdp.coinbase.com/).
+Получите ваш Project ID CDP в [CDP Portal](https://portal.cdp.coinbase.com/).
 
-⚠️ **Critical**: Without a valid `NEXT_PUBLIC_CDP_PROJECT_ID`, the app will fail to load with "Project ID is required" errors. Also configure your domain in CDP Portal → Wallets → Embedded Wallet settings for CORS.
+⚠️ **Критично**: Без действительного `NEXT_PUBLIC_CDP_PROJECT_ID` приложение не загрузится с ошибкой "Project ID is required". Также настройте ваш домен в CDP Portal → Wallets → Embedded Wallet settings для CORS.
 
-### Step 2: Configure Wagmi for Base Account support
+### Шаг 2: Настройка Wagmi для поддержки Base Account
 
-Set up Wagmi with the Base Account connector (embedded wallets will be handled separately via CDP React providers):
+Настройте Wagmi с коннектором Base Account (встроенные кошельки будут обрабатываться отдельно через провайдеры React от CDP):
 
 ```typescript
 // config/wagmi.ts
@@ -66,15 +66,15 @@ import { createConfig, http } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
 import { baseAccount } from 'wagmi/connectors';
 
-// Base Account connector
+// Коннектор Base Account
 const baseAccountConnector = baseAccount({
   appName: process.env.NEXT_PUBLIC_APP_NAME || 'Your App',
 });
 
-// Wagmi config (only for Base Account - embedded wallets handled by CDP React providers)
+// Конфигурация Wagmi (только для Base Account - встроенные кошельки обрабатываются провайдерами React от CDP)
 export const wagmiConfig = createConfig({
   connectors: [baseAccountConnector],
-  chains: [baseSepolia, base], // Put baseSepolia first for testing
+  chains: [baseSepolia, base], // Сначала baseSepolia для тестирования
   transports: {
     [base.id]: http(),
     [baseSepolia.id]: http(),
@@ -82,9 +82,9 @@ export const wagmiConfig = createConfig({
 });
 ```
 
-### Step 3: Set up application providers
+### Шаг 3: Настройка провайдеров приложения
 
-Wrap your application with the necessary providers. **Important**: Use `CDPHooksProvider` to properly manage embedded wallet authentication state:
+Оберните ваше приложение необходимыми провайдерами. Важно: Используйте `CDPHooksProvider` для корректного управления состоянием аутентификации встроенных кошельков:
 
 ```typescript
 // app/layout.tsx
@@ -122,9 +122,9 @@ export default function RootLayout({
 }
 ```
 
-### Step 4: Create unified authentication hook
+### Шаг 4: Создание универсального хука аутентификации
 
-Build a custom hook to manage both wallet types. Using `CDPHooksProvider` ensures users get their existing embedded wallets when they sign in again, rather than creating new ones each time.
+Создайте пользовательский хук для управления обоими типами кошельков. Использование `CDPHooksProvider` гарантирует, что пользователи получат свои существующие встроенные кошельки при повторном входе, а не создают новые каждый раз.
 
 
 ```typescript
@@ -136,12 +136,12 @@ import { useState, useEffect } from 'react';
 export type WalletType = 'base_account' | 'embedded' | 'none';
 
 export function useUnifiedAuth() {
-  // Wagmi hooks for Base Account
+  //  Wagmi хуки для Base Account
   const { address: wagmiAddress, isConnected: wagmiConnected, connector } = useAccount();
   const { connect, connectors } = useConnect();
   const { disconnect: wagmiDisconnect } = useDisconnect();
 
-  // CDP hooks for embedded wallet - these work with CDPHooksProvider
+  // CDP хуки для встроенного кошелька - работают с CDPHooksProvider
   const { signInWithEmail, isLoading: isSigningIn } = useSignInWithEmail();
   const { verifyEmailOTP, isLoading: isVerifying } = useVerifyEmailOTP();
   const { isSignedIn: cdpSignedIn } = useIsSignedIn();
@@ -151,7 +151,7 @@ export function useUnifiedAuth() {
   const [walletType, setWalletType] = useState<WalletType>('none');
   const [flowId, setFlowId] = useState<string>('');
 
-  // Determine which wallet is active and prioritize the active one
+  // Определяем, какой кошелек активен, и приоритезируем активный
   const address = wagmiConnected ? wagmiAddress : cdpAddress;
   const isConnected = wagmiConnected || cdpSignedIn;
 
@@ -176,7 +176,7 @@ export function useUnifiedAuth() {
     try {
       const response = await signInWithEmail({ email });
 
-      // Capture flowId for OTP verification
+      // Захватываем flowId для верификации OTP
       if (response && typeof response === 'object' && 'flowId' in response) {
         setFlowId(response.flowId as string);
       }
@@ -190,7 +190,7 @@ export function useUnifiedAuth() {
 
   const verifyOtpAndConnect = async (otp: string) => {
     try {
-      // With CDPReactProvider, verifyEmailOTP automatically signs the user in
+      // С CDPReactProvider verifyEmailOTP автоматически входит пользователя
       await verifyEmailOTP({ flowId, otp });
       return true;
     } catch (error) {
@@ -227,9 +227,9 @@ export function useUnifiedAuth() {
 }
 ```
 
-### Step 5: Build authentication component
+### Шаг 5: Создание компонента аутентификации
 
-Create a component that presents both authentication options:
+Создайте компонент, который представляет оба варианта аутентификации:
 
 ```typescript
 // components/WalletAuthButton.tsx
@@ -255,7 +255,7 @@ export function WalletAuthButton() {
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
 
-  // Connected state
+  // Состояние подключения
   if (isConnected && address) {
     const walletDisplay = {
       base_account: { name: 'Base Account', icon: '🟦' },
@@ -278,7 +278,7 @@ export function WalletAuthButton() {
     );
   }
 
-  // OTP verification
+  // Верификация OTP
   if (authStep === 'otp') {
     return (
       <div className="space-y-4 p-4 border rounded-lg">
@@ -316,7 +316,7 @@ export function WalletAuthButton() {
     );
   }
 
-  // Email input
+  // Ввод email
   if (authStep === 'email') {
     return (
       <div className="space-y-4 p-4 border rounded-lg">
@@ -353,7 +353,7 @@ export function WalletAuthButton() {
     );
   }
 
-  // Initial selection
+  // Начальный выбор
   return (
     <div className="space-y-3">
       <h2 className="text-xl font-bold text-center mb-4">Connect Your Wallet</h2>
@@ -388,9 +388,9 @@ export function WalletAuthButton() {
 }
 ```
 
-### Step 6: Handle transactions for each wallet type
+### Шаг 6: Обработка транзакций для каждого типа кошелька
 
-Create a transaction component that adapts to each wallet type:
+Создайте компонент транзакций, адаптированный для каждого типа кошелька:
 
 ```typescript
 // components/SendTransaction.tsx
@@ -423,7 +423,7 @@ export function SendTransaction() {
     }
   };
 
-  // Show different guidance based on wallet type
+  // Показываем различные инструкции в зависимости от типа кошелька
   const getTransactionGuidance = () => {
     switch (walletType) {
       case 'base_account':
@@ -539,9 +539,9 @@ export function SendTransaction() {
 }
 ```
 
-### Step 7: Complete your app
+### Шаг 7: Завершите ваше приложение
 
-Put everything together in your main application:
+Объедините все компоненты в вашем основном приложении:
 
 ```typescript
 // app/page.tsx
@@ -574,44 +574,44 @@ export default function HomePage() {
 }
 ```
 
-## Troubleshooting
+## Устранение неполадок
 
-### Common Issues
+### Распространенные проблемы
 
-**Base Account connector not appearing**
-- Verify the Base Account SDK, `@base-org/account`, is installed and up-to-date
-- Check wagmi configuration includes Base Account connector
-- Ensure app is running on Base or Base Sepolia network
+**Коннектор Base Account не появляется**
+- Убедитесь, что Base Account SDK, `@base-org/account`, установлен и обновлен
+- Проверьте, что конфигурация wagmi включает коннектор Base Account
+- Убедитесь, что приложение запущено в сети Base или Base Sepolia
 
-**CDP Embedded Wallet authentication failing**
-- Verify CDP Project ID is correct in environment variables
-- **Critical**: Add your domains (e.g., `http://localhost:3000`, `http://localhost:3001`) to CDP Portal → Wallets → Embedded Wallet settings → Allowed domains
-- Ensure all required CDP packages (see above) are installed
+**Сбой аутентификации встроенного кошелька CDP**
+- Убедитесь, что Project ID CDP указан правильно в переменных окружения
+- **Критично**: Добавьте ваши домены (например, `http://localhost:3000`, `http://localhost:3001`) в CDP Portal → Wallets → Embedded Wallet settings → Allowed domains
+- Убедитесь, что все необходимые пакеты CDP (см. выше) установлены
 
-**New wallet created each time instead of signing into existing wallet**
-- Ensure you're using `CDPHooksProvider` with proper config in your layout
-- Verify CDP Project ID is correctly configured
-- Check that hooks are imported from `@coinbase/cdp-hooks` consistently
+**Создается новый кошелек каждый раз вместо входа в существующий**
+- Убедитесь, что вы используете `CDPHooksProvider` с правильной конфигурацией в вашем layout
+- Проверьте, что CDP Project ID корректно настроен
+- Убедитесь, что хуки импортируются из `@coinbase/cdp-hooks` последовательно
 
-**Users can't switch between wallet types**
-- Implement proper disconnect flow before connecting different type
-- Clear any cached authentication state when switching
-- Provide clear UI guidance for wallet type selection
+**Пользователи не могут переключаться между типами кошельков**
+- Реализуйте правильный процесс отключения перед подключением другого типа
+- Очистите все кэшированные состояния аутентификации при переключении
+- Предоставьте четкие UI-инструкции для выбора типа кошелька
 
-## Enhanced integration coming soon
+## Улучшенная интеграция скоро появится
 
-We are actively working on native Base Account integration with CDP Embedded Wallets that will enable:
+Мы активно работаем над нативной интеграцией Base Account с встроенными кошельками CDP, которая позволит:
 
-- **Unified connector**: Single CDP connector to handle both wallet types seamlessly
-- **Spend permissions**: Sub Accounts will be able to access parent Base Account balance with limits
-- **Sub Account creation**: Base Account users will be able to create app-specific Sub Accounts
+- **Единый коннектор**: Единый коннектор CDP для бесшовной работы с обоими типами кошельков
+- **Разрешения на траты**: Субаккаунты смогут получать доступ к балансу родительского Base Account с ограничениями
+- **Создание субаккаунтов**: Пользователи Base Account смогут создавать субаккаунты, привязанные к конкретным приложениям
 
-## Resources
+## Ресурсы
 
-- [CDP Embedded Wallets Documentation](https://docs.cdp.coinbase.com/embedded-wallets/)
-- [CDP React Components Documentation](https://docs.cdp.coinbase.com/embedded-wallets/components)
-- [Base Account Wagmi Setup](/base-account/framework-integrations/wagmi/setup)
+- [Документация встроенных кошельков CDP](https://docs.cdp.coinbase.com/embedded-wallets/)
+- [Документация React-компонентов CDP](https://docs.cdp.coinbase.com/embedded-wallets/components)
+- [Настройка Wagmi для Base Account](/base-account/framework-integrations/wagmi/setup)
 - [CDP Portal](https://portal.cdp.coinbase.com/)
-- [Wagmi Documentation](https://wagmi.sh/)
+- [Документация Wagmi](https://wagmi.sh/)
 
-Monitor the [CDP documentation](https://docs.cdp.coinbase.com/) for updates on enhanced Embedded Wallet Base Account integration features.
+Следите за [документацией CDP](https://docs.cdp.coinbase.com/) для получения обновлений о расширенных функциях интеграции встроенных кошельков с Base Account.
