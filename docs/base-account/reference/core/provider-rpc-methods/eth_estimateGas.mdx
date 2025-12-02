@@ -1,50 +1,50 @@
 ---
 title: "eth_estimateGas"
-description: "Estimate gas needed for a transaction"
+description: "Оценка необходимого газа для транзакции"
 ---
 
-Defined in the [Ethereum JSON-RPC Specification](https://ethereum.org/en/developers/docs/apis/json-rpc/)
+Определено в [Ethereum JSON-RPC Specification](https://ethereum.org/en/developers/docs/apis/json-rpc/)
 
 <Info>
-Generates and returns an estimate of how much gas is necessary to allow the transaction to complete.
+Генерирует и возвращает оценку того, сколько газа необходимо для завершения транзакции.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="transaction" type="object" required>
-The transaction call object.
+Объект вызова транзакции.
 
-<Expandable title="Transaction object properties">
+<Expandable title="Свойства объекта Transaction">
 <ParamField body="from" type="string">
-The address the transaction is sent from (20 bytes).
+Адрес, с которого отправляется транзакция (20 байт)
 </ParamField>
 
 <ParamField body="to" type="string">
-The address the transaction is directed to (20 bytes).
+Адрес, на который направлена транзакция (20 байт).
 </ParamField>
 
 <ParamField body="gas" type="string">
-Integer of the gas provided for the transaction execution.
+Целое число газа, предоставленного для выполнения транзакции.
 </ParamField>
 
 <ParamField body="gasPrice" type="string">
-Integer of the gasPrice used for each paid gas.
+Целое число gasPrice, используемого за каждый оплаченный газ.
 </ParamField>
 
 <ParamField body="value" type="string">
-Integer of the value sent with this transaction.
+Целое число значения, отправленного с этой транзакцией.
 </ParamField>
 
 <ParamField body="data" type="string">
-Hash of the method signature and encoded parameters.
+Хеш сигнатуры метода и закодированных параметров.
 </ParamField>
 </Expandable>
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="string">
-The amount of gas used as a hexadecimal string.
+Количество использованного газа в виде шестнадцатеричной строки.
 </ResponseField>
 
 <RequestExample>
@@ -75,14 +75,14 @@ The amount of gas used as a hexadecimal string.
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code   | Message                        | Description |
+| Код    | Сообщение                       | Описание   |
 | ------ | ------------------------------ | ----------- |
-| -32602 | Invalid params                 | Invalid transaction parameters |
-| -32000 | Execution reverted             | Transaction would revert during execution |
-| 4100   | Requested method not supported | The method is not supported by the wallet |
+| -32602 | Invalid params                 | Неверные параметры транзакции |
+| -32000 | Execution reverted             | Транзакция отменится во время выполнения |
+| 4100   | Requested method not supported | Метод не поддерживается кошельком |
 
 <Info>
-The estimate may not be accurate if the blockchain state changes between the estimation and actual execution.
+Оценка может быть неточной, если состояние блокчейна изменится между оценкой и фактическим выполнением.
 </Info>
