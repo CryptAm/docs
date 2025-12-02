@@ -1,54 +1,54 @@
 ---
 title: "eth_sendTransaction"
-description: "Create and send a new transaction or message call"
+description: "Создать и отправить новую транзакцию или вызов сообщения"
 ---
 
-Defined in the [Ethereum JSON-RPC Specification](https://ethereum.org/en/developers/docs/apis/json-rpc/)
+Определено в [Спецификации Ethereum JSON-RPC](https://ethereum.org/en/developers/docs/apis/json-rpc/)
 
 <Info>
-Creates new message call transaction or a contract creation, if the data field contains code. This method submits the transaction to the network and returns the transaction hash once it's been accepted by the network.
+Создаёт новый вызов сообщения или создание контракта, если поле data содержит код. Этот метод отправляет транзакцию в сеть и возвращает хэш транзакции после её принятия сетью.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="transaction" type="object" required>
-The transaction object to send.
+Объект транзакции для отправки.
 
-<Expandable title="Transaction object properties">
+<Expandable title="Свойства объекта транзакции">
 <ParamField body="to" type="string">
-The recipient address (20 bytes). For contract creation transactions, this field should be omitted.
+Адрес получателя (20 байт). Для транзакций создания контракта это поле следует опустить.
 </ParamField>
 
 <ParamField body="from" type="string" required>
-The sender address (20 bytes).
+Адрес отправителя (20 байт).
 </ParamField>
 
 <ParamField body="gas" type="string">
-Integer of the gas provided for the transaction execution (hex format).
+Количество газа, предоставленного для выполнения транзакции, в виде целого числа (hex).
 </ParamField>
 
 <ParamField body="gasPrice" type="string">
-Integer of the gasPrice used for each paid gas (hex format).
+Цена газа, используемая за каждую единицу оплаченного газа, в виде целого числа (hex).
 </ParamField>
 
 <ParamField body="value" type="string">
-Integer of the value sent with this transaction (hex format).
+Значение, отправленное с этой транзакцией, в виде целого числа (hex).
 </ParamField>
 
 <ParamField body="data" type="string">
-The compiled code of a contract OR the hash of the invoked method signature and encoded parameters.
+Скомпилированный код контракта ИЛИ хэш подписи вызываемого метода и закодированные параметры.
 </ParamField>
 
 <ParamField body="nonce" type="string">
-Integer of a nonce. This allows to overwrite your own pending transactions that use the same nonce.
+Целое число nonce. Позволяет перезаписать ваши собственные ожидающие транзакции с тем же nonce.
 </ParamField>
 </Expandable>
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="string">
-The transaction hash (32 bytes) as a hexadecimal string.
+Хэш транзакции (32 байта) в виде шестнадцатеричной строки (hex).
 </ResponseField>
 
 <RequestExample>
@@ -79,16 +79,16 @@ The transaction hash (32 bytes) as a hexadecimal string.
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code | Message                        | Description |
+| Код  | Сообщение                      | Описание    |
 | ---- | ------------------------------ | ----------- |
-| 4001 | User rejected the request      | User denied the transaction request |
-| 4100 | Requested method not supported | The method is not supported by the wallet |
-| 4200 | Wallet not connected           | No wallet connection available |
-| -32602 | Invalid params                 | Invalid transaction parameters |
-| -32000 | Insufficient funds             | Account doesn't have enough balance |
+| 4001 | User rejected the request      | Пользователь отклонил запрос на транзакцию |
+| 4100 | Requested method not supported | Метод не поддерживается кошельком |
+| 4200 | Wallet not connected           | Отсутствует подключение к кошельку |
+| -32602 | Invalid params                 | Некорректные параметры транзакции |
+| -32000 | Insufficient funds             | Недостаточно средств на аккаунте |
 
 <Warning>
-Make sure to validate transaction parameters before sending, especially the `to` address and `value` to prevent loss of funds.
+Обязательно проверяйте параметры транзакции перед отправкой, особенно адрес `to` и значение `value`, чтобы избежать потери средств.
 </Warning>
