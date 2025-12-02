@@ -1,28 +1,28 @@
 ---
 title: "eth_getCode"
-description: "Get the bytecode at a given address"
+description: "Получить байт-код по указанному адресу"
 ---
 
-Defined in the [Ethereum JSON-RPC Specification](https://ethereum.org/en/developers/docs/apis/json-rpc/)
+Определено в [Спецификации Ethereum JSON-RPC](https://ethereum.org/en/developers/docs/apis/json-rpc/)
 
 <Info>
-Returns the bytecode at a given address. This is useful for verifying if an address is a contract or an externally owned account.
+Возвращает байт-код по указанному адресу. Полезно для проверки, является ли адрес контрактом или внешним аккаунтом (EOA).
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="address" type="string" required>
-The address to get bytecode from (20 bytes).
+Адрес, с которого требуется получить байт-код (20 байт).
 </ParamField>
 
 <ParamField body="blockParameter" type="string" required>
-Integer block number, or the string "latest", "earliest" or "pending".
+Номер блока в виде целого числа или строки "latest", "earliest" или "pending".
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="string">
-The bytecode at the given address as a hexadecimal string. Returns "0x" for externally owned accounts.
+Байт-код по указанному адресу в виде шестнадцатеричной строки (hex). Возвращает "0x" для внешних аккаунтов (EOA).
 </ResponseField>
 
 <RequestExample>
@@ -69,13 +69,13 @@ The bytecode at the given address as a hexadecimal string. Returns "0x" for exte
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code   | Message                            | Description |
+| Код    | Сообщение                          | Описание    |
 | ------ | ---------------------------------- | ----------- |
-| -32602 | Invalid address or block parameter | The provided address or block parameter is invalid |
-| 4100   | Requested method not supported     | The method is not supported by the wallet |
+| -32602 | Invalid address or block parameter | Указан некорректный адрес или параметр блока |
+| 4100   | Requested method not supported     | Метод не поддерживается кошельком |
 
 <Info>
-If the result is "0x", the address is an externally owned account (EOA). If it contains bytecode, it's a smart contract.
+Если результат равен "0x", адрес является внешним аккаунтом (EOA). Если он содержит байт-код, это смарт-контракт.
 </Info>
