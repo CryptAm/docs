@@ -1,22 +1,22 @@
 ---
 title: "eth_requestAccounts"
-description: "Request account access and authorization from the user"
+description: "Запросить доступ к аккаунтам и авторизацию у пользователя"
 ---
 
-Defined in [EIP-1102](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1102.md)
+Определено в [EIP-1102](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1102.md)
 
 <Info>
-Requests that the user provides an Ethereum address to be identified by. This method will show a prompt to the user asking them to authorize the connection. Returns a promise that resolves to an array of accounts the user has authorized for the application.
+Запрашивает у пользователя предоставление адреса Ethereum для идентификации. Этот метод отображает пользователю запрос на авторизацию подключения. Возвращает промис, который разрешается массивом аккаунтов, авторизованных пользователем для приложения.
 </Info>
 
-## Parameters
+## Параметры
 
-This method does not accept any parameters.
+Этот метод не принимает параметров.
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="Array<string>">
-An array of Ethereum addresses (hexadecimal strings) that the user has authorized for the application. The array will typically contain a single address, which is the currently selected account in the wallet.
+Массив адресов Ethereum (шестнадцатеричные строки), которые пользователь авторизовал для приложения. Обычно массив содержит один адрес - текущий выбранный аккаунт в кошельке.
 </ResponseField>
 
 <RequestExample>
@@ -40,14 +40,14 @@ An array of Ethereum addresses (hexadecimal strings) that the user has authorize
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code | Message                        | Description                                             |
+| Код  | Сообщение                      | Описание                                                |
 | ---- | ------------------------------ | ------------------------------------------------------- |
-| 4001 | User rejected the request      | The user denied the connection request                  |
-| 4100 | Requested method not supported | The provider does not support the `eth_requestAccounts` method |
-| 4200 | Wallet not connected           | The wallet is not available or connected               |
+| 4001 | User rejected the request      | Пользователь отклонил запрос на подключение                  |
+| 4100 | Requested method not supported | Провайдер не поддерживает метод `eth_requestAccounts` |
+| 4200 | Wallet not connected           | Кошелек недоступен или не подключен             |
 
 <Warning>
-Always handle the case where the user rejects the connection request (error code 4001) gracefully in your application.
+Всегда корректно обрабатывайте в приложении случай, когда пользователь отклоняет запрос на подключение (код ошибки 4001).
 </Warning>
