@@ -1,24 +1,24 @@
 ---
 title: "dataCallback"
-description: "Base Account allows you to collect personal information like email addresses, physical addresses, phone numbers, and names during transactions."
+description: "Base Account позволяет собирать персональную информацию, такую как адреса электронной почты, физические адреса, номера телефонов и имена во время транзакций."
 ---
 
-## Overview
+## Обзор
 
-Base Pay supports requesting user profile information during payments through the dataCallback capability. This allows you to collect personal information like email addresses, physical addresses, phone numbers, and names during transactions.
+Base Pay поддерживает запрос информации профиля пользователя во время платежей через возможность dataCallback. Это позволяет собирать персональную информацию, такую как адреса электронной почты, физические адреса, номера телефонов и имена во время транзакций.
 
-## Supported Data Types
+## Поддерживаемые типы данных
 
-The following data types are supported for profile requests:
+Следующие типы данных поддерживаются для запросов профиля:
 
 ```typescript
 type DataCallbackType =
-  | 'email'           // Email address
-  | 'phoneNumber'     // Phone number with country code
-  | 'physicalAddress' // Physical address for shipping
-  | 'name'           // User's full name
+  | 'email'           // Адрес электронной почты
+  | 'phoneNumber'     // Номер телефона с кодом страны
+  | 'physicalAddress' // Физический адрес для доставки
+  | 'name'           // Полное имя пользователя
 
-// Full type definitions for requests and capability
+// Полные определения типов для запросов и возможности
 
 type DataCallbackRequestType = {
   optional?: boolean;
@@ -31,9 +31,9 @@ type DataCallbackCapability = {
 }
 ```
 
-## Data Object Types
+## Типы объектов данных
 
-### Name Object
+### Объект имени
 ```typescript
 {
   firstName: string;
@@ -41,7 +41,7 @@ type DataCallbackCapability = {
 }
 ```
 
-### Physical Address Object
+### Объект физического адреса
 ```typescript
 {
   address1: string;
@@ -57,7 +57,7 @@ type DataCallbackCapability = {
 }
 ```
 
-### Phone Number Object
+### Объект номера телефона
 ```typescript
 {
   number: string;
@@ -65,9 +65,9 @@ type DataCallbackCapability = {
 }
 ```
 
-## Request Format
+## Формат запроса
 
-To request profile data, include the `dataCallback` capability in your [`wallet_sendCalls`](/base-account/reference/core/provider-rpc-methods/wallet_sendCalls) request:
+Чтобы запросить данные профиля, включите возможность `dataCallback` в ваш запрос [`wallet_sendCalls`](/base-account/reference/core/provider-rpc-methods/wallet_sendCalls):
 
 ```typescript
 const response = await provider.request({
@@ -76,34 +76,34 @@ const response = await provider.request({
     version: "1.0",
     chainId: numberToHex(84532), // Base Sepolia
     calls: [
-      // Your transaction calls here
+      // Ваши вызовы транзакций здесь
     ],
     capabilities: {
       dataCallback: {
         requests: [
           {
             type: "email",
-            optional: false, // Whether this field is optional
+            optional: false, // Является ли это поле опциональным
           },
           {
             type: "physicalAddress",
             optional: true,
           },
-          // Add more requests as needed
+          // Добавьте больше запросов по мере необходимости
         ],
-        callbackURL: "https://your-api.com/validate", // Your validation endpoint
+        callbackURL: "https://your-api.com/validate", // Ваша конечная точка валидации
       },
     },
   }],
 });
 ```
 
-## Callback API
+## API обратного вызова (Callback)
 
-Your callback API will receive a POST request with the following structure:
+Ваш callback API получит POST-запрос со следующей структурой:
 
 ```typescript
-// Request body structure
+// Структура тела запроса
 {
   calls: {
     to: string;
@@ -143,13 +143,13 @@ Your callback API will receive a POST request with the following structure:
 }
 ```
 
-## Response Format
+## Формат ответа
 
-Your callback API must respond with one of two formats:
+Ваш callback API должен ответить одним из двух форматов:
 
-### 1. Success Response
+### 1. Успешный ответ
 
-Return the calls the user will end up submitting wrapped in a `request` object. They can be the same calls or new ones, but they must be present. You can change all capabilities (e.g. switching Paymaster if calls happen on a different chain) except the data callback capability, which must remain present.
+Верните вызовы, которые пользователь в итоге отправит, обернутые в объект `request`. Они могут быть теми же самыми вызовами или новыми, но они должны присутствовать. Вы можете изменить все возможности (например, переключить Paymaster, если вызовы происходят в другой цепочке), кроме возможности dataCallback, которая должна оставаться присутствующей.
 
 ```typescript
 {
@@ -161,17 +161,17 @@ Return the calls the user will end up submitting wrapped in a `request` object. 
     chainId: string;
     capabilities: {
       dataCallback: {
-        // Original or updated dataCallback capability
+        // Оригинальная или обновленная возможность dataCallback
       };
-      // Other capabilities can be changed as needed
+      // Другие возможности могут быть изменены по мере необходимости
     };
   }
 }
 ```
 
-### 2. Error Response
+### 2. Ответ с ошибкой
 
-Return validation errors to prompt the user to correct their information:
+Верните ошибки валидации, чтобы предложить пользователю исправить информацию:
 
 ```typescript
 {
@@ -202,9 +202,9 @@ Return validation errors to prompt the user to correct their information:
 }
 ```
 
-## Example Implementation
+## Пример реализации
 
-Here's a complete example of a validation API endpoint:
+Вот полный пример конечной точки API валидации:
 
 ```typescript
 export async function POST(request: Request) {
@@ -214,12 +214,12 @@ export async function POST(request: Request) {
     const { requestedInfo } = requestData.capabilities.dataCallback;
     const errors = {};
 
-    // Validate email
+    // Валидация email
     if (requestedInfo.email && requestedInfo.email.endsWith("@example.com")) {
       errors.email = "Example.com emails are not allowed";
     }
 
-    // Validate physical address
+    // Валидация физического адреса
     if (requestedInfo.physicalAddress) {
       const addr = requestedInfo.physicalAddress.physicalAddress;
       if (addr.postalCode && addr.postalCode.length < 5) {
@@ -228,18 +228,18 @@ export async function POST(request: Request) {
       }
     }
 
-    // Return errors if any found
+    // Возвращаем ошибки, если они найдены
     if (Object.keys(errors).length > 0) {
       return Response.json({ errors });
     }
 
-    // Success - return the request data wrapped in a request object
-    // The wallet expects the response to contain the original or modified calls
+    // Успех - возвращаем данные запроса, обернутые в объект request
+    // Кошелек ожидает, что ответ будет содержать оригинальные или измененные вызовы
     return Response.json({ 
       request: requestData 
     });
     
-    // Alternative: Explicitly enumerate fields if needed
+    // Альтернатива: Явно перечисляем поля, если необходимо
     // return Response.json({ 
     //   request: { 
     //     calls: requestData.calls, 
@@ -256,14 +256,14 @@ export async function POST(request: Request) {
 }
 ```
 
-## Important Notes
+## Важные заметки
 
-1. **HTTPS Required**: Your callback URL must use HTTPS, even for local development. Use a service like ngrok for testing.
+1. **Требуется HTTPS**: Ваш callback URL должен использовать HTTPS, даже для локальной разработки. Используйте сервис типа ngrok для тестирования.
 
-2. **Return Original or New Calls**: You MUST return the original calls or new calls in your success response. If you don't, the wallet will return an error.
+2. **Возвращайте оригинальные или новые вызовы**: Вы ДОЛЖНЫ вернуть оригинальные вызовы или новые вызовы в вашем успешном ответе. Если вы этого не сделаете, кошелек вернет ошибку.
 
-3. **Optional Fields**: You can make any requested field optional by setting `optional: true` in the request. Optional fields will be marked as such in the Base Account interface.
+3. **Опциональные поля**: Вы можете сделать любое запрашиваемое поле опциональным, установив optional: true в запросе. Опциональные поля будут помечены как таковые в интерфейсе Base Account.
 
-4. **Privacy**: Users always have full control over their data. They can choose to share or withhold any information, and they're clearly shown what data you're requesting.
+4. **Конфиденциальность**: Пользователи всегда имеют полный контроль над своими данными. Они могут выбрать поделиться или не предоставлять любую информацию, и им четко показывается, какие данные вы запрашиваете.
 
-5. **Validation**: Base Account performs basic validation before sending data to your callback URL. This includes checking that emails are valid and addresses are properly formatted.
+5. **Валидация**: Base Account выполняет базовую валидацию перед отправкой данных на ваш callback URL. Это включает проверку корректности email-адресов и правильного форматирования адресов.
