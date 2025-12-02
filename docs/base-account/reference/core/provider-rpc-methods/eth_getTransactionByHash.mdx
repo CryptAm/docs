@@ -1,80 +1,80 @@
 ---
 title: "eth_getTransactionByHash"
-description: "Get transaction details by transaction hash"
+description: "Получить детали транзакции по хэшу транзакции"
 ---
 
-Defined in the [Ethereum JSON-RPC Specification](https://ethereum.org/en/developers/docs/apis/json-rpc/)
+Определено в [Спецификации Ethereum JSON-RPC](https://ethereum.org/en/developers/docs/apis/json-rpc/)
 
 <Info>
-Returns the information about a transaction requested by transaction hash.
+Возвращает информацию о транзакции по её хэшу.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="transactionHash" type="string" required>
-The hash of a transaction (32 bytes).
+Хэш транзакции (32 байта).
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="object">
-A transaction object, or null when no transaction was found.
+Объект транзакции или `null`, если транзакция не найдена.
 
-<Expandable title="Transaction object properties">
+<Expandable title="Свойства объекта транзакции">
 <ResponseField name="blockHash" type="string">
-Hash of the block where this transaction was in. null when pending.
+Хэш блока, в котором находилась эта транзакция. `null` для ожидающей транзакции.
 </ResponseField>
 
 <ResponseField name="blockNumber" type="string">
-Block number where this transaction was in. null when pending.
+Номер блока, в котором находилась эта транзакция. `null` для ожидающей транзакции.
 </ResponseField>
 
 <ResponseField name="from" type="string">
-Address of the sender.
+Адрес отправителя.
 </ResponseField>
 
 <ResponseField name="gas" type="string">
-Gas provided by the sender.
+Газ, предоставленный отправителем.
 </ResponseField>
 
 <ResponseField name="gasPrice" type="string">
-Gas price provided by the sender in Wei.
+Цена газа, предоставленная отправителем в Wei.
 </ResponseField>
 
 <ResponseField name="hash" type="string">
-Hash of the transaction.
+Хэш транзакции.
 </ResponseField>
 
 <ResponseField name="input" type="string">
-The data sent along with the transaction.
+Данные, отправленные вместе с транзакцией.
 </ResponseField>
 
 <ResponseField name="nonce" type="string">
-The number of transactions made by the sender prior to this one.
+Количество транзакций, выполненных отправителем до этой.
 </ResponseField>
 
 <ResponseField name="to" type="string">
-Address of the receiver. null when it's a contract creation transaction.
+Адрес получателя. `null` для транзакции создания контракта.
 </ResponseField>
 
 <ResponseField name="transactionIndex" type="string">
-Integer of the transaction index position in the block. null when pending.
+Позиция индекса транзакции в блоке. `null` для ожидающей транзакции.
 </ResponseField>
 
 <ResponseField name="value" type="string">
-Value transferred in Wei.
+Переданное значение в Wei.
 </ResponseField>
 
 <ResponseField name="v" type="string">
-ECDSA recovery id.
+Идентификатор (ID) восстановления ECDSA.
 </ResponseField>
 
 <ResponseField name="r" type="string">
-ECDSA signature r.
+Подпись ECDSA r.
 </ResponseField>
 
 <ResponseField name="s" type="string">
-ECDSA signature s.
+Подпись ECDSA s.
 </ResponseField>
 </Expandable>
 </ResponseField>
@@ -125,13 +125,13 @@ ECDSA signature s.
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code   | Message                        | Description |
+| Код    | Сообщение                      | Описание    |
 | ------ | ------------------------------ | ----------- |
-| -32602 | Invalid transaction hash       | The provided transaction hash is invalid |
-| 4100   | Requested method not supported | The method is not supported by the wallet |
+| -32602 | Invalid transaction hash       | Указан некорректный хэш транзакции |
+| 4100   | Requested method not supported | Метод не поддерживается кошельком |
 
 <Info>
-If the transaction is pending, `blockHash`, `blockNumber`, and `transactionIndex` will be null.
+Если транзакция ожидает подтверждения, поля `blockHash`, `blockNumber` и `transactionIndex` будут иметь значение `null`.
 </Info>
