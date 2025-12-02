@@ -1,32 +1,32 @@
 ---
 title: "RainbowKit"
-description: "Integrate Base Account with RainbowKit"
+description: "Интеграция Base Account с RainbowKit"
 ---
 
 import { GithubRepoCard } from "/snippets/GithubRepoCard.mdx";
 
-## Overview
+## Обзор
 
-[RainbowKit](https://www.rainbowkit.com/) is a React library that makes it easy to add wallet sign-in to your onchain application. It's designed to work out-of-the-box and includes native support for Base Account.
+[RainbowKit](https://www.rainbowkit.com/) - это React-библиотека, которая упрощает добавление входа через кошельки в ваше ончейн-приложение. Она разработана для работы "из коробки" и включает нативную поддержку Base Account.
 
-By integrating RainbowKit with Base Account, you can provide your users with a seamless onboarding experience while maintaining access to the full Base Account feature set.
+Интегрируя RainbowKit с Base Account, вы можете предоставить пользователям бесшовный опыт подключения, сохраняя доступ ко всему набору функций Base Account.
 
-### What you'll achieve
+### Что вы получите
 
-By the end of this guide, you will:
+К концу этого руководства вы сможете:
 
-* Set up RainbowKit with Base Account support
-* Learn how to use both `ConnectButton` and `WalletButton` components
-* Configure your app to prioritize Base Account as the primary wallet option
-* Obtain and configure a Reown project ID (required for RainbowKit projects)
+* Настроить RainbowKit с поддержкой Base Account
+* Узнать, как использовать компоненты `ConnectButton` и `WalletButton`
+* Настроить приложение для приоритетного использования Base Account как основного варианта кошелька
+* Получить и настроить Reown Project ID (требуется для проектов с RainbowKit)
 
-You can jump ahead and use the Base Account RainbowKit Template to get started:
+Вы можете сразу перейти к использованию шаблона Base Account RainbowKit, чтобы начать работу:
 
-<GithubRepoCard title="Base Account RainbowKit Template" githubUrl="https://github.com/base/demos/tree/master/base-account/base-account-rainbow-template" />
+<GithubRepoCard title="Шаблон Base Account RainbowKit" githubUrl="https://github.com/base/demos/tree/master/base-account/base-account-rainbow-template" />
 
-## Installation
+## Установка
 
-After [creating a new Next.js project](https://nextjs.org/docs/app/getting-started/installation), install the required dependencies:
+После [создания нового проекта Next.js](https://nextjs.org/docs/app/getting-started/installation), установите необходимые зависимости:
 
 <CodeGroup>
   ```bash npm
@@ -47,79 +47,79 @@ After [creating a new Next.js project](https://nextjs.org/docs/app/getting-start
 </CodeGroup>
 
 <Tip>
-**Access the latest version of the Base Account SDK (Recommended)**
+**Получите доступ к последней версии Base Account SDK (Рекомендуется)**
 
-It is {<u>HIGHLY RECOMMENDED</u>} to access the latest version of the Base Account SDK in order to get the latest features and bug fixes.
+It is {<u>НАСТОЯТЕЛЬНО РЕКОМЕНДУЕТСЯ</u>} получить доступ к последней версии Base Account SDK, чтобы получить последние функции и исправления ошибок.
 
-To do this, you can use the following command to override it:
+Для этого вы можете использовать следующую команду для переопределения версии:
 
 <CodeGroup>
 ```bash npm
 npm pkg set overrides.@base-org/account="latest"
-# OR manually add to package.json:
+# ИЛИ добавьте вручную в package.json:
 # "overrides": { "@base-org/account": "latest" }
 ```
 
 ```bash pnpm
-# pnpm requires manual addition to package.json:
+# pnpm требует ручного добавления в package.json:
 # "pnpm": { "overrides": { "@base-org/account": "latest" } }
 ```
 
 ```bash yarn
-# yarn uses resolutions - add manually to package.json:
+#yarn использует resolutions - добавьте вручную в package.json:
 # "resolutions": { "@base-org/account": "latest" }
 ```
 
 ```bash bun
-# bun supports overrides - add manually to package.json:
+# bun поддерживает overrides - добавьте вручную в package.json:
 # "overrides": { "@base-org/account": "latest" }
 ```
 
 </CodeGroup>
 
-Or you can use a specific version by adding the version to the overrides:
+Или вы можете использовать конкретную версию, добавив ее в `overrides`:
 
 <CodeGroup>
 ```bash npm
 npm pkg set overrides.@base-org/account="2.2.0"
-# OR manually add to package.json:
+# ИЛИ добавьте вручную в package.json:
 # "overrides": { "@base-org/account": "2.2.0" }
 ```
 
 ```bash pnpm
-# pnpm requires manual addition to package.json:
+# pnpm требует ручного добавления в package.json:
 # "pnpm": { "overrides": { "@base-org/account": "2.2.0" } }
 ```
 
 ```bash yarn
-# yarn uses resolutions - add manually to package.json:
+# yarn использует resolutions - добавьте вручную в package.json:
 # "resolutions": { "@base-org/account": "2.2.0" }
 ```
 
 ```bash bun
-# bun supports overrides - add manually to package.json:
+# bun поддерживает overrides - добавьте вручную в package.json:
 # "overrides": { "@base-org/account": "2.2.0" }
 ```
 
 </CodeGroup>
 
-Make sure to delete your `node_modules` and `package-lock.json` and run a new install to ensure the overrides are applied.
+Убедитесь, что удалили папку `node_modules` и файл `package-lock.json`, а затем выполните новую установку, чтобы переопределения применились.
 
 </Tip>
 
-## Get Your Reown Project ID
+## Получите ваш Reown Project ID
 
-Before you can use RainbowKit with Base Account, you need to obtain a project ID from Reown Cloud.
+Прежде чем использовать RainbowKit с Base Account, вам необходимо получить Project ID из Reown Cloud.
 
-1. Visit [Reown Cloud Dashboard](https://dashboard.reown.com/)
-2. Sign up for a free account or log in if you already have one
-3. Create a new project and copy the project ID.
+1. Перейдите в [Reown Cloud Dashboard](https://dashboard.reown.com/)
+2. Зарегистрируйте бесплатный аккаунт или войдите, если он уже есть
+3. Создайте новый проект и скопируйте Project ID.
 
-## Configuration
+## Конфигурация
 
-### 1. Configure Wagmi with RainbowKit
+### 1. Настройте Wagmi с RainbowKit
 
-Create a `wagmi.ts` file in your `src` directory to configure your blockchain connections and wallet options:
+Создайте файл `wagmi.ts` в вашей директории `src`, чтобы настроить подключения к блокчейну и варианты кошельков:
 
 ```tsx src/wagmi.ts
 import { getDefaultConfig } from '@rainbow-me/rainbowkit';
@@ -130,36 +130,36 @@ import {
 
 export const config = getDefaultConfig({
   appName: 'My Base Account App',
-  projectId: 'YOUR_PROJECT_ID', // Replace with your Reown project ID
+  projectId: 'YOUR_PROJECT_ID', // Замените на ваш Reown Project ID
   chains: [
     mainnet,
     base
   ],
-  ssr: true, // Enable server-side rendering support
+  ssr: true, // Включите поддержку серверного рендеринга
 });
 ```
 
 <Warning>
-  **Replace YOUR_PROJECT_ID**
+  **Замените YOUR_PROJECT_ID**
 
-  Make sure to replace `'YOUR_PROJECT_ID'` with the actual project ID you obtained from [Reown Cloud](https://dashboard.reown.com/).
+  Убедитесь, что заменили 'YOUR_PROJECT_ID' на фактический Project ID, полученный из [Reown Cloud](https://dashboard.reown.com/).
 
-  For production applications, use environment variables:
+  Для продакшен-приложений используйте переменные окружения:
 
   ```typescript
   projectId: process.env.NEXT_PUBLIC_REOWN_PROJECT_ID!,
   ```
 
-  And add to your `.env.local`:
+  И добавьте в ваш `.env.local`:
 
   ```bash
   NEXT_PUBLIC_REOWN_PROJECT_ID=your_project_id_here
   ```
 </Warning>
 
-### 2. Set up RainbowKit Provider
+### 2. Настройте провайдер RainbowKit
 
-Wrap your application with the necessary providers in your `_app.tsx`:
+Оберните ваше приложение необходимыми провайдерами в вашем `_app.tsx`:
 
 ```tsx src/pages/_app.tsx
 import '../styles/global.css';
@@ -189,13 +189,13 @@ function MyApp({ Component, pageProps }: AppProps) {
 export default MyApp;
 ```
 
-## Usage
+## Использование
 
-RainbowKit provides two main components for wallet connections: `ConnectButton` and `WalletButton`. Both components support Base Account out of the box.
+RainbowKit предоставляет два основных компонента для подключения кошельков: `ConnectButton` и `WalletButton`. Оба компонента поддерживают Base Account "из коробки".
 
-### Option 1: Using ConnectButton
+### Вариант 1: Использование ConnectButton
 
-The `ConnectButton` is RainbowKit's all-in-one wallet connection component. It displays the wallet connection modal with all available wallets, including Base Account.
+`ConnectButton` - это универсальный компонент RainbowKit для подключения кошельков. Он отображает модальное окно подключения кошелька со всеми доступными кошельками, включая Base Account.
 
 ```tsx src/pages/index.tsx
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -218,14 +218,14 @@ const Home: NextPage = () => {
 export default Home;
 ```
 
-When implemented, this is what it will look like:
+При реализации это будет выглядеть так:
 <div style={{ display: 'flex', justifyContent: 'center'}}>
   <img src="/images/base-account/RainbowKitWalletWindow.png" alt="RainbowKit Wallet Window" style={{ width: '600px', height: 'auto' }} />
 </div>
 
-### Option 2: Using WalletButton for Base Account
+### Вариант 2: Использование WalletButton для Base Account
 
-The `WalletButton` component provides a direct connection to a specific wallet. This is ideal when you want to highlight Base Account as the primary wallet option.
+Компонент `WalletButton` предоставляет прямое подключение к конкретному кошельку. Это идеально, когда вы хотите выделить Base Account в качестве основного варианта кошелька.
 
 ```tsx src/pages/index.tsx
 import { WalletButton } from '@rainbow-me/rainbowkit';
@@ -248,16 +248,16 @@ const Home: NextPage = () => {
 export default Home;
 ```
 
-When implemented, this is what it will look like:
+При реализации это будет выглядеть так:
 <div style={{ display: 'flex', justifyContent: 'center'}}>
   <img src="/images/base-account/BaseAccountButton.png" alt="Base Account Button" style={{ width: '200px', height: 'auto' }} />
 </div>
 
-## Advanced Configuration
+## Расширенная конфигурация
 
-### Prioritize Base Account in Wallet List
+### Приоритезация Base Account в списке кошельков
 
-To make Base Account appear first in the wallet connection modal, you can customize the wallet order:
+Чтобы Base Account отображался первым в модальном окне подключения кошелька, вы можете настроить порядок кошельков:
 
 ```tsx src/wagmi.ts
 import { getDefaultConfig } from '@rainbow-me/rainbowkit';
@@ -268,19 +268,19 @@ export const config = getDefaultConfig({
   projectId: process.env.NEXT_PUBLIC_REOWN_PROJECT_ID!,
   chains: [base, mainnet, sepolia],
   ssr: true,
-  // Wallet configuration
+  // Конфигурация кошельков
   wallets: [
     {
       groupName: 'Recommended',
-      wallets: ['baseAccount'], // Base Account appears first
+      wallets: ['baseAccount'], // Base Account отображается первым
     },
   ],
 });
 ```
 
-### Customize RainbowKit Theme
+### Настройка темы RainbowKit
 
-RainbowKit supports extensive theming options:
+RainbowKit поддерживает расширенные возможности темизации:
 
 ```tsx src/pages/_app.tsx
 import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
@@ -291,7 +291,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider
           theme={darkTheme({
-            accentColor: '#0052FF', // Base blue
+            accentColor: '#0052FF', // Синий цвет Base
             accentColorForeground: 'white',
             borderRadius: 'medium',
           })}
@@ -304,9 +304,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 }
 ```
 
-### Access Wallet Connection State
+### Доступ к состоянию подключения кошелька
 
-Use wagmi hooks to access wallet connection state throughout your app:
+Используйте хуки wagmi для доступа к состоянию подключения кошелька во всем вашем приложении:
 
 ```tsx
 import { useAccount, useDisconnect, useEnsName } from 'wagmi';
@@ -327,9 +327,9 @@ function Profile() {
 }
 ```
 
-### Switch Networks Programmatically
+### Программное переключение сетей
 
-Allow users to switch between different chains:
+Позвольте пользователям переключаться между разными сетями:
 
 ```tsx
 import { useSwitchChain } from 'wagmi';
@@ -351,18 +351,18 @@ function NetworkSwitcher() {
 }
 ```
 
-## Best Practices
+## Рекомендации
 
-<Card title="Use Environment Variables" icon="shield-check">
-  Store sensitive configuration like your Reown project ID in environment variables, not in your code:
+<Card title="Используйте переменные окружения" icon="shield-check">
+  Храните чувствительную конфигурацию, такую как ваш Reown Project ID, в переменных окружения, а не в коде:
 
   ```bash .env.local
   NEXT_PUBLIC_REOWN_PROJECT_ID=your_project_id_here
   ```
 </Card>
 
-<Card title="Enable SSR Support" icon="server">
-  Always set `ssr: true` in your wagmi config for Next.js applications to avoid hydration issues:
+<Card title="Включите поддержку SSR" icon="server">
+  Всегда устанавливайте `ssr: true` в конфигурации wagmi для приложений Next.js, чтобы избежать проблем с гидратацией:
 
   ```typescript
   export const config = getDefaultConfig({
@@ -372,38 +372,38 @@ function NetworkSwitcher() {
   ```
 </Card>
 
-<Card title="Prioritize Base Chain" icon="link">
-  Put Base as the first chain in your configuration to make it the default:
+<Card title="Сделайте Base приоритетной сетью" icon="link">
+  Укажите Base первой сетью в вашей конфигурации, чтобы сделать ее сетью по умолчанию:
 
   ```typescript
   chains: [base, mainnet, ...otherChains]
   ```
 </Card>
 
-<Card title="Keep Dependencies Updated" icon="arrow-up">
-  Regularly update RainbowKit, wagmi, and viem to get the latest Base Account features and security patches:
+<Card title="Обновляйте зависимости" icon="arrow-up">
+  Регулярно обновляйте RainbowKit, wagmi и viem, чтобы получать последние функции Base Account и исправления безопасности:
 
   ```bash
   npm update @rainbow-me/rainbowkit wagmi viem
   ```
 </Card>
 
-## Next Steps
+## Следующие шаги
 
-Now that you have RainbowKit configured with Base Account, you can:
+Теперь, когда у вас настроен RainbowKit с Base Account, вы можете:
 
 <CardGroup cols={2}>
-  <Card title="Explore Base Account Features" icon="code" href="https://docs.base.org/base-account">
-    Learn more about Base Account and its features
+  <Card title="Изучите возможности Base Account" icon="code" href="https://docs.base.org/base-account">
+    Узнайте больше о Base Account и его функциях
   </Card>
-  <Card title="Explore RainbowKit Docs" icon="code" href="https://www.rainbowkit.com/docs/introduction">
-    Learn more about RainbowKit and its features
+  <Card title="Изучите документацию RainbowKit" icon="code" href="https://www.rainbowkit.com/docs/introduction">
+    Узнайте больше о RainbowKit и его функциях
   </Card>
   
-  <Card title="Explore Wagmi Docs" icon="hook" href="https://wagmi.sh/react/hooks">
-    Learn more about wagmi and its features
+  <Card title="Изучите документацию Wagmi" icon="hook" href="https://wagmi.sh/react/hooks">
+    Узнайте больше о wagmi и его функциях
   </Card>
-  <Card title="Join the Base Community" icon="code" href="https://discord.com/invite/buildonbase">
-    Join the Base community and get help from other developers
+  <Card title="Присоединитесь к сообществу Base" icon="code" href="https://discord.com/invite/buildonbase">
+    Присоединитесь к сообществу Base и получайте помощь от других разработчиков
   </Card>
 </CardGroup>
