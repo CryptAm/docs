@@ -1,135 +1,135 @@
 ---
 title: "createBaseAccountSDK"
-description: "Create a Base Account SDK instance with EIP-1193 compliant provider"
+description: "Создание экземпляра SDK Base Account с EIP-1193 совместимым провайдером"
 ---
 
-Defined in the [Base Account SDK](https://github.com/base/account-sdk)
+Определено в [Base Account SDK](https://github.com/base/account-sdk)
 
 <Info>
-Creates a Base Account SDK instance that provides an EIP-1193 compliant Ethereum provider and additional account management functionality. This is the primary entry point for integrating Base Account into your application.
+Создает экземпляр SDK Base Account, который предоставляет EIP-1193 совместимый Ethereum-провайдер и дополнительную функциональность управления аккаунтами. Это основная точка входа для интеграции Base Account в ваше приложение.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="params" type="CreateProviderOptions" required>
-Configuration options for creating the SDK instance.
+Опции конфигурации для создания экземпляра
 
-<Expandable title="CreateProviderOptions properties">
+<Expandable title="Свойства CreateProviderOptions">
 <ParamField body="appName" type="string">
-The name of your application. Defaults to "App" if not provided.
+Название вашего приложения. По умолчанию "App", если не указано.
 </ParamField>
 
 <ParamField body="appLogoUrl" type="string">
-URL to your application's logo image. Used in wallet UI. Defaults to empty string if not provided.
+URL логотипа вашего приложения. Используется в интерфейсе кошелька. По умолчанию пустая строка, если не указано.
 </ParamField>
 
 <ParamField body="appChainIds" type="number[]">
-Array of chain IDs that your application supports. Defaults to empty array if not provided.
+Массив идентификаторов цепочек (chain IDs), которые поддерживает ваше приложение. По умолчанию пустой массив, если не указано.
 </ParamField>
 
 <ParamField body="preference" type="Preference">
-Optional preferences for SDK behavior.
+Опциональные предпочтения для поведения SDK.
 
-<Expandable title="Preference properties">
+<Expandable title="Свойства Preference">
 <ParamField body="walletUrl" type="string">
-Custom wallet URL override. Only use when overriding the default wallet URL with a custom environment.
+Пользовательский URL кошелька для переопределения. Используйте только при переопределении URL кошелька по умолчанию пользовательским окружением.
 </ParamField>
 
 <ParamField body="attribution" type="Attribution">
-Attribution configuration for Smart Wallet transactions.
+Конфигурация атрибуции для транзакций Smart Wallet.
 
-<Expandable title="Attribution properties">
+<Expandable title="Свойства Attribution">
 <ParamField body="auto" type="boolean">
-When true, Smart Wallet will generate a 16 byte hex string from the app's origin.
+Если true, Smart Wallet будет генерировать 16-байтовую hex-строку из origin приложения.
 </ParamField>
 
 <ParamField body="dataSuffix" type="`0x${string}`">
-Custom 16 byte hex string appended to initCode and executeBatch calldata. Cannot be used with `auto: true`.
+Пользовательская 16-байтовая hex-строка, добавляемая к initCode и calldata executeBatch. Не может использоваться с `auto: true`.
 </ParamField>
 </Expandable>
 </ParamField>
 
 <ParamField body="telemetry" type="boolean">
-Whether to enable functional telemetry. Defaults to `true`.
+Включить ли функциональную телеметрию. По умолчанию `true`.
 </ParamField>
 </Expandable>
 </ParamField>
 
 <ParamField body="subAccounts" type="SubAccountOptions">
-Sub-account configuration options.
+Опции конфигурации субаккаунтов.
 
-<Expandable title="SubAccountOptions properties">
+<Expandable title="Свойства SubAccountOptions">
 <ParamField body="creation" type="'on-connect' | 'manual'">
-Controls when sub-accounts are created. Defaults to `'manual'`.
+Управляет созданием субаккаунтов. По умолчанию `'manual'`.
 
-- `'on-connect'`: Automatically creates a sub-account when connecting to the wallet (automatically injects `addSubAccount` capability to `wallet_connect`)
-- `'manual'`: Requires explicit `wallet_addSubAccount` call to create a sub-account
+- `'on-connect'`: Автоматически создает субаккаунт при подключении к кошельку (автоматически добавляет `capability addSubAccount` к `wallet_connect`)
+- `'manual'`: Требует явного вызова `wallet_addSubAccount` для создания субаккаунта
 </ParamField>
 
 <ParamField body="defaultAccount" type="'sub' | 'universal'">
-Controls which account is used by default when no account is specified. Defaults to `'universal'`.
+Управляет тем, какой аккаунт используется по умолчанию, когда аккаунт не указан. По умолчанию `'universal'`.
 
-- `'sub'`: Sub-account is the default account (first in accounts array)
-- `'universal'`: Universal account is the default account (first in accounts array)
+- `'sub'`: Субаккаунт является аккаунтом по умолчанию (первый в массиве accounts)
+- `'universal'`: Универсальный аккаунт является аккаунтом по умолчанию (первый в массиве accounts)
 </ParamField>
 
 <ParamField body="funding" type="'spend-permissions' | 'manual'">
-Controls how sub-accounts are funded. Defaults to `'spend-permissions'`.
+Управляет тем, как субаккаунты пополняются. По умолчанию `'spend-permissions'`.
 
-- `'spend-permissions'`: Routes through universal account if no spend permissions exist, handles insufficient balance errors automatically. Learn more in [Auto Spend Permissions](/base-account/improve-ux/sub-accounts#auto-spend-permissions)
-- `'manual'`: Direct execution from sub-account without automatic fallbacks
+- `'spend-permissions'`: Маршрутизирует через универсальный аккаунт, если нет разрешений на траты, автоматически обрабатывает ошибки недостаточного баланса. Узнайте больше в [Автоматические Разрешения на траты (Auto Spend Permissions)](/base-account/improve-ux/sub-accounts#auto-spend-permissions)
+- `'manual'`: Прямое выполнение из субаккаунта без автоматических откатов (fallbacks)
 </ParamField>
 
 <ParamField body="toOwnerAccount" type="ToOwnerAccountFn">
-Function that returns the owner account for signing sub-account transactions.
+Функция, возвращающая аккаунт владельца для подписи транзакций субаккаунта.
 
-<Expandable title="ToOwnerAccountFn signature">
+<Expandable title="Сигнатура ToOwnerAccountFn">
 ```typescript
 type ToOwnerAccountFn = () => Promise<{ account: OwnerAccount | null; }>
 ```
 
-Where `OwnerAccount` is a union type of:
-- `LocalAccount` (from viem) - A local account with private key
-- `WebAuthnAccount` (from viem) - A WebAuthn-based account for passkey authentication
+Где `OwnerAccount` - это объединенный тип (union type):
+- `LocalAccount` (из viem) - Локальный аккаунт с приватным ключом
+- `WebAuthnAccount` (из viem) - Аккаунт на основе WebAuthn для аутентификации пасскей
 </Expandable>
 </ParamField>
 </Expandable>
 </ParamField>
 
 <ParamField body="paymasterUrls" type="Record<number, string>">
-Mapping of chain IDs to paymaster URLs for gasless transactions.
+Отображение идентификаторов цепочек (chain IDs) на URL плательщиков газа для бесплатных транзакций.
 </ParamField>
 </Expandable>
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="sdk" type="BaseAccountSDK">
-SDK instance with provider and sub-account management capabilities.
+Экземпляр SDK с возможностями провайдера и управления субаккаунтами.
 
-<Expandable title="BaseAccountSDK properties">
+<Expandable title="Свойства BaseAccountSDK">
 <ResponseField name="getProvider" type="() => ProviderInterface">
-Returns an EIP-1193 compliant Ethereum provider that can be used with web3 libraries like Viem, Wagmi, and Web3.js.
+Возвращает EIP-1193 совместимый Ethereum-провайдер, который может использоваться с web3-библиотеками, такими как Viem, Wagmi и Web3.js.
 </ResponseField>
 
 <ResponseField name="subAccount" type="SubAccountManager">
-Sub-account management methods.
+Методы управления субаккаунтами.
 
-<Expandable title="SubAccountManager properties">
+<Expandable title="Свойства SubAccountManager">
 <ResponseField name="create" type="(account: AddSubAccountAccount) => Promise<SubAccount>">
-Creates a new sub-account.
+Создает новый субаккаунт.
 </ResponseField>
 
 <ResponseField name="get" type="() => Promise<SubAccount | null>">
-Retrieves the current sub-account information.
+Получает информацию о текущем субаккаунте.
 </ResponseField>
 
 <ResponseField name="addOwner" type="(params: AddOwnerParams) => Promise<string>">
-Adds an owner to the sub-account.
+Добавляет владельца к субаккаунту.
 </ResponseField>
 
 <ResponseField name="setToOwnerAccount" type="(fn: ToOwnerAccountFn) => void">
-Sets the function for determining the owner account. The function should return a Promise resolving to an object with an `account` property that is either a `LocalAccount`, `WebAuthnAccount`, or `null`.
+Устанавливает функцию для определения аккаунта владельца. Функция должна возвращать Promise, разрешающийся в объект со свойством `account`, которое является либо `LocalAccount`, `WebAuthnAccount`, либо `null`.
 </ResponseField>
 </Expandable>
 </ResponseField>
@@ -165,9 +165,9 @@ const sdk = createBaseAccountSDK({
     telemetry: true
   },
   subAccounts: {
-    creation: 'on-connect', // Auto-create sub-account on connection
-    defaultAccount: 'sub', // Use sub-account by default
-    funding: 'spend-permissions', // Auto-handle funding
+    creation: 'on-connect', // Автоматически создавать субаккаунт при подключении
+    defaultAccount: 'sub', // Использовать субаккаунт по умолчанию
+    funding: 'spend-permissions', // Автоматически обрабатывать пополнение
     toOwnerAccount: async () => ({ 
       account: cryptoAccount?.account || null 
     })
@@ -186,18 +186,18 @@ const sdk = createBaseAccountSDK({
   appName: 'Sub-Account App',
   appChainIds: [8453],
   subAccounts: {
-    creation: 'manual', // Explicitly create sub-accounts when needed
-    defaultAccount: 'universal', // Universal account is default
-    funding: 'spend-permissions', // Auto-handle insufficient balance
+    creation: 'manual', // Явно создавать субаккаунты, когда это необходимо
+    defaultAccount: 'universal', // Универсальный аккаунт используется по умолчанию
+    funding: 'spend-permissions', // Автоматически обрабатывать недостаточный баланс
     toOwnerAccount: async () => {
-      // Return the owner account that will sign sub-account transactions
-      // mainAccount should be a LocalAccount or WebAuthnAccount from viem
+      // Возвращает аккаунт владельца, который будет подписывать транзакции субаккаунта
+      // mainAccount должен быть LocalAccount или WebAuthnAccount из viem
       return { account: mainAccount || null };
     }
   }
 });
 
-// Manually create a sub-account when needed
+// Вручную создаем субаккаунт, когда это необходимо
 const subAccount = await sdk.subAccount.create({
   type: 'create',
   keys: [{
@@ -214,27 +214,27 @@ const sdk = createBaseAccountSDK({
   appName: 'Auto Sub-Account App',
   appChainIds: [8453],
   subAccounts: {
-    creation: 'on-connect', // Auto-create on wallet connection
-    defaultAccount: 'sub', // Sub-account is default
-    funding: 'spend-permissions', // Auto-handle insufficient balance
+    creation: 'on-connect', // Автоматически создавать при подключении кошелька
+    defaultAccount: 'sub', // Субаккаунт используется по умолчанию
+    funding: 'spend-permissions', // Автоматически обрабатывать недостаточный баланс
     toOwnerAccount: async () => {
       return { account: mainAccount || null };
     }
   }
 });
 
-// Sub-account is automatically created on connection
+// Субаккаунт автоматически создается при подключении
 const provider = sdk.getProvider();
 await provider.request({ method: 'eth_requestAccounts' });
 
-// Sub-account is automatically available
+// Субаккаунт автоматически доступен
 const subAccount = await sdk.subAccount.get();
 ```
 </RequestExample>
 
-## Integration Examples
+## Примеры интеграции
 
-### With Viem
+### С Viem
 
 ```typescript
 import { createWalletClient, custom } from 'viem';
@@ -254,7 +254,7 @@ const client = createWalletClient({
 });
 ```
 
-### With Wagmi
+### С Wagmi
 
 ```typescript
 import { createConfig, custom } from 'wagmi';
@@ -276,43 +276,43 @@ const config = createConfig({
 });
 ```
 
-## Configuration Options
+## Параметры конфигурации
 
-### Sub-Account Configuration
+### Конфигурация субаккаунтов
 
-Configure sub-account behavior with three independent options:
+Настройте поведение субаккаунтов с помощью трех независимых опций:
 
 ```typescript
 const sdk = createBaseAccountSDK({
   appName: 'My App',
   appChainIds: [8453],
   subAccounts: {
-    creation: 'on-connect' | 'manual',              // When to create
-    defaultAccount: 'sub' | 'universal',             // Which is default
-    funding: 'spend-permissions' | 'manual',         // How to fund transactions
-    toOwnerAccount: async () => ({ account })        // Owner for signing
+    creation: 'on-connect' | 'manual',              // Когда создавать
+    defaultAccount: 'sub' | 'universal',             // Какой используется по умолчанию
+    funding: 'spend-permissions' | 'manual',         // Как финансировать транзакции
+    toOwnerAccount: async () => ({ account })        // Владелец для подписи
   }
 });
 ```
 
-**Common Configurations:**
+**Распространенные конфигурации:**
 
 ```typescript
-// Most seamless UX: Auto-create, use sub-account by default, auto-fund
+// Наиболее бесшовный UX: Автосоздание, использование субаккаунта по умолчанию, автофинансирование
 subAccounts: {
   creation: 'on-connect',
   defaultAccount: 'sub',
   funding: 'spend-permissions'
 }
 
-// Manual control: Create when needed, universal default, auto-fund
+// Ручное управление: Создание по необходимости, универсальный аккаунт по умолчанию, автофинансирование
 subAccounts: {
   creation: 'manual',
   defaultAccount: 'universal',
   funding: 'spend-permissions'
 }
 
-// Full manual: Complete developer control
+// Полное ручное управление: Полный контроль разработчика
 subAccounts: {
   creation: 'manual',
   defaultAccount: 'universal',
@@ -320,12 +320,12 @@ subAccounts: {
 }
 ```
 
-### Attribution
+### Атрибуция
 
-Configure transaction attribution for analytics and tracking:
+Настройте атрибуцию транзакций для аналитики и отслеживания:
 
 ```typescript
-// Auto-generate attribution from app origin
+// Автогенерация атрибуции из origin приложения
 const sdk = createBaseAccountSDK({
   appName: 'My App',
   preference: {
@@ -333,7 +333,7 @@ const sdk = createBaseAccountSDK({
   }
 });
 
-// Custom attribution data
+// Пользовательские данные атрибуции
 const sdk = createBaseAccountSDK({
   appName: 'My App',
   preference: {
@@ -342,9 +342,9 @@ const sdk = createBaseAccountSDK({
 });
 ```
 
-### Paymaster Integration
+### Интеграция с Paymaster
 
-Enable gasless transactions with paymaster URLs:
+Включите бесплатные транзакции с URL плательщиков газа:
 
 ```typescript
 const sdk = createBaseAccountSDK({
@@ -357,9 +357,9 @@ const sdk = createBaseAccountSDK({
 });
 ```
 
-## Error Handling
+## Обработка ошибок
 
-The SDK initialization is synchronous and will validate preferences during creation:
+Инициализация SDK является синхронной и будет проверять предпочтения во время создания:
 
 ```typescript
 try {
@@ -367,7 +367,7 @@ try {
     appName: 'My App',
     appChainIds: [8453],
     subAccounts: {
-      toOwnerAccount: invalidFunction // Will throw validation error
+      toOwnerAccount: invalidFunction // Вызовет ошибку валидации
     }
   });
 } catch (error) {
@@ -375,9 +375,9 @@ try {
 }
 ```
 
-## TypeScript Support
+## Поддержка TypeScript
 
-The SDK is fully typed for TypeScript development:
+SDK полностью типизирован для разработки на TypeScript:
 
 ```typescript
 import type { 
@@ -389,7 +389,7 @@ import type {
 import { LocalAccount } from 'viem';
 
 const toOwnerAccount: ToOwnerAccountFn = async () => {
-  // Your logic to get the owner account
+  // Ваша логика получения аккаунта владельца
   const ownerAccount: LocalAccount | null = getOwnerAccount();
   return { account: ownerAccount };
 };
@@ -407,11 +407,11 @@ const provider: ProviderInterface = sdk.getProvider();
 ```
 
 <Warning>
-The SDK automatically manages Cross-Origin-Opener-Policy validation and telemetry initialization. Make sure your application's headers allow popup windows if using the default wallet interface.
+SDK автоматически управляет валидацией Cross-Origin-Opener-Policy и инициализацией телеметрии. Убедитесь, что заголовки вашего приложения разрешают всплывающие окна, если используется интерфейс кошелька по умолчанию.
 </Warning>
 
 <Info>
-The `createBaseAccountSDK` function is the primary entry point for Base Account integration. It provides both a standard EIP-1193 provider and advanced features like sub-account management and gasless transactions.
+Функция `createBaseAccountSDK` является основной точкой входа для интеграции Base Account. Она предоставляет как стандартный EIP-1193 провайдер, так и расширенные функции, такие как управление субаккаунтами и бесплатные транзакции.
 </Info>
 
 import PolicyBanner from "/snippets/PolicyBanner.mdx";
