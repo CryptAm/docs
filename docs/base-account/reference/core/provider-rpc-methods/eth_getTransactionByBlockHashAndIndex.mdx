@@ -1,84 +1,84 @@
 ---
 title: "eth_getTransactionByBlockHashAndIndex"
-description: "Get a transaction by block hash and transaction index position"
+description: "Получить транзакцию по хэшу блока и позиции индекса транзакции"
 ---
 
-Defined in the [Ethereum JSON-RPC Specification](https://ethereum.org/en/developers/docs/apis/json-rpc/)
+Определено в [Спецификации Ethereum JSON-RPC](https://ethereum.org/en/developers/docs/apis/json-rpc/)
 
 <Info>
-Returns information about a transaction by block hash and transaction index position.
+Возвращает информацию о транзакции по хэшу блока и позиции индекса транзакции.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="blockHash" type="string" required>
-Hash of a block (32 bytes).
+Хэш блока (32 байта).
 </ParamField>
 
 <ParamField body="transactionIndex" type="string" required>
-Integer of the transaction index position as a hexadecimal string.
+Позиция индекса транзакции в виде целого числа (hex).
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="object">
-A transaction object, or null when no transaction was found.
+Объект транзакции или `null`, если транзакция не найдена.
 
-<Expandable title="Transaction object properties">
+<Expandable title="Свойства объекта транзакции">
 <ResponseField name="blockHash" type="string">
-Hash of the block where this transaction was in.
+Хэш блока, в котором находилась эта транзакция (hex).
 </ResponseField>
 
 <ResponseField name="blockNumber" type="string">
-Block number where this transaction was in.
+Номер блока, в котором находилась эта транзакция (hex).
 </ResponseField>
 
 <ResponseField name="from" type="string">
-Address of the sender.
+Адрес отправителя.
 </ResponseField>
 
 <ResponseField name="gas" type="string">
-Gas provided by the sender.
+Газ, предоставленный отправителем.
 </ResponseField>
 
 <ResponseField name="gasPrice" type="string">
-Gas price provided by the sender in Wei.
+Цена газа, предоставленная отправителем в Wei.
 </ResponseField>
 
 <ResponseField name="hash" type="string">
-Hash of the transaction.
+Хэш транзакции.
 </ResponseField>
 
 <ResponseField name="input" type="string">
-The data sent along with the transaction.
+Данные, отправленные вместе с транзакцией.
 </ResponseField>
 
 <ResponseField name="nonce" type="string">
-The number of transactions made by the sender prior to this one.
+Количество транзакций, выполненных отправителем до этой.
 </ResponseField>
 
 <ResponseField name="to" type="string">
-Address of the receiver. null when it's a contract creation transaction.
+Адрес получателя. `null` для транзакции создания контракта.
 </ResponseField>
 
 <ResponseField name="transactionIndex" type="string">
-Integer of the transaction index position in the block.
+Позиция индекса транзакции в блоке.
 </ResponseField>
 
 <ResponseField name="value" type="string">
-Value transferred in Wei.
+Переданное значение в Wei.
 </ResponseField>
 
 <ResponseField name="v" type="string">
-ECDSA recovery id.
+Идентификатор (ID) восстановления ECDSA.
 </ResponseField>
 
 <ResponseField name="r" type="string">
-ECDSA signature r.
+Подпись ECDSA r.
 </ResponseField>
 
 <ResponseField name="s" type="string">
-ECDSA signature s.
+Подпись ECDSA s.
 </ResponseField>
 </Expandable>
 </ResponseField>
@@ -130,15 +130,15 @@ ECDSA signature s.
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code   | Message                        | Description |
+| Код    | Сообщение                      | Описание    |
 | ------ | ------------------------------ | ----------- |
-| -32602 | Invalid parameters             | Invalid block hash or transaction index |
-| 4100   | Requested method not supported | The method is not supported by the wallet |
+| -32602 | Invalid parameters             | Некорректный хэш блока или индекс транзакции |
+| 4100   | Requested method not supported | Метод не поддерживается кошельком |
 
 <Info>
-Transaction indices start at 0x0 for the first transaction in a block. If the index exceeds the number of transactions in the block, null is returned.
+Индексы транзакций начинаются с 0x0 для первой транзакции в блоке. Если индекс превышает количество транзакций в блоке, возвращается `null`.
 </Info>
 
 ```
