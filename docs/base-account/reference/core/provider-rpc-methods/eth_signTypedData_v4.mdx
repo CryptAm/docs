@@ -1,68 +1,68 @@
 ---
 title: "eth_signTypedData_v4"
-description: "Sign structured data according to EIP-712"
+description: "Подписать структурированные данные в соответствии с EIP-712"
 ---
 
-Defined in [EIP-712](https://eips.ethereum.org/EIPS/eip-712)
+Определено в [EIP-712](https://eips.ethereum.org/EIPS/eip-712)
 
 <Info>
-Signs structured data according to EIP-712, which provides a more secure way to sign data by providing context and structure to the data being signed.
+Подписывает структурированные данные в соответствии со стандартом EIP-712, который обеспечивает более безопасный способ подписи данных, предоставляя контекст и структуру подписываемым данным.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="address" type="string" required>
-The address that should sign the data (20 bytes).
+Адрес, который должен подписать данные (20 байт).
 </ParamField>
 
 <ParamField body="typedData" type="object" required>
-The typed structured data to be signed.
+Типизированные структурированные данные для подписи.
 
-<Expandable title="Typed data object properties">
+<Expandable title="Свойства объекта типизированных данных">
 <ParamField body="types" type="object" required>
-An object containing type definitions for the structured data.
+Объект, содержащий определения типов для структурированных данных.
 </ParamField>
 
 <ParamField body="primaryType" type="string" required>
-The primary type from the types object that will be signed.
+Основной тип из объекта types, который будет подписан.
 </ParamField>
 
 <ParamField body="domain" type="object" required>
-The domain separator as defined by EIP-712.
+Разделитель домена, как определено в EIP-712.
 
-<Expandable title="Domain properties">
+<Expandable title="Свойства домена">
 <ParamField body="name" type="string">
-The user-readable name of the signing domain.
+Читаемое пользовательское название домена подписи.
 </ParamField>
 
 <ParamField body="version" type="string">
-The current major version of the signing domain.
+Текущая основная версия домена подписи.
 </ParamField>
 
 <ParamField body="chainId" type="number">
-The chain ID of the network.
+Идентификатор цепи (chain ID) сети.
 </ParamField>
 
 <ParamField body="verifyingContract" type="string">
-The address of the contract that will verify the signature.
+Адрес контракта, который будет проверять подпись.
 </ParamField>
 
 <ParamField body="salt" type="string">
-A disambiguating salt for the protocol.
+Уточняющая 'salt' для протокола.
 </ParamField>
 </Expandable>
 </ParamField>
 
 <ParamField body="message" type="object" required>
-The data object to be signed according to the primary type.
+Объект данных для подписи в соответствии с основным типом.
 </ParamField>
 </Expandable>
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="string">
-The signature as a hexadecimal string.
+Подпись в виде шестнадцатеричной строки (hex).
 </ResponseField>
 
 <RequestExample>
@@ -113,18 +113,18 @@ The signature as a hexadecimal string.
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code | Message                        | Description |
+| Код  | Сообщение                      | Описание    |
 | ---- | ------------------------------ | ----------- |
-| 4001 | User rejected the request      | User denied the signing request |
-| 4100 | Requested method not supported | The method is not supported by the wallet |
-| -32602 | Invalid params                 | Invalid typed data structure |
+| 4001 | User rejected the request      | Пользователь отклонил запрос на подпись |
+| 4100 | Requested method not supported | Метод не поддерживается кошельком |
+| -32602 | Invalid params                 | Некорректная структура типизированных данных |
 
 <Warning>
-Always validate the domain and verifying contract address to prevent signature replay attacks.
+сегда проверяйте домен и адрес verifying contract, чтобы предотвратить атаки повторного использования подписи (replay attacks).
 </Warning>
 
 <Info>
-EIP-712 signatures provide better security than personal_sign by giving users context about what they're signing.
+Подписи EIP-712 обеспечивают лучшую безопасность по сравнению с personal_sign, предоставляя пользователям контекст о том, что они подписывают.
 </Info>
