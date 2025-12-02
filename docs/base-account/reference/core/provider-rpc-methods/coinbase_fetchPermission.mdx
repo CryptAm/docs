@@ -1,80 +1,80 @@
 ---
 title: "coinbase_fetchPermission"
-description: "Retrieve a single permission by its hash"
+description: "Получение одного разрешения по его хэшу"
 ---
 
-Coinbase-specific RPC method
+Специфичный для Coinbase RPC-метод
 
 <Info>
-Retrieves a single spend permission by its unique hash identifier. This method allows direct lookup of a specific permission without needing to know the account, chain, or spender details.
+Получает одно разрешение на трату по его уникальному идентификатору хэша. Этот метод позволяет напрямую искать конкретное разрешение без необходимости знать данные аккаунта, цепочки или тратящей стороны.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="permissionHash" type="string" required>
-The unique hash identifier of the permission to retrieve.
+Уникальный идентификатор хэша разрешения для получения.
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="object">
-The permission response object.
+Объект ответа с разрешением.
 
-<Expandable title="FetchPermissionResult properties">
+<Expandable title="Свойства FetchPermissionResult">
 <ResponseField name="permission" type="object">
-The permission object containing all details of the requested permission.
+Объект разрешения, содержащий все детали запрашиваемого разрешения.
 
-<Expandable title="Permission properties">
+<Expandable title="Свойства Permission">
 <ResponseField name="createdAt" type="number">
-Unix timestamp when the permission was created.
+Unix-метка времени, когда разрешение было создано.
 </ResponseField>
 
 <ResponseField name="permissionHash" type="string">
-The unique hash identifier of the permission.
+Уникальный идентификатор хэша разрешения.
 </ResponseField>
 
 <ResponseField name="signature" type="string">
-The cryptographic signature authorizing this permission.
+Криптографическая подпись, авторизующая это разрешение.
 </ResponseField>
 
 <ResponseField name="spendPermission" type="object">
-The detailed spend permission parameters.
+Подробные параметры разрешения на трату.
 
-<Expandable title="SpendPermission properties">
+<Expandable title="Свойства SpendPermission">
 <ResponseField name="account" type="string">
-The address of the account granting the permission.
+Адрес аккаунта, предоставляющего разрешение.
 </ResponseField>
 
 <ResponseField name="spender" type="string">
-The address authorized to spend from the account.
+Адрес, авторизованный для траты с аккаунта.
 </ResponseField>
 
 <ResponseField name="token" type="string">
-The token contract address for which spending is authorized.
+Адрес контракта токена, для которого авторизована трата.
 </ResponseField>
 
 <ResponseField name="allowance" type="string">
-The maximum amount that can be spent (in smallest unit).
+Максимальная сумма, которую можно потратить (в наименьшей единице).
 </ResponseField>
 
 <ResponseField name="period" type="number">
-The duration in seconds for which the permission is valid within each period.
+Продолжительность в секундах, в течение которой разрешение действительно в каждом периоде.
 </ResponseField>
 
 <ResponseField name="start" type="number">
-Unix timestamp when the permission becomes active.
+Unix-метка времени, когда разрешение становится активным.
 </ResponseField>
 
 <ResponseField name="end" type="number">
-Unix timestamp when the permission expires.
+Unix-метка времени, когда разрешение истекает.
 </ResponseField>
 
 <ResponseField name="salt" type="string">
-A unique value used to generate the permission hash.
+Уникальное значение, используемое для генерации хэша разрешения.
 </ResponseField>
 
 <ResponseField name="extraData" type="string">
-Additional data associated with the permission (hex encoded).
+Дополнительные данные, связанные с разрешением (шестнадцатеричное (hex) кодирование).
 </ResponseField>
 </Expandable>
 </ResponseField>
@@ -134,29 +134,29 @@ Additional data associated with the permission (hex encoded).
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code | Message | Description |
-| ---- | ------- | ----------- |
-| -32602 | Invalid params | The permissionHash parameter is invalid or missing |
-| -32603 | Internal error | Permission not found or internal server error |
-| -32001 | Failed precondition | The method is currently disabled via kill switch |
+| Код  | Сообщение |  Описание   |
+| ---- | --------- | ----------- |
+| -32602 | Invalid params | Параметр permissionHash неверен или отсутствует |
+| -32603 | Internal error | Разрешение не найдено или внутренняя ошибка сервера |
+| -32001 | Failed precondition | Метод в настоящее время отключен через kill switch |
 
 <Warning>
-The `permissionHash` must be a valid hex-encoded hash string. The method will return an error if the permission doesn't exist or has been deleted.
+`permissionHash` должен быть допустимой строкой хэша в шестнадцатеричном кодировании. Метод вернет ошибку, если разрешение не существует или было удалено.
 </Warning>
 
-## Usage Notes
+## Примечания по использованию
 
 <Note>
-This method is particularly useful when:
-- You have a permission hash from a previous operation and need to retrieve its details
-- You want to verify the current state of a specific permission
-- You need to look up permission details without knowing the account or spender information
+Этот метод особенно полезен, когда:
+- У вас есть хэш разрешения из предыдущей операции, и вам нужно получить его детали
+- Вы хотите проверить текущее состояние конкретного разрешения
+- Вам нужно найти детали разрешения, не зная информации об аккаунте или тратящей стороне
 </Note>
 
-Unlike `coinbase_fetchPermissions`, this method:
-- Returns a single permission instead of a list
-- Does not require account, chain, or spender parameters
-- Does not support pagination
-- Provides direct access via the permission's unique identifier
+В отличие от `coinbase_fetchPermissions`, этот метод:
+- Возвращает одно разрешение вместо списка
+- Не требует параметров аккаунта, цепочки или тратящей стороны
+- Не поддерживает пагинацию
+- Предоставляет прямой доступ через уникальный идентификатор разрешения
