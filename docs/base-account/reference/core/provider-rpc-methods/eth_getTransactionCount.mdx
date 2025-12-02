@@ -1,28 +1,28 @@
 ---
 title: "eth_getTransactionCount"
-description: "Get the number of transactions sent from an address"
+description: "Получить количество транзакций, отправленных с адреса"
 ---
 
-Defined in the [Ethereum JSON-RPC Specification](https://ethereum.org/en/developers/docs/apis/json-rpc/)
+Определено в [Спецификации Ethereum JSON-RPC](https://ethereum.org/en/developers/docs/apis/json-rpc/)
 
 <Info>
-Returns the number of transactions sent from an address.
+Возвращает количество транзакций, отправленных с указанного адреса.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="address" type="string" required>
-The address to get the transaction count for (20 bytes).
+Адрес, для которого требуется получить количество транзакций (20 байт).
 </ParamField>
 
 <ParamField body="blockParameter" type="string" required>
-Integer block number, or the string "latest", "earliest" or "pending".
+Номер блока в виде целого числа или строки "latest", "earliest" или "pending".
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="string">
-A hexadecimal string representing the integer of the number of transactions sent from this address.
+Шестнадцатеричная строка (hex), представляющая целое число количества транзакций, отправленных с этого адреса.
 </ResponseField>
 
 <RequestExample>
@@ -49,13 +49,13 @@ A hexadecimal string representing the integer of the number of transactions sent
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code   | Message                            | Description |
+| Код    | Сообщение                          | Описание    |
 | ------ | ---------------------------------- | ----------- |
-| -32602 | Invalid address or block parameter | The provided address or block parameter is invalid |
-| 4100   | Requested method not supported     | The method is not supported by the wallet |
+| -32602 | Invalid address or block parameter | Указан некорректный адрес или параметр блока |
+| 4100   | Requested method not supported     | Метод не поддерживается кошельком |
 
 <Info>
-This value is used as the nonce for subsequent transactions from the address.
+Это значение используется как nonce для последующих транзакций с этого адреса.
 </Info>
