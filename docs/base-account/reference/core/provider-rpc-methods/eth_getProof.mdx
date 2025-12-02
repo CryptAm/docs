@@ -1,72 +1,72 @@
 ---
 title: "eth_getProof"
-description: "Get the Merkle proof for account and storage values"
+description: "Получить Мерклово доказательство для значений аккаунта и хранилища"
 ---
 
-Defined in the [Ethereum JSON-RPC Specification](https://ethereum.org/en/developers/docs/apis/json-rpc/)
+Определено в [Спецификации Ethereum JSON-RPC](https://ethereum.org/en/developers/docs/apis/json-rpc/)
 
 <Info>
-Returns the account and storage values of the specified account including the Merkle-proof.
+Возвращает значения аккаунта и хранилища указанного аккаунта, включая Мерклово доказательство.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="address" type="string" required>
-The address of the account (20 bytes).
+Адрес аккаунта (20 байт).
 </ParamField>
 
 <ParamField body="storageKeys" type="array" required>
-Array of storage-keys which should be proofed and included.
+Массив ключей хранилища, которые должны быть проверены и включены в доказательство.
 </ParamField>
 
 <ParamField body="blockParameter" type="string" required>
-Integer block number, or the string "latest", "earliest" or "pending".
+Номер блока в виде целого числа или строки "latest", "earliest" или "pending".
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="object">
-The proof object containing account and storage proofs.
+Объект доказательства, содержащий доказательства аккаунта и хранилища.
 
-<Expandable title="Proof object properties">
+<Expandable title="Свойства объекта доказательства">
 <ResponseField name="address" type="string">
-The address of the account.
+Адрес аккаунта.
 </ResponseField>
 
 <ResponseField name="accountProof" type="array">
-Array of rlp-serialized MerkleTree-Nodes, starting with the stateRoot-Node.
+Массив rlp-сериализованных узлов Мерклова дерева, начиная с узла stateRoot.
 </ResponseField>
 
 <ResponseField name="balance" type="string">
-The balance of the account.
+Баланс аккаунта (hex).
 </ResponseField>
 
 <ResponseField name="codeHash" type="string">
-Hash of the code of the account.
+Хэш кода аккаунта (hex).
 </ResponseField>
 
 <ResponseField name="nonce" type="string">
-Nonce of the account.
+nonce аккаунта (hex).
 </ResponseField>
 
 <ResponseField name="storageHash" type="string">
-SHA3 of the StorageRoot.
+SHA3 хэш StorageRoot (hex).
 </ResponseField>
 
 <ResponseField name="storageProof" type="array">
-Array of storage proof objects.
+Массив объектов доказательств хранилища.
 
-<Expandable title="Storage proof properties">
+<Expandable title="Свойства доказательства хранилища">
 <ResponseField name="key" type="string">
-The requested storage key.
+Запрошенный ключ хранилища (hex).
 </ResponseField>
 
 <ResponseField name="value" type="string">
-The storage value.
+Значение в хранилище (hex).
 </ResponseField>
 
 <ResponseField name="proof" type="array">
-Array of rlp-serialized MerkleTree-Nodes.
+Массив rlp-сериализованных узлов Мерклова дерева (Merkle tree).
 </ResponseField>
 </Expandable>
 </ResponseField>
@@ -117,13 +117,13 @@ Array of rlp-serialized MerkleTree-Nodes.
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code   | Message                        | Description |
+| Код    | Сообщение                      | Описание    |
 | ------ | ------------------------------ | ----------- |
-| -32602 | Invalid parameters             | Invalid address, storage keys, or block parameter |
-| 4100   | Requested method not supported | The method is not supported by the wallet |
+| -32602 | Invalid parameters             | Некорректный адрес, ключи хранилища или параметр блока |
+| 4100   | Requested method not supported | Метод не поддерживается кошельком |
 
 <Info>
-This method is useful for verifying account states and storage values using Merkle proofs without trusting the provider.
+Этот метод полезен для проверки состояний аккаунтов и значений хранилища с использованием Меркловых доказательств без необходимости доверять провайдеру.
 </Info>
