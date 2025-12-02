@@ -1,46 +1,46 @@
 ---
-title: "Capabilities Overview"
-description: "Understand how to use Base Account capabilities with wallet_connect and wallet_sendCalls"
+title: "Обзор возможностей"
+description: "Поймите, как использовать возможности Base Account с методами wallet_connect и wallet_sendCalls"
 ---
 
-Base Account supports various capabilities that extend functionality beyond standard wallet operations. Capabilities are feature flags that indicate what additional functionality a wallet supports for specific chains and accounts.
+Base Account поддерживает различные возможности, которые расширяют функциональность за пределы стандартных операций кошелька. Возможности (capabilities) - это флаги функций, которые указывают, какую дополнительную функциональность кошелек поддерживает для конкретных цепочек и аккаунтов.
 
-## Core Concepts
+## Основные концепции
 
-Capabilities are discovered using `wallet_getCapabilities` and utilized through `wallet_connect` and `wallet_sendCalls` methods. Each capability is chain-specific and may have different availability depending on the account type.
+Возможности обнаруживаются с помощью `wallet_getCapabilities` и используются через методы `wallet_connect` и `wallet_sendCalls`. Каждая возможность зависит от цепочки и может иметь разную доступность в зависимости от типа аккаунта.
 
-### Discovery Pattern
+### Паттерн обнаружения
 
 ```typescript
-// Check what capabilities are available
+// Проверить, какие возможности доступны
 const capabilities = await provider.request({
   method: 'wallet_getCapabilities',
   params: [userAddress]
 });
 
-// Check specific capability for Base mainnet
+// Проверить конкретную возможность для Base mainnet
 const baseCapabilities = capabilities["0x2105"]; // Base mainnet chain ID
 ```
 
-## Available Capabilities
+## Доступные возможности
 
-| Capability | Method | Description |
+| Возможность | Метод | Описание    |
 |-----------|---------|-------------|
-| [signInWithEthereum](/base-account/reference/core/capabilities/signInWithEthereum) | `wallet_connect` | SIWE authentication |
-| [auxiliaryFunds](/base-account/reference/core/capabilities/auxiliaryFunds) | `wallet_sendCalls` | MagicSpend - use Coinbase balances onchain |
-| [atomic](/base-account/reference/core/capabilities/atomic) | `wallet_sendCalls` | Atomic batch transactions |
-| [paymasterService](/base-account/reference/core/capabilities/paymasterService) | `wallet_sendCalls` | Gasless transactions |
-| [flowControl](/base-account/reference/core/capabilities/flowControl) | `wallet_sendCalls` | Flow control |
-| [datacallback](/base-account/reference/core/capabilities/datacallback) | `wallet_sendCalls` | Data callback |
+| [signInWithEthereum](/base-account/reference/core/capabilities/signInWithEthereum) | `wallet_connect` | Аутентификация SIWE |
+| [auxiliaryFunds](/base-account/reference/core/capabilities/auxiliaryFunds) | `wallet_sendCalls` | MagicSpend - использование балансов Coinbase в блокчейне |
+| [atomic](/base-account/reference/core/capabilities/atomic) | `wallet_sendCalls` | Атомарные пакетные транзакции |
+| [paymasterService](/base-account/reference/core/capabilities/paymasterService) | `wallet_sendCalls` | Бесплатные транзакции |
+| [flowControl](/base-account/reference/core/capabilities/flowControl) | `wallet_sendCalls` | Управление потоком |
+| [datacallback](/base-account/reference/core/capabilities/datacallback) | `wallet_sendCalls` | Обратный вызов данных |
 
-## Using with wallet_connect
+## Использование с wallet_connect
 
-The `wallet_connect` method supports capabilities for connection and authentication:
+Метод `wallet_connect` поддерживает возможности для подключения и аутентификации:
 
-### Basic Connection
+### Базовое подключение
 
 ```typescript
-// Simple connection without capabilities
+// Простое подключение без возможностей
 const result = await provider.request({
   method: 'wallet_connect',
   params: [{
@@ -49,10 +49,10 @@ const result = await provider.request({
 });
 ```
 
-### Authentication with signInWithEthereum
+### Аутентификация с signInWithEthereum
 
 ```typescript
-// Generate nonce for security
+// Генерируем nonce для безопасности
 const nonce = window.crypto.randomUUID().replace(/-/g, '');
 
 const { accounts } = await provider.request({
@@ -68,11 +68,11 @@ const { accounts } = await provider.request({
   }]
 });
 
-// Extract authentication data
+// Извлекаем данные аутентификации
 const { address } = accounts[0];
 const { message, signature } = accounts[0].capabilities.signInWithEthereum;
 
-// Verify signature on your backend
+// Проверяем подпись на вашем бэкенде
 await fetch('/auth/verify', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
@@ -80,14 +80,14 @@ await fetch('/auth/verify', {
 });
 ```
 
-## Using with wallet_sendCalls
+## Использование с wallet_sendCalls
 
-The `wallet_sendCalls` method supports transaction-related capabilities:
+Метод `wallet_sendCalls` поддерживает возможности, связанные с транзакциями:
 
-### Basic Transaction
+### Базовая транзакция
 
 ```typescript
-// Simple transaction without capabilities
+// Простая транзакция без возможностей
 const result = await provider.request({
   method: 'wallet_sendCalls',
   params: [{
@@ -103,7 +103,7 @@ const result = await provider.request({
 });
 ```
 
-### Gasless Transactions with Paymaster
+### Бесплатные транзакции с Paymaster
 
 ```typescript
 await provider.request({
@@ -126,7 +126,7 @@ await provider.request({
 });
 ```
 
-### Atomic Batch Transactions
+### Атомарные пакетные транзакции
 
 ```typescript
 await provider.request({
@@ -135,7 +135,7 @@ await provider.request({
     version: '1.0',
     chainId: '0x2105',
     from: userAddress,
-    atomicRequired: true, // Require atomic execution
+    atomicRequired: true, // Требовать атомарное выполнение
     calls: [
       {
         to: tokenAddress,
@@ -152,9 +152,9 @@ await provider.request({
 });
 ```
 
-## Capability Detection Patterns
+## Паттерны обнаружения возможностей
 
-### Check Single Capability
+### Проверка одной возможности
 
 ```typescript
 async function checkAuxiliaryFunds(address: string): Promise<boolean> {
@@ -172,7 +172,7 @@ async function checkAuxiliaryFunds(address: string): Promise<boolean> {
 }
 ```
 
-### Check Multiple Capabilities
+### Проверка нескольких возможностей
 
 ```typescript
 async function getWalletCapabilities(address: string) {
@@ -187,25 +187,25 @@ async function getWalletCapabilities(address: string) {
     hasAuxiliaryFunds: baseCapabilities.auxiliaryFunds?.supported || false,
     hasAtomicBatch: baseCapabilities.atomic?.supported === "supported",
     hasPaymaster: !!baseCapabilities.paymasterService?.supported,
-    canAuthenticate: true // signInWithEthereum is always available with wallet_connect
+    canAuthenticate: true // signInWithEthereum всегда доступен с wallet_connect
   };
 }
 ```
 
-## Capability-Specific Guides
+## Руководства по конкретным возможностям
 
-For detailed information on each capability:
+Для подробной информации о каждой возможности:
 
-- [signInWithEthereum](/base-account/reference/core/capabilities/signInWithEthereum) - SIWE authentication
-- [auxiliaryFunds](/base-account/reference/core/capabilities/auxiliaryFunds) - MagicSpend integration
-- [atomic](/base-account/reference/core/capabilities/atomic) - Atomic batch transactions
-- [paymasterService](/base-account/reference/core/capabilities/paymasterService) - Gasless transactions
+- [signInWithEthereum](/base-account/reference/core/capabilities/signInWithEthereum) - Аутентификация SIWE
+- [auxiliaryFunds](/base-account/reference/core/capabilities/auxiliaryFunds) - Интеграция MagicSpend
+- [atomic](/base-account/reference/core/capabilities/atomic) - Атомарные пакетные транзакции
+- [paymasterService](/base-account/reference/core/capabilities/paymasterService) - Бесплатные транзакции
 
-## Related Methods
+## Связанные методы
 
-- [`wallet_getCapabilities`](/base-account/reference/core/provider-rpc-methods/wallet_getCapabilities) - Discover available capabilities
-- [`wallet_connect`](/base-account/reference/core/provider-rpc-methods/wallet_connect) - Connect with capabilities
-- [`wallet_sendCalls`](/base-account/reference/core/provider-rpc-methods/wallet_sendCalls) - Execute transactions with capabilities
+- [`wallet_getCapabilities`](/base-account/reference/core/provider-rpc-methods/wallet_getCapabilities) - Обнаружение доступных возможностей
+- [`wallet_connect`](/base-account/reference/core/provider-rpc-methods/wallet_connect) - Подключение с возможностями
+- [`wallet_sendCalls`](/base-account/reference/core/provider-rpc-methods/wallet_sendCalls) - Выполнение транзакций с возможностями
 
 import PolicyBanner from "/snippets/PolicyBanner.mdx";
 
