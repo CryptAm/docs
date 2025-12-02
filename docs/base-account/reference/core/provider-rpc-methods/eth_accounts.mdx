@@ -1,22 +1,22 @@
 ---
 title: "eth_accounts"
-description: "Returns a list of addresses owned by the connected wallet without prompting user authorization"
+description: "Возвращает список адресов, принадлежащих подключенному кошельку, без запроса авторизации пользователя"
 ---
 
-Defined in [EIP-1474](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1474.md)
+Определено в [EIP-1474](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1474.md)
 
 <Info>
-Returns a list of addresses owned by the connected wallet. Unlike `eth_requestAccounts`, this method returns an empty array if no accounts are available or if the user has not authorized any accounts to the caller. This method does not prompt the user to approve connection.
+Возвращает список адресов, принадлежащих подключенному кошельку. В отличие от `eth_requestAccounts`, этот метод возвращает пустой массив, если нет доступных аккаунтов или если пользователь не авторизовал ни одного аккаунта для вызывающей стороны. Этот метод не запрашивает у пользователя разрешение на подключение.
 </Info>
 
-## Parameters
+## Параметры
 
-This method does not accept any parameters.
+Этот метод не принимает параметров.
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="Array<string>">
-An array of Ethereum addresses (hexadecimal strings), which the connected user controls. The array will typically contain a single address, which is the currently selected account in the wallet. If the wallet is not connected or no accounts are authorized, this method returns an empty array.
+Массив Ethereum-адресов (шестнадцатеричные строки), которыми управляет подключенный пользователь. Массив обычно содержит один адрес, который является выбранным в данный момент аккаунтом в кошельке. Если кошелек не подключен или аккаунты не авторизованы, этот метод возвращает пустой массив.
 </ResponseField>
 
 
@@ -51,11 +51,11 @@ An array of Ethereum addresses (hexadecimal strings), which the connected user c
 
 
 
-## Error Handling
+## Обработка ошибок
 
 
-| Code | Message                        | Description                                             |
+| Код  | Сообщение                      | Описание                                                |
 | ---- | ------------------------------ | ------------------------------------------------------- |
-| 4100 | Requested method not supported | The provider does not support the `eth_accounts` method |
-| 4900 | Disconnected                   | The provider is disconnected from the wallet           |
+| 4100 | Requested method not supported | Провайдер не поддерживает метод `eth_accounts`         |
+| 4900 | Disconnected                   | Провайдер отключен от кошелька                         |
 
