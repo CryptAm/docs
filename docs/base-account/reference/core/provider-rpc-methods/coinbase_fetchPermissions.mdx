@@ -1,54 +1,54 @@
 ---
 title: "coinbase_fetchPermissions"
-description: "Retrieve permissions for a specific spender and chain, optionally filtered by account"
+description: "Получение разрешений для конкретного тратящего лица (spender) и цепочки, с опциональной фильтрацией по аккаунту"
 ---
 
-Coinbase-specific RPC method
+Специфичный для Coinbase RPC-метод
 
 <Info>
-Retrieves permissions associated with a specific account and chain. If a spender is provided, returns only permissions for that spender. Otherwise, returns all permissions for the account. This method excludes permissions that have expired or been revoked, returning only active spend permissions. Sorted by creation date, oldest first.
+Получает разрешения, связанные с конкретным аккаунтом и цепочкой. Если указан spender (тратящее лицо), возвращает только разрешения для этого spender. В противном случае возвращает все разрешения для аккаунта. Этот метод исключает разрешения, которые истекли или были отозваны, возвращая только активные разрешения на трату. Отсортированы по дате создания, старейшие первыми.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="spender" type="string" required>
-The entity granted with the permission to spend funds. This is the address whose permissions are being queried.
+Лицо, которому предоставлено разрешение на трату средств. Это адрес, чьи разрешения запрашиваются.
 </ParamField>
 
 <ParamField body="chainId" type="string" required>
-The ID of the blockchain, in hexadecimal format.
+Идентификатор блокчейна в шестнадцатеричном формате.
 </ParamField>
 
 <ParamField body="account" type="string">
-Optional. The address of the account whose permissions are being queried. If not provided, returns all permissions for the spender.
+Опционально. Адрес аккаунта, чьи разрешения запрашиваются. Если не указан, возвращает все разрешения для spender.
 </ParamField>
 
 <ParamField body="pageOptions" type="object">
-Optional pagination settings for the request.
+Опциональные настройки пагинации для запроса.
 
 <Expandable title="PageOptions properties">
 <ParamField body="pageSize" type="number">
-The number of permissions to fetch in a single request. Defaults to 50.
+Количество разрешений для получения в одном запросе. По умолчанию 50.
 </ParamField>
 
 <ParamField body="cursor" type="string">
-A unique identifier to start fetching from a specific page.
+Уникальный идентификатор для начала выборки с конкретной страницы.
 </ParamField>
 </Expandable>
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="object">
-The permissions response object.
+Объект ответа с разрешениями.
 
-<Expandable title="FetchPermissionsResult properties">
+<Expandable title="Свойства FetchPermissionsResult">
 <ResponseField name="permissions" type="array">
-An array of permission objects, ordered from oldest to newest (older permissions appear first).
+Массив объектов разрешений, упорядоченный от старейших к новейшим (более старые разрешения появляются первыми).
 </ResponseField>
 
 <ResponseField name="pageDescription" type="object">
-Pagination information for the response.
+Информация о пагинации для ответа.
 </ResponseField>
 </Expandable>
 </ResponseField>
@@ -113,14 +113,14 @@ Pagination information for the response.
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code | Message                        | Description |
+| Код  | Сообщение                      | Описание    |
 | ---- | ------------------------------ | ----------- |
-| 4001 | User rejected the request      | User denied the permission request |
-| 4100 | Requested method not supported | The method is not supported by the wallet |
-| -32602 | Invalid params                 | Invalid account, chainId, or spender parameters |
+| 4001 | User rejected the request      | Пользователь отклонил запрос разрешения |
+| 4100 | Requested method not supported | Метод не поддерживается кошельком |
+| -32602 | Invalid params                 | Неверные параметры account, chainId или spender |
 
 <Warning>
-Ensure the `chainId` and `spender` parameters are correctly formatted and valid for the blockchain you are querying. If provided, the `account` parameter must also be a valid address.
+Убедитесь, что параметры `chainId` и `spender` правильно отформатированы и действительны для запрашиваемого блокчейна. Если указан, параметр `account` также должен быть действительным адресом.
 </Warning>
