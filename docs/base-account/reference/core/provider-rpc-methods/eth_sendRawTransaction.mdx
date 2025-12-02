@@ -1,24 +1,24 @@
 ---
 title: "eth_sendRawTransaction"
-description: "Submit a signed transaction to the network"
+description: "Отправить подписанную транзакцию в сеть"
 ---
 
-Defined in the [Ethereum JSON-RPC Specification](https://ethereum.org/en/developers/docs/apis/json-rpc/)
+Определено в [Спецификации Ethereum JSON-RPC](https://ethereum.org/en/developers/docs/apis/json-rpc/)
 
 <Info>
-Submits a pre-signed transaction for broadcast to the Ethereum network.
+Отправляет предварительно подписанную транзакцию для распространения в сети Ethereum..
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="signedTransactionData" type="string" required>
-The signed transaction data as a hexadecimal string.
+Данные подписанной транзакции в виде шестнадцатеричной строки (hex).
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="string">
-The transaction hash (32 bytes) as a hexadecimal string, or the zero hash if the transaction is not yet available.
+Хэш транзакции (32 байта) в виде шестнадцатеричной строки (hex) или нулевой хэш, если транзакция ещё недоступна.
 </ResponseField>
 
 <RequestExample>
@@ -42,15 +42,15 @@ The transaction hash (32 bytes) as a hexadecimal string, or the zero hash if the
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code   | Message                        | Description |
+| Код    | Сообщение                      | Описание    |
 | ------ | ------------------------------ | ----------- |
-| -32602 | Invalid params                 | Invalid transaction data format |
-| -32000 | Insufficient funds             | Account doesn't have enough balance |
-| 4001   | User rejected the request      | User denied the transaction request |
-| 4100   | Requested method not supported | The method is not supported by the wallet |
+| -32602 | Invalid params                 | Некорректный формат данных транзакции |
+| -32000 | Insufficient funds             | Недостаточно средств на аккаунте |
+| 4001   | User rejected the request      | Пользователь отклонил запрос на транзакцию |
+| 4100   | Requested method not supported | Метод не поддерживается кошельком |
 
 <Warning>
-Ensure the transaction is properly signed before submitting. Invalid signatures will result in transaction failure.
+Убедитесь, что транзакция правильно подписана перед отправкой. Некорректные подписи приведут к неудаче транзакции.
 </Warning>
