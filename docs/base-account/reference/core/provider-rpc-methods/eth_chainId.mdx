@@ -1,22 +1,22 @@
 ---
 title: "eth_chainId"
-description: "Get the currently configured chain ID"
+description: "Получение идентификатора (ID) текущей настройки цепочки"
 ---
 
-Defined in [EIP-695](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-695.md)
+Определено в [EIP-695](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-695.md)
 
 <Info>
-Returns the currently configured chain ID, a value used in replay-protected transaction signing as introduced by EIP-155.
+Возвращает идентификатор текущей настройки цепочки (chain ID), значение, используемое при подписании защищенных от повторного использования транзакций, введенных EIP-155.
 </Info>
 
-## Parameters
+## Параметры
 
-This method does not accept any parameters.
+Этот метод не принимает параметров.
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="string">
-A hexadecimal string representing the chain ID.
+Строка в шестнадцатеричном формате, представляющая идентификатор (ID) цепочки.
 </ResponseField>
 
 <RequestExample>
@@ -48,12 +48,12 @@ A hexadecimal string representing the chain ID.
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code | Message                        | Description |
+| Код  | Сообщение                      | Описание    |
 | ---- | ------------------------------ | ----------- |
-| 4100 | Requested method not supported | The method is not supported by the wallet |
+| 4100 | Requested method not supported | Метод не поддерживается кошельком |
 
 <Info>
-Common chain IDs: Ethereum Mainnet (0x1), Base Mainnet (0x2105), Base Sepolia (0x14a34).
+Общие идентификаторы цепочек: Ethereum Mainnet (0x1), Base Mainnet (0x2105), Base Sepolia (0x14a34).
 </Info>
