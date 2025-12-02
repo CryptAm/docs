@@ -1,72 +1,72 @@
 ---
 title: "eth_getTransactionReceipt"
-description: "Get the receipt of a transaction by transaction hash"
+description: "Получить квитанцию транзакции по хэшу транзакции"
 ---
 
-Defined in the [Ethereum JSON-RPC Specification](https://ethereum.org/en/developers/docs/apis/json-rpc/)
+Определено в [Спецификации Ethereum JSON-RPC](https://ethereum.org/en/developers/docs/apis/json-rpc/)
 
 <Info>
-Returns the receipt of a transaction by transaction hash. Note that the receipt is not available for pending transactions.
+Возвращает квитанцию транзакции по её хэшу. Обратите внимание, что квитанция недоступна для ожидающих транзакций.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="transactionHash" type="string" required>
-The hash of a transaction (32 bytes).
+Хэш транзакции (32 байта).
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="object">
-A transaction receipt object, or null when no receipt was found.
+Объект квитанции транзакции или `null`, если квитанция не найдена.
 
-<Expandable title="Transaction receipt properties">
+<Expandable title="Свойства квитанции транзакции">
 <ResponseField name="transactionHash" type="string">
-Hash of the transaction.
+Хэш транзакции.
 </ResponseField>
 
 <ResponseField name="transactionIndex" type="string">
-Integer of the transaction index position in the block.
+Позиция индекса транзакции в блоке.
 </ResponseField>
 
 <ResponseField name="blockHash" type="string">
-Hash of the block where this transaction was in.
+Хэш блока, в котором находилась эта транзакция.
 </ResponseField>
 
 <ResponseField name="blockNumber" type="string">
-Block number where this transaction was in.
+Номер блока, в котором находилась эта транзакция.
 </ResponseField>
 
 <ResponseField name="from" type="string">
-Address of the sender.
+Адрес отправителя.
 </ResponseField>
 
 <ResponseField name="to" type="string">
-Address of the receiver. null when it's a contract creation transaction.
+Адрес получателя. `null` для транзакции создания контракта.
 </ResponseField>
 
 <ResponseField name="cumulativeGasUsed" type="string">
-The total amount of gas used when this transaction was executed in the block.
+Общее количество газа, использованного при выполнении этой транзакции в блоке.
 </ResponseField>
 
 <ResponseField name="gasUsed" type="string">
-The amount of gas used by this specific transaction alone.
+Количество газа, использованного только этой конкретной транзакцией.
 </ResponseField>
 
 <ResponseField name="contractAddress" type="string">
-The contract address created, if the transaction was a contract creation, otherwise null.
+Адрес созданного контракта, если транзакция была созданием контракта, иначе `null`..
 </ResponseField>
 
 <ResponseField name="logs" type="array">
-Array of log objects, which this transaction generated.
+Массив объектов логов, сгенерированных этой транзакцией.
 </ResponseField>
 
 <ResponseField name="logsBloom" type="string">
-Bloom filter for the logs of the transaction.
+Bloom-фильтр для логов транзакции.
 </ResponseField>
 
 <ResponseField name="status" type="string">
-Either 1 (success) or 0 (failure).
+1 (успех) или 0 (неудача).
 </ResponseField>
 </Expandable>
 </ResponseField>
@@ -115,13 +115,13 @@ Either 1 (success) or 0 (failure).
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code   | Message                        | Description |
+| Код    | Сообщение                      | Описание    |
 | ------ | ------------------------------ | ----------- |
-| -32602 | Invalid transaction hash       | The provided transaction hash is invalid |
-| 4100   | Requested method not supported | The method is not supported by the wallet |
+| -32602 | Invalid transaction hash       | Указан некорректный хэш транзакции |
+| 4100   | Requested method not supported | Метод не поддерживается кошельком |
 
 <Info>
-Transaction receipts are only available for mined transactions. Pending transactions will return null.
+Квитанции транзакций доступны только для добытых транзакций. Для ожидающих транзакций возвращается `null`.
 </Info>
