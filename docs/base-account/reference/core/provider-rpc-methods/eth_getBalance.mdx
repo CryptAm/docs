@@ -1,28 +1,28 @@
 ---
 title: "eth_getBalance"
-description: "Get the balance of an account at a given block"
+description: "Получить баланс аккаунта на указанном блоке"
 ---
 
-Defined in the [Ethereum JSON-RPC Specification](https://ethereum.org/en/developers/docs/apis/json-rpc/)
+Определено в [Спецификации Ethereum JSON-RPC](https://ethereum.org/en/developers/docs/apis/json-rpc/)
 
 <Info>
-Returns the balance of the account of given address.
+Возвращает баланс аккаунта по указанному адресу.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="address" type="string" required>
-The address to check for balance (20 bytes).
+Адрес для проверки баланса (20 байт).
 </ParamField>
 
 <ParamField body="blockParameter" type="string" required>
-Integer block number, or the string "latest", "earliest" or "pending".
+Номер блока в виде целого числа или строки "latest", "earliest" или "pending".
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="string">
-A hexadecimal string representing the current balance in wei.
+Шестнадцатеричная строка (hex), представляющая текущий баланс в wei.
 </ResponseField>
 
 <RequestExample>
@@ -46,14 +46,14 @@ A hexadecimal string representing the current balance in wei.
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code   | Message                            | Description |
+| Код    | Сообщение                          | Описание    |
 | ------ | ---------------------------------- | ----------- |
-| -32602 | Invalid address or block parameter | The provided address or block parameter is invalid |
-| 4100   | Requested method not supported     | The method is not supported by the wallet |
+| -32602 | Invalid address or block parameter | Указан некорректный адрес или параметр блока |
+| 4100   | Requested method not supported     | Метод не поддерживается кошельком |
 
 <Info>
-The result represents the balance in wei. To convert to ETH, divide by 10^18.
+Результат представляет баланс в wei. Для конвертации в ETH разделите на 10^18.
 </Info>
 
