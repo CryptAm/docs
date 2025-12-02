@@ -1,43 +1,43 @@
 ---
 title: "signInWithEthereum"
-description: "Enable secure authentication using the Sign-In With Ethereum (SIWE) standard"
+description: "Включение безопасной аутентификации с использованием стандарта Sign-In With Ethereum (SIWE)"
 ---
 
-Defined in [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361)
+Определено в [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361)
 
 <Info>
-The signInWithEthereum capability enables secure user authentication following the SIWE (Sign-In With Ethereum) standard. This capability is only available with the `wallet_connect` method and provides a standardized way to authenticate users with their Ethereum accounts.
+Возможность signInWithEthereum обеспечивает безопасную аутентификацию пользователей в соответствии со стандартом SIWE (Sign-In With Ethereum). Эта возможность доступна только с методом `wallet_connect` и предоставляет стандартизированный способ аутентификации пользователей с их Ethereum-аккаунтами.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="nonce" type="string" required>
-A unique random string to prevent replay attacks. Should be generated fresh for each authentication attempt.
+Уникальная случайная строка для предотвращения атак повторного использования. Должна генерироваться заново для каждой попытки аутентификации.
 </ParamField>
 
 <ParamField body="chainId" type="string" required>
-The chain ID as a hexadecimal string (e.g., "0x2105" for Base Mainnet).
+Идентификатор цепочки (chain ID) в виде шестнадцатеричной строки (например, "0x2105" для Base Mainnet).
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="signInWithEthereum" type="object">
-Authentication result containing the signed message and signature.
+Результат аутентификации, содержащий подписанное сообщение и подпись.
 
-<Expandable title="SignInWithEthereum properties">
+<Expandable title="Свойства SignInWithEthereum">
 <ResponseField name="message" type="string">
-The SIWE-formatted message that was signed by the user.
+Сообщение в формате SIWE, которое было подписано пользователем.
 </ResponseField>
 
 <ResponseField name="signature" type="string">
-The cryptographic signature of the message, which can be verified on your backend.
+Криптографическая подпись сообщения, которую можно проверить на вашем бэкенде.
 </ResponseField>
 </Expandable>
 </ResponseField>
 
-## Usage with wallet_connect
+## Использование с wallet_connect
 
-The `signInWithEthereum` capability must be used with the `wallet_connect` method:
+Возможность `signInWithEthereum` должна использоваться с методом `wallet_connect`:
 
 <RequestExample>
 ```typescript Basic Authentication
@@ -45,11 +45,11 @@ import { createBaseAccountSDK } from '@base-org/account';
 
 const provider = createBaseAccountSDK().getProvider();
 
-// Generate a unique nonce
+// Генерируем уникальный nonce
 const nonce = window.crypto.randomUUID().replace(/-/g, '');
 
 try {
-  // Connect with signInWithEthereum capability
+  // Подключаемся с возможностью signInWithEthereum
   const { accounts } = await provider.request({
     method: 'wallet_connect',
     params: [{
@@ -63,7 +63,7 @@ try {
     }]
   });
 
-  // Extract authentication data
+  // Извлекаем данные аутентификации
   const { address } = accounts[0];
   const { message, signature } = accounts[0].capabilities.signInWithEthereum;
 
@@ -88,7 +88,7 @@ export async function verifyAuthentication(req, res) {
   const { address, message, signature } = req.body;
   
   try {
-    // Verify the signature
+    // Проверяем подпись
     const isValid = await client.verifyMessage({ 
       address, 
       message, 
@@ -101,7 +101,7 @@ export async function verifyAuthentication(req, res) {
       });
     }
     
-    // Create session or JWT token
+    // Создаем сессию или JWT-токен
     const token = generateAuthToken(address);
     
     res.json({ 
@@ -136,42 +136,42 @@ export async function verifyAuthentication(req, res) {
 ```
 </ResponseExample>
 
-## Security Considerations
+## Вопросы безопасности
 
-### Nonce Management
+### Управление nonce
 
-Always use fresh, unique nonces for each authentication attempt:
+Всегда используйте свежие, уникальные nonce для каждой попытки аутентификации:
 
 ```typescript
-// Generate cryptographically secure nonce
+// Генерируем криптографически безопасный nonce
 const nonce = window.crypto.randomUUID().replace(/-/g, '');
 
-// Or fetch from your backend
+// Или получаем с бэкенда
 const nonce = await fetch('/auth/nonce').then(r => r.text());
 ```
 
-### Backend Verification
+### Проверка на бэкенде
 
-Verify signatures on your backend to prevent tampering:
+Проверяйте подписи на вашем бэкенде, чтобы предотвратить подмену:
 
 ```typescript
-// Server-side nonce tracking
+// Отслеживание использованных nonce на стороне сервера
 const usedNonces = new Set();
 
 export async function verifyAuth(req, res) {
   const { address, message, signature } = req.body;
   
-  // Extract nonce from message
+  // Извлекаем nonce из сообщения
   const nonce = extractNonceFromMessage(message);
   
-  // Check if nonce has been used
+  // Проверяем, использовался ли nonce ранее
   if (usedNonces.has(nonce)) {
     return res.status(400).json({ 
       error: 'Nonce already used' 
     });
   }
   
-  // Verify signature
+  // Проверяем подпись
   const isValid = await client.verifyMessage({ 
     address, 
     message, 
@@ -180,14 +180,14 @@ export async function verifyAuth(req, res) {
   
   if (isValid) {
     usedNonces.add(nonce);
-    // Create session...
+    // Создаем сессию...
   }
 }
 ```
 
-## Integration Examples
+## Примеры интеграции
 
-### Express.js Backend
+### Бэкенд на Express.js
 
 ```typescript
 import express from 'express';
@@ -201,18 +201,18 @@ app.use(express.json());
 const client = createPublicClient({ chain: base, transport: http() });
 const nonces = new Set<string>();
 
-// Generate nonce endpoint
+// Генерация nonce endpoint
 app.get('/auth/nonce', (_, res) => {
   const nonce = crypto.randomBytes(16).toString('hex');
   nonces.add(nonce);
   res.send(nonce);
 });
 
-// Verify authentication
+// Проверка аутентификации
 app.post('/auth/verify', async (req, res) => {
   const { address, message, signature } = req.body;
   
-  // Extract and validate nonce
+  // Извлекаем и проверяем nonce
   const nonce = message.match(/Nonce: (\w+)/)?.[1];
   if (!nonce || !nonces.delete(nonce)) {
     return res.status(400).json({ 
@@ -220,7 +220,7 @@ app.post('/auth/verify', async (req, res) => {
     });
   }
   
-  // Verify signature
+  // Проверяем подпись
   const valid = await client.verifyMessage({ 
     address, 
     message, 
@@ -233,12 +233,12 @@ app.post('/auth/verify', async (req, res) => {
     });
   }
   
-  // Success - create session
+  // Успех - создаем сессию
   res.json({ success: true });
 });
 ```
 
-### React Integration
+### Интеграция с React
 
 ```tsx
 import { useState } from 'react';
@@ -255,10 +255,10 @@ export function AuthComponent() {
     try {
       const provider = createBaseAccountSDK().getProvider();
       
-      // Generate nonce
+      // Генерируем nonce
       const nonce = window.crypto.randomUUID().replace(/-/g, '');
       
-      // Authenticate with Base Account
+      // Аутентифицируемся с Base Account
       const { accounts } = await provider.request({
         method: 'wallet_connect',
         params: [{
@@ -275,7 +275,7 @@ export function AuthComponent() {
       const { address } = accounts[0];
       const { message, signature } = accounts[0].capabilities.signInWithEthereum;
       
-      // Verify on backend
+      // Проверяем на бэкенде
       const response = await fetch('/auth/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -307,29 +307,29 @@ export function AuthComponent() {
 }
 ```
 
-## Error Handling
+## Обработка ошибок
 
-| Code | Message | Description |
-| ---- | ------- | ----------- |
-| 4001 | User rejected the request | User denied the authentication request |
-| 4100 | Method not supported | Wallet doesn't support signInWithEthereum capability |
-| -32602 | Invalid params | Invalid nonce or chainId provided |
+| Код  | Сообщение | Описание    |
+| ---- | --------- | ----------- |
+| 4001 | User rejected the request | Пользователь отклонил запрос аутентификации |
+| 4100 | Method not supported | Кошелек не поддерживает возможность signInWithEthereum |
+| -32602 | Invalid params | Предоставлены неверные nonce или chainId |
 
 <Warning>
-The `signInWithEthereum` capability only works with the `wallet_connect` method. Using it with other methods like `eth_requestAccounts` will not work.
+Возможность `signInWithEthereum` работает только с методом `wallet_connect`. Использование ее с другими методами, такими как `eth_requestAccounts`, не будет работать.
 </Warning>
 
 <Info>
-Base Account signatures include ERC-6492 wrapper for undeployed smart wallets, which viem's `verifyMessage` handles automatically.
+Подписи Base Account включают обертку ERC-6492 для неразвернутых смарт-кошельков, которую функция `verifyMessage` в viem обрабатывает автоматически.
 </Info>
 
-## Best Practices
+## Рекомендации
 
-1. **Fresh Nonces**: Always generate unique nonces for each authentication attempt
-2. **Secure Generation**: Use cryptographically secure random number generation
-3. **Nonce Tracking**: Track used nonces on your backend to prevent replay attacks
-4. **Signature Verification**: Always verify signatures on your backend, never trust client-side verification
-5. **Session Management**: Create secure sessions or JWT tokens after successful verification
+1. **Свежие nonce**: Всегда генерируйте уникальные nonce для каждой попытки аутентификации
+2. **Безопасная генерация**: Используйте криптографически безопасную генерацию случайных чисел
+3. **Отслеживание nonce**: Отслеживайте использованные nonce на вашем бэкенде, чтобы предотвратить атаки повторного использования
+4. **Проверка подписи**: Всегда проверяйте подписи на вашем бэкенде, никогда не доверяйте проверке на клиентской стороне
+5. **Управление сессиями**: Создавайте безопасные сессии или JWT-токены после успешной проверки
 
 import PolicyBanner from "/snippets/PolicyBanner.mdx";
 
