@@ -1,82 +1,82 @@
 ---
 title: "eth_getLogs"
-description: "Get an array of all logs matching a given filter object"
+description: "Получить массив всех логов, соответствующих заданному объекту фильтра"
 ---
 
-Defined in the [Ethereum JSON-RPC Specification](https://ethereum.org/en/developers/docs/apis/json-rpc/)
+Определено в [Спецификации Ethereum JSON-RPC](https://ethereum.org/en/developers/docs/apis/json-rpc/)
 
 <Info>
-Returns an array of all logs matching a given filter object.
+Возвращает массив всех логов, соответствующих заданному объекту фильтра.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="filterObject" type="object" required>
-The filter options object.
+Объект параметров фильтра.
 
-<Expandable title="Filter object properties">
+<Expandable title="Свойства объекта фильтра">
 <ParamField body="fromBlock" type="string">
-Integer block number, or "latest" for the last mined block or "pending", "earliest" for not yet mined transactions.
+Номер блока в виде целого числа, "latest" для последнего добытого блока или "pending", "earliest" для еще не добытых транзакций.
 </ParamField>
 
 <ParamField body="toBlock" type="string">
-Integer block number, or "latest" for the last mined block or "pending", "earliest" for not yet mined transactions.
+Номер блока в виде целого числа, "latest" для последнего добытого блока или "pending", "earliest" для еще не добытых транзакций.
 </ParamField>
 
 <ParamField body="address" type="string | array">
-Contract address or a list of addresses from which logs should originate.
+Адрес контракта или список адресов, из которых должны происходить логи.
 </ParamField>
 
 <ParamField body="topics" type="array">
-Array of 32 Bytes DATA topics. Topics are order-dependent.
+Массив тем (topics) размером 32 байта каждая. Темы зависят от порядка.
 </ParamField>
 
 <ParamField body="blockhash" type="string">
-Using blockHash is equivalent to fromBlock = toBlock = the block number with hash blockHash.
+Использование blockHash эквивалентно fromBlock = toBlock = номеру блока с хэшем blockHash.
 </ParamField>
 </Expandable>
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="array">
-Array of log objects matching the filter.
+Массив объектов логов, соответствующих фильтру.
 
-<Expandable title="Log object properties">
+<Expandable title="Свойства объекта лога">
 <ResponseField name="removed" type="boolean">
-True when the log was removed, due to a chain reorganization. False if it's a valid log.
+True - если лог был удалён из-за реорганизации цепи. False - если это действительный лог.
 </ResponseField>
 
 <ResponseField name="logIndex" type="string">
-Integer of the log index position in the block. null when its pending log.
+Позиция индекса лога в блоке (hex). null для ожидающего лога.
 </ResponseField>
 
 <ResponseField name="transactionIndex" type="string">
-Integer of the transaction index position log was created from. null when its pending log.
+Позиция индекса транзакции, из которой был создан лог (hex). null для ожидающего лога.
 </ResponseField>
 
 <ResponseField name="transactionHash" type="string">
-Hash of the transaction this log was created from. null when its pending log.
+Хэш транзакции, из которой был создан лог (hex). null для ожидающего лога.
 </ResponseField>
 
 <ResponseField name="blockHash" type="string">
-Hash of the block where this log was in. null when its pending.
+Хэш блока, в котором находился этот лог (hex). null для ожидающего лога.
 </ResponseField>
 
 <ResponseField name="blockNumber" type="string">
-The block number where this log was in. null when its pending.
+Номер блока, в котором находился лог (hex). null для ожидающего лога.
 </ResponseField>
 
 <ResponseField name="address" type="string">
-Address from which this log originated.
+Адрес, из которого произошёл лог.
 </ResponseField>
 
 <ResponseField name="data" type="string">
-Contains the non-indexed parameters of the log.
+Неиндексированные параметры лога (hex).
 </ResponseField>
 
 <ResponseField name="topics" type="array">
-Array of 0 to 4 32 Bytes DATA of indexed log arguments.
+Массив от 0 до 4 тем (topics) размером 32 байта каждая - индексированные аргументы лога.
 </ResponseField>
 </Expandable>
 </ResponseField>
@@ -135,18 +135,18 @@ Array of 0 to 4 32 Bytes DATA of indexed log arguments.
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code   | Message                        | Description |
+| Код    | Сообщение                      | Описание    |
 | ------ | ------------------------------ | ----------- |
-| -32602 | Invalid filter parameters     | The filter object contains invalid parameters |
-| -32005 | Limit exceeded                 | The filter matches too many logs |
-| 4100   | Requested method not supported | The method is not supported by the wallet |
+| -32602 | Invalid filter parameters     | Объект фильтра содержит некорректные параметры |
+| -32005 | Limit exceeded                 | Фильтр соответствует слишком большому количеству логов |
+| 4100   | Requested method not supported | Метод не поддерживается кошельком |
 
 <Warning>
-Large filter ranges may exceed provider limits. Consider using smaller block ranges for better performance.
+Большие диапазоны фильтров могут превышать лимиты провайдера. Рекомендуется использовать меньшие диапазоны блоков для лучшей производительности.
 </Warning>
 
 <Info>
-Topics are order-dependent. Use null as a wildcard for any topic position.
+Темы (topics) зависят от порядка. Используйте `null` в качестве подстановочного знака для любой позиции темы.
 </Info>
