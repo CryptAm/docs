@@ -1,48 +1,48 @@
 ---
 title: "eth_feeHistory"
-description: "Get historical gas fee information for a range of blocks"
+description: "Получить историческую информацию о комиссиях за газ для диапазона блоков"
 ---
 
-Defined in [EIP-1559](https://eips.ethereum.org/EIPS/eip-1559)
+Определено в [EIP-1559](https://eips.ethereum.org/EIPS/eip-1559)
 
 <Info>
-Returns a collection of historical gas information from which you can recompute gas costs and estimate future gas prices.
+Возвращает набор исторических данных о газе, на основе которых можно пересчитать затраты на газ и спрогнозировать будущие цены.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="blockCount" type="string" required>
-Number of blocks in the requested range, as a hexadecimal string.
+Количество блоков в запрашиваемом диапазоне, в виде строки в шестнадцатеричном формате.
 </ParamField>
 
 <ParamField body="newestBlock" type="string" required>
-Highest block number in the requested range (hexadecimal) or "latest".
+Наибольший номер блока в запрашиваемом диапазоне (шестнадцатеричный) или "latest".
 </ParamField>
 
 <ParamField body="rewardPercentiles" type="array" required>
-Array of percentile values to sample from each block's effective priority fees.
+Массив значений процентилей для выборки из фактических приоритетных комиссий каждого блока.
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="object">
-Fee history data object containing gas information.
+Объект данных истории комиссий, содержащий информацию о газе.
 
-<Expandable title="Fee history object properties">
+<Expandable title="Свойства объекта истории комиссий">
 <ResponseField name="oldestBlock" type="string">
-Lowest block number in the range (hexadecimal).
+Наименьший номер блока в диапазоне (шестнадцатеричная строка).
 </ResponseField>
 
 <ResponseField name="baseFeePerGas" type="array">
-Array of block base fees per gas (hexadecimal strings).
+Массив базовых комиссий за газ для каждого блока (строки в шестнадцатеричном формате).
 </ResponseField>
 
 <ResponseField name="gasUsedRatio" type="array">
-Array of block gas utilization ratios (numbers between 0 and 1).
+Массив коэффициентов использования газа для каждого блока (числа от 0 до 1).
 </ResponseField>
 
 <ResponseField name="reward" type="array">
-Array of effective priority fee per gas data points for each block (optional).
+Массив точек данных фактической приоритетной комиссии за газ для каждого блока (опционально).
 </ResponseField>
 </Expandable>
 </ResponseField>
@@ -94,13 +94,13 @@ Array of effective priority fee per gas data points for each block (optional).
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code   | Message                        | Description |
+| Код    | Сообщение                      | Описание    |
 | ------ | ------------------------------ | ----------- |
-| -32602 | Invalid params                 | Invalid block count, block number, or percentiles |
-| 4100   | Requested method not supported | The method is not supported by the wallet |
+| -32602 | Invalid params                 | Некорректное количество блоков, номер блока или значения процентилей |
+| 4100   | Requested method not supported | Метод не поддерживается кошельком |
 
 <Info>
-This method is useful for implementing dynamic fee estimation algorithms and understanding network congestion patterns.
+Этот метод полезен для реализации алгоритмов динамической оценки комиссий и анализа паттернов загруженности сети.
 </Info>
