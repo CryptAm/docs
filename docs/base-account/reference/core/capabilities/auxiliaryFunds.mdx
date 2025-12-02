@@ -1,35 +1,35 @@
 ---
 title: "auxiliaryFunds"
-description: "Indicates wallet access to funds beyond on-chain balance verification"
+description: "Указывает на доступ кошелька к средствам за пределами проверки баланса в блокчейне"
 ---
 
-Defined in [EIP-5792](https://eips.ethereum.org/EIPS/eip-5792)
+Определено в [EIP-5792](https://eips.ethereum.org/EIPS/eip-5792)
 
 <Info>
-The auxiliaryFunds capability allows wallets to indicate they have access to funds beyond what can be directly verified on-chain by the wallet's address. This enables more flexible transaction execution and improved user experiences.
+Возможность auxiliaryFunds позволяет кошелькам указывать, что у них есть доступ к средствам, выходящим за пределы того, что можно напрямую проверить в блокчейне по адресу кошелька. Это обеспечивает более гибкое выполнение транзакций и улучшенный пользовательский опыт.
 </Info>
 
 <Warning>
-This capability is not yet finalized and may change in future iterations.
+Эта возможность еще не окончательна и может измениться в будущих итерациях.
 </Warning>
 
-## Parameters
+## Параметры
 
-This capability has no configuration parameters. It is either supported or not supported by the wallet.
+У этой возможности нет параметров конфигурации. Она либо поддерживается, либо не поддерживается кошельком.
 
-## Returns
+## Возвращает
 
 <ResponseField name="auxiliaryFunds" type="object">
-The auxiliary funds capability configuration for the specified chain.
+Конфигурация возможности вспомогательных средств (auxiliary funds) для указанной цепочки.
 
-<Expandable title="AuxiliaryFunds capability properties">
+<Expandable title="Свойства возможности auxiliaryFunds">
 <ResponseField name="supported" type="boolean">
-Indicates whether the wallet has access to auxiliary funding sources beyond on-chain balance.
+Указывает, имеет ли кошелек доступ к вспомогательным источникам финансирования за пределами баланса в блокчейне.
 </ResponseField>
 </Expandable>
 </ResponseField>
 
-## Example Usage
+## Пример использования
 
 <RequestExample>
 ```typescript Check Auxiliary Funds Support
@@ -43,10 +43,10 @@ const auxiliaryFunds = capabilities["0x2105"]?.auxiliaryFunds;
 
 ```typescript Balance Check with Auxiliary Funds
 if (auxiliaryFunds?.supported) {
-  // Don't block transactions based on visible balance alone
+  // Не блокировать транзакции только на основе видимого баланса
   console.log("Wallet has access to auxiliary funds");
 } else {
-  // Check on-chain balance before allowing transactions
+  // Проверять баланс в блокчейне перед разрешением транзакций
   const balance = await provider.request({
     method: 'eth_getBalance',
     params: [userAddress, 'latest']
@@ -77,20 +77,20 @@ if (auxiliaryFunds?.supported) {
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code | Message | Description |
-| ---- | ------- | ----------- |
-| 4100 | Auxiliary funds not supported | Wallet does not support auxiliary funding sources |
-| 4200 | Auxiliary funds unavailable | Auxiliary funding sources are temporarily unavailable |
-| 4300 | Insufficient auxiliary funds | Auxiliary funds exist but are insufficient for the transaction |
+| Код | Сообщение | Описание |
+| --- | --------- | -------- |
+| 4100 | Auxiliary funds not supported | Кошелек не поддерживает вспомогательные источники финансирования |
+| 4200 | Auxiliary funds unavailable | Вспомогательные источники финансирования временно недоступны |
+| 4300 | Insufficient auxiliary funds | Вспомогательные средства существуют, но недостаточны для транзакции |
 
-## Wallet Implementation
+## Реализация в кошельке
 
-Wallets supporting auxiliary funds must include the capability in their response:
+Кошельки, поддерживающие вспомогательные средства, должны включать эту возможность в свой ответ:
 
 ```typescript
-// Wallet response to wallet_getCapabilities
+// Ответ кошелька на wallet_getCapabilities
 {
   "0x2105": { // Base mainnet
     "auxiliaryFunds": {
@@ -100,11 +100,11 @@ Wallets supporting auxiliary funds must include the capability in their response
 }
 ```
 
-## App Behavior
+## Поведение приложения
 
-Apps should modify their balance checking logic when auxiliary funds are supported:
+Приложения должны изменять свою логику проверки баланса, когда поддерживаются вспомогательные средства:
 
-### Without Auxiliary Funds
+### Без вспомогательных средств
 
 ```typescript
 async function checkCanExecuteTransaction(amount: bigint) {
@@ -121,7 +121,7 @@ async function checkCanExecuteTransaction(amount: bigint) {
 }
 ```
 
-### With Auxiliary Funds Support
+### С поддержкой вспомогательных средств
 
 ```typescript
 async function checkCanExecuteTransaction(amount: bigint) {
@@ -131,12 +131,12 @@ async function checkCanExecuteTransaction(amount: bigint) {
   });
   
   if (capabilities["0x2105"]?.auxiliaryFunds?.supported) {
-    // Wallet may have auxiliary funds, allow transaction
+    //Кошелек может иметь доступ к вспомогательным средствам, разрешаем транзакцию
     console.log("Auxiliary funds available, proceeding with transaction");
     return true;
   }
   
-  // Check on-chain balance as fallback
+  // Проверяем баланс в блокчейне как откат
   const balance = await provider.request({
     method: 'eth_getBalance', 
     params: [userAddress, 'latest']
@@ -150,11 +150,11 @@ async function checkCanExecuteTransaction(amount: bigint) {
 }
 ```
 
-## Use Cases
+## Сценарии использования
 
-### DeFi Applications
+### DeFi-приложения
 
-Enable DeFi operations even when wallet balance appears insufficient:
+Включение DeFi-операций даже когда баланс кошелька кажется недостаточным:
 
 ```typescript
 class DeFiManager {
@@ -167,14 +167,14 @@ class DeFiManager {
     const hasAuxiliaryFunds = capabilities["0x2105"]?.auxiliaryFunds?.supported;
     
     if (!hasAuxiliaryFunds) {
-      // Check token balance for non-auxiliary wallets
+      // Проверяем баланс токена для кошельков без вспомогательных средств
       const tokenBalance = await this.getTokenBalance(fromToken, userAddress);
       if (BigInt(tokenBalance) < BigInt(amount)) {
         throw new Error("Insufficient token balance");
       }
     }
     
-    // Proceed with swap
+    // Продолжаем обмен
     return provider.request({
       method: 'wallet_sendCalls',
       params: [{
@@ -191,20 +191,20 @@ class DeFiManager {
   }
   
   private async getTokenBalance(token: string, account: string): Promise<string> {
-    // Implementation to check ERC-20 token balance
+    // Реализация проверки баланса токена ERC-20
     return "0";
   }
   
   private encodeSwap(from: string, to: string, amount: string): string {
-    // Implementation to encode swap call data
+    // Реализация кодирования данных вызова обмена
     return "0x";
   }
 }
 ```
 
-### E-commerce Applications
+### E-commerce приложения
 
-Allow purchases without blocking on visible balance:
+Разрешение покупок без блокировки из-за видимого баланса:
 
 ```typescript
 class PaymentProcessor {
@@ -215,12 +215,12 @@ class PaymentProcessor {
     });
     
     if (capabilities["0x2105"]?.auxiliaryFunds?.supported) {
-      // Wallet may access funds through auxiliary sources
+      // Кошелек может получить доступ к средствам через вспомогательные источники
       console.log("Processing payment with auxiliary funds support");
       
       return this.executePurchase(amount, currency);
     } else {
-      // Check sufficient balance for regular wallets
+      // Проверяем достаточность баланса для обычных кошельков
       const balance = await this.getCurrencyBalance(currency, userAddress);
       
       if (balance < amount) {
@@ -255,27 +255,27 @@ class PaymentProcessor {
       });
       return BigInt(balance);
     } else {
-      // Get ERC-20 token balance
+      // Получаем баланс токена ERC-20
       const balance = await this.getTokenBalance(currency, account);
       return BigInt(balance);
     }
   }
   
   private encodeTokenTransfer(token: string, amount: bigint): string {
-    // Implementation to encode token transfer
+    // Реализация кодирования передачи токена
     return "0x";
   }
   
   private async getTokenBalance(token: string, account: string): Promise<string> {
-    // Implementation to check token balance
+    // Реализация проверки баланса токена
     return "0";
   }
 }
 ```
 
-### Gaming Applications
+### Игровые приложения
 
-Enable in-game purchases without balance restrictions:
+Включение внутриигровых покупок без ограничений по балансу:
 
 ```typescript
 class GamePurchaseManager {
@@ -285,7 +285,7 @@ class GamePurchaseManager {
       params: [userAddress]
     });
     
-    // Don't check balance if auxiliary funds are supported
+    // Не проверяем баланс, если поддерживаются вспомогательные средства
     if (!capabilities["0x2105"]?.auxiliaryFunds?.supported) {
       await this.validateBalance(price);
     }
@@ -317,15 +317,15 @@ class GamePurchaseManager {
   }
   
   private encodePurchaseItem(itemId: string, price: bigint): string {
-    // Implementation to encode game item purchase
+    // Реализация кодирования покупки игрового предмета
     return "0x";
   }
 }
 ```
 
-## Error Handling
+## Обработка ошибок
 
-Handle auxiliary funds-related scenarios:
+Обрабатывайте сценарии, связанные со вспомогательными средствами:
 
 ```typescript
 async function executeTransactionWithAuxiliarySupport(calls: any[]) {
@@ -351,7 +351,7 @@ async function executeTransactionWithAuxiliarySupport(calls: any[]) {
       
       if (capabilities["0x2105"]?.auxiliaryFunds?.supported) {
         console.log("Transaction failed despite auxiliary funds support");
-        // May indicate auxiliary funds are temporarily unavailable
+        // Может указывать на временную недоступность вспомогательных средств
         throw new Error("Payment method temporarily unavailable");
       } else {
         throw new Error("Insufficient balance");
@@ -363,28 +363,28 @@ async function executeTransactionWithAuxiliarySupport(calls: any[]) {
 }
 ```
 
-## Best Practices
+## Рекомендации
 
-1. **Graceful Degradation**: Always provide fallback balance checking for non-auxiliary wallets
-2. **Clear Communication**: Inform users when auxiliary funding is being used
-3. **Error Handling**: Handle cases where auxiliary funds may be temporarily unavailable
-4. **Security**: Don't assume auxiliary funds are always available
+1. **Плавная деградация**: Всегда обеспечивайте откат на проверку баланса для кошельков без вспомогательных средств
+2. **Четкая коммуникация**: Информируйте пользователей, когда используются вспомогательные средства
+3. **Обработка ошибок**: Обрабатывайте случаи, когда вспомогательные средства могут быть временно недоступны
+4. **Безопасность**: Не предполагайте, что вспомогательные средства всегда доступны
 
 <Info>
-The auxiliary funds capability improves user experience by enabling transactions that might otherwise be blocked by insufficient visible balance.
+Возможность вспомогательных средств улучшает пользовательский опыт, позволяя выполнять транзакции, которые в противном случае были бы заблокированы из-за недостаточного видимого баланса.
 </Info>
 
 <Warning>
-Apps should still implement proper error handling as auxiliary funds may not always be available or sufficient.
+Приложения все равно должны реализовывать правильную обработку ошибок, так как вспомогательные средства могут быть не всегда доступны или достаточны.
 </Warning>
 
-## Related Capabilities
+## Связанные возможности
 
-Auxiliary funds works well with other capabilities:
+Вспомогательные средства хорошо работают с другими возможностями:
 
-- **[Paymaster Service](/base-account/reference/core/capabilities/paymasterService)**: For sponsored transactions
-- **[Atomic](/base-account/reference/core/capabilities/atomic)**: For ensuring transaction success with auxiliary funds
-- **[Flow Control](/base-account/reference/core/capabilities/flowControl)**: For handling auxiliary fund failures
+- **[Сервис Paymaster](/base-account/reference/core/capabilities/paymasterService)**: Для спонсируемых транзакций
+- **[Атомарность (Atomic)](/base-account/reference/core/capabilities/atomic)**: Для обеспечения успеха транзакций со вспомогательными средствами
+- **[Управление потоком (Flow Control)](/base-account/reference/core/capabilities/flowControl)**: Для обработки сбоев вспомогательных средств
 
 import PolicyBanner from "/snippets/PolicyBanner.mdx";
 
