@@ -1,60 +1,60 @@
 ---
 title: "flowControl"
-description: "Control transaction batch behavior after failed or reverted calls"
+description: "Управление поведением пакета транзакций после неудачных или отмененных вызовов"
 ---
 
-Defined in [ERC-7867](https://github.com/ethereum/ERCs/pull/7867) (Proposed)
+Определено в [ERC-7867](https://github.com/ethereum/ERCs/pull/7867) (Предложено)
 
 <Info>
-The flowControl capability allows dapps to specify how transaction batches should behave when individual calls fail or revert. This provides fine-grained control over transaction execution flow and enables more sophisticated error handling strategies.
+Возможность flowControl позволяет dapp указывать, как пакеты транзакций должны вести себя при сбое или отмене отдельных вызовов. Это обеспечивает детальный контроль над потоком выполнения транзакций и позволяет реализовать более сложные стратегии обработки ошибок.
 </Info>
 
 <Warning>
-This capability is currently proposed in ERC-7867 and is not yet finalized. Implementation details may change as the specification develops.
+Эта возможность в настоящее время предложена в ERC-7867 и еще не окончательна. Детали реализации могут измениться по мере развития спецификации.
 </Warning>
 
-## Parameters
+## Параметры
 
 <ParamField body="onFailure" type="string">
-Specifies the behavior when a transaction call fails or reverts.
+Определяет поведение при сбое или отмене вызова транзакции.
 
-**Possible values:**
-- `"continue"`: Continue executing remaining calls
-- `"stop"`: Stop execution on failure
-- `"retry"`: Attempt to retry the failed call
+**Возможные значения:**
+- `"continue"`: Продолжить выполнение оставшихся вызовов
+- `"stop"`: Остановить выполнение при сбое
+- `"retry"`: Попытаться повторить неудачный вызов
 </ParamField>
 
 <ParamField body="fallbackCall" type="object">
-Optional fallback transaction to execute if the primary call fails.
+Опциональная запасная транзакция для выполнения в случае сбоя основного вызова.
 
-<Expandable title="FallbackCall properties">
+<Expandable title="Свойства FallbackCall">
 <ParamField body="to" type="string" required>
-The recipient address for the fallback call.
+Адрес получателя для запасного вызова.
 </ParamField>
 
 <ParamField body="value" type="string">
-The value to send with the fallback call (in wei, hex format).
+Значение для отправки с запасным вызовом (в wei, hex-формат).
 </ParamField>
 
 <ParamField body="data" type="string">
-The call data for the fallback call (hex format).
+Данные вызова для запасного вызова (hex-формат).
 </ParamField>
 </Expandable>
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="flowControl" type="object">
-The flow control capability configuration for the specified chain.
+Конфигурация возможности управления потоком для указанной цепочки.
 
-<Expandable title="FlowControl capability properties">
+<Expandable title="Свойства возможности FlowControl">
 <ResponseField name="supported" type="boolean">
-Indicates whether the wallet supports flow control functionality.
+Указывает, поддерживает ли кошелек функциональность управления потоком.
 </ResponseField>
 </Expandable>
 </ResponseField>
 
-## Example Usage
+## Пример использования
 
 <RequestExample>
 ```typescript Check Flow Control Support
@@ -114,22 +114,22 @@ const result = await provider.request({
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code | Message | Description |
-| ---- | ------- | ----------- |
-| 4100 | Flow control not supported | Wallet does not support flow control functionality |
-| 5700 | Flow control capability required | Transaction requires flow control but wallet doesn't support it |
-| 5800 | Invalid flow control parameters | The provided flow control configuration is invalid |
+| Код  | Сообщение | Описание |
+| ---- | --------- | -------- |
+| 4100 | Flow control not supported | Кошелек не поддерживает функциональность управления потоком |
+| 5700 | Flow control capability required | Транзакция требует управления потоком, но кошелек не поддерживает его |
+| 5800 | Invalid flow control parameters | Предоставленная конфигурация управления потоком неверна |
 
-## Potential Use Cases
+## Потенциальные сценарии использования
 
-### E-commerce Transactions
+### Транзакции электронной коммерции
 
-Handle scenarios where some purchases succeed while others fail:
+Обработка сценариев, когда одни покупки успешны, а другие завершаются сбоем:
 
 ```typescript
-// Example: Multi-item purchase with flow control
+// Пример: Покупка нескольких товаров с управлением потоком
 const purchaseResult = await provider.request({
   method: 'wallet_sendCalls',
   params: [{
@@ -137,21 +137,21 @@ const purchaseResult = await provider.request({
     chainId: "0x2105",
     from: userAddress,
     calls: [
-      // Primary item purchase
+      // Покупка основного товара
       {
         to: marketplaceContract,
         value: "0x0",
         data: purchaseItem1CallData,
         flowControl: { onFailure: "continue" }
       },
-      // Secondary item purchase  
+      // Покупка дополнительного товара
       {
         to: marketplaceContract,
         value: "0x0", 
         data: purchaseItem2CallData,
         flowControl: { onFailure: "continue" }
       },
-      // Payment processing (critical)
+      // Обработка платежа (критично)
       {
         to: paymentContract,
         value: "0x16345785d8a0000",
@@ -163,12 +163,12 @@ const purchaseResult = await provider.request({
 });
 ```
 
-### DeFi Operations with Fallbacks
+### DeFi-операции с запасными вариантами
 
-Implement sophisticated DeFi strategies with backup options:
+Реализация сложных DeFi-стратегий с резервными вариантами:
 
 ```typescript
-// Example: Swap with fallback routing
+// Пример: Обмен с запасным маршрутом
 const swapWithFallback = await provider.request({
   method: 'wallet_sendCalls',
   params: [{
@@ -176,7 +176,7 @@ const swapWithFallback = await provider.request({
     chainId: "0x2105", 
     from: userAddress,
     calls: [
-      // Primary DEX swap
+      // Основной обмен на DEX
       {
         to: primaryDexAddress,
         value: "0x0",
@@ -194,12 +194,12 @@ const swapWithFallback = await provider.request({
 });
 ```
 
-### Batch Operations with Error Recovery
+### Пакетные операции с восстановлением ошибок
 
-Execute batch operations that can gracefully handle individual failures:
+Выполнение пакетных операций, которые могут корректно обрабатывать отдельные сбои:
 
 ```typescript
-// Example: Bulk token approvals with recovery
+// Пример: Массовые разрешения токенов с восстановлением
 const bulkApprovals = await provider.request({
   method: 'wallet_sendCalls',
   params: [{
@@ -211,17 +211,17 @@ const bulkApprovals = await provider.request({
       value: "0x0",
       data: approveCallData,
       flowControl: {
-        onFailure: "continue", // Don't stop batch if one approval fails
-        retryCount: 2 // Retry failed approvals
+        onFailure: "continue", // Не останавливать пакет при сбое одного разрешения
+        retryCount: 2 // Повторить неудачные разрешения
       }
     }))
   }]
 });
 ```
 
-## Checking Capability Support
+## Проверка поддержки возможности
 
-Once implemented, check for flow control support:
+После реализации проверяйте поддержку управления потоком:
 
 ```typescript
 async function checkFlowControlSupport() {
@@ -247,47 +247,47 @@ async function checkFlowControlSupport() {
 }
 ```
 
-## Expected Benefits
+## Ожидаемые преимущества
 
-When implemented, flow control will provide:
+После реализации управление потоком предоставит:
 
-1. **Better User Experience**: Partial success instead of complete failure
-2. **Flexible Error Handling**: Apps can define custom failure responses
-3. **Reduced Gas Waste**: Avoid re-executing successful operations
-4. **Complex Workflows**: Enable sophisticated multi-step processes
+1. **Лучший пользовательский опыт**: Частичный успех вместо полной неудачи
+2. **Гибкая обработка ошибок**: Приложения могут определять собственные реакции на сбои
+3. **Сокращение потерь газа**: Избежание повторного выполнения успешных операций
+4. **Сложные рабочие процессы**: Включение сложных многоэтапных процессов
 
-## Development Status
+## Статус разработки
 
-This capability is actively being developed:
+Эта возможность активно разрабатывается:
 
-- **ERC-7867**: Formal proposal for flow control capability
-- **Community Input**: Ongoing discussions about implementation details
-- **Wallet Integration**: Pending finalization of specification
+- **ERC-7867**: Формальное предложение для возможности управления потоком
+- **Вклад сообщетсва**: Постоянные обсуждения деталей реализации
+- **Интеграция в кошельки**: Ожидается окончание спецификации
 
-## Preparing for Flow Control
+## Подготовка к управлению потоком
 
-While waiting for implementation, developers can:
+В ожидании реализации разработчики могут:
 
-1. **Design Flexible Architecture**: Build apps that can adapt to different execution models
-2. **Implement Fallback Logic**: Create manual fallback strategies for critical operations
-3. **Monitor Specification**: Track ERC-7867 progress for implementation updates
-4. **Test Sequential Execution**: Use current capabilities to simulate flow control behavior
+1. **Проектировать гибкую архитектуру**: Создавать приложения, которые могут адаптироваться к различным моделям выполнения
+2. **Реализовать логику откатов**: Создавать ручные стратегии откатов для критических операций
+3. **Следить за спецификацией**: Отслеживать прогресс ERC-7867 для обновлений реализации
+4. **Тестировать последовательное выполнение**: Использовать текущие возможности для имитации поведения управления потоком
 
 <Info>
-Stay updated on ERC-7867 development to implement flow control as soon as it's available in production wallets.
+Следите за разработкой ERC-7867, чтобы реализовать управление потоком, как только оно станет доступно в рабочих кошельках.
 </Info>
 
 <Warning>
-The examples above are conceptual and may not reflect the final implementation. Always refer to the latest ERC-7867 specification for accurate details.
+Приведенные выше примеры являются концептуальными и могут не отражать окончательную реализацию. Всегда обращайтесь к последней спецификации ERC-7867 для получения точных деталей.
 </Warning>
 
-## Related Capabilities
+## Связанные возможности
 
-Flow control works alongside other capabilities:
+Управление потоком работает совместно с другими возможностями:
 
-- **[Atomic](/base-account/reference/core/capabilities/atomic)**: For strict all-or-nothing execution
-- **[Paymaster Service](/base-account/reference/core/capabilities/paymasterService)**: For sponsored transaction flows
-- **[Auxiliary Funds](/base-account/reference/core/capabilities/auxiliaryFunds)**: For flexible funding sources
+- **[Атомарность (Atomic)](/base-account/reference/core/capabilities/atomic)**: Для строгого выполнения "все или ничего"
+- **[Сервис Paymaster](/base-account/reference/core/capabilities/paymasterService)**: Для спонсируемых потоков транзакций
+- **[Вспомогательные средства (Auxiliary Funds)](/base-account/reference/core/capabilities/auxiliaryFunds)**: Для гибких источников финансирования
 
 import PolicyBanner from "/snippets/PolicyBanner.mdx";
 
