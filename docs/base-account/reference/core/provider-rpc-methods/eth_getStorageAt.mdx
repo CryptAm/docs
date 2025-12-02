@@ -1,32 +1,32 @@
 ---
 title: "eth_getStorageAt"
-description: "Get the value from a storage position at a given address"
+description: "Получить значение из позиции хранилища по указанному адресу"
 ---
 
-Defined in the [Ethereum JSON-RPC Specification](https://ethereum.org/en/developers/docs/apis/json-rpc/)
+Определено в [Спецификации Ethereum JSON-RPC](https://ethereum.org/en/developers/docs/apis/json-rpc/)
 
 <Info>
-Returns the value from a storage position at a given address.
+Возвращает значение из позиции хранилища по указанному адресу.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="address" type="string" required>
-The address to read from (20 bytes).
+Адрес для чтения (20 байт).
 </ParamField>
 
 <ParamField body="position" type="string" required>
-Integer of the position in the storage (hexadecimal).
+Позиция в хранилище в виде целого числа (hex).
 </ParamField>
 
 <ParamField body="blockParameter" type="string" required>
-Integer block number, or the string "latest", "earliest" or "pending".
+Номер блока в виде целого числа или строки "latest", "earliest" или "pending".
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="string">
-The value at this storage position as a hexadecimal string.
+Значение в этой позиции хранилища в виде шестнадцатеричной строки (hex).
 </ResponseField>
 
 <RequestExample>
@@ -54,15 +54,15 @@ The value at this storage position as a hexadecimal string.
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code   | Message                            | Description |
+| Код    | Сообщение                          | Описание    |
 | ------ | ---------------------------------- | ----------- |
-| -32602 | Invalid address or storage position | Invalid parameters provided |
-| 4100   | Requested method not supported     | The method is not supported by the wallet |
+| -32602 | Invalid address or storage position | Указаны некорректные параметры |
+| 4100   | Requested method not supported     | Метод не поддерживается кошельком |
 
 <Info>
-Storage positions start at 0x0. The result is a 32-byte hexadecimal value representing the data stored at that position.
+Позиции хранилища начинаются с 0x0. Результат представляет собой 32-байтное шестнадцатеричное значение (hex), соответствующее данным, хранящимся в этой позиции.
 </Info>
 
 ```
