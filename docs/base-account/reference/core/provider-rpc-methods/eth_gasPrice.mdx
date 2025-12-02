@@ -1,22 +1,22 @@
 ---
 title: "eth_gasPrice"
-description: "Get the current gas price"
+description: "Получить текущую цену газа"
 ---
 
-Defined in the [Ethereum JSON-RPC Specification](https://ethereum.org/en/developers/docs/apis/json-rpc/)
+Определено в [Спецификации Ethereum JSON-RPC](https://ethereum.org/en/developers/docs/apis/json-rpc/)
 
 <Info>
-Returns the current price per gas in wei.
+Возвращает текущую цену за единицу газа в wei.
 </Info>
 
-## Parameters
+## Параметры
 
-This method does not accept any parameters.
+Этот метод не принимает параметров.
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="string">
-A hexadecimal string representing the current gas price in wei.
+Шестнадцатеричная строка, представляющая текущую цену газа в wei.
 </ResponseField>
 
 <RequestExample>
@@ -40,12 +40,12 @@ A hexadecimal string representing the current gas price in wei.
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code | Message                        | Description |
+| Код  | Сообщение                      | Описание    |
 | ---- | ------------------------------ | ----------- |
-| 4100 | Requested method not supported | The method is not supported by the wallet |
+| 4100 | Requested method not supported | Метод не поддерживается кошельком |
 
 <Info>
-The result is in wei. To convert to gwei, divide by 10^9.
+Результат представлен в wei. Для конвертации в gwei разделите на 10^9.
 </Info>
