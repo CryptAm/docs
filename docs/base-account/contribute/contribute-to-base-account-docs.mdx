@@ -1,178 +1,177 @@
 ---
-title: "Contribute to the Base Account Docs"
+title: "Участие в документации Base Account"
 ---
 
-This guide is intended for all contributors who are adding new features, content, or making updates to the Base Account documentation.
-Following these guidelines ensures consistency and maintains
-the documentation structure, making it easier for developers to find information.
+Это руководство предназначено для всех участников, которые добавляют новые функции, контент или вносят обновления в документацию Base Account.
+Следование этим рекомендациям обеспечивает единообразие и сохраняет структуру документации, упрощая разработчикам поиск информации.
 
 <Check>
-**Why Documentation is Important**
+**Почему документация важна**
 
-Good documentation significantly accelerates developer adoption. Focus on creating content that helps developers understand and implement Base Account features efficiently, while maintaining the documentation's structural integrity.
+Хорошая документация значительно ускоряет внедрение разработчиками. Сосредоточьтесь на создании контента, который помогает разработчикам понимать и эффективно внедрять функции Base Account, сохраняя при этом структурную целостность документации.
 
 </Check>
 
-## Documentation Structure Guidelines
+## Рекомендации по структуре документации
 
-### Core Principle: Maintain Existing Structure
+### Основной принцип: Сохранение существующей структуры
 
-The Base Account documentation is organized into the following main sections:
+Документация Base Account организована в следующие основные разделы:
 
-1. **Quickstart**
-2. **Concepts**
-3. **Guides**
-4. **Examples**
-5. **Technical Reference**
-6. **Contribute**
+1. **Быстрый старт**
+2. **Концепции**
+3. **Руководства**
+4. **Примеры**
+5. **Техническая справка**
+6. **Участие**
 
 <Warning>
-  **Do not create new top-level sections**
+  **Не создавайте новые разделы верхнего уровня**
   
-  All new content must fit within these existing sections.
+  Весь новый контент должен соответствовать этим существующим разделам.
 
 </Warning>
 
-### Section Purpose and Content Placement
+### Назначение разделов и размещение контента
 
-When adding new content, determine the appropriate section based on the following criteria:
+При добавлении нового контента определите соответствующий раздел на основе следующих критериев:
 
-#### Quickstart
+#### Быстрый старт
 
-- End-to-end guides for getting developers up and running quickly
-- Should remain focused and concise
-- Update only when there are fundamental changes to the initial setup process
+- Полные руководства для быстрого запуска разработчиков
+- Должны оставаться сфокусированными и краткими
+- Обновляйте только при фундаментальных изменениях в процессе начальной настройки
 
-#### Concepts
+#### Концепции
 
-- Explanatory content about Base Account components, architecture, and design philosophy
-- Add new concept documentation when introducing fundamentally new capabilities or paradigms
-- Subsections include:
-  - Intro
-  - Built-in Features
-  - Optional Features
-  - Additional conceptual topics as needed
+- Объяснительный контент о компонентах Base Account, архитектуре и философии дизайна
+- Добавляйте новую концептуальную документацию при введении принципиально новых возможностей или парадигм
+- Подразделы включают:
+  - Введение
+  - Встроенные функции
+  - Опциональные функции
+  - Дополнительные концептуальные темы по мере необходимости
 
-#### Guides
+#### Руководства
 
-- Step-by-step tutorials for specific tasks and implementation scenarios
-- **All guides should live under the main "Guides" section**
-- Avoid creating deep hierarchical subsections unless absolutely necessary
-- Try to keep the number of subsections to a minimum, preferably only one page per guide
-- Although not required, guides should preferably have an accompanying GitHub repository
-- Name guides clearly with action-oriented titles (e.g., "Implementing Multi-Signature Verification" rather than "Multi-Sig Guide")
+- Пошаговые руководства для конкретных задач и сценариев реализации
+- **Все руководства должны находиться в основном разделе "Руководства"**
+- Избегайте создания глубоких иерархических подразделов, если это абсолютно не необходимо
+- Старайтесь минимизировать количество подразделов, предпочтительно одна страница на руководство
+- Хотя и не обязательно, руководства предпочтительно должны иметь сопровождающий репозиторий GitHub
+- Называйте руководства чётко с ориентированными на действие заголовками (например, "Реализация проверки мультиподписи" вместо "Руководство по мультиподписи")
 
-#### Examples
+#### Примеры
 
-- Complete, working code examples demonstrating real-world use cases
-- Each example should be self-contained and fully functional
-- Each example should have an accompanying GitHub repository
-- Include comments explaining key implementation details
-- Examples should cover all of the built-in and optional features of the Base Account
+- Полные, рабочие примеры кода, демонстрирующие реальные случаи использования
+- Каждый пример должен быть самодостаточным и полностью функциональным
+- Каждый пример должен иметь сопровождающий репозиторий GitHub
+- Включайте комментарии, объясняющие ключевые детали реализации
+- Примеры должны охватывать все встроенные и опциональные функции Base Account
 
-#### Technical Reference
+#### Техническая справка
 
-- Comprehensive technical documentation of APIs, methods, components, and configurations
-- Structured reference material rather than tutorial content
-- Include parameter descriptions, return values, and usage examples
-- All technical specifications for new features go here, not in separate sections
+- Всесторонняя техническая документация API, методов, компонентов и конфигураций
+- Структурированный справочный материал, а не учебный контент
+- Включайте описания параметров, возвращаемые значения и примеры использования
+- Все технические спецификации для новых функций размещаются здесь, а не в отдельных разделах
 
-#### Contribute
+#### Участие
 
-- Information for contributors to the Base Account project
-- Update when contribution processes change
+- Информация для участников проекта Base Account
+- Обновляйте при изменении процессов участия
 
 <Warning>
-**Avoiding Subsection Proliferation**
-- **For Guides**: Keep all guides at the same level under the Guides section
-- **For Technical Reference**: Organize by component or feature, not by use case
-- When tempted to add a new subsection, consider if the content could be reorganized to fit existing sections
-- Use cross-referencing between related content rather than creating new organizational structures
+**Избегание разрастания подразделов**
+- **Для руководств**: Держите все руководства на одном уровне в разделе Руководства
+- **Для технической справки**: Организуйте по компонентам или функциям, а не по случаям использования 
+- Когда возникает желание добавить новый подраздел, подумайте, можно ли реорганизовать контент для соответствия существующим разделам 
+- Используйте перекрёстные ссылки между связанным контентом вместо создания новых организационных структур
 
 </Warning>
 
-## Documentation Style Guidelines
+## Рекомендации по стилю документации
 
-### Writing Style
+### Стиль письма
 
-1. **Be concise**: Use simple, direct language. Avoid unnecessary words.
-2. **Consistency**: Maintain consistent terminology throughout documentation.
-3. **Persona-focused**: Think about the persona of the reader and write accordingly.
-4. **Happy Path**: Focus on the happy path, but don't forget to mention the alternative paths.
-5. [**AI-friendly**](#ai-friendly-writing-tips): Write in a way that is easy for AI to understand and follow.
+1. **Будьте краткими**: Используйте простой, прямой язык. Избегайте ненужных слов.
+2. **Единообразие**: Сохраняйте единообразную терминологию во всей документации.
+3. **Ориентация на пользователя**: Думайте о персонаже читателя и пишите соответственно.
+4. **Оптимальный сценарий**: Сосредоточьтесь на оптимальном сценарии, но не забывайте упоминать альтернативные пути.
+5. [**Дружественность к AI**](#ai-friendly-writing-tips): Пишите так, чтобы AI мог легко понимать и следовать.
 
 <Warning>
-**Make sure to review any AI generated content**
+**Обязательно проверяйте любой контент, сгенерированный AI**
 
-If you use AI to generate content:
+Если вы используете ИИ для генерации контента:
 
-- Make sure to review it carefully before submission.
-- Make sure that the content follows the guidelines in this document.
-- Make sure that the content is easy for AI to understand and follow.
+- Тщательно проверяйте его перед отправкой.
+- Убедитесь, что контент следует рекомендациям в этом документе.
+- Убедитесь, что контент легко понять и следовать AI.
 
 </Warning>
 
-### AI-friendly Writing Tips
+### Советы по написанию дружественного к AI контента
 
-- Make sure you use explicit language in your file names, headings, and content.
-- Make active linking references to the relevant guides and examples.
-- Use bulleted lists for steps or options.
-- Explicitly name and reference the libraries you are using.
-- Use code blocks to highlight code.
-- Use semantic urls that make sense even without context. Avoid abbreviations.
+- Используйте явный язык в именах файлов, заголовках и содержании.
+- Используйте активные ссылки на соответствующие руководства и примеры.
+- Используйте маркированные списки для шагов или опций.
+- Явно называйте и ссылайтесь на используемые библиотеки.
+- Используйте блоки кода для выделения кода.
+- Используйте семантические URL-адреса, которые имеют смысл даже без контекста. Избегайте сокращений.
 
 <Check>
-  **Think like a Large Language Model**
+  **Думайте как большая языковая модель**
 
-When writing documentation, think about how a Large Language Model would understand the content.
+При написании документации думайте о том, как большая языковая модель поймёт контент.
 
-You should continuously ask yourself:
+Постоянно задавайте себе вопросы:
 
-- "Would a Large Language Model be able to understand this content?"
-- "Would a Large Language Model be able to follow this content?"
-- "Would a Large Language Model be able to use this content?"
+- "Сможет ли большая языковая модель понять этот контент?"
+- "Сможет ли большая языковая модель следовать этому контенту?"
+- "Сможет ли большая языковая модель использовать этот контент"
 
-If you can't answer yes to all of these questions, you need to rewrite the content.
+Если вы не можете ответить "да" на все эти вопросы, вам нужно переписать контент.
 
 </Check>
 
-### Formatting
+### Форматирование
 
-1. **Markdown usage**:
+1. **Использование Markdown**:
 
-   - Use proper heading hierarchy (# for main titles, ## for section headings, etc.)
-   - Use code blocks with language specification (```javascript)
-   - Use tables for parameter references
-   - Use bulleted lists for steps or options
+   - Используйте правильную иерархию заголовков (# для основных заголовков, ## для заголовков разделов и т.д.)
+   - Используйте блоки кода с указанием языка (```javascript)
+   - Используйте таблицы для справочников параметров
+   - Используйте маркированные списки для шагов или опций
 
-2. **Code examples**:
-   - Include complete, working code examples
-   - Comment code thoroughly
-   - Follow the project's coding style guide
+2. **Примеры кода**:
+   - Включайте полные, рабочие примеры кода
+   - Тщательно комментируйте код
+   - Следуйте руководству по стилю кодирования проекта
 
-### Abbreviations and Terminology
+### Сокращения и терминология
 
-1. **First reference**: The first time you use an abbreviation or technical term, spell it out followed by the abbreviation in parentheses. Example: "Account Abstraction (AA)"
-2. **Consistency**: Use the same term for the same concept throughout the documentation
-3. **Technical Reference**: Keep the guides and examples to a minimal size. Put the comprehensive technical details in the Technical Reference section.
+1. **Первое упоминание**: При первом использовании сокращения или технического термина напишите его полностью, а затем сокращение в скобках. Пример: "Абстракция аккаунта (AA)"
+2. **Единообразие**: Используйте один и тот же термин для одного и того же понятия во всей документации
+3. **Техническая справка**: Сводите руководства и примеры к минимальному размеру. Помещайте всесторонние технические детали в раздел Технической справки.
 
-## Review Checklist Before Submission
+## Контрольный список перед отправкой
 
-- [ ] Content fits within existing structure
-- [ ] No new top-level sections created
-- [ ] Minimal subsection creation
-- [ ] Consistent terminology used throughout
-- [ ] Abbreviations properly introduced
-- [ ] Code examples are complete and functional
-- [ ] Cross-references to related documentation added
-- [ ] Documentation follows style guidelines
-- [ ] Documentation is written in a way that is easy for AI to understand and follow
+- [ ] Контент соответствует существующей структуре
+- [ ] Не созданы новые разделы верхнего уровня
+- [ ] Создано минимальное количество подразделов
+- [ ] Используется единообразная терминология
+- [ ] Сокращения правильно введены
+- [ ] Примеры кода полны и функциональны
+- [ ] Добавлены перекрёстные ссылки на связанную документацию
+- [ ] Документация следует рекомендациям по стилю
+- [ ] Документация написана так, чтобы ИИ мог легко понять и следовать
 
-## Submission Process
+## Процесс отправки
 
-1. Create a documentation Pull Request (PR) to the [repository](https://github.com/base/docs) with your changes
-2. Ensure your PR includes updates to all relevant sections and respects the instructions in this guide
-3. Request review from the documentation team
-4. Address feedback and make necessary revisions
-5. Once approved, the PR will be merged and published
+1. Создайте Pull Request (PR) документации в [репозиторий](https://github.com/base/docs) с вашими изменениями
+2. Убедитесь, что ваш PR включает обновления всех соответствующих разделов и соблюдает инструкции этого руководства
+3. Запросите проверку у команды документации
+4. Учтите обратную связь и внесите необходимые правки
+5. После одобрения PR будет объединён и опубликован
 
