@@ -1,21 +1,21 @@
 ---
-title: 'Brand Guidelines'
-description: 'Design and brand guidelines for Sign in With Base and Base Pay buttons'
+title: 'Руководство по Бренду'
+description: 'Дизайн-гайдлайны и руководство по использованию бренда для кнопок Sign in With Base и Base Pay'
 ---
 
 import {BasePayButton} from "/snippets/BasePayButton.mdx"
 import {SignInWithBaseButton} from "/snippets/SignInWithBaseButton.mdx"
 
 
-## Sign in With Base & Base Pay 
+## Sign in With Base и Base Pay
 
-Base account offers two buttons to use in your application: 
-- [**Sign in with Base**](/base-account/reference/ui-elements/sign-in-with-base-button): for user authentication for your product
-- [**Base Pay**](/base-account/reference/ui-elements/base-pay-button): payments for online and offline goods
+Base Account предлагает две кнопки для использования в вашем приложении:
+- [**Sign in with Base**](/base-account/reference/ui-elements/sign-in-with-base-button): для аутентификации пользователей в вашем продукте
+- [**Base Pay**](/base-account/reference/ui-elements/base-pay-button): для приёма платежей за онлайн- и офлайн-товары
 
 ## Sign in with Base
 
-Integrating "Sign in With Base" offers a convenient and trusted way for users to access your services. By leveraging their established Base account, users can avoid creating and remembering new credentials, leading to a smoother onboarding and login process.
+Интеграция "Sign in With Base" предоставляет удобный и надёжный способ для пользователей получать доступ к вашим сервисам. Используя свой существующий Base Account, пользователи могут избежать создания и запоминания новых учётных данных, что обеспечивает более плавный процесс регистрации и входа.
 
 <div style={{ display: 'flex', justifyContent: 'center', backgroundColor: '#000000', padding: '20px', borderRadius: '8px' }}>
   <SignInWithBaseButton />
@@ -26,47 +26,47 @@ Integrating "Sign in With Base" offers a convenient and trusted way for users to
 </div>
 
 
-### Best Practices
+### Рекомендации
 
-To provide the best possible user experience when integrating "Sign in With Base," consider the following guidelines:
+Для обеспечения наилучшего пользовательского опыта при интеграции "Sign in With Base" учитывайте следующие рекомендации:
 
-- **Offer Value for Sign-in**: Clearly communicate the benefits of signing in. Users should understand why they are being asked to sign in, such as to personalize their experience, access premium features, or synchronize data across devices.
+- **Предоставляйте ценность при входе**: Четко сообщайте о преимуществах входа в систему. Пользователи должны понимать, почему их просят войти, например, для персонализации опыта, доступа к премиум-функциям или синхронизации данных между устройствами.
 
-- **Prominently Display the Button**: Make the "Sign in With Base" button easily discoverable. It should be no smaller than other sign-in options and should not require users to scroll to find it.
+- **Размещайте кнопку заметно**: Сделайте кнопку "Sign in With Base" легко обнаруживаемой. Она не должна быть меньше других вариантов входа и не должна требовать от пользователей прокрутки для её нахождения.
 
-- **Consistent Placement**: Place the "Sign in With Base" button in a consistent and logical location on your sign-in and account creation screens.
+- **Единообразное размещение**: Размещайте кнопку "Sign in With Base" в единообразном и логичном месте на экранах входа и создания аккаунта.
 
-### Design & Brand Guidelines
+### Дизайн и бренд-гайдлайны
 
-The "Sign in With Base" button should be easily recognizable and consistent across all platforms. Adhering to these design guidelines ensures a familiar and trusted experience for users.
+Кнопка "Sign in With Base" должна быть легко узнаваемой и единообразной на всех платформах. Следование этим дизайн-гайдлайнам обеспечивает привычный и доверительный опыт для пользователей.
 
-#### Button Appearance
+#### Внешний вид кнопки
 
-The "Sign in With Base" button has two key components:
+Кнопка "Sign in With Base" имеет два ключевых компонента:
 
-1. **The Base logo is a blue square**
-   - The square never changes shades of blue, it's always `#0000FF`
-   - In dark mode, the square changes color to pure white `#FFFFFF`
+1. **Логотип Base — синий квадрат**
+   - Квадрат никогда не меняет оттенки синего, он всегда `#0000FF`
+   - В тёмном режиме квадрат меняет цвет на чистый белый `#FFFFFF`
 
-2. **The "Sign in with Base" text**
-   - Always use "Sign in with Base" unless there's an explicit "Sign in" heading prior
-   - Use "Base Sans" where possible, otherwise [create a custom button](#creating-a-custom-button)
+2. **Текст "Sign in with Base"**
+   - Всегда используйте "Sign in with Base", если только на экране нет явного заголовка "Sign in"
+   - По возможности используйте шрифт "Base Sans", в противном случае [создайте пользовательскую кнопку](#creating-a-custom-button)
 
-Following are some DOs and DON'Ts for the Base branding:
+Ниже представлены рекомендации и ограничения по использованию брендинга Base:
 
-#### DO
-- Leave at least 8pt of padding in-between the base square and "Sign in with Base", if creating a custom button
-- Use base blue on a white/light background
-- Use the all-white lockup if on a black/dark background
-- Use "Sign in with Base" (including "Sign in") unless "Sign in" is present as a heading on the screen
+#### РЕКОМЕНДУЕТСЯ
+- Оставлять минимум 8 пунктов отступа между синим квадратом Base и текстом "Sign in with Base" при создании пользовательской кнопки
+- Использовать синий цвет Base на белом/светлом фоне
+- Использовать полностью белую версию на чёрном/тёмном фоне
+- Использовать "Sign in with Base" (включая "Sign in"), если только на экране нет заголовка "Sign in"
 
-#### DON'T
-- Use gradients for the logo
-- Change the corner radius of the logo
-- Change the color of the Base Square
-- Use Base Blue on a dark background
+#### НЕ РЕКОМЕНДУЕТСЯ
+- Использовать градиенты для логотипа
+- Менять радиус скругления логотипа
+- Изменять цвет квадрата Base
+- Использовать синий цвет Base на тёмном фоне
 
-Base offers the following out of the box components:
+Base предоставляет следующие готовые компоненты:
 
 <div style={{ display: 'flex', justifyContent: 'center', margin: '2rem 0' }}>
   <img src="/images/base-account/SIWB-Dark-Mode.jpg" alt="Sign in with Base Dark Mode" style={{ width: '1000px', height: 'auto', marginRight: '1rem' }} />
@@ -84,7 +84,7 @@ Base offers the following out of the box components:
   (Click to enlarge)
 </div>
 
-### Examples
+### Примеры
 
 <div style={{ display: 'flex', justifyContent: 'center', margin: '2rem 0' }}>
   <img src="/images/base-account/SIWB-Examples.jpg" alt="Sign in with Base Examples" style={{ width: '600px', height: 'auto' }} />
@@ -94,19 +94,19 @@ Base offers the following out of the box components:
 (Click to enlarge)
 </div>
 
-### Creating a custom button
+### Создание пользовательской кнопки
 
-You can customize the "Sign in with Base" button to match the style of your application. Below is an example of Privy using Base branding within their user interface style.
+Вы можете настроить кнопку "Sign in with Base" в соответствии со стилем вашего приложения. Ниже приведён пример того, как Privy использует брендинг Base в своём пользовательском интерфейсе.
 
-Notice that:
-- The ratio and color of the Base Square is maintained 
-- A "Sign in" header is present, so just "Base" is used as the sign in option
+Обратите внимание, что:
+- Сохранены пропорции и цвет квадрата Base
+- Присутствует заголовок "Sign in", поэтому используется только "Base" как вариант входа
 
-For detailed technical integration steps and API references, please refer to these docs.
+Подробные шаги технической интеграции и справочники по API смотрите в этой документации.
 
 ## Base Pay
 
-Integrating "Base Pay" offers one-click checkout for users with a Base Account. Integrate it into your product for easy purchase power for online and offline goods.
+Интеграция "Base Pay" предлагает покупку в один клик для пользователей с Base Account. Интегрируйте её в свой продукт для простой возможности совершать покупки онлайн и офлайн-товаров.
 
 <div style={{ display: 'flex', justifyContent: 'center', backgroundColor: '#000000', padding: '20px', borderRadius: '8px' }}>
   <button
@@ -164,28 +164,28 @@ Integrating "Base Pay" offers one-click checkout for users with a Base Account. 
     </button>
 </div>
 
-### Design & Brand Guidelines
+### Дизайн и руководства по Бренду
 
-The "Base Pay" button should be easily recognizable and consistent across all platforms. Adhering to these design guidelines ensures a familiar and trusted experience for users.
+Кнопка "Base Pay" должна быть легко узнаваемой и единообразной на всех платформах. Следование этим дизайн-гайдлайнам обеспечивает привычный и доверительный опыт для пользователей.
 
-#### Button Appearance
+#### Внешний вид кнопки
 
-The "Base Pay" button always uses a combination mark. It never uses typography or text to write "Base Pay" or "base pay".
+Кнопка "Base Pay" всегда использует комбинированный знак. Она никогда не использует типографику или текст для написания "Base Pay" или "base pay".
 
-Following are some DOs and DON'Ts for the Base branding:
+Ниже представлены рекомендации и ограничения по использованию брендинга Base:
 
-#### DO
-- Always use the "Base Pay" combination mark 
-- Use the all white version of the combination mark on dark backgrounds
-- Use at least 1X the height of the button for padding. If the mark is 24px high, pad the button with at least 24px on all sides
+#### РЕКОМЕНДУЕТСЯ
+- Всегда использовать комбинированный знак "Base Pay"
+- Использовать полностью белую версию комбинированного знака на тёмных фонах
+- Использовать минимум 1X высоты кнопки для отступов. Если высота знака 24px, добавляйте минимум 24px отступов со всех сторон кнопки
 
-#### DON'T
-- Write "Base Pay" or "base pay" using fonts or text
-- Change the combination mark in any way
-- Change the color of the Base Square
-- Use Base Blue on a dark background
+#### НЕ РЕКОМЕНДУЕТСЯ
+- Писать "Base Pay" или "base pay" с использованием шрифтов или текста
+- Изменять комбинированный знак каким-либо образом
+- Менять цвет квадрата Base
+- Использовать синий цвет Base на тёмном фоне
 
-### Examples
+### Примеры
 
 <div style={{ display: 'flex', justifyContent: 'center', margin: '2rem 0' }}>
   <img src="/images/base-account/BasePay-Buttons.jpg" alt="Base Pay Buttons" style={{ width: '500px', height: 'auto' }} />
@@ -203,6 +203,6 @@ Following are some DOs and DON'Ts for the Base branding:
   (Click to enlarge)
 </div>
 
-## Media Assets
+## Медиа-активы
 
-You can find the full set of Base Brand Assets in the [Base Brand Page](https://base.org/brand).
+Полный набор бренд-активов Base вы можете найти на [Base Brand Page](https://base.org/brand).
