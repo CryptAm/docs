@@ -1,47 +1,47 @@
 ---
 title: "wallet_getSubAccounts"
-description: "Fetch the sub accounts of the wallet"
+description: "Получить суб-аккаунты кошелька"
 ---
 
-Experimental RPC method for fetching sub accounts
+Экспериментальный RPC метод для получения суб-аккаунтов
 
 <Info>
-Fetches the sub accounts associated with the main wallet account. Sub accounts allow for hierarchical account management and delegation.
+Получает суб-аккаунты, связанные с основным аккаунтом кошелька. Суб-аккаунты позволяют осуществлять иерархическое управление аккаунтами и делегирование прав.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="account" type="string" required>
-The address of the main wallet account.
+Адрес основного аккаунта кошелька.
 
 <ParamField body="domain" type="string" required>
-The fully qualified domain name of the app that the sub account is associated with.
+Полное доменное имя приложения, с которым связан суб-аккаунт.
 </ParamField>
 
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="object" >
 Sub account information including address and deployment details.
 
-<Expandable title="Result properties">
+<Expandable title="Свойства результата">
 
 <ResponseField name="subAccounts" type="array">
-Array of sub account information.
+Массив информации о суб-аккаунтах.
 
-<Expandable title="Sub account properties">
+<Expandable title="Свойства суб-аккаунта">
 
 <ResponseField name="address" type="string">
-The address of the created sub account.
+Адрес созданного суб-аккаунта.
 </ResponseField>
 
 <ResponseField name="factory" type="string">
-The factory contract address.
+Адрес фабричного контракта.
 </ResponseField>
 
 <ResponseField name="factoryData" type="string">
-Factory deployment data.
+Данные развертывания фабрики.
 </ResponseField>
 
 </Expandable>
@@ -82,13 +82,13 @@ Factory deployment data.
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code | Message                        | Description |
+| Код  | Сообщение                      | Описание    |
 | ---- | ------------------------------ | ----------- |
-| 4100 | Requested method not supported | The method is not supported by the wallet |
-| -32602 | Invalid params                 | Invalid account configuration |
+| 4100 | Requested method not supported | Метод не поддерживается кошельком |
+| -32602 | Invalid params                 | Некорректная конфигурация аккаунта |
 
 <Warning>
-This is an experimental feature and the API may change in future versions.
+Это экспериментальная функция, и API может измениться в будущих версиях.
 </Warning>
