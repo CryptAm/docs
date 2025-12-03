@@ -1,44 +1,44 @@
 ---
 title: "requestRevoke"
-description: "Request the user's approval to revoke a Spend Permission"
+description: "Запросить у пользователя подтверждение на отзыв разрешения на расходование"
 ---
 
-Defined in the [Base Account SDK](https://github.com/base/account-sdk)
+Определено в [Base Account SDK](https://github.com/base/account-sdk)
 
 <Info>
-  Prompts the user to approve revoking the specified spend permission. Requires
-  user interaction via their Base Account wallet UI.
+  Запрашивает у пользователя подтверждение на отзыв указанного разрешения на расходование. 
+  Требует взаимодействия с пользователем через интерфейс кошелька Base Account.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="permission" type="SpendPermission" required>
-  The spend permission to revoke. This should be a SpendPermission object returned from [`requestSpendPermission`](/base-account/reference/spend-permission-utilities/requestSpendPermission) or fetched via [`fetchPermissions`](/base-account/reference/spend-permission-utilities/fetchPermissions).
+  Разрешение на расходование для отзыва. Это должен быть объект SpendPermission, полученный из [`requestSpendPermission`](/base-account/reference/spend-permission-utilities/requestSpendPermission) или запрошенный через [`fetchPermissions`](/base-account/reference/spend-permission-utilities/fetchPermissions).
 
-<Expandable title="SpendPermission properties">
+<Expandable title="Свойства SpendPermission">
 <ParamField body="permissionHash" type="string">
-Deterministic EIP-712 hash of the permission.
+Детерминированный хеш EIP-712 разрешения.
 </ParamField>
 
 <ParamField body="signature" type="string">
-  Signature for the EIP-712 payload.
+  Подпись для полезной нагрузки EIP-712.
 </ParamField>
 
 <ParamField body="chainId" type="number">
-  Target chain ID.
+  Идентификатор целевой цепочки (chain ID).
 </ParamField>
 
 <ParamField body="permission" type="object">
-Underlying permission fields.
+Базовые поля разрешения.
 
-<Expandable title="permission fields">
+<Expandable title="Поля permission">
 <ParamField body="account" type="address" />
 <ParamField body="spender" type="address" />
 <ParamField body="token" type="address" />
 <ParamField body="allowance" type="bigint" />
-<ParamField body="period" type="number">Duration in seconds.</ParamField>
-<ParamField body="start" type="number">Unix timestamp (seconds).</ParamField>
-<ParamField body="end" type="number">Unix timestamp (seconds).</ParamField>
+<ParamField body="period" type="number">Длительность в секундах.</ParamField>
+<ParamField body="start" type="number">Временная метка Unix (секунды).</ParamField>
+<ParamField body="end" type="number">Временная метка Unix (секунды).</ParamField>
 <ParamField body="salt" type="string" />
 <ParamField body="extraData" type="string" />
 </Expandable>
@@ -46,10 +46,10 @@ Underlying permission fields.
 </Expandable>
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="hash" type="`0x${string}`">
-  Transaction hash of the revoke operation.
+  Хеш транзакции операции отзыва.
 </ResponseField>
 
 <RequestExample>
@@ -65,9 +65,9 @@ try {
 ```
 </RequestExample>
 
-## Error Handling
+## Обработка ошибок
 
-Always wrap the call in a try-catch block to handle these errors gracefully.
+Всегда заключайте вызов в блок `try-catch` для корректной обработки возможных ошибок.
 
 import PolicyBanner from "/snippets/PolicyBanner.mdx";
 
