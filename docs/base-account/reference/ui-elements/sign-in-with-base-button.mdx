@@ -1,17 +1,17 @@
 ---
 title: "SignInWithBaseButton"
-description: "Pre-built React component for user authentication with Base Account"
+description: "Готовый React-компонент для аутентификации пользователей с помощью Base Account"
 ---
 
-The `SignInWithBaseButton` is a ready-to-use React component that provides a seamless authentication experience using Base Account. It handles the entire sign-in flow including wallet connection, message signing, and user authentication.
+`SignInWithBaseButton` - это готовый к использованию React-компонент, который предоставляет бесшовный опыт аутентификации с использованием Base Account. Он обрабатывает весь процесс входа, включая подключение кошелька, подписание сообщений и аутентификацию пользователя.
 
 <Warning>
-**Please Follow the brand guidelines** 
+**Пожалуйста, следуйте руководству по Бренду** 
 
-If you intend on using the SignInWithBaseButton, please follow the [Brand Guidelines](/base-account/reference/ui-elements/brand-guidelines) to ensure consistency across your application.
+Если вы планируете использовать SignInWithBaseButton, пожалуйста, следуйте [руководству по Бренду](/base-account/reference/ui-elements/brand-guidelines) чтобы обеспечить единообразие в вашем приложении.
 </Warning>
 
-## Installation
+## Установка
 
 <CodeGroup>
 ```bash npm
@@ -31,7 +31,7 @@ bun add @base-org/account-ui
 ```
 </CodeGroup>
 
-## Basic Usage
+## Базовое использование
 
 ```tsx
 import { SignInWithBaseButton } from '@base-org/account-ui/react';
@@ -39,7 +39,7 @@ import { SignInWithBaseButton } from '@base-org/account-ui/react';
 function LoginForm() {
   const handleSignIn = () => {
     console.log('User clicked sign in');
-    // Custom sign-in logic here
+    // Пользовательская логика входа здесь
   };
 
   return (
@@ -55,88 +55,88 @@ function LoginForm() {
 
 ## Props
 
-### Styling Props
+### Стилистические props
 
 <ParamField body="align" type="'left' | 'center' | 'right'">
-Button alignment within its container (default: 'left')
+Выравнивание кнопки внутри контейнера (по умолчанию: 'left')
 </ParamField>
 
 <ParamField body="variant" type="'solid' | 'transparent'">
-Button variant style (default: 'solid')
+Стиль варианта кнопки (по умолчанию: 'solid')
 </ParamField>
 
 <ParamField body="colorScheme" type="'light' | 'dark' | 'system'">
-Color scheme for the button appearance (default: 'system')
+Цветовая схема для внешнего вида кнопки (по умолчанию: 'system')
 </ParamField>
 
 <ParamField body="size" type="'small' | 'medium' | 'large'">
-Button size (default: 'medium')
+Размер кнопки (по умолчанию: 'medium')
 </ParamField>
 
 <ParamField body="disabled" type="boolean">
-Whether the button is disabled (default: false)
+Отключена ли кнопка (по умолчанию: false)
 </ParamField>
 
-### Event Handlers
+### Обработчики событий
 
 <ParamField body="onClick" type="function">
-Callback function called when the button is clicked
+Функция обратного вызова, вызываемая при нажатии кнопки
 </ParamField>
 
 <ParamField body="onSignInResult" type="function">
-Callback function called when authentication completes (success or failure)
+Функция обратного вызова, вызываемая при завершении аутентификации (успех или неудача)
 </ParamField>
 
-## Styling Options
+## Опции стилизации
 
-### Alignment
+### Выравнивание
 
 ```tsx
-{/* Left aligned */}
+{/* Выравнивание по левому краю */}
 <SignInWithBaseButton align="left" onClick={handleSignIn} />
 
-{/* Center aligned */}
+{/* Выравнивание по центру */}
 <SignInWithBaseButton align="center" onClick={handleSignIn} />
 
-{/* Right aligned */}
+{/* Выравнивание по правому краю */}
 <SignInWithBaseButton align="right" onClick={handleSignIn} />
 ```
 
-### Variants
+### Варианты
 
 ```tsx
-{/* Solid variant (default) */}
+{/* Сплошной вариант (по умолчанию) */}
 <SignInWithBaseButton variant="solid" onClick={handleSignIn} />
 
-{/* Transparent variant */}
+{/* Прозрачный вариант */}
 <SignInWithBaseButton variant="transparent" onClick={handleSignIn} />
 ```
 
-### Color Schemes
+### Цветовые схемы
 
 ```tsx
-{/* Light theme */}
+{/* Светлая тема */}
 <SignInWithBaseButton colorScheme="light" onClick={handleSignIn} />
 
-{/* Dark theme */}
+{/* Тёмная тема */}
 <SignInWithBaseButton colorScheme="dark" onClick={handleSignIn} />
 
-{/* System theme (follows user's system preference) */}
+{/* Системная тема (следует предпочтениям системы пользователя) */}
 <SignInWithBaseButton colorScheme="system" onClick={handleSignIn} />
 ```
 
-### Sizes
+### Размеры
 
 ```tsx
-{/* Different sizes */}
+{/* Разные размеры */}
 <SignInWithBaseButton size="small" onClick={handleSignIn} />
 <SignInWithBaseButton size="medium" onClick={handleSignIn} />
 <SignInWithBaseButton size="large" onClick={handleSignIn} />
 ```
 
-## Authentication Flow Integration
+## Интеграция потока аутентификации
 
-### Complete Authentication Example
+### Полный пример аутентификации
 
 ```tsx
 import React, { useState } from 'react';
@@ -161,24 +161,24 @@ export default function AuthenticationDemo() {
     setError(null);
 
     try {
-      // Get the provider and create wallet client
+      // Получить провайдер и создать клиент кошелька
       const provider = sdk.getProvider();
       const client = createWalletClient({
         chain: base,
         transport: custom(provider)
       });
 
-      // Get account address
+      // Получить адрес аккаунта
       const [account] = await client.getAddresses();
 
-      // Sign authentication message
+      // Подписать сообщение для аутентификации
       const message = `Sign in to MyApp at ${Date.now()}`;
       const signature = await client.signMessage({ 
         account,
         message,
       });
 
-      // Verify signature on backend (optional)
+      // Проверить подпись на бэкенде (опционально)
       const authResult = await verifySignature(account, message, signature);
 
       if (authResult.success) {
@@ -204,9 +204,9 @@ export default function AuthenticationDemo() {
     setError(null);
   };
 
-  // Mock backend verification (replace with your API)
+  // Моковая проверка на бэкенде (замените на свой API)
   const verifySignature = async (address, message, signature) => {
-    // Send to your backend for verification
+    // Отправить на ваш бэкенд для проверки
     const response = await fetch('/api/verify-signature', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -305,7 +305,7 @@ export default function AuthenticationDemo() {
 }
 ```
 
-### SIWE Integration
+### Интеграция с SIWE
 
 ```tsx
 import { createSiweMessage } from 'siwe';
@@ -320,7 +320,7 @@ const handleSignInWithSIWE = async () => {
 
     const [account] = await client.getAddresses();
 
-    // Create SIWE message
+    // Создать сообщение SIWE
     const siweMessage = createSiweMessage({
       address: account,
       chainId: base.id,
@@ -331,13 +331,13 @@ const handleSignInWithSIWE = async () => {
       statement: 'Sign in to MyApp with your Base Account'
     });
 
-    // Sign the SIWE message
+    // Подписать сообщение SIWE
     const signature = await client.signMessage({ 
       account,
       message: siweMessage.prepareMessage(),
     });
 
-    // Verify with your backend
+    // Проверить на бэкенде
     const authResult = await fetch('/api/siwe-verify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -364,9 +364,9 @@ const handleSignInWithSIWE = async () => {
 />
 ```
 
-## Custom Button States
+## Пользовательские состояния кнопки
 
-### Loading State
+### Состояние загрузки
 
 ```tsx
 function CustomSignInButton() {
@@ -375,7 +375,7 @@ function CustomSignInButton() {
   const handleSignIn = async () => {
     setIsLoading(true);
     try {
-      // Authentication logic
+      // Логика аутентификации
       await authenticateUser();
     } finally {
       setIsLoading(false);
@@ -392,7 +392,7 @@ function CustomSignInButton() {
 }
 ```
 
-### Error State Handling
+### Обработка состояния ошибки
 
 ```tsx
 function SignInWithErrorHandling() {
@@ -429,16 +429,16 @@ function SignInWithErrorHandling() {
 }
 ```
 
-## Integration with Authentication Providers
+## Интеграция с провайдерами аутентификации
 
-### NextAuth.js Integration
+### Интеграция с NextAuth.js
 
-Below is an example of how to configure NextAuth to use Base Account as a credentials provider, so you can use Base Account in your Next.js application.
+Ниже приведён пример настройки NextAuth для использования Base Account в качестве провайдера учётных данных, чтобы вы могли использовать Base Account в вашем Next.js приложении.
 
 <Note>
-**NextAuth.js Integration**
+**Интеграция NextAuth.js**
 
-[Next.js](https://nextjs.org/) is a popular React framework, and [NextAuth.js](https://next-auth.js.org/) is an authentication library for Next.js. It offers session management and providers.
+[Next.js](https://nextjs.org/) - популярный React-фреймворк, а [NextAuth.js](https://next-auth.js.org/) - библиотека аутентификации для Next.js. Она предлагает управление сессиями и провайдеров.
 </Note>
 
 ```tsx pages/api/auth/[...nextauth].js expandable
@@ -481,11 +481,11 @@ export default NextAuth({
 });
 ```
 ```tsx page.tsx expandable
-// Frontend component
+// Фронтенд-компонент
 import { signIn } from 'next-auth/react';
 
 const handleSignIn = async () => {
-  // ... get signature as before
+  // ... получить подпись как ранее
   
   const result = await signIn('credentials', {
     address: account,
@@ -500,7 +500,7 @@ const handleSignIn = async () => {
 };
 ```
 
-## TypeScript Support
+## Поддержка TypeScript
 
 ```tsx
 import { SignInWithBaseButton } from '@base-org/account-ui/react';
@@ -513,7 +513,7 @@ interface AuthButtonProps {
 function AuthButton({ onAuthSuccess, onAuthError }: AuthButtonProps) {
   const handleSignIn = async () => {
     try {
-      // Authentication logic
+      // Логика аутентификации
       const userAddress = await authenticateUser();
       onAuthSuccess(userAddress);
     } catch (error) {
@@ -532,18 +532,18 @@ function AuthButton({ onAuthSuccess, onAuthError }: AuthButtonProps) {
 }
 ```
 
-## Best Practices
+## Лучшие практики
 
-1. **Handle Loading States**: Disable the button during authentication to prevent multiple attempts
+1. **Обработка состояний загрузки**: Отключайте кнопку во время аутентификации, чтобы предотвратить множественные попытки
 
-2. **Error Handling**: Provide clear error messages for different failure scenarios
+2. **Обработка ошибок**: Предоставляйте понятные сообщения об ошибках для разных сценариев сбоя
 
-3. **Security**: Always verify signatures on your backend before trusting authentication
+3. **Безопасность**: Всегда проверяйте подписи на вашем бэкенде перед доверием аутентификации
 
-4. **User Experience**: Show clear feedback during the authentication process
+4. **Пользовательский опыт**: Показывайте понятную обратную связь во время процесса аутентификации
 
-5. **Accessibility**: The button includes proper ARIA labels and keyboard navigation
+5. **Доступность**: Кнопка включает соответствующие ARIA-лейблы и навигацию с клавиатуры
 
-6. **Testing**: Test with different wallet states (connected, disconnected, etc.)
+6. **Тестирование**: Тестируйте с разными состояниями кошелька (подключён, отключён и т.д.)
 
-The SignInWithBaseButton provides a complete, production-ready authentication solution that handles all the complexity of wallet-based authentication while providing a familiar user experience.
+SignInWithBaseButton предоставляет готовое к продакшену решение для аутентификации, которое обрабатывает всю сложность аутентификации на основе кошелька, предоставляя при этом привычный пользовательский опыт.
