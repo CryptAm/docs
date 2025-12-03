@@ -1,66 +1,66 @@
 ---
 title: "getPaymentStatus"
-description: "Check the status of a payment transaction"
+description: "Проверить статус платежной транзакции"
 ---
 
-Defined in the [Base Account SDK](https://github.com/base/account-sdk)
+Определено в [Base Account SDK](https://github.com/base/account-sdk)
 
 <Info>
-The `getPaymentStatus` function allows you to check the status of a payment transaction after it has been submitted. Use this to track whether a payment has been completed, is still pending, or has failed.
+Функция `getPaymentStatus` позволяет проверить статус платежной транзакции после ее отправки. Используйте эту функцию для отслеживания, был ли платеж завершен, все еще находится в ожидании или завершился неудачей.
 
-**Try it out:** Test the `getPaymentStatus` function interactively in our [Base Pay SDK Playground](https://base.github.io/account-sdk/pay-playground).
+**Попробуйте:** Протестируйте функцию `getPaymentStatus` интерактивно в нашем [Base Pay SDK Playground](https://base.github.io/account-sdk/pay-playground).
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="id" type="string" required>
-Transaction hash from the pay result that you want to check the status of.
+Хэш транзакции из результата pay, статус которой вы хотите проверить.
 
-**Pattern:** `^0x[0-9a-fA-F]{64}$`
+**Формат:** `^0x[0-9a-fA-F]{64}$`
 </ParamField>
 
 <ParamField body="testnet" type="boolean">
-Must match the testnet setting used in the original pay call. Default: false
+Должен соответствовать настройке testnet, использованной в исходном вызове pay. По умолчанию: false
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="PaymentStatus">
-Payment status information including current state and details.
+Информация о статусе платежа, включая текущее состояние и детали.
 
-<Expandable title="PaymentStatus properties">
+<Expandable title="Свойства PaymentStatus">
 <ResponseField name="status" type="string">
-Current status of the payment.
+Текущий статус платежа.
 
-**Possible values:**
-- `"completed"`: Payment successfully processed and confirmed
-- `"pending"`: Payment still being processed by the network  
-- `"failed"`: Payment failed to process (funds not transferred)
-- `"not_found"`: Transaction ID not found or invalid
+**Возможные значения:**
+- `"completed"`: Платеж успешно обработан и подтвержден
+- `"pending"`: Платеж все еще обрабатывается сетью
+- `"failed"`: Не удалось обработать платеж (средства не переведены)
+- `"not_found"`: Идентификатор транзакции не найден или недействителен
 </ResponseField>
 
 <ResponseField name="id" type="string">
-Original transaction hash that was queried.
+Исходный хэш транзакции, который был запрошен.
 </ResponseField>
 
 <ResponseField name="message" type="string">
-Human-readable status message explaining the current state.
+Человекочитаемое сообщение о статусе, объясняющее текущее состояние.
 </ResponseField>
 
 <ResponseField name="sender" type="string">
-Sender address (present for pending, completed, and failed statuses).
+Адрес отправителя (присутствует для статусов pending, completed и failed).
 </ResponseField>
 
 <ResponseField name="amount" type="string">
-Amount that was sent (present for completed transactions).
+Сумма, которая была отправлена (присутствует для завершенных транзакций).
 </ResponseField>
 
 <ResponseField name="recipient" type="string">
-Address that received the payment (present for completed transactions).
+Адрес, который получил платеж (присутствует для завершенных транзакций).
 </ResponseField>
 
 <ResponseField name="error" type="string">
-Error details (present for failed status).
+Детали ошибки (присутствует для статуса failed).
 </ResponseField>
 </Expandable>
 </ResponseField>
@@ -82,7 +82,7 @@ console.log("Payment status:", status.status);
 import { pay, getPaymentStatus } from '@base-org/account';
 
 try {
-  // Send payment
+  // Отправить платеж
   const payment = await pay({
     amount: "10.50",
     to: "0x1234567890123456789012345678901234567890"
@@ -92,7 +92,7 @@ try {
 }
 
 try {
-  // Check status
+  // Проверить статус
   const status = await getPaymentStatus({
     id: payment.id,
     testnet: false
@@ -145,15 +145,15 @@ try {
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-The `getPaymentStatus` function can throw errors for:
+Функция 1getPaymentStatus` может генерировать ошибки для:
 
-- Invalid transaction ID format
-- Network connection issues
-- Transaction not found
+- Некорректного формата идентификатора транзакции
+- Проблем с подключением к сети
+- Не найденной транзакции
 
-Always wrap calls to `getPaymentStatus` in a try-catch block to handle these errors gracefully.
+Всегда оборачивайте вызовы `getPaymentStatus` в блок try-catch для корректной обработки этих ошибок.
 
 import PolicyBanner from "/snippets/PolicyBanner.mdx";
 
