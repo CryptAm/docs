@@ -1,47 +1,47 @@
 ---
 title: "getCryptoKeyAccount"
-description: "Retrieve the current crypto key account associated with the user's session"
+description: "Получить текущий криптографический ключ аккаунта, связанный с сессией пользователя"
 ---
 
-Defined in the [Base Account SDK](https://github.com/base/account-sdk)
+Определено в [Base Account SDK](https://github.com/base/account-sdk)
 
 
 
-## Parameters
+## Параметры
 
-This function takes no parameters.
+Эта функция не принимает параметров.
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="CryptoKeyAccountResult">
-An object containing the user's crypto key account information or null if none exists.
+Объект, содержащий информацию о криптографическом ключе аккаунта пользователя, или `null`, если его не существует.
 
-<Expandable title="CryptoKeyAccountResult properties">
+<Expandable title="Свойства CryptoKeyAccountResult">
 <ResponseField name="account" type="WebAuthnAccount | LocalAccount | null">
-The user's crypto key account object, or null if none is available.
+Объект криптографического ключа аккаунта пользователя или `null`, если недоступен.
 
-<Expandable title="WebAuthnAccount properties">
+<Expandable title="Свойства WebAuthnAccount">
 
 <ResponseField name="publicKey" type="string">
-Public key associated with the account.
+Публичный ключ, связанный с аккаунтом.
 </ResponseField>
 
 <ResponseField name="type" type="string">
-Account type identifier. Value: "webauthn"
+Идентификатор типа аккаунта. Значение: "webauthn"
 </ResponseField>
 </Expandable>
 
-<Expandable title="LocalAccount properties">
+<Expandable title="Свойства LocalAccount">
 <ResponseField name="address" type="string">
-Ethereum address of the account (42-character hex string starting with 0x).
+Адрес Ethereum аккаунта (42-символьная шестнадцатеричная строка, начинающаяся с 0x).
 </ResponseField>
 
 <ResponseField name="publicKey" type="string">
-Public key associated with the account.
+Публичный ключ, связанный с аккаунтом.
 </ResponseField>
 
 <ResponseField name="type" type="string">
-Account type identifier. Value: "local"
+Идентификатор типа аккаунта. Значение: "local"
 </ResponseField>
 </Expandable>
 </ResponseField>
@@ -99,20 +99,20 @@ console.log('Account type:', account.type);
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code | Message | Description |
-| ---- | ------- | ----------- |
-| 4001 | User denied account access | User rejected the account access request |
-| 4100 | SDK not initialized | Base Account SDK not properly initialized |
-| 4200 | Session expired | User session has expired, requires reconnection |
-| 4300 | Account unavailable | Account temporarily unavailable |
+| Код  | Сообщение | Описание    |
+| ---- | --------- | ----------- |
+| 4001 | User denied account access | Пользователь отклонил запрос доступа к аккаунту |
+| 4100 | SDK not initialized | Base Account SDK не был правильно инициализирован |
+| 4200 | Session expired | Сессия пользователя истекла, требуется повторное подключение |
+| 4300 | Account unavailable | Аккаунт временно недоступен |
 
 <Warning>
-Always check if the account exists before using it, as users may not be connected or may have disconnected.
+Всегда проверяйте существование аккаунта перед его использованием, так как пользователь может быть не подключен или отключиться.
 </Warning>
 
-## Account State Management
+## Управление состоянием аккаунта
 
 ```typescript
 import { getCryptoKeyAccount } from '@base-org/account';
@@ -143,7 +143,7 @@ class AccountManager {
     const cryptoAccount = await getCryptoKeyAccount();
     const newAccount = cryptoAccount?.account;
     
-    // Check if account changed
+    // Проверить, изменился ли аккаунт
     if (newAccount?.address !== this.currentAccount?.address) {
       console.log('Account changed:', newAccount?.address);
       this.currentAccount = newAccount;
@@ -155,7 +155,7 @@ class AccountManager {
 }
 ```
 
-## Integration with Provider
+## Интеграция с провайдером
 
 ```typescript
 import { getCryptoKeyAccount, createBaseAccountSDK } from '@base-org/account';
@@ -167,13 +167,13 @@ async function initializeApp() {
     appChainIds: [8453], // Base mainnet
   });
   
-  // Check current account status
+  // Проверить текущий статус аккаунта
   const cryptoAccount = await getCryptoKeyAccount();
   
   if (cryptoAccount?.account) {
     console.log('User is already connected:', cryptoAccount.account.address);
     
-    // Get provider for transactions
+    // Получить провайдер для транзакций
     const provider = sdk.getProvider();
     
     return {
@@ -195,7 +195,7 @@ async function initializeApp() {
 }
 ```
 
-## Account Verification
+## Проверка аккаунта
 
 ```typescript
 async function verifyAccountAccess() {
@@ -207,12 +207,12 @@ async function verifyAccountAccess() {
   
   const { account } = cryptoAccount;
   
-  // Verify account has required properties
+  // Проверить, что аккаунт имеет необходимые свойства
   if (!account.address || !account.publicKey) {
     throw new Error('Invalid account data');
   }
   
-  // Verify address format
+  // Проверить формат адреса
   if (!/^0x[a-fA-F0-9]{40}$/.test(account.address)) {
     throw new Error('Invalid address format');
   }
