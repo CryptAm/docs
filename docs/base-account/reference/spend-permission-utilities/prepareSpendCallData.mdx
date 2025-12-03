@@ -1,45 +1,45 @@
 ---
 title: "prepareSpendCallData"
-description: "Prepare calldata to approve (if needed) and spend using a Spend Permission"
+description: "Подготовить calldata для одобрения (при необходимости) и расходования средств с использованием разрешения на расходование"
 ---
 
-Defined in the [Base Account SDK](https://github.com/base/account-sdk)
+Определено в [Base Account SDK](https://github.com/base/account-sdk)
 
 <Info>
-  Returns one or two calls your app's spender can submit to execute a spend. If
-  the permission is not yet registered onchain, an `approveWithSignature` call
-  is prepended before the `spend` call.
+  Возвращает один или два вызова, которые получатель (spender) вашего приложения
+  может отправить для выполнения расходования. Если разрешение ещё не зарегистрировано 
+  в блокчейне, вызов `approveWithSignature` добавляется перед вызовом `spend`.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="permission" type="SpendPermission" required>
-  Signed permission returned from [`requestSpendPermission`](/base-account/reference/spend-permission-utilities/requestSpendPermission) or fetched via [`fetchPermissions`](/base-account/reference/spend-permission-utilities/fetchPermissions).
+  Подписанное разрешение, полученное из [`requestSpendPermission`](/base-account/reference/spend-permission-utilities/requestSpendPermission) или запрошенное через [`fetchPermissions`](/base-account/reference/spend-permission-utilities/fetchPermissions).
 
-<Expandable title="SpendPermission properties">
+<Expandable title="Свойства SpendPermission">
 <ParamField body="permissionHash" type="string">
-Deterministic EIP-712 hash of the permission.
+Детерминированный хеш EIP-712 разрешения.
 </ParamField>
 
 <ParamField body="signature" type="string">
-  Signature for the EIP-712 payload.
+  Подпись для полезной нагрузки EIP-712.
 </ParamField>
 
 <ParamField body="chainId" type="number">
-  Target chain ID.
+  Идентификатор целевой цепочки (chain ID).
 </ParamField>
 
 <ParamField body="permission" type="object">
-Underlying permission fields.
+Базовые поля разрешения.
 
-<Expandable title="permission fields">
+<Expandable title="Поля permission">
 <ParamField body="account" type="address" />
 <ParamField body="spender" type="address" />
 <ParamField body="token" type="address" />
 <ParamField body="allowance" type="bigint" />
-<ParamField body="period" type="number">Duration in seconds.</ParamField>
-<ParamField body="start" type="number">Unix timestamp (seconds).</ParamField>
-<ParamField body="end" type="number">Unix timestamp (seconds).</ParamField>
+<ParamField body="period" type="number">Длительность в секундах.</ParamField>
+<ParamField body="start" type="number">Временная метка Unix (секунды).</ParamField>
+<ParamField body="end" type="number">Временная метка Unix (секунды).</ParamField>
 <ParamField body="salt" type="string" />
 <ParamField body="extraData" type="string" />
 </Expandable>
@@ -48,13 +48,13 @@ Underlying permission fields.
 </ParamField>
 
 <ParamField body="amount" type="bigint">
-  Amount to spend (in wei). Omit to spend the remaining allowance.
+  Сумма для расходования (в wei). Не указывайте, чтобы потратить оставшийся лимит.
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="Call[]">
-Array of calls to submit in order.
+Массив вызовов для отправки в указанном порядке.
 
 <Expandable title="Call type">
 <ResponseField name="to" type="string" />
@@ -69,10 +69,10 @@ import { prepareSpendCallData } from "@base-org/account/spend-permission";
 
 const spendCalls = await prepareSpendCallData({
   permission,
-  amount: 10_000n, // optional
+  amount: 10_000n, // опционально
 });
 
-// If supported, submit both in a batch via wallet_sendCalls
+// Если поддерживается, отправить оба вызова пачкой через wallet_sendCalls
 await provider.request({
   method: "wallet_sendCalls",
   params: [
@@ -85,7 +85,7 @@ await provider.request({
   ],
 });
 
-// Or submit sequentially with eth_sendTransaction
+// Или отправить последовательно через eth_sendTransaction
 for (const call of spendCalls) {
   await provider.request({
     method: "eth_sendTransaction",
@@ -95,12 +95,12 @@ for (const call of spendCalls) {
 ```
 </RequestExample>
 
-## Error Handling
+## Обработка ошибок
 
-Always wrap the call in a try-catch block to handle these errors gracefully.
+Всегда заключайте вызов в блок `try-catch` для корректной обработки возможных ошибок.
 
 <Info>
-Use `getPermissionStatus` to check `isActive` and `remainingSpend` before preparing a spend.
+Используйте `getPermissionStatus` для проверки `isActive` и `remainingSpend` перед подготовкой расходования.
 </Info>
 
 import PolicyBanner from "/snippets/PolicyBanner.mdx";
