@@ -1,64 +1,64 @@
 ---
 title: "wallet_addSubAccount"
-description: "Add a sub account to the wallet"
+description: "Добавить суб-аккаунт в кошелек"
 ---
 
-Experimental RPC method for creating sub accounts
+Экспериментальный RPC метод для создания суб-аккаунтов
 
 <Info>
-Creates a new sub account associated with the main wallet account. Sub accounts allow for hierarchical account management and delegation.
+Создает новый суб-аккаунт, связанный с основным аккаунтом кошелька. Суб-аккаунты позволяют осуществлять иерархическое управление аккаунтами и делегирование прав.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="account" type="object" required>
-The account configuration object.
+Объект конфигурации аккаунта.
 
-<Expandable title="Account object properties">
+<Expandable title="Свойства объекта аккаунта">
 <ParamField body="type" type="string" required>
-The type of sub account to create. Can be "create" or "deployed".
+Тип создаваемого суб-аккаунта. Может быть "create" или "deployed".
 </ParamField>
 
 <ParamField body="keys" type="array">
-Array of key objects for the sub account (required for "create" type).
+Массив объектов ключей для суб-аккаунта (требуется для типа "create").
 
 <Expandable title="Key object properties">
 <ParamField body="type" type="string" required>
-Type of key: "address", "p256", "webcrypto-p256", or "webauthn-p256".
+Тип ключа: "address", "p256", "webcrypto-p256" или "webauthn-p256".
 </ParamField>
 
 <ParamField body="publicKey" type="string" required>
-Hex string of the public key.
+Публичный ключ в виде шестнадцатеричной строки (hex).
 </ParamField>
 </Expandable>
 </ParamField>
 
 <ParamField body="address" type="string">
-The address of the deployed account to add as a sub account. (required for "deployed" type).
+Адрес развернутого аккаунта для добавления в качестве суб-аккаунта (требуется для типа "deployed").
 </ParamField>
 
 <ParamField body="chainId" type="number">
-The chain ID that the account is deployed on. (required for "deployed" type).
+Идентификатор цепи (chainID), на которой развернут аккаунт (требуется для типа "deployed").
 </ParamField>
 </Expandable>
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="object">
-Sub account information including address and deployment details.
+Информация о суб-аккаунте, включая адрес и детали развертывания.
 
-<Expandable title="Result properties">
+<Expandable title="Свойства результата">
 <ResponseField name="address" type="string">
-The address of the created sub account.
+Адрес созданного суб-аккаунта.
 </ResponseField>
 
 <ResponseField name="factory" type="string">
-The factory contract address (optional).
+Адрес фабричного контракта (опционально).
 </ResponseField>
 
 <ResponseField name="factoryData" type="string">
-Factory deployment data (optional).
+Данные развертывания фабрики (опционально).
 </ResponseField>
 </Expandable>
 </ResponseField>
@@ -110,14 +110,14 @@ Factory deployment data (optional).
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code | Message                        | Description |
+| Код  | Сообщение                      | Описание    |
 | ---- | ------------------------------ | ----------- |
-| 4001 | User rejected the request      | User denied creating the sub account |
-| 4100 | Requested method not supported | The method is not supported by the wallet |
-| -32602 | Invalid params                 | Invalid account configuration |
+| 4001 | User rejected the request      | Пользователь отклонил создание суб-аккаунта |
+| 4100 | Requested method not supported | Метод не поддерживается кошельком |
+| -32602 | Invalid params                 | Некорректная конфигурация аккаунта |
 
 <Warning>
-This is an experimental feature and the API may change in future versions.
+Это экспериментальная функция, и API может измениться в будущих версиях.
 </Warning>
