@@ -1,46 +1,46 @@
 ---
 title: "wallet_watchAsset"
-description: "Add a token to the wallet's asset watchlist"
+description: "Добавить токен в список отслеживаемых активов кошелька"
 ---
 
-Defined in [EIP-747](https://eips.ethereum.org/EIPS/eip-747)
+Определено в [EIP-747](https://eips.ethereum.org/EIPS/eip-747)
 
 <Info>
-Requests that the wallet tracks the given token in the user's wallet. Once a token is added, it will be shown in the wallet's token list.
+Запрашивает у кошелька отслеживание указанного токена в кошельке пользователя. После добавления токен будет отображаться в списке токенов кошелька.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="type" type="string" required>
-The asset type. Currently only "ERC20" is supported.
+Тип актива. В настоящее время поддерживается только "ERC20".
 </ParamField>
 
 <ParamField body="options" type="object" required>
-Token options object.
+Объект параметров токена.
 
-<Expandable title="Options properties">
+<Expandable title="Свойства Options">
 <ParamField body="address" type="string" required>
-The address of the token contract (42-character hexadecimal address).
+Адрес контракта токена (42-символьный шестнадцатеричный адрес).
 </ParamField>
 
 <ParamField body="symbol" type="string" required>
-A ticker symbol or shorthand, up to 11 characters.
+Тикер или сокращенное обозначение токена, до 11 символов.
 </ParamField>
 
 <ParamField body="decimals" type="number" required>
-The number of token decimals.
+Количество десятичных знаков токена (decimals).
 </ParamField>
 
 <ParamField body="image" type="string">
-A string URL of a token logo image (optional).
+URL строки изображения логотипа токена (опционально).
 </ParamField>
 </Expandable>
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="boolean">
-Returns true if the token was successfully added to the watch list.
+Возвращает `true`, если токен был успешно добавлен в список отслеживания.
 </ResponseField>
 
 <RequestExample>
@@ -99,18 +99,18 @@ Returns true if the token was successfully added to the watch list.
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code | Message                        | Description |
+| Код  | Сообщение                      | Описание    |
 | ---- | ------------------------------ | ----------- |
-| 4001 | User rejected the request      | User denied adding the token |
-| 4100 | Requested method not supported | The method is not supported by the wallet |
-| -32602 | Invalid params                 | Invalid token parameters |
+| 4001 | User rejected the request      | Пользователь отклонил добавление токена |
+| 4100 | Requested method not supported | Метод не поддерживается кошельком |
+| -32602 | Invalid params                 | Некорректные параметры токена |
 
 <Warning>
-Always verify the token contract address and ensure it's a legitimate token to prevent users from adding malicious tokens.
+Всегда проверяйте адрес контракта токена и убедитесь, что это легитимный токен, чтобы предотвратить добавление пользователями вредоносных токенов.
 </Warning>
 
 <Info>
-The token will appear in the user's wallet token list if successfully added.
+Токен появится в списке токенов кошелька пользователя в случае успешного добавления.
 </Info>
