@@ -1,30 +1,30 @@
 ---
 title: "generateKeyPair"
-description: "Generate a new P256 key pair for use with Base Account"
+description: "Сгенерировать новую пару ключей P256 для использования с Base Account"
 ---
 
-Defined in the [Base Account SDK](https://github.com/base/account-sdk)
+Определено в [Base Account SDK](https://github.com/base/account-sdk)
 
 <Info>
-Generates a new P256 key pair for use with Base Account. This is essential for advanced integrations and Sub Account management.
+Генерирует новую пару ключей P256 для использования с Base Account. Это важно для расширенных интеграций и управления Sub Accounts.
 </Info>
 
-## Parameters
+## Параметры
 
-This function takes no parameters.
+Эта функция не принимает параметров.
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="P256KeyPair">
-A P256 key pair object containing the public and private keys.
+Объект пары ключей P256, содержащий публичный и приватный ключи.
 
 <Expandable title="P256KeyPair properties">
 <ResponseField name="publicKey" type="string">
-The public key for the generated pair in hexadecimal format.
+Публичный ключ сгенерированной пары в шестнадцатеричном формате (hex).
 </ResponseField>
 
 <ResponseField name="privateKey" type="string">
-The private key for the generated pair. Handle with extreme care.
+Приватный ключ сгенерированной пары. Обращаться с крайней осторожностью.
 </ResponseField>
 </Expandable>
 </ResponseField>
@@ -57,21 +57,21 @@ try {
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code | Message | Description |
-| ---- | ------- | ----------- |
-| 4100 | Key generation not supported | Browser does not support cryptographic key generation |
-| 4200 | Insufficient entropy | System lacks sufficient randomness for secure key generation |
-| 4300 | Cryptographic system failure | Hardware or software cryptographic failure |
+| Код  | Сообщение | Описание    |
+| ---- | --------- | ----------- |
+| 4100 | Key generation not supported | Браузер не поддерживает генерацию криптографических ключей |
+| 4200 | Insufficient entropy | Система не имеет достаточной случайности для безопасной генерации ключей |
+| 4300 | Cryptographic system failure | Аппаратный или программный криптографический сбой |
 
 <Warning>
-**Private Key Security**
+**Безопасность приватного ключа**
 
-Never expose private keys in client-side code or transmit them over insecure channels. Store them securely using appropriate key management systems.
+Никогда не раскрывайте приватные ключи в клиентском коде и не передавайте их по незащищенным каналам. Храните их безопасно, используя соответствующие системы управления ключами.
 </Warning>
 
-## Integration with Sub Accounts
+## Интеграция с Sub Accounts
 
 ```typescript
 import { generateKeyPair, createBaseAccountSDK } from '@base-org/account';
@@ -83,10 +83,10 @@ async function createSubAccountWithNewKeys() {
     appChainIds: [8453], // Base mainnet
   });
 
-  // Generate new key pair for sub account
+  // Сгенерировать новую пару ключей для суб-аккаунта
   const keyPair = await generateKeyPair();
   
-  // Create sub account with the generated keys
+  // Создать суб-аккаунт с сгенерированными ключами
   const subAccount = await sdk.subAccount.create({
     type: 'create',
     keys: [{
@@ -99,20 +99,20 @@ async function createSubAccountWithNewKeys() {
 }
 ```
 
-## Error Handling
+## Обработка ошибок
 
-The `generateKeyPair` function can throw errors for:
+Функция `generateKeyPair` может генерировать ошибки для:
 
-- Cryptographic system failures
-- Insufficient entropy
-- Browser compatibility issues
+- Сбоев криптографической системы
+- Недостаточной энтропии
+- Проблем совместимости браузера
 
-Always wrap calls to `generateKeyPair` in a try-catch block:
+Всегда оборачивайте вызовы `generateKeyPair` в блок try-catch:
 
 ```typescript
 try {
   const keyPair = await generateKeyPair();
-  // Handle successful generation
+  // Обработать успешную генерацию
 } catch (error) {
   if (error.message.includes('not supported')) {
     console.error('Browser does not support key generation');
@@ -122,18 +122,18 @@ try {
 }
 ```
 
-## Security Considerations
+## Соображения безопасности
 
 <Warning>
-**Private Key Security**
+**Безопасность приватного ключа**
 
-Never expose private keys in client-side code or transmit them over insecure channels. Store them securely using appropriate key management systems.
+Никогда не раскрывайте приватные ключи в клиентском коде и не передавайте их по незащищенным каналам. Храните их безопасно, используя соответствующие системы управления ключами.
 </Warning>
 
-- Store private keys using secure storage mechanisms
-- Never log private keys to console in production
-- Consider using hardware security modules for production applications
-- Implement proper key rotation policies
+- Храните приватные ключи, используя безопасные механизмы хранения
+- Никогда не выводите приватные ключи в консоль в продакшене
+- Рассмотрите использование аппаратных модулей безопасности для продакшен-приложений
+- Внедрите соответствующие политики ротации ключей
 
 import PolicyBanner from "/snippets/PolicyBanner.mdx";
 
