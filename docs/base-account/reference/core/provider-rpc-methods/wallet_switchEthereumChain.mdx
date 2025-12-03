@@ -1,24 +1,24 @@
 ---
 title: "wallet_switchEthereumChain"
-description: "Switch the wallet to a different Ethereum chain"
+description: "Переключить кошелек на другую цепь Ethereum"
 ---
 
-Defined in [EIP-3326](https://eips.ethereum.org/EIPS/eip-3326)
+Определено в [EIP-3326](https://eips.ethereum.org/EIPS/eip-3326)
 
 <Info>
-Requests that the wallet switches its active Ethereum chain to one of the chains already added to the wallet.
+Запрашивает переключение активной цепи Ethereum кошелька на одну из цепей, уже добавленных в кошелек.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="chainId" type="string" required>
-A 0x-prefixed hexadecimal string representing the chain ID of the chain to switch to.
+Идентификатор цепи для переключения в виде строки в шестнадцатеричном формате с префиксом "0x".
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="null">
-Returns null if successful.
+Возвращает `null` в случае успеха.
 </ResponseField>
 
 <RequestExample>
@@ -55,18 +55,18 @@ Returns null if successful.
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code | Message                        | Description |
+| Код  | Сообщение                      | Описание    |
 | ---- | ------------------------------ | ----------- |
-| 4001 | User rejected the request      | User denied switching chains |
-| 4100 | Requested method not supported | The method is not supported by the wallet |
-| 4902 | Unrecognized chain ID          | The requested chain has not been added to the wallet |
+| 4001 | User rejected the request      | Пользователь отклонил переключение цепи |
+| 4100 | Requested method not supported | Метод не поддерживается кошельком |
+| 4902 | Unrecognized chain ID          | Запрошенная цепь не была добавлена в кошелек |
 
 <Info>
-If the chain is not already added to the wallet, use `wallet_addEthereumChain` first.
+Если цепь еще не добавлена в кошелек, сначала используйте `wallet_addEthereumChain`.
 </Info>
 
 <Warning>
-Switching chains will affect all subsequent blockchain operations in your application.
+Переключение цепи повлияет на все последующие операции с блокчейном в вашем приложении.
 </Warning>
