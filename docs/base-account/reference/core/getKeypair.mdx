@@ -1,30 +1,30 @@
 ---
 title: "getKeypair"
-description: "Retrieve an existing P256 key pair from storage"
+description: "Получить существующую пару ключей P256 из хранилища"
 ---
 
-Defined in the [Base Account SDK](https://github.com/base/account-sdk)
+Определено в [Base Account SDK](https://github.com/base/account-sdk)
 
 <Info>
-Retrieves an existing P256 key pair if one has been previously generated and stored. This is useful for checking if keys already exist before generating new ones.
+Извлекает существующую пару ключей P256, если она была ранее сгенерирована и сохранена. Это полезно для проверки существования ключей перед генерацией новых.
 </Info>
 
-## Parameters
+## Параметры
 
-This function takes no parameters.
+Эта функция не принимает параметров.
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="P256KeyPair | null">
-The stored P256 key pair or `null` if no key pair exists.
+Сохраненная пара ключей P256 или `null`, если пара ключей не существует.
 
-<Expandable title="P256KeyPair properties">
+<Expandable title="Свойства P256KeyPair">
 <ResponseField name="publicKey" type="string">
-The public key for the stored pair in hexadecimal format.
+Публичный ключ сохраненной пары в шестнадцатеричном формате (hex).
 </ResponseField>
 
 <ResponseField name="privateKey" type="string">
-The private key for the stored pair. Handle with extreme care.
+Приватный ключ сохраненной пары. Обращаться с крайней осторожностью.
 </ResponseField>
 </Expandable>
 </ResponseField>
@@ -67,22 +67,22 @@ null
 <Warning>
 **Private Key Access**
 
-The retrieved private keys should be handled with the same security considerations as newly generated keys.
+Извлеченные приватные ключи следует обрабатывать с такими же соображениями безопасности, как и вновь сгенерированные ключи.
 </Warning>
 
-## Get or Create Pattern
+## Паттерн "Получить или создать"
 
-A common pattern is to check for existing keys before generating new ones:
+Распространенный паттерн - проверять существующие ключи перед генерацией новых:
 
 ```typescript
 import { getKeypair, generateKeyPair } from '@base-org/account';
 
 async function getOrCreateKeyPair() {
-  // Try to get existing key pair first
+  // Сначала попытаться получить существующую пару ключей
   let keyPair = await getKeypair();
   
   if (!keyPair) {
-    // Generate new key pair if none exists
+    // Сгенерировать новую пару ключей, если не существует
     console.log('No existing key pair, generating new one...');
     keyPair = await generateKeyPair();
   } else {
@@ -95,43 +95,43 @@ async function getOrCreateKeyPair() {
 
 
 
-## Storage Behavior
+## Поведение хранилища
 
-The `getKeypair` function retrieves keys from:
+Функция `getKeypair` извлекает ключи из:
 
-- Browser's secure storage (for web applications)
-- Platform-specific secure storage (for native applications)
-- Memory cache (for the current session)
+- Безопасного хранилища браузера (для веб-приложений)
+- Платформенно-специфичного безопасного хранилища (для нативных приложений)
+- Кэша памяти (для текущей сессии)
 
 <Info>
-Key pairs are stored securely and are only accessible within the same origin and application context.
+Пары ключей хранятся безопасно и доступны только в том же источнике (origin) и контексте приложения.
 </Info>
 
-## Error Handling
+## Обработка ошибок
 
-The `getKeypair` function can throw errors for:
+Функция `getKeypair` может генерировать ошибки для:
 
-- Storage access failures
-- Data corruption issues
-- Browser compatibility problems
+- Сбоев доступа к хранилищу
+- Проблем с повреждением данных
+- Проблем совместимости браузера
 
-Always wrap calls to `getKeypair` in a try-catch block:
+Всегда оборачивайте вызовы `getKeypair` в блок try-catch:
 
 ```typescript
 try {
   const keyPair = await getKeypair();
   if (keyPair) {
-    // Use existing keys
+    // Использовать существующие ключи
   } else {
-    // No keys found, may need to generate new ones
+    // Ключи не найдены, возможно, нужно сгенерировать новые
   }
 } catch (error) {
   console.error('Error accessing key storage:', error);
-  // Handle storage access errors
+  // Обработать ошибки доступа к хранилищу
 }
 ```
 
-## Key Lifecycle Management
+## Управление жизненным циклом ключей
 
 ```typescript
 class KeyManager {
@@ -139,7 +139,7 @@ class KeyManager {
   
   async initialize() {
     try {
-      // Load existing keys
+      // Загрузить существующие ключи
       this.keyPair = await getKeypair();
       
       if (this.keyPair) {
@@ -173,17 +173,17 @@ class KeyManager {
 }
 ```
 
-## Security Considerations
+## Соображения безопасности
 
 <Warning>
-**Private Key Access**
+**Доступ к приватным ключам**
 
-The retrieved private keys should be handled with the same security considerations as newly generated keys.
+Извлеченные приватные ключи следует обрабатывать с такими же соображениями безопасности, как и вновь сгенерированные ключи.
 </Warning>
 
-- Always verify key integrity before use
-- Implement proper access controls
-- Consider re-generating keys periodically for enhanced security
+- Всегда проверяйте целостность ключей перед использованием
+- Внедрите соответствующий контроль доступа
+- Рассмотрите возможность периодической повторной генерации ключей для повышения безопасности
 
 import PolicyBanner from "/snippets/PolicyBanner.mdx";
 
