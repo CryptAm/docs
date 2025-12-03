@@ -1,42 +1,42 @@
 ---
 title: "wallet_connect"
-description: "Connect wallet and request account access"
+description: "Подключить кошелек и запросить доступ к аккаунтам"
 ---
 
-Custom Coinbase Wallet method for establishing connection
+Специфичный метод Coinbase Wallet для установления подключения
 
 <Info>
-Requests that the wallet connects to the dApp and provides account access. This is similar to `eth_requestAccounts` but provides additional connection features.
+Запрашивает подключение кошелька к dApp и предоставление доступа к аккаунтам. Аналогично `eth_requestAccounts`, но предоставляет дополнительные возможности подключения.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="options" type="object">
-Optional configuration object for the connection.
+Опциональный объект конфигурации для подключения.
 
-<Expandable title="Options properties">
+<Expandable title="Свойства Options">
 <ParamField body="version" type="string">
-The wallet connect version to use.
+Версия wallet connect для использования.
 </ParamField>
 
 <ParamField body="jsonrpc" type="string">
-The JSON-RPC version (typically "2.0").
+Версия JSON-RPC (обычно "2.0").
 </ParamField>
 
 <ParamField body="capabilities" type="object">
-Optional capabilities to request during connection, such as signInWithEthereum for authentication.
+пциональные возможности для запроса во время подключения, например signInWithEthereum для аутентификации.
 
-<Expandable title="Available capabilities">
+<Expandable title="Доступные возможности">
 <ParamField body="signInWithEthereum" type="object">
-Request SIWE (Sign-In With Ethereum) authentication during connection.
+Запрашивает аутентификацию SIWE (Sign-In With Ethereum) во время подключения.
 
-<Expandable title="signInWithEthereum properties">
+<Expandable title="Свойства signInWithEthereum">
 <ParamField body="nonce" type="string" required>
-A unique random string to prevent replay attacks.
+Уникальная случайная строка для предотвращения атак повторного использования (replay attacks).
 </ParamField>
 
 <ParamField body="chainId" type="string" required>
-The chain ID as a hexadecimal string (e.g., "0x2105" for Base Mainnet).
+Идентификатор цепи в виде шестнадцатеричной строки (например, "0x2105" для Base Mainnet).
 </ParamField>
 </Expandable>
 </ParamField>
@@ -45,34 +45,34 @@ The chain ID as a hexadecimal string (e.g., "0x2105" for Base Mainnet).
 </Expandable>
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="object">
-Connection result object containing account information and capabilities results.
+Объект результата подключения, содержащий информацию об аккаунтах и результаты запрошенных возможностей.
 
-<Expandable title="Result properties">
+<Expandable title="Свойства результата">
 <ResponseField name="accounts" type="array">
-Array of connected account objects.
+Массив объектов подключенных аккаунтов.
 
-<Expandable title="Account object properties">
+<Expandable title="Свойства объекта аккаунта">
 <ResponseField name="address" type="string">
-The account address.
+Адрес аккаунта.
 </ResponseField>
 
 <ResponseField name="capabilities" type="object">
-Capabilities results if requested during connection.
+Результаты возможностей, если они были запрошены во время подключения.
 
-<Expandable title="Capabilities results">
+<Expandable title="Результаты возможностей">
 <ResponseField name="signInWithEthereum" type="object">
-SIWE authentication result if requested.
+Результат аутентификации SIWE, если был запрошен.
 
-<Expandable title="signInWithEthereum result">
+<Expandable title="Результат signInWithEthereum">
 <ResponseField name="message" type="string">
-The SIWE-formatted message that was signed.
+Сообщение в формате SIWE, которое было подписано.
 </ResponseField>
 
 <ResponseField name="signature" type="string">
-The cryptographic signature of the message.
+Криптографическая подпись сообщения.
 </ResponseField>
 </Expandable>
 </ResponseField>
@@ -82,11 +82,11 @@ The cryptographic signature of the message.
 </ResponseField>
 
 <ResponseField name="chainId" type="string">
-The current chain ID as a hexadecimal string.
+Текущий идентификатор цепи в виде шестнадцатеричной строки (hex).
 </ResponseField>
 
 <ResponseField name="isConnected" type="boolean">
-Whether the wallet is connected.
+Подключен ли кошелек.
 </ResponseField>
 </Expandable>
 </ResponseField>
@@ -167,30 +167,30 @@ Whether the wallet is connected.
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
-| Code | Message                        | Description |
+| Код  | Сообщение                      | Описание    |
 | ---- | ------------------------------ | ----------- |
-| 4001 | User rejected the request      | User denied the connection request |
-| 4100 | Requested method not supported | The method is not supported by the wallet |
-| 4200 | Wallet not available           | The wallet is not installed or available |
-| -32602 | Invalid params                 | Invalid nonce or chainId in signInWithEthereum capability |
+| 4001 | User rejected the request      | Пользователь отклонил запрос на подключение |
+| 4100 | Requested method not supported | Метод не поддерживается кошельком |
+| 4200 | Wallet not available           | Кошелек не установлен или недоступен |
+| -32602 | Invalid params                 | Некорректный nonce или chainId в возможности signInWithEthereum |
 
 <Warning>
-This is a Coinbase Wallet-specific method and may not be available in other wallets.
+Это специфичный метод Coinbase Wallet, который может быть недоступен в других кошельках.
 </Warning>
 
 <Info>
-After successful connection, the wallet will emit connection events and provide access to account information.
+После успешного подключения кошелек будет генерировать события подключения и предоставлять доступ к информации об аккаунтах.
 </Info>
 
 <Tip>
-When using the `signInWithEthereum` capability, always generate a fresh, unique nonce for each authentication attempt to prevent replay attacks. The signature can be verified on your backend using libraries like viem.
+При использовании возможности `signInWithEthereum` всегда генерируйте новый уникальный nonce для каждой попытки аутентификации, чтобы предотвратить атаки повторного использования (replay attacks). Подпись можно проверить на вашем бэкенде с использованием библиотек, таких как viem.
 </Tip>
 
-## Usage with Capabilities
+## Использование с возможностями
 
-You can use the `wallet_connect` with the [`signInWithEthereum`](/base-account/reference/core/capabilities/signInWithEthereum.mdx) capability to authenticate the user.
+Вы можете использовать `wallet_connect` с возможностью [`signInWithEthereum`](/base-account/reference/core/capabilities/signInWithEthereum.mdx) capability для аутентификации пользователя.
 
 import PolicyBanner from "/snippets/PolicyBanner.mdx";
 
