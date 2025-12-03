@@ -1,53 +1,53 @@
 ---
-title: "Subscriptions Overview"
-description: "Accept recurring USDC payments using spend permissions on Base"
+title: "Обзор подписок"
+description: "Принимать периодические платежи USDC с использованием разрешений на расходы в сети Base"
 ---
 
-Defined in the [Base Account SDK](https://github.com/base/account-sdk)
+Определено в [Base Account SDK](https://github.com/base/account-sdk)
 
 <Info>
-Base Subscriptions enable recurring USDC payments. Users grant your application permission to charge their account periodically, eliminating the need for manual approvals on each payment. **No fees for merchants or users.**
+Base Subscriptions позволяют принимать периодические платежи USDC. Пользователи предоставляют вашему приложению разрешение на периодическое списание средств со своего аккаунта, устраняя необходимость ручного одобрения каждого платежа. **Никаких комиссий для мерчантов или пользователей.**
 </Info>
 
-## How Subscriptions Work
+## Как работают подписки
 <Steps>
-<Step title="User Creates Subscription">
-User approves a spend permission for your application to charge a specific amount periodically.
+<Step title="Пользователь создает подписку">
+Пользователь одобряет разрешение на расходы для вашего приложения на списание определенной суммы периодически.
 </Step>
 
-<Step title="Application Charges Periodically">
-Your backend charges the subscription when payment is due, up to the permitted amount per period.
+<Step title="Приложение периодически списывает средства">
+Ваш бэкенд списывает средства с подписки, когда наступает срок платежа, в пределах разрешенной суммы за период.
 </Step>
 
-<Step title="Automatic Period Reset">
-The spending limit resets automatically at the start of each new period.
+<Step title="Автоматический сброс периода">
+Лимит расходов автоматически сбрасывается в начале каждого нового периода.
 </Step>
 
-<Step title="User Can Cancel Anytime">
-Users maintain full control and can revoke the permission at any time.
+<Step title="Пользователь может отменить в любое время">
+Пользователи сохраняют полный контроль и могут отозвать разрешение в любое время.
 </Step>
 </Steps>
 
-## Core Functions
+## Основные функции
 
 <CardGroup cols={3}>
 <Card title="subscribe" icon="credit-card" href="/base-account/reference/base-pay/subscribe">
-Create a new subscription with spend permissions
+Создать новую подписку с разрешениями на расходы
 </Card>
 
 <Card title="getSubscriptionStatus" icon="chart-line" href="/base-account/reference/base-pay/getStatus">
-Check subscription status and remaining charges
+Проверить статус подписки и оставшиеся списания
 </Card>
 
 <Card title="prepareCharge" icon="receipt" href="/base-account/reference/base-pay/prepareCharge">
-Prepare transaction calls to charge a subscription
+Подготовить вызовы транзакций для списания средств с подписки
 </Card>
 </CardGroup>
 
-## Type Definitions
+## Определения типов
 
 ```typescript
-// Subscription creation options
+// Параметры создания подписки
 interface SubscriptionOptions {
   recurringCharge: string;
   subscriptionOwner: string;
@@ -56,7 +56,7 @@ interface SubscriptionOptions {
   telemetry?: boolean;
 }
 
-// Subscription result
+// Результат подписки
 interface SubscriptionResult {
   id: string;
   subscriptionOwner: Address;
@@ -65,7 +65,7 @@ interface SubscriptionResult {
   periodInDays: number;
 }
 
-// Subscription status
+// Статус подписки
 interface SubscriptionStatus {
   isSubscribed: boolean;
   recurringCharge: string;
@@ -75,7 +75,7 @@ interface SubscriptionStatus {
   periodInDays?: number;
 }
 
-// Charge preparation
+// Подготовка списания
 interface PrepareChargeOptions {
   id: string;
   amount: string | 'max-remaining-charge';
@@ -89,19 +89,19 @@ type PrepareChargeResult = Array<{
 }>;
 ```
 
-## Next Steps
+## Следующие шаги
 
 <CardGroup cols={3}>
-<Card title="Accept Recurring Payments Guide" icon="book" href="/base-account/guides/accept-recurring-payments">
-Learn how to implement recurring payments with Base Pay
+<Card title="Руководство по принятию периодических платежей" icon="book" href="/base-account/guides/accept-recurring-payments">
+Узнайте, как реализовать периодические платежи с Base Pay
 </Card>
 
-<Card title="One-Time Payments Guide" icon="book" href="/base-account/guides/accept-payments">
-Learn how to implement one-time payments with Base Pay
+<Card title="Руководство по разовым платежам" icon="book" href="/base-account/guides/accept-payments">
+Узнайте, как реализовать разовые платежи с Base Pay
 </Card>
 
-<Card title="Spend Permissions" icon="shield" href="/base-account/improve-ux/spend-permissions">
-Deep dive into Spend Permissions
+<Card title="Разрешения на расходы" icon="shield" href="/base-account/improve-ux/spend-permissions">
+Глубокое погружение в разрешения на расходы
 </Card>
 </CardGroup>
 
