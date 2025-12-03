@@ -1,10 +1,10 @@
 ---
-title: "Overview"
+title: "Обзор"
 ---
 
-The `request` method allows apps to make Ethereum RPC requests to the wallet.
+Метод `request` позволяет приложениям выполнять Ethereum RPC запросы к кошельку.
 
-## Specification
+## Спецификация
 
 ```ts
 interface RequestArguments {
@@ -20,9 +20,9 @@ interface ProviderRpcError extends Error {
 
 interface ProviderInterface {
   /**
-   * @param {RequestArguments} args request arguments.
-   * @returns A promise that resolves with the result.
-   * @throws {ProviderRpcError} in case of error.
+   * @param {RequestArguments} args аргументы запроса.
+   * @returns Промис, который разрешается результатом.
+   * @throws {ProviderRpcError} в случае ошибки.
    */
   request(args: RequestArguments): Promise<unknown>;
   disconnect(): Promise<void>;
@@ -47,7 +47,7 @@ interface BaseAccountSDK {
 }
 ```
 
-### Example
+### Пример
 
 <CodeGroup>
 ```ts example.ts
@@ -75,17 +75,17 @@ const provider = sdk.getProvider();
 ```
 </CodeGroup>
 
-## Request Handling
+## Обработка запросов
 
-Requests are handled in one of three ways
+Запросы обрабатываются одним из трех способов:
 
-1. Sent to the Wallet application (Wallet mobile app, extension, or popup window).
-2. Handled locally by the SDK.
-3. Passed onto default RPC provider for the given chain, if it exists.
+1. Отправляются в приложение Кошелька (мобильное приложение, расширение или всплывающее окно).
+2. Обрабатываются локально SDK.
+3. Передаются провайдеру RPC по умолчанию для данной цепи, если он существует.
 
-### 1. Sent to the Wallet application
+### 1. Отправляются в приложение Кошелька
 
-The following RPC requests are sent to the Wallet application:
+Следующие RPC запросы отправляются в приложение Кошелька:
 
 - [`personal_sign`](/base-account/reference/core/provider-rpc-methods/personal_sign)
 - [`eth_sendTransaction`](/base-account/reference/core/provider-rpc-methods/eth_sendTransaction)
@@ -103,9 +103,9 @@ The following RPC requests are sent to the Wallet application:
 - [`coinbase_fetchPermissions`](/base-account/reference/core/provider-rpc-methods/coinbase_fetchPermissions)
 - [`coinbase_fetchPermission`](/base-account/reference/core/provider-rpc-methods/coinbase_fetchPermission)
 
-### 2. Handled Locally by the SDK
+### 2. Обрабатываются локально SDK
 
-The following requests are handled locally by the SDK, with no external calls:
+Следующие запросы обрабатываются локально SDK без внешних вызовов:
 
 - [`eth_requestAccounts`](/base-account/reference/core/provider-rpc-methods/eth_requestAccounts)
 - [`eth_accounts`](/base-account/reference/core/provider-rpc-methods/eth_accounts)
@@ -113,9 +113,9 @@ The following requests are handled locally by the SDK, with no external calls:
 - [`eth_chainId`](/base-account/reference/core/provider-rpc-methods/eth_chainId)
 - [`web3_clientVersion`](/base-account/reference/core/provider-rpc-methods/web3_clientVersion)
 
-### 3. Passed to RPC Provider
+### 3. Передаются провайдеру RPC
 
-Standard Ethereum RPC methods are passed to the configured RPC provider for the current chain, including:
+Стандартные Ethereum RPC методы передаются настроенному провайдеру RPC для текущей цепи, включая:
 
 - [`eth_getBalance`](/base-account/reference/core/provider-rpc-methods/eth_getBalance)
 - [`eth_blockNumber`](/base-account/reference/core/provider-rpc-methods/eth_blockNumber)
