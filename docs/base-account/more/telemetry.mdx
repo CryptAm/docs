@@ -1,34 +1,34 @@
 ---
-title: Telemetry · Base Account
-sidebarTitle: Telemetry
-description: Understanding Base Account's anonymous telemetry system and how to configure it.
+title: Телеметрия · Base Account
+sidebarTitle: Телеметрия
+description: Об анонимной системе телеметрии Base Account и о том, как её настроить.
 ---
 
-Base Account includes an anonymous telemetry system to help us better understand how Base Account is used across applications and improve the developer experience. Participation in this anonymous program is optional—if you'd prefer not to share any usage data, you can easily opt out.
+Base Account включает анонимную систему телеметрии, чтобы помочь нам лучше понять, как Base Account используется в различных приложениях, и улучшить опыт разработчиков. Участие в этой анонимной программе необязательно - если вы предпочитаете не делиться данными об использовании, вы можете легко отказаться.
 
-### Why Are We Collecting Telemetry?
+### Зачем мы собираем телеметрию?
 
-Base Account provides critical wallet infrastructure for onchain applications with features like signing transactions & messages, signer management, and more. By collecting telemetry data, we can:
+Base Account предоставляет критическую инфраструктуру кошелька для ончейн-приложений с такими функциями, как подписание транзакций и сообщений, управление подписантами и другие. Собирая данные телеметрии, мы можем:
 
-- **Monitor Wallet Operation Success**: Track which wallet operations (signing, connecting, transactions) are most reliable and identify failure patterns
-- **Data-Informed Improvements**: Help our engineering team generate insights that drive future wallet enhancements and reliability improvements
-- **Proactive Issue Detection**: Quickly detect issues with new SDK releases or wallet operations through operational metrics and error monitoring
+- **Мониторить успешность операций кошелька**: Отслеживать, какие операции кошелька (подписание, подключение, транзакции) наиболее надёжны, и выявлять паттерны сбоев
+- **Улучшения на основе данных**: Помогать нашей инженерной команде получать инсайты, которые стимулируют будущие улучшения и повышение надёжности кошелька
+- **Проактивное обнаружение проблем**: Быстро выявлять проблемы с новыми версиями SDK или операциями кошелька через операционные метрики и мониторинг ошибок
 
-### What Data Will Be Collected?
+### Какие данные собираются?
 
-Telemetry data is completely anonymous and focused on functional metrics. Specifically, we collect:
+Данные телеметрии полностью анонимны и сосредоточены на функциональных метриках. В частности, мы собираем:
 
-- **Request Success Metrics**: Information about the success and failure rates of wallet requests to identify reliability issues
-- **Error Events**: Generic error events with operational context to help us improve Base Account reliability
-- **UI Component Usage**: Anonymous metrics on interface component functionality to ensure optimal reliability
+- **Метрики успешности запросов**: Информацию о показателях успешности и сбоев запросов к кошельку для выявления проблем с надёжностью
+- **События ошибок**: Общие события ошибок с операционным контекстом, чтобы помочь нам повысить надёжность Base Account
+- **Использование UI-компонентов**: Анонимные метрики функциональности компонентов интерфейса для обеспечения оптимальной надёжности
 
-**Privacy First**: No sensitive data—such as private keys, transaction contents, user addresses, or personal information—is ever collected.
+**Конфиденциальность прежде всего**: Никакие конфиденциальные данные - такие как приватные ключи, содержимое транзакций, адреса пользователей или личная информация - никогда не собираются.
 
-### How Does It Work?
+### Как это работает?
 
-Telemetry is integrated into the Base Account SDK and automatically triggers when certain wallet events occur (provided telemetry is enabled in your configuration). The data is sent to secure Coinbase endpoints for analysis.
+Телеметрия интегрирована в Base Account SDK и автоматически активируется при возникновении определённых событий кошелька (при условии, что телеметрия включена в вашей конфигурации). Данные отправляются на защищённые конечные точки Coinbase для анализа.
 
-For example, when a wallet request occurs, a telemetry event like this is sent:
+Например, при выполнении запроса к кошельку отправляется событие телеметрии, подобное этому:
 
 ```bash
 curl 'https://cca-lite.coinbase.com/amp' \
@@ -37,18 +37,18 @@ curl 'https://cca-lite.coinbase.com/amp' \
   --data-raw 'e=[{"event_type":"scw_signer.request.started","event_properties":{"method":"eth_requestAccounts","correlationId":"abc123-def456","sdkVersion":"4.3.2","appName":"Your App Name","appOrigin":"https://your-app.com"}}]'
 ```
 
-The payload contains an array of telemetry events with operational data including:
+Полезная нагрузка содержит массив событий телеметрии с операционными данными, включая:
 
-- **event_type**: The specific wallet operation being tracked
-- **method**: The wallet method being called (e.g., `eth_requestAccounts`)
-- **correlationId**: A unique identifier for request tracking
-- **sdkVersion**: The Base Account SDK version
-- **appName**: Your application name
-- **appOrigin**: Your application's domain
+- **event_type**: Конкретная операция кошелька, которая отслеживается
+- **method**: Вызываемый метод кошелька (например, `eth_requestAccounts`)
+- **correlationId**: Уникальный идентификатор для отслеживания запросов
+- **sdkVersion**: Версия Base Account SDK
+- **appName**: Название вашего приложения
+- **appOrigin**: Домен вашего приложения
 
-### How Do I Opt Out?
+### Как отказаться?
 
-By default, telemetry collection follows an opt-out model. If you'd like to disable telemetry in your app that uses the Base Account SDK, you can configure it during SDK initialization:
+По умолчанию сбор телеметрии следует модели отказа. Если вы хотите отключить телеметрию в своём приложении, использующем Base Account SDK, вы можете настроить это во время инициализации SDK:
 
 ```typescript
 import { createCoinbaseWalletSDK } from "@coinbase/wallet-sdk";
@@ -62,7 +62,7 @@ const sdk = createCoinbaseWalletSDK({
 const provider = sdk.getProvider();
 ```
 
-For legacy Coinbase Wallet SDK class based components:
+Для устаревших компонентов на основе класса Coinbase Wallet SDK:
 
 ```tsx
 import { CoinbaseWalletSDK } from "@coinbase/wallet-sdk";
@@ -77,9 +77,9 @@ const provider = sdk.getProvider({
 });
 ```
 
-We believe that this telemetry initiative will help us make Base Account even better for all developers—by focusing our improvements on the most critical wallet operations and catching issues early. If you have any questions or feedback, please reach out to the Base Account team.
+Мы считаем, что эта инициатива по телеметрии поможет нам сделать Base Account ещё лучше для всех разработчиков - сосредоточив наши улучшения на наиболее критичных операциях кошелька и выявляя проблемы на раннем этапе. Если у вас есть вопросы или отзывы, пожалуйста, свяжитесь с командой Base Account.
 
-Happy building with Base Account!
+Удачной разработки с Base Account!
 
-— The Base Account team
+—  Команда Base Account
 
