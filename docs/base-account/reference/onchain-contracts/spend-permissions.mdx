@@ -1,53 +1,52 @@
 ---
-title: "Spend Permissions"
+title: "Разрешения на расходы"
 ---
 
 import { GithubRepoCard } from "/snippets/GithubRepoCard.mdx"
 
-You can find the open-source contracts repository by clicking the button below:
+Вы можете найти репозиторий открытых контрактов, нажав на кнопку ниже:
 
 <GithubRepoCard title="Spend Permissions" githubUrl="https://github.com/coinbase/spend-permissions" />
 
-### Structs
+### Структуры
 
 #### `SpendPermission`
 
-Defines the complete parameters of a spend permission.
+Определяет полные параметры разрешения на расходы.
 
 <Warning>
-  The fields of the `SpendPermission` structure must be strictly ordered as
-  defined below.
+  Поля структуры `SpendPermission` должны быть строго упорядочены, как определено ниже.
 </Warning>
 
-| Field       | Type      | Description                                                                                |
+| Поле        | Тип       | Описание                                                                                   |
 | ----------- | --------- | ------------------------------------------------------------------------------------------ |
-| `account`   | `address` | Smart account this spend permission is valid for.                                          |
-| `spender`   | `address` | Entity that can spend `account`'s tokens.                                                  |
-| `token`     | `address` | Token address (ERC-7528 native token address or ERC-20 contract).                          |
-| `allowance` | `uint160` | Maximum allowed value to spend within each `period`.                                       |
-| `period`    | `uint48`  | Time duration for resetting used `allowance` on a recurring basis (seconds).               |
-| `start`     | `uint48`  | Timestamp this spend permission is valid starting at (unix seconds).                       |
-| `end`       | `uint48`  | Timestamp this spend permission is valid until (unix seconds).                             |
-| `salt`      | `uint256` | An arbitrary salt to differentiate unique spend permissions with otherwise identical data. |
-| `extraData` | `bytes`   | Arbitrary data to include in the permission.                                               |
+| `account`   | `address` | Смарт-аккаунт, для которого действительно это разрешение на расходы.                                  |
+| `spender`   | `address` | Сущность, которая может тратить токены `account`.                                                     |
+| `token`     | `address` | Адрес токена (нативный адрес токена ERC-7528 или контракт ERC-20).                                    |
+| `allowance` | `uint160` | Максимально разрешенное значение для расходов в течение каждого `period`.                             |
+| `period`    | `uint48`  | Продолжительность времени для сброса использованного `allowance` на периодической основе (секунды).   |
+| `start`     | `uint48`  | Метка времени, с которой это разрешение на расходы действительно (Unix-секунды).                      |
+| `end`       | `uint48`  | Метка времени, до которой это разрешение на расходы действительно (Unix-секунды).                     |
+| `salt`      | `uint256` | Произвольная соль (salt) для различения уникальных разрешений на расходы с иначе идентичными данными. |
+| `extraData` | `bytes`   | Произвольные данные для включения в разрешение.                                                       |
 
 #### `PeriodSpend`
 
-Describes the cumulative spend for the current active period.
-
-| Field   | Type      | Description                              |
+Описывает совокупные расходы за текущий активный период.
+  
+| Поле    | Тип       | Описание                                 |
 | ------- | --------- | ---------------------------------------- |
-| `start` | `uint48`  | Start time of the period (unix seconds). |
-| `end`   | `uint48`  | End time of the period (unix seconds).   |
-| `spend` | `uint160` | Accumulated spend amount for period.     |
+| `start` | `uint48`  | Время начала периода (Unix-секунды).     |
+| `end`   | `uint48`  | Время окончания периода (Unix-секунды).  |
+| `spend` | `uint160` | Накопленная сумма расходов за период.    |
 
 ---
 
-### Contract functions
+### Функции контракта
 
 #### `approve`
 
-Approve a spend permission via a direct call from the `account`. Only callable by the `account` specified in the spend permission.
+Одобрить разрешение на расходы через прямой вызов от `account`. Может вызываться только `account`, указанным в разрешении на расходы.
 
 ```solidity
 function approve(SpendPermission calldata spendPermission) external;
@@ -57,7 +56,7 @@ function approve(SpendPermission calldata spendPermission) external;
 
 #### `approveWithSignature`
 
-Approve a spend permission via a signature from the `account` owner. Compatible with [ERC-6492](https://eips.ethereum.org/EIPS/eip-6492) signatures for automatic account creation if needed.
+Одобрить разрешение на расходы через подпись владельца account. Совместимо с подписями [ERC-6492](https://eips.ethereum.org/EIPS/eip-6492) для автоматического создания аккаунта при необходимости.
 
 ```solidity
 function approveWithSignature(SpendPermission calldata spendPermission, bytes calldata signature) external;
@@ -67,7 +66,7 @@ function approveWithSignature(SpendPermission calldata spendPermission, bytes ca
 
 #### `spend`
 
-Spend tokens using a spend permission, transferring them from the `account` to the `spender`. Only callable by the `spender` specified in the permission.
+Потратить токены, используя разрешение на расходы, переводя их из `account` в `spender`. Может вызываться только `spender`, указанным в разрешении.
 
 ```solidity
 function spend(SpendPermission memory spendPermission, uint160 value) external;
@@ -77,7 +76,7 @@ function spend(SpendPermission memory spendPermission, uint160 value) external;
 
 #### `revoke`
 
-Revoke a spend permission, permanently disabling its use. Only callable by the `account` specified in the spend permission.
+Отозвать разрешение на расходы, навсегда отключая его использование. Может вызываться только `account`, указанным в разрешении на расходы.
 
 ```solidity
 function revoke(SpendPermission calldata spendPermission) external;
@@ -87,7 +86,7 @@ function revoke(SpendPermission calldata spendPermission) external;
 
 #### `revokeAsSpender`
 
-Revoke a spend permission, permanently disabling its use. Only callable by the `spender` specified in the spend permission.
+Отозвать разрешение на расходы, навсегда отключая его использование. Может вызываться только `spender`, указанным в разрешении на расходы.
 
 ```solidity
 function revokeAsSpender(SpendPermission calldata spendPermission) external;
@@ -97,7 +96,7 @@ function revokeAsSpender(SpendPermission calldata spendPermission) external;
 
 #### `getHash`
 
-Generate a hash of a `SpendPermission` struct for signing, in accordance with [EIP-712](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-712.md).
+Сгенерировать хэш структуры `SpendPermission` для подписи в соответствии с [EIP-712](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-712.md).
 
 ```solidity
 function getHash(SpendPermission memory spendPermission) public view returns (bytes32);
@@ -107,7 +106,7 @@ function getHash(SpendPermission memory spendPermission) public view returns (by
 
 #### `isApproved`
 
-Check if a spend permission is approved, regardless of whether the current time is within the valid time range of the permission.
+Проверить, одобрено ли разрешение на расходы, независимо от того, находится ли текущее время в допустимом временном диапазоне разрешения.
 
 ```solidity
 function isApproved(SpendPermission memory spendPermission) public view returns (bool);
@@ -117,7 +116,7 @@ function isApproved(SpendPermission memory spendPermission) public view returns 
 
 #### `isRevoked`
 
-Check if a spend permission is revoked, regardless of whether the current time is within the valid time range of the permission.
+Проверить, отозвано ли разрешение на расходы, независимо от того, находится ли текущее время в допустимом временном диапазоне разрешения.
 
 ```solidity
 function isRevoked(SpendPermission memory spendPermission) public view returns (bool);
@@ -127,7 +126,7 @@ function isRevoked(SpendPermission memory spendPermission) public view returns (
 
 #### `isValid`
 
-Check if a spend permission is approved and not revoked, regardless of whether the current time is within the valid time range of the permission.
+Проверить, одобрено ли разрешение на расходы и не отозвано, независимо от того, находится ли текущее время в допустимом временном диапазоне разрешения.
 
 ```solidity
 function isValid(SpendPermission memory spendPermission) public view returns (bool);
@@ -137,7 +136,7 @@ function isValid(SpendPermission memory spendPermission) public view returns (bo
 
 #### `getLastUpdatedPeriod`
 
-Retrieve the `start`, `end`, and accumulated `spend` for the last updated period of a spend permission.
+Получить `start`, `end` и накопленный `spend` для последнего обновленного периода разрешения на расходы.
 
 ```solidity
 function getLastUpdatedPeriod(SpendPermission memory spendPermission) public view returns (PeriodSpend memory);
@@ -147,9 +146,9 @@ function getLastUpdatedPeriod(SpendPermission memory spendPermission) public vie
 
 #### `getCurrentPeriod`
 
-Retrieve the `start`, `end`, and accumulated `spend` for the current period of a spend permission.
-Reverts if the current time is outside the valid time range of the permission, but does not validate whether the
-spend permission has been approved or revoked.
+Получить `start`, `end` и накопленный `spend` для текущего периода разрешения на расходы.
+Вызывает ошибку, если текущее время находится вне допустимого временного диапазона разрешения, но не проверяет,
+одобрено ли разрешение на расходы или отозвано.
 
 ```solidity
 function getCurrentPeriod(SpendPermission memory spendPermission) public view returns (PeriodSpend memory);
