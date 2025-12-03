@@ -1,58 +1,58 @@
 ---
 title: Basenames + OnchainKit Tutorial
 slug: /basenames/basenames-onchainkit-tutorial
-description: 'A tutorial that teaches how to integrate Basenames to your wagmi/viem App using OnchainKit'
+description: 'Руководство по интеграции Basenames в ваше wagmi/viem приложение с использованием OnchainKit'
 author: hughescoin
 ---
 
-# Add Basenames to your wagmi/viem App using OnchainKit
+# Добавление Basenames в ваше wagmi/viem приложение с помощью OnchainKit
 
-Basenames is now live! But what exactly is it? Basenames allows users to register human-readable names for their addresses and serves as a foundational building block for onchain identity. Think of it as your favorite social media handle, but even bigger. Your Basename is multichain by default and yours forever—no platform can take it away from you (just make sure to pay your fee).
+Basenames уже доступны! Но что это такое? Basenames позволяет пользователям регистрировать читаемые человеком имена для своих адресов и служит фундаментальным строительным блоком для ончейн-идентичности. Представьте это как ваш любимый псевдоним в соцсетях, но ещё лучше. Ваш Basename по умолчанию работает в нескольких сетях и принадлежит вам навсегда — никакая платформа не может забрать его у вас (просто не забывайте оплачивать сборы).
 
-Integrating Basenames into your onchain app enhances the user experience by masking complex wallet addresses. Just as domains simplify IP addresses, Basenames do the same for wallet addresses.
+Интеграция Basenames в ваше ончейн-приложение улучшает пользовательский опыт, скрывая сложные адреса кошельков. Подобно тому, как домены упрощают IP-адреса, Basenames делают то же самое для адресов кошельков.
 
-OnchainKit is a React component library designed to make building Onchain applications easier. In this tutorial, we'll use the `<Identity/>` component to resolve Basenames.
+OnchainKit - это библиотека React-компонентов, разработанная для упрощения создания ончейн-приложений. В этом руководстве мы будем использовать компонент `<Identity/>` для разрешения Basenames.
 
-This demo uses Coinbase Base Account and Coinbase Wallet, but Basenames is supported across many [other wallets].
+В этой демонстрации используется Coinbase Base Account и Coinbase Wallet, но Basenames поддерживаются многими [другими кошельками].
 
-## Objectives
+## Цели
 
-By the end of this tutorial, you should be able to:
+К концу этого руководства вы сможете:
 
-- Understand how onchain identity works on the Base network
-- Enable users to use their onchain identity in your app using [OnchainKit]
+- Понять, как работает ончейн-идентичность в сети Base
+- Включить использование ончейн-идентичности пользователями в вашем приложении с помощью [OnchainKit]
 
 ---
 
-If you're starting from scratch, you'll need to create a new wagmi project. If you already have an existing wagmi project, you can skip ahead to the section on installing OnchainKit.
+Если вы начинаете с нуля, вам нужно создать новый wagmi-проект. Если у вас уже есть существующий wagmi-проект, вы можете перейти к разделу об установке OnchainKit.
 
-To create a new wagmi project using TypeScript and install the required dependencies, run the following command:
+Чтобы создать новый wagmi-проект с использованием TypeScript и установить необходимые зависимости, выполните следующую команду:
 
 ```bash
 bun create wagmi
 ```
 
-Next, you'll need to install OnchainKit. Run the following command:
+Далее вам нужно установить OnchainKit. Выполните следующую команду:
 
 ```bash
 bun add @coinbase/onchainkit
 ```
 
-After adding OnchainKit, install all dependencies and start your development server with:
+После добавления OnchainKit установите все зависимости и запустите сервер разработки с помощью:
 
 ```
 bun install && bun run dev
 ```
 
-This command will install the necessary dependencies and start a development server.
+Эта команда установит необходимые зависимости и запустит сервер разработки.
 
-To follow along with the tutorial effectively, open your web browser and your IDE side by side. This setup will allow you to code and see the changes in real time.
+Для эффективного прохождения руководства откройте веб-браузер и вашу IDE рядом. Такая настройка позволит вам программировать и видеть изменения в реальном времени.
 
-### Update Wagmi config
+### Обновление конфигурации Wagmi
 
-In this section, we will configure your wagmi project to support the Base blockchain by importing the necessary modules.
+В этом разделе мы настроим ваш wagmi-проект для поддержки блокчейна Base, импортировав необходимые модули.
 
-Start by importing the `base` and `baseSepolia` chains into your wagmi config. Navigate to `src/wagmi.ts` and update the file as follows:
+Начните с импорта цепочек `base` и `baseSepolia` в вашу конфигурацию wagmi. Перейдите в `src/wagmi.ts` и обновите файл следующим образом:
 
 ```typescript wagmi.ts
 import { http, cookieStorage, createConfig, createStorage } from 'wagmi';
@@ -87,5 +87,5 @@ declare module 'wagmi' {
 }
 ```
 
-This configuration sets up the wagmi project to connect to the Base and BaseSepolia networks, utilizing Coinbase Wallet and other connectors.
+Эта конфигурация настраивает wagmi-проект для подключения к сетям Base и BaseSepolia, используя Coinbase Wallet и другие коннекторы.
 
