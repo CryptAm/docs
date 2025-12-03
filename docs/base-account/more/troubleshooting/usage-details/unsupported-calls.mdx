@@ -1,43 +1,43 @@
 ---
-title: 'Unsupported Calls'
+title: 'Неподдерживаемые вызовы'
 ---
 
-Base Account implements an Ethereum Provider JavaScript API (as detailed in [EIP-1193](https://eips.ethereum.org/EIPS/eip-1193))
-and follows the [ERC-4337](https://eips.ethereum.org/EIPS/eip-4337) standard for account abstraction.
+Base Account реализует JavaScript API Ethereum Provider (как описано в [EIP-1193](https://eips.ethereum.org/EIPS/eip-1193))
+и следует стандарту [ERC-4337](https://eips.ethereum.org/EIPS/eip-4337) для абстракции аккаунтов.
 
-This means that apps interacting with Base Account can expect it to behave like a regular Ethereum Virtual Machine (EVM) account.
-However, there are some calls that are not supported by Base Accounts for incompatibility or security reasons.
-This is a list of calls that are not supported:
+Это означает, что приложения, взаимодействующие с Base Account, могут ожидать, что он ведёт себя как обычный аккаунт Ethereum Virtual Machine (EVM).
+Однако есть некоторые вызовы, которые не поддерживаются Base Accounts по причинам несовместимости или безопасности.
+Вот список неподдерживаемых вызовов:
 
-- [Self Calls](#self-calls): This refers to the ability of an app to use the user's account to call itself.
-- [CREATE](#create): This refers to the ability of an app to create a new contract using the OPCODE `CREATE`.
+- [Вызовы к самому себе (Self Calls)](#self-calls): Способность приложения использовать аккаунт пользователя для вызова самого себя.
+- [CREATE](#create): Способность приложения создавать новый контракт с использованием OPCODE `CREATE`.
 
-## Self Calls
+## Вызовы к самому себе (Self Calls)
 
-For security reasons, we do not allow 3rd party apps to make calls to a user's own Base Account address.
-This could allow apps to change owners, upgrade the user's account, or cause other issues.
+По соображениям безопасности мы не позволяем сторонним приложениям совершать вызовы к адресу Base Account самого пользователя.
+Это может позволить приложениям изменять владельцев, обновлять аккаунт пользователя или вызывать другие проблемы.
 
 ## CREATE
 
-This is a limitation of the ERC-4337 standard and smart accounts.
-Currently, we do not support the `CREATE` opcode for smart contracts deployment.
-Future versions of Base Account may support it.
+Это ограничение стандарта ERC-4337 и смарт-аккаунтов.
+В настоящее время мы не поддерживаем OPCODE `CREATE` для развёртывания смарт-контрактов.
+Будущие версии Base Account могут поддерживать его.
 
 <Tip>
-You can use a factory contract or a transaction with the `CREATE2` opcode to deploy a smart contract.
+Вы можете использовать фабричный контракт или транзакцию с opcode `CREATE2` для развёртывания смарт-контракта.
 </Tip>
 
-## Solidity's Builtin `transfer` function
+## Встроенная функция Solidity `transfer`
 
-The `transfer` function is a built-in member of the `address` type in Solidity that can be used to send ETH to an address. Base Account wallets cannot receive ETH using this function.
-This function has long been considered deprecated in favor of `call` by the Solidity community, but some older contracts still use it.
+Функция `transfer` - это встроенный член типа `address` в Solidity, который можно использовать для отправки ETH на адрес. Кошельки Base Account не могут получать ETH с использованием этой функции.
+Этот метод уже давно считается устаревшим в пользу call в сообществе Solidity, но некоторые старые контракты всё ещё используют его.
 
-The reason for this is that `transfer` only forwards 2300 gas to the `transfer` call, a protective mechanism that was designed to prevent reentrancy attacks by limiting the amount of
-gas available to a smart contract that might reenter the caller.
-In the modern world of smart contract wallets (including for Base Account), this is often not enough gas for the smart contract's `receive` or `fallback` functions to complete their work,
-causing the transaction to revert.
+Причина в том, что transfer передаёт только 2300 газа в вызов `transfer`, что является защитным механизмом, разработанным для предотвращения атак повторного входа путём ограничения количества
+газа, доступного смарт-контракту, который может повторно войти в вызывающую сторону.
+В современном мире смарт-контрактных кошельков (включая Base Account) этого часто недостаточно для завершения работы функций `receive` или `fallback` смарт-контракта,
+что приводит к откату транзакции.
 
-### Known affected contracts
+### Известные затронутые контракты
 
-- The [WETH9 contract](https://basescan.org/token/0x4200000000000000000000000000000000000006) uses `transfer` to send ETH to the user's wallet and therefore Base Accounts cannot directly unwrap ETH from it.
+- Контракт [WETH9](https://basescan.org/token/0x4200000000000000000000000000000000000006) использует `transfer` для отправки ETH на кошелёк пользователя, поэтому Base Accounts не могут напрямую разворачивать ETH из него.
 
