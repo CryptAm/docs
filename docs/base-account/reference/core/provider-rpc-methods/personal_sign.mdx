@@ -1,31 +1,31 @@
 ---
 title: "personal_sign"
-description: "Sign data using a specific account with Ethereum-specific signature format"
+description: "Подписать данные с использованием определенного аккаунта с Ethereum-специфичным форматом подписи"
 ---
 
-Defined in [EIP-191](https://eips.ethereum.org/EIPS/eip-191)
+Определено в [EIP-191](https://eips.ethereum.org/EIPS/eip-191)
 
 <Info>
-Signs data using a specific account. This method calculates an Ethereum specific signature with: `sign(keccak256("\x19Ethereum Signed Message:\n" + len(message) + message)))`.
+Подписывает данные с использованием определенного аккаунта. Этот метод вычисляет Ethereum-специфичную подпись по формуле: `sign(keccak256("\x19Ethereum Signed Message:\n" + len(message) + message)))`.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="data" type="string" required>
-The data to sign, in hexadecimal format.
+Данные для подписи в шестнадцатеричном формате (hex).
 </ParamField>
 
 <ParamField body="address" type="string" required>
-The address of the account that should sign the data.
+Адрес аккаунта, который должен подписать данные.
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="string">
-A signature string in hexadecimal format.
+Строка подписи в шестнадцатеричном формате (hex).
 </ResponseField>
 
-## Example Usage
+## Пример использования
 
 <RequestExample>
 ```json Request
@@ -51,23 +51,23 @@ A signature string in hexadecimal format.
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
 <ResponseField name="code" type="number">
-Error code indicating the type of error that occurred.
+Код ошибки, указывающий на тип возникшей ошибки.
 </ResponseField>
 
 <ResponseField name="message" type="string">
-Human-readable error message describing what went wrong.
+Человекочитаемое сообщение об ошибке, описывающее, что пошло не так.
 </ResponseField>
 
-| Code | Message                        | Description |
+| Код  | Сообщение                      | Описание    |
 | ---- | ------------------------------ | ----------- |
-| 4001 | User denied signature request  | User rejected the signing request |
-| 4100 | Requested method not supported | The method is not supported by the wallet |
-| 4200 | Wallet not connected           | No wallet connection available |
-| 4300 | Invalid parameters             | The provided parameters are invalid |
+| 4001 | User denied signature request  | Пользователь отклонил запрос на подпись |
+| 4100 | Requested method not supported | Метод не поддерживается кошельком |
+| 4200 | Wallet not connected           | Отсутствует подключение к кошельку |
+| 4300 | Invalid parameters             | Указаны некорректные параметры  |
 
 <Warning>
-Always verify signatures on the server side before trusting them. Client-side signature verification should only be used for UX purposes.
+Всегда проверяйте подписи на стороне сервера, прежде чем доверять им. Проверка подписи на стороне клиента должна использоваться только для улучшения пользовательского опыта (UX).
 </Warning>
