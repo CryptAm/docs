@@ -1,77 +1,77 @@
 ---
 title: "wallet_getCapabilities"
-description: "Get the wallet's supported capabilities for the given account"
+description: "Получить поддерживаемые возможности кошелька для указанного аккаунта"
 ---
 
-Defined in [EIP-5792](https://eips.ethereum.org/EIPS/eip-5792)
+Определено в [EIP-5792](https://eips.ethereum.org/EIPS/eip-5792)
 
 <Info>
-Returns the wallet's capabilities for a given account. Capabilities indicate what additional functionality the wallet supports beyond standard RPC methods, such as atomic batch transactions, gasless transactions, auxiliary funds, and authentication features.
+Возвращает возможности кошелька для указанного аккаунта. Возможности указывают, какую дополнительную функциональность поддерживает кошелек помимо стандартных RPC методов, например, атомарные пакетные транзакции, транзакции без газа (gasless), вспомогательные средства и функции аутентификации.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="account" type="string" required>
-The account address to check capabilities for.
-Pattern: `^0x[0-9a-fA-F]{40}$`
+Адрес аккаунта для проверки возможностей. 
+Формат: `^0x[0-9a-fA-F]{40}$`
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="object">
-An object where each key is a chain ID (as a hexadecimal string) and each value is an object containing the capabilities supported on that chain.
+Объект, в котором каждый ключ — это идентификатор цепи (в виде шестнадцатеричной строки), а каждое значение — объект, содержащий возможности, поддерживаемые в этой цепи.
 
 <Expandable title="Capabilities by chain">
 <ResponseField name="[chainId]" type="object">
-Capabilities object for a specific chain (e.g., "0x2105" for Base Mainnet).
+Объект возможностей для конкретной цепи (например, "0x2105" для Base Mainnet).
 
-<Expandable title="Available capabilities">
+<Expandable title="Доступные возможности">
 <ResponseField name="auxiliaryFunds" type="object">
-Indicates wallet access to funds beyond on-chain balance verification (MagicSpend).
+Указывает доступ кошелька к средствам помимо проверки баланса в блокчейне (MagicSpend).
 
-<Expandable title="auxiliaryFunds properties">
+<Expandable title="Свойства auxiliaryFunds">
 <ResponseField name="supported" type="boolean">
-Whether auxiliary funds are available for this account on this chain.
+Доступны ли вспомогательные средства для этого аккаунта в этой цепи.
 </ResponseField>
 </Expandable>
 </ResponseField>
 
 <ResponseField name="atomic" type="object">
-Indicates support for atomic batch transaction execution.
+Указывает поддержку атомарного выполнения пакетных транзакций.
 
-<Expandable title="atomic properties">
+<Expandable title="Свойства atomic">
 <ResponseField name="supported" type="string">
-Atomic execution support level: "supported", "ready", or "unsupported".
+Уровень поддержки атомарного выполнения: "supported", "ready" или "unsupported".
 </ResponseField>
 </Expandable>
 </ResponseField>
 
 <ResponseField name="paymasterService" type="object">
-Indicates support for gasless transactions via paymaster services.
+Указывает поддержку транзакций без газа (gasless) через сервисы paymaster.
 
-<Expandable title="paymasterService properties">
+<Expandable title="Свойства paymasterService">
 <ResponseField name="supported" type="boolean">
-Whether paymaster services are supported for this account on this chain.
+Поддерживаются ли сервисы paymaster для этого аккаунта в этой цепи.
 </ResponseField>
 </Expandable>
 </ResponseField>
 
 <ResponseField name="flowControl" type="object">
-Indicates support for flow control capabilities.
+Указывает поддержку возможностей управления потоком.
 
-<Expandable title="flowControl properties">
+<Expandable title="Свойства flowControl">
 <ResponseField name="supported" type="boolean">
-Whether flow control is supported for this account on this chain.
+Поддерживается ли управление потоком для этого аккаунта в этой цепи.
 </ResponseField>
 </Expandable>
 </ResponseField>
 
 <ResponseField name="datacallback" type="object">
-Indicates support for data callback capabilities.
+Указывает поддержку возможностей обратного вызова данных.
 
-<Expandable title="datacallback properties">
+<Expandable title="Свойства datacallback">
 <ResponseField name="supported" type="boolean">
-Whether data callbacks are supported for this account on this chain.
+Поддерживаются ли обратные вызовы данных для этого аккаунта в этой цепи.
 </ResponseField>
 </Expandable>
 </ResponseField>
@@ -80,7 +80,7 @@ Whether data callbacks are supported for this account on this chain.
 </Expandable>
 </ResponseField>
 
-## Example Usage
+## Пример использования
 
 <RequestExample>
 ```json Request
@@ -97,13 +97,13 @@ import { createBaseAccountSDK } from '@base-org/account';
 
 const provider = createBaseAccountSDK().getProvider();
 
-// Get capabilities for a user address
+// Получить возможности для адреса пользователя
 const capabilities = await provider.request({
   method: 'wallet_getCapabilities',
   params: ['0x407d73d8a49eeb85d32cf465507dd71d507100c1']
 });
 
-// Check specific capabilities
+// Проверить конкретные возможности
 const baseCapabilities = capabilities["0x2105"]; // Base Mainnet
 const hasAuxiliaryFunds = baseCapabilities?.auxiliaryFunds?.supported;
 const supportsAtomic = baseCapabilities?.atomic?.supported === "supported";
@@ -176,9 +176,9 @@ console.log('Capabilities:', {
 ```
 </ResponseExample>
 
-## Capability Detection Patterns
+## Паттерны обнаружения возможностей
 
-### Check Single Capability
+### Проверить одну возможность
 
 ```typescript
 async function checkAuxiliaryFunds(userAddress: string): Promise<boolean> {
@@ -196,7 +196,7 @@ async function checkAuxiliaryFunds(userAddress: string): Promise<boolean> {
 }
 ```
 
-### Check Multiple Capabilities
+### Проверить несколько возможностей
 
 ```typescript
 async function getWalletCapabilities(userAddress: string) {
@@ -217,7 +217,7 @@ async function getWalletCapabilities(userAddress: string) {
 }
 ```
 
-### Conditional Transaction Building
+### Условное построение транзакции
 
 ```typescript
 async function buildTransaction(userAddress: string, calls: any[]) {
@@ -235,7 +235,7 @@ async function buildTransaction(userAddress: string, calls: any[]) {
     calls
   };
 
-  // Add gasless capability if supported
+  // Добавить возможность gasless, если поддерживается
   if (baseCapabilities.paymasterService?.supported) {
     txParams.capabilities = {
       paymasterService: {
@@ -244,7 +244,7 @@ async function buildTransaction(userAddress: string, calls: any[]) {
     };
   }
 
-  // Use atomic execution if supported and multiple calls
+  // Использовать атомарное выполнение, если поддерживается и есть несколько вызовов
   if (calls.length > 1 && baseCapabilities.atomic?.supported === "supported") {
     txParams.atomicRequired = true;
   }
@@ -253,27 +253,27 @@ async function buildTransaction(userAddress: string, calls: any[]) {
 }
 ```
 
-## Error Handling
+## Обработка ошибок
 
-| Code | Message | Description |
-| ---- | ------- | ----------- |
-| -32602 | Invalid params | Invalid account address format |
-| 4100 | Method not supported | Wallet doesn't support wallet_getCapabilities |
-| 4200 | Wallet not available | Wallet is not installed or available |
+| Код  | Сообщение | Описание    |
+| ---- | --------- | ----------- |
+| -32602 | Invalid params | Некорректный формат адреса аккаунта |
+| 4100 | Method not supported | Кошелек не поддерживает wallet_getCapabilities |
+| 4200 | Wallet not available | Кошелек не установлен или недоступен |
 
 <Warning>
-Capabilities are chain-specific and account-specific. Always check capabilities for the specific chain and account combination you're targeting.
+Возможности специфичны для цепи и аккаунта. Всегда проверяйте возможности для конкретной комбинации цепи и аккаунта, которую вы используете.
 </Warning>
 
 <Info>
-Not all wallets support all capabilities. Use capability detection to provide progressive enhancement rather than blocking functionality when capabilities aren't available.
+Не все кошельки поддерживают все возможности. Используйте обнаружение возможностей для постепенного улучшения пользовательского опыта, а не для блокировки функциональности, когда возможности недоступны.
 </Info>
 
-## Integration with Other Methods
+## Интеграция с другими методами
 
-### With wallet_sendCalls
+### С wallet_sendCalls
 
-Use capabilities to enhance transaction execution:
+Используйте возможности для улучшения выполнения транзакций:
 
 ```typescript
 const capabilities = await provider.request({
@@ -281,7 +281,7 @@ const capabilities = await provider.request({
   params: [userAddress]
 });
 
-// Use capabilities in wallet_sendCalls
+// Использовать возможности в wallet_sendCalls
 const result = await provider.request({
   method: 'wallet_sendCalls',
   params: [{
@@ -303,9 +303,9 @@ const result = await provider.request({
 });
 ```
 
-### With wallet_connect
+### С wallet_connect
 
-Capabilities detection doesn't affect wallet_connect, but you can use the results to inform your authentication flow:
+Обнаружение возможностей не влияет на wallet_connect, но вы можете использовать результаты для информирования потока аутентификации:
 
 ```typescript
 const capabilities = await provider.request({
@@ -313,7 +313,7 @@ const capabilities = await provider.request({
   params: [userAddress]
 });
 
-// signInWithEthereum is always available with wallet_connect
+// signInWithEthereum всегда доступен с wallet_connect
 const { accounts } = await provider.request({
   method: 'wallet_connect',
   params: [{
@@ -328,19 +328,19 @@ const { accounts } = await provider.request({
 });
 ```
 
-## Best Practices
+## Рекомендации
 
-1. **Always Check First**: Call `wallet_getCapabilities` before using advanced features
-2. **Cache Results**: Capabilities typically don't change frequently, consider caching
-3. **Graceful Fallbacks**: Implement fallback behavior when capabilities aren't supported
-4. **Chain-Specific**: Check capabilities for each chain your app supports
-5. **Progressive Enhancement**: Use capabilities to enhance UX, not gate basic functionality
+1. **Всегда проверяйте сначала**: Вызывайте wallet_getCapabilities перед использованием расширенных функций
+2. **Кэшируйте результаты**: Возможности обычно не меняются часто, рассмотрите кэширование
+3. **Плавные откаты**: Реализуйте поведение отката, когда возможности не поддерживаются
+4. **Специфичность цепи**: Проверяйте возможности для каждой цепи, которую поддерживает ваше приложение
+5. **Постепенное улучшение**: Используйте возможности для улучшения UX, а не для блокировки базовой функциональности
 
-## Related Documentation
+## Связанная документация
 
-- [Capabilities Overview](/base-account/reference/core/capabilities/overview) - Complete guide to using capabilities
-- [wallet_sendCalls](/base-account/reference/core/provider-rpc-methods/wallet_sendCalls) - Execute transactions with capabilities
-- [wallet_connect](/base-account/reference/core/provider-rpc-methods/wallet_connect) - Connect with authentication capabilities
+- [Обзор возможностей](/base-account/reference/core/capabilities/overview) - Полное руководство по использованию возможностей
+- [wallet_sendCalls](/base-account/reference/core/provider-rpc-methods/wallet_sendCalls) - Выполнение транзакций с возможностями
+- [wallet_connect](/base-account/reference/core/provider-rpc-methods/wallet_connect) - Подключение с возможностями аутентификации
 
 import PolicyBanner from "/snippets/PolicyBanner.mdx";
 
