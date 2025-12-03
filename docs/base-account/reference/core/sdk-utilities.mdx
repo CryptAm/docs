@@ -1,15 +1,15 @@
 ---
 title: "SDK Utilities"
-description: "Core utility functions for key management and account access"
+description: "Основные служебные функции для управления ключами и доступа к аккаунтам"
 ---
 
-The Base Account SDK provides several core utility functions for managing cryptographic keys and accessing account information. These functions are essential for advanced integrations and Sub Account management.
+Base Account SDK предоставляет несколько основных служебных функций для управления криптографическими ключами и доступа к информации об аккаунтах. Эти функции важны для расширенных интеграций и управления Sub Accounts.
 
-## Core Functions
+## Основные функции
 
 ### [generateKeyPair](/base-account/reference/core/generateKeyPair)
 
-Generates a new P256 key pair for use with Base Account.
+Генерирует новую пару ключей P256 для использования с Base Account.
 
 ```tsx
 import { generateKeyPair } from '@base-org/account';
@@ -20,7 +20,7 @@ console.log('New key pair generated:', keyPair);
 
 ### [getKeypair](/base-account/reference/core/getKeypair)
 
-Retrieves an existing P256 key pair if one has been previously generated and stored.
+Извлекает существующую пару ключей P256, если она была ранее сгенерирована и сохранена.
 
 ```tsx
 import { getKeypair } from '@base-org/account';
@@ -46,9 +46,9 @@ if (cryptoAccount?.account) {
 }
 ```
 
-## Complete Integration Example
+## Полный пример интеграции
 
-Here's how these utilities work together in a typical application:
+Вот как эти утилиты работают вместе в типичном приложении:
 
 ```tsx
 import { 
@@ -69,7 +69,7 @@ class AccountManager {
     });
   }
   
-  // Initialize account management
+  // Инициализировать управление аккаунтами
   async initialize() {
     const account = await this.getCurrentAccount();
     
@@ -81,13 +81,13 @@ class AccountManager {
     return account;
   }
   
-  // Get current account or prompt connection
+  // Получить текущий аккаунт или запросить подключение
   async getCurrentAccount() {
     const cryptoAccount = await getCryptoKeyAccount();
     return cryptoAccount?.account || null;
   }
   
-  // Get or generate key pair for advanced operations
+  // Получить или сгенерировать пару ключей для расширенных операций
   async getKeyPair() {
     let keyPair = await getKeypair();
     
@@ -99,7 +99,7 @@ class AccountManager {
     return keyPair;
   }
   
-  // Example: Use account for Sub Account creation
+  // Пример: Использование аккаунта для создания Sub Account
   async createSubAccount() {
     const account = await this.getCurrentAccount();
     const keyPair = await this.getKeyPair();
@@ -108,7 +108,7 @@ class AccountManager {
       throw new Error('Account and key pair required');
     }
     
-    // Use the SDK to create sub account
+    // Использовать SDK для создания суб-аккаунта
     const subAccount = await this.sdk.subAccount.create({
       type: 'create',
       keys: [{
@@ -120,24 +120,24 @@ class AccountManager {
     return subAccount;
   }
   
-  // Get account address for transactions
+  // Получить адрес аккаунта для транзакций
   getAccountAddress(): string | null {
-    // This would be called after initialization
+    // Этот метод вызывается после инициализации
     const account = this.getCurrentAccount();
     return account?.address || null;
   }
 }
 
-// Usage
+// Использование
 const accountManager = new AccountManager();
 
-// Initialize and get account
+// Инициализировать и получить аккаунт
 const account = await accountManager.initialize();
 
 if (account) {
   console.log('User is connected:', account.address);
   
-  // Create sub account if needed
+  // Создать суб-аккаунт при необходимости
   const subAccount = await accountManager.createSubAccount();
   console.log('Sub account created:', subAccount.address);
 } else {
@@ -145,9 +145,9 @@ if (account) {
 }
 ```
 
-## Error Handling
+## Обработка ошибок
 
-Handle common errors when using these utilities:
+Обрабатывайте распространенные ошибки при использовании этих утилит:
 
 ```tsx
 async function safeGetAccount() {
@@ -158,29 +158,29 @@ async function safeGetAccount() {
     console.error('Error getting crypto account:', error);
     
     if (error.message.includes('not initialized')) {
-      // SDK not properly initialized
+      // SDK не был правильно инициализирован
       throw new Error('Base Account SDK not initialized');
     } else if (error.message.includes('permission denied')) {
-      // User denied access
+      // Пользователь отказал в доступе
       throw new Error('User denied account access');
     } else {
-      // Unknown error
+      // Неизвестная ошибка
       throw new Error('Failed to access account');
     }
   }
 }
 ```
 
-## Best Practices
+## Рекомендации
 
-1. **Check for existing accounts**: Always use `getCryptoKeyAccount()` first to check if a user is already connected
+1. **Проверяйте существующие аккаунты**: Всегда сначала используйте getCryptoKeyAccount() для проверки, подключен ли уже пользователь
 
-2. **Handle null returns**: These functions can return `null` - always check before using the results
+2. **Обрабатывайте возврат null**: Эти функции могут возвращать null — всегда проверяйте результат перед использованием
 
-3. **Secure key management**: If using `generateKeyPair()` or `getKeypair()`, handle private keys securely
+3. **Безопасное управление ключами**: Если используете generateKeyPair() или getKeypair(), обрабатывайте приватные ключи безопасно
 
-4. **Error handling**: Wrap calls in try-catch blocks to handle authentication and network errors
+4. **Обработка ошибок**: Оборачивайте вызовы в блоки try-catch для обработки ошибок аутентификации и сети
 
-5. **User experience**: Provide clear feedback when accounts aren't found or need to be created
+5. **Пользовательский опыт**: Предоставляйте четкую обратную связь, когда аккаунты не найдены или их нужно создать
 
-These utilities provide the foundation for advanced Base Account integrations, particularly when working with Sub Accounts and custom authentication flows.
+Эти утилиты обеспечивают основу для расширенных интеграций Base Account, особенно при работе с Sub Accounts и пользовательскими потоками аутентификации.
