@@ -1,53 +1,53 @@
 ---
 title: "fetchPermission"
-description: "Retrieve a single Spend Permission by its hash"
+description: "Получить отдельное разрешение на расходование по его хешу"
 ---
 
-Defined in the [Base Account SDK](https://github.com/base/account-sdk)
+Определено в [Base Account SDK](https://github.com/base/account-sdk)
 
 <Info>
-  Returns a single spend permission by its unique hash identifier. This is useful when you have a permission hash from a previous operation and need to retrieve its current details.
+  Возвращает одно разрешение на расходование по его уникальному идентификатору-хешу. Это полезно, когда у вас есть хеш разрешения из предыдущей операции и необходимо получить его текущие данные.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="permissionHash" type="string" required>
-  The unique hash identifier of the permission to retrieve.
+  Уникальный идентификатор-хеш разрешения, которое нужно получить.
 </ParamField>
 
 <ParamField body="provider" type="EIP1193Provider">
-  Optional. EIP-1193 compliant Ethereum provider instance. Get this from `sdk.getProvider()`. If not provided, uses the default SDK provider.
+  Опционально. Экземпляр провайдера Ethereum, совместимый со стандартом EIP-1193. Получите его с помощью `sdk.getProvider()`. Если не указан, используется провайдер SDK по умолчанию.
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="permission" type="SpendPermission | null">
-  The spend permission matching the hash, or null if not found.
+  Разрешение на расходование, соответствующее хешу, или `null`, если не найдено.
 
-<Expandable title="SpendPermission properties">
+<Expandable title="Свойства SpendPermission">
 <ResponseField name="permissionHash" type="string">
-Deterministic EIP-712 hash of the permission.
+Детерминированный хеш EIP-712 разрешения.
 </ResponseField>
 
 <ResponseField name="signature" type="string">
-  Signature for the EIP-712 payload.
+  Подпись для полезной нагрузки EIP-712.
 </ResponseField>
 
 <ResponseField name="chainId" type="number">
-  Target chain ID.
+  Идентификатор целевой цепочки (chain ID).
 </ResponseField>
 
 <ResponseField name="permission" type="object">
-Underlying permission fields.
+Базовые поля разрешения.
 
-<Expandable title="permission fields">
+<Expandable title="Поля permission">
 <ResponseField name="account" type="address" />
 <ResponseField name="spender" type="address" />
 <ResponseField name="token" type="address" />
 <ResponseField name="allowance" type="bigint" />
-<ResponseField name="period" type="number">Duration in seconds.</ResponseField>
-<ResponseField name="start" type="number">Unix timestamp (seconds).</ResponseField>
-<ResponseField name="end" type="number">Unix timestamp (seconds).</ResponseField>
+<ResponseField name="period" type="number">Длительность в секундах.</ResponseField>
+<ResponseField name="start" type="number">Временная метка Unix (секунды).</ResponseField>
+<ResponseField name="end" type="number">Временная метка Unix (секунды).</ResponseField>
 <ResponseField name="salt" type="string" />
 <ResponseField name="extraData" type="string" />
 </Expandable>
@@ -66,7 +66,7 @@ const sdk = createBaseAccountSDK({
   appChainIds: [84532],
 });
 
-// Fetch a specific permission by its hash
+// Получить конкретное разрешение по его хешу
 const permission = await fetchPermission({
   permissionHash: "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
   provider: sdk.getProvider(),
@@ -78,16 +78,16 @@ if (permission) {
   console.log('Permission not found');
 }
 
-// Using without explicit provider (uses default SDK provider)
+// Использование без явного указания провайдера (используется провайдер SDK по умолчанию)
 const permission2 = await fetchPermission({
   permissionHash: "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
 });
 ```
 </RequestExample>
 
-## Error Handling
+## Обработка ошибок
 
-The function returns `null` if the permission is not found rather than throwing an error. Always check for null values:
+Функция возвращает `null`, если разрешение не найдено, вместо выброса ошибки. Всегда проверяйте наличие значений `null`:
 
 ```typescript
 const permission = await fetchPermission({
@@ -95,30 +95,30 @@ const permission = await fetchPermission({
 });
 
 if (!permission) {
-  // Handle permission not found
+  // Обработка случая, когда разрешение не найдено
   console.error('Permission not found');
   return;
 }
 
-// Safe to use permission here
+// Здесь можно безопасно использовать `permission`
 console.log('Permission details:', permission);
 ```
 
-## Usage Notes
+## Примечания по использованию
 
 <Note>
-This function is particularly useful when:
-- You have a permission hash from a previous operation (e.g., from `requestSpendPermission`)
-- You want to verify the current state of a specific permission
-- You need to look up permission details without knowing the account or spender information
-- You're tracking specific permissions across sessions
+Эта функция особенно полезна, когда:
+- У вас есть хеш разрешения из предыдущей операции (например, из `requestSpendPermission`)
+- Вы хотите проверить текущее состояние конкретного разрешения
+- Вам нужно найти данные разрешения, не зная информации об аккаунте или получателе
+- Вы отслеживаете определенные разрешения между сессиями
 </Note>
 
-Unlike `fetchPermissions`, this function:
-- Returns a single permission instead of an array
-- Does not require account, chain, or spender parameters
-- Provides direct access via the permission's unique identifier
-- Returns `null` instead of an empty array when no permission is found
+В отличие от `fetchPermissions`, эта функция:
+- Возвращает одно разрешение вместо массива
+- Не требует параметров аккаунта, цепочки или получателя
+- Предоставляет прямой доступ через уникальный идентификатор разрешения
+- Возвращает `null` вместо пустого массива, если разрешение не найдено
 
 import PolicyBanner from "/snippets/PolicyBanner.mdx";
 
