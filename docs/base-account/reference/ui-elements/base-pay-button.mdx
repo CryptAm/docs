@@ -1,17 +1,17 @@
 ---
 title: "BasePayButton"
-description: "Pre-built React component for accepting payments with Base Account"
+description: "Готовый React-компонент для приёма платежей с использованием Base Account"
 ---
 
-The `BasePayButton` is a ready-to-use React component that provides a seamless payment experience using Base Account. It handles the entire payment flow including user interaction, transaction processing, and result handling.
+`BasePayButton` - это готовый к использованию React-компонент, который предоставляет бесшовный опыт оплаты с использованием Base Account. Он обрабатывает весь поток платежей, включая взаимодействие с пользователем, обработку транзакций и обработку результатов.
 
 <Warning>
-**Please Follow the Brand Guidelines** 
+**Пожалуйста, следуйте руководству по Бренду** 
 
-If you intend on using the BasePayButton, please follow the [Brand Guidelines](/base-account/reference/ui-elements/brand-guidelines) to ensure consistency across your application.
+Если вы планируете использовать BasePayButton, пожалуйста, следуйте [руководству по Бренду](/base-account/reference/ui-elements/brand-guidelines) чтобы обеспечить единообразие в вашем приложении.
 </Warning>
 
-## Installation
+## Установка
 
 <CodeGroup>
 ```bash npm
@@ -31,7 +31,7 @@ bun add @base-org/account-ui
 ```
 </CodeGroup>
 
-## Basic Usage
+## Базовое использование
 
 ```tsx
 import { BasePayButton } from '@base-org/account-ui/react';
@@ -59,59 +59,59 @@ function PaymentForm() {
 }
 ```
 
-## Props
+## Пропсы
 
-### paymentOptions (required)
+### paymentOptions (обязательный)
 
-Payment configuration object with the following properties:
+Объект конфигурации платежа со следующими свойствами:
 
 <ParamField body="amount" type="string" required>
-The payment amount in USDC (e.g., "10.50" for $10.50)
+Сумма платежа в USDC (например, "10.50" для $10.50)
 </ParamField>
 
 <ParamField body="to" type="string" required>
-The recipient wallet address or ENS name
+Адрес кошелька получателя или ENS-имя
 </ParamField>
 
 <ParamField body="testnet" type="boolean">
-Whether to use testnet for the payment (default: false)
+Использовать ли тестовую сеть для платежа (по умолчанию: false)
 </ParamField>
 
 <ParamField body="payerInfo" type="object">
-Object containing information requests to collect during payment
+Объект, содержащий запросы на сбор информации во время платежа
 </ParamField>
 
-### Styling Props
+### Пропсы для стилизации
 
 <ParamField body="colorScheme" type="'light' | 'dark' | 'system'">
-Color scheme for the button appearance (default: 'system')
+Цветовая схема для внешнего вида кнопки (по умолчанию: 'system')
 </ParamField>
 
 <ParamField body="size" type="'small' | 'medium' | 'large'">
-Button size (default: 'medium')
+Размер кнопки (по умолчанию: 'medium')
 </ParamField>
 
 <ParamField body="variant" type="'solid' | 'outline'">
-Button variant style (default: 'solid')
+Стиль варианта кнопки (по умолчанию: 'solid')
 </ParamField>
 
 <ParamField body="disabled" type="boolean">
-Whether the button is disabled (default: false)
+Отключена ли кнопка (по умолчанию: false)
 </ParamField>
 
-### Event Handlers
+### Обработчики событий
 
 <ParamField body="onPaymentResult" type="function">
-Callback function called when payment completes (success or failure)
+Функция обратного вызова, вызываемая при завершении платежа (успех или неудача)
 </ParamField>
 
 <ParamField body="onClick" type="function">
-Custom click handler (called before payment processing)
+Пользовательский обработчик клика (вызывается перед обработкой платежа)
 </ParamField>
 
-## Payment Options
+## Опции платежа
 
-### Basic Payment
+### Базовый платёж
 
 ```tsx
 const paymentOptions = {
@@ -127,7 +127,7 @@ const paymentOptions = {
 />
 ```
 
-### Payment with User Info Collection
+### Платёж со сбором информации о пользователе
 
 ```tsx
 const paymentOptions = {
@@ -139,7 +139,7 @@ const paymentOptions = {
       { type: 'name', optional: true },
       { type: 'physicalAddress', optional: false }
     ],
-    callbackURL: 'https://api.example.com/validate' // Optional
+    callbackURL: 'https://api.example.com/validate' // Опционально
   }
 };
 
@@ -154,68 +154,68 @@ const paymentOptions = {
 />
 ```
 
-## Styling Options
+## Опции стилизации
 
-### Color Schemes
+### Цветовые схемы
 
 ```tsx
-{/* Light theme */}
+{/* Светлая тема */}
 <BasePayButton 
   paymentOptions={paymentOptions}
   colorScheme="light"
 />
 
-{/* Dark theme */}
+{/* Тёмная тема */}
 <BasePayButton 
   paymentOptions={paymentOptions}
   colorScheme="dark"
 />
 
-{/* System theme (follows user's system preference) */}
+{/* Системная тема (следует предпочтениям системы пользователя) */}
 <BasePayButton 
   paymentOptions={paymentOptions}
   colorScheme="system"
 />
 ```
 
-### Sizes and Variants
+### Размеры и варианты
 
 ```tsx
-{/* Different sizes */}
+{/* Разные размеры */}
 <BasePayButton size="small" paymentOptions={paymentOptions} />
 <BasePayButton size="medium" paymentOptions={paymentOptions} />
 <BasePayButton size="large" paymentOptions={paymentOptions} />
 
-{/* Different variants */}
+{/* Разные размеры */}
 <BasePayButton variant="solid" paymentOptions={paymentOptions} />
 <BasePayButton variant="outline" paymentOptions={paymentOptions} />
 ```
 
-## Event Handling
+## Обработка событий
 
-### Payment Result Handling
+### Обработка результата платежа
 
 ```tsx
 const handlePaymentResult = (result) => {
   if (result.success) {
-    // Payment successful
+    // Платёж выполнен успешно
     console.log('Transaction hash:', result.transactionHash);
     console.log('Block number:', result.blockNumber);
     
-    // Handle user info if collected
+    // Обработать информацию о пользователе, если она собрана
     if (result.userInfo) {
       console.log('User email:', result.userInfo.email);
       console.log('User name:', result.userInfo.name);
     }
     
-    // Update UI, redirect, etc.
+    // Обновить UI, перенаправить и т.д.
     showSuccessMessage();
     redirectToThankYouPage();
   } else {
-    // Payment failed
+    // Платёж не удался
     console.error('Payment error:', result.error);
     
-    // Handle different error types
+    // Обработать разные типы ошибок
     if (result.error.includes('insufficient funds')) {
       showInsufficientFundsMessage();
     } else if (result.error.includes('user rejected')) {
@@ -227,26 +227,26 @@ const handlePaymentResult = (result) => {
 };
 ```
 
-### Custom Click Handler
+### Пользовательский обработчик клика
 
 ```tsx
 const handleClick = () => {
-  // Custom logic before payment
+  // Пользовательская логика перед платежом
   console.log('User clicked pay button');
   
-  // Analytics tracking
+  // Отслеживание аналитики
   trackEvent('payment_button_clicked', {
     amount: '10.00',
     product: 'subscription'
   });
   
-  // Validation
+  // Валидация
   if (!isValidPayment()) {
     alert('Please complete the form first');
-    return false; // Prevent payment
+    return false; // Предотвратить платёж
   }
   
-  return true; // Continue with payment
+  return true; // Продолжить с платежом
 };
 
 <BasePayButton 
@@ -256,7 +256,7 @@ const handleClick = () => {
 />
 ```
 
-## Complete Example
+## Полный пример
 
 ```tsx
 import React, { useState } from 'react';
@@ -290,7 +290,7 @@ export default function CheckoutPage() {
         userInfo: result.userInfo
       });
       
-      // Send confirmation email
+      // Отправить подтверждающее письмо
       if (result.userInfo?.email) {
         sendConfirmationEmail(result.userInfo.email, result.transactionHash);
       }
@@ -390,9 +390,9 @@ export default function CheckoutPage() {
 }
 ```
 
-## TypeScript Support
+## Поддержка TypeScript
 
-The component is fully typed when using TypeScript:
+Компонент полностью типизирован при использовании TypeScript:
 
 ```tsx
 import { BasePayButton, PaymentOptions, PaymentResult } from '@base-org/account-ui/react';
@@ -410,9 +410,9 @@ function Checkout({ amount, recipient }: CheckoutProps) {
   };
 
   const handleResult = (result: PaymentResult) => {
-    // TypeScript provides full type safety
+    // TypeScript обеспечивает полную типовую безопасность
     if (result.success) {
-      console.log(result.transactionHash); // ✅ Type-safe
+      console.log(result.transactionHash); // ✅ Типобезопасно
     }
   };
 
@@ -425,13 +425,13 @@ function Checkout({ amount, recipient }: CheckoutProps) {
 }
 ```
 
-## Testing
+## Тестирование
 
-For testing your integration:
+Для тестирования вашей интеграции:
 
-1. **Use testnet mode**: Set `testnet: true` in payment options
-2. **Get test USDC**: Use [Circle's faucet](https://faucet.circle.com) on Base Sepolia
-3. **Test different scenarios**: Try successful payments, cancellations, and errors
-4. **Verify user info collection**: Test with different `payerInfo` configurations
+1. **Используйте тестовый режим**: Установите testnet: true в опциях платежа
+2. **Получите тестовый USDC**: Используйте [кран Circle](https://faucet.circle.com) на Base Sepolia
+3. **Протестируйте разные сценарии**: Попробуйте успешные платежи, отмены и ошибки
+4. **Проверьте сбор информации о пользователе**: Протестируйте с разными конфигурациями payerInfo
 
-The BasePayButton provides a complete, production-ready payment solution that handles all the complexity of crypto payments while providing a familiar user experience.
+BasePayButton предоставляет готовое к продакшену решение для платежей, которое обрабатывает всю сложность криптоплатежей, предоставляя при этом привычный пользовательский опыт.
