@@ -1,67 +1,67 @@
 ---
 title: "wallet_sendCalls"
-description: "Submit a batch of calls to the wallet for execution"
+description: "Отправить пакет вызовов в кошелек для выполнения"
 ---
 
-Defined in [EIP-5792](https://eips.ethereum.org/EIPS/eip-5792)
+Определено в [EIP-5792](https://eips.ethereum.org/EIPS/eip-5792)
 
 <Info>
-Requests that the wallet submits a batch of calls. This method allows applications to send multiple transactions atomically or sequentially.
+Запрашивает у кошелька отправку пакета вызовов. Этот метод позволяет приложениям отправлять несколько транзакций атомарно или последовательно.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="version" type="string" required>
-The version of the API format. This must be "2.0.0".
+Версия формата API. Должна быть "2.0.0".
 </ParamField>
 
 <ParamField body="id" type="string">
-The ID of the batch of calls for tracking purposes.
+Идентификатор пакета вызовов для целей отслеживания.
 </ParamField>
 
 <ParamField body="from" type="string" required>
-The sender's address.
-Pattern: `^0x[0-9a-fA-F]{40}$`
+Адрес отправителя.
+Формат: `^0x[0-9a-fA-F]{40}$`
 </ParamField>
 
 <ParamField body="chainId" type="string" required>
-The EIP-155 chain ID of the calls. This must match the currently selected network in the wallet.
-Pattern: `^0x([1-9a-f]+[0-9a-f]*|0)$`
+Идентификатор цепи EIP-155 для вызовов. Должен соответствовать текущей выбранной сети в кошельке.
+Формат: `^0x([1-9a-f]+[0-9a-f]*|0)$`
 </ParamField>
 
 <ParamField body="atomicRequired" type="boolean" required>
-`true` if the wallet must execute all calls atomically. If `false`, the wallet may execute the calls sequentially without atomicity. If `false` and the wallet is capable of executing the calls atomically, it may do so.
+`true`, если кошелек должен выполнить все вызовы атомарно. Если `false`, кошелек может выполнить вызовы последовательно без атомарности. Если `false` и кошелек способен выполнить вызовы атомарно, он может сделать это.
 </ParamField>
 
 <ParamField body="calls" type="array" required>
-An array of call objects to execute.
+Массив объектов вызовов для выполнения.
 
-<Expandable title="Call object structure">
+<Expandable title="Структура объекта вызова">
 <ParamField body="to" type="string" required>
-The recipient address for the call.
+Адрес получателя для вызова.
 </ParamField>
 
 <ParamField body="value" type="string" required>
-The value to send with the call (in wei, hex format).
+Значение для отправки с вызовом (в wei, hex формат).
 </ParamField>
 
 <ParamField body="data" type="string">
-The call data (optional, hex format).
+Данные вызова (опционально, hex формат).
 </ParamField>
 </Expandable>
 </ParamField>
 
 <ParamField body="capabilities" type="object">
-Dapps can use this object to communicate with the wallet about supported capabilities.
+DApps (децентрализованные приложения) могут использовать этот объект для взаимодействия с кошельком относительно поддерживаемых возможностей.
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="object">
-An object containing information about the sent batch, including transaction details and status.
+Объект, содержащий информацию об отправленном пакете, включая детали транзакций и статус.
 </ResponseField>
 
-## Example Usage
+## Пример использования
 
 <RequestExample>
 ```json Request
@@ -102,32 +102,32 @@ An object containing information about the sent batch, including transaction det
 ```
 </ResponseExample>
 
-## Error Handling
+## Обработка ошибок
 
 <ResponseField name="code" type="number">
-Error code indicating the type of error that occurred.
+Код ошибки, указывающий на тип возникшей ошибки.
 </ResponseField>
 
 <ResponseField name="message" type="string">
-Human-readable error message describing what went wrong.
+Человекочитаемое сообщение об ошибке, описывающее, что пошло не так.
 </ResponseField>
 
-| Code   | Message                                                                  | Description |
+| Код    | Сообщение                                                                | Описание    |
 | ------ | ------------------------------------------------------------------------ | ----------- |
-| -32602 | The wallet cannot parse the request                                      | Invalid request format |
-| -32000 | Version not supported                                                    | API version not supported |
-| 4001   | User rejected the request                                                | User denied the transaction |
-| 4100   | The requested account and/or method has not been authorized by the user  | Authorization required |
-| 5700   | The wallet does not support a capability that was not marked as optional | Missing capability |
-| 5710   | EIP-7702 not supported on the specified chain ID                         | Chain not supported |
-| 5720   | There is already a batch submitted with the specified batch ID           | Duplicate batch ID |
-| 5740   | The batch is too large for the wallet to process                         | Batch size limit exceeded |
-| 5750   | EIP-7702 upgrade rejected for this chain and account                     | Upgrade rejected |
+| -32602 | The wallet cannot parse the request                                      | Некорректный формат запроса |
+| -32000 | Version not supported                                                    | Версия API не поддерживается |
+| 4001   | User rejected the request                                                | Пользователь отклонил транзакцию |
+| 4100   | The requested account and/or method has not been authorized by the user  | Требуется авторизация |
+| 5700   | The wallet does not support a capability that was not marked as optional | Отсутствует обязательная возможность |
+| 5710   | EIP-7702 not supported on the specified chain ID                         | Цепь не поддерживается |
+| 5720   | There is already a batch submitted with the specified batch ID           | Дублирующийся идентификатор пакета |
+| 5740   | The batch is too large for the wallet to process                         | Превышен лимит размера пакета |
+| 5750   | EIP-7702 upgrade rejected for this chain and account                     | Обновление отклонено |
 
 <Warning>
-Ensure that the `chainId` matches the currently selected network in the wallet to avoid transaction failures.
+Убедитесь, что `chainId` соответствует текущей выбранной сети в кошельке, чтобы избежать неудачных транзакций.
 </Warning>
 
 <Tip>
-When `atomicRequired` is set to `false`, consider the implications of partial execution if some calls fail while others succeed.
+Когда `atomicRequired` установлено в `false`, учитывайте последствия частичного выполнения, если некоторые вызовы завершатся неудачно, а другие - успешно.
 </Tip>
