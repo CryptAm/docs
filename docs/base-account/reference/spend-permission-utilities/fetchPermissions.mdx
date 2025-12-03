@@ -1,61 +1,61 @@
 ---
 title: "fetchPermissions"
-description: "Retrieve available Spend Permissions for an account and chain, optionally filtered by spender"
+description: "Получить доступные разрешения на расходование для аккаунта и цепочки, с опциональной фильтрацией по получателю"
 ---
 
-Defined in the [Base Account SDK](https://github.com/base/account-sdk)
+Определено в [Base Account SDK](https://github.com/base/account-sdk)
 
 <Info>
-  Returns permissions for a user's Base Account on a specific chain. If a `spender` is provided, returns only permissions for that spender. Otherwise, returns all permissions for the account.
+  Возвращает разрешения для Base Account пользователя в указанной цепочке. Если указан `spender`, возвращает только разрешения для этого получателя. В противном случае возвращает все разрешения для аккаунта.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="account" type="address" required>
-  User's Base Account address to query.
+  Адрес Base Account пользователя для запроса.
 </ParamField>
 
 <ParamField body="chainId" type="number" required>
-  Target chain ID.
+  Идентификатор целевой цепочки (chain ID).
 </ParamField>
 
 <ParamField body="spender" type="address">
-  Optional. Spender address you intend to use for spending. If not provided, returns all permissions for the account.
+  Опционально. Адрес получателя, который будет использоваться для расходования. Если не указан, возвращаются все разрешения для аккаунта.
 </ParamField>
 
 <ParamField body="provider" type="EIP1193Provider">
-  Optional. EIP-1193 compliant Ethereum provider instance. Get this from `sdk.getProvider()`. If not provided, uses the default SDK provider.
+  Опционально. Экземпляр провайдера Ethereum, совместимый со стандартом EIP-1193. Получите его с помощью `sdk.getProvider()`. Если не указан, используется провайдер SDK по умолчанию.
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="permissions" type="SpendPermission[]">
-  Array of spend permissions matching the query.
+ Массив разрешений на расходование, соответствующих запросу.
 
-<Expandable title="SpendPermission properties">
+<Expandable title="Свойства SpendPermission">
 <ResponseField name="permissionHash" type="string">
-Deterministic EIP-712 hash of the permission.
+Детерминированный хеш EIP-712 разрешения.
 </ResponseField>
 
 <ResponseField name="signature" type="string">
-  Signature for the EIP-712 payload.
+  Подпись для полезной нагрузки EIP-712.
 </ResponseField>
 
 <ResponseField name="chainId" type="number">
-  Target chain ID.
+  Идентификатор целевой цепочки (chain ID).
 </ResponseField>
 
 <ResponseField name="permission" type="object">
-Underlying permission fields.
+Базовые поля разрешения.
 
-<Expandable title="permission fields">
+<Expandable title="Поля permission">
 <ResponseField name="account" type="address" />
 <ResponseField name="spender" type="address" />
 <ResponseField name="token" type="address" />
 <ResponseField name="allowance" type="bigint" />
-<ResponseField name="period" type="number">Duration in seconds.</ResponseField>
-<ResponseField name="start" type="number">Unix timestamp (seconds).</ResponseField>
-<ResponseField name="end" type="number">Unix timestamp (seconds).</ResponseField>
+<ResponseField name="period" type="number">Длительность в секундах.</ResponseField>
+<ResponseField name="start" type="number">Временная метка Unix (секунды).</ResponseField>
+<ResponseField name="end" type="number">Временная метка Unix (секунды).</ResponseField>
 <ResponseField name="salt" type="string" />
 <ResponseField name="extraData" type="string" />
 </Expandable>
@@ -74,7 +74,7 @@ const sdk = createBaseAccountSDK({
   appChainIds: [84532],
 });
 
-// Fetch permissions for a specific spender
+// Получить разрешения для конкретного получателя
 const permissions = await fetchPermissions({
   account: "0xUserBaseAccountAddress",
   chainId: 84532,
@@ -82,7 +82,7 @@ const permissions = await fetchPermissions({
   provider: sdk.getProvider(),
 });
 
-// Fetch all permissions for the account (omitting spender)
+// Получить все разрешения для аккаунта (без указания получателя)
 const allPermissions = await fetchPermissions({
   account: "0xUserBaseAccountAddress",
   chainId: 84532,
@@ -90,9 +90,9 @@ const allPermissions = await fetchPermissions({
 ```
 </RequestExample>
 
-## Error Handling
+## Обработка ошибок
 
-Always wrap the call in a try-catch block to handle these errors gracefully.
+Всегда заключайте вызов в блок `try-catch` для корректной обработки возможных ошибок.
 
 import PolicyBanner from "/snippets/PolicyBanner.mdx";
 
