@@ -1,92 +1,93 @@
 ---
 title: "requestSpendPermission"
-description: "Create and sign an EIP-712 Spend Permission for a user's Base Account"
+description: "Создать и подписать разрешение на расходование EIP-712 для Base Account пользователя"
 ---
 
-Defined in the [Base Account SDK](https://github.com/base/account-sdk)
+Определено в [Base Account SDK](https://github.com/base/account-sdk)
 
 <Info>
-  Constructs an EIP-712 payload for a spend permission and prompts the user to
-  sign it. Returns a `SpendPermission` object containing the signature and
-  normalized permission data you can later use to spend or register onchain.
+  Создаёт полезную нагрузку EIP-712 для разрешения на расходование и запрашивает у пользователя
+  её подпись. Возвращает объект `SpendPermission`, содержащий подпись и нормализованные данные
+  разрешения, которые впоследствии можно использовать для расходования или регистрации в блокчейне.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="account" type="address" required>
-  Smart account that this spend permission applies to.
+  Смарт-аккаунт, к которому применяется это разрешение на расходование.
 </ParamField>
 
 <ParamField body="spender" type="address" required>
-  The spender that can move funds from `account` within the configured limits.
+  Получатель (spender), который может перемещать средства с `account` в пределах установленных лимитов.
 </ParamField>
 
 <ParamField body="token" type="address" required>
-  Token address. Supports ERC-7528 native token address and ERC-20 contracts.
+  Адрес токена. Поддерживается нативный адрес токена ERC-7528 и контракты ERC-20.
 </ParamField>
 
 <ParamField body="chainId" type="number" required>
-  Chain ID where this permission is valid.
+  Идентификатор цепочки (chain ID), где это разрешение действительно.
 </ParamField>
 
 <ParamField body="allowance" type="bigint" required>
-  Maximum amount that can be spent during each period (in wei).
+  Максимальная сумма, которую можно потратить в течение каждого периода (в wei).
 </ParamField>
 
 <ParamField body="periodInDays" type="number" required>
-  Length of each allowance period in days.
+  Длительность каждого периода лимита в днях.
 </ParamField>
 
 <ParamField body="start" type="Date">
-  Start time when the spend permission becomes valid. Defaults to now.
+  Время начала, когда разрешение на расходование становится действительным. По умолчанию: текущий момент.
 </ParamField>
 
 <ParamField body="end" type="Date">
-  Time when the spend permission expires. Defaults to never.
+  Время, когда разрешение на расходование истекает. По умолчанию: никогда.
 </ParamField>
 
 <ParamField body="salt" type="string">
-  Arbitrary salt to differentiate otherwise identical permissions. Hex string.
-  Defaults to a random value.
+  Произвольная соль (salt) для различения в остальном идентичных разрешений. Шестнадцатеричная строка (hex). 
+  По умолчанию: случайное значение.
 </ParamField>
 
 <ParamField body="extraData" type="string">
-  Arbitrary data to attach to the permission. Hex string. Defaults to `0x`.
+  Произвольные данные, прикрепляемые к разрешению. Шестнадцатеричная строка (hex). 
+  По умолчанию: `0x`.
 </ParamField>
 
 <ParamField body="provider" type="EIP1193Provider" required>
-  EIP-1193 compliant Ethereum provider instance. Get this from `sdk.getProvider()`.
+  Экземпляр провайдера Ethereum, совместимый со стандартом EIP-1193. Получите его с помощью `sdk.getProvider()`.
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="permission" type="SpendPermission">
-Signed spend permission payload.
+Подписанная полезная нагрузка разрешения на расходование.
 
 <Expandable title="SpendPermission properties">
 <ResponseField name="permissionHash" type="string">
-Deterministic EIP-712 hash of the permission.
+Детерминированный хеш EIP-712 разрешения.
 </ResponseField>
 
 <ResponseField name="signature" type="string">
-  Signature for the EIP-712 payload.
+  Подпись для полезной нагрузки EIP-712.
 </ResponseField>
 
 <ResponseField name="chainId" type="number">
-  Target chain ID.
+  Идентификатор целевой цепочки (chain ID).
 </ResponseField>
 
 <ResponseField name="permission" type="object">
-Underlying permission fields.
+Базовые поля разрешения.
 
-<Expandable title="permission fields">
+<Expandable title="Поля permission">
 <ResponseField name="account" type="address" />
 <ResponseField name="spender" type="address" />
 <ResponseField name="token" type="address" />
 <ResponseField name="allowance" type="bigint" />
-<ResponseField name="period" type="number">Duration in seconds.</ResponseField>
-<ResponseField name="start" type="number">Unix timestamp (seconds).</ResponseField>
-<ResponseField name="end" type="number">Unix timestamp (seconds).</ResponseField>
+<ResponseField name="period" type="number">Длительность в секундах.</ResponseField>
+<ResponseField name="start" type="number">Временная метка Unix (секунды).</ResponseField>
+<ResponseField name="end" type="number">Временная метка Unix (секунды).</ResponseField>
 <ResponseField name="salt" type="string" />
 <ResponseField name="extraData" type="string" />
 </Expandable>
@@ -119,9 +120,9 @@ console.log("Spend Permission:", permission);
 ```
 </RequestExample>
 
-## Error Handling
+## Обработка ошибок
 
-Always wrap the call in a try-catch block to handle these errors gracefully.
+Всегда заключайте вызов в блок `try-catch` для корректной обработки возможных ошибок.
 
 import PolicyBanner from "/snippets/PolicyBanner.mdx";
 
