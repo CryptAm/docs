@@ -1,54 +1,54 @@
 ---
 title: "subscription.getStatus"
-description: "Check the status and details of an existing subscription"
+description: "Проверить статус и детали существующей подписки"
 ---
 
-Defined in the [Base Account SDK](https://github.com/base/account-sdk)
+Определено в [Base Account SDK](https://github.com/base/account-sdk)
 
 <Info>
-The `subscription.getStatus` function retrieves the current status and details of a subscription created with spend permissions. Use this to check if a subscription is active, view remaining charges, and determine the next payment period.
+Функция `subscription.getStatus` извлекает текущий статус и детали подписки, созданной с разрешениями на расходы (spend permissions). Используйте эту функцию для проверки активности подписки, просмотра оставшихся списаний и определения следующего платежного периода.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="id" type="string" required>
-The subscription ID (permission hash) returned from subscribe().
+Идентификатор подписки (хэш разрешения), возвращенный из subscribe().
 
-**Pattern:** `^0x[0-9a-fA-F]{64}$`
+**Формат:** `^0x[0-9a-fA-F]{64}$`
 </ParamField>
 
 <ParamField body="testnet" type="boolean">
-Must match the testnet setting used in the original subscribe call. Default: false
+Должен соответствовать настройке testnet, использованной в исходном вызове subscribe. По умолчанию: false
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="result" type="SubscriptionStatus">
-Subscription status information including current state and payment details.
+Информация о статусе подписки, включая текущее состояние и детали платежей.
 
-<Expandable title="SubscriptionStatus properties">
+<Expandable title="Свойства SubscriptionStatus">
 <ResponseField name="isSubscribed" type="boolean">
-Whether subscription is active (not cancelled).
+Активна ли подписка (не отменена).
 </ResponseField>
 
 <ResponseField name="recurringCharge" type="string">
-Recurring charge amount in USD.
+Сумма периодического списания в USD.
 </ResponseField>
 
 <ResponseField name="remainingChargeInPeriod" type="string">
-Remaining amount that can be charged in the current period.
+Оставшаяся сумма, которая может быть списана в текущем периоде.
 </ResponseField>
 
 <ResponseField name="currentPeriodStart" type="Date">
-Start date of the current billing period.
+Дата начала текущего платежного периода.
 </ResponseField>
 
 <ResponseField name="nextPeriodStart" type="Date">
-Start date of the next billing period.
+Дата начала следующего платежного периода.
 </ResponseField>
 
 <ResponseField name="periodInDays" type="number">
-Subscription period in days.
+Период подписки в днях.
 </ResponseField>
 </Expandable>
 </ResponseField>
@@ -71,7 +71,7 @@ console.log(`Next payment: ${status.nextPeriodStart}`);
 ```typescript Check Before Charging
 import { base } from '@base-org/account';
 
-// Check if subscription can be charged
+// Проверить, можно ли списать средства с подписки
 const status = await base.subscription.getStatus({
   id: subscriptionId,
   testnet: false
@@ -87,13 +87,13 @@ const chargeAmount = parseFloat(status.recurringCharge);
 
 if (remainingAmount >= chargeAmount) {
   console.log(`Can charge full amount: $${chargeAmount}`);
-  // Proceed with charge
+  // Продолжить со списанием
 } else if (remainingAmount > 0) {
   console.log(`Can only charge remaining: $${remainingAmount}`);
-  // Charge partial amount
+  // Списать частичную сумму
 } else {
   console.log(`No remaining charge until ${status.nextPeriodStart}`);
-  // Wait for next period
+  // Ждать следующего периода
 }
 ```
 </RequestExample>
@@ -144,11 +144,11 @@ if (remainingAmount >= chargeAmount) {
 ```
 </ResponseExample>
 
-## Usage Patterns
+## Паттерны использования
 
 <Tabs>
-<Tab title="Check Before Charge">
-Always check subscription status before attempting to charge:
+<Tab title="Проверить перед списанием">
+Всегда проверяйте статус подписки перед попыткой списания:
 
 ```typescript
 const status = await base.subscription.getStatus({ id, testnet });
@@ -163,8 +163,8 @@ if (status.isSubscribed && parseFloat(status.remainingChargeInPeriod!) > 0) {
 ```
 </Tab>
 
-<Tab title="Schedule Next Charge">
-Use the status to schedule when to charge next:
+<Tab title="Запланировать следующее списание">
+Используйте статус для планирования следующего списания:
 
 ```typescript
 const status = await base.subscription.getStatus({ id, testnet });
@@ -176,8 +176,8 @@ if (status.nextPeriodStart) {
 ```
 </Tab>
 
-<Tab title="Display to User">
-Show subscription details to users:
+<Tab title="Показать пользователю">
+Показывайте детали подписки пользователям:
 
 ```typescript
 const status = await base.subscription.getStatus({ id, testnet });
@@ -193,9 +193,9 @@ return (
 </Tab>
 </Tabs>
 
-## Error Handling
+## Обработка ошибок
 
-The function may throw errors for invalid subscription IDs or network issues:
+Функция может генерировать ошибки для некорректных идентификаторов подписок или проблем с сетью:
 
 ```typescript
 try {
@@ -203,10 +203,10 @@ try {
     id: subscriptionId,
     testnet: false
   });
-  // Process status
+  // Обработать статус
 } catch (error) {
   console.error(`Failed to get subscription status: ${error.message}`);
-  // Handle error appropriately
+  // Обработать ошибку соответствующим образом
 }
 ```
 
