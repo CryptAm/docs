@@ -1,15 +1,15 @@
 ---
-title: "Mini App Context"
-description: "Improve user experience by instantly displaying user profile data and customizing user flows based on where your mini app was opened"
-sidebarTitle: "Context"
+title: "Контекст мини-приложения"
+description: "Улучшите пользовательский опыт, мгновенно отображая данные профиля пользователя и настраивая пользовательские потоки на основе того, откуда было открыто ваше мини-приложение"
+sidebarTitle: "Контекст"
 ---
 
-When your app is opened as a mini app, `sdk.context` provides 4 data objects:
+Когда ваше приложение открыто как мини-приложение, `sdk.context` предоставляет 4 объекта данных:
 
-- `user`: User profile data
-- `location`: Where the mini app was opened
-- `client`: Host platform (e.g. the Base app or another Farcaster client) and device data
-- `features`: Availability and state of features in the current client
+- `user`: Данные профиля пользователя
+- `location`: Место, откуда было открыто мини-приложение
+- `client`: Хостинговая платформа (например, Base app или другой клиент Farcaster) и данные устройства
+- `features`: Доступность и состояние функций в текущем клиенте
 
 <Panel>
 
@@ -39,14 +39,14 @@ export type MiniAppContext = {
 ```
 </Panel>
 
-## Implementation
+## Реализация
 
-1. Install and import `@farcaster/miniapp-sdk`
-2. Check if opened as a mini app using `sdk.isInMiniApp();`
-3. If in a mini app, load the context object using `sdk.context`
+1. Установите и импортируйте `@farcaster/miniapp-sdk`
+2. Проверьте, открыто ли приложение как мини-приложение, используя `sdk.isInMiniApp();`
+3. Если в мини-приложении, загрузите объект контекста, используя `sdk.context`
 
 
-In the example below we detect if the app was opened as a mini app, and if so, we return the user's username, fid, display name, and profile image.
+В примере ниже мы определяем, было ли приложение открыто как мини-приложение, и если да, то возвращаем имя пользователя, fid, отображаемое имя и изображение профиля пользователя.
 
 ```typescript app/profile/page.tsx
 "use client";
@@ -60,12 +60,12 @@ export default function Profile() {
   useEffect(() => {
     const loadUserData = async () => {
       try {
-        // Check if we're in a Mini App
+        // Проверить, находимся ли мы в мини-приложении
         const miniAppStatus = await sdk.isInMiniApp();
         setIsInMiniApp(miniAppStatus);
 
         if (miniAppStatus) {
-          // Get context and extract user info
+          // Получить контекст и извлечь информацию о пользователе
           const context = await sdk.context;
           setUser(context.user);
         }
@@ -77,7 +77,7 @@ export default function Profile() {
     loadUserData();
   }, []);
 
-  // Show message if not in Mini App
+  // Показать сообщение, если не в мини-приложении
   if (!isInMiniApp) {
     return (
       <div>
@@ -86,7 +86,7 @@ export default function Profile() {
     );
   }
 
-  // Show user information
+  // Показать информацию о пользователе
   if (user) {
     return (
       <div>
@@ -110,36 +110,36 @@ export default function Profile() {
 }
 ```
 
-## Schema
+## Схема
 
 
-### User Object
+### Объект User
 
-Contains the user's profile information. This data shouldn't be used for authentication or sensitive actions because its passed by the application.
+Содержит информацию профиля пользователя. Эти данные не должны использоваться для аутентификации или чувствительных действий, поскольку они передаются приложением.
 
 <Card>
 <ParamField path="fid" type="number" required>
-Unique Farcaster identifier for the user.
+Уникальный идентификатор Farcaster для пользователя.
 </ParamField>
 
 <ParamField path="username" type="string">
-Handle without @ symbol.
+Псевдоним без символа @.
 </ParamField>
 
 <ParamField path="displayName" type="string">
-User's chosen display name.
+Выбранное пользователем отображаемое имя.
 </ParamField>
 
 <ParamField path="pfpUrl" type="string">
-Profile picture URL.
+URL изображения профиля.
 </ParamField>
 
 <ParamField path="bio" type="string">
-User's biography text.
+Текст биографии пользователя.
 </ParamField>
 
 <ParamField path="location" type="object">
-User's location information.
+Информация о местоположении пользователя.
 </ParamField>
 
 <ParamField path="location.placeId" type="string">
@@ -147,7 +147,7 @@ Google Places ID.
 </ParamField>
 
 <ParamField path="location.description" type="string">
-Human-readable location description.
+Читаемое человеком описание местоположения.
 </ParamField>
 
 
@@ -166,31 +166,31 @@ Human-readable location description.
   }
 }
 ```
-### Location Object
+### Объект Location
 
-Contains information about the context from which the Mini App was launched. This helps you understand how users discovered and accessed your app.
+Содержит информацию о контексте, из которого было запущено мини-приложение. Это помогает понять, как пользователи обнаружили и получили доступ к вашему приложению.
 
-**Location Types:**
-- **`cast_embed`**: Launched from a cast where your app is embedded
-- **`cast_share`**: Launched when a user shared a cast to your app
-- **`notification`**: Launched from a notification triggered by your app
-- **`launcher`**: Launched directly from the client app catalog
-- **`channel`**: Launched from within a specific Farcaster channel
-- **`open_miniapp`**: Launched from another Mini App
+**Типы местоположения:**
+- **`cast_embed`**: Запущено из каста, где ваше приложение встроено
+- **`cast_share`**: Запущено, когда пользователь поделился кастом в ваше приложение
+- **`notification`**: Запущено из уведомления, вызванного вашим приложением
+- **`launcher`**: Запущено напрямую из каталога приложений клиента
+- **`channel`**: Запущено из определённого канала Farcaster
+- **`open_miniapp`**: Запущено из другого мини-приложения
 
 #### CastEmbedLocationContext
 
 <Card>
 <ParamField path="type" type="'cast_embed'" required>
-Indicates the Mini App was launched from a cast where it is an embed.
+Указывает, что мини-приложение было запущено из каста, где оно является встраиванием.
 </ParamField>
 
 <ParamField path="embed" type="string" required>
-The embed URL.
+URL встраивания.
 </ParamField>
 
 <ParamField path="cast" type="MiniAppCast" required>
-Cast information containing the embed.
+Информация о касте, содержащем встраивание.
 </ParamField>
 </Card>
 
@@ -218,11 +218,11 @@ Cast information containing the embed.
 
 <Card>
 <ParamField path="type" type="'cast_share'" required>
-Indicates the Mini App was launched when a user shared a cast to your app.
+Указывает, что мини-приложение было запущено, когда пользователь поделился кастом в ваше приложение.
 </ParamField>
 
 <ParamField path="cast" type="MiniAppCast" required>
-The cast that was shared to your app.
+Каст, которым поделились в ваше приложение.
 </ParamField>
 </Card>
 
@@ -230,19 +230,19 @@ The cast that was shared to your app.
 
 <Card>
 <ParamField path="type" type="'notification'" required>
-Indicates the Mini App was launched from a notification.
+Указывает, что мини-приложение было запущено из уведомления.
 </ParamField>
 
 <ParamField path="notification" type="object" required>
-Notification details.
+Детали уведомления.
 <ParamField path="notification.notificationId" type="string" required>
-Unique notification identifier.
+Уникальный идентификатор уведомления.
 </ParamField>
 <ParamField path="notification.title" type="string" required>
-Notification title.
+Заголовок уведомления.
 </ParamField>
 <ParamField path="notification.body" type="string" required>
-Notification body text.
+Текст тела уведомления.
 </ParamField>
 </ParamField>
 </Card>
@@ -264,7 +264,7 @@ Notification body text.
 
 <Card>
 <ParamField path="type" type="'launcher'" required>
-Indicates the Mini App was launched directly by the client app outside of a context.
+Указывает, что мини-приложение было запущено напрямую клиентом вне контекста.
 </ParamField>
 </Card>
 
@@ -272,23 +272,23 @@ Indicates the Mini App was launched directly by the client app outside of a cont
 
 <Card>
 <ParamField path="type" type="'channel'" required>
-Indicates the Mini App was launched from within a specific Farcaster channel.
+Указывает, что мини-приложение было запущено из определённого канала Farcaster.
 </ParamField>
 
 <ParamField path="channel" type="object" required>
-Channel details.
+Детали канала.
 </ParamField>
 
 <ParamField path="channel.key" type="string" required>
-Channel key identifier.
+Ключ-идентификатор канала.
 </ParamField>
 
 <ParamField path="channel.name" type="string" required>
-Channel name.
+Название канала.
 </ParamField>
 
 <ParamField path="channel.imageUrl" type="string">
-Channel profile image URL.
+URL изображения профиля канала.
 </ParamField>
 
 </Card>
@@ -297,60 +297,60 @@ Channel profile image URL.
 
 <Card>
 <ParamField path="type" type="'open_miniapp'" required>
-Indicates the Mini App was launched from another Mini App.
+Указывает, что мини-приложение было запущено из другого мини-приложения.
 </ParamField>
 
 <ParamField path="referrerDomain" type="string" required>
-The domain of the Mini App that opened the current app.
+Домен мини-приложения, которое открыло текущее приложение.
 </ParamField>
 </Card>
 
-### Client Object
+### Объект Client
 
-Contains details about the Farcaster client running your Mini App. This data should be considered untrusted.
+Содержит подробности о клиенте Farcaster, запускающем ваше мини-приложение. Эти данные следует считать ненадёжными.
 
 
 #### ClientContext
 
 <Card>
 <ParamField path="platformType" type="'web' | 'mobile'">
-Platform where the app is running.
+Платформа, на которой работает приложение.
 </ParamField>
 
 <ParamField path="clientFid" type="number" required>
-Self-reported FID of the client (e.g., 9152 for Farcaster).
+Самостоятельно сообщаемый FID клиента (например, 9152 для Farcaster).
 </ParamField>
 
 <ParamField path="added" type="boolean" required>
-Whether the user has added your Mini App to their client.
+Добавил ли пользователь ваше мини-приложение в свой клиент.
 </ParamField>
 
 <ParamField path="safeAreaInsets" type="object">
-Screen insets to avoid navigation elements that obscure the view.
+Отступы экрана для избегания навигационных элементов, которые перекрывают вид.
 <Expandable title="properties">
 <ParamField path="top" type="number" required>
-Top safe area inset in pixels.
+Верхний отступ безопасной области в пикселях.
 </ParamField>
 <ParamField path="bottom" type="number" required>
-Bottom safe area inset in pixels.
+Нижний отступ безопасной области в пикселях.
 </ParamField>
 <ParamField path="left" type="number" required>
-Left safe area inset in pixels.
+Левый отступ безопасной области в пикселях.
 </ParamField>
 <ParamField path="right" type="number" required>
-Right safe area inset in pixels.
+Правый отступ безопасной области в пикселях.
 </ParamField>
 </Expandable>
 </ParamField>
 
 <ParamField path="notificationDetails" type="object">
-Notification configuration if enabled.
+Конфигурация уведомлений, если включена.
 <Expandable title="properties">
 <ParamField path="url" type="string" required>
-Endpoint for sending notifications.
+Конечная точка для отправки уведомлений.
 </ParamField>
 <ParamField path="token" type="string" required>
-Authentication token for notifications.
+Токен аутентификации для уведомлений.
 </ParamField>
 </Expandable>
 </ParamField>
@@ -375,17 +375,17 @@ Authentication token for notifications.
 ```
 
 
-### Features Object
+### Объект Features
 
-Indicates which platform features are available and their current state in the client.
+Указывает, какие функции платформы доступны и их текущее состояние в клиенте.
 
 <Card>
 <ParamField path="haptics" type="boolean" required>
-Whether haptic feedback is supported on the current platform.
+Поддерживается ли тактильная обратная связь на текущей платформе.
 </ParamField>
 
 <ParamField path="cameraAndMicrophoneAccess" type="boolean">
-Whether camera and microphone permissions have been granted and stored for this mini app.
+Предоставлены ли и сохранены разрешения на камеру и микрофон для этого мини-приложения.
 </ParamField>
 </Card>
 
@@ -396,4 +396,4 @@ Whether camera and microphone permissions have been granted and stored for this 
 }
 ```
 
-<Note>For more detailed capability detection, use the `sdk.getCapabilities()` method which returns specific SDK methods supported by the host.</Note>
+<Note>Для более детального обнаружения возможностей используйте метод `sdk.getCapabilities()`, который возвращает конкретные методы SDK, поддерживаемые хостом.</Note>
