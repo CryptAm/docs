@@ -1,50 +1,50 @@
 ---
-title: Notifications 
-description: Regularly re-engage users by sending in-app notifications through the Base app
+title: Уведомления 
+description: Регулярно повторно вовлекайте пользователей, отправляя внутриприложенные уведомления через Base app
 ---
 
-## Overview
+## Обзор
 
-When a user enables notifications for your Mini App, the Base app generates a unique notification `token` and `url` which is sent to your server via webhook.
+Когда пользователь включает уведомления для вашего мини-приложения, Base app генерирует уникальный `token` (токен) и `url` (URL) уведомления, которые отправляются на ваш сервер через вебхук.
 
-This `token` grants your app permission to send in-app notifications to that specific user.
+Этот `token` предоставляет вашему приложению разрешение на отправку внутриприложенных уведомлений этому конкретному пользователю.
 
-To send a notification, make a `POST` request to the `url` with the user's notification `token` and your content.
+Для отправки уведомления выполните `POST`-запрос на `url` с `token` уведомления пользователя и вашим контентом.
 
-You will receive webhook events when users enable or disable notifications for your app. When disabled, the notification token becomes invalid and should no longer be used.
+Вы будете получать события вебхука, когда пользователи включают или отключают уведомления для вашего приложения. При отключении токен уведомления становится недействительным и больше не должен использоваться.
 
-## Client App Behavior
+## Поведение клиентских приложений
 
-Different client apps handle webhook responses differently:
+Разные клиентские приложения обрабатывают ответы вебхука по-разному:
 
-**Farcaster app**: Activates notification tokens immediately without waiting for a webhook success response.
+**Farcaster app**: Активирует токены уведомлений немедленно, не дожидаясь успешного ответа вебхука.
  
-**Base app**: Waits for a successful webhook response before activating tokens.
+**Base app**: Ждёт успешного ответа вебхука перед активацией токенов.
 
 <Note>
-If your webhook processes token saving and sends notifications synchronously before returning a response, tokens may work on Farcaster but fail to activate on Base app.
+Если ваш вебхук обрабатывает сохранение токенов и отправляет уведомления синхронно перед возвратом ответа, токены могут работать в Farcaster, но не активироваться в Base app.
 </Note>
 
 
 <Panel>
 ![notification-image-iphone](/images/minikit/notifications-sample.png)
 <Info>
-Notification tokens are unique to each client app. This means a user can have separate notification preferences for your Mini App across different clients (e.g., Farcaster, the Base app). Removing your Mini App in one client does not affect its status in other clients.
+Токены уведомлений уникальны для каждого клиентского приложения. Это означает, что пользователь может иметь отдельные настройки уведомлений для вашего мини-приложения в разных клиентах (например, Farcaster, Base app). Удаление вашего мини-приложения в одном клиенте не влияет на его статус в других клиентах.
 </Info>
 
 </Panel>
-## Implementation
+## Реализация
 <Steps>
-  <Step title="Create a webhook server">
-    Create a webhook server to handle webhook events.
+  <Step title="Создайте сервер вебхука">
+    Создайте сервер вебхука для обработки событий вебхука.
 
     <Info>
-    The `data` object returned by `parseWebhookEvent` contains three key fields:
-    - **`fid`**: The user's FID
-    - **`appFid`**: The client's FID (the Base app is 309857)
-    - **`event`**: The event payload with type and notification details
+    Объект `data`, возвращаемый `parseWebhookEvent`, содержит три ключевых поля:
+    - **`fid`**: FID пользователя
+    - **`appFid`**: FID клиента (Base app — 309857)
+    - **`event`**: Полезная нагрузка события с типом и деталями уведомления
   
-    Always use both `fid` and `appFid` together to identify a unique user-client combination.
+    Всегда используйте `fid` и `appFid` вместе для идентификации уникальной комбинации пользователь-клиент.
     </Info> 
 
     ```ts app/api/webhook/route.ts expandable highlight={20-50}
@@ -57,24 +57,24 @@ Notification tokens are unique to each client app. This means a user can have se
     export async function POST(request: NextRequest) {
       const requestJson = await request.json();
 
-      // Parse and verify the webhook event
+      // Разобрать и верифицировать событие вебхука
       let data;
       try {
         data = await parseWebhookEvent(requestJson, verifyAppKeyWithNeynar);
-        // Events are signed by the app key of a user with a JSON Farcaster Signature.
+        // События подписаны ключом приложения пользователя с JSON-подписью Farcaster.
       } catch (e: unknown) {
-        // Handle verification errors (invalid data, invalid app key, etc.)
-        // Return appropriate error responses with status codes 400, 401, or 500
+        // Обработать ошибки верификации (неправильные данные, неверный ключ приложения и т.д.)
+        // Вернуть соответствующие ответы об ошибках с кодами состояния 400, 401 или 500
       }
 
 
-      // Extract webhook data
+      // Извлечь данные вебхука
 
       const fid = data.fid;
       const appFid = data.appFid; // The FID of the client app that the user added the Mini App to
       const event = data.event;
 
-  // Handle different event types
+  // Обработать разные типы событий
   
     try {
       switch (event.event) {
@@ -91,12 +91,12 @@ Notification tokens are unique to each client app. This means a user can have se
           break;
 
         case "miniapp_removed":
-         // Delete notification details
+         // Удалить детали уведомлений
           await deleteUserNotificationDetails(fid, appFid);
           break;
 
         case "notifications_enabled":
-          // Save new notification details and send confirmation
+          // Сохранить новые детали уведомлений и отправить подтверждение
            setUserNotificationDetails(fid, appFid, event.notificationDetails);
            sendMiniAppNotification({
             fid,
@@ -107,7 +107,7 @@ Notification tokens are unique to each client app. This means a user can have se
           break;
 
         case "notifications_disabled":
-             // Delete notification details
+             // Удалить детали уведомлений
           await deleteUserNotificationDetails(fid, appFid);
           break;
       }
@@ -119,8 +119,8 @@ Notification tokens are unique to each client app. This means a user can have se
       
     ```
   </Step>
-  <Step title="Add the Webhook URL to your manifest">
-    Add the Webhook URL to your manifest file
+  <Step title="Добавьте URL вебхука в ваш манифест">
+    Добавьте URL вебхука в ваш файл манифеста
 
     ```json app/.well-known/farcaster.json highlight={16}
     {
@@ -144,12 +144,12 @@ Notification tokens are unique to each client app. This means a user can have se
 
     ```
   </Step>
-  <Step title="Prompt users to add your Mini App">
-    Use the `addMiniApp()` hook to prompt users to add your Mini App
+  <Step title="Предложите пользователям добавить ваше мини-приложение">
+    Используйте хук `addMiniApp()` для предложения пользователям добавить ваше мини-приложение
 
   <Warning>
-  **Important: Webhook Response Timing**
-  Webhooks must respond within 10 seconds to avoid timeouts from the Base app. If you encounter a "Failed to add mini app" error, your webhook may be taking too long to respond.
+  **Важно: Время ответа вебхука**
+  Вебхуки должны отвечать в течение 10 секунд, чтобы избежать таймаутов от Base app. Если вы столкнулись с ошибкой "Не удалось добавить мини-приложение", возможно, ваш вебхук слишком долго отвечает.
   </Warning>
 
     ```tsx page.tsx highlight={11, 25-27}
@@ -187,8 +187,8 @@ Notification tokens are unique to each client app. This means a user can have se
     ```
 
   </Step>
-  <Step title="Save the token and URL from the webhook event">
-    The `token` and `url` need to be securely saved to a database so they can be looked up when you want to send a notification to a particular user.
+  <Step title="Сохраните токен и URL из события вебхука">
+    `token` и `url` необходимо безопасно сохранить в базу данных, чтобы их можно было найти, когда вы захотите отправить уведомление конкретному пользователю.
 
     ```json miniapp_added_payload.json highlight={4-5}
     {
@@ -202,8 +202,8 @@ Notification tokens are unique to each client app. This means a user can have se
 
     
   </Step>
-  <Step title="Send notifications">
-    Send notifications by sending a `POST` request to the `url` associated with the user's `token`
+  <Step title="Отправляйте уведомления">
+    Отправляйте уведомления, выполняя `POST`-запрос на `url`, связанный с `token` пользователя
 
     ```ts sendNotification.ts highlight={15-28}
     export async function sendMiniAppNotification({
@@ -241,18 +241,18 @@ Notification tokens are unique to each client app. This means a user can have se
       if (response.status === 200) {
         const responseBody = sendNotificationResponseSchema.safeParse(responseJson);
         if (responseBody.success === false) {
-          // Malformed response
+          // Неправильно сформированный ответ
           return { state: "error", error: responseBody.error.errors };
         }
 
         if (responseBody.data.result.rateLimitedTokens.length) {
-          // Rate limited
+          // Превышен лимит запросов
           return { state: "rate_limit" };
         }
 
         return { state: "success" };
       } else {
-        // Error response
+        // Ответ с ошибкой
         return { state: "error", error: responseJson };
       }
     }
@@ -260,65 +260,65 @@ Notification tokens are unique to each client app. This means a user can have se
   </Step>
 </Steps>
 
-## Schema
+## Схема
 
-### Send Notification Request Schema
+### Схема запроса отправки уведомления
 
 <Card>
 <ParamField path="notificationId" type="string" required>
-Identifier that is combined with the FID to form an idempotency key. When the user opens the Mini App from the notification this ID will be included in the context object. **Maximum length of 128 characters.**
+Идентификатор, который комбинируется с FID для формирования идемпотентного ключа. Когда пользователь открывает мини-приложение из уведомления, этот ID будет включён в объект контекста. **Максимальная длина 128 символов.**
 </ParamField>
 
 <ParamField path="title" type="string" required>
-Title of the notification. **Max length 32 characters.**
+Заголовок уведомления. **Максимальная длина 32 символа.**
 </ParamField>
 
 <ParamField path="body" type="string" required>
-Body of the notification. **Max length 128 characters.**
+Тело уведомления. **Максимальная длина 128 символов.**
 </ParamField>
 
 <ParamField path="targetUrl" type="string" required>
-URL to open when the user clicks the notification. **Max length 1024 characters.** 
-<Note>Must be on the same domain as the Mini App.</Note>
+URL для открытия, когда пользователь нажимает на уведомление. **Максимальная длина 1024 символа.**
+<Note>Должен быть на том же домене, что и мини-приложение.</Note>
 
 </ParamField>
 
 <ParamField path="tokens" type="string[]" required>
-Array of notification tokens to send to. **Max 100 tokens.**
+Массив токенов уведомлений для отправки. **Максимум 100 токенов.**
 </ParamField>
 </Card>
 
-### Send Notification Response Schema
+### Схема ответа отправки уведомления
 
 <Card>
 <ParamField path="successfulTokens" type="string[]" required>
-Tokens for which the notification succeeded.
+Токены, для которых уведомление успешно отправлено.
 </ParamField>
 
 <ParamField path="invalidTokens" type="string[]" required>
-Tokens which are no longer valid and should never be used again. This could happen if the user disabled notifications but for some reason the Mini App server has no record of it.
+Токены, которые больше не действительны и никогда не должны использоваться снова. Это может произойти, если пользователь отключил уведомления, но по какой-то причине сервер мини-приложения не имеет записи об этом.
 </ParamField>
 
 <ParamField path="rateLimitedTokens" type="string[]" required>
-Tokens for which the rate limit was exceeded. The Mini App server can try later.
+Токены, для которых превышен лимит запросов. Сервер мини-приложения может попробовать позже.
 </ParamField>
 </Card>
 
 
 
-## Events
+## События
 
-Mini App events use the following object structure:
+События мини-приложений используют следующую структуру объекта:
 
-* **`type`**: notification event type
-* **`notificationDetails.url`**: URL that the app should call to send a notification.
-* **`notificationDetails.token`**: A secret token generated by the Base app and shared with the Notification Server. A token is unique for each (Farcaster Client, Mini App, user Fid) tuple.
+* **`type`**: тип события уведомления
+* **`notificationDetails.url`**: URL, по которому приложение должно отправлять уведомление.
+* **`notificationDetails.token`**: Секретный токен, сгенерированный Base app и предоставленный серверу уведомлений. Токен уникален для каждой тройки (клиент Farcaster, мини-приложение, FID пользователя).
 
-<Note>If users are not seeing the option to enable notifications when they call `addMiniApp()`, verify that your manifest file contains a valid `webhookUrl`.</Note>
+<Note>Если пользователи не видят опцию включения уведомлений при вызове `addMiniApp()`, проверьте, что ваш файл манифеста содержит действительный `webhookUrl`.</Note>
 
 ### `miniapp_added`
 
-Sent when the user adds the Mini App to their Farcaster client (whether or not it was triggered by an `addMiniApp()` prompt).
+Отправляется, когда пользователь добавляет мини-приложение в свой клиент Farcaster (независимо от того, было ли это вызвано предложением `addMiniApp()`).
 
 
 
@@ -334,7 +334,7 @@ Sent when the user adds the Mini App to their Farcaster client (whether or not i
 
 ### `miniapp_removed`
 
-Sent when a user removes the Mini App, which means that any notification tokens for that FID and client app (based on signer requester) should be considered invalid:
+Отправляется, когда пользователь удаляет мини-приложение, что означает, что любые токены уведомлений для этого FID и клиентского приложения (на основе подписавшего запрос) следует считать недействительными:
 
 
 ```json miniapp_removed_payload
@@ -345,7 +345,7 @@ Sent when a user removes the Mini App, which means that any notification tokens 
 
 ### `notifications_enabled`
 
-Sent when a user enables notifications (e.g. after disabling them). The payload includes a new `token` and `url`:
+Отправляется, когда пользователь включает уведомления (например, после их отключения). Полезная нагрузка включает новый `token` и `url`:
 
 ```json notifications_enabled_payload
 {
@@ -359,7 +359,7 @@ Sent when a user enables notifications (e.g. after disabling them). The payload 
 
 ### `notifications_disabled`
 
-Sent when a user disables notifications from, e.g., a settings panel in the client app. Any notification tokens for that FID and client app (based on signer requester) should be considered invalid:
+Отправляется, когда пользователь отключает уведомления, например, через панель настроек в клиентском приложении. Любые токены уведомлений для этого FID и клиентского приложения (на основе подписавшего запрос) следует считать недействительными:
 
 ```json notifications_disabled_json
 {
