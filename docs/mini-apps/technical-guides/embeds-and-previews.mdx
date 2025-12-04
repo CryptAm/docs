@@ -1,62 +1,62 @@
 ---
-title: Embeds & Previews
-description: Turn every user action into organic growth with shareable, metadata-powered embeds that drive engagement and discovery.
+title: Встраивания и предпросмотры
+description: Превратите каждое действие пользователя в органический рост с помощью доступных для расшаривания встраиваний, работающих на метаданных, которые стимулируют вовлеченность и открытие.
 ---
 
-> **What you'll learn**  
-> By the end of this guide, you'll be able to:
-> - Understand how embeds and metadata work together to create rich social previews
-> - Choose between static and dynamic embeds for different use cases
-> - Debug and optimize embeds for maximum performance and engagement
+> **Что вы узнаете**  
+> К концу этого руководства вы сможете:
+> - Понять, как встраивания и метаданные работают вместе для создания насыщенных социальных превью
+> - Выбирать между статическими и динамическими встраиваниями для разных сценариев использования
+> - Отлаживать и оптимизировать встраивания для максимальной производительности и вовлеченности
 
-## Why Sharing Matters
+## Почему распространение важно
 
-Sharing is one of the fastest and most cost-effective ways to grow your Mini App user base.
+Распространение (Sharing) - один из самых быстрых и экономически эффективных способов увеличить пользовательскую базу вашего мини-приложения.
 
-When a user shares your app into a feed (such as Base App or Farcaster), the platform generates a **rich embed** — a visual preview complete with your branding, imagery, and call-to-action button that appears directly in social feeds.
+Когда пользователь делится вашим приложением в ленте (например, в приложении Base или Farcaster), платформа генерирует насыщенное встраивание - визуальное превью с вашим брендингом, изображениями и кнопкой призыва к действию, которое появляется прямо в социальных лентах.
 
-Every share:
+Каждое распространение:
 
-- **Increases reach** — friends and followers see your app instantly
-- **Drives engagement** — visually compelling embeds get more clicks than plain links  
-- **Improves ranking** — shared apps are more likely to appear in category leaderboards
-- **Creates viral loops** — great experiences encourage users to share with their networks
+- **Увеличивает охват** — друзья и подписчики видят ваше приложение мгновенно
+- **Стимулирует вовлеченность** — визуально привлекательные встраивания получают больше кликов, чем обычные ссылки
+- **Улучшает рейтинг** — расшаренные приложения чаще появляются в списках лидеров категорий
+- **Создает вирусные циклы** — отличный опыт побуждает пользователей делиться со своими сетями
 
-## Metadata and Embeds
+## Метаданные и встраивания
 
-### How Metadata Creates Embeds
+### Как метаданные создают встраивания
 
-When someone shares your Mini App link, platforms like Base App don't just show a plain URL. Instead, they fetch **metadata** from your page and use it to generate a rich **embed** — a visual preview card with your image, title, and call-to-action button.
+Когда кто-то делится ссылкой на ваше мини-приложение, платформы вроде Base App показывают не просто обычный URL. Вместо этого они загружают **метаданные** с вашей страницы и используют их для генерации насыщенного **встраивания** - визуальной карточки-превью с вашим изображением, заголовком и кнопкой призыва к действию.
 
-The metadata acts as instructions that tell the platform exactly how to display your Mini App in feeds.
+Метаданные действуют как инструкции, которые говорят платформе, как именно отображать ваше мини-приложение в лентах.
 
-<Frame caption="How metadata transforms into embeds">
+<Frame caption="Как метаданные превращаются во встраивания">
   <img src="/images/minikit/Diagram.png" alt="How embed data is rendered" />
 </Frame>
 
-**The complete metadata-to-embed process:**
+**Полный процесс от метаданных к встраиванию:**
 
 <Steps>
-<Step title="User shares your link">
-  User clicks share or pastes your Mini App URL into a social feed (Base App, Farcaster).
+<Step title="Пользователь делится вашей ссылкой">
+  Пользователь нажимает "поделиться" или вставляет URL вашего мини-приложения в социальную ленту (Base App, Farcaster).
 </Step>
 
-<Step title="Platform fetches metadata">
-  The platform makes a request to your URL and reads the `<meta>` tags in your HTML to understand how to display your app.
+<Step title="Платформа загружает метаданные">
+  Платформа делает запрос к вашему URL и читает теги `<meta>` в вашем HTML, чтобы понять, как отобразить ваше приложение.
 </Step>
 
-<Step title="Metadata becomes embed">
-  Platform transforms your metadata into a rich visual embed with image, title, description, and interactive button.
+<Step title="Метаданные становятся встраиванием">
+  Платформа преобразует ваши метаданные в насыщенное визуальное встраивание с изображением, заголовком, описанием и интерактивной кнопкой.
 </Step>
 
-<Step title="Embed appears in feed">
-  Your Mini App appears as an attractive, clickable card that users can launch directly from their feed.
+<Step title="Встраивание появляется в ленте">
+  Ваше мини-приложение появляется как привлекательная, кликабельная карточка, которую пользователи могут запустить прямо из своей ленты.
 </Step>
 </Steps>
 
-### Metadata Structure
+### Структура метаданных
 
-Your metadata consists of specific HTML meta tags that define each part of the embed:
+Ваши метаданные состоят из специальных HTML-метатегов, которые определяют каждую часть встраивания:
 
 ```html index.html
 <meta name="fc:frame" content='{
@@ -73,38 +73,38 @@ Your metadata consists of specific HTML meta tags that define each part of the e
 }' />
 ```
 
-Each piece of metadata directly corresponds to a visual element in the embed:
+Каждый элемент метаданных напрямую соответствует визуальному элементу во встраивании:
 
-- `imageUrl` → The main visual that appears in the embed
-- `button.title` → Text on the call-to-action button  
-- `action.name` → App name displayed in the embed
-- `action.url` → Where users go when they click the embed
+- `imageUrl` → Главное визуальное изображение, появляющееся во встраивании
+- `button.title` → Текст на кнопке призыва к действию
+- `action.name` → Название приложения, отображаемое во встраивании
+- `action.url` → Куда пользователи попадают при клике на встраивание
 
-### Embed Appearance in Feeds
+### Внешний вид встраивания в лентах
 
-<Frame caption="Mini App embed in social feed">
+<Frame caption="Встраивание мини-приложения в социальной ленте">
 <img src="/images/minikit/feed_mini.jpg" alt="Mini app feed" className="h-[220px] w-auto"/>
 </Frame>
 
-### Manifest vs Embed Metadata
+### Метаданные манифеста vs. метаданные встраивания
 
-Your Mini App uses two types of metadata:
+Ваше мини-приложение использует два типа метаданных:
 
-#### Manifest file
+#### Файл манифеста
 
-Purpose: App registration and discovery
+Назначение: Регистрация приложения и его обнаружение
 
-Located at `/.well-known/farcaster.json`, this file contains your app's basic information for Base App's directory.
+Расположен по адресу `/.well-known/farcaster.json`, этот файл содержит основную информацию о вашем приложении для каталога Base App.
 
 <Warning>
-Mini Apps require a complete manifest. Read the [manifest requirements](/mini-apps/features/manifest#example-manifest).
+Мини-приложения требуют полного манифеста. Прочитайте [требования к манифесту](/mini-apps/features/manifest#example-manifest).
 </Warning>
 
-#### Embed metadata
+#### Метаданные встраивания
 
-Purpose: Embed generation when shared
+Назначение: Генерация встраиваний при расшаривании
 
-Located in your HTML `<head>` tags, this metadata creates the rich embeds when users share your app.
+Расположены в тегах `<head>` вашего HTML, эти метаданные создают насыщенные встраивания, когда пользователи делятся вашим приложением.
 
 ```html index.html
 <meta name="fc:frame" content='{
@@ -121,21 +121,21 @@ Located in your HTML `<head>` tags, this metadata creates the rich embeds when u
 }' />
 ```
 
-This controls how your embeds appear in social feeds.
+Это контролирует, как ваши встраивания выглядят в социальных лентах.
 
-### Best Practices for Metadata
+### Лучшие практики для метаданных
 
-- Image optimization: Use 3:2 aspect ratio
-- Clear value proposition in button and text
-- Visual consistency with product UI
-- Fast loading for metadata endpoints
-- Validate across platforms pre‑launch
+- Оптимизация изображений: Используйте соотношение сторон 3:2
+- Четкое ценностное предложение в кнопке и тексте
+- Визуальная согласованность с UI продукта
+- Быстрая загрузка для конечных точек метаданных
+- Проверка на разных платформах перед запуском
 
-## Sharing
+## Расшаривание
 
-### Adding Share Functionality 
+### Добавление функции расшаривания
 
-Prompt users to share during key accomplishment moments using MiniKit’s compose hook.
+Предлагайте пользователям поделиться в ключевые моменты достижений, используя хук compose из MiniKit.
 
 ```ts ComposeCastButton.tsx
 import { useComposeCast } from '@coinbase/onchainkit/minikit';
@@ -166,35 +166,35 @@ export default function ComposeCastButton() {
 ```
 
 <Tip>
-Strategic sharing moments:
+Стратегические моменты для расшаривания:
 
-- After completing a quiz
-- After minting an NFT
-- After beating a challenge
-- After reaching a milestone
+- После завершения викторины
+- После минта NFT
+- После прохождения испытания
+- После достижения вехи
 </Tip>
 
-### From the Base App UI
+### Через пользовательский интерфейс Base App
 
-Users can also share directly from your app's detail view in the Base app through the built‑in share functionality.
+Пользователи также могут делиться напрямую из детального просмотра вашего приложения в приложении Base с помощью встроенной функции расшаривания.
 
-<Frame caption="Share button in the Base app UI">
+<Frame caption="Кнопка расшаривания в UI приложения Base">
   <img src="/images/minikit/share-button-ui.jpg" alt="Share button in Base app" className="h-[220px] w-auto"/>
 </Frame>
 
-## Embed Types
+## Типы встраиваний
 
-### Static embeds
+### Статические встраивания
 
-Use a single, unchanging image and text for all shares. Best for consistency and speed.
+Используют одно неизменяемое изображение и текст для всех расшариваний. Лучше для согласованности и скорости.
 
-### Dynamic embeds
+### Динамические встраивания
 
-Generate metadata per user or event for personalization and FOMO. Ensure fast response (< 5s) and caching strategy.
+Генерируют метаданные для каждого пользователя или события для персонализации и создания эффекта "страха упустить выгоду" (FOMO). Обеспечьте быстрый ответ (< 5с) и стратегию кэширования.
 
-## Implementation
+## Реализация
 
-### With MiniKit (Next.js)
+### С MiniKit (Next.js)
 
 ```ts layout.tsx
 export async function generateMetadata(): Promise<Metadata> {
@@ -222,51 +222,51 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 ```
 
-### Without MiniKit
+### Без MiniKit
 
 ```html index.html
 <meta name="fc:frame" content='{"version":"next","imageUrl":"https://your-app.com/embed-image","button":{"title":"Play Now","action":{"type":"launch_frame","name":"Your App Name","url":"https://your-app.com"}}}' />
 ```
 
-## Debugging
+## Отладка
 
-### Tools
+### Инструменты
 
-<Card title="Base Build Preview Tool" icon="bug" href="https://base.dev/preview">
-  Test how your app will appear in the Base app by validating your manifest, embeds, and account association
+<Card title="Инструмент предпросмотра Base Build" icon="bug" href="https://base.dev/preview">
+  Проверьте, как ваше приложение будет выглядеть в приложении Base, валидируя ваш манифест, встраивания и привязку аккаунта
 </Card>
 
-### Common issues
+### Распространенные проблемы
 
 <AccordionGroup>
-<Accordion title="Embed not showing or incorrect">
-Check image dimensions, required `fc:frame`, JSON validity, and URL accessibility.
+<Accordion title="Встраивание не показывается или некорректно">
+Проверьте размеры изображения, наличие обязательного `fc:frame`, валидность JSON и доступность URL.
 </Accordion>
-<Accordion title="Embeds not updating">
-Review cache headers, repost to refresh, wait ~10–15 minutes for caches.
+<Accordion title="Встраивания не обновляются">
+Проверьте заголовки кэша, перепостите для обновления, подождите ~10–15 минут для обновления кэшей.
 </Accordion>
-<Accordion title="Slow generation">
-Optimize image generation, pre‑generate, use serverless, compress assets.
+<Accordion title="Медленная генерация">
+Оптимизируйте генерацию изображений, предварительно генерируйте, используйте serverless, сжимайте ассеты.
 </Accordion>
 </AccordionGroup>
 
 <Warning>
-Set `Cache-Control` carefully: long enough for performance (300–600s), short enough for quick updates.
+Настройте `Cache-Control` осторожно: достаточно долго для производительности (300–600с), достаточно коротко для быстрых обновлений.
 </Warning>
 
-## Next Steps
+## Следующие шаги
 
 <Steps>
-<Step title="Choose your embed strategy" />
-<Step title="Implement metadata generation" />
-<Step title="Add strategic share points" />
-<Step title="Test and optimize" />
+<Step title="Выберите свою стратегию встраиваний" />
+<Step title="Реализуйте генерацию метаданных" />
+<Step title="Добавьте стратегические точки расшаривания" />
+<Step title="Протестируйте и оптимизируйте" />
 </Steps>
 
-Continue with:
+Продолжите с:
 
-- [Search and Discovery](/mini-apps/troubleshooting/how-search-works)
-- [Manifest](/mini-apps/core-concepts/manifest)
+- [Поиск и обнаружение](/mini-apps/troubleshooting/how-search-works)
+- [Манифест](/mini-apps/core-concepts/manifest)
 
 
 
