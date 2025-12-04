@@ -1,15 +1,16 @@
 ---
-title: Embeds & Previews
-description: Mini apps use metadata to create embeds when users share links. The embed shows a preview image and launch button.
+title: Встраивания и предпросмотры
+description: Мини-приложения используют метаданные для создания встраиваний, когда пользователи делятся ссылками. Встраивание показывает изображение предпросмотра и кнопку запуска.
 ---
 
 <Panel>
-<Frame caption="Mini App embed in social feed">
+<Frame caption="Встроенное представление мини-приложения в социальной ленте">
   <img src="/images/minikit/feed_mini.jpg" alt="Mini app feed" className="h-[220px] w-auto"/>
 </Frame>
 </Panel>
-## Implementation
-Add this meta tag to the `<head>` section of any page you want to make shareable:
+
+## Реализация
+Добавьте этот метатег в секцию `<head>` любой страницы, которой вы хотите поделиться:
 
 <CodeGroup>
   ```html html metadata
@@ -71,75 +72,75 @@ export async function generateMetadata(): Promise<Metadata> {
   }
   ```
 </CodeGroup>
-<Tip>The `homeUrl` used in the `manifest` *must* have embed metadata defined, in order for the mini app to render correctly in the Base app.</Tip>
+<Tip>The `homeUrl`, используемый в `манифесте`, *должен* иметь определённые метаданные для встраивания, чтобы мини-приложение корректно отображалось в Base app.</Tip>
 
 
 
-## Schema
+## Схема
 
 <Card>
 <ParamField path="version" type="string" required>
-Version of the embed. Must be `"1"` or `"next"`.
+Версия встраивания. Должна быть `"1"` или `"next"`.
 </ParamField>
 
 <ParamField path="imageUrl" type="string" required>
-Image URL for the embed. Must be 3:2 aspect ratio, maximum 10MB, maximum 1024 characters.
+URL изображения для встраивания. Должен быть соотношением сторон 3:2, максимум 10MB, максимум 1024 символа.
 </ParamField>
 
 <ParamField path="button" type="object" required>
-Button configuration object.
+Объект конфигурации кнопки.
 </ParamField>
 </Card>
 
-### Button Configuration
+### Конфигурация кнопки
 
-Defines the launch button that appears on the embed.
+Определяет кнопку запуска, которая появляется на встраивании.
 
 <Card>
 <ParamField path="button.title" type="string" required>
-Button text. Maximum 32 characters.
+Текст кнопки. Максимум 32 символа.
 </ParamField>
 
 <ParamField path="button.action" type="object" required>
-Action configuration object. Maximum 1024 characters.
+Объект конфигурации действия. Максимум 1024 символа.
 </ParamField>
 </Card>
 
-### Action Configuration
+### Конфигурация действия
 
-Specifies what happens when the embed button is clicked.
+Определяет, что происходит при нажатии кнопки встраивания.
 
 <Card>
 <ParamField path="button.action.type" type="string" required>
-Action type. Must be `"launch_frame"`.
+Тип действия. Должен быть `"launch_frame"`.
 </ParamField>
 
 <ParamField path="button.action.url" type="string">
-App URL to open. Defaults to the full URL of the page including query parameters. Maximum 1024 characters.
+URL приложения для открытия. По умолчанию полный URL страницы, включая параметры запроса. Максимум 1024 символа.
 </ParamField>
 
 <ParamField path="button.action.name" type="string">
-Application name. Maximum 32 characters. Defaults to manifest name.
+Название приложения. Максимум 32 символа. По умолчанию используется название из манифеста.
 </ParamField>
 
 <ParamField path="button.action.splashImageUrl" type="string">
-Splash screen image URL. Must be 200x200 pixels. Maximum 32 characters. Defaults to manifest splash image.
+URL изображения экрана-заставки. Должно быть 200x200 пикселей. Максимум 32 символа. По умолчанию используется изображение заставки из манифеста.
 </ParamField>
 
 <ParamField path="button.action.splashBackgroundColor" type="string">
-Splash screen background color. Must be hex color code. Defaults to manifest splash background color.
+Цвет фона экрана-заставки. Должен быть hex-кодом цвета. По умолчанию используется цвет фона заставки из манифеста.
 </ParamField>
 </Card>
 
 
-## Related Concepts
+## Связанные концепции
 
 <CardGroup cols={2}>
-<Card title="Search and Discovery" href="/mini-apps/technical-guides/search-and-discovery">
-  Learn how your manifest powers search indexing and category placement in the Base app discovery features.
+<Card title="Поиск и обнаружение" href="/mini-apps/technical-guides/search-and-discovery">
+  Узнайте, как ваш манифест обеспечивает индексацию поиска и размещение по категориям в функциях обнаружения Base app.
 </Card>
 
-<Card title="Sharing and Social Graph" href="/mini-apps/technical-guides/sharing-and-social-graph">
-  Learn how to maximize sharing, social engagement, and viral growth for your Mini App using Base's social graph features.
+<Card title="Шэринг и социальный граф" href="/mini-apps/technical-guides/sharing-and-social-graph">
+  Узнайте, как максимизировать шаринг, социальное вовлечение и вирусный рост вашего мини-приложения с помощью функций социального графа Base.
 </Card>
 </CardGroup>
