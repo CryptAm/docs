@@ -1,17 +1,17 @@
 ---
-title: 'Custom Transaction Trays'
-description: 'Learn how to customize transaction trays with agent branding and information'
-sidebarTitle: 'Transaction Trays'
+title: 'Пользовательские панели транзакций'
+description: 'Узнайте, как настраивать панели транзакций с брендингом агента и информацией'
+sidebarTitle: 'Панели транзакций'
 ---
 
-## Custom Transaction Trays
+## CПользовательские панели транзакций
 
-If you would like to display agent information such as favicon and branded title, utilize the metadata property of wallet send calls data.
+Если вы хотите отображать информацию об агенте, такую как фавикон и брендированный заголовок, используйте свойство metadata данных вызовов wallet_send_calls.
 
-#### **Example: Display agent information**
+#### **Пример: Отображение информации об агенте**
 
 ```ts
-// example of wallet send calls data shape{
+// пример структуры данных wallet_send_calls{
   version: "1.0",
   from: request.from as `0x${string}`,
   chainId: this.networkConfig.chainId,
@@ -30,10 +30,10 @@ If you would like to display agent information such as favicon and branded title
 }
 ```
 
-<Frame caption='transaction tray'>
-  <img src='/images/transaction_tray.jpeg' alt='Transaction tray' />
+<Frame caption='Панель транзакции'>
+  <img src='/images/transaction_tray.jpeg' alt='Панель транзакции' />
 </Frame>
 
-You can send "GM" to **tbachat.base.eth** to get more details about message content types we support and get the firsthand experience on by interacting with our agent
+Вы можете отправить "GM" (Good Morning) tbachat.base.eth, чтобы получить больше подробностей о поддерживаемых типах контента сообщений и получить опыт из первых рук, взаимодействуя с нашим агентом.
 
-Our agent repo is found [here](https://github.com/siwan-cb/tba-chat-example-bot)
+Наш репозиторий агента находится [здесь](https://github.com/siwan-cb/tba-chat-example-bot)
