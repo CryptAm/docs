@@ -1,6 +1,6 @@
 ---
-title: "Manifest"
-description: "Define how your mini app appears and behaves within the Base app, enabling search, discovery, and rich embed features in the Base app."
+title: "Манифест"
+description: "Определите, как ваше мини-приложение появляется и ведёт себя внутри Base app, обеспечивая функции поиска, обнаружения и богатых эмбедов в Base app."
 ---
 
 <Panel>
@@ -43,173 +43,173 @@ description: "Define how your mini app appears and behaves within the Base app, 
 ```
 
 <Tip>
-Set `"noindex": true` for development or staging environments to prevent search indexing.  
+Установите `"noindex": true` для сред разработки или стейджинга, чтобы предотвратить индексацию поиском.
 </Tip>
 </Panel>
 
-## Implementation
+## Реализация
 
-1. Create the manifest file in your project at `/public/.well-known/farcaster.json`. It needs to be accessible at `https://your-domain.com/.well-known/farcaster.json`
-2. Update the [required](#accountassociation) and [optional](#display-information) fields in the `miniapp` object
-3. Ensure all changes are live so that the Manifest file is available at your app's url
-4. Navigate to the Base Build [Account association tool](https://www.base.dev/preview?tab=account)
-5. Paste your domain in the App URL field (ex: sample-url.vercel.app) and click "Submit"
-6. Click on the "Verify" button that appears and sign the manifest with your wallet to generate the `accountAssociation` fields
-7. Copy the generated `accountAssociation` fields (header, payload, and signature) and paste them into your manifest file, replacing the empty values in the `accountAssociation` object
+1. Создайте файл манифеста в вашем проекте по пути `/public/.well-known/farcaster.json`. Он должен быть доступен по адресу `https://your-domain.com/.well-known/farcaster.json`
+2. Обновите [обязательные](#accountassociation) и [опциональные](#display-information) поля в объекте `miniapp`
+3. Убедитесь, что все изменения залиты в продакшн, чтобы файл манифеста был доступен по URL вашего приложения
+4. Перейдите в [инструмент связывания аккаунтов](https://www.base.dev/preview?tab=account) в Base Build
+5. Вставьте ваш домен в поле App URL (например, sample-url.vercel.app) и нажмите "Submit"
+6. Нажмите кнопку "Verify", которая появится, и подпишите манифест вашим кошельком для генерации полей `accountAssociation`
+7. Скопируйте сгенерированные поля `accountAssociation` (header, payload и signature) и вставьте их в ваш файл манифеста, заменив пустые значения в объекте `accountAssociation`
 
 <Warning>
-Changes to the manifest take effect when you redeploy your Mini App and repost it. The platform re-indexes the updated configuration and applies changes to search, discovery, and embed rendering.
+Изменения в манифесте вступают в силу после повторного деплоя и повторной публикации вашего Mini App. Платформа повторно индексирует обновлённую конфигурацию и применяет изменения к поиску, отображению в каталоге и рендерингу встроенных элементов (embeds).
 </Warning>
 
 <Tip>
-Use the [Mini App Assets Generator](https://www.miniappassets.com/) to generate properly formatted icons, splash screens, and images that meet the requirements for both Base App and Farcaster mini apps.
+Используйте [Генератор Mini App Assets](https://www.miniappassets.com/) для создания правильно отформатированных иконок, загрузочных экранов и изображений, соответствующих требованиям как Base App, так и мини-приложений Farcaster.
 </Tip>
 
 
 
 
-## Schema
+## Схема
 
 ### accountAssociation
 
-Proves domain ownership for your Mini App.
+Доказывает владение доменом для вашего мини-приложения.
 <Card>
 <ParamField path="header" type="string" required>
-Encoded header for the association payload.
+Кодированный заголовок для полезной нагрузки связывания.
 </ParamField>
 
 <ParamField path="payload" type="string" required>
-Encoded payload containing your domain.
+Кодированная полезная нагрузка, содержащая ваш домен.
 </ParamField>
 
 <ParamField path="signature" type="string" required>
-Signature over the payload.
+Подпись над полезной нагрузкой.
 </ParamField>
 </Card>
 
 ### baseBuilder
 
-This verifies ownership and connects your Base Build account.This address should be the address of the wallet used when importing your mini app to Base Build.
+Проверяет право собственности и связывает ваш аккаунт Base Build. Этот адрес должен быть адресом кошелька, использованного при импорте вашего мини-приложения в Base Build.
 <Card>
 <ParamField path="ownerAddress" type="string" required>
-This verifies ownership and connects your Base Build account.
+Проверяет право собственности и связывает ваш аккаунт Base Build.
 </ParamField>
 </Card>
 
 
-#### Identity & Launch
+#### Идентичность и запуск
 
-Defines your Mini App's core identity and the URL users land on when they open it.
+Определяет основную идентичность вашего мини-приложения и URL, на который попадают пользователи при его открытии.
 
 <Card>
 <ParamField path="version" type="string" required>
-Manifest version. Must be `"1"`.
+Версия манифеста. Должна быть `"1"`.
 </ParamField>
 
 <ParamField path="name" type="string" required>
-Mini App name. Max 32 chars.
+Название мини-приложения. Макс. 32 символа.
 </ParamField>
 
 <ParamField path="homeUrl" type="string" required>
-Default launch URL. HTTPS URL, max 1024 chars.
+URL запуска по умолчанию. HTTPS URL, макс. 1024 символа.
 </ParamField>
 
 <ParamField path="iconUrl" type="string" required>
-Icon image URL. HTTPS URL, PNG 1024×1024; transparent background discouraged.
+URL изображения иконки. HTTPS URL, PNG 1024×1024; прозрачный фон не рекомендуется.
 </ParamField>
 </Card>
 
-#### Loading Experience
+#### Опыт загрузки
 
-Controls the splash screen visuals and colors shown while your Mini App loads.
+Управляет визуальными элементами и цветами экрана-заставки, показываемыми во время загрузки вашего мини-приложения.
 
 <Card>
 <ParamField path="splashImageUrl" type="string" required>
-Loading image. HTTPS URL, recommended 200×200px.
+Изображение загрузки. HTTPS URL, рекомендуется 200×200px.
 </ParamField>
 
 <ParamField path="splashBackgroundColor" type="string" required>
-Loading background color. Hex code (e.g., `#000000`).
+Цвет фона загрузки. Hex-код (например, `#000000`).
 </ParamField>
 </Card>
 
-#### Discovery & Search
+#### Обнаружение и поиск
 
-Determines how your Mini App is indexed, categorized, and surfaced across Base App discovery features.
+Определяет, как ваше мини-приложение индексируется, категоризируется и появляется в функциях обнаружения Base App.
 
 <Card>
 <ParamField path="primaryCategory" type="string" required>
-Controls where your app appears in category browsing. One of: `games`, `social`, `finance`, `utility`, `productivity`, `health-fitness`, `news-media`, `music`, `shopping`, `education`, `developer-tools`, `entertainment`, `art-creativity`.
+Определяет, где ваше приложение появляется в просмотре по категориям. Одно из: `games`, `social`, `finance`, `utility`, `productivity`, `health-fitness`, `news-media`, `music`, `shopping`, `education`, `developer-tools`, `entertainment`, `art-creativity`.
 </ParamField>
 
 <ParamField path="tags" type="string[]" required>
-Search/filter tags. Up to 5; ≤ 20 chars each; lowercase; no spaces/emojis/special chars.
+Теги для поиска/фильтрации. До 5; ≤ 20 символов каждый; строчные буквы; без пробелов/эмодзи/специальных символов.
 </ParamField>
 
 <ParamField path="noindex" type="boolean">
-Exclude from search results. `true` = exclude, default = include.
+Исключить из результатов поиска. `true` = исключить, по умолчанию = включать.
 </ParamField>
 </Card>
 
-#### Display Information
+#### Информация для отображения
 
-Provides the descriptive text, screenshots, and promotional images shown on your Mini App's profile.
+Предоставляет описательный текст, скриншоты и промо-изображения, показываемые в профиле вашего мини-приложения.
 
 <Card>
 <ParamField path="subtitle" type="string">
-Short description under name. Max 30 chars; avoid emojis/special chars.
+Короткое описание под названием. Макс. 30 символов; избегайте эмодзи/специальных символов.
 </ParamField>
 
 <ParamField path="description" type="string">
-Promo text for app page. Max 170 chars; avoid emojis/special chars.
+Промо-текст для страницы приложения. Макс. 170 символов; избегайте эмодзи/специальных символов.
 </ParamField>
 
 <ParamField path="tagline" type="string">
-Marketing tagline. Max 30 chars.
+Маркетинговый слоган. Макс. 30 символов.
 </ParamField>
 
 <ParamField path="heroImageUrl" type="string">
-Large promo image. 1200×630px (1.91:1), PNG/JPG.
+Большое промо-изображение. 1200×630px (1.91:1), PNG/JPG.
 </ParamField>
 
 <ParamField path="screenshotUrls" type="string[]">
-Visual previews. Max 3; portrait 1284×2778px recommended.
+Визуальные превью. Макс. 3; рекомендуется портретное соотношение 1284×2778px.
 </ParamField>
 </Card>
 
-#### Notifications
+#### Уведомления
 
-Notification endpoint.
+Конечная точка для уведомлений.
 <Card>
 <ParamField path="webhookUrl" type="string">
-POST events endpoint. HTTPS URL, max 1024 chars. Required if using notifications.
+Конечная точка для POST-событий. HTTPS URL, макс. 1024 символа. Требуется при использовании уведомлений.
 </ParamField>
 </Card>
 
-#### Embeds & Social Sharing
+#### Встраивание и распространение в социальных сетях
 
-Configures how your Mini App appears when shared in feeds or on social platforms.
+Настраивает, как ваше мини-приложение появляется при публикации в лентах или социальных платформах.
 
 <Card>
 <ParamField path="ogTitle" type="string">
-Open Graph title. Max 30 chars.
+Open Graph заголовок. Макс. 30 символов.
 </ParamField>
 
 <ParamField path="ogDescription" type="string">
-Open Graph description. Max 100 chars.
+Open Graph описание. Макс. 100 символов.
 </ParamField>
 
 <ParamField path="ogImageUrl" type="string">
-Open Graph image. 1200×630px (1.91:1), PNG/JPG.
+Open Graph изображение. 1200×630px (1.91:1), PNG/JPG.
 </ParamField>
 </Card>
 
 
 
-## Related Concepts
+## Связанные концепции
 
 <CardGroup cols={1}>
-<Card title="Embeds and Previews" href="/mini-apps/core-concepts/embeds-and-previews">
-  Understand how your manifest creates rich embeds when your Mini App is shared in feeds and social platforms.
+<Card title="Встраивание и предпросмотры" href="/mini-apps/core-concepts/embeds-and-previews">
+  Узнайте, как ваш манифест создаёт богатые эмбеды при публикации вашего мини-приложения в лентах и социальных платформах.
 </Card>
 </CardGroup>
