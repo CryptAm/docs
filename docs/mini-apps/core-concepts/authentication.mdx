@@ -1,24 +1,24 @@
 ---
-title: Authentication
-description: Quick Auth provides instant authentication by leveraging Farcaster's identity system - no passwords, email verification, or complex OAuth flows required.
+title: Аутентификация
+description: Quick Auth предоставляет мгновенную аутентификацию, используя систему идентификации Farcaster - без паролей, проверки email или сложных OAuth-процессов.
 ---
 
-When Quick Auth is called:
+Когда вызывается Quick Auth:
 
-* The user authenticates with a signature
-* The SDK returns a JWT that your backend verifies to confirm the user's identity
-* The backend returns trusted data that can be used for sensitive actions
+* Пользователь аутентифицируется с помощью подписи
+* SDK возвращает JWT, который ваш бэкенд проверяет для подтверждения идентичности пользователя
+* Бэкенд возвращает доверенные данные, которые можно использовать для чувствительных действий
 
 <Tip>
-This differs from the [Context API](/mini-apps/core-concepts/context), which provides instant access to user information without authentication but cannot be trusted for sensitive operations.
+Это отличается от [Context API](/mini-apps/core-concepts/context), которая предоставляет мгновенный доступ к информации о пользователе без аутентификации, но не может быть доверена для чувствительных операций.
 </Tip>
 
 
-## Implementation
+## Реализация
 
-### Step 1: Frontend Authentication
+### Шаг 1: Аутентификация на фронтенде
 
-This code authenticates the user with Quick Auth, stores the JWT in memory, and uses it to verify the user's identity with your backend.
+Этот код аутентифицирует пользователя с помощью Quick Auth, сохраняет JWT в памяти и использует его для проверки идентичности пользователя с вашим бэкендом.
 
  ```jsx App.tsx
 import { useState } from "react";
@@ -33,7 +33,7 @@ export function App() {
       const { token } = await sdk.quickAuth.getToken();
       setToken(token);
       
-      // Use the token to authenticate the user and fetch authenticated user data
+      // Использовать токен для аутентификации пользователя и получения данных аутентифицированного пользователя
       const response = await sdk.quickAuth.fetch(`${BACKEND_ORIGIN}/auth`, {
         headers: { "Authorization": `Bearer ${token}` }
       });
@@ -63,29 +63,29 @@ export function App() {
 }
 ```
 
-### Step 2: Backend Verification
+### Шаг 2: Проверка на бэкенде
 
-Install the Quick Auth client:
+Установите клиент Quick Auth:
 
 ```bash
 npm install @farcaster/quick-auth
 ```
 
-**Quick Auth Client** is the SDK that initiates the authentication flow in your application.
+**Клиент Quick Auth** - это SDK, который инициирует процесс аутентификации в вашем приложении.
 
-**Quick Auth Server** is Farcaster's service that handles signature verification and issues JWTs.
+**Сервер Quick Auth** - это сервис Farcaster, который обрабатывает проверку подписи и выдаёт JWT.
 
-When a user authenticates, the Quick Auth Server verifies their signature and issues a JWT. Your backend verifies this JWT using the `@farcaster/quick-auth` package.
+Когда пользователь аутентифицируется, сервер Quick Auth проверяет его подпись и выдаёт JWT. Ваш бэкенд проверяет этот JWT с помощью пакета `@farcaster/quick-auth`.
 
 ```jsx route.tsx
 // app/api/auth/route.ts
 import { createClient, Errors } from '@farcaster/quick-auth';
 import { NextRequest, NextResponse } from 'next/server';
 
-const domain = 'your-domain.com'; // Must match your mini app's deployment domain
+const domain = 'your-domain.com'; // Должен соответствовать домену развёртывания вашего мини-приложения
 const client = createClient();
 
-// This endpoint returns the authenticated user's FID 
+// Эта конечная точка возвращает FID аутентифицированного пользователя
 export async function GET(request: NextRequest) {
   const authorization = request.headers.get('Authorization');
   if (!authorization?.startsWith('Bearer ')) {
@@ -109,9 +109,9 @@ export async function GET(request: NextRequest) {
 }
 ```
 
-## Schema
+## Схема
 
-### JWT Payload
+### Полезная нагрузка JWT
 
 
 ```json
@@ -123,37 +123,37 @@ export async function GET(request: NextRequest) {
   "aud": "your-domain.com" 
 }
 ```
-Payload fields:
+Поля полезной нагрузки:
 
 <Card>
 <ParamField path="iat" type="number">
-Issued at timestamp
+Временная метка выдачи
 </ParamField>
 
 <ParamField path="iss" type="string">
-Quick Auth Server that issued the JWT
+Сервер Quick Auth, выдавший JWT
 </ParamField>
 
 <ParamField path="exp" type="number">
-Expiration timestamp (1 hour from issuance)
+Временная метка истечения срока действия (1 час с момента выдачи)
 </ParamField>
 
 <ParamField path="sub" type="number">
-User's Farcaster ID (FID)
+Farcaster ID (FID) пользователя
 </ParamField>
 
 <ParamField path="aud" type="string">
-Your mini app's domain
+Домен вашего мини-приложения
 </ParamField>
 </Card>
 
 
 <CardGroup cols={2}>
 <Card title="useAuthenticate" href="/onchainkit/latest/components/minikit/hooks/useAuthenticate">
-  use Minikit's useAuthenticate hook to authenticate users.
+  Используйте хук useAuthenticate из Minikit для аутентификации пользователей.
 </Card>
 <Card title="Context" href="/mini-apps/core-concepts/context">
-  Understand how context is used in mini apps.
+  Узнайте, как используется контекст в мини-приложениях.
 </Card>
 </CardGroup>
 
