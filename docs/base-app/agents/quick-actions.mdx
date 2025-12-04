@@ -1,24 +1,24 @@
 ---
-title: 'Quick Actions for Chat Agents'
-description: 'Learn about supported XMTP content types and how to use them in your chat agent'
-sidebarTitle: 'Quick Actions'
+title: 'Быстрые действия для чат-агентов'
+description: 'Узнайте о поддерживаемых типах контента XMTP и о том, как использовать их в вашем чат-агенте'
+sidebarTitle: 'Быстрые действия'
 ---
 
-## Quick Actions
+## Быстрые действия
 
-While Base App supports all standard XMTP content types for rich messaging capabilities, this document focuses specifically on **Base-developed content types** that enhance agent interactions within Base App.
+Хотя Base App поддерживает все стандартные типы контента XMTP для расширенных возможностей обмена сообщениями, этот документ сосредоточен конкретно на типах контента, разработанных Base, которые улучшают взаимодействие с агентами в Base App.
 
-These Base-specific content types (Quick Actions and Intent) provide unique functionality that may not be supported by other XMTP clients. For standard XMTP content types like reactions, attachments, and transactions, see the [XMTP documentation](https://docs.xmtp.org/agents/content-types/content-types).
+Эти специфичные для Base типы контента (Быстрые действия и Намерение) предоставляют уникальную функциональность, которая может не поддерживаться другими клиентами XMTP. Для стандартных типов контента XMTP, таких как реакции, вложения и транзакции, смотрите [документацию XMTP](https://docs.xmtp.org/agents/content-types/content-types).
 
-## Base App Content Types
+## Типы контента Base App
 
-There are content types developed by the Base App team for agents in Base App. Other XMTP clients may not support these content types.
+Существуют типы контента, разработанные командой Base App для агентов в Base App. Другие клиенты XMTP могут не поддерживать эти типы контента.
 
-**Quick Actions (coinbase.com/actions:1.0)**
+**Быстрые действия (coinbase.com/actions:1.0)**
 
-Purpose: Present interactive buttons in a message
+Назначение: Представление интерактивных кнопок в сообщении
 
-Structure:
+Структура:
 
 ```typescript
 type ActionsContent = {
@@ -37,25 +37,24 @@ type Action = {
 };
 ```
 
-Validation Rules:
+Правила валидации:
 
-- `id`, `description` are required
-- `actions` must be 1–10 items with unique IDs
-- Style must be one of: `primary`, `secondary`, `danger`
+- `id`, `description` обязательны
+- `actions` должен содержать 1–10 элементов с уникальными ID
+- Стиль должен быть одним из: `primary`, `secondary`, `danger`
 
-Fallback:
+Запасной вариант:
 
 ```
-[Description]
+[Описание]
 
-[1] [Action Label 1]
-[2] [Action Label 2]
+[1] [Подпись действия 1]
+[2] [Подпись действия 2]
 ...
-Reply with the number to select
+Ответьте номером для выбора
 ```
 
-Example: Payment Options
-
+Пример: Варианты оплаты
 ```json
 {
   "id": "payment_alice_123",
@@ -69,7 +68,7 @@ Example: Payment Options
 }
 ```
 
-<Frame caption='Example of Quick Actions message'>
+<Frame caption='Пример сообщения с быстрыми действиями'>
   <img
     alt='Manifest Embed Example'
     src='/images/tba_example.jpeg'
@@ -77,11 +76,11 @@ Example: Payment Options
   />
 </Frame>
 
-**Intent (coinbase.com/intent:1.0)**
+**Намерение (coinbase.com/intent:1.0)**
 
-Purpose: User expresses choice from Quick Actions
+Назначение: Пользователь выражает выбор из быстрых действий
 
-Structure:
+Структура:
 
 ```typescript
 type IntentContent = {
@@ -91,19 +90,19 @@ type IntentContent = {
 };
 ```
 
-Validation Rules:
+Правила валидации:
 
-- `id`, `actionId` required
-- Must match corresponding Actions
-- `metadata` is optional, `<10KB`
+- `id`, `actionId` обязательны
+- Должны соответствовать связанным действиям
+- `metadata` опционально, `<10KB`
 
-Fallback:
+Запасной вариант:
 
 ```
-User selected action: [actionId]
+Пользователь выбрал действие: [actionId]
 ```
 
-Example: Intent Message
+Пример: Сообщение с намерением
 
 ```json
 {
@@ -116,7 +115,7 @@ Example: Intent Message
 }
 ```
 
-<Frame caption='Example of Intent Message'>
+<Frame caption='Пример сообщения с намерением'>
   <img
     src='/images/transaction_chat.jpeg'
     alt='Analytics dashboard with charts'
