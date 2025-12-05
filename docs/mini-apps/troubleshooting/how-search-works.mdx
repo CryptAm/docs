@@ -1,80 +1,80 @@
 ---
-title: How Search works
-description: If your Mini App isn't appearing in the Base app, this guide explains how indexing and search work so you can identify and fix the issue.
+title: Как работает поиск
+description: Если ваше мини-приложение не появляется в приложении Base, это руководство объясняет, как работают индексация и поиск, чтобы вы могли выявить и исправить проблему.
 ---
-Indexing is how The Base app adds your Mini App to its catalog, making it discoverable through search and browsing.
-Unlike traditional app stores with manual submission, you control when indexing happens. Share your Mini App URL to the social feed, and indexing starts automatically—no review process required.
+Индексация - это процесс, с помощью которого приложение Base добавляет ваше мини-приложение в свой каталог, делая его доступным для обнаружения через поиск и просмотр.
+В отличие от традиционных магазинов приложений с ручной отправкой, вы контролируете, когда происходит индексация. Поделитесь URL вашего мини-приложения в социальной ленте, и индексация начнется автоматически - никакого процесса проверки не требуется.
 
-## How indexing works
+## Как работает индексация
 
-Understanding the indexing process helps you diagnose why your Mini App may not be appearing.
+Понимание процесса индексации поможет вам диагностировать, почему ваше мини-приложение может не появляться.
 
 <Note>
-Your manifest must be properly configured and validated for indexing to work. See [manifest documentation](/mini-apps/core-concepts/manifest) for required fields and validation.
+Ваш манифест должен быть правильно настроен и проверен, чтобы индексация работала. См. [документацию манифеста](/mini-apps/core-concepts/manifest) для информации об обязательных полях и валидации.
 </Note>
 
 <Steps>
-<Step title="Share your Mini App URL">
-  Share your URL to the feed.
+<Step title="Поделитесь URL вашего мини-приложения">
+  Поделитесь вашим URL в ленте.
 </Step>
-<Step title="The Base app validates your manifest">
-  The Base app fetches and validates your manifest file.
+<Step title="Приложение Base проверяет ваш манифест">
+  Приложение Base загружает и проверяет ваш файл манифеста.
   <Warning>
-  Invalid or unreachable manifests will fail indexing.
+  Некорректные или недоступные манифесты приведут к сбою индексации.
   </Warning>
 </Step>
-<Step title="Your app enters the directory">
-  Your Mini App is recorded and becomes searchable within 10 minutes.
+<Step title="Ваше приложение попадает в каталог">
+  Ваше мини-приложение регистрируется и становится доступным для поиска в течение 10 минут.
 </Step>
 </Steps>
 
 
-## How search works
-The Base App's search queries your Mini App's `name` field from the catalog. Both exact and partial matches appear in results. Search displays your Mini App based on information you provided in your manifest.
+## Как работает поиск
+Поиск в приложении Base запрашивает поле name вашего мини-приложения из каталога. В результатах появляются как точные, так и частичные совпадения. Поиск отображает ваше мини-приложение на основе информации, которую вы предоставили в манифесте.
 
-<Frame caption="Search results in The Base app">
+<Frame caption="Результаты поиска в приложении Base">
 <img src="/images/minikit/search.jpg" alt="search bar in the Base app" className="h-18 w-auto" />
 </Frame>
 
 <Note>
-When making changes to your manifest, you will need to share your URL to reindex.
+При внесении изменений в ваш манифест вам потребуется поделиться URL, чтобы переиндексировать его.
 </Note>
 
-## Discovery surfaces
+## Площадки для обнаружения
 
-### Category browsing
-Your app appears in the category specified by `primaryCategory` in your manifest. Users browse categories to discover apps by interest.
+### Просмотр по категориям
+Ваше приложение появляется в категории, указанной в поле `primaryCategory` вашего манифеста. Пользователи просматривают категории, чтобы находить приложения по интересам.
 
-<Frame caption="App Categories">
+<Frame caption="Категории приложений">
 <img src="/images/minikit/categories.jpg" alt="app categories" className="h-18 w-auto"/>
 </Frame>
 
 <Note>
-**Category rankings**: Rankings use 7-day engagement metrics such as shares. 
+**Ранжирование категорий**: Ранжирование использует метрики вовлеченности за 7 дней, такие как расшаривания.
 </Note>
 
-### Saved apps
-When users save your Mini App, it appears in their personal saved options for quick access. Prompt users to save at key moments.
+### Сохраненные приложения
+Когда пользователи сохраняют ваше мини-приложение, оно появляется в их личном списке сохраненных опций для быстрого доступа. Предлагайте пользователям сохранять приложение в ключевые моменты.
 
-<Frame caption="Saved Apps">
+<Frame caption="Сохраненные приложения">
 <img src="/images/minikit/my-apps.jpg" alt="saved apps" className="h-18 w-auto"/>
 </Frame>
 
-### Direct messages
+### Личные сообщения
 
-When users share your Mini App URL in a direct message, it displays as an interactive embed. Recipients can preview and open your app directly from the conversation, with `context.location` set to `messaging` so you can customize the experience for shared discovery.
+Когда пользователи делятся URL вашего мини-приложения в личном сообщении, оно отображается как интерактивное встраивание. Получатели могут просмотреть предварительный просмотр и открыть ваше приложение прямо из беседы, при этом `context.location` будет установлен в значение `messaging`, что позволит вам настроить опыт для совместного обнаружения.
 
-## Related
+## Связанные материалы
 
 <CardGroup cols={2}>
-<Card title="Manifest Configuration" href="/mini-apps/core-concepts/manifest">
-  Configure name and metadata for indexing.
+<Card title="Конфигурация манифеста" href="/mini-apps/core-concepts/manifest">
+  Настройте название и метаданные для индексации.
 </Card>
-<Card title="Embeds & Previews" href="/mini-apps/core-concepts/embeds-and-previews">
-  Add required embed metadata.
+<Card title="Встраивания и предпросмотры" href="/mini-apps/core-concepts/embeds-and-previews">
+  Добавьте необходимые метаданные для встраиваний.
 </Card>
-<Card title="Troubleshooting" href="/mini-apps/troubleshooting/common-issues">
-  Complete debugging guide.
+<Card title="Устранение неполадок" href="/mini-apps/troubleshooting/common-issues">
+  Полное руководство по отладке.
 </Card>
 </CardGroup>
 
