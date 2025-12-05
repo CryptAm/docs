@@ -3,22 +3,22 @@ title: isBase
 ---
 
 
-The `isBase` utility is designed to verify if the chain id is a valid Base or Base Sepolia chain id.
+Утилити `isBase` предназначена для проверки, является ли идентификатор цепи (chain id) валидным идентификатором Base или Base Sepolia.
 
-## Usage
+## Использование
 
 <CodeGroup>
 ```tsx code
 import { isBase } from '@coinbase/onchainkit';
 
 // Base Mainnet (chain ID: 8453)
-isBase({ chainId: 8453 }); // returns true
+isBase({ chainId: 8453 }); // возвращает true
 
 // Base Sepolia (chain ID: 84532)
-isBase({ chainId: 84532 }); // returns true
+isBase({ chainId: 84532 }); // возвращает true
 
 // Ethereum (chain ID: 1)
-isBase({ chainId: 1 }); // returns false
+isBase({ chainId: 1 }); // возвращает false
 ```
 
 ```ts return value
@@ -27,12 +27,12 @@ false; // For all other chain IDs
 ```
 </CodeGroup>
 
-## Returns
+## Возвращает
 
-`boolean` - Returns `true` if the chain id is Base or Base Sepolia, otherwise `false`.
+`boolean` - Возвращает `true`, если идентификатор цепи является Base или Base Sepolia, в противном случае `false`.
 
-## Parameters
+## Параметры
 
-[`IsBaseOptions`](./types#isbaseoptions) - See [`IsBaseOptions`](./types#isbaseoptions) for more details.
+[`IsBaseOptions`](./types#isbaseoptions) - Смотрите [`IsBaseOptions`](./types#isbaseoptions) для получения подробной информации.
 
 
