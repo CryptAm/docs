@@ -1,118 +1,118 @@
 ---
-title: Common Issues & Debugging
-description: Frequent issues encountered during Mini App development and their solutions
+title: Частые проблемы и отладка
+description: Часто возникающие проблемы при разработке мини-приложений и их решения
 ---
 
-## Prerequisites & Setup Verification
+## Предварительные требования и проверка настройки
 
-Ensure your Mini App has the foundational requirements in place.
+Убедитесь, что у вашего мини-приложения есть базовые необходимые компоненты.
 
-### Required Files and Structure
+### Обязательные файлы и структура
 
 ```text
 your-domain.com/
 ├── .well-known/
-│   └── farcaster.json          # Required manifest file
+│   └── farcaster.json          # Обязательный файл манифеста
 ├── your-app/
-│   ├── index.html              # Your app entry point
-│   └── ...                     # Your app files
+│   ├── index.html              # Точка входа вашего приложения
+│   └── ...                     # Файлы вашего приложения
 ```
 
-### Environment Setup Checklist
+### Контрольный список настройки окружения
 
-- Domain is accessible via HTTPS  
-- Manifest file exists at `/.well-known/farcaster.json`  
-- All image URLs are publicly accessible
+- Домен доступен по HTTPS
+- Файл манифеста существует по адресу `/.well-known/farcaster.json`
+- Все URL изображений общедоступны
 
-# Debugging
-Use Base Build's built-in Preview Tool for foundational debugging.
+# Отладка
+Используйте встроенный инструмент Preview в Base Build для базовой отладки.
 
-<Card title="Preview Tool" img="/images/base-build/preview-tool-overview.png">
-Start debugging your app using the [Preview tool](https://base.dev/preview)
+<Card title="Инструмент Preview" img="/images/base-build/preview-tool-overview.png">
+Начните отладку вашего приложения с помощью [инструмента Preview](https://base.dev/preview)
 </Card>
 
-The **Preview tool** will help you:  
+**Инструмент Preview** поможет вам:
 
-- Validate your app's manifest and metadata  
-- Test how your app will appear in the Base app  
-- Verify ownership and account association  
+- Проверить манифест и метаданные вашего приложения
+- Протестировать, как ваше приложение будет выглядеть в приложении Base
+- Подтвердить владение и привязку аккаунта
 
-The Preview tool provides clear visual cues:  
-- ✅ Green check marks when things are set up correctly  
-- ❌ Red indicators when something needs your attention  
+Инструмент Preview предоставляет четкие визуальные подсказки:
+- ✅ Зеленые галочки, когда все настроено правильно 
+- ❌ Красные индикаторы, когда что-то требует вашего внимания
 
-### Components of the Preview Tool  
+### Компоненты инструмента Preview
 
-The Preview tool has three main components:  
+Инструмент Preview имеет три основных компонента:
 
-- **Console**: Preview your app and review logs to make informed decisions about performance.  
-- **Account Association**: Confirm your app is linked to the correct account, signatures are valid, and the domain matches what’s specified in the manifest.  
-- **Metadata**: Ensure your Mini App renders exactly as expected by verifying required fields like name, icon, tags, and splash image.  
+- **Консоль**: Предпросмотр вашего приложения и просмотр логов для принятия обоснованных решений о производительности.
+- **Привязка аккаунта (Account Association)**: Подтвердите, что ваше приложение связано с правильным аккаунтом, подписи валидны, и домен соответствует указанному в манифесте.
+- **Метаданные**: Убедитесь, что ваше мини-приложение отображается именно так, как ожидается, проверяя обязательные поля, такие как название, иконка, теги и загрузочное изображение (splash image).
 
 
-### Basic Validation Steps
+### Базовые шаги валидации
 
-1. Test manifest accessibility: visit `https://yourdomain.com/.well-known/farcaster.json`  
-2. Validate JSON syntax with JSONLint  
-3. Ensure your app loads without console errors
+1. Проверьте доступность манифеста: перейдите по `https://yourdomain.com/.well-known/farcaster.json`
+2. Проверьте синтаксис JSON с помощью JSONLint
+3. Убедитесь, что ваше приложение загружается без ошибок в консоли
 
-## Quick Diagnostic Workflow
+## Быстрая диагностическая процедура
 
-<Tip>The best way to validate your app works is by using Base Build's built-in [Preview tool](https://base.dev/preview)</Tip>
+<Tip>Лучший способ проверить работу вашего приложения — использовать встроенный [инструмент Preview](https://base.dev/preview) в Base Build</Tip>
 
-- Not appearing in search? → App Discovery & Indexing Issues
-- Not rendering as an embed? → Embed Rendering Issues
-- Wallet connection problems? → Wallet Connection Problems
-- Need mobile testing tools? → Mobile Testing & Debugging
-- Changes not appearing? → Manifest Configuration Problems
-- App closes on gestures? → Gesture Conflicts and App Dismissal Issues
+- Не появляется в поиске? → Проблемы с обнаружением и индексацией приложения
+- Не отображается как встраивание (embed)? → Проблемы с рендерингом встраиваний
+- Проблемы с подключением кошелька? → Проблемы с подключением кошелька
+- Нужны инструменты для мобильного тестирования? → Мобильное тестирование и отладка
+- Изменения не появляются? → Проблемы с конфигурацией манифеста
+- Приложение закрывается при жестах? → Конфликты жестов и проблемы с закрытием приложения
 
-## Detailed Problem Solutions
+## Подробные решения проблем
 
-### 1. App Discovery & Indexing Issues
+### 1. Проблемы с обнаружением и индексацией приложения
 
-Problem: Your Mini App doesn't appear in search results or app catalogs.
+Проблема: Ваше мини-приложение не появляется в результатах поиска или каталогах приложений.
 
-Root cause: Missing or incomplete manifest configuration.
+Основная причина: Отсутствующая или неполная конфигурация манифеста.
 
-Solution: Ensure your manifest includes all required fields (see Manifest feature guide).
+Решение: Убедитесь, что ваш манифест включает все обязательные поля (см. руководство по манифестам).
 
-Critical requirements:
+Критические требования:
 
-- `primaryCategory` is required for searchability and category pages  
-- `accountAssociation` is required for verification
+- `primaryCategory` обязателен для возможности поиска и страниц категорий
+- `accountAssociation` обязателен для верификации
 
-App Indexing Requirements:
+Требования для индексации приложения:
 
-1. Complete your manifest setup  
-2. Share your Mini App URL in a post  
-3. Indexing can take up to 10 minutes  
-4. Verify appearance in app catalogs
+1. Завершите настройку манифеста
+2. Поделитесь URL вашего мини-приложения в посте
+3. Индексация может занять до 10 минут
+4. Проверьте появление в каталогах приложений
 
-Caching Issues — Changes Not Appearing:
+Проблемы с кэшированием - изменения не появляются:
 
-Farcaster clients may cache manifest data for up to 24 hours. Re‑share to trigger a refresh and allow ~10 minutes.
+Клиенты Farcaster могут кэшировать данные манифеста до 24 часов. Сделайте перепост, чтобы запустить обновление, и подождите ~10 минут.
 
-### 2. Manifest Configuration Problems
+### 2. Проблемы с конфигурацией манифеста
 
-Image Display Issues:
+Проблемы с отображением изображений:
 
-1. Test image accessibility in incognito  
-2. Verify image format (PNG, JPG, WebP supported)  
-3. Check dimensions  
-4. Ensure HTTPS URLs only
+1. Проверьте доступность изображения в режиме инкогнито
+2. Убедитесь в правильности формата изображения (поддерживаются PNG, JPG, WebP)
+3. Проверьте размеры
+4. Убедитесь, что используются только HTTPS URL
 
-### 3. Embed Rendering Issues
+### 3. Проблемы с рендерингом встраиваний
 
-Problem: Your Mini App URL doesn't render as a rich embed when shared.
+Проблема: URL вашего мини-приложения не отображается как насыщенное встраивание при расшаривании.
 
-Root cause: Incorrect or missing `fc:frame` metadata.
+Основная причина: Неправильные или отсутствующие метаданные `fc:frame`.
 
-Solution: Use `name="fc:frame"` meta tag in `<head>` and validate using the Embed Tool.
+Решение: Используйте метатег `name="fc:frame"` в `<head>` и проверьте с помощью инструмента Embed Tool.
 
-### 4. Wallet Connection Problems
+### 4. Проблемы с подключением кошелька
 
-Always use the user's connected wallet for optimal experience. You can do this either by using [OnchainKit's Wallet component](/onchainkit/wallet/wallet) or Wagmi hooks. Below is a Wagmi hook example:
+Всегда используйте подключенный кошелек пользователя для оптимального опыта. Вы можете сделать это, используя [компонент OnchainKit's Wallet](/onchainkit/wallet/wallet) или хуки Wagmi. Ниже приведен пример с хукoм Wagmi:
 
 ```tsx App.tsx
 import { useAccount } from 'wagmi';
@@ -122,14 +122,14 @@ function MyComponent() {
   
   const walletConnected = isConnected;
   
-  const userAddress = address; // Cryptographically verified
+  const userAddress = address; // Криптографически проверено
   
   return (
     <div>
       {walletConnected && (
         <p>Wallet: {userAddress}</p>
       )}
-      {/* Use wallet data for secure operations */}
+      {/* Используйте данные кошелька для безопасных операций */}
     </div>
   );
 }
@@ -137,26 +137,26 @@ function MyComponent() {
 
 
 
-### 5. Gesture Conflicts and App Dismissal Issues
+### 5. Конфликты жестов и проблемы с закрытием приложения
 
-Disable native gestures when calling ready if you use swipe/drag interactions:
+Отключите нативные жесты при вызове ready, если вы используете свайпы/перетаскивания:
 
 ```ts App.tsx
 await sdk.actions.ready({ disableNativeGestures: true });
 ```
 
-### 6. Mobile Testing & Debugging
+### 6. Мобильное тестирование и отладка
 
-**Eruda Mobile Console Setup:**
+**Настройка мобильной консоли Eruda:**
 
-Add Eruda for mobile console debugging during development:
+Добавьте Eruda для отладки через консоль на мобильных устройствах во время разработки:
 
 ```tsx App.tsx
 import { useEffect } from 'react';
 
 export default function App() {
   useEffect(() => {
-    // Only load Eruda in development and not on localhost
+    // Загружаем Eruda только в режиме разработки и не на localhost
     if (typeof window !== 'undefined' && 
         process.env.NODE_ENV === 'development' && 
         !window.location.hostname.includes('localhost')) {
@@ -166,35 +166,35 @@ export default function App() {
 
   return (
     <div>
-      {/* Your app content */}
+      {/* Содержимое вашего приложения */}
     </div>
   );
 }
 ```
 
-**Mobile Testing Workflow:**
+**Процедура мобильного тестирования:**
 
-1. Deploy to production or use ngrok for local testing
-2. Share the mini app in a Farcaster DM to yourself  
-3. Open in mobile client (Base App, Farcaster)
-4. Use Eruda console for debugging on mobile
-5. Test across multiple clients for compatibility
+1.Разверните в продакшен или используйте ngrok для локального тестирования
+2. Поделитесь мини-приложением в личном сообщении (DM) Farcaster себе
+3. Откройте в мобильном клиенте (Base App, Farcaster)
+4. Используйте консоль Eruda для отладки на мобильном устройстве
+5. Протестируйте на нескольких клиентах для проверки совместимости
 
-**Testing Checklist:**
+**Контрольный список для тестирования:**
 
-- [ ] App loads correctly on mobile devices
-- [ ] Touch interactions work properly
-- [ ] Viewport is correctly sized
-- [ ] Images load and display correctly
-- [ ] Console shows no critical errors
+- [ ] Приложение корректно загружается на мобильных устройствах
+- [ ] Сенсорные взаимодействия работают правильно
+- [ ] Область просмотра (viewport) имеет правильный размер
+- [ ] Изображения загружаются и отображаются корректно
+- [ ] В консоли нет критических ошибок
 
-## Advanced Troubleshooting
+## Продвинутое устранение неполадок
 
-**CBW Validator Tool:**
+**Инструмент валидации CBW:**
 
-Use the Coinbase Wallet validator for Base App compatibility analysis. This AI-powered tool can identify unsupported patterns and suggest improvements.
+Используйте валидатор Coinbase Wallet для анализа совместимости с приложением Base. Этот инструмент на основе ИИ может выявлять неподдерживаемые паттерны и предлагать улучшения.
 
-**Complete Manifest Example:**
+**Полный пример манифеста:**
 
 ```json farcaster.json
 {
@@ -219,16 +219,16 @@ Use the Coinbase Wallet validator for Base App compatibility analysis. This AI-p
 }
 ```
 
-## Success Verification
+## Проверка успешности
 
-Basic functionality and discovery/sharing checklists: confirm load, images, wallet, manifest endpoint, embed rendering, and search presence.
+Базовые чек-листы функциональности и обнаружения/расшаривания: проверьте загрузку, изображения, кошелек, конечную точку манифеста, рендеринг встраиваний и наличие в поиске.
 
-## Getting Additional Help
+## Получение дополнительной помощи
 
-- [Base Build Preview Tool](https://base.dev/preview)  
+- [Инструмент Preview Base Build](https://base.dev/preview)  
 - JSONLint  
 - [Eruda](https://github.com/liriliri/eruda)  
-- Base Discord — #minikit channel
+- Base Discord — канал #minikit
 
 
 
