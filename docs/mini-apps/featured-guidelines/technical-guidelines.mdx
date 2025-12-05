@@ -1,76 +1,76 @@
 ---
-title: "Technical Guidelines"
-description: "Ensure your mini app is built for the Base app"
+title: "Технические рекомендации"
+description: "Убедитесь, что ваше мини-приложение создано для приложения Base"
 ---
 
-## Complete Metadata
+## Полные метаданные
 
-Metadata includes your manifest and embed metadata. Complete, valid metadata is required for indexing, category placement, and high‑quality embeds.
+Метаданные включают ваш манифест и метаданные для встраивания. Полные, валидные метаданные необходимы для индексации, размещения в категориях и создания качественных встраиваний.
 
-**Acceptance Criteria**
-- Manifest is publicly accessible at `/.well-known/farcaster.json` 
-- Required fields are present and valid (`accountAssociation`, `frame`, `primaryCategory`, `tags`)
-- Images meet size/format constraints; text fields respect length limits
+**Критерии приемки**
+- Манифест общедоступен по адресу `/.well-known/farcaster.json` 
+- Обязательные поля присутствуют и валидны (`accountAssociation`, `frame`, `primaryCategory`, `tags`)
+- Изображения соответствуют ограничениям по размеру/формату; текстовые поля соблюдают ограничения по длине
 
-**How to Implement**
-- Follow the [Manifest guide](/mini-apps/core-concepts/manifest)
-- Implement [embed metadata](/mini-apps/core-concepts/embeds-and-previews#implementation)
-
-<Note>
-  Validate your manifest using our preview tools at <a href="https://base.dev/preview">base.dev/preview</a>.
-</Note>
-
-## In-app Authentication
-
-Users must remain in the Base app throughout the authentication flow. Eliminate flows that bounce users out of the Base app.
-
-**Acceptance Criteria**
-- No external redirects
-- No email / phone verification
-- Users can explore before sign‑in when possible
-
-**How to Implement**
-- Follow the [Authentication guide](/mini-apps/core-concepts/authentication)
-- Prefer in‑app SIWF/Quick Auth or wallet auth; 
-
-## Client-Agnostic
-
-There must be no client‑specific behaviors or wording that degrade the experience in the Base app. You must also ensure that you don't redirect the user to another client for functionality supported in the Base app.
-
-**Acceptance criteria**
-- Do not hardcode client‑specific URLs (e.g., Farcaster‑only links)
-- Use neutral language in UI (e.g. use "Share to Feed" instead of "Share to Farcaster")
-- Eliminate buttons that deeplink to other clients for features supported in the Base app
-
-**How to Implement**
-- Update all links according to the [Links](/mini-apps/technical-guides/links) guide
-- Review the [Base App Compatability](/mini-apps/troubleshooting/base-app-compatibility) guide for functionality not supported in the Base app. All other functionality must keep users in the Base app.
-
-## Sponsor Transactions
-
-Sponsor transaction fees to remove friction and reduce drop‑off for new users. For mini apps on Base, we recommend using the [Base Paymaster](/onchainkit/paymaster/quickstart-guide).
-
-**Acceptance criteria**
-- Transactions are sponsored via a paymaster
-
-**How to Implement**
-- Recommended: [Base Paymaster](/onchainkit/paymaster/quickstart-guide)
+**Как реализовать**
+- Следуйте [руководству по манифесту](/mini-apps/core-concepts/manifest)
+- Реализуйте [метаданные для встраиваний](/mini-apps/core-concepts/embeds-and-previews#implementation)
 
 <Note>
-  Claim free gas credits on <a href="https://base.dev">base.dev</a>.
+  Проверьте свой манифест с помощью наших инструментов предпросмотра на <a href="https://base.dev/preview">base.dev/preview</a>.
+</Note>
+
+## Внутриприложенная аутентификация
+
+Пользователи должны оставаться в приложении Base на протяжении всего процесса аутентификации. Исключите потоки, которые выводят пользователей из приложения Base.
+
+**Критерии приемки**
+- Нет внешних перенаправлений
+- Нет подтверждения по электронной почте / телефону
+- По возможности пользователи могут изучать приложение до входа в систему
+
+**Как реализовать**
+- Следуйте [руководству по аутентификации](/mini-apps/core-concepts/authentication)
+- Предпочитайте внутриприложенную SIWF/Quick Auth или аутентификацию через кошелек;
+
+## Клиент-агностичность
+
+Не должно быть поведения или формулировок, специфичных для какого-либо клиента, которые ухудшают опыт в приложении Base. Вы также должны гарантировать, что не перенаправляете пользователя в другой клиент для функций, поддерживаемых в приложении Base.
+
+**Критерии приемки**
+- Не используйте жестко закодированные URL, специфичные для клиента (например, ссылки, работающие только в Farcaster)
+- Используйте нейтральный язык в пользовательском интерфейсе (например, "Поделиться в ленте" вместо "Поделиться в Farcaster")
+- Устраните кнопки, которые используют диплинкинг в другие клиенты для функций, поддерживаемых в приложении Base
+
+**Как реализовать**
+- Обновите все ссылки в соответствии с [руководством по ссылкам](/mini-apps/technical-guides/links)
+- Ознакомьтесь с руководством [Совместимость с Base App](/mini-apps/troubleshooting/base-app-compatibility) для функциональности, не поддерживаемой в приложении Base. Вся остальная функциональность должна удерживать пользователей в приложении Base.
+
+## Спонсирование транзакций
+
+Спонсируйте комиссии за транзакции, чтобы снизить трение и уменьшить отток новых пользователей. Для мини-приложений на Base мы рекомендуем использовать [Base Paymaster](/onchainkit/paymaster/quickstart-guide).
+
+**Критерии приемки**
+- Транзакции спонсируются через paymaster
+
+**Как реализовать**
+- Рекомендуется: [Base Paymaster](/onchainkit/paymaster/quickstart-guide)
+
+<Note>
+  Получите бесплатные газовые кредиты на <a href="https://base.dev">base.dev</a>.
 </Note>
 
 
-## Batch Transactions (EIP-5792)
+## Пакетные транзакции (EIP-5792)
 
-Batch sequential actions where applicable to minimize signatures and reduce friction. Use EIP‑5792 capabilities to send multiple calls in one request.
+Объединяйте последовательные действия там, где это применимо, чтобы минимизировать количество подписей и снизить трение. Используйте возможности EIP‑5792 для отправки нескольких вызовов в одном запросе.
 
-**Acceptance criteria**
-- Where applicable, combine sequential actions into a single batch (e.g. approve + swap)
+**Критерии приемки**
+- Там, где это применимо, объединяйте последовательные действия в один пакет (например, approve + swap)
 
-**How to Implement**
-- See [Batch Transactions](/base-account/improve-ux/batch-transactions)
-- Provider APIs: [`wallet_sendCalls`](/base-account/reference/core/provider-rpc-methods/wallet_sendCalls), [`wallet_getCapabilities`](/base-account/reference/core/provider-rpc-methods/wallet_getCapabilities)
+**Как реализовать**
+- Смотрите [Пакетные транзакции](/base-account/improve-ux/batch-transactions)
+- API провайдера: [`wallet_sendCalls`](/base-account/reference/core/provider-rpc-methods/wallet_sendCalls), [`wallet_getCapabilities`](/base-account/reference/core/provider-rpc-methods/wallet_getCapabilities)
 
 
 
