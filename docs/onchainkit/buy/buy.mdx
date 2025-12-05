@@ -1,36 +1,36 @@
 ---
 title: <Buy /> · OnchainKit
 sidebarTitle: <Buy />
-description: Buy components & utilities
+description: Компоненты и утилити для покупки
 ---
 
 import { Danger } from "/snippets/danger.mdx";
 
 <Frame>
-<img alt="Buy"
+<img alt="Покупка"
   src="/images/onchainkit/buy.gif"
   height="364"/>
 </Frame>
 
-The `Buy` components provide a comprehensive interface for users to purchase [Tokens](/onchainkit/token/types#token).
+Компоненты `Buy` предоставляют комплексный интерфейс для пользователей, чтобы покупать [Токены](/onchainkit/token/types#token).
 
-The `Buy` component supports token swaps from USDC and ETH by default with the option to provide an additional token of choice using the `fromToken` prop. In addition, users are able to purchase tokens using their Coinbase account, Apple Pay, or debit card.
+Компонент `Buy` по умолчанию поддерживает обмен токенов из USDC и ETH с возможностью предоставить дополнительный токен по выбору с помощью свойства `fromToken`. Кроме того, пользователи могут покупать токены, используя свой аккаунт Coinbase, Apple Pay или дебетовую карту.
 
 <Note>
-The Apple Pay and Debit Card onramp options are only available for Coinbase supported assets.  
+Опции Apple Pay и дебетовой карты доступны только для активов, поддерживаемых Coinbase.
 </Note>
 
 
-Before using, ensure you've completed all [Getting Started steps](/onchainkit/getting-started).
+Перед использованием убедитесь, что вы выполнили все шаги из ['Начало работы'](/onchainkit/getting-started).
 
 <Note>
-This component requires a `projectId` to be set in the `OnchainKitProvider`. You can find your `projectId` on [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/onchainkit).
+Для этого компонента требуется установить `projectId` в `OnchainKitProvider`. Вы можете найти свой `projectId` в [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/onchainkit).
 </Note>
 
 
-## Usage
+## Использование
 
-Example using `@coinbase/onchainkit/buy`.
+Пример использования `@coinbase/onchainkit/buy`.
 
 ```tsx
 import { Buy } from '@coinbase/onchainkit/buy'; // [!code focus]
@@ -71,24 +71,24 @@ export default function BuyComponents() { // [!code focus]
 </App> */}
 
 <Danger>
-**Note: This interface is for demonstration purposes only.**
+**Примечание: Этот интерфейс предназначен только для демонстрационных целей.**
 
-Swap and Onramp flows will execute and work out of the box when you implement the component in your own app.
+Потоки обмена и пополнения будут выполняться и работать "из коробки", когда вы внедрите компонент в свое собственное приложение.
 </Danger>
 
 
-### Sponsor gas with Paymaster
+### Спонсирование газа через Paymaster
 
-To sponsor swap transactions for your users, toggle the Paymaster using the `isSponsored` prop.
+Чтобы спонсировать транзакции обмена для ваших пользователей, включите Paymaster с помощью свойства `isSponsored`.
 
-By default, this will use the [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/bundler-and-paymaster) Paymaster.
+По умолчанию будет использоваться Paymaster от [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/bundler-and-paymaster).
 
-You can configure sponsorship settings on the [Paymaster](https://portal.cdp.coinbase.com/products/bundler-and-paymaster) page.
-For security reasons, we recommend setting up a contract allowlist in the Portal. Without a contract allowlist defined, your Paymaster will only be able to sponsor up to $1.
+Вы можете настроить параметры спонсирования на странице [Paymaster](https://portal.cdp.coinbase.com/products/bundler-and-paymaster) page.
+По соображениям безопасности мы рекомендуем настроить список разрешенных контрактов в Порталe. Без определенного списка разрешенных контрактов ваш Paymaster сможет спонсировать только до $1.
 
-The contract used in our Swap API is Uniswap's [Universal Router](https://basescan.org/address/0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD), which is deployed on Base at `0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD`.
+Контракт, используемый в нашем Swap API, - это [Universal Router](https://basescan.org/address/0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD) от Uniswap, который развернут на Base по адресу `0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD`.
 
-Note that gas sponsorship will only work for Smart Wallets.
+Обратите внимание, что спонсирование газа будет работать только для Smart Wallets.
 
 ```tsx
 import { Buy } from '@coinbase/onchainkit/buy'; // [!code focus]
@@ -111,7 +111,7 @@ export default function BuyComponents() { // [!code focus]
 } // [!code focus]
 ```
 
-## Props
+## Свойства (Props)
 
 - [`BuyReact`](/onchainkit/buy/types#buyreact)
 
