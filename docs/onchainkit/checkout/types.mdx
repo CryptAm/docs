@@ -1,7 +1,7 @@
 ---
-title: Checkout components & utilities Types
+title: Типы компонентов и утилит Checkout
 sidebarTitle: Checkout
-description: Glossary of Types in Checkout components & utilities.
+description: Глоссарий типов для компонентов и утилит Checkout
 ---
 
 ## `LifecycleStatus`
@@ -32,7 +32,7 @@ type LifecycleStatus =
       statusData: LifecycleStatusDataShared;
     }
   | {
-      statusName: 'success'; // if the last mutation attempt was successful
+      statusName: 'success'; // если последняя попытка мутации была успешной
       statusData: {
         transactionReceipts: TransactionReceipt[];
         chargeId: string;
