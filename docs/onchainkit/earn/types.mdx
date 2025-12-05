@@ -1,7 +1,7 @@
 ---
-title: Earn components & utilities Types
+title: Типы компонентов и утилит Earn
 sidebarTitle: Earn
-description: Glossary of Types in Earn components & utilities.
+description: Глоссарий типов для компонентов и утилит Earn
 ---
 
 ## `LifecycleStatus`
@@ -56,41 +56,41 @@ export type EarnProviderReact = {
 
 ```ts
 export type EarnContextType = {
-  /** Warns users if vault address is invalid */
+  /** Предупреждает пользователей, если адрес vault недействителен */
   error: Error | null;
   recipientAddress?: Address;
-  /** Balance of the underlying asset in the user's wallet, converted to the asset's decimals */
+  /** Баланс базового актива в кошельке пользователя, конвертированный в десятичные единицы актива */
   walletBalance?: string;
-  /** Status of the wallet balance fetch */
+  /** Статус получения баланса кошелька */
   walletBalanceStatus: 'pending' | 'success' | 'error';
   refetchWalletBalance: () => void;
   vaultAddress: Address;
-  /** The token that is being deposited or withdrawn (the underlying asset of the vault) */
+  /** Токен, который депозитируется или выводится (базовый актив vault) */
   vaultToken: Token | undefined;
   vaultName: string | undefined;
-  /** Total deposits in the vault */
+  /** Общие депозиты в vault */
   deposits: string | undefined;
-  /** Total liquidity (available to borrow) in the vault */
+  /** Общая ликвидность (доступная для заимствования) в vault */
   liquidity: string | undefined;
-  /** Total APY of the vault, including rewards */
+  /** Общий APY vault, включая вознаграждения */
   apy: number | undefined;
   nativeApy: UseMorphoVaultReturnType['nativeApy'];
   vaultFee: UseMorphoVaultReturnType['vaultFee'];
-  /** Rewards earned by the user in the vault */
+  /** Вознаграждения, заработанные пользователем в vault */
   rewards: UseMorphoVaultReturnType['rewards'];
-  /** The amount of underlying asset that has been deposited in the vault by the connected user */
+  /** Количество базового актива, которое было депозитировано в vault подключенным пользователем */
   depositedBalance?: string;
-  /** Whether the deposited balance is being fetched */
+  /** Получается ли баланс депозитов */
   depositedBalanceStatus: 'pending' | 'success' | 'error';
   refetchDepositedBalance: () => void;
-  /** Interest earned by the user in the vault */
+  /** Проценты, заработанные пользователем в vault */
   interestEarned?: string;
-  /** Amount that the user has typed into the deposit amount input */
+  /** Сумма, которую пользователь ввел в поле ввода суммы депозита */
   depositAmount: string;
   setDepositAmount: (amount: string) => void;
   depositAmountError: string | null;
   depositCalls: Call[];
-  /** Amount that the user has typed into the withdraw amount input */
+  /** Сумма, которую пользователь ввел в поле ввода суммы вывода */
   withdrawAmount: string;
   setWithdrawAmount: (amount: string) => void;
   withdrawAmountError: string | null;
@@ -204,13 +204,13 @@ export type WithdrawButtonReact = {
 
 ```ts
 export type DepositToMorphoParams = {
-  /** The address of the Morpho vault */
+  /** Адрес vault Morpho */
   vaultAddress: Address;
-  /** The address of the token to deposit */
+  /** Адрес токена для депозита */
   tokenAddress: Address;
-  /** The amount of tokens to deposit */
+  /** Количество токенов для депозита */
   amount: bigint;
-  /** The address which can withdraw the deposited tokens */
+  /** Адрес, который может вывести депозитированные токены */
   recipientAddress: Address;
 };
 ```
@@ -219,11 +219,11 @@ export type DepositToMorphoParams = {
 
 ```ts
 export type WithdrawFromMorphoParams = {
-  /** The address of the Morpho vault */
+  /** Адрес vault Morpho */
   vaultAddress: Address;
-  /** The amount of tokens to withdraw */
+  /** Количество токенов для вывода */
   amount: bigint;
-  /** The address to which the withdrawn funds will be sent */
+  /** Адрес, на который будут отправлены выведенные средства */
   recipientAddress: Address;
 };
 ```
@@ -264,23 +264,23 @@ export type UseMorphoVaultParams = {
 export type UseMorphoVaultReturnType = {
   vaultName: string | undefined;
   status: 'pending' | 'success' | 'error';
-  /** Warns users if vault address is invalid */
+  /** Предупреждает пользователей, если адрес vault недействителен */
   error: Error | null;
-  /** Underlying asset of the vault */
+  /** Базовый актив vault */
   asset: {
     address: Address;
     symbol: string | undefined;
     decimals: number | undefined;
   };
-  /** User's deposits in the vault, adjusted for decimals */
+  /** Депозиты пользователя в vault, скорректированные с учетом десятичных знаков (decimals) */
   balance: string | undefined;
   balanceStatus: 'pending' | 'success' | 'error';
   refetchBalance: () => void;
-  /** Total net APY of the vault after all rewards and fees */
+  /** Общий чистый APY vault после всех вознаграждений и комиссий */
   totalApy: number | undefined;
-  /** Native rewards of the vault (e.g. USDC if the asset is USDC) */
+  /** Нативные вознаграждения vault (например, USDC, если актив — USDC) */
   nativeApy: number | undefined;
-  /** Additional rewards (e.g. MORPHO) */
+  /** Дополнительные вознаграждения (например, MORPHO) */
   rewards:
     | {
         asset: Address;
@@ -288,13 +288,13 @@ export type UseMorphoVaultReturnType = {
         apy: number;
       }[]
     | undefined;
-  /** Vault fee, in percent (e.g. 0.03 for 3%) */
+  /** Комиссия vault, в процентах (например, 0.03 для 3%) */
   vaultFee: number | undefined;
-  /** Number of decimals of the vault's share tokens (not underlying asset) */
+  /** Количество десятичных знаков токенов доли vault (не базового актива) */
   vaultDecimals: number | undefined;
-  /** Total deposits in the vault */
+  /** Общие депозиты в vault */
   deposits: string | undefined;
-  /** Total liquidity available to borrow in the vault */
+  /** Общая ликвидность, доступная для заимствования в vault */
   liquidity: string | undefined;
 };
 ```
