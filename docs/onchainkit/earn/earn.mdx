@@ -1,26 +1,26 @@
 ---
 title: <Earn /> · OnchainKit
 sidebarTitle: <Earn />
-description: Earn interest on your crypto with OnchainKit
+description: Зарабатывайте проценты на вашей криптовалюте с помощью OnchainKit
 ---
 
-The `Earn` component provides a simple interface for earning interest on your crypto via Morpho vaults on Base.
+Компонент `Earn` предоставляет простой интерфейс для заработка процентов на вашей криптовалюте через vaults Morpho на Base.
 
-## Prerequisites
+## Предварительные требования
 
-Before using the `Earn` component, ensure you've completed the [Getting Started](/onchainkit/getting-started) steps.
+Перед использованием компонента `Earn` убедитесь, что вы выполнили шаги из ['Начало работы'](/onchainkit/getting-started).
 
-### Starting a new project
+### Запуск нового проекта
 
-If you're starting a new project, we recommend using `create onchain` to scaffold your project.
+Если вы начинаете новый проект, мы рекомендуем использовать `create onchain` для создания каркаса проекта.
 
 ```bash
 npm create onchain@latest
 ```
 
-### Adding to an existing project
+### Добавление к существующему проекту
 
-If you're adding `Earn` to an existing project, simply install OnchainKit.
+Если вы добавляете `Earn` к существующему проекту, просто установите OnchainKit.
 
 <CodeGroup>
 ```bash npm
@@ -40,11 +40,11 @@ bun add @coinbase/onchainkit
 ```
 </CodeGroup>
 
-Wrap the `<OnchainKitProvider />` around your app, following the steps in [Getting Started](/onchainkit/getting-started#add-providers).
+Оберните <OnchainKitProvider /> вокруг вашего приложения, следуя шагам в ['Начало работы'](/onchainkit/getting-started#add-providers).
 
-## Quickstart
+## Быстрый старт
 
-To use `Earn`, you'll need to provide a `vaultAddress` prop. A vault address can be obtained from Morpho's [Vaults page](https://app.morpho.org/base/earn).
+Чтобы использовать Earn, вам необходимо предоставить свойство vaultAddress. Адрес vault можно получить на странице [Vaults](https://app.morpho.org/base/earn) Morpho.
 
 ```tsx
 // @noErrors: 2307
@@ -61,13 +61,13 @@ import { Earn } from '@coinbase/onchainkit/earn'; // [!code focus]
   height="400px"
 />
 
-## Customization
+## Настройка
 
-### Custom components and layouts
+### Пользовательские компоненты и макеты
 
-`Earn` accepts a `children` prop that can be used to render `Earn` subcomponents or custom components.
+`Earn` принимает свойство `children`, которое можно использовать для рендеринга подкомпонентов `Earn` или пользовательских компонентов.
 
-For instance, you can render the `EarnDeposit` component by itself within the `Earn` component, along with any other custom components you'd like to render.
+Например, вы можете отрендерить компонент `EarnDeposit` самостоятельно внутри компонента `Earn`, вместе с любыми другими пользовательскими компонентами, которые вы хотите отобразить.
 
 ```tsx
 // @noErrors: 2307
@@ -88,7 +88,7 @@ import { Earn, EarnDeposit } from '@coinbase/onchainkit/earn';
   height="450px"
 />
 
-For more granular control, you can also render lower level subcomponents within `EarnDeposit` and `EarnWithdraw`. These subcomponents accept `className` props to customize their styles.
+Для более детального контроля вы также можете рендерить низкоуровневые подкомпоненты внутри `EarnDeposit` и `EarnWithdraw`. Эти подкомпоненты принимают свойства `className` для настройки их стилей.
 
 ```tsx
 import { Earn,
@@ -116,17 +116,17 @@ import { Earn,
   height="400px"
 />
 
-### Customizing styles
+### Настройка стилей
 
-The `Earn` component is best styled via a [OnchainKit theme](/onchainkit/guides/themes#custom-theme). You can also override individual component styles using `className`.
+Компонент `Earn` лучше всего стилизируется через [тему OnchainKit](/onchainkit/guides/themes#custom-theme). Вы также можете переопределить стили отдельных компонентов, используя `className`.
 
-## Advanced Usage
+## Продвинутое использование
 
-If you'd like to implement your own custom components, you can use `useEarnContext` within an `Earn` component to access context and build your own components.
+Если вы хотите реализовать свои собственные пользовательские компоненты, вы можете использовать `useEarnContext` внутри компонента `Earn` для доступа к контексту и создания своих компонентов.
 
-You can find the full interface for `EarnContextType` on the [Types page](/onchainkit/earn/types#earncontexttype).
+Полный интерфейс для `EarnContextType` можно найти на [странице Types](/onchainkit/earn/types#earncontexttype).
 
-Below, we use `useEarnContext` to implement a custom deposit interface by using `useEarnContext` to access the `depositAmount` and `setDepositAmount` context values.
+Ниже мы используем `useEarnContext` для реализации пользовательского интерфейса депозита, используя `useEarnContext` для доступа к значениям контекста `depositAmount` и `setDepositAmount`.
 
 <CodeGroup>
 ```tsx index.tsx
@@ -186,20 +186,20 @@ function CustomDepositButtons() {
   height="400px"
 />
 
-Taking advantage of the data and methods provided by `useEarnContext`, developers can implement fully custom deposit and withdraw interfaces, modifying everything from UI elements to input behavior.
+Используя преимущества данных и методов, предоставляемых `useEarnContext`, разработчики могут реализовать полностью пользовательские интерфейсы депозита и вывода, изменяя все от элементов UI до поведения ввода.
 
-## Examples
+## Примеры
 
-### Sponsoring transactions
+### Спонсирование транзакций
 
-To sponsor transactions, you can use the `isSponsored` prop.
+Чтобы спонсировать транзакции, вы можете использовать свойство `isSponsored`.
 
 ```tsx
 // @noErrors: 2304
 <Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A" isSponsored />
 ```
 
-Ensure that your `OnchainKitProvider` has a `paymaster` configured:
+Убедитесь, что ваш `OnchainKitProvider` имеет настроенный `paymaster`:
 
 ```tsx
 // @noErrors:  2304 17008 1005
@@ -211,40 +211,40 @@ Ensure that your `OnchainKitProvider` has a `paymaster` configured:
 ```
 
 <Tip>
-If you have a contract allowlist set on Coinbase Developer Platform, you'll need to ensure that the following contract functions are allowed:
+Если у вас установлен список разрешенных контрактов (contract allowlist) в Coinbase Developer Platform, вам необходимо убедиться, что следующие функции контракта разрешены:
 
-- `deposit` on the Morpho vault
-- `redeem` on the Morpho vault
-- `approve` on the token being deposited
+- `deposit` на Morpho vault
+- `redeem` на Morpho vault
+- `approve` на токене, который депозитируется
 </Tip>
 
 
-## Components
+## Компоненты
 
-The `Earn` component includes the following subcomponents:
+Компонент `Earn` включает следующие подкомпоненты:
 
-- `<Earn />` - A fully built Withdraw and Deposit component. Also includes a `children` prop to render custom components and provides `useEarnContext` to access the context values.
-- `<EarnProvider />` - A headless provider that provides the `useEarnContext` hook to the `Earn` component.
-- `<EarnDeposit />` - A fully built deposit card.
-- `<EarnWithdraw />` - A fully built withdraw card.
-- `<EarnDetails />` - A component that displays the details of the vault.
-- `<DepositAmountInput />` - A component that handles the deposit amount input.
-- `<DepositBalance />` - A component that displays the balance underlying asset in the user's wallet.
-- `<DepositButton />` - A component that triggers the deposit transaction.
-- `<WithdrawAmountInput />` - A component that handles the withdraw amount input.
-- `<WithdrawBalance />` - A component that displays how much the user can withdraw from a vault.
-- `<WithdrawButton />` - A component that triggers the withdraw transaction.
-- `<YieldDetails />` - A component that displays the yield details of the vault.
-- `<VaultDetails />` - A component that displays the vault details.
+- `<Earn />` - Полностью готовый компонент для вывода и депозита. Также включает свойство `children` для рендеринга пользовательских компонентов и предоставляет `useEarnContext` для доступа к значениям контекста.
+- `<EarnProvider />` - Головной провайдер, который предоставляет хук useEarnContext компоненту `Earn`.
+- `<EarnDeposit />` - Полностью готовая карточка депозита.
+- `<EarnWithdraw />` - Полностью готовая карточка вывода.
+- `<EarnDetails />` - Компонент, который отображает детали vault.
+- `<DepositAmountInput />` - Компонент, который обрабатывает ввод суммы депозита.
+- `<DepositBalance />` - Компонент, который отображает баланс базового актива в кошельке пользователя.
+- `<DepositButton />` - Компонент, который инициирует транзакцию депозита.
+- `<WithdrawAmountInput />` - Компонент, который обрабатывает ввод суммы вывода.
+- `<WithdrawBalance />` - Компонент, который отображает, сколько пользователь может вывести из vault.
+- `<WithdrawButton />` - Компонент, который инициирует транзакцию вывода.
+- `<YieldDetails />` - Компонент, который отображает детали доходности vault.
+- `<VaultDetails />` - Компонент, который отображает детали vault.
 
-## Hooks
+## Хуки
 
-- [`useEarnContext`](/onchainkit/hooks/use-earn-context) - A hook that provides the context values of the `Earn` component.
-- [`useBuildDepositToMorphoTx`](/onchainkit/hooks/use-build-deposit-to-morpho-tx) - A hook that builds a deposit transaction to Morpho.
-- [`useBuildWithdrawFromMorphoTx`](/onchainkit/hooks/use-build-withdraw-from-morpho-tx) - A hook that builds a withdraw transaction from Morpho.
-- [`useMorphoVault`](/onchainkit/hooks/use-morpho-vault) - A hook that provides the details of a Morpho vault.
+- [`useEarnContext`](/onchainkit/hooks/use-earn-context) - Хук, который предоставляет значения контекста компонента `Earn`.
+- [`useBuildDepositToMorphoTx`](/onchainkit/hooks/use-build-deposit-to-morpho-tx) - Хук, который создает транзакцию депозита в Morpho.
+- [`useBuildWithdrawFromMorphoTx`](/onchainkit/hooks/use-build-withdraw-from-morpho-tx) - Хук, который создает транзакцию вывода из Morpho.
+- [`useMorphoVault`](/onchainkit/hooks/use-morpho-vault) - Хук, который предоставляет детали vault Morpho.
 
-## Props
+## Свойства (Props)
 
 - [`LifecycleStatus`](/onchainkit/earn/types#lifecyclestatus)
 - [`EarnReact`](/onchainkit/earn/types#earnreact)
