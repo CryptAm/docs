@@ -1,16 +1,16 @@
 ---
-title: Appchain components & utilities Types
+title: Типы компонентов и утилит Appchain
 sidebarTitle: Appchain
-description: Glossary of Types in Appchain components & utilities.
+description: Глоссарий типов для компонентов и утилит Appchain.
 ---
 
 ## `Appchain`
 
 ```ts
 export type Appchain = {
-  /** The chain to bridge to. */
+  /** Цепь (chain), к которой осуществляется перевод через мост. */
   chain: Chain;
-  /** Optional icon to display for the appchain. */
+  /** Опциональная иконка для отображения аппчейна. */
   icon?: React.ReactNode;
 };
 ```
@@ -19,19 +19,19 @@ export type Appchain = {
 
 ```ts
 export type AppchainBridgeReact = {
-  /** The source chain to bridge from. This should be Base or Base Sepolia. */
+  /** Исходная цепь, с которой осуществляется перевод через мост. Это должна быть Base или Base Sepolia. */
   chain: Chain;
-  /** The appchain to bridge to. */
+  /** Аппчейн, к которому осуществляется перевод через мост. */
   appchain: Appchain;
-  /** Optional children to render within the component. */
+  /** Опциональные дочерние элементы для рендеринга внутри компонента. */
   children?: React.ReactNode;
-  /** Optional className override for the component. */
+  /** Опциональное переопределение класса для компонента. */
   className?: string;
-  /** Optional title for the component. */
+  /** Опциональный заголовок для компонента. */
   title?: string;
-  /** Optional array of bridgeable tokens. */
+  /** Опциональный массив токенов, доступных для перевода через мост. */
   bridgeableTokens?: BridgeableToken[];
-  /** Optional function to implement fetching the price of the token. */
+  /** Опциональная функция для реализации получения цены токена. */
   handleFetchPrice?: (amount: string, token: Token) => Promise<string>;
 };
 ```
@@ -52,14 +52,14 @@ export type AppchainBridgeProviderReact = {
 
 ```ts
 export type AppchainBridgeContextType = {
-  // Configuration
+  // Конфигурация
   config: AppchainConfig;
   from: ChainWithIcon;
   to: ChainWithIcon;
   bridgeParams: BridgeParams;
   bridgeableTokens: BridgeableToken[];
 
-  // UI State
+  // Состояние UI
   isPriceLoading: boolean;
   isAddressModalOpen: boolean;
   isWithdrawModalOpen: boolean;
@@ -73,7 +73,7 @@ export type AppchainBridgeContextType = {
   finalizedWithdrawalTxHash?: Hex;
   resumeWithdrawalTxHash?: Hex;
 
-  // Handler Functions
+  // Функции-обработчики
   handleToggle: () => void;
   handleAmountChange: (params: { amount: string; token: Token }) => void;
   handleAddressSelect: (address: Address) => void;
@@ -97,9 +97,9 @@ export type AppchainBridgeContextType = {
 
 ```ts
 export type BridgeableToken = Token & {
-  /** The address of the remote token on the appchain. */
+  /** Адрес удаленного токена в аппчейне. */
   remoteToken?: Address;
-  /** Optional boolean to indicate if the chain uses a custom gas token */
+  /** Опциональный флаг, указывающий, использует ли цепь пользовательский газовый токен. */
   isCustomGasToken?: boolean;
 };
 ```
@@ -117,7 +117,7 @@ export type ChainWithIcon = Chain & {
 ```ts
 export type AppchainConfig = {
   chainId: number;
-  /** The OP Bedrock contract addresses for an appchain. These are on Base and retrieved from DeployContract. */
+  /** Адреса контрактов OP Bedrock для аппчейна. Они находятся в Base и получаются из DeployContract. */
   contracts: {
     l2OutputOracle: Address;
     systemConfig: Address;
