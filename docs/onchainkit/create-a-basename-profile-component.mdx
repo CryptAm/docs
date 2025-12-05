@@ -1,66 +1,66 @@
 ---
-title: 'Create a Basename Profile Component'
-description: Learn how to create a component that displays social media and profile information for a given basename.
+title: 'Создание компонента профиля Basename'
+description: Узнайте, как создать компонент, который отображает ссылки на социальные сети и информацию профиля для заданного basename.
 ---
 
-Onchain identities often include social media links and profile information stored as text records. In this tutorial, you'll learn how to create a component that fetches and displays this information for a given basename.
+Ончейн-идентичности часто включают ссылки на социальные сети и информацию профиля, хранящуюся в виде текстовых записей. В этом руководстве вы научитесь создавать компонент, который получает и отображает эту информацию для заданного basename.
 
-## Objectives
+## Цели
 
-By the end of this tutorial you should be able to:
+К концу этого руководства вы сможете:
 
-- Fetch ENS text records for a basename
-- Create a React component to display profile information
-- Implement a dropdown to show/hide profile details
+- Получать ENS текстовые записи для basename
+- Создать React-компонент для отображения информации профиля
+- Реализовать выпадающий список для показа/скрытия деталей профиля
 
-## Prerequisites
+## Предварительные требования
 
-### React and TypeScript
+### React и TypeScript
 
-You should be familiar with React and TypeScript. If you're new to these technologies, consider reviewing the [React official documentation] first.
+Вы должны быть знакомы с React и TypeScript. Если вы новичок в этих технологиях, рекомендуем сначала ознакомиться с [официальной документацией React].
 
 ### OnchainKit
 
-This tutorial uses Coinbase's [OnchainKit]. Familiarity with its basic concepts will be helpful.
+В этом руководстве используется [OnchainKit] от Coinbase. Знакомство с его основными концепциями будет полезным.
 
 ### Basename
 
-A basename with a few text records (Github, Twitter, website) is required for this tutorial. If you don't have a Basename. Get one [here](https://www.base.org/names).
+Для этого руководства требуется basename с несколькими текстовыми записями (Github, Twitter, веб-сайт). Если у вас нет Basename, получите его [здесь](https://www.base.org/names).
 
-## Set a Text Record
+## Установка текстовой записи
 
 <Frame>
 ![image-basename](/images/basenames-tutorial/basename-profile-home.png)
 </Frame>
 
-To set a text record for your basename, start by visiting `https://www.base.org/name/<YOUR-BASE-NAME>`. Connect your wallet to manage your profile, then click the `Manage profile` button. Add one or more text records, such as your X (formerly Twitter) URL. Once you've added the desired records, click the `Save` button at the bottom of the page. Finally, confirm and sign the transaction to make the changes onchain.
+Чтобы установить текстовую запись для вашего basename, начните с перехода по адресу `https://www.base.org/name/<ВАШЕ-BASE-ИМЯ>`. Подключите ваш кошелек для управления профилем, затем нажмите кнопку `Manage profile`. Добавьте одну или несколько текстовых записей, например, URL вашего X (бывший Twitter). После добавления нужных записей нажмите кнопку `Save` внизу страницы. Наконец, подтвердите и подпишите транзакцию, чтобы внести изменения в ончейн.
 
 <Frame>
 ![image-basename](/images/basenames-tutorial/confirm-textrecord-update.png)
 </Frame>
 
-## Setting up the Environment
+## Настройка окружения
 
-First, clone or fork the [OnchainKit app template]:
+Сначала клонируйте или форкните [OnchainKit app template]:
 
 ```
 git clone git@github.com:coinbase/onchain-app-template.git
 ```
 
-Then, install the following dependencies:
+Затем установите следующие зависимости:
 
 ```bash
 bun install framer-motion
 bun install lucide-react
 ```
 
-Create a `.env` file:
+Создайте файл `.env`:
 
 ```
 cp .env.local .env
 ```
 
-Update the contents of the `.env` file to include a [Reown] (FKA WalletConnect) project ID and a CDP API key:
+Обновите содержимое файла `.env`, включив [Reown] (бывший WalletConnect) project ID и CDP API ключ:
 
 ```
 # ~~~
@@ -76,9 +76,9 @@ NEXT_PUBLIC_ENVIRONMENT=localhost
 NEXT_PUBLIC_WC_PROJECT_ID=<YOUR_WC_PROJECT_ID>
 ```
 
-## Creating the `Client` File
+## Создание файла `Client`
 
-Create a new file `client.ts` in your project's `src` directory:
+Создайте новый файл `client.ts` в директории `src` вашего проекта:
 
 ```typescript
 import { http, createPublicClient } from 'viem';
@@ -90,11 +90,11 @@ export const publicClient = createPublicClient({
 });
 ```
 
-This client will be used to interact with Base mainnet.
+Этот клиент будет использоваться для взаимодействия с основной сетью Base.
 
-## Creating the IdentityWrapper Component
+## Создание компонента IdentityWrapper
 
-Create a new file `IdentityWrapper.tsx` in your `src/components` directory and import the following packages:
+Создайте новый файл `IdentityWrapper.tsx` в вашей директории `src/components` и импортируйте следующие пакеты:
 
 ```typescript
 import React, { useState, useEffect } from 'react';
@@ -104,14 +104,14 @@ import { Twitter, Github, Globe } from 'lucide-react';
 import { normalize } from 'viem/ens';
 import { publicClient } from '../client';
 
-// Component code will go here
+// Код компонента будет здесь
 ```
 
-`IdentityWrapper` will fetch and display social media and profile information for a given Base address using OnchainKit and the Ethereum Name Service (ENS). It will query for the ENS name associated with the address and retrieve relevant text records (Twitter, GitHub, and website URL) using the specified resolver, storing this data in both component state and local storage for optimized performance. The component will be designed to present this information in a user-friendly, expandable format.
+`IdentityWrapper` будет получать и отображать информацию о социальных сетях и профиле для заданного адреса Base с использованием OnchainKit и Ethereum Name Service (ENS). Он будет запрашивать ENS-имя, связанное с адресом, и получать соответствующие текстовые записи (Twitter, GitHub и URL веб-сайта), используя указанный резолвер, сохраняя эти данные как в состоянии компонента, так и в локальном хранилище для оптимизации производительности. Компонент будет спроектирован так, чтобы представлять эту информацию в удобном для пользователя, раскрываемом формате.
 
-## Implementing the Component Logic
+## Реализация логики компонента
 
-Add the following code to your `IdentityWrapper.tsx` file:
+Добавьте следующий код в ваш файл `IdentityWrapper.tsx`:
 
 ```typescript
 const IdentityWrapper: React.FC<{ address: string }> = ({ address }) => {
@@ -161,16 +161,16 @@ const IdentityWrapper: React.FC<{ address: string }> = ({ address }) => {
     fetchEnsText();
   }, [address]);
 
-  // Render logic will go here
+  // Логика рендеринга будет здесь
 };
 
 export default IdentityWrapper;
 ```
 
 <Note>
-**Possible Basename Text Records:**
+**Возможные текстовые записи для Basename:**
 
-The full list of existing text records for a basename:
+Полный список существующих текстовых записей для basename:
 
 ```
   Description,
@@ -189,9 +189,9 @@ The full list of existing text records for a basename:
 </Note>
 
 
-## Implementing the Render Logic
+## Реализация логики рендеринга
 
-Add the following render logic to your `IdentityWrapper` component:
+Добавьте следующую логику рендеринга в ваш компонент `IdentityWrapper`:
 
 ```typescript
 return (
@@ -270,14 +270,14 @@ return (
 );
 ```
 
-## Using the Component
+## Использование компонента
 
-To use this component in your app, import it into your desired page or component:
+Чтобы использовать этот компонент в вашем приложении, импортируйте его на нужную страницу или в компонент:
 
 ```typescript
 import IdentityWrapper from '../components/IdentityWrapper';
 
-// In your render function:
+// В вашей функции рендеринга:
 <IdentityWrapper address={userAddress} />;
 ```
 
@@ -285,14 +285,14 @@ import IdentityWrapper from '../components/IdentityWrapper';
 ![profile-dropdown](/images/basenames-tutorial/profile-component-dropdown.png)
 </Frame>
 
-Example code snippets are available for:
+Примеры фрагментов кода доступны для:
 
-- [IdentityWrapper component](https://gist.github.com/hughescoin/5e5cd6cbfb3c6d1cada0a9d206b003c6)
+- [Компонент IdentityWrapper](https://gist.github.com/hughescoin/5e5cd6cbfb3c6d1cada0a9d206b003c6)
 - [Page.tsx](https://gist.github.com/hughescoin/49afc9e999d69d372a67186e804e693b)
 
-## Conclusion
+## Заключение
 
-Congratulations! You've created a component that fetches and displays profile information for a given basename. This component can be easily integrated into your onchain app to provide users with a rich, interactive profile display.
+Поздравляем! Вы создали компонент, который получает и отображает информацию профиля для заданного basename. Этот компонент можно легко интегрировать в ваше ончейн-приложение, чтобы предоставить пользователям богатое, интерактивное отображение профиля.
 
 [OnchainKit]: https://github.com/coinbase/onchainkit
 [Viem]: https://viem.sh/
