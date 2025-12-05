@@ -1,35 +1,35 @@
 ---
 title: <AppchainBridge /> · OnchainKit
 sidebarTitle: <AppchainBridge />
-description: Bridge to appchains with OnchainKit
+description: Мост к аппчейнам с помощью OnchainKit
 ---
 
 import { Danger } from "/snippets/danger.mdx";
 
 <Danger>
-**⚠️ NOTE**
+**⚠️ ВНИМАНИЕ**
 
-The `AppchainBridge` component is alpha release software and is provided AS-IS. Use at your own risk.
+Компонент `AppchainBridge` находится в стадии альфа-релиза и предоставляется "КАК ЕСТЬ". Используйте на свой страх и риск.
 </Danger>
 
 
-The `AppchainBridge` component provides a simple interface for implementing bridging to appchains with OnchainKit.
+Компонент `AppchainBridge` предоставляет простой интерфейс для реализации использования моста к аппчейнам с помощью OnchainKit.
 
-## Prerequisites
+## Предварительные требования
 
-Before using the `AppchainBridge` component, ensure you've completed the [Getting Started](/onchainkit/getting-started) steps.
+Перед использованием компонента `AppchainBridge` убедитесь, что вы выполнили шаги из [Начало работы](/onchainkit/getting-started).
 
-### Starting a new project
+### Запуск нового проекта
 
-If you're starting a new project, we recommend using `create onchain` to scaffold your project.
+Если вы начинаете новый проект, мы рекомендуем использовать `create onchain` для создания каркаса проекта.
 
 ```bash
 npm create onchain@latest
 ```
 
-### Adding to an existing project
+### Добавление к существующему проекту
 
-If you're adding `AppchainBridge` to an existing project, simply install OnchainKit.
+Если вы добавляете `AppchainBridge` к существующему проекту, просто установите OnchainKit.
 
 <CodeGroup>
 ```bash npm
@@ -49,15 +49,15 @@ bun add @coinbase/onchainkit
 ```
 </CodeGroup>
 
-Wrap the `<OnchainKitProvider />` around your app, following the steps in [Getting Started](/onchainkit/installation/nextjs#add-providers).
+Оберните `<OnchainKitProvider />` вокруг вашего приложения, следуя шагам в [Начало работы](/onchainkit/installation/nextjs#add-providers).
 
-## Quickstart
+## Быстрый старт
 
-To use `AppchainBridge`, you'll need to create a custom chain for your network using Viem's [defineChain](https://viem.sh/docs/chains/introduction#custom-chains).
+Чтобы использовать `AppchainBridge`, вам нужно создать пользовательскую цепь для вашей сети, используя [defineChain](https://viem.sh/docs/chains/introduction#custom-chains) от Viem..
 
-You can retrieve the chain ID and your RPC URL from your appchain's dashboard in Coinbase Developer Platform.
+Вы можете получить ID цепи и ваш RPC URL из дашборда вашего аппчейна в Coinbase Developer Platform.
 
-Once successfully created, add the custom chain to your Wagmi configuration, and provide it as a child component to `OnchainKitProvider`.
+После успешного создания добавьте пользовательскую цепь в конфигурацию Wagmi и предоставьте ее как дочерний компонент для `OnchainKitProvider`.
 
 <CodeGroup>
 ```tsx chain.ts
@@ -138,7 +138,7 @@ export function Providers(props: { children: ReactNode }) {
 ```
 </CodeGroup>
 
-Use the custom chain to create an `Appchain` object. You can also render an icon in the UI using the `icon` prop.
+Используйте пользовательскую цепь для создания объекта `Appchain`. Вы также можете отобразить иконку в UI, используя свойство `icon`.
 
 ```tsx
 // @noErrors: 2554
@@ -168,7 +168,7 @@ const EXAMPLE_APPCHAIN: Appchain = {
 };
 ```
 
-Now, you can render the `AppchainBridge` component with the `chain` and `appchain` props.
+Теперь вы можете отрендерить компонент `AppchainBridge` со свойствами `chain` и `appchain`.
 
 ```tsx
 // @noErrors: 2554
@@ -202,11 +202,11 @@ import { baseSepolia } from 'viem/chains';
 <AppchainBridge chain={baseSepolia} appchain={EXAMPLE_APPCHAIN} />
 ```
 
-## Custom bridgeable tokens
+## Настраиваемые токены для использования моста
 
-By default, the bridgeable token is only native ETH. You can customize the bridgeable tokens by providing a `bridgeableTokens` prop to the `AppchainBridge` component.
+По умолчанию единственным токеном для бриджинга является нативный ETH. Вы можете настроить токены для бриджинга, предоставив свойство `bridgeableTokens` компоненту `AppchainBridge`.
 
-Let's add a custom "Appchain Token" to the bridgeable tokens array.
+Давайте добавим пользовательский "Appchain Token" в массив токенов для моста.
 
 ```tsx
 // @noErrors: 2554
@@ -259,17 +259,17 @@ const customBridgeableTokens: BridgeableToken[] = [
 ```
 
 <Warning>
-**⚠️ What is remoteToken?**
+**⚠️ Что такое remoteToken?**
 
-The `remoteToken` field represents the token address on the appchain you're bridging to.
+Поле `remoteToken` представляет адрес токена в аппчейне, к которому вы делаете перевод через мост.
 
-ERC-20 tokens on the appchain must comply to the `IOptimismMintableERC20` interface to be bridgeable.
+ERC-20 токены в аппчейне должны соответствовать интерфейсу `IOptimismMintableERC20`, чтобы быть доступными для перевода.
 
-Follow the [Optimism documentation](https://docs.optimism.io/app-developers/tutorials/bridging/standard-bridge-standard-token#create-an-l2-erc-20-token) to retrieve the `remoteToken` address for your ERC-20 token.
+Следуйте [документации Optimism](https://docs.optimism.io/app-developers/tutorials/bridging/standard-bridge-standard-token#create-an-l2-erc-20-token), чтобы получить адрес `remoteToken` для вашего ERC-20 токена.
 </Warning>
 
 
-You can then plug the `customBridgeableTokens` into the `AppchainBridge` component with the `bridgeableTokens` prop.
+Затем вы можете подключить `customBridgeableTokens` к компоненту `AppchainBridge` с помощью свойства `bridgeableTokens`.
 
 ```tsx
 // @noErrors: 2554
@@ -307,9 +307,9 @@ import { baseSepolia } from 'viem/chains';
 />
 ```
 
-### Chains with custom gas tokens
+### Цепи с пользовательскими газовыми токенами
 
-For chains that use custom gas tokens, simply set the `isCustomGasToken` field to `true` on the custom gas token for your bridgeable token.
+Для цепей, которые используют пользовательские газовые токены, просто установите поле `isCustomGasToken` в значение `true` для пользовательского газового токена в вашем списке токенов для перевода.
 
 ```tsx
 // @noErrors: 2554
@@ -329,13 +329,13 @@ const customGasToken: BridgeableToken[] = [
 ];
 ```
 
-### Fetching price for custom tokens
+### Получение цены для пользовательских токенов
 
-By default, we provide a price feed for ETH and USDC.
+По умолчанию мы предоставляем ценовой фид для ETH и USDC.
 
-To fetch the price of custom ERC-20 tokens, you can override the `handleFetchPrice` function in the `AppchainBridge` component. This callback is run everytime the user changes the input amount.
+Чтобы получать цену пользовательских ERC-20 токенов, вы можете переопределить функцию `handleFetchPrice` в компоненте `AppchainBridge`. Этот колбэк запускается каждый раз, когда пользователь меняет сумму ввода.
 
-The function must match the following signature:
+Функция должна соответствовать следующей сигнатуре:
 
 ```ts
 (amount: string, token: Token) => Promise<string>;
@@ -361,21 +361,21 @@ const handleFetchPrice = async (amount: string, token: Token) => {
 />
 ```
 
-## Components
+## Компоненты
 
-The `AppchainBridge` component includes the following subcomponents:
+Компонент `AppchainBridge` включает следующие подкомпоненты:
 
-- `<AppchainBridge />` - A fully built bridge component that handles deposits and withdrawals. Also includes a `children` prop to render custom components.
-- `<AppchainBridgeProvider />` - A headless provider that provides the bridge context to child components.
-- `<AppchainBridgeInput />` - A component that handles the amount input for bridging tokens.
-- `<AppchainBridgeNetwork />` - A component that displays network information and allows network selection.
-- `<AppchainBridgeTransactionButton />` - A component that triggers bridge transactions.
-- `<AppchainBridgeWithdraw />` - A component that handles the withdrawal interface.
-- `<AppchainNetworkToggleButton />` - A button component for toggling between networks.
-- `<AppchainBridgeSuccess />` - A component that displays transaction success states.
-- `<AppchainBridgeResumeTransaction />` - A component that handles resuming interrupted bridge transactions.
+- `<AppchainBridge />` - Полностью готовый компонент бриджа, который обрабатывает депозиты и выводы. Также включает свойство `children` для рендеринга пользовательских компонентов.
+- `<AppchainBridgeProvider />` - Головной провайдер, который предоставляет контекст использования моста дочерним компонентам.
+- `<AppchainBridgeInput />` - Компонент, который обрабатывает ввод суммы для перевода токенов.
+- `<AppchainBridgeNetwork />` - Компонент, который отображает информацию о сети и позволяет выбирать сеть.
+- `<AppchainBridgeTransactionButton />` - Компонент, который инициирует транзакции перевода через мост.
+- `<AppchainBridgeWithdraw />` - Компонент, который обрабатывает интерфейс вывода.
+- `<AppchainNetworkToggleButton />` - Кнопочный компонент для переключения между сетями.
+- `<AppchainBridgeSuccess />` - Компонент, который отображает состояния успешных транзакций.
+- `<AppchainBridgeResumeTransaction />` - Компонент, который обрабатывает возобновление прерванных транзакций моста.
 
-## Props
+## Свойства (Props)
 
 - [`Appchain`](/onchainkit/appchain/types#appchain)
 - [`AppchainBridgeReact`](/onchainkit/appchain/types#appchainbridgereact)
