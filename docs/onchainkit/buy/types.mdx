@@ -1,31 +1,31 @@
 ---
-title: Buy components & utilities Types
+title: Типы компонентов и утилит Buy
 sidebarTitle: Buy
-description: Glossary of Types in Buy components & utilities.
+description: Глоссарий типов для компонентов и утилит Buy.
 ---
 
 ## `BuyReact`
 
 ```ts
 type BuyReact = {
-  className?: string; // Optional className override for top div element.
+  className?: string; // Опциональное переопределение класса для верхнего div-элемента.
   config?: {
-    maxSlippage: number; // Maximum acceptable slippage for a swap (e.g., 3 for 3%). This is a percentage, not basis points.
+    maxSlippage: number; // Максимально допустимое проскальзывание (slippage) для обмена (например, 3 для 3%). Это процент, а не базисные пункты.
   };
   experimental?: {
     /**
-     * Whether to use a DEX aggregator.
-     * true - 0x Aggregator
+     * Использовать ли агрегатор DEX.
+     * true - Агрегатор 0x
      * false - Uniswap V3
      * @default false
      */
     useAggregator: boolean;
   };
-  isSponsored?: boolean; // An optional setting to sponsor swaps with a Paymaster. (default: false)
-  onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
-  onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state.
-  onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt.
-  fromToken?: Token; // An optional token to swap from. (USDC and ETH supported by default)
-  toToken: Token; // The token to purchase.
+  isSponsored?: boolean; // Опциональная настройка для спонсирования обменов с помощью Paymaster. (по умолчанию: false)
+  onError?: (error: SwapError) => void; // Опциональная функция обратного вызова для обработки ошибок в провайдере.
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void; // Опциональная функция обратного вызова, предоставляющая состояние жизненного цикла компонента.
+  onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // Опциональная функция обратного вызова, предоставляющая квитанцию о транзакции.
+  fromToken?: Token; // Опциональный токен, с которого производится обмен. (По умолчанию поддерживаются USDC и ETH)
+  toToken: Token; // Токен для покупки.
 };
 ```
