@@ -1,56 +1,55 @@
 ---
-title: "Notification Guidelines" 
-description: "Well designed notifications re-engage users, driving retention, and highlight key moments"
+title: "Рекомендации по уведомлениям" 
+description: "Правильно спроектированные уведомления повторно вовлекают пользователей, повышают удержание и выделяют ключевые моменты"
 ---
 
-Notifications will allow you to re-engage users who have saved your Mini App, driving retention and bringing users back at key moments like new content releases, achievements, or time-sensitive events. 
+Уведомления позволят вам повторно вовлекать пользователей, сохранивших ваше мини-приложение, повышая удержание и возвращая пользователей в ключевые моменты, такие как выпуск нового контента, достижения или события с ограниченным временем.
 
-Focus on sending updates that are relevant, well-timed, and valuable. It’s important to balance how many notifications you send — too many can cause users to turn them off entirely.
+Сосредоточьтесь на отправке обновлений, которые актуальны, хорошо спланированы по времени и ценны. Важно сбалансировать количество отправляемых уведомлений - слишком много может привести к тому, что пользователи полностью отключат их.
 
-# Anatomy
+# Структура
 
-* Title  
-  * Short, clear statement of feature or what’s happening  
-  * Max length 32 characters  
-* Body  
-  * Supporting detail or call-to-action  
-  * Max length 128 characters  
-* targetURL  
-  * URL to open when the user clicks the notification  
-  * Max length 1024 characters.Must be on the same domain as the Mini App.
+* Заголовок  
+  * Короткое, ясное утверждение о функции или происходящем событии
+  * Макс. длина 32 символа
+* Тело  
+  * Подробности или призыв к действию
+  * Макс. длина 128 символов
+* targetURL (целевой URL)
+  * URL, который открывается при нажатии пользователем на уведомление
+  * Макс. длина 1024 символа. Должен находиться на том же домене, что и мини-приложение.
 
+# Рекомендации
 
-# Best practices
+1. **Делайте уведомления короткими и понятными**  
+   Каждое уведомление должно быть легко воспринимаемым. Используйте заголовок для обозначения ключевых деталей, а текст тела делайте кратким и сфокусированным на ценности. Пользователи должны с первого взгляда понимать, что происходит и почему это важно.
 
-1. **Keep notifications short and clear**  
-   Each notification should be easy to scan. Use the title to state the key details, and keep the body text brief and focused on value. Users should know at a glance what is happening and why it matters.
+2. **Контролируйте частоту**  
+   Отправляйте уведомления умеренно. Оставайтесь значительно ниже установленного лимита (1 каждые 30 секунд, максимум 100 в день), чтобы избежать отключения уведомлений от вашего мини-приложения пользователями. Сосредоточьтесь на моментах, которые действительно приносят пользу пользователю, и избегайте отправки нескольких предупреждений подряд.
 
-2. **Control frequency**  
-   Send notifications sparingly. Stay well below the enforced limit (1 every 30 seconds, maximum 100 per day) to avoid users from turning off notifications from your mini app. Focus on moments that truly benefit the user, and avoid sending multiple alerts close together.
+3. **Доставляйте в нужное время**  
+   Время определяет то, как воспринимаются уведомления. Отправляйте их, когда они наиболее актуальны, например, после события или в часы активного использования. Избегайте отправки в нерабочие часы или во время, когда пользователь уже находится в вашем мини-приложении. Своевременные уведомления воспринимаются как полезные, а не как назойливые.
 
-3. **Deliver at the right time**  
-   Timing shapes how notifications feel. Send them when they’re most relevant, such as after an event or during active hours. Avoid off-hours or interrupting while users are already in your mini app. Well-timed notifications feel helpful, not disruptive.
+4. **Измеряйте и улучшайте**  
+   Аналитика показывает, работают ли ваши уведомления. Высокий показатель кликабельности показывает ценность, а растущий процент отключений означает, что вы перегружаете пользователей. Используйте эти сигналы, чтобы скорректировать содержание, время или периодичность отправки, чтобы уведомления оставались полезными.
 
-4. **Measure and refine**  
-   Analytics reveal whether your notifications are working. High click-through rates show value, rising disabled rates mean you’re overwhelming users. Use these signals to adjust content, timing, or cadence so notifications remain useful.
+# Типы уведомлений
 
-# Types of notifications
+Разные мини-приложения используют уведомления по-разному. Выбирайте тип, который лучше всего соответствует цели вашего приложения, и всегда делайте сообщение релевантным.
 
-Different mini apps use notifications in different ways. Choose the type that best fits your app’s purpose, and always keep the message relevant.
-
-* **Reminders** encourage users to return regularly  
-  * “Your crops are ready to harvest\!  
-* **Events driven updates** highlight something new or time sensitive.  
-  * “BTC is up 5% today\! Check your portfolio”  
-* **Feature announcements** showcase new functionality or opportunities  
-  * Example: “New quest unlocked\! More Coins are waiting for you\!”  
-* **Alerts/warnings** share urgent or critical information  
-  * Example: “Your balance is low. Top up to keep trading”  
+* **Напоминания** побуждают пользователей возвращаться регулярно
+  * “Ваш урожай готов к сбору!  
+* **Обновления, вызванные событиями** выделяют что-то новое или срочное.
+  * “BTC вырос на 5% за сегодня! Проверьте свой портфель”  
+* **Анонсы функций** демонстрируют новую функциональность или возможности 
+  * Пример: "Новое задание открыто! Больше монет ждут вас!”  
+* **Оповещения/предупреждения** сообщают срочную или критически важную информацию
+  * Пример: "Ваш баланс низкий. Пополните счет, чтобы продолжить торговлю"
     
 
-Not every message deserves to be a notification, here are some to avoid:
+Не каждое сообщение заслуживает быть уведомлением. Вот каких стоит избегать:
 
-* **Avoid overly generic nudges**. Messages with no clear value feel spammy, always explain why it matter to the user  
-  * Example: “Open the app today\!”  
-* **Avoid unnecessary confirmations**. Notifications should only confirm meaningful or irreversible events like payments or shipments  
-  * Example: “You liked a post”
+* **Избегайте чрезмерно общих напоминаний**. Сообщения без четкой ценности воспринимаются как спам, всегда объясняйте, почему это важно для пользователя
+  * Пример: "Откройте приложение сегодня!"  
+* **Избегайте ненужных подтверждений**. Уведомления должны подтверждать только значимые или необратимые события, такие как платежи или отправки 
+  * Пример: "Вы лайкнули пост"
