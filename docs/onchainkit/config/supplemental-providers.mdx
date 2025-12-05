@@ -1,22 +1,22 @@
 ---
-title: Supplemental Providers · OnchainKit
-sidebarTitle: Supplemental Providers
-description: Customize the Wagmi and QueryClient providers
+title: Дополнительные провайдеры · OnchainKit
+sidebarTitle: Дополнительные провайдеры
+description: Настройка провайдеров Wagmi и QueryClient
 ---
 
 import StartBuilding from "/snippets/start-building.mdx";
 
-Under the hood, OnchainKit will create our recommended Wagmi and QueryClient
-providers. If you wish to customize the providers, you can do so by creating
-these providers with your own configuration.
+Под капотом OnchainKit создаст наши рекомендуемые провайдеры Wagmi и QueryClient.
+Если вы хотите настроить эти провайдеры, вы можете сделать это, создав
+эти провайдеры с вашей собственной конфигурацией.
 
-For example, the following code creates custom Wagmi and QueryClient providers:
+Например, следующий код создает пользовательские провайдеры Wagmi и QueryClient:
 
 <CodeGroup>
 ```tsx wagmi.ts
 // @noErrors: 2554
 import { http, cookieStorage, createConfig, createStorage } from 'wagmi';
-import { base } from 'wagmi/chains'; // add baseSepolia for testing // [!code ++]
+import { base } from 'wagmi/chains'; // добавьте baseSepolia для тестирования // [!code ++]
 import { coinbaseWallet } from 'wagmi/connectors';
 
 export function getConfig() {
@@ -34,7 +34,7 @@ export function getConfig() {
     }),
     ssr: true,
     transports: {
-      [base.id]: http(), // add baseSepolia for testing // [!code ++]
+      [base.id]: http(), // добавьте baseSepolia для тестирования // [!code ++]
     },
   });
 }
@@ -50,11 +50,11 @@ declare module 'wagmi' {
 // @noErrors: 2307 2580 2339 2554 - cannot find 'process', cannot find './wagmi', cannot find 'import.meta'
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { base } from 'wagmi/chains'; // add baseSepolia for testing // [!code ++]
+import { base } from 'wagmi/chains'; // добавьте baseSepolia для тестирования // [!code ++]
 import { type ReactNode, useState } from 'react';
 import { type State, WagmiProvider } from 'wagmi';
 
-import { getConfig } from '@/wagmi'; // your import path may vary // [!code ++]
+import { getConfig } from '@/wagmi'; // ваш путь импорта может отличаться // [!code ++]
 
 export function Providers(props: {
   children: ReactNode;
