@@ -1,16 +1,16 @@
 ---
-title: API types
+title: Типы API
 sidebarTitle: API
-description: Glossary of Types in APIs.
+description: Глоссарий типов в API.
 ---
 
 ## `APIError`
 
 ```ts
 type APIError = {
-  code: string; // The Error code
-  error: string; // The Error long message
-  message: string; // The Error short message
+  code: string; // Код ошибки
+  error: string; // Длинное сообщение об ошибке
+  message: string; // Короткое сообщение об ошибке
 };
 ```
 
@@ -18,9 +18,9 @@ type APIError = {
 
 ```ts
 type BuildPayTransactionParams = {
-  address: Address; // The address of the wallet paying
-  chainId: number; // The Chain ID of the payment Network (only Base is supported)
-  chargeId: string; // The ID of the Commerce Charge to be paid
+  address: Address; // Адрес кошелька, производящего оплату
+  chainId: number; // ID цепи (chain) сети оплаты (поддерживается только Base)
+  chargeId: string; // ID Commerce Charge для оплаты
 };
 ```
 
@@ -34,11 +34,11 @@ type BuildPayTransactionResponse = PayTransaction | APIError;
 
 ```ts
 type BuildSwapTransaction = {
-  approveTransaction?: Transaction; // ERC20 approve transaction which allows token holders to authorize spending
-  fee: Fee; // The fee for the swap
-  quote: SwapQuote; // The quote for the swap
-  transaction: Transaction; // The object developers should pass into Wagmi's signTransaction
-  warning?: QuoteWarning; // The warning associated with the swap
+  approveTransaction?: Transaction; // Транзакция approve для ERC20, позволяющая держателям токенов авторизовать расходы
+  fee: Fee; // Комиссия за обмен
+  quote: SwapQuote; // Котировка для обмена
+  transaction: Transaction; // Объект, который разработчики должны передать в signTransaction от Wagmi
+  warning?: QuoteWarning; // Предупреждение, связанное с обменом
 };
 ```
 
@@ -46,7 +46,7 @@ type BuildSwapTransaction = {
 
 ```ts
 type BuildSwapTransactionParams = GetSwapQuoteParams & {
-  fromAddress: Address; // The address of the user
+  fromAddress: Address; // Адрес пользователя
 };
 ```
 
@@ -60,13 +60,13 @@ type BuildSwapTransactionResponse = BuildSwapTransaction | APIError;
 
 ```ts
 type GetSwapQuoteParams = {
-  amount: string; // The amount to be swapped
-  amountReference?: string; // The reference amount for the swap
-  from: Token; // The source token for the swap
-  isAmountInDecimals?: boolean; // Whether the amount is in decimals
-  maxSlippage?: string; // The slippage of the swap
-  to: Token; // The destination token for the swap
-  useAggregator: boolean; // Whether to use a DEX aggregator
+  amount: string; // Количество для обмена
+  amountReference?: string; // Референсное количество для обмена
+  from: Token; // Исходный токен для обмена
+  isAmountInDecimals?: boolean; // Указано ли количество в десятичных единицах (decimals)
+  maxSlippage?: string; // Проскальзывание (slippage) для обмена
+  to: Token; // Целевой токен для обмена
+  useAggregator: boolean; // Использовать ли агрегатор DEX
 };
 ```
 
@@ -80,9 +80,9 @@ type GetSwapQuoteResponse = SwapQuote | APIError;
 
 ```ts
 type GetTokensOptions = {
-  limit?: string; // The maximum number of tokens to return (default: 50)
-  page?: string; // The page number to return (default: 1)
-  search?: string; // A string to search for in the token name, symbol or address
+  limit?: string; // Максимальное количество возвращаемых токенов (по умолчанию: 50)
+  page?: string; // Номер возвращаемой страницы (по умолчанию: 1)
+  search?: string; // Строка для поиска по имени, символу или адресу токена
 };
 ```
 
