@@ -1,47 +1,48 @@
 ---
-title: 'Use the Coinbase Smart Wallet and EOAs with OnchainKit'
-description: Learn how to use OnchainKit to easily handle the Coinbase Smart Wallet and EOA wallets including the Coinbase wallet, at the same time.
+title: 'Использование Coinbase Smart Wallet и EOAs с OnchainKit'
+description: Узнайте, как использовать OnchainKit для простой одновременной работы с Coinbase Smart Wallet и кошельками EOA, включая кошелек Coinbase.
 ---
 
 import { Danger } from "/snippets/danger.mdx";
 
-The [Coinbase Smart Wallet] is a great way to onboard new users to onchain apps, and offers a number of experiential improvements to existing crypto users as well. As we're in a period of adoption and transition, a pain point has developed where a user with both the Smart Wallet and a browser-extension EOA can't always select the wallet they want while connecting to an app.
+The [Coinbase Smart Wallet] - отличный способ познакомить новых пользователей с ончейн-приложениями, а также предлагает ряд улучшений опыта для существующих пользователей криптовалют. Поскольку мы находимся в периоде внедрения и перехода, возникла проблема: пользователь, у которого есть и Smart Wallet, и EOA в виде расширения браузера, не всегда может выбрать нужный кошелек при подключении к приложению.
 
-In this tutorial, you'll learn how to more easily improve that experience by using the [Wallet] component from [OnchainKit] to connect your users to your app.
+В этом руководстве вы узнаете, как упростить этот опыт, используя компонент [Wallet] из [OnchainKit] для подключения ваших пользователей к вашему приложению.
 
-## Objectives
+## Цели
 
-By the end of this tutorial, you should be able to:
+К концу этого руководства вы сможете:
 
-- Create a connection experience using the `Wallet` component from [OnchainKit]
-- Customize the `Wallet` component to allow your users to connect from a chosen list of wallets
-- Give users the option to select the [Coinbase Smart Wallet] or EOA while connecting to your app with RainbowKit
+- Создать опыт подключения с помощью компонента `Wallet` из [OnchainKit]
+- Настроить компонент `Wallet`, чтобы позволить пользователям подключаться из выбранного списка кошельков
+- Дать пользователям возможность выбрать или EOA при подключении к вашему приложению с помощью RainbowKit
 
-## Prerequisites
+## Предварительные требования
 
-### Be familiar with modern, frontend web development
+### Знакомство с современной фронтенд-разработкой
 
-In this tutorial, you'll be working with a React frontend built with [Next.js]. While you don't need to be an expert, we'll assume that you're comfortable with the basics.
+В этом руководстве вы будете работать с React-фронтендом, созданным с помощью [Next.js]. Хотя вам не нужно быть экспертом, мы предполагаем, что вы знакомы с основами.
 
-### Possess a general understanding of the EVM and smart contract development
+### Общее понимание EVM и разработки смарт-контрактов
 
-This tutorial assumes that you're reasonably comfortable writing basic smart contracts. If you're just getting started, jump over to our [Base Learn] guides and start learning!
+Это руководство предполагает, что вы достаточно уверенно пишете базовые смарт-контракты. Если вы только начинаете, перейдите к нашим руководствам [Base Learn] и начните обучение!
 
-### Understand providers and connectors
+### Понимание провайдеров и коннекторов
 
-You'll need to be familiar with how to connect an onchain app to the blockchain with a provider. If you're not, start with the [Onchain App Development] section of [Base Learn], or at least complete the tutorial [Introduction to Providers].
+Вам нужно понимать, как соединить ончейн-приложение с блокчейном через провайдер.
+Если вы ещё не знакомы с этим, начните с раздела [Onchain App Development] в [Base Learn], или как минимум пройдите руководство [Introduction to Providers].
 
-### Coinbase Wallets
+### Coinbase кошельки
 
-You need to have both the [Coinbase Wallet] and [Coinbase Smart Wallet] for this tutorial. You need to set up the [Coinbase Wallet] in advance, but you can create a smart wallet during the tutorial.
+В этом руководстве используются и [Coinbase Wallet], и [Coinbase Smart Wallet]. Обычный Coinbase Wallet необходимо подготовить заранее. Смарт-кошелёк можно создать в процессе.
 
-## The Default Experience
+## Базовый сценарий использования
 
-Begin by using the [Onchain App Template] to quickstart a new app. Click the green `Use this template` button, create a new repo, and clone it.
+Создайте новое приложение с помощью [Onchain App Template]. Нажмите `Use this template`, создайте репозиторий и клонируйте его. 
 
-You'll need a [WalletConnect] id if you don't have one already. Obtain it, the duplicate `.env.local.example` and rename it `.env.local`. Change `NEXT_PUBLIC_WC_PROJECT_ID` to your id.
+Вам потребуется `WalletConnect-ID`. Получите его, затем скопируйте `.env.local.example` → `.env.local` и задайте `NEXT_PUBLIC_WC_PROJECT_ID` равным вашему ID.
 
-Then install dependencies, and run the app.
+Установите зависимости и запустите приложение:
 
 ```bash
 bun install
@@ -49,35 +50,35 @@ bun run dev
 ```
 
 <Note>
-To bring the world onchain, we'll need to speak in terms people are already comfortable with. Consider using `Log In` rather than `Connect Wallet`!
+Чтобы сделать ончейн доступным широкой аудитории, используйте более привычную терминологию. Например, `Log In`, а не `Connect Wallet`.
 </Note>
 
 
-The demo app contains sections showing a number of [OnchainKit] components, including the [Wallet]. Click `Log In` in your browser with the Coinbase wallet extension present, select `Coinbase Wallet`, and you'll get the expected experience for an EOA wallet user with the browser extension.
+Демо-приложение содержит разделы, показывающие ряд компонентов [OnchainKit], включая [Wallet]. Нажмите `Log in` в вашем браузере при наличии расширения Coinbase Wallet, выберите `Coinbase Wallet`, и вы получите ожидаемый опыт для пользователя EOA-кошелька с расширением браузера.
 
 <Frame>
 ![Default eoa](/images/smart-wallet/onchainkit-default-eoa.png)
 </Frame>
 
-Next, open the app in a private browser window with extensions disabled, and try again. This time, you'll get the Smart Wallet experience. If you don't have one already, you can create one now. They're neat!
+Теперь откройте приложение в приватном окне без расширений и повторите вход. Появится интерфейс Smart Wallet. Если смарт-кошелька ещё нет, его можно создать сразу.
 
 <Frame>
 ![Default smart wallet](/images/smart-wallet/onchainkit-default-smart.png)
 </Frame>
 
-## Customizing the List of Wallets
+## Настройка списка кошельков
 
-You can customize the list of wallets with the [Wallet Aggregator].
+Список доступных кошельков можно кастомизировать с помощью [Wallet Aggregator].
 
-### Setting Up the Wallet Aggregator
+### Настройка Wallet Aggregator
 
-Open `src/app/page.tsx`. Here, you find the root page for the app. You can see the `<WalletWrapper />`, which is what you used to log in and out.
+Откройте `src/app/page.tsx`. Здесь вы найдете корневую страницу приложения. Вы можете увидеть `<WalletWrapper />`, который вы использовали для входа и выхода.
 
-Open `src/components/WalletWrapper.tsx`, and `src/wagmi.ts`. Take a quick look at `WalletWrapper`. It's a robust implementation of several [OnchainKit] components that shows how you can create a login experience that works well for all types of users, and provides the `<Identity>` component once logged in.
+Откройте `src/components/WalletWrapper.tsx` и src/wagmi.ts. Взгляните на `WalletWrapper`. Это надежная реализация нескольких компонентов , которая показывает, как можно создать опыт входа, который хорошо работает для всех типов пользователей, и предоставляет компонент `<Identity>` после входа.
 
-You can customize this by making some changes to `wagmi.ts`.
+Вы можете настроить это, внеся некоторые изменения в `wagmi.ts`.
 
-Start with `wagmi.ts`. Update it import the [RainbowKit] connectors for the wallets you want to use (We just picked the ones at the end of the supported list. Do your homework on which wallets to support!):
+Начните с `wagmi.ts`. Обновите его, чтобы импортировать коннекторы для кошельков, которые вы хотите использовать (мы просто выбрали те, что в конце списка поддерживаемых. Проведите свое исследование, какие кошельки поддерживать!):
 
 ```tsx
 import { http, createConfig } from 'wagmi';
@@ -94,7 +95,7 @@ import {
 import { connectorsForWallets } from '@rainbow-me/rainbowkit';
 ```
 
-Then, update the `connectorsForWallets` to use the wallets you've selected in the groupings of your choice:
+Затем обновите `connectorsForWallets`, чтобы использовать выбранные вами кошельки в группировках на ваш выбор:
 
 ```tsx
 const connectors = connectorsForWallets(
@@ -127,41 +128,41 @@ const connectors = connectorsForWallets(
 );
 ```
 
-Try connecting again. You'll see your updated list with the wallets organized to your preference!
+Попробуйте подключиться снова. Вы увидите обновленный список с кошельками, организованными по вашему предпочтению!
 
 <Frame>
-![Customized List](/images/smart-wallet/customized-wallet-list.png)
+![Настроенный список](/images/smart-wallet/customized-wallet-list.png)
 </Frame>
 
-## Tuning the Coinbase Wallet Connection
+## Настройка подключения Coinbase Wallet
 
 <Danger>
-If you've already connected with the site, the below won't work unless you clear site data! It will appear that the flag does nothing.
+Если вы уже подключались к сайту, описанное ниже не сработает, пока вы не очистите данные сайта! Будет казаться, что флаг ничего не делает.
 
-In Chrome: Developer Tools -> Application Tab -> Storage Tab -> Clear Site Data button
-In Firefox: Developer Tools -> Storage -> Right-click each item -> Delete All
+В Chrome: Инструменты разработчика -> Вкладка Application -> Вкладка Storage -> Кнопка Clear Site Data
+В Firefox: Инструменты разработчика -> Storage -> Правой кнопкой по каждому элементу -> Delete All
 </Danger>
 
 
-With RainbowKit, you can force the connector to use the smart wallet or EOA with:
+С помощью RainbowKit вы можете заставить коннектор использовать только умный кошелек или только EOA с помощью:
 
 ```tsx
 coinbaseWallet.preference = 'smartWalletOnly';
 ```
 
-And:
+И:
 
 ```tsx
 coinbaseWallet.preference = 'eoaOnly';
 ```
 
-The default is:
+Значение по умолчанию:
 
 ```tsx
 coinbaseWallet.preference = 'all';
 ```
 
-Set this line at the root level of `wagmi.ts`, under the imports:
+Установите эту строку на корневом уровне в `wagmi.ts`, под импортами:
 
 ```tsx
 import { http, createConfig } from 'wagmi';
@@ -177,18 +178,18 @@ import { connectorsForWallets } from '@rainbow-me/rainbowkit';
 coinbaseWallet.preference = 'all';
 ```
 
-The `all` setting exhibits the behavior you've observed before. If the EOA is present, it will be used. Otherwise, the Smart Wallet UI/UX will pop up.
+Настройка `all` демонстрирует поведение, которое вы наблюдали ранее. Если EOA присутствует, он будет использован. В противном случае появится интерфейс Smart Wallet.
 
-You can use these settings to direct users of your app to your preferred use case, or tie it to a UI element to give them a choice.
+Вы можете использовать эти настройки, чтобы направлять пользователей вашего приложения к предпочтительному варианту использования или привязать их к элементу UI, чтобы дать им выбор.
 
 <Note>
-The Coinbase Smart Wallet will support user-selected choice of which wallet to use soon!
+Coinbase Smart Wallet скоро будет поддерживать выбор пользователем кошелька!
 </Note>
 
 
-## Conclusion
+## Заключение
 
-In this tutorial, you've learned how to use [OnchainKit] to log your users into your onchain app. You've also learned how to customize the connection experience with [RainbowKit], enabling your users a broader choice of which wallet to use with your app and making sure all are able to enjoy it.
+В этом руководстве вы узнали, как использовать для входа ваших пользователей в ваше ончейн-приложение. Вы также узнали, как настроить опыт подключения с помощью , предоставив вашим пользователям более широкий выбор кошельков для использования с вашим приложением и убедившись, что все могут им наслаждаться.
 
 ---
 
