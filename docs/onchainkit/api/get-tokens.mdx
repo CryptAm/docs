@@ -4,13 +4,13 @@ openapi: get /getTokens
 ---
 
 
-The `getTokens` function retrieves a list of tokens on Base by searching for the name, symbol, or address of a token.
+Функция `getTokens` получает список токенов на Base путем поиска по имени, символу или адресу токена.
 
-Before using them, make sure to obtain a [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) from Coinbase Developer Platform.
+Перед использованием убедитесь, что у вас есть [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) от Coinbase Developer Platform.
 
-{/* ## Usage
+{/* ## Использование
 
-Search by symbol
+Поиск по символу
 
 <CodeGroup>
 ```tsx code
@@ -37,7 +37,7 @@ const tokens = await getTokens({ limit: '1', search: 'degen' }); // [!code focus
 ```
 </CodeGroup>
 
-Search by name
+Поиск по названию
 
 <CodeGroup>
 ```tsx code
@@ -64,7 +64,7 @@ const tokens = await getTokens({ limit: '1', search: 'Wrapped Ether' }); // [!co
 ```
 </CodeGroup>
 
-Search by address
+Поиск по адресу
 
 <CodeGroup>
 ```tsx code
@@ -94,15 +94,15 @@ const tokens = await getTokens({
 ```
 </CodeGroup> */}
 
-## Returns
+## Возвращает
 
 [`Promise<GetTokensResponse>`](/onchainkit/api/types#gettokensresponse)
 
-## Parameters
+## Параметры
 
 [`GetTokensOptions`](/onchainkit/api/types#gettokensoptions)
 
-## Types
+## Типы
 
 - [`GetTokensResponse`](/onchainkit/api/types#gettokensresponse)
 - [`GetTokensOptions`](/onchainkit/api/types#gettokensoptions)
