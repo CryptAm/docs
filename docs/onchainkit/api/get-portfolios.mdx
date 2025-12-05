@@ -4,24 +4,23 @@ openapi: get /getPortfolios
 ---
 
 
-The `getPortfolios` function returns an object containing an array of
-portfolios for the provided addresses. Each portfolio is an object with the address
-of the wallet, the fiat value of the portfolio, and an array of tokens held by the
-provided address.
+Функция `getPortfolios` возвращает объект, содержащий массив портфолио для 
+предоставленных адресов. Каждое портфолио представляет собой объект с адресом кошелька, 
+фиатной стоимостью портфолио и массивом токенов, принадлежащих предоставленному адресу.
 
 <Note>
-Before using this endpoint, make sure to obtain a [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key)
-from Coinbase Developer Platform.
+Перед использованием этой конечной точки убедитесь, что у вас есть [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key)
+от Coinbase Developer Platform.
 </Note>
 
 
 <Note>
-Please note: `getPortfolios` is only available for Base mainnet and Ethereum mainnet.
-You can control the network in the `OnchainKitProvider` by setting the `chain` prop.
+Обратите внимание: `getPortfolios` доступен только для Base mainnet и Ethereum mainnet. 
+Вы можете управлять сетью в `OnchainKitProvider`, устанавливая свойство `chain`.
 </Note>
 
 
-{/* ## Usage
+{/* ## Использование
 
 <CodeGroup>
 ```tsx code
@@ -53,11 +52,11 @@ const response = await getPortfolios({
 ```
 </CodeGroup> */}
 
-## Returns
+## Возвращает
 
 [`Promise<GetPortfoliosResponse>`](/onchainkit/api/types#getportfoliosresponse)
 
-## Parameters
+## Параметры
 
 [`GetPortfoliosParams`](/onchainkit/api/types#getportfoliosparams)
 
