@@ -3,18 +3,18 @@ title: fetchOnrampConfig
 ---
 
 
-The `fetchOnrampConfig` utility fetches the list of countries supported by Coinbase Onramp and their available payment methods. This is useful when you need to validate user eligibility or display available payment options.
+Утилити `fetchOnrampConfig` получает список стран, поддерживаемых Coinbase Onramp, и их доступные способы оплаты. Это полезно, когда вам нужно проверить соответствие пользователя требованиям или отобразить доступные варианты оплаты.
 
-## Usage
+## Использование
 
 <CodeGroup>
 ```tsx code
 import { fetchOnrampConfig } from '@coinbase/onchainkit/fund';
 
-// When using with OnchainKitProvider
+// При использовании с OnchainKitProvider
 const config = await fetchOnrampConfig();
 
-// When using without OnchainKitProvider or in non-React environment
+// При использовании без OnchainKitProvider или в не-React окружении
 const config2 = await fetchOnrampConfig('your-api-key');
 ```
 
@@ -40,20 +40,20 @@ const config2 = await fetchOnrampConfig('your-api-key');
 ```
 </CodeGroup>
 
-## Parameters
+## Параметры
 
 ```typescript
 /**
- * Optional API key for Coinbase Onramp. If not provided, the API key from
- * OnchainKitProvider will be used. Required when using the utility without
- * OnchainKitProvider or in a non-React environment.
+ * Опциональный API-ключ для Coinbase Onramp. Если не предоставлен, будет использован
+ * API-ключ из OnchainKitProvider. Требуется при использовании утилиты без
+ * OnchainKitProvider или в не-React окружении.
  */
 apiKey?: string;
 ```
 
-## Returns
+## Возвращает
 
-`Promise<OnrampConfigResponseData>` - Returns a promise that resolves to the configuration data containing supported countries and their payment methods.
+`Promise<OnrampConfigResponseData>` - Возвращает промис, который разрешается в данные конфигурации, содержащие поддерживаемые страны и их способы оплаты.
 
-See [`OnrampConfigResponseData`](/onchainkit/fund/types#onrampconfigresponsedata) for response type details.
+Смотрите [`OnrampConfigResponseData`](/onchainkit/fund/types#onrampconfigresponsedata) для деталей типа ответа.
 
