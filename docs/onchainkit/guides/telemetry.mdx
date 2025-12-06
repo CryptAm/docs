@@ -1,35 +1,35 @@
 ---
-title: Telemetry · OnchainKit
+title: Телеметрия · OnchainKit
 sidebarTitle: Telemetry
-description: Understanding OnchainKit's anonymous telemetry system and how to configure it.
+description: Понимание системы анонимной телеметрии OnchainKit и способов ее настройки.
 ---
 
-OnchainKit is introducing an anonymous telemetry system to help us better understand how our library is used in the wild. Participation in this anonymous program is optional—if you'd prefer not to share any usage data, you can easily opt out.
+OnchainKit представляет систему анонимной телеметрии, которая поможет нам лучше понять, как наша библиотека используется в реальных условиях. Участие в этой анонимной программе необязательно - если вы предпочитаете не делиться данными об использовании, вы можете легко отказаться.
 
-### Why Are We Collecting Telemetry?
+### Зачем мы собираем телеметрию?
 
-OnchainKit has quickly become a go-to full‑stack component library for integrating essential onchain functionality (like `<Wallet />`, `<Transaction />`, and `<Swap />`) in minutes. Until now, our usage insights have been limited to public npm download counts and API endpoint usage. By collecting telemetry data, we can:
+OnchainKit быстро стала основной полнофункциональной библиотекой компонентов для интеграции ключевой ончейн-функциональности (такой как `<Wallet />`, `<Transaction />` и `<Swap />`) за считанные минуты. До сих пор наши представления об использовании ограничивались публичными данными о загрузках с npm и использованием API-эндпоинтов. Собирая телеметрические данные, мы можем:
 
-- **Gauge Component Usage**: Understand which components (and their variants) are most popular
-- **Data-Informed Improvements**: Help our data science team generate insights that drive future enhancements and refactoring decisions
-- **Proactive Monitoring**: Quickly detect issues with new releases or API changes through a dedicated error event stream (with alerts to oncall engineers)
+- **Оценить использование компонентов**: Понимать, какие компоненты (и их варианты) наиболее популярны
+- **Улучшения на основе данных**: Помочь нашей команде data science генерировать инсайты, которые будут определять будущие улучшения и решения о рефакторинге
+- **Проактивный мониторинг**: Быстро обнаруживать проблемы с новыми релизами или изменениями API через выделенный поток событий об ошибках (с алертами для инженеров oncall)
 
-### What Data Will Be Collected?
+### Какие данные будут собираться?
 
-Telemetry data is completely anonymous and designed to provide aggregated insights. Specifically, we collect:
+Телеметрические данные полностью анонимны и предназначены для предоставления агрегированных инсайтов. В частности, мы собираем:
 
-- **Command Details**: Which commands (or component events) are being invoked (e.g. walletConnection, swapSuccess)
-- **Version & App Info**: The OnchainKit version, app name (from window.top.document.title), and origin (the app URL)
-- **Usage Metrics**: Information such as the number of unique wallets, transactions, or contracts interacting with OnchainKit
-- **Error Events**: Generic error events along with component context to help us triage any issues
+- **Детали команд**: Какие команды (или события компонентов) вызываются (например, walletConnection, swapSuccess)
+- **Информация о версии и приложении**: Версия OnchainKit, имя приложения (из window.top.document.title) и источник (URL приложения)
+- **Метрики использования**: Информация, такая как количество уникальных кошельков, транзакций или контрактов, взаимодействующих с OnchainKit
+- **События ошибок**: Общие события ошибок вместе с контекстом компонента, чтобы помочь нам справиться с любыми проблемами
 
-No sensitive data—such as environment variables, file paths, or private keys—is ever collected.
+Никакие конфиденциальные данные - такие как переменные окружения, пути к файлам или приватные ключи - никогда не собираются.
 
-### How Does It Work?
+### Как это работает?
 
-Telemetry is integrated directly into each applicable component via our new `sendAnalytics` function. When a component event occurs (e.g. a successful transaction or a wallet connection), this function automatically fires (provided analytics is enabled in your OnchainKit config).
+Телеметрия интегрирована непосредственно в каждый соответствующий компонент через нашу новую функцию `sendAnalytics`. Когда происходит событие компонента (например, успешная транзакция или подключение кошелька), эта функция автоматически срабатывает (при условии, что аналитика включена в вашей конфигурации OnchainKit).
 
-For example, a telemetry event might be sent as follows:
+Например, событие телеметрии может быть отправлено следующим образом:
 
 ```bash
 curl -X POST https://api.developer.coinbase.com/rpc/analytics \
@@ -49,9 +49,9 @@ curl -X POST https://api.developer.coinbase.com/rpc/analytics \
   }'
 ```
 
-### How Do I Opt Out?
+### Как отказаться?
 
-By default, telemetry is opt‑out starting with version 0.37.0. If you'd like to disable telemetry, simply set the `analytics` flag to `false` in your OnchainKit configuration:
+По умолчанию, начиная с версии 0.37.0, телеметрия отключена по умолчанию (opt-out). Если вы хотите отключить телеметрию, просто установите флаг `analytics` в значение `false` в конфигурации OnchainKit:
 
 ```tsx
 // @noErrors:  2304
@@ -70,11 +70,11 @@ export function Providers(props: { children: ReactNode }) {
 }
 ```
 
-You can also re‑enable analytics later by toggling this flag to `true`.
+Вы также можете снова включить аналитику позже, переключив этот флаг на `true`.
 
-We believe that this telemetry initiative will help us make OnchainKit even better for all developers—by focusing our improvements on the most used features and catching issues early. If you have any questions or feedback, please reach out to the OnchainKit team.
+Мы верим, что эта инициатива с телеметрией поможет нам сделать OnchainKit еще лучше для всех разработчиков - сосредоточив наши улучшения на наиболее используемых функциях и выявляя проблемы на раннем этапе. Если у вас есть вопросы или отзывы, пожалуйста, свяжитесь с командой OnchainKit.
 
-Happy building!
+Удачной разработки!
 
-— The OnchainKit core team 
+— Основная команда OnchainKit
 
