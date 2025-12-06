@@ -1,37 +1,37 @@
 ---
-title: "Testing with OnchainTestKit"
-description: "Learn how to write end-to-end tests for your OnchainKit applications"
+title: "Тестирование с помощью OnchainTestKit"
+description: "Узнайте, как писать сквозные (end-to-end) тесты для ваших приложений на OnchainKit"
 ---
 
-Building reliable onchain applications requires comprehensive testing. OnchainTestKit is a type-safe framework designed specifically for testing blockchain applications built with OnchainKit, providing seamless integration with Playwright for browser automation and wallet interactions.
+Создание надежных ончейн-приложений требует комплексного тестирования. OnchainTestKit - это типобезопасный фреймворк, разработанный специально для тестирования блокчейн-приложений, построенных на OnchainKit, обеспечивающий плавную интеграцию с Playwright для автоматизации браузера и взаимодействия с кошельками.
 
-## What is OnchainTestKit?
+## Что такое OnchainTestKit?
 
-[OnchainTestKit](https://github.com/coinbase/onchaintestkit) is an end-to-end testing framework that automates:
+[OnchainTestKit](https://github.com/coinbase/onchaintestkit) - это фреймворк для сквозного (end-to-end) тестирования, который автоматизирует:
 
-- Wallet connections (MetaMask, Coinbase Wallet)
-- Transaction flows and approvals
-- Network switching
-- Smart contract interactions
-- Token swaps and minting
-- Gas sponsorship testing
+- Подключения кошельков (MetaMask, Coinbase Wallet)
+- Потоки транзакций и их подтверждение
+- Переключение сетей
+- Взаимодействие со смарт-контрактами
+- Обмен (swap) и создание (minting) токенов
+- Тестирование спонсирования комиссий (gas sponsorship)
 
-## Why Use OnchainTestKit?
+## Зачем использовать OnchainTestKit?
 
-Testing blockchain applications manually is time-consuming and error-prone. OnchainTestKit provides:
+Ручное тестирование блокчейн-приложений занимает много времени и подвержено ошибкам. OnchainTestKit предоставляет:
 
-- **Type Safety**: Full TypeScript support with compile-time error checking
-- **Wallet Automation**: Programmatic control over wallet interactions
-- **Parallel Testing**: Run multiple tests simultaneously with isolated environments
-- **Network Management**: Built-in support for local Anvil nodes and fork testing
-- **OnchainKit Integration**: Designed to work seamlessly with OnchainKit components
+- **Типобезопасность**: Полная поддержка TypeScript с проверкой ошибок на этапе компиляции
+- **Автоматизация кошельков**: Программное управление взаимодействием с кошельками
+- **Параллельное тестирование**: Запускайте несколько тестов одновременно в изолированных окружениях
+- **Управление сетями**: Встроенная поддержка локальных нод Anvil и тестирования на форках
+- **Интеграция с OnchainKit**: Разработан для плавной работы с компонентами OnchainKit
 
 
-## Want to learn more?
+## Хотите узнать больше?
 
-Check out [the full documentation](https://onchaintestkit.xyz/) for detailed guides on installation, configuration, and writing tests! 
+Ознакомьтесь с [полной документацией](https://onchaintestkit.xyz/) для получения подробных руководств по установке, настройке и написанию тестов!
 
-## Architecture
+## Архитектура
 
 <Frame>
 ```mermaid
@@ -72,38 +72,38 @@ flowchart TD
 ```
 </Frame>
 
-## Key Features
+## Ключевые функции
 
 <AccordionGroup>
-<Accordion title="Playwright Integration">
-  Automate browser-based wallet and dApp interactions with the power of Playwright's testing framework.
+<Accordion title="Интеграция с Playwright">
+  Автоматизируйте взаимодействие с кошельками и dApp в браузере с помощью мощного фреймворка тестирования Playwright.
 </Accordion>
 
-<Accordion title="Multi-Wallet Support">
-  Built-in support for MetaMask and Coinbase Wallet, with an extensible architecture for adding more wallets.
+<Accordion title="Поддержка нескольких кошельков">
+  Встроенная поддержка MetaMask и Coinbase Wallet, с расширяемой архитектурой для добавления новых кошельков.
 </Accordion>
 
-<Accordion title="Smart Action Handling">
-  Automate connect, transaction, signature, approval, and network switching flows with simple APIs.
+<Accordion title="Обработка смарт-действий">
+  Автоматизируйте процессы подключения, транзакций, подписей, подтверждений и переключения сетей с помощью простых API.
 </Accordion>
 
-<Accordion title="Network Management">
-  Use local Anvil nodes or remote RPC endpoints, with dynamic port allocation for parallel test execution.
+<Accordion title="Управление сетями">
+  Используйте локальные ноды Anvil или удаленные RPC-эндпоинты с динамическим выделением портов для параллельного выполнения тестов.
 </Accordion>
 
-<Accordion title="Type Safety">
-  Full TypeScript support for all configuration and test APIs, catching errors at compile time.
+<Accordion title="Типобезопасность">
+  Полная поддержка TypeScript для всех конфигураций и тестовых API, что позволяет выявлять ошибки на этапе компиляции.
 </Accordion>
 
-<Accordion title="Fluent Configuration">
-  Builder pattern for intuitive wallet and node setup, making configuration readable and maintainable.
+<Accordion title="Удобная конфигурация">
+  Паттерн Builder для интуитивной настройки кошельков и нод, делая конфигурацию читаемой и поддерживаемой.
 </Accordion>
 </AccordionGroup>
 
-## Next Steps
+## Следующие шаги
 
-- Install OnchainTestKit: `yarn add -D @coinbase/onchaintestkit`
-- Check out the [OnchainTestKit repository](https://github.com/coinbase/onchaintestkit)
-- See [example tests](https://github.com/coinbase/onchaintestkit/tree/master/example/frontend/e2e)
-- Read the [Cookbook examples](/cookbook/testing-onchain-apps) for more test scenarios 
-- Access the [full docs here](https://onchaintestkit.xyz/)
+- Установите OnchainTestKit: `yarn add -D @coinbase/onchaintestkit`
+- Ознакомьтесь с [репозиторием OnchainTestKit](https://github.com/coinbase/onchaintestkit)
+- Посмотрите [примеры тестов](https://github.com/coinbase/onchaintestkit/tree/master/example/frontend/e2e)
+- Прочитайте [примеры Cookbook](/cookbook/testing-onchain-apps) для дополнительных сценариев тестирования
+- Получите доступ к [полной документации здесь](https://onchaintestkit.xyz/)
