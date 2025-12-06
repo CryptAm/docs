@@ -3,9 +3,9 @@ title: fetchOnrampOptions
 ---
 
 
-The `fetchOnrampOptions` utility retrieves supported fiat currencies and available crypto assets for a specific country. This information is essential for determining which assets can be purchased in the user's jurisdiction.
+Утилити fetchOnrampOptions получает поддерживаемые фиатные валюты и доступные крипто-активы для конкретной страны. Эта информация необходима для определения, какие активы можно приобрести в юрисдикции пользователя.
 
-## Usage
+## Использование
 
 <CodeGroup>
 ```tsx code
@@ -14,7 +14,7 @@ import { fetchOnrampOptions } from '@coinbase/onchainkit/fund';
 const options = await fetchOnrampOptions({
   country: 'US',
   subdivision: 'CA', // Required for US residents
-  apiKey: 'your-api-key', //   Required when using without OnchainKitProvider or in non-React environment
+  apiKey: 'your-api-key', //   Требуется при использовании без OnchainKitProvider или в не-React окружении
 });
 ```
 
@@ -46,34 +46,34 @@ const options = await fetchOnrampOptions({
 ```
 </CodeGroup>
 
-## Parameters
+## Параметры
 
 ```typescript
 {
   /**
-   * ISO 3166-1 two-letter country code string representing
-   * the purchasing user’s country of residence, e.g., US.
+   * Двухбуквенный код страны по стандарту ISO 3166-1, представляющий
+   * страну проживания пользователя, совершающего покупку, например, US.
    */
   country: string;
   /**
-   * ISO 3166-2 two-letter country subdivision code representing
-   * the purchasing user’s subdivision of residence within their country,
-   * e.g. NY. Required if the country=“US” because certain states (e.g., NY)
-   * have state specific asset restrictions.
+   * Двухбуквенный код региона страны по стандарту ISO 3166-2, представляющий
+   * регион проживания пользователя в пределах его страны,
+   * например, NY. Требуется, если country="US", потому что в некоторых штатах (например, NY)
+   * действуют ограничения на активы на уровне штата.
    */
   subdivision?: string;
   /**
-   * Optional API key for Coinbase Onramp. If not provided, the API key from
-   * OnchainKitProvider will be used. Required when using the utility without
-   * OnchainKitProvider or in a non-React environment.
+   * Опциональный API-ключ для Coinbase Onramp. Если не предоставлен, будет использован
+   * API-ключ из OnchainKitProvider. Требуется при использовании утилиты без
+   * OnchainKitProvider или в не-React окружении.
    */
   apiKey?: string;
 }
 ```
 
-## Returns
+## Возвращает
 
-`Promise<OnrampOptionsResponseData>` - Returns a promise that resolves to the available options for the specified location.
+`Promise<OnrampOptionsResponseData>` - Возвращает промис, который разрешается в доступные опции для указанного местоположения.
 
-See [`OnrampOptionsResponseData`](/onchainkit/fund/types#onrampoptionsresponsedata) for full response type details.
+Смотрите [`OnrampOptionsResponseData`](/onchainkit/fund/types#onrampoptionsresponsedata) для полных деталей типа ответа.
 
