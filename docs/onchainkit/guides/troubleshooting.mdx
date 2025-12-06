@@ -1,46 +1,46 @@
 ---
-title: "Troubleshooting"
+title: "Решение проблем"
 ---
 
 
-This guide covers common issues you may encounter while using OnchainKit. If you don't find your issue here, try searching our [GitHub Issues](https://github.com/coinbase/onchainkit/issues) or joining our [Discord Community](https://discord.gg/invite/buildonbase).
+Это руководство охватывает распространенные проблемы, с которыми вы можете столкнуться при использовании OnchainKit. Если вы не нашли здесь свою проблему, попробуйте поискать в наших [GitHub Issues](https://github.com/coinbase/onchainkit/issues) или присоединиться к нашему [сообществу Discord](https://discord.gg/invite/buildonbase).
 
-## Common Issues
+## Распространенные проблемы
 
-### Environment Setup
+### Настройка окружения
 
-- **Missing API Key**
+- **Отсутствует API-ключ**
 
-  - Error: "Project ID is required for this component"
-  - Solution: Add your Client API Key to `.env`:
+  - Ошибка: "Project ID is required for this component"
+  - Решение: Добавьте ваш Client API Key в файл `.env`:
 
   ```dotenv
   NEXT_PUBLIC_CDP_API_KEY=YOUR_PUBLIC_API_KEY
   ```
 
-- **Invalid Environment Variables**
+- **Недопустимые переменные окружения**
 
-  - Error: "Cannot find environment variable"
-  - Solution: Use the correct variable name for your framework:
+  - Ошибка: "Cannot find environment variable"
+  - Решение: Используйте правильное имя переменной для вашего фреймворка:
     - Next.js: `NEXT_PUBLIC_CDP_API_KEY`
     - Vite: `VITE_PUBLIC_ONCHAINKIT_API_KEY`
     - Astro: `PUBLIC_ONCHAINKIT_API_KEY`
 
-- **Contracts Not Available**
-  - Error: "Contracts are not available" or "Contracts not available for LifecycleStatus"
-  - Solutions:
-    - Verify `NEXT_PUBLIC_ONCHAINKIT_API_KEY` is set correctly
-    - For Checkout component with `chargeHandler`, also set:
+- **Контракты недоступны**
+  - Ошибка: "Contracts are not available" или "Contracts not available for LifecycleStatus"
+  - Решения:
+    - Убедитесь, что `NEXT_PUBLIC_ONCHAINKIT_API_KEY` установлен корректно
+    - Для компонента Checkout с `chargeHandler` также установите:
       ```dotenv
       NEXT_PUBLIC_COINBASE_COMMERCE_API_KEY=YOUR_COMMERCE_API_KEY
       ```
-    - Ensure API keys are properly exposed in your environment
+    - Убедитесь, что API-ключи правильно выставлены в вашем окружении
 
-### Dependencies
+### Зависимости
 
-- **Version Compatibility**
-  - Issue: Unexpected behavior or type errors
-  - Solution: Ensure compatible versions:
+- **Совместимость версий**
+  - Проблема: Неожиданное поведение или ошибки типов
+  - Решение: Убедитесь в совместимости версий:
     ```json
     {
       "dependencies": {
@@ -51,12 +51,12 @@ This guide covers common issues you may encounter while using OnchainKit. If you
     }
     ```
 
-### Provider Configuration
+### Конфигурация провайдера
 
-- **Missing OnchainKitProvider**
+- **Отсутствует OnchainKitProvider**
 
-  - Error: "OnchainKit context not found"
-  - Solution: Wrap your app with OnchainKitProvider and [configure](/onchainkit/getting-started) properly:
+  - Ошибка: "OnchainKit context not found"
+  - Решение: Оберните ваше приложение в OnchainKitProvider и [настройте](/onchainkit/getting-started) его правильно:
 
   ```tsx
   import { OnchainKitProvider } from '@coinbase/onchainkit';
@@ -74,69 +74,69 @@ This guide covers common issues you may encounter while using OnchainKit. If you
   }
   ```
 
-### Wallet Connection
+### Подключение кошелька
 
-- **Connection Failed**
+- **Ошибка подключения**
 
-  - Error: "Unable to connect wallet"
-  - Solutions:
-    - Verify wallet extension is installed and unlocked
-    - Check [supported chains configuration](/onchainkit/wallet/wallet)
-    - Ensure proper network selection in wallet
-    - Verify RPC endpoints are accessible
+  - Ошибка: "Unable to connect wallet"
+  - Решения:
+    - Убедитесь, что расширение кошелька установлено и разблокировано
+    - Проверьте [конфигурацию поддерживаемых цепей](/onchainkit/wallet/wallet)
+    - Убедитесь в правильном выборе сети в кошельке
+    - Проверьте доступность RPC-эндпоинтов
 
-- **Chain Switching Issues**
-  - Error: "Failed to switch chain"
-  - Solutions:
-    - Verify chain ID is supported by OnchainKit
-    - Check wallet has required permissions
-    - Ensure RPC endpoints are configured correctly
-    - Add chain to wallet if not already added
+- **Проблемы с переключением цепи**
+  - Ошибка: "Failed to switch chain"
+  - Решения:
+    - Убедитесь, что идентификатор цепи (chain ID) поддерживается OnchainKit
+    - Проверьте, что кошелек имеет необходимые разрешения
+    - Убедитесь, что RPC-эндпоинты настроены корректно
+    - Добавьте цепь в кошелек, если она еще не добавлена
 
-### Transaction Issues
+### Проблемы с транзакциями
 
-- **Gas Estimation Failed**
-  - Error: "Gas estimation failed"
-  - Solutions:
-    - Verify sufficient balance for gas
-    - Check transaction parameters are valid
-    - Ensure proper network [configuration](/onchainkit/transaction/transaction)
+- **Ошибка оценки газа**
+  - Ошибка: "Gas estimation failed"
+  - Решения:
+    - Убедитесь в достаточном балансе для оплаты газа
+    - Проверьте валидность параметров транзакции
+    - Убедитесь в правильной [конфигурации сети](/onchainkit/transaction/transaction)
 
-### Identity Components
+### Компоненты Identity
 
-### Theme Issues
+### Проблемы с темой
 
-- **Dark Mode Not Working**
+- **Темная тема не работает**
 
-  - Error: "Dark mode styles not applying"
-  - Solution: Configure Tailwind and OnchainKit properly:
+  - Ошибка: "Dark mode styles not applying"
+  - Решение: Настройте Tailwind и OnchainKit правильно:
 
   ```js
   // tailwind.config.js
   module.exports = {
     darkMode: ['class'],
     safelist: ['dark'],
-    // ... rest of config
+    // ... остальная конфигурация
   }
   ```
 
 ### React Native
 
-- ** React Native Support **
-  - OnchainKit's components are not supported for use in React Native, however, you can use utility functions, like `getName`, as well as some hooks in your React Native app. When using these utility functions, you may need to import them directly rather than through the export file.
-  - Example: `import { getName } from '@coinbase/onchainkit/esm/identity/utils/getName.js';` rather than `import { getName } from '@coinbase/onchainkit/identity;`
+- ** Поддержка React Native **
+  - Компоненты OnchainKit не поддерживаются для использования в React Native, однако вы можете использовать функции-утилиты, такие как `getName`, а также некоторые хуки в вашем React Native приложении. При использовании этих функций-утилит вам может потребоваться импортировать их напрямую, а не через основной файл экспорта.
+  - Пример: `import { getName } from '@coinbase/onchainkit/esm/identity/utils/getName.js';` вместо `import { getName } from '@coinbase/onchainkit/identity;`
 
-### Module Resolution
+### Разрешение модулей
 
-- **Module Resolution Errors**
-  - Error: "Cannot find module ... or its corresponding type declarations. Consider updating to 'node16', 'nodenext', or 'bundler'"
-  - Solution: Update your Node.js version or use a compatible bundler. We recommend using Node 18+ and `"moduleResolution": "NodeNext"` for the best developer experience. OnchainKit supports only ES Modules and does not support CommonJS modules.
+- **Ошибки разрешения модулей**
+  - Ошибка: "Cannot find module ... or its corresponding type declarations. Consider updating to 'node16', 'nodenext', or 'bundler'"
+  - Решение: Обновите версию Node.js или используйте совместимый сборщик. Мы рекомендуем использовать Node 18+ и `"moduleResolution": "NodeNext"` для наилучшего опыта разработки. OnchainKit поддерживает только ES Modules и не поддерживает CommonJS модули.
 
-## Getting Help
+## Получение помощи
 
-Need more help?
+Нужна дополнительная помощь?
 
-- [Discord Community](https://discord.gg/invite/buildonbase)
-- [X/Twitter Support](https://x.com/onchainkit)
+- [Сообщество Discord](https://discord.gg/invite/buildonbase)
+- [Поддержка в X/Twitter](https://x.com/onchainkit)
 - [GitHub Issues](https://github.com/coinbase/onchainkit/issues)
 
