@@ -1,22 +1,22 @@
 ---
-title: Tailwind CSS Integration Guide · OnchainKit
-sidebarTitle: Tailwind CSS Integration Guide
-description: Learn how to integrate Tailwind CSS with OnchainKit
+title: Руководство по интеграции Tailwind CSS · OnchainKit
+sidebarTitle: Руководство по интеграции Tailwind CSS
+description: Узнайте, как интегрировать Tailwind CSS с OnchainKit
 ---
 
-OnchainKit comes with first class support for `tailwindcss`.
+OnchainKit поддерживает `tailwindcss` на первом уровне.
 
 <Steps>
-  <Step title="Use default OnchainKit's style">
-  You can use the default styles without any customization.
-  Just place this at the top of your application's entry point to have the components work out of the box.
+  <Step title="Используйте стили OnchainKit по умолчанию">
+  Вы можете использовать стили по умолчанию без какой-либо настройки. 
+  Просто разместите эту строку в начале точки входа вашего приложения, чтобы компоненты работали из коробки.
 
   ```javascript
   import '@coinbase/onchainkit/styles.css';
   ```
   </Step>
-  <Step title="Tailwind CSS Config">
-  Depending on your dark mode setup, you may have to add `safelist: ['dark']` to your Tailwind config.
+  <Step title="Конфигурация Tailwind CSS">
+  В зависимости от вашей настройки темной темы, вам может потребоваться добавить `safelist: ['dark']` в вашу конфигурацию Tailwind.
 
   ```javascript filename="tailwind.config.js"
   /** @type {import('tailwindcss').Config} */
@@ -33,13 +33,13 @@ OnchainKit comes with first class support for `tailwindcss`.
   };
   ```
   </Step>
-  <Step title="Toggling light / dark mode">
-  There are many ways to handle color mode.
+  <Step title="Переключение светлой / темной темы">
+  Существует много способов управления цветовым режимом.
 
-  In OnchainKit, toggling color mode works by adding / removing class name `dark` to the root html tag.
+  В OnchainKit переключение цветового режима работает путем добавления/удаления имени класса `dark` к корневому тегу html.
   </Step>
-  <Step title="Colorscheme override">
-  To override default colorscheme, you need to modify the following css variables:
+  <Step title="Переопределение цветовой схемы">
+  Чтобы переопределить цветовую схему по умолчанию, вам нужно изменить следующие CSS-переменные:
 
   ```css
   @tailwind base;
