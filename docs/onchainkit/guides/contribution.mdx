@@ -1,35 +1,35 @@
 ---
-title: Contribution Guide · OnchainKit
-sidebarTitle: Contribution Guide
-description: Learn how to contribute to OnchainKit
+title: Руководство по внесению вклада · OnchainKit
+sidebarTitle: Руководство по внесению вклада
+description: Узнайте, как внести вклад в проект OnchainKit
 ---
 
-Welcome to OnchainKit! So you want to contribute to this project? You came to the right place.
+Добро пожаловать в OnchainKit! Вы хотите внести вклад в этот проект? Вы пришли по адресу.
 
-In this guide, you will learn how to:
+В этом руководстве вы узнаете, как:
 
-- [Set up this project](#setup)
-- [Navigate the codebase](#codebase)
-- [Accomplish various workflows](#workflows)
-- [Submit a feature request](#feature-request)
+- [Настроить этот проект](#setup)
+- [Ориентироваться в codebase](#codebase)
+- [Выполнять различные рабочие процессы](#workflows)
+- [Отправить запрос на новую функцию](#feature-request)
 
-## Setup
+## Настройка
 
-### Clone the repo
+### Клонируйте репозиторий
 
 ```bash
 git clone git@github.com:coinbase/onchainkit.git
 ```
 
-### Install Node and pnpm
+### Установите Node и pnpm
 
-Use nvm, mise, n or your favorite version manager to install Node.js.
+Используйте nvm, mise, n или ваш любимый менеджер версий для установки Node.js.
 
-For pnpm, see the installation instructions on the [pnpm website](https://pnpm.io/installation).
+Для pnpm ознакомьтесь с инструкциями по установке на [сайте pnpm](https://pnpm.io/installation).
 
-### Install dependencies
+### Установите зависимости
 
-From the root of the repository:
+Из корня репозитория:
 
 ```bash
 pnpm install
@@ -37,107 +37,107 @@ pnpm install
 
 ## Codebase
 
-This project is a monorepo managed with pnpm. The `@coinbase/onchainkit` package is located in:
+Этот проект является монорепозиторием, управляемым с помощью pnpm. Пакет `@coinbase/onchainkit` находится в:
 
 ```bash
 packages/onchainkit/
 ```
 
-Here is a rough layout of the codebase:
+Вот примерная структура codebase:
 
 ```bash
 packages/onchainkit/
 └── src/
-   ├── api/                         - API related components and functions
-   ├── core/                        - Files with zero dependencies
-   ├── styles/                      - Styles
-   │   ├── index-with-tailwind.css  - CSS entrypoint
-   ├── {Component}/                 - Component folder
-   │   ├── components/              - React components
+   ├── api/                         - Компоненты и функции, связанные с API
+   ├── core/                        - Файлы без зависимостей
+   ├── styles/                      - Стили
+   │   ├── index-with-tailwind.css  - Точка входа для CSS
+   ├── {Component}/                 - Папка компонента
+   │   ├── components/              - React-компоненты
    │   │   ├── {Name}.tsx
    │   │   ├── {Name}.test.tsx
    │   │   └── {Name}.css
-   │   ├── core/                    - Utility functions
-   │   ├── index.ts                 - Entrypoint for the folder
-   │   └── types.ts                 - Export types
+   │   ├── core/                    - Утилити
+   │   ├── index.ts                 - Точка входа для папки
+   │   └── types.ts                 - Экспорт типов
    │
-   ├── index.ts                     - Main package entry point
-   ├── types.ts                     - Core types
-   └── OnchainKitProvider.tsx       - OnchainKit provider
+   ├── index.ts                     - Главная точка входа пакета
+   ├── types.ts                     - Основные типы
+   └── OnchainKitProvider.tsx       - Провайдер OnchainKit
 ```
 
-## Workflows
+## Рабочие процессы
 
-### Development
+### Разработка
 
-To work on OnchainKit components with live UI feedback:
+Для работы над компонентами OnchainKit с живой обратной связью в интерфейсе:
 
 ```bash
 pnpm f:play dev
 ```
 
-This will build the OnchainKit package in watch mode, and start a development environment (the playground) where you can see your components in action.
+Это соберет пакет OnchainKit в режиме отслеживания изменений (watch mode) и запустит среду разработки (площадку для экспериментов), где вы сможете видеть свои компоненты в действии.
 
-As you make changes, the playground will update automatically.
+По мере внесения изменений площадка будет обновляться автоматически.
 
-Navigate to [http://localhost:3000](http://localhost:3000) to open the playground.
+Перейдите по адресу [http://localhost:3000](http://localhost:3000),чтобы открыть площадку для экспериментов.
 
-### Building
+### Сборка
 
-To build the package:
+Для сборки пакета:
 
 ```bash
 pnpm f:ock build
 ```
 
-### Testing
+### Тестирование
 
-Write and update existing unit tests. You can run tests with:
+Пишите и обновляйте существующие модульные тесты. Вы можете запустить тесты с помощью:
 
 ```bash
 pnpm f:ock test
 ```
 
-For watching file changes and rerunning tests automatically:
+Для отслеживания изменений файлов и автоматического перезапуска тестов:
 
 ```bash
 pnpm f:ock test:watch
 ```
 
-We expect 100% code coverage for any updates. You can get coverage information with:
+Мы ожидаем 100% покрытия кода для любых обновлений. Вы можете получить информацию о покрытии с помощью:
 
 ```bash
 pnpm f:ock test:coverage
 ```
 
-If the coverage drops below 100%, look at the coverage report generated by the above command with:
+Если покрытие падает ниже 100%, просмотрите отчет о покрытии, сгенерированный вышеуказанной командой:
 
 ```bash
 open coverage/index.html
 ```
 
-### Updating changelog
+### Обновление журнала изменений (changelog)
 
-To update the change log, run:
+Для обновления журнала изменений выполните:
 
 ```bash
 pnpm changeset
 ```
 
-Select `minor` and use the following format for the summary:
+Выберите `minor` и используйте следующий формат для описания:
 
 ```markdown
-- **feat**: feature update information. By @your-github-id #XX (XX is the PR number)
+- **feat**: Информация об обновлении функции. By @your-github-id #XX (XX - номер PR)
 ```
 
-Possible values are:
+Возможные значения:
 
 - `feat`
 - `fix`
 - `docs`
 - `chore`
 
-## Feature request
+## Запрос на новую функцию
 
-Have a component in mind that we are not supporting yet? You can submit a feature request to our [Github](https://github.com/coinbase/onchainkit/issues). Create a **"New issue"** and label it "Feature Request: ...".
+Есть идея для компонента, который мы еще не поддерживаем? Вы можете отправить запрос на новую функцию в наш [Github](https://github.com/coinbase/onchainkit/issues). Создайте "New issue" и пометьте его как "Feature Request: ...".
 
