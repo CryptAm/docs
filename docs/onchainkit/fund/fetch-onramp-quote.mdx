@@ -3,9 +3,9 @@ title: fetchOnrampQuote
 ---
 
 
-The `fetchOnrampQuote` utility provides a quote based on the asset the user would like to purchase, plus the network, fiat payment, payment currency, payment method, and country. This is useful for getting pricing information and fees before initiating a transaction.
+Утилита fetchOnrampQuote предоставляет котировку на основе актива, который пользователь хочет приобрести, а также сети, фиатного платежа, валюты платежа, способа оплаты и страны. Это полезно для получения информации о ценах и комиссиях перед инициированием транзакции.
 
-## Usage
+## Использование
 
 <CodeGroup>
 ```tsx code
@@ -18,8 +18,8 @@ const quote = await fetchOnrampQuote({
   paymentMethod: 'CARD',
   paymentAmount: '100.00',
   country: 'US',
-  subdivision: 'CA', // Required for US residents
-  apiKey: 'your-api-key', // Required when using without OnchainKitProvider or in non-React environment
+  subdivision: 'CA', // Требуется для резидентов США
+  apiKey: 'your-api-key', // ребуется при использовании без OnchainKitProvider или в не-React окружении
 });
 ```
 
@@ -50,64 +50,65 @@ const quote = await fetchOnrampQuote({
 ```
 </CodeGroup>
 
-## Parameters
+## Параметры
 
 ```typescript
 {
   /**
-   * ID of the crypto asset the user wants to purchase.
-   * Retrieved from the options API.
+   * ID крипто-актива, который пользователь хочет приобрести.
+   * Получено из API опций.
    */
   purchaseCurrency: string;
 
   /**
-   * Name of the network that the purchase currency should be purchased on.
-   * Retrieved from the options API. If omitted, the default network for
-   * the crypto currency is used.
+   * Название сети, на которой должна быть приобретена валюта покупки.
+   * Получено из API опций. Если опущено, используется сеть по умолчанию для
+   * криптовалюты.
    */
   purchaseNetwork?: string;
 
   /**
-   * Fiat currency of the payment amount, e.g., USD.
+   * Фиатная валюта суммы платежа, например, USD.
    */
   paymentCurrency: string;
 
   /**
-   * ID of payment method used to complete the purchase.
-   * Retrieved from the options API.
+   * ID способа оплаты, используемого для завершения покупки.
+   * Получено из API опций.
    */
   paymentMethod: string;
 
   /**
-   * Fiat amount the user wants to spend to purchase the crypto currency,
-   * inclusive of fees with two decimals of precision, e.g., "100.00".
+   * Фиатная сумма, которую пользователь хочет потратить на покупку криптовалюты,
+   * включая комиссии с двумя десятичными знаками, например, "100.00".
    */
   paymentAmount: string;
 
   /**
-   * ISO 3166-1 two-digit country code string representing the purchasing
-   * user's country of residence, e.g., US.
+   * Двухбуквенный код страны по стандарту ISO 3166-1, представляющий
+   * страну проживания пользователя, совершающего покупку, например, US.
    */
   country: string;
 
   /**
-   * ISO 3166-2 two-digit country subdivision code. Required if country="US"
-   * because certain states (e.g., NY) have state specific asset restrictions.
+   * Двухбуквенный код региона страны по стандарту ISO 3166-2.
+   * Требуется, если country="US", потому что в некоторых штатах (например, NY)
+   * действуют ограничения на активы на уровне штата.
    */
   subdivision?: string;
   
    /**
-   * Optional API key for Coinbase Onramp. If not provided, the API key from
-   * OnchainKitProvider will be used. Required when using the utility without
-   * OnchainKitProvider or in a non-React environment.
+   * Опциональный API-ключ для Coinbase Onramp. Если не предоставлен, будет использован
+   * API-ключ из OnchainKitProvider. Требуется при использовании утилиты без
+   * OnchainKitProvider или в не-React окружении.
    */
   apiKey?: string;
 }
 ```
 
-## Returns
+## Возвращает
 
-`Promise<OnrampQuoteResponseData>` - Returns a promise that resolves to the quote data containing payment amounts, fees, and quote ID.
+`Promise<OnrampQuoteResponseData>` - Возвращает промис, который разрешается в данные котировки, содержащие суммы платежей, комиссии и ID котировки.
 
-See [`OnrampQuoteResponseData`](/onchainkit/fund/types#onrampquoteresponsedata) for full response type details.
+Смотрите [`OnrampQuoteResponseData`](/onchainkit/fund/types#onrampquoteresponsedata) для полных деталей типа ответа.
 
