@@ -1,33 +1,33 @@
 ---
 title: <FundButton /> · OnchainKit
 sidebarTitle: <FundButton />
-description: The `<FundButton />` component provides a way for users to onramp from fiat to crypto from within your app.
+description: Компонент `<FundButton />` предоставляет пользователям возможность пополнять счета от фиата к криптовалюте прямо из вашего приложения.
 ---
 
-The `<FundButton />` component provides a way for users to fund their wallet without leaving your app. It automatically
-detects the user's wallet type (EOA vs Smart Wallet) and directs them to the appropriate funding URL.
+Компонент `<FundButton />` предоставляет пользователям возможность пополнить свой кошелек, не покидая ваше приложение. Он автоматически
+определяет тип кошелька пользователя (EOA vs Smart Wallet) и направляет его на соответствующий URL для пополнения.
 
-If your user connects a Coinbase Smart Wallet, it provides an easy way to access the Coinbase Smart Wallet 
-[Fund](https://keys.coinbase.com/fund) flow. Users will be able to buy and receive crypto, or use their Coinbase 
-balances onchain with [Magic Spend](https://www.smartwallet.dev/guides/magic-spend).
+Если ваш пользователь подключает Coinbase Smart Wallet, он предоставляет простой способ доступа к потоку
+[Пополнения](https://keys.coinbase.com/fund) Coinbase Smart Wallet. Пользователи смогут покупать и получать криптовалюту или использовать свои балансы Coinbase
+в ончейн с помощью [Magic Spend](https://www.smartwallet.dev/guides/magic-spend).
 
-If your user connects any other EOA wallet, it provides an easy way to access [Coinbase Onramp](https://docs.cdp.coinbase.com/onramp/docs/welcome/)
-where your users will also be able to buy crypto using a fiat payment method, or transfer existing crypto from their
-Coinbase account.
+Если ваш пользователь подключает любой другой EOA-кошелек, он предоставляет простой способ доступа к [Coinbase Onramp](https://docs.cdp.coinbase.com/onramp/docs/welcome/),
+где ваши пользователи также смогут покупать криптовалюту, используя фиатный способ оплаты, или переводить существующую криптовалюту со своего
+аккаунта Coinbase.
 
-Before using it, ensure you've completed all [Getting Started steps](/onchainkit/getting-started). 
+Перед использованием убедитесь, что вы выполнили все шаги из ['Начало работы'](/onchainkit/getting-started). 
 
-## Walkthrough
+## Пошаговое руководство
 
 <Steps>
-  <Step title="Get your Project ID">
-  1. Get your Project ID from the [Coinbase Developer Platform Dashboard](https://portal.cdp.coinbase.com/).
+  <Step title="Получите ваш Project ID">
+  1. Получите ваш Project ID из [Панели управления Coinbase Developer Platform](https://portal.cdp.coinbase.com/).
 
 <Frame>
-  <img alt="OnchainKit copy Project Id" src="/images/onchainkit/copy-project-id.png" />
+  <img alt="Копирование Project ID в OnchainKit" src="/images/onchainkit/copy-project-id.png" />
 </Frame>
 
-  2. Add your Project ID to your `.env` file.
+  2. Добавьте ваш Project ID в файл `.env`.
 
   ```tsx .env
   // @noErrors
@@ -35,7 +35,7 @@ Before using it, ensure you've completed all [Getting Started steps](/onchainkit
   NEXT_PUBLIC_CDP_PROJECT_ID=YOUR_CDP_PROJECT_ID // [!code ++]
   ```
   </Step>
-  <Step title="Add Project ID to OnchainKitProvider">
+  <Step title="Добавьте Project ID в OnchainKitProvider">
   ```tsx
   // @noErrors
   <OnchainKitProvider
@@ -80,8 +80,8 @@ Before using it, ensure you've completed all [Getting Started steps](/onchainkit
 <Tip>
 **Troubleshooting**
 
-If you see a "something went wrong" error message when navigating to pay.coinbase.com, make sure you have "enforce 
-secure initialization" disabled on the [Onramp config page in Coinbase Developer Platform Dashboard](https://portal.cdp.coinbase.com/products/onramp).
+Если вы видите сообщение об ошибке "что-то пошло не так" при переходе на pay.coinbase.com, убедитесь, что у вас отключена опция "enforce
+secure initialization" на [странице конфигурации Onramp в панели управления Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/onramp).
 
 <Frame>
 <img alt="OnchainKit require secure init" src="/images/onchainkit/onramp-secure-init.png" />
@@ -90,11 +90,11 @@ secure initialization" disabled on the [Onramp config page in Coinbase Developer
 </Tip>
 
 
-## Customizing the funding experience
+## Настройка процесса пополнения
 
-You can customize the Coinbase Onramp experience by bringing your own Onramp URL and passing it to the ```<FundButton />```
-component. We provide the [`getOnrampBuyUrl`](/onchainkit/fund/get-onramp-buy-url) utility to help you generate a Coinbase Onramp
-URL tailored to your use case.
+Вы можете настроить опыт использования Coinbase Onramp, предоставив свой собственный URL Onramp и передав его в компонент `<FundButton />`.
+Мы предоставляем утилиту [`getOnrampBuyUrl`](/onchainkit/fund/get-onramp-buy-url) чтобы помочь вам сгенерировать URL Coinbase Onramp,
+адаптированный под ваш случай использования.
 
 ```tsx
 import { FundButton, getOnrampBuyUrl } from '@coinbase/onchainkit/fund';
@@ -146,7 +146,7 @@ const onrampBuyUrl = getOnrampBuyUrl({
   </FundWrapper>
 </App> */}
 
-You can choose to have the funding URL open in a popup or a new tab using the `openIn` prop.
+Вы можете выбрать, чтобы URL пополнения открывался во всплывающем окне или новой вкладке, используя свойство `openIn`.
 
 ```tsx
 <FundButton openIn={"tab"} />
@@ -177,9 +177,9 @@ You can choose to have the funding URL open in a popup or a new tab using the `o
   </FundWrapper>
 </App> */}
 
-## Customizing the fund button
+## Настройка кнопки пополнения
 
-You can override the text on the fund button using the `text` prop, and hide the icon with the `hideIcon` prop.
+Вы можете переопределить текст на кнопке пополнения, используя свойство text, и скрыть иконку с помощью свойства `hideIcon`.
 
 ```tsx
 <FundButton text={"Onramp"} hideIcon={true} />
@@ -210,7 +210,7 @@ You can override the text on the fund button using the `text` prop, and hide the
   </FundWrapper>
 </App> */}
 
-You can hide the text with the `hideText` prop.
+Вы можете скрыть текст с помощью свойства `hideText`.
 
 ```tsx
 <FundButton hideText={true} />
@@ -243,8 +243,8 @@ You can hide the text with the `hideText` prop.
   </FundWrapper>
 </App> */}
 
-See [`FundButtonReact`](/onchainkit/fund/types#fundbuttonreact) for the full list of customization options.
+Смотрите [`FundButtonReact`](/onchainkit/fund/types#fundbuttonreact) для полного списка опций настройки.
 
-## Props
+## Свойства (Props)
 - [`FundButtonReact`](/onchainkit/fund/types#fundbuttonreact)
 
