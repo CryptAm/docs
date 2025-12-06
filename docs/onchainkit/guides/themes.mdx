@@ -1,7 +1,7 @@
 ---
-title: OnchainKit Themes · OnchainKit
-sidebarTitle: OnchainKit Themes
-description: Customize the appearance of OnchainKit's components
+title: Темы OnchainKit · OnchainKit
+sidebarTitle: Темы OnchainKit
+description: Настройте внешний вид компонентов OnchainKit
 ---
 
 <Frame>
@@ -10,26 +10,26 @@ description: Customize the appearance of OnchainKit's components
   height="364"/>
 </Frame>
 
-## Overview
+## Обзор
 
-OnchainKit provides flexible appearance control through two main features: `mode` and `theme`.
+OnchainKit предоставляет гибкий контроль над внешним видом через две основные функции: `mode` и `theme`.
 
-- **Mode**: Controls the light/dark appearance and includes an auto option that inherits the system preference.
-- **Theme**: Governs the overall styling across components.
+- **Режим**: Управляет светлой/темной темой и включает опцию `auto`, которая наследует системные настройки.
+- **Тема**: Определяет общее стилистическое оформление всех компонентов.
 
-You can choose from built-in themes or dynamically switch modes based on user preference or system settings, allowing for a customized and responsive user interface.
+Вы можете выбирать из встроенных тем или динамически переключать режимы в зависимости от предпочтений пользователя или системных настроек, что позволяет создать кастомизированный и адаптивный пользовательский интерфейс.
 
-## Built-in Themes
+## Встроенные темы
 
-OnchainKit offers multiple themes to quickly style your components. Set the theme via the `OnchainKitProvider` using `config.appearance.theme`:
+OnchainKit предлагает несколько тем для быстрого оформления ваших компонентов. Установите тему через `OnchainKitProvider`, используя `config.appearance.theme`:
 
-- `default`: Includes both light and dark modes.
-- `base`: Single mode only.
-- `cyberpunk`: Single mode only.
-- `hacker`: Single mode only.
-- `custom`: Single mode only.
+- `default`: Включает как светлый, так и темный режим.
+- `base`: Только один режим.
+- `cyberpunk`: Только один режим.
+- `hacker`: Только один режим.
+- `custom`: Только один режим.
 
-If no theme is selected, the **`default`** theme is applied automatically.
+Если тема не выбрана, автоматически применяется тема `default`.
 
 ```tsx
 // @noErrors:  2304 17008 1005
@@ -45,15 +45,15 @@ If no theme is selected, the **`default`** theme is applied automatically.
 >
 ```
 
-## Mode
+## Режим
 
-Control the color scheme by setting the `config.appearance.mode` property of the `OnchainKitProvider`:
+Управляйте цветовой схемой, устанавливая свойство `config.appearance.mode` у `OnchainKitProvider`:
 
-- `auto`: Automatically switches between light and dark mode based on the user’s OS preference.
-- `light`: Forces all components to use the light version of the theme.
-- `dark`: Forces all components to use the dark version of the theme.
+- `auto`: Автоматически переключается между светлой и темной темой на основе предпочтений операционной системы пользователя.
+- `light`: Принудительно использует светлую версию темы для всех компонентов.
+- `dark`: Принудительно использует темную версию темы для всех компонентов.
 
-If no mode is specified, `auto` mode will be applied by default.
+Если режим не указан, по умолчанию будет применен режим `auto`.
 
 ```tsx
 // @noErrors:  2304 17008 1005
@@ -69,10 +69,10 @@ If no mode is specified, `auto` mode will be applied by default.
 >
 ```
 
-## CSS Overrides
+## CSS Переопределения
 
-Fine-tune specific aspects of an existing theme.
-This is useful when you want to make adjustments to the appearance of the components without creating an entirely new theme.
+Точечно настройте конкретные аспекты существующей темы.
+Это полезно, когда вы хотите внести корректировки во внешний вид компонентов без создания полностью новой темы.
 
 ```css
 @layer base {
@@ -82,7 +82,7 @@ This is useful when you want to make adjustments to the appearance of the compon
   .base,
   .cyberpunk,
   .hacker {
-    /* Override specific variables as needed */
+    /* Переопределите конкретные переменные по мере необходимости */
     --ock-font-family: 'your-custom-value';
     --ock-border-radius: 'your-custom-value';
     --ock-text-primary: 'your-custom-value';
@@ -90,16 +90,16 @@ This is useful when you want to make adjustments to the appearance of the compon
 }
 ```
 
-## Custom Theme
+## Пользовательская тема
 
-Define an entirely new look and feel for your application.
-This gives you complete control over all aspects of the design, including colors, fonts, and other visual properties.
+Определите полностью новый внешний вид для вашего приложения.
+Это дает вам полный контроль над всеми аспектами дизайна, включая цвета, шрифты и другие визуальные свойства.
 
-#### Usage Options:
+#### Варианты использования:
 
-##### Automatic Light/Dark Mode Switching:
+##### Автоматическое переключение между светлой и темной темой:
 
-- To automatically switch between light and dark versions of your custom theme:
+- Чтобы автоматически переключаться между светлой и темной версиями вашей пользовательской темы:
 
 ```tsx
 // @noErrors:  2304 17008 1005
@@ -115,9 +115,9 @@ This gives you complete control over all aspects of the design, including colors
 >
 ```
 
-##### Single Theme Version:
+##### Одна версия темы:
 
-- To use only one version of your custom theme at all times:
+- Чтобы использовать только одну версию вашей пользовательской темы постоянно:
 
 ```tsx
 // @noErrors:  2304 17008 1005
@@ -133,20 +133,20 @@ This gives you complete control over all aspects of the design, including colors
 >
 ```
 
-##### Defining a custom theme
+##### Определение пользовательской темы
 
-Use CSS variables to define your custom theme.
-The class name definitions must include the `-light` or `-dark` suffix.
+Используйте CSS-переменные для определения вашей пользовательской темы.
+Определения имен классов должны включать суффикс `-light` или `-dark`.
 
 ```css
 
 .custom-light {
-  /* Font and Shape */
+  /* Шрифты и формы */
   --ock-font-family: 'your-custom-value';
   --ock-border-radius: 'your-custom-value';
   --ock-border-radius-inner: 'your-custom-value';
 
-  /* Text Colors */
+  /* Цвета текста */
   --ock-text-inverse: 'your-custom-value';
   --ock-text-foreground: 'your-custom-value';
   --ock-text-foreground-muted: 'your-custom-value';
@@ -156,7 +156,7 @@ The class name definitions must include the `-light` or `-dark` suffix.
   --ock-text-warning: 'your-custom-value';
   --ock-text-disabled: 'your-custom-value';
 
-  /* Background Colors */
+  /* Фоновые цвета */
   --ock-bg-default: 'your-custom-value';
   --ock-bg-default-hover: 'your-custom-value';
   --ock-bg-default-active: 'your-custom-value';
@@ -179,7 +179,7 @@ The class name definitions must include the `-light` or `-dark` suffix.
   --ock-bg-success: 'your-custom-value';
   --ock-bg-default-reverse: 'your-custom-value';
 
-  /* Icon Colors */
+  /* Цвета иконок */
   --ock-icon-color-primary: 'your-custom-value';
   --ock-icon-color-foreground: 'your-custom-value';
   --ock-icon-color-foreground-muted: 'your-custom-value';
@@ -188,7 +188,7 @@ The class name definitions must include the `-light` or `-dark` suffix.
   --ock-icon-color-success: 'your-custom-value';
   --ock-icon-color-warning: 'your-custom-value';
 
-  /* Border Colors */
+  /* Цвета границ */
   --ock-border-line-primary: 'your-custom-value';
   --ock-border-line-default: 'your-custom-value';
   --ock-border-line-heavy: 'your-custom-value';
@@ -196,7 +196,7 @@ The class name definitions must include the `-light` or `-dark` suffix.
 }
 
 .custom-dark {
-  /* Define dark mode custom classes here */
+  /* Определите пользовательские классы для темного режима здесь */
 }
 
 ```
