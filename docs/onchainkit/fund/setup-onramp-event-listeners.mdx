@@ -3,9 +3,9 @@ title: setupOnrampEventListeners
 ---
 
 
-The `setupOnrampEventListeners` utility sets up event listeners for the Coinbase Onramp widget. It helps you handle various events like successful purchases, exits, and other user interactions.
+Утилита `setupOnrampEventListeners` настраивает обработчики событий для виджета Coinbase Onramp. Она помогает вам обрабатывать различные события, такие как успешные покупки, выходы и другие взаимодействия пользователя.
 
-## Usage
+## Использование
 
 <CodeGroup>
 ```tsx code
@@ -26,34 +26,34 @@ const unsubscribe = setupOnrampEventListeners({
   },
 });
 
-// Clean up when done
+// Очистка по завершении
 unsubscribe();
 ```
 
 ```ts return value
-// Returns an unsubscribe function
+// Возвращает функцию отмены подписки
 () => void
 ```
 </CodeGroup>
 
-## Parameters
+## Параметры
 
 ```typescript
 {
-  host?: string;                                   // Optional custom host URL
-  onSuccess?: (data?: SuccessEventData) => void;  // Success callback
-  onExit?: (error?: OnrampError) => void;         // Exit callback
-  onEvent?: (event: EventMetadata) => void;       // General event callback
+  host?: string;                                   // Опциональный пользовательский URL хоста
+  onSuccess?: (data?: SuccessEventData) => void;  // callback успеха
+  onExit?: (error?: OnrampError) => void;         // callback выхода
+  onEvent?: (event: EventMetadata) => void;       // Общий callback событий
 }
 ```
 
-## Returns
+## Возвращает
 
-`() => void` - Returns an unsubscribe function that removes the event listeners when called.
+`() => void` - Возвращает функцию отмены подписки, которая удаляет обработчики событий при вызове.
 
-## Event Types
+## Типы событий
 
-See the following type definitions for event data:
+Смотрите следующие определения типов для данных событий:
 
 - [`SuccessEventData`](/onchainkit/fund/types#successeventdata)
 - [`OnrampError`](/onchainkit/fund/types#onramperror)
