@@ -1,15 +1,14 @@
 ---
 title: Lifecycle Status · OnchainKit
 sidebarTitle: Lifecycle Status
-description: How to influence the behavior of your components and onchain data with Lifecycle Status.
+description: Как влиять на поведение ваших компонентов и ончейн-данных с помощью Lifecycle Status.
 ---
 
-OnchainKit Lifecycle Status allows you to manage the state of APIs and onchain transactions seamlessly within components.
+Lifecycle Status в OnchainKit позволяет вам беспрепятственно управлять состоянием API и ончейн-транзакций внутри компонентов.
 
-## How to listen to the Lifecycle Status
+## Как отслеживать Lifecycle Status
 
-The Lifecycle Status is a TypeScript object that provides easy access to the `statusName` and `statusData` properties,
-allowing you to stay informed and responsive.
+Lifecycle Status - это объект TypeScript, который предоставляет легкий доступ к свойствам `statusName` и `statusData`, позволяя вам оставаться в курсе событий и быстро реагировать.
 
 ```tsx
 import { useCallback } from 'react';
@@ -22,17 +21,17 @@ const handleOnStatus = useCallback((status: LifecycleStatus) => {
 }, []);
 
 <Transaction onStatus={handleOnStatus}>
-  // omitted component code for brevity
+  // код компонента опущен для краткости
 </Transaction>
 ```
 
 ## Lifecycle Status
 
-The Lifecycle Status includes 3 states common to all components:
+Lifecycle Status включает 3 состояния, общих для всех компонентов:
 
 ### `init`
 
-The component is initialized and ready for use.
+Компонент инициализирован и готов к использованию.
 
 ```ts
 {
@@ -43,40 +42,39 @@ The component is initialized and ready for use.
 
 ### `success`
 
-The component has successfully completed its main action, such as `swap` or `transaction`.
+Компонент успешно выполнил свое основное действие, такое как `swap` или `transaction`.
 
 ```ts
 {
   statusName: 'success';
   statusData: {
-    // the data returned from the API or onchain operation
+    // данные, возвращенные API или ончейн-операцией
   };
 }
 ```
 
 ### `error`
 
-The component has encountered an issue while fetching API data, executing an onchain operation,
-or needs to display a visual message to the user.
+Компонент столкнулся с проблемой при получении данных API, выполнении ончейн-операции или ему необходимо отобразить визуальное сообщение пользователю.
 
 ```ts
 {
   statusName: 'error';
   statusData: {
-    code: string; // The error code representing the location of the error
-    error: string; // The error message providing developer details
-    message: string; // The error message providing user-facing details
+    code: string; // Код ошибки, указывающий на место возникновения ошибки
+    error: string; // Сообщение об ошибке с деталями для разработчика
+    message: string; // Сообщение об ошибке с деталями для пользователя
   };
 }
 ```
 
-Each component brings its own unique experience, and we have explored both the swap and transaction processes.
+Каждый компонент предлагает свой уникальный опыт, и мы рассмотрели как процессы обмена (swap), так и транзакций.
 
-## Lifecycle Status with [`<Swap />`](/onchainkit/swap/swap)
+## Lifecycle Status с компонентом [`<Swap />`](/onchainkit/swap/swap)
 
 ### `amountChange`
 
-Any of the Swap Input fields have been updated.
+Любое из полей ввода Swap было обновлено.
 
 ```ts
 {
@@ -93,8 +91,7 @@ Any of the Swap Input fields have been updated.
 
 ### `transactionPending`
 
-The transaction has been submitted to the network but has not yet been confirmed to be included in a block.
-During this pending state, the transaction is waiting to be validated by the network's consensus mechanism.
+Транзакция была отправлена в сеть, но еще не подтверждена для включения в блок. В этом ожидающем состоянии транзакция ждет проверки механизмом консенсуса сети.
 
 ```ts
 {
@@ -105,8 +102,7 @@ During this pending state, the transaction is waiting to be validated by the net
 
 ### `transactionApproved`
 
-The transaction has been verified to be valid and it has been included in a block
-however the transaction is not yet finalized.
+Транзакция была проверена как действительная и включена в блок, однако транзакция еще не завершена окончательно.
 
 ```ts
 {
@@ -120,7 +116,7 @@ however the transaction is not yet finalized.
 
 ### `success`
 
-The transaction has been added to the blockchain and the transaction is considered final.
+Транзакция была добавлена в блокчейн и считается окончательной.
 
 ```ts
 {
@@ -131,11 +127,11 @@ The transaction has been added to the blockchain and the transaction is consider
 }
 ```
 
-## Lifecycle Status with [`<Transaction />`](/onchainkit/transaction/transaction)
+## Lifecycle Status с компонентом [`<Transaction />`](/onchainkit/transaction/transaction)
 
 ### `transactionIdle`
 
-The transaction component is waiting for the user to take action.
+Компонент транзакции ожидает действия пользователя.
 
 ```ts
 {
@@ -146,8 +142,8 @@ The transaction component is waiting for the user to take action.
 
 ### `transactionPending`
 
-The transaction has been submitted to the network but has not yet been confirmed to be included in a block.
-During this pending state, the transaction is waiting to be validated by the network's consensus mechanism.
+Транзакция была отправлена в сеть, но еще не подтверждена для включения в блок. 
+В этом ожидающем состоянии транзакция ждет проверки механизмом консенсуса сети.
 
 ```ts
 {
@@ -158,7 +154,7 @@ During this pending state, the transaction is waiting to be validated by the net
 
 ### `success`
 
-The transaction has been added to the blockchain and the transaction is considered final.
+Транзакция была добавлена в блокчейн и считается окончательной.
 
 ```ts
 {
