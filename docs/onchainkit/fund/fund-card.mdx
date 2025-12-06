@@ -1,7 +1,7 @@
 ---
 title: <FundCard /> · OnchainKit
 sidebarTitle: <FundCard />
-description: The `<FundCard />` component provides a complete fiat onramp experience with amount input, currency switching, and payment method selection.
+description: Компонент `<FundCard />` предоставляет полный опыт пополнения счета от фиата с вводом суммы, переключением валюты и выбором способа оплаты.
 ---
 
 <Frame>
@@ -10,35 +10,35 @@ description: The `<FundCard />` component provides a complete fiat onramp experi
   height="364"/>
 </Frame>
 
-The `<FundCard />` component provides a complete fiat onramp experience within your app. It includes:
+Компонент `<FundCard />` предоставляет полный опыт пополнения счета от фиата внутри вашего приложения. Он включает:
 
-- Amount input with fiat/crypto switching
-- Payment method selection (Coinbase, Apple Pay, Debit Card)
-- Automatic exchange rate updates
-- Smart handling of payment method restrictions (based on country and subdivision)
+- Ввод суммы с переключением между фиатом и криптовалютой
+- Выбор способа оплаты (Coinbase, Apple Pay, Дебетовая карта)
+- Автоматическое обновление курсов обмена
+- Умную обработку ограничений способов оплаты (на основе страны и региона)
 
 <Note>
-The Apple Pay and Debit Card onramp options are only available for Coinbase supported assets.  
+Опции пополнения через Apple Pay и дебетовую карту доступны только для активов, поддерживаемых Coinbase.
 </Note>
 
 
-## Prerequisites
+## Предварительные требования
 
-Before using the `FundCard` component, ensure you've completed the [Getting Started](/onchainkit/installation/nextjs#get-your-client-api-key) steps.
+Перед использованием компонента FundCard убедитесь, что вы выполнили шаги из ['Начало работы'](/onchainkit/installation/nextjs#get-your-client-api-key).
 
 <Tip>
-To use the `FundCard` component, you'll need to provide a Client API Key in `OnchainKitProvider`. You can get one following our [Getting Started](/onchainkit/installation/nextjs#get-your-client-api-key) steps.
+Для использования компонента `FundCard` вам необходимо предоставить Client API Key в `OnchainKitProvider`. Вы можете получить его, следуя шагам из ['Начало работы'](/onchainkit/installation/nextjs#get-your-client-api-key).
 </Tip>
 
 
 <Note>
-This component requires a `projectId` to be set in the `OnchainKitProvider`. You can find your `projectId` on [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/onchainkit).
+Для этого компонента требуется установить `projectId` в `OnchainKitProvider`. Вы можете найти свой `projectId` в [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/onchainkit).
 </Note>
 
 
-## Usage
+## Использование
 
-### Drop in the `<FundCard />` component
+### Добавьте компонент `<FundCard />` 
 
 ```tsx
 import { FundCard } from '@coinbase/onchainkit/fund';
@@ -75,11 +75,11 @@ import { FundCard } from '@coinbase/onchainkit/fund';
   </FundWrapper>
 </App> */}
 
-## Customization
+## Настройка
 
-### Custom Header and Button Text
+### Пользовательский заголовок и текст кнопки
 
-You can customize the header and button text:
+Вы можете настроить заголовок и текст кнопки:
 
 ```tsx
 <FundCard
@@ -124,9 +124,9 @@ You can customize the header and button text:
   </FundWrapper>
 </App> */}
 
-### Custom Currency
+### Пользовательская валюта
 
-You can specify which fiat currency to use:
+Вы можете указать, какую фиатную валюту использовать:
 
 ```tsx
 <FundCard
@@ -136,9 +136,9 @@ You can specify which fiat currency to use:
 />
 ```
 
-### Preset Amount Inputs
+### Предустановленные суммы
 
-You can specify preset amount buttons:
+Вы можете указать кнопки с предустановленными суммами:
 
 ```tsx
 const presetAmountInputs = ['10', '20', '50'] as const;
@@ -152,13 +152,13 @@ const presetAmountInputs = ['10', '20', '50'] as const;
 ```
 
 <Note>
-**Note: 3 preset amount inputs are required in order to show the preset amount buttons.**
+**Примечание: для отображения кнопок предустановленных сумм требуется 3 варианта предустановленных сумм.**
 </Note>
 
 
-### Custom Content
+### Пользовательское содержимое
 
-You can provide custom children to completely customize the card content while keeping the fund button functionality:
+Вы можете предоставить пользовательские дочерние элементы, чтобы полностью настроить содержимое карточки, сохраняя при этом функциональность кнопки пополнения:
 
 ```tsx
 <FundCard
@@ -177,7 +177,7 @@ You can provide custom children to completely customize the card content while k
 </FundCard>
 ```
 
-You can also reuse the existing children from the default implementation and add your own custom content.
+Вы также можете повторно использовать существующие дочерние элементы из реализации по умолчанию и добавить свое собственное пользовательское содержимое.
 
 ```tsx
 import {
@@ -207,7 +207,7 @@ import {
 ```
 
 <Note>
-**Note:** If you are using the custom components then you are going to need to access the state of the `FundCard` component. You can do this by using the `useFundContext` hook.
+**Примечание:** Если вы используете пользовательские компоненты, вам потребуется доступ к состоянию компонента `FundCard`. Вы можете сделать это с помощью хука `useFundContext`.
 </Note>
 
 
@@ -243,11 +243,11 @@ const {
  } = useFundContext();
 ```
 
-## Props
+## Свойства (Props)
 
 - [`FundCardPropsReact`](/onchainkit/fund/types#fundcardpropsreact)
 
-## Related Components
+## Связанные компоненты
 
 - [`<FundButton />`](/onchainkit/fund/fund-button)
 
