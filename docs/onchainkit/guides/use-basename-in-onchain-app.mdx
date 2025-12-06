@@ -1,30 +1,30 @@
 ---
-title: Use Basename · OnchainKit
-sidebarTitle: Use Basename
-description: Integrate Basenames into your onchain app, in just a few steps.
+title: Использование Basename · OnchainKit
+sidebarTitle: Использование Basename
+description: Интегрируйте Basenames в ваше ончейн-приложение всего за несколько шагов.
 ---
 
-Basenames are an essential onchain building block that empowers builders to establish their identity on Base by registering human-readable names for their wallet addresses.
+Basenames - это важный строительный блок в ончейн-пространстве, который позволяет разработчикам утвердить свою идентичность в сети Base, регистрируя читаемые человеком имена для адресов своих кошельков.
 
-They operate entirely onchain, utilizing the same technology as ENS names, and are deployed on Base. 
+Они работают полностью ончейн, используя ту же технологию, что и ENS имена, и развернуты на Base.
 
-You can integrate [Basenames](https://www.base.org/names) into your app with these few steps.
+Вы можете интегрировать [Basenames](https://www.base.org/names) в свое приложение всего за несколько шагов.
 
 <Steps>
-  <Step title="New to OnchainKit?">
-  Follow the [Getting Started](/onchainkit/getting-started) guide to install the package.
+  <Step title="Новичок в OnchainKit?">
+  Следуйте руководству ['Начало работы'](/onchainkit/getting-started) чтобы установить пакет.
   </Step>
-  <Step title="Already using OnchainKit?">
-  Update to the latest version and choose from the following steps: a React component approach, a React hook, or a pure TypeScript utility function.
+  <Step title="Уже используете OnchainKit?">
+  Обновитесь до последней версии и выберите из следующих вариантов: подход с React-компонентами, React-хуком или чистой TypeScript-функцией-утилитой.
   </Step>
 </Steps>
 
 
-## React components with `<Avatar>` and `<Name>`
+## React-компоненты `<Avatar>` и `<Name>`
 
-Use the [`<Avatar>`](/onchainkit/identity/avatar) and [`<Name>`](/onchainkit/identity/name) components to display Basenames associated with Ethereum addresses.
+Используйте компоненты [`<Avatar>`](/onchainkit/identity/avatar) и [`<Name>`](/onchainkit/identity/name) для отображения Basenames, связанных с Ethereum-адресами.
 
-The `chain` prop is optional and setting to Base, it's what makes the components switch from ENS to Basenames.
+Свойство `chain` является опциональным, и его установка на Base - это то, что заставляет компоненты переключаться с ENS на Basenames.
 
 ```tsx
 // @noErrors: 2657 - JSX expressions must have one parent element
@@ -33,7 +33,7 @@ import { base } from 'viem/chains';
 
 const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
 
-// omitted component code for brevity
+// код компонента опущен для краткости
 <Avatar address={address} chain={base} />
 <Name address={address} chain={base} />
 ```
@@ -48,11 +48,11 @@ const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
   <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" chain={base}/>
 </App> */}
 
-## React hooks with `useAvatar` and `useName`
+## React-хуки `useAvatar` и `useName`
 
-Use the [`useAvatar`](/onchainkit/identity/use-avatar) and [`useName`](/onchainkit/identity/use-name) hooks to get Basenames associated with Ethereum addresses.
+Используйте хуки [`useAvatar`](/onchainkit/identity/use-avatar) и [`useName`](/onchainkit/identity/use-name) для получения Basenames, связанных с Ethereum-адресами.
 
-The hooks are incredibly useful for building custom components while leveraging OnchainKit for efficient data fetching.
+Хуки невероятно полезны для создания пользовательских компонентов с использованием OnchainKit для эффективного получения данных.
 
 <CodeGroup>
 ```tsx code
@@ -71,11 +71,11 @@ const { data: name, isLoading: nameIsLoading } = await useName({ address, chain:
 ```
 </CodeGroup>
 
-## Typescript utility with `getAvatar` and `getName`
+## TypeScript-утилита `getAvatar` и `getName`
 
-Use the [`getAvatar`](/onchainkit/identity/get-avatar) and [`getName`](/onchainkit/identity/get-name) functions to get Basenames associated with Ethereum addresses.
+Используйте функции [`getAvatar`](/onchainkit/identity/get-avatar) и [`getName`](/onchainkit/identity/get-name) для получения Basenames, связанных с Ethereum-адресами.
 
-Being pure functions, it seamlessly integrates into any TypeScript project, including Vue, Angular, Svelte, or Node.js.
+Будучи чистыми функциями, они легко интегрируются в любой TypeScript проект, включая Vue, Angular, Svelte или Node.js.
 
 <CodeGroup>
 ```tsx code
