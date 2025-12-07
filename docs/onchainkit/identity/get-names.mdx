@@ -3,15 +3,15 @@ title: getNames
 ---
 
 
-The `getNames` utility is designed to retrieve multiple names from an onchain identity
-provider for an array of addresses in a single batch request.
+Утилита `getNames` предназначена для получения нескольких имен от провайдера 
+ончейн-идентификации для массива адресов в одном пакетном запросе.
 
-Consider the utility instead of the hook when you
-use it with Next.js or any Node.js backend.
+Рассмотрите использование утилиты вместо хука, 
+когда вы используете ее с Next.js или любым бэкендом на Node.js.
 
-## Usage
+## Использование
 
-Get ENS names from multiple addresses:
+Получение имен ENS для нескольких адресов:
 
 <CodeGroup>
 ```tsx code
@@ -29,7 +29,7 @@ const names = await getNames({ addresses });
 ```
 </CodeGroup>
 
-Get Basenames from multiple addresses:
+Получение Basenames для нескольких адресов:
 
 <CodeGroup>
 ```tsx code
@@ -48,7 +48,7 @@ const names = await getNames({ addresses, chain: base });
 ```
 </CodeGroup>
 
-Get a mix of ENS names and sliced addresses when some addresses don't have names:
+Получение смеси имен ENS и сокращенных адресов, когда у некоторых адресов нет имен:
 
 <CodeGroup>
 ```tsx code
@@ -66,11 +66,11 @@ const names = await getNames({ addresses });
 ```
 </CodeGroup>
 
-## Returns
+## Возвращает
 
-Array of [`GetNameReturnType`](/onchainkit/identity/types#getnamereturntype)
+Массив [`GetNameReturnType`](/onchainkit/identity/types#getnamereturntype)
 
-## Parameters
+## Параметры
 
 ### GetNames
 
