@@ -3,15 +3,15 @@ title: getAvatars
 ---
 
 
-The `getAvatars` utility is designed to retrieve multiple avatars from an onchain identity
-provider for an array of ENS names or Basenames in a single batch request.
+Утилита `getAvatars` предназначена для получения нескольких аватаров от провайдера 
+ончейн-идентификации для массива имен ENS или Basenames в одном пакетном запросе.
 
-Consider the utility instead of the hook when you
-use it with Next.js or any Node.js backend.
+Рассмотрите использование утилиты вместо хука, 
+когда вы используете ее с Next.js или любым бэкендом на Node.js.
 
-## Usage
+## Использование
 
-Get avatars for multiple ENS names:
+Получение аватаров для нескольких имен ENS:
 
 <CodeGroup>
 ```tsx code
@@ -29,7 +29,7 @@ const avatars = await getAvatars({ ensNames });
 ```
 </CodeGroup>
 
-Get avatars for multiple Basenames:
+Получение аватаров для нескольких Basenames:
 
 <CodeGroup>
 ```tsx code
@@ -48,7 +48,7 @@ const avatars = await getAvatars({ ensNames, chain: base });
 ```
 </CodeGroup>
 
-Get avatars for a mix of ENS names and Basenames:
+Получение аватаров для смеси имен ENS и Basenames:
 
 <CodeGroup>
 ```tsx code
@@ -67,11 +67,11 @@ const avatars = await getAvatars({ ensNames, chain: base });
 ```
 </CodeGroup>
 
-## Returns
+## Возвращает
 
-Array of [`GetAvatarReturnType`](/onchainkit/identity/types#getavatarreturntype)
+Массив [`GetAvatarReturnType`](/onchainkit/identity/types#getavatarreturntype)
 
-## Parameters
+## Параметры
 
 ### GetAvatars
 
