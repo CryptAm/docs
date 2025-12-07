@@ -1,21 +1,21 @@
 ---
 title: <IdentityCard /> · OnchainKit
 sidebarTitle: <IdentityCard />
-description: Display user identity information with ENS and chain-specific name resolution
+description: Отображение информации о пользовательской идентификации с разрешением имен ENS и цепей
 ---
 
-The `IdentityCard` component provides a comprehensive way to display user identity information, including ENS names, avatars, and chain-specific name resolution.
+Компонент `IdentityCard` предоставляет комплексный способ отображения информации о пользовательской идентификации, включая имена ENS, аватары и разрешение имен, специфичных для цепей.
 
-## Features
-- **Name Resolution:** Resolves both Basenames and ENS names automatically
-- **Avatar Support:** Displays ENS and chain-specific avatars
-- **Flexible Display:** Customizable layout and styling options
-- **Chain-Aware:** Works across different EVM chains that support name resolution
-- **Tooltip Support:** Displays attestation information on badge hover
+## Возможности
+- **Разрешение имен**: Автоматически разрешает как Basenames, так и имена ENS
+- **Поддержка аватаров**: Отображает аватары ENS и специфичные для цепей
+- **Гибкий дисплей**: Настраиваемая компоновка и варианты стилей
+- **Осведомленность о цепи**: Работает в разных EVM-цепях, поддерживающих разрешение имен
+- **Поддержка подсказок**: Отображает информацию об аттестации при наведении на бейдж
 
-## Usage
+## Использование
 
-### Basic Usage
+### Базовое использование
 
 ```tsx
 // @errors: 2305
@@ -36,9 +36,9 @@ import { base } from 'viem/chains';
 />
 
 
-### Badge Tooltip
+### Подсказка для бейджа
 
-You can enable a tooltip for the attestation badge to provide context about what the badge represents:
+Вы можете включить подсказку для бейджа аттестации, чтобы предоставить контекст о том, что представляет собой бейдж:
 
 ```tsx
 // @noErrors: 2305 2657
@@ -68,7 +68,7 @@ import { base } from 'viem/chains';
   />
 </App> */}
 
-You can also provide custom tooltip text:
+Вы также можете указать пользовательский текст подсказки:
 
 ```tsx
 // @noErrors: 2305 2657
@@ -98,9 +98,9 @@ import { base } from 'viem/chains';
   />
 </App> */}
 
-## Customization
+## Настройка
 
-You can override styles using `className` or by setting a custom [OnchainKit theme](/onchainkit/guides/themes#custom-theme). You can also set the `mainnet` chain for ENS name resolution:
+Вы можете переопределить стили с помощью `className` или установив пользовательскую [тему OnchainKit](/onchainkit/guides/themes#custom-theme). Вы также можете установить цепь mainnet для разрешения имен ENS:
 
 ```tsx
 import { IdentityCard } from '@coinbase/onchainkit/identity';
@@ -137,39 +137,39 @@ import { mainnet } from 'viem/chains'; // [!code focus]
   />
 </App> */}
 
-## Props
+## Свойства (Props)
 
 [`IdentityCardReact`](/onchainkit/identity/types#identitycardreact)
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `address` | `string` | The wallet address to display identity for |
-| `chain` | `Chain` | The chain to resolve the identity on |
-| `className` | `string` | Additional CSS classes to apply |
-| `schemaId` | `Address \| null` | The schema ID for attestation |
-| `badgeTooltip` | `boolean \| string` | When `true`, displays the attestation name in tooltip. When a string is provided, shows that custom text instead. Defaults to `false` |
+| Параметр | Тип  | Описание    |
+|----------|------|-------------|
+| `address` | `string` | Адрес кошелька, для которого отображается идентификация |
+| `chain` | `Chain` | Цепь, на которой разрешается идентификация |
+| `className` | `string` | Дополнительные CSS-классы для применения |
+| `schemaId` | `Address \| null` | ID схемы для аттестации |
+| `badgeTooltip` | `boolean \| string` | Когда `true` - отображает название аттестации в подсказке. Когда указана строка - показывает этот пользовательский текст. По умолчанию `false` |
 
-## Error Handling
+## Обработка ошибок
 
-The component handles various error states gracefully:
+Компонент корректно обрабатывает различные состояния ошибок:
 
-- Invalid addresses display a shortened address format
-- Missing ENS names fallback to shortened addresses
-- Failed avatar fetches show a default avatar
-- Network errors maintain a degraded but functional display
+- Невалидные адреса отображаются в сокращенном формате
+- Отсутствующие имена ENS возвращаются к сокращенным адресам
+- Неудачные загрузки аватаров показывают аватар по умолчанию
+- Ошибки сети поддерживают деградированное, но функциональное отображение
 
-## Best Practices
+## Лучшие практики
 
-1. Always provide a valid chain object from viem/chains
-2. Handle loading states in parent components when address might be undefined
-3. Implement proper error boundaries in parent components
-4. Consider mobile responsiveness when styling
-5. Use `badgeTooltip` to provide context about what the verification badge represents
+1. Всегда предоставляйте валидный объект цепи из viem/chains
+2. Обрабатывайте состояния загрузки в родительских компонентах, когда адрес может быть неопределен
+3. Реализуйте правильные границы ошибок в родительских компонентах
+4. Учитывайте адаптивность под мобильные устройства при стилизации
+5. Используйте badgeTooltip для предоставления контекста о том, что представляет собой бейдж верификации
 
-## Related Components
+## Связанные компоненты
 
-- [`<Avatar>`](/onchainkit/identity/avatar) - Displays user avatars
-- [`<Name>`](/onchainkit/identity/name) - Displays resolved names
-- [`<Identity>`](/onchainkit/identity/identity) - Simplified identity display
+- [`<Avatar>`](/onchainkit/identity/avatar) - Отображает аватары пользователей
+- [`<Name>`](/onchainkit/identity/name) - Отображает разрешенные имена
+- [`<Identity>`](/onchainkit/identity/identity) - Упрощенное отображение идентификации
 
 
