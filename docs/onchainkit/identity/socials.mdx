@@ -1,21 +1,21 @@
 ---
 title: <Socials /> · OnchainKit
 sidebarTitle: <Socials />
-description: Display social links for ENS names
+description: Отображение ссылок на социальные сети для имен ENS
 ---
 
-The `Socials` component displays social media links associated with Basenames and ENS names.
-It automatically fetches and renders social links stored in text records.
+Компонент `Socials` отображает ссылки на социальные сети, связанные с Basenames и ENS именами.
+Он автоматически получает и отображает социальные ссылки, хранящиеся в текстовых записях.
 
-## Features
-- **Name Resolution:** Resolves both Basenames and ENS names to fetch associated social links
-- **Multiple Platform Support:** Supports Twitter, GitHub, Discord, and other major platforms
-- **Customizable Display:** Flexible styling options to match your app's design
-- **Chain-Aware:** Works across different EVM chains that support ENS
+## Возможности
+- **Разрешение имен**: Разрешает как Basenames, так и имена ENS для получения связанных социальных ссылок
+- **Поддержка нескольких платформ**: Поддерживает Twitter, GitHub, Discord и другие основные платформы
+- **Настраиваемое отображение**: Гибкие варианты стилей для соответствия дизайну вашего приложения
+- **Осведомленность о цепи**: Работает в разных EVM-цепях, поддерживающих ENS
 
-## Usage
+## Использование
 
-### Basic Usage
+### Базовое использование
 
 ```tsx
 // @errors: 2305
@@ -63,9 +63,9 @@ import { base } from 'viem/chains';
   </Identity>
 </App> */}
 
-### Standalone Usage
+### Самостоятельное использование
 
-You can also use the `Socials` component independently by providing an address:
+Вы также можете использовать компонент `Socials` независимо, указав адрес:
 
 ```tsx
 // @errors: 2305
@@ -93,9 +93,9 @@ export default function StandaloneSocials() {
   height="auto"
 />
 
-### Custom Chain
+### Пользовательская цепь
 
-Specify a different chain for ENS resolution:
+Укажите другую цепь для разрешения ENS:
 
 ```tsx
 // @errors: 2305
@@ -144,23 +144,23 @@ import { mainnet } from 'viem/chains'; // [!code focus]
   height="auto"
 />
 
-## Props
+## Свойства (Props)
 
-The `Socials` component accepts the following props:
+Компонент `Socials` принимает следующие свойства:
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `address` | `Address \| null` | The Ethereum address to resolve social links for |
-| `ensName` | `string` | Optional ENS name to resolve social links for |
-| `chain` | `Chain` | The chain to use for ENS resolution |
-| `className` | `string` | Custom CSS classes to apply to the component |
+| Свойство | Тип  | Описание    |
+|----------|------|-------------|
+| `address` | `Address \| null` | Ethereum-адрес, для которого разрешаются социальные ссылки |
+| `ensName` | `string` | Опциональное имя ENS, для которого разрешаются социальные ссылки |
+| `chain` | `Chain` | Цепь, используемая для разрешения ENS |
+| `className` | `string` | Пользовательские CSS-классы для применения к компоненту |
 
-## Error Handling
+## Обработка ошибок
 
-The component handles various edge cases:
+Компонент обрабатывает различные граничные случаи:
 
-- Returns `null` if no social links are found
-- Shows empty state while loading
-- Gracefully handles ENS resolution errors
-- Validates social links before display
+- Возвращает `null`, если социальные ссылки не найдены
+- Показывает пустое состояние во время загрузки
+- Корректно обрабатывает ошибки разрешения ENS
+- Проверяет социальные ссылки перед отображением
 
