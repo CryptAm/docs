@@ -3,13 +3,13 @@ title: useMintDetails
 ---
 
 
-The `useMintDetails` hook implements the `getMintDetails` API, returning the data required to view an NFT to be minted.
+Хук `useMintDetails` реализует API `getMintDetails`, возвращая данные, необходимые для просмотра NFT, доступного для минтинга (создания).
 
-It is implemented with [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) from `@tanstack/react-query`, and returns a `UseQueryResult` object, allowing you to pass through all `@tanstack/react-query` options.
+Он реализован с помощью [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) из `@tanstack/react-query`, и возвращает объект `UseQueryResult`, позволяя вам передавать все опции `@tanstack/react-query`.
 
-Before using them, make sure to obtain a [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) from Coinbase Developer Platform.
+Перед их использованием убедитесь, что вы получили [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) от Coinbase Developer Platform.
 
-## Usage
+## Использование
 
 <CodeGroup>
 ```tsx code
@@ -76,11 +76,11 @@ const queryClient = new QueryClient();
 ```
 </CodeGroup>
 
-## Returns
+## Возвращает
 
 [`UseQueryResult<MintDetails>`](/onchainkit/api/types#getmintdetailsresponse)
 
-## Parameters
+## Параметры
 
 [`GetMintDetailsParams`](/onchainkit/api/types#getmintdetailsparams)
 
