@@ -1,19 +1,19 @@
 ---
-title: Astro Installation · OnchainKit
-sidebarTitle: Astro Installation
-description: Install OnchainKit using Astro
+title: Установка с Astro · OnchainKit
+sidebarTitle: Установка с Astro
+description: Установите OnchainKit, используя Astro
 ---
 
 import StartBuilding from "/snippets/start-building.mdx";
 
-Install and configure OnchainKit with Astro.
-If you are integrating OnchainKit into an existing project,
-skip to the [OnchainKit installation](#install-onchainkit).
+Установите и настройте OnchainKit с Astro.
+Если вы интегрируете OnchainKit в существующий проект,
+перейдите к разделу [установки OnchainKit](#install-onchainkit).
 
 <Steps>
-  <Step title="Install Astro">
-  Create a new Astro project by using the Astro CLI.
-  More information about Astro can be found [here](https://docs.astro.build/en/install-and-setup/#start-a-new-project).
+  <Step title="Установите Astro">
+  Создайте новый проект Astro, используя CLI Astro.
+  Подробнее об Astro можно узнать [здесь](https://docs.astro.build/en/install-and-setup/#start-a-new-project).
 
   <CodeGroup>
   ```bash npm
@@ -29,16 +29,16 @@ skip to the [OnchainKit installation](#install-onchainkit).
   ```
   </CodeGroup>
   </Step>
-  <Step title="Install React">
-  Astro does not come with React by default, so if you are not already using React
-  in your application, you will need to install it.
+  <Step title="Установите React">
+  Astro по умолчанию не включает React, поэтому, если вы еще не используете React в своем приложении, 
+  вам нужно будет его установить.
 
   ```bash Terminal
   npx astro add react
   ```
   </Step>
-  <Step title="Install OnchainKit">
-  Add OnchainKit to your project by installing the `@coinbase/onchainkit` package.
+  <Step title="Установите OnchainKit">
+  Добавьте OnchainKit в свой проект, установив пакет `@coinbase/onchainkit`.
 
   <CodeGroup>
   ```bash npm
@@ -58,18 +58,18 @@ skip to the [OnchainKit installation](#install-onchainkit).
   ```
   </CodeGroup>
   </Step>
-  <Step title="Get A Client API Key">
-  Get your [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) from Coinbase Developer Platform.
+  <Step title="Получите Client API Key">
+  Получите свой [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) от Coinbase Developer Platform.
 
 <Frame>
   <img
-    alt="OnchainKit copy Client API Key"
+    alt="Скопируйте Client API Key для OnchainKit"
     src="/images/onchainkit/copy-api-key-guide.png"
     height="364"
   />
 </Frame>
 
-  Create a `.env` file in your project's root directory.
+  Создайте файл `.env` в корневом каталоге вашего проекта.
 
 <Frame>
   <img
@@ -80,18 +80,18 @@ skip to the [OnchainKit installation](#install-onchainkit).
   />
 </Frame>
 
-  Add your Client API Key to the `.env` file:
+  Добавьте свой Client API Key в файл `.env`:
 
   ```dotenv .env
   PUBLIC_ONCHAINKIT_API_KEY=YOUR_CLIENT_API_KEY
   ```
   </Step>
-  <Step title="Add Providers">
-  Create a `providers.tsx` file. Add `OnchainKitProvider` with your desired config.
+  <Step title="Добавьте провайдеры">
+  Создайте файл `providers.tsx`. Добавьте `OnchainKitProvider` с нужной вам конфигурацией.
 
-  Under the hood, OnchainKit will create our recommended Wagmi and QueryClient
-  providers. If you wish to customize these providers, check out [Custom
-  Supplemental Providers](/onchainkit/config/supplemental-providers).
+  Под капотом OnchainKit создаст наши рекомендованные провайдеры Wagmi и QueryClient. 
+  Если вы хотите настроить эти провайдеры, ознакомьтесь с разделом [Пользовательские 
+  дополнительные провайдеры](/onchainkit/config/supplemental-providers).
 
   ```tsx providers.tsx
   // @noErrors: 2307 2580 2339 - cannot find 'process', cannot find './wagmi', cannot find 'import.meta'
@@ -99,13 +99,13 @@ skip to the [OnchainKit installation](#install-onchainkit).
 
   import type { ReactNode } from 'react';
   import { OnchainKitProvider } from '@coinbase/onchainkit';
-  import { base } from 'wagmi/chains'; // add baseSepolia for testing // [!code ++]
+  import { base } from 'wagmi/chains'; // добавьте baseSepolia для тестирования // [!code ++]
 
   export function Providers(props: { children: ReactNode }) {
     return (
       <OnchainKitProvider
         apiKey={import.meta.env.PUBLIC_ONCHAINKIT_API_KEY} // [!code ++]
-        chain={base} // add baseSepolia for testing // [!code ++]
+        chain={base} // добавьте baseSepolia для тестирования // [!code ++]
       >
         {props.children}
       </OnchainKitProvider>
@@ -113,14 +113,14 @@ skip to the [OnchainKit installation](#install-onchainkit).
   }
   ```
   </Step>
-  <Step title="Wrap your OnchainKit components with <AppProviders />">
-  After configuring the providers in step 4, you will need to wrap your OnchainKit components
-  with the `<AppProviders />` component.
+  <Step title="Оберните ваши компоненты OnchainKit в <AppProviders />">
+  После настройки провайдеров в шаге 4 вам нужно будет обернуть ваши компоненты OnchainKit в 
+  компонент `<AppProviders />`.
 
-  There are two options for this:
+  Есть два варианта для этого:
 
-  1. Create a component, eg. `<ReactIsland />` that contains all OnchainKit components.
-  2. Wrap every OnchainKit component individually.
+  1. Создайте компонент, например `<ReactIsland />`, который содержит все компоненты OnchainKit.
+  2. Оберните каждый компонент OnchainKit индивидуально.
 
   <CodeGroup>
   ```tsx ReactIsland
@@ -149,18 +149,18 @@ skip to the [OnchainKit installation](#install-onchainkit).
   ```
   </CodeGroup>
 
-  The advantage of ReactIsland is that you will only have a single provider at any time.
-  The drawback is that your OnchainKit components will all need to live in the same Island.
+  Преимущество ReactIsland в том, что у вас будет только один провайдер в любой момент времени.
+  Недостаток в том, что все ваши компоненты OnchainKit должны находиться в одном Island.
 
-  The advantage of individual wrappers is that you can use OnchainKit components anywhere in your app.
-  The drawback is that you will have multiple providers if you use more than one OnchainKit component.
+  Преимущество индивидуальных оберток в том, что вы можете использовать компоненты OnchainKit в любом месте вашего приложения.
+  Недостаток в том, что у вас будет несколько провайдеров, если вы используете более одного компонента OnchainKit.
   </Step>
-  <Step title="Add OnchainKit Components to your App">
-  You can add OnchainKit components to your app by using the component(s) you
-  created above into your `.astro` files.
+  <Step title="Добавьте компоненты OnchainKit в ваше приложение">
+  Вы можете добавить компоненты OnchainKit в ваше приложение, используя компонент(ы), которые вы
+  создали выше, в ваши `.astro` файлы.
 
-  For example, if you created a ReactIsland, you can add it to your
-  `src/pages/index.astro` file:
+  Например, если вы создали ReactIsland, вы можете добавить его в ваш
+  файл `src/pages/index.astro`:
 
   ```astro src/pages/index.astro
   ---
@@ -177,24 +177,24 @@ skip to the [OnchainKit installation](#install-onchainkit).
   </Layout>
   ```
 
-  Don't forget to add the `client:only="react"` directive to your OnchainKit component,
-  as this is required for Astro to render React components.
+  Не забудьте добавить директиву `client:only="react"` к вашему компоненту OnchainKit,
+  так как это требуется для рендеринга React-компонентов в Astro.
   </Step>
-  <Step title="Import OnchainKit Styles">
-    OnchainKit components come with pre-configured styles.
-  To include these styles in your project, add the following import
-  statement at the top of the `Layout.astro` file:
+  <Step title="Импортируйте стили OnchainKit">
+    Компоненты OnchainKit поставляются с предварительно настроенными стилями.
+  Чтобы включить эти стили в ваш проект, добавьте следующий импорт
+  в начало файла `Layout.astro`:
 
   ```tsx
   import '@coinbase/onchainkit/styles.css';
   ```
 
-  This ensures that the OnchainKit styles are loaded and applied to your entire application.
+  Это гарантирует, что стили OnchainKit будут загружены и применены ко всему вашему приложению.
 
-  - For Tailwind CSS users, check out our [Tailwind Integration Guide](/onchainkit/guides/tailwind).
+  - Для пользователей Tailwind CSS ознакомьтесь с нашим [руководством по интеграции Tailwind](/onchainkit/guides/tailwind).
 
-  - Update the appearance of components by using our built-in themes or crafting your own custom theme.
-    Explore the possibilities in our [Theming Guide](/onchainkit/guides/themes).
+  - Обновите внешний вид компонентов, используя наши встроенные темы или создав свою собственную пользовательскую тему.
+    Изучите возможности в нашем [Руководстве по темам](/onchainkit/guides/themes).
   </Step>
 </Steps>
 
