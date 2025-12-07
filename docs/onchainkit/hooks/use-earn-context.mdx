@@ -3,14 +3,14 @@ title: useEarnContext
 ---
 
 
-The `useEarnContext` hook is used to access the context values of the `Earn` component.
+Хук `useEarnContext` используется для доступа к значениям контекста компонента `Earn`.
 
-It can be used to build fully custom deposit and withdraw interfaces and contains all relevant data about a Morpho vault.
+Его можно использовать для создания полностью пользовательских интерфейсов депозита и вывода (withdraw), и он содержит все соответствующие данные о Morpho vault.
 
 
-## Usage
+## Использование
 
-Note: This hook should be used within a `<Earn />` or `<EarnProvider />` (headless) component.
+Примечание: Этот хук должен использоваться внутри компонента `<Earn />` или `<EarnProvider />` (headless-версия).
 
 ```tsx code
 import { useEarnContext } from '@coinbase/onchainkit/earn';
@@ -27,10 +27,10 @@ const { depositAmount,
        // ...  
         } = useEarnContext();
 
-// Use the values to build a custom deposit interface!
+// Используйте значения для создания пользовательского интерфейса депозита!
 ```
 
-## Returns
+## Возвращает
 
 [`EarnContextType`](/onchainkit/earn/types#earncontexttype)
 
