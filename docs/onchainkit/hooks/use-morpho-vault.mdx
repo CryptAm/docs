@@ -3,9 +3,9 @@ title: useMorphoVault
 ---
 
 
-The `useMorphoVault` hook fetches and returns comprehensive data about a Morpho vault, including APYs, balances, and rewards.
+Хук `useMorphoVault` получает и возвращает комплексные данные о Morpho vault, включая APY, балансы и награды.
 
-## Usage
+## Использование
 
 ```tsx
 import { useMorphoVault } from '@coinbase/onchainkit/earn';
@@ -16,18 +16,18 @@ const {
   rewards,
   deposits,
   liquidity,
-  // ... other values
+  // ... другие значения
 } = useMorphoVault({
   vaultAddress: '0x...',
   recipientAddress: '0x...',
 });
 ```
 
-## Returns
+## Возвращает
 
 [`UseMorphoVaultReturnType`](/onchainkit/earn/types#usemorphovaultreturntype)
 
-## Parameters
+## Параметры
 
 [`UseMorphoVaultParams`](/onchainkit/earn/types#usemorphovaultparams)
 
