@@ -2,11 +2,11 @@
 title: "`<Name />`"
 ---
 
-The `Name` component is used to display ENS or [Basenames](https://www.base.org/names) associated with Ethereum addresses.
+Компонент `Name` используется для отображения имен ENS или [Basenames](https://www.base.org/names) связанных с Ethereum-адресами.
 
-## Usage
+## Использование
 
-Address with an ENS:
+Адрес с ENS:
 
 ```tsx
 import { Name } from '@coinbase/onchainkit/identity';
@@ -24,7 +24,7 @@ const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
   <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1"/>
 </App> */}
 
-Address with a Basename:
+Адрес с Basename:
 
 ```tsx
 import { Name } from '@coinbase/onchainkit/identity';
@@ -43,9 +43,9 @@ const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
   <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" chain={base}/>
 </App> */}
 
-### Override styles
+### Переопределение стилей
 
-You can override component styles using `className`.
+Вы можете переопределить стили компонента, используя `className`.
 
 ```tsx
 import { Name } from '@coinbase/onchainkit/identity';
@@ -66,11 +66,11 @@ const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
   <Name className="bg-emerald-400 px-2 py-1 rounded" address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
 </App> */}
 
-### Add attestation badge
+### Добавление бейджа аттестации
 
-Show attestation on ENV name with [`Badge`](/onchainkit/identity/badge) component.
+Показать аттестацию на имени ENS с помощью компонента [`Badge`](/onchainkit/identity/badge).
 
-Use [`OnchainKitProvider`](/onchainkit/config/onchainkit-provider) or [`Identity`](/onchainkit/identity/identity) component with the `schemaId` prop.
+Используйте [`OnchainKitProvider`](/onchainkit/config/onchainkit-provider) или компонент [`Identity`](/onchainkit/identity/identity) со свойством `schemaId`.
 
 ```tsx
 import { Badge, Name, Identity } from '@coinbase/onchainkit/identity';
@@ -103,7 +103,7 @@ const address = '0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9';
   </Identity>
 </App> */}
 
-## Props
+## Свойства (Props)
 
 [`NameReact`](/onchainkit/identity/types#namereact)
 
