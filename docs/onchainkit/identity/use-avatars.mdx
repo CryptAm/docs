@@ -3,14 +3,14 @@ title: useAvatars
 ---
 
 
-The `useAvatars` hook is used to get multiple avatar image URLs from an onchain identity
-provider for an array of ENS names or Basenames in a single batch request.
+Хук `useAvatars` используется для получения нескольких URL изображений аватаров от 
+провайдера ончейн-идентификации для массива имен ENS или Basenames в одном пакетном запросе.
 
-It is implemented with [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) from `@tanstack/react-query`, and returns a `UseQueryResult` object, allowing you to pass through all `@tanstack/react-query` options.
+Он реализован с помощью [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) из `@tanstack/react-query` и возвращает объект `UseQueryResult`, позволяя вам передавать все опции `@tanstack/react-query`.
 
-## Usage
+## Использование
 
-Get avatars for multiple ENS names:
+Получение аватаров для нескольких имен ENS:
 
 <CodeGroup>
 ```tsx code
@@ -31,7 +31,7 @@ const { data: avatars, isLoading } = useAvatars({ ensNames });
 ```
 </CodeGroup>
 
-Get avatars for multiple Basenames:
+Получение аватаров для нескольких Basenames:
 
 <CodeGroup>
 ```tsx code
@@ -53,11 +53,11 @@ const { data: avatars, isLoading } = useAvatars({ ensNames, chain: base });
 ```
 </CodeGroup>
 
-## Returns
+## Возвращает
 
 [`useQuery<Promise<GetAvatarReturnType[]>>`](/onchainkit/identity/types#getavatarreturntype)
 
-## Parameters
+## Параметры
 
 ### UseAvatarsOptions
 
