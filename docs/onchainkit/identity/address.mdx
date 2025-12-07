@@ -2,11 +2,11 @@
 title: "`<Address />`"
 ---
 
-The `Address` component is used to render a shortened user account address.
+Компонент `Address` используется для отображения сокращенного адреса пользовательского аккаунта.
 
-## Usage
+## Использование
 
-Sliced account address:
+Сокращенный адрес аккаунта:
 
 ```tsx
 import { Address } from '@coinbase/onchainkit/identity';
@@ -21,9 +21,9 @@ import { Address } from '@coinbase/onchainkit/identity';
   <Address address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
 </App> */}
 
-### Display full address
+### Отображение полного адреса
 
-Set `isSliced` to false, to display the full address:
+Установите `isSliced` в `false`, чтобы отобразить полный адрес:
 
 ```tsx
 import { Address } from '@coinbase/onchainkit/identity';
@@ -39,9 +39,9 @@ import { Address } from '@coinbase/onchainkit/identity';
   <Address address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" isSliced={false}/>
 </App> */}
 
-### Override styles
+### Переопределение стилей
 
-You can override component styles using `className`.
+Вы можете переопределить стили компонента, используя `className`.
 
 ```tsx
 import { Address } from '@coinbase/onchainkit/identity';
@@ -59,7 +59,7 @@ import { Address } from '@coinbase/onchainkit/identity';
   <Address className="bg-emerald-400 px-2 py-1 rounded" address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1"/>
 </App> */}
 
-## Props
+## Свойства (Props)
 
 [`AddressReact`](/onchainkit/identity/types#addressreact)
 
