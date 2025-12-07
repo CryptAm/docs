@@ -3,15 +3,15 @@ title: useBuildDepositToMorphoTx
 ---
 
 
-The `useBuildDepositToMorphoTx` hook is used to build a deposit transaction to Morpho from within a React component.
+Хук `useBuildDepositToMorphoTx` используется для построения транзакции депозита в Morpho из React-компонента.
 
-The hook handles the following:
+Хук обрабатывает следующее:
 
-- Fetching data required to build the transaction
-- Using [`buildDepositToMorphoTx`](/onchainkit/api/build-deposit-to-morpho-tx) to build the transaction
-- Returning the transaction calls to be used with the `<Transaction />` component
+- Получение данных, необходимых для построения транзакции
+- использование [`buildDepositToMorphoTx`](/onchainkit/api/build-deposit-to-morpho-tx) для построения транзакции
+- Возврат вызовов транзакции (transaction calls) для использования с компонентом `<Transaction />`
 
-## Usage
+## Использование
 
 ```tsx code
 import { useBuildDepositToMorphoTx } from '@coinbase/onchainkit/earn';
@@ -23,10 +23,10 @@ const { calls } = useBuildDepositToMorphoTx({
 });
 ```
 
-## Returns
+## Возвращает
 
 [`{ calls: Call[] }`](/onchainkit/transaction/types#calls)
 
-## Parameters
+## Параметры
 
 [`UseBuildDepositToMorphoTxParams`](/onchainkit/earn/types#usebuilddeposittomorphotxparams)
