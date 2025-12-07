@@ -3,11 +3,11 @@ title: useAddress
 ---
 
 
-The `useAddress` hook is used to get an address from an onchain identity provider for a given name.
+Хук `useAddress` используется для получения адреса от провайдера ончейн-идентификации по заданному имени.
 
-It is implemented with [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) from `@tanstack/react-query`, and returns a `UseQueryResult` object, allowing you to pass through all `@tanstack/react-query` options.
+Он реализован с помощью [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) из `@tanstack/react-query` и возвращает объект `UseQueryResult`, позволяя вам передавать все опции `@tanstack/react-query`.
 
-## Usage
+## Использование
 
 ```tsx
 import { useAddress } from '@coinbase/onchainkit/identity';
@@ -15,11 +15,11 @@ import { useAddress } from '@coinbase/onchainkit/identity';
 const { data: address, isLoading } = useAddress({ name: 'zizzamia.base.eth' });
 ```
 
-## Returns
+## Возвращает
 
 [`useQuery<Promise<GetAddressReturnType>>`](/onchainkit/identity/types#getaddressreturntype)
 
-## Parameters
+## Параметры
 
 ### UseAddressOptions
 
