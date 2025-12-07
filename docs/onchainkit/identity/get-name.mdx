@@ -3,15 +3,15 @@ title: getName
 ---
 
 
-The `getName` utility is designed to retrieve a name from an onchain identity
-provider for a specific address.
+Утилита `getName` предназначена для получения имени от провайдера 
+ончейн-идентификации для конкретного адреса.
 
-Consider the utility instead of the hook when you
-use it with Next.js or any Node.js backend.
+Рассмотрите использование утилиты вместо хука, 
+когда вы используете ее с Next.js или любым бэкендом на Node.js.
 
-## Usage
+## Использование
 
-Get ENS name from an address:
+Получение имени ENS по адресу:
 
 <CodeGroup>
 ```tsx code
@@ -26,7 +26,7 @@ zizzamia.eth;
 ```
 </CodeGroup>
 
-Get Basename from an address:
+Получение Basename по адресу:
 
 <CodeGroup>
 ```tsx code
@@ -42,7 +42,7 @@ zizzamia.base.eth;
 ```
 </CodeGroup>
 
-Get a sliced address when address does not have an ENS name:
+Получение сокращенного адреса, когда у адреса нет имени ENS:
 
 <CodeGroup>
 ```tsx code
@@ -57,12 +57,12 @@ const name = await getName({ address });
 ```
 </CodeGroup>
 
-## Returns
+## Возвращает
 
-See [GetNameReturnType](/onchainkit/identity/types#getnamereturntype) and [GetName](/onchainkit/identity/types#getname) for more details.
+Подробности смотрите в [GetNameReturnType](/onchainkit/identity/types#getnamereturntype) и [GetName](/onchainkit/identity/types#getname).
 
-## Parameters
+## Параметры
 
-See [GetNameReturnType](/onchainkit/identity/types#getnamereturntype) and [GetName](/onchainkit/identity/types#getname) for more details.
+Подробности смотрите в [GetNameReturnType](/onchainkit/identity/types#getnamereturntype) и [GetName](/onchainkit/identity/types#getname).
 
 
