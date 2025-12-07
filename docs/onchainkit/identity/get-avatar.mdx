@@ -3,20 +3,20 @@ title: getAvatar
 ---
 
 
-The `getAvatar` utility is designed to retrieve an avatar image
-URL from an onchain identity provider for a given name.
+Утилита `getAvatar` предназначена для получения URL изображения 
+аватара от провайдера ончейн-идентификации по заданному имени.
 
-Consider the utility instead of the hook when you
-use it with Next.js or any Node.js backend.
+Рассмотрите использование утилиты вместо хука, 
+когда вы используете ее с Next.js или любым бэкендом на Node.js.
 
-Supported providers:
+Поддерживаемые провайдеры:
 
 - [Basenames](https://www.base.org/names)
 - ENS
 
-## Usage
+## Использование
 
-Get Basename avatar:
+Получение аватара Basename:
 
 <CodeGroup>
 ```tsx code
@@ -31,7 +31,7 @@ https://zku9gdedgba48lmr.public.blob.vercel-storage.com/basenames/avatar/paul.ba
 ```
 </CodeGroup>
 
-Get ENS avatar:
+Получение аватара ENS:
 
 <CodeGroup>
 ```tsx code
@@ -46,7 +46,7 @@ https://euc.li/paulcramer.eth;
 ```
 </CodeGroup>
 
-## Returns
+## Возвращает
 
 [`Promise<GetAvatarReturnType>`](/onchainkit/identity/types#getavatarreturntype)
 
