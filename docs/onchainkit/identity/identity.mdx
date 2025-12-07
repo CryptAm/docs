@@ -1,14 +1,14 @@
 ---
 title: <Identity /> · OnchainKit
 sidebarTitle: <Identity />
-description: Identity components & utilities
+description: Компоненты и утилиты для идентификации
 ---
 
-`Identity` is a React context provider and arranges identity components.
+`Identity` - это провайдер контекста React, который организует компоненты идентификации.
 
-## Usage
+## Использование
 
-Show user avatar, name with attestation and address:
+Показать аватар пользователя, имя с аттестацией и адрес:
 
 ```tsx
 import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
@@ -43,9 +43,9 @@ import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/ide
   </Identity>
 </App> */}
 
-### Badge with Tooltip
+### Бейдж с подсказкой (Tooltip)
 
-You can enable a tooltip for the attestation badge to provide context about what the badge represents:
+Вы можете включить подсказку для бейджа аттестации, чтобы предоставить контекст о том, что представляет собой бейдж:
 
 ```tsx
 import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
@@ -82,7 +82,7 @@ import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/ide
   </Identity>
 </App> */}
 
-You can also provide custom tooltip text:
+Вы также можете указать пользовательский текст подсказки:
 ```tsx
 // @errors: 2304 2552
 import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
@@ -119,7 +119,7 @@ import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/ide
   </Identity>
 </App> */}
 
-Modify any styles with `className` prop.
+Измените любые стили с помощью свойства `className`.
 
 ```tsx
 // @errors: 2304 2552 2657
@@ -162,7 +162,7 @@ import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/ide
   </Identity>
 </App> */}
 
-Choose which identity components to render:
+Выберите, какие компоненты идентификации отображать:
 
 ```tsx
 import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
@@ -214,7 +214,7 @@ import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/ide
   </Identity>
 </App> */}
 
-## Props
+## Свойства (Props)
 
 [IdentityReact](/onchainkit/identity/types#identityreact)
 
