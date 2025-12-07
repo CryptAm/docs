@@ -3,14 +3,14 @@ title: useNames
 ---
 
 
-The `useNames` hook is used to get multiple names from an onchain identity provider
-for an array of addresses in a single batch request.
+Хук `useNames` используется для получения нескольких имен от провайдера 
+ончейн-идентификации для массива адресов в одном пакетном запросе.
 
-It is implemented with [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) from `@tanstack/react-query`, and returns a `UseQueryResult` object, allowing you to pass through all `@tanstack/react-query` options.
+Он реализован с помощью [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) из `@tanstack/react-query` и возвращает объект `UseQueryResult`, позволяя вам передавать все опции `@tanstack/react-query`.
 
-## Usage
+## Использование
 
-Get ENS names from multiple addresses:
+Получение имен ENS для нескольких адресов:
 
 <CodeGroup>
 ```tsx code
@@ -31,7 +31,7 @@ const { data: names, isLoading } = useNames({ addresses });
 ```
 </CodeGroup>
 
-Get Basenames from multiple addresses:
+Получение Basenames для нескольких адресов:
 
 <CodeGroup>
 ```tsx code
@@ -53,11 +53,11 @@ const { data: names, isLoading } = useNames({ addresses, chain: base });
 ```
 </CodeGroup>
 
-## Returns
+## Возвращает
 
 [`useQuery<Promise<GetNameReturnType[]>>`](/onchainkit/identity/types#getnamereturntype)
 
-## Parameters
+## Параметры
 
 ### UseNamesOptions
 
