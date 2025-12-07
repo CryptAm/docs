@@ -3,13 +3,13 @@ title: getAttestations
 ---
 
 
-The `getAttestations` function fetches attestations for a specified address
-and blockchain in Ethereum Attestation Service (EAS). It allows optional filtering
-based on schema IDs, revocation status, expiration time, and the number of attestations to return.
+Функция `getAttestations` получает аттестации для указанного адреса и блокчейна в 
+Ethereum Attestation Service (EAS). Она позволяет выполнять опциональную фильтрацию по ID схем, 
+статусу отзыва, времени истечения и количеству возвращаемых аттестаций.
 
-In the example, we use the Coinbase [Verified Account](https://base.easscan.org/schema/view/0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9) schema ID.
+В примере мы используем Coinbase [Verified Account](https://base.easscan.org/schema/view/0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9) ID схемы.
 
-## Usage
+## Использование
 
 <CodeGroup>
 ```tsx code
@@ -48,24 +48,24 @@ const attestations = [
 ```
 </CodeGroup>
 
-## Returns
+## Возвращает
 
 [`Promise<Attestation[]>`](/onchainkit/identity/types#attestation)
 
-See [Attestation](/onchainkit/identity/types#attestation) and [GetAttestationsOptions](/onchainkit/identity/types#getattestationsoptions) for more details.
+Подробности смотрите в [Attestation](/onchainkit/identity/types#attestation) и [GetAttestationsOptions](/onchainkit/identity/types#getattestationsoptions).
 
-## Parameters
+## Параметры
 
 ### Address
 
 ```ts
-type Address = `0x${string}`; // The address for which attestations are being queried.
+type Address = `0x${string}`; // Адрес, для которого запрашиваются аттестации.
 ```
 
 ### Chain
 
 ```ts
-type Chain = { // The blockchain of interest.
+type Chain = { // Блокчейн, представляющий интерес.
   id: string;
   name: string;
   network: string;
