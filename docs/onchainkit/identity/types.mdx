@@ -1,6 +1,6 @@
 ---
-title: Identity components & utilities Types
-description: Glossary of Types in Identity components & utilities.
+title: Типы компонентов и утилит Identity
+description: Глоссарий типов в компонентах и утилитах Identity.
 sidebarTitle: Identity
 ---
 
@@ -8,10 +8,10 @@ sidebarTitle: Identity
 
 ```ts
 type AddressReact = {
-  address?: Address | null; // The Ethereum address to render.
-  className?: string; // Optional className override for top span element.
-  isSliced?: boolean; // Determines if the displayed address should be sliced.
-  hasCopyAddressOnClick?: boolean; // Defaults to true. Optional boolean to disable copy address on click functionality.
+  address?: Address | null; // Ethereum-адрес для отображения.
+  className?: string; // Опциональный className для переопределения стилей верхнего элемента span.
+  isSliced?: boolean; // Определяет, должен ли отображаемый адрес быть сокращенным.
+  hasCopyAddressOnClick?: boolean; // По умолчанию true. Опциональный boolean для отключения функции копирования адреса при клике.
 };
 ```
 
@@ -19,15 +19,15 @@ type AddressReact = {
 
 ```ts
 type Attestation = {
-  attester: Address; // the attester who created the attestation.
-  decodedDataJson: string; // The attestation data decoded to JSON.
-  expirationTime: number; // The Unix timestamp when the attestation expires (0 for no expiration).
-  id: string; // The unique identifier of the attestation.
-  recipient: Address; // The Ethereum address of the recipient of the attestation.
-  revocationTime: number; // The Unix timestamp when the attestation was revoked, if applicable.
-  revoked: boolean; // A boolean indicating whether the attestation is revocable or not.
-  schemaId: EASSchemaUid; // The schema identifier associated with the attestation.
-  time: number; // The Unix timestamp when the attestation was created.
+  attester: Address; // Аттестатор, создавший аттестацию.
+  decodedDataJson: string; // Данные аттестации, декодированные в JSON.
+  expirationTime: number; // Unix-время истечения срока действия аттестации (0 означает отсутствие срока).
+  id: string; // Уникальный идентификатор аттестации.
+  recipient: Address; // Ethereum-адрес получателя аттестации.
+  revocationTime: number; // Unix-время отзыва аттестации, если применимо.
+  revoked: boolean; // Boolean, указывающий, является ли аттестация отзывной или нет.
+  schemaId: EASSchemaUid; // Идентификатор схемы, связанной с аттестацией.
+  time: number; // Unix-время создания аттестации.
 };
 ```
 
@@ -35,21 +35,21 @@ type Attestation = {
 
 ```ts
 type AvatarReact = {
-  address?: Address | null; // The Ethereum address to fetch the avatar for.
-  chain?: Chain; // Optional chain for domain resolution
-  className?: string; // Optional className override for top div element.
-  loadingComponent?: JSX.Element; // Optional custom component to display while the avatar data is loading.
-  defaultComponent?: JSX.Element; // Optional custom component to display when no ENS name or avatar is available.
-  children?: ReactNode; // Optional attestation by passing Badge component as its children
-} & ImgHTMLAttributes<HTMLImageElement>; // Optional additional image attributes to apply to the avatar.
+  address?: Address | null; // Ethereum-адрес, для которого нужно получить аватар.
+  chain?: Chain; // Опциональная цепь для разрешения домена
+  className?: string; // Опциональный className для переопределения стилей верхнего элемента div.
+  loadingComponent?: JSX.Element; // Опциональный пользовательский компонент для отображения во время загрузки данных аватара.
+  defaultComponent?: JSX.Element; // Опциональный пользовательский компонент для отображения, когда имя ENS или аватар недоступны.
+  children?: ReactNode; // Опциональная аттестация путем передачи компонента Badge в качестве дочернего элемента
+} & ImgHTMLAttributes<HTMLImageElement>; // Опциональные дополнительные атрибуты изображения для применения к аватару.
 ```
 
 ## `BadgeReact`
 
 ```ts
 type BadgeReact = {
-  className?: string; // Optional className override for top span element.
-  tooltip?: boolean | string; // Controls whether the badge shows a tooltip on hover. When true, the tooltip displays the attestation's name. When a string is provided, that text overrides the default display. Defaults to false.
+  className?: string; // Опциональный className для переопределения стилей верхнего элемента span.
+  tooltip?: boolean | string; // Управляет отображением подсказки при наведении на бейдж. Когда `true`, подсказка отображает название аттестации. Когда указана строка, этот текст переопределяет отображение по умолчанию. По умолчанию `false`.
 };
 ```
 
@@ -81,9 +81,9 @@ type EASSchemaUid = `0x${string}`;
 
 ```ts
 type EASChainDefinition = {
-  easGraphqlAPI: string; // EAS GraphQL API endpoint
-  id: number; // blockchain source id
-  schemaUids: EASSchemaUid[]; // Array of EAS Schema UIDs
+  easGraphqlAPI: string; // Конечная точка EAS GraphQL API
+  id: number; // Идентификатор (ID) блокчейна-источника
+  schemaUids: EASSchemaUid[]; // Массив EAS Schema UID
 };
 ```
 
@@ -100,8 +100,8 @@ type EthBalanceReact = {
 
 ```ts
 type GetAddress = {
-  name: string | Basename; // Name to resolve
-  chain?: Chain; // Optional chain for domain resolution
+  name: string | Basename; // Имя для разрешения
+  chain?: Chain; // Опциональная цепь для разрешения домена
 };
 ```
 
@@ -115,10 +115,10 @@ type GetAddressReturnType = Address | null;
 
 ```ts
 type GetAttestationsOptions = {
-  schemas?: EASSchemaUid[]; // Array of schema UIDs to filter by
-  revoked?: boolean; // Filter by revocation status
-  expirationTime?: number; // Filter by expiration time
-  limit?: number; // Limit number of results
+  schemas?: EASSchemaUid[]; // Массив UID схем для фильтрации
+  revoked?: boolean; // Фильтр по статусу отзыва
+  expirationTime?: number; // Фильтр по времени истечения срока
+  limit?: number; // Ограничение количества результатов
 };
 ```
 
@@ -126,8 +126,8 @@ type GetAttestationsOptions = {
 
 ```ts
 type GetAvatar = {
-  ensName: string; // The ENS name to fetch the avatar for.
-  chain?: Chain; // Optional chain for domain resolution
+  ensName: string; // Имя ENS, для которого нужно получить аватар.
+  chain?: Chain; // Опциональная цепь для разрешения домена
 };
 ```
 
@@ -156,8 +156,8 @@ type GetNameReturnType = string | null;
 
 ```ts
 type GetNames = {
-  addresses: Address[]; // Array of Ethereum addresses to resolve names for
-  chain?: Chain; // Optional chain for domain resolution
+  addresses: Address[]; // Массив Ethereum-адресов для разрешения имен
+  chain?: Chain; // Опциональная цепь для разрешения домена
 };
 ```
 
@@ -169,7 +169,7 @@ type IdentityCardReact = {
   chain?: Chain;
   className?: string;
   schemaId?: Address | null;
-  badgeTooltip?: boolean | string; // Controls whether the badge shows a tooltip on hover. When true, the tooltip displays the attestation's name. When a string is provided, that text overrides the default display. Defaults to false.
+  badgeTooltip?: boolean | string; // правляет отображением подсказки при наведении на бейдж. Когда `true`, подсказка отображает название аттестации. Когда указана строка, этот текст переопределяет отображение по умолчанию. По умолчанию `false`.
 };
 ```
 
@@ -177,8 +177,8 @@ type IdentityCardReact = {
 
 ```ts
 type IdentityContextType = {
-  address: Address; // The Ethereum address to fetch the avatar and name for.
-  schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
+  address: Address; // Ethereum-адрес, для которого нужно получить аватар и имя.
+  schemaId?: Address | null; // Ethereum-адрес схемы для использования в EAS аттестации.
 };
 ```
 
@@ -186,12 +186,12 @@ type IdentityContextType = {
 
 ```ts
 type IdentityReact = {
-  address?: Address; // The Ethereum address to fetch the avatar and name for.
-  chain?: Chain; // Optional chain for domain resolution
+  address?: Address; // Ethereum-адрес, для которого нужно получить аватар и имя.
+  chain?: Chain; // Опциональная цепь для разрешения домена
   children: ReactNode;
-  className?: string; // Optional className override for top div element.
-  schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
-  hasCopyAddressOnClick?: boolean; // Optional boolean to disable copy address on click functionality.
+  className?: string; // Опциональный className для переопределения стилей верхнего элемента div.
+  schemaId?: Address | null; // Ethereum-адрес схемы для использования в EAS аттестации.
+  hasCopyAddressOnClick?: boolean; // Опциональный boolean для отключения функции копирования адреса при клике.
 };
 ```
 
@@ -199,19 +199,19 @@ type IdentityReact = {
 
 ```ts
 type NameReact = {
-  address?: Address | null; // Ethereum address to be displayed.
-  children?: ReactNode; // Optional attestation by passing Badge component as its children
-  chain?: Chain; // Optional chain for domain resolution
-  className?: string; // Optional className override for top span element.
-} & HTMLAttributes<HTMLSpanElement>; // Optional additional span attributes to apply to the name.
+  address?: Address | null; // Ethereum-адрес для отображения.
+  children?: ReactNode; // Опциональная аттестация путем передачи компонента Badge в качестве дочернего элемента
+  chain?: Chain; // Опциональная цепь для разрешения домена
+  className?: string; // Опциональный className для переопределения стилей верхнего элемента span.
+} & HTMLAttributes<HTMLSpanElement>; // Опциональные дополнительные атрибуты span для применения к имени.
 ```
 
 ## `UseAddressOptions`
 
 ```ts
 type UseAddressOptions = {
-  name: string | Basename; // The ENS or Basename for which the Ethereum address is to be fetched
-  chain?: Chain; // Optional chain for domain resolution
+  name: string | Basename; // Имя ENS или Basename, для которого нужно получить Ethereum-адрес
+  chain?: Chain; // Опциональная цепь для разрешения домена
 };
 ```
 
@@ -220,7 +220,7 @@ type UseAddressOptions = {
 ```ts
 type UseAvatarOptions = {
   ensName: string;
-  chain?: Chain; // Optional chain for domain resolution
+  chain?: Chain; // Опциональная цепь для разрешения домена
 };
 ```
 
@@ -228,8 +228,8 @@ type UseAvatarOptions = {
 
 ```ts
 type UseAvatarsOptions = {
-  ensNames: string[]; // Array of ENS names to resolve avatars for
-  chain?: Chain; // Optional chain for domain resolution
+  ensNames: string[]; // Массив имен ENS для разрешения аватаров
+  chain?: Chain; // Опциональная цепь для разрешения домена
 };
 ```
 
@@ -237,8 +237,8 @@ type UseAvatarsOptions = {
 
 ```ts
 type UseNameOptions = {
-  address: Address; // The address for which the ENS or Basename is to be fetched.
-  chain?: Chain; // Optional chain for domain resolution
+  address: Address; // Адрес, для которого нужно получить имя ENS или Basename.
+  chain?: Chain; // Опциональная цепь для разрешения домена
 };
 ```
 
@@ -246,8 +246,8 @@ type UseNameOptions = {
 
 ```ts
 type UseNamesOptions = {
-  addresses: Address[]; // Array of addresses to resolve ENS or Basenames for
-  chain?: Chain; // Optional chain for domain resolution
+  addresses: Address[]; // Массив адресов для разрешения имен ENS или Basenames
+  chain?: Chain; // Опциональная цепь для разрешения домена
 };
 ```
 
