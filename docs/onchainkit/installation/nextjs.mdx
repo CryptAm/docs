@@ -1,29 +1,29 @@
 ---
-title: Next.js Installation · OnchainKit
-sidebarTitle: Next.js Installation
-description: Install OnchainKit using Next.js
+title: Установка для Next.js · OnchainKit
+sidebarTitle: Установка для Next.js
+description: Установите OnchainKit с использованием Next.js
 ---
 
 import StartBuilding from "/snippets/start-building.mdx";
 
-Install and configure OnchainKit with Next.js.
-If you are integrating OnchainKit into an existing project,
-skip to the [OnchainKit installation](#install-onchainkit).
+Установите и настройте OnchainKit вместе с Next.js.
+Если вы интегрируете OnchainKit в существующий проект,
+перейдите сразу к разделу [установки OnchainKit](#install-onchainkit).
 
 <Steps>
-  <Step title="Install Next.js">
-  Create a new Next.js project by using the Next.js CLI.
-  More information about Next.js can be found [here](https://nextjs.org/docs/getting-started/installation).
+  <Step title="Установите Next.js">
+  Создайте новый проект Next.js с помощью Next.js CLI. 
+  Подробную информацию о Next.js можно найти [здесь](https://nextjs.org/docs/getting-started/installation).
 
   ```bash npm
   npx create-next-app@14
   ```
 
-  During the setup process you will encounter multiple prompts.
-  Make sure you enable TypeScript, ESLint, and Tailwind CSS.
+  В процессе настройки вам будет предложено несколько опций.
+  Убедитесь, что вы включили TypeScript, ESLint и Tailwind CSS.
   </Step>
-  <Step title="Install OnchainKit">
-  Install OnchainKit in your project.
+  <Step title="Установите OnchainKit">
+  Установите OnchainKit в ваш проект.
 
   <CodeGroup>
   ```bash npm
@@ -43,8 +43,8 @@ skip to the [OnchainKit installation](#install-onchainkit).
   ```
   </CodeGroup>
   </Step>
-  <Step title="Get Your Client API Key">
-  Get your [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) from Coinbase Developer Platform.
+  <Step title="Получите ваш Client API Key">
+  Получите ваш [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) от Coinbase Developer Platform.
 
 <Frame>
   <img
@@ -54,7 +54,7 @@ skip to the [OnchainKit installation](#install-onchainkit).
   />
 </Frame>
 
-  Create a `.env` file in your project's root directory.
+  Создайте файл `.env` в корневой директории вашего проекта.
 
 <Frame>
   <img
@@ -65,18 +65,18 @@ skip to the [OnchainKit installation](#install-onchainkit).
   />
 </Frame>
 
-  Add your Client API Key to the `.env` file:
+  Добавьте ваш Client API Key в файл `.env`:
 
   ```tsx .env
   NEXT_PUBLIC_ONCHAINKIT_API_KEY=YOUR_CLIENT_API_KEY;
   ```
   </Step>
-  <Step title="Add Providers">
-  Create a `providers.tsx` file. Add `OnchainKitProvider` with your desired config.
+  <Step title="Добавьте провайдеры">
+  Создайте файл `providers.tsx`. Добавьте `OnchainKitProvider` с нужной вам конфигурацией.
 
-  Under the hood, OnchainKit will create our recommended Wagmi and QueryClient
-  providers. If you wish to customize these providers, check out [Custom
-  Supplemental Providers](/onchainkit/config/supplemental-providers).
+  Внутри OnchainKit автоматически создаст наших рекомендованных провайдеров Wagmi и QueryClient. 
+  Если вы хотите их кастомизировать, ознакомьтесь с разделом [Пользовательские 
+  дополнительные провайдеры](/onchainkit/config/supplemental-providers).
 
   ```tsx providers.tsx
   // @noErrors: 2307 2580 2339 - cannot find 'process', cannot find './wagmi', cannot find 'import.meta'
@@ -84,13 +84,13 @@ skip to the [OnchainKit installation](#install-onchainkit).
 
   import type { ReactNode } from 'react';
   import { OnchainKitProvider } from '@coinbase/onchainkit';
-  import { base } from 'wagmi/chains'; // add baseSepolia for testing // [!code ++]
+  import { base } from 'wagmi/chains'; // добавьте baseSepolia для тестирования // [!code ++]
 
   export function Providers(props: { children: ReactNode }) {
     return (
       <OnchainKitProvider
         apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY} // [!code ++]
-        chain={base} // add baseSepolia for testing // [!code ++]
+        chain={base} // добавьте baseSepolia для тестирования // [!code ++]
       >
         {props.children}
       </OnchainKitProvider>
@@ -98,8 +98,8 @@ skip to the [OnchainKit installation](#install-onchainkit).
   }
   ```
   </Step>
-  <Step title="Wrap your app with <Providers />">
-  After the setup, wrap your app with the above `<Providers />` component.
+  <Step title="Оберните ваше приложение в <Providers />">
+  После настройки оберните ваше приложение компонентом `<Providers />` созданным выше.
 
   ```javascript app.tsx
   import './globals.css';
@@ -122,14 +122,14 @@ skip to the [OnchainKit installation](#install-onchainkit).
   }
   ```
   </Step>
-  <Step title="Add Styles">
-  OnchainKit components come with pre-configured styles. To include these styles in your project, add the following import statement at the top of this file:
+  <Step title="Добавьте стили">
+  Компоненты OnchainKit поставляются с предустановленными стилями. Чтобы подключить эти стили в ваш проект, добавьте следующую строку импорта в начало соответствующего файла:
 
   ```javascript
   import '@coinbase/onchainkit/styles.css';
   ```
 
-  For example, if you're using Next.js with the app router, your `app/layout.tsx` might look like this:
+  Например, если вы используете Next.js с маршрутизатором приложения (`app router`), ваш файл `app/layout.tsx` может выглядеть так:
 
   ```tsx layout.tsx
   import '@coinbase/onchainkit/styles.css'; // [!code ++]
@@ -165,12 +165,12 @@ skip to the [OnchainKit installation](#install-onchainkit).
   }
   ```
 
-  This ensures that the OnchainKit styles are loaded and applied to your entire application.
+  Это гарантирует, что стили OnchainKit будут загружены и применены ко всему вашему приложению.
 
-  - For Tailwind CSS users, check out our [Tailwind Integration Guide](/onchainkit/guides/tailwind).
+  - Пользователям Tailwind CSS рекомендуем ознакомиться с нашим [Руководством по интеграции с Tailwind](/onchainkit/guides/tailwind).
 
-  - Update the appearance of components by using our built-in themes or crafting your own custom theme.
-    Explore the possibilities in our [Theming Guide](/onchainkit/guides/themes).
+  - Изменяйте внешний вид компонентов с помощью наших встроенных тем или создавайте свою собственную тему.
+    Изучите возможности в нашем [Руководстве по темам](/onchainkit/guides/themes).
 
   </Step>
 </Steps>
