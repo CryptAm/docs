@@ -1,37 +1,37 @@
 ---
-title: Defi Your App
-description: Add common financial features like token swaps and yield generating strategies to your app with pre-built React components from OnchainKit.
+title: Добавьте DeFi в ваше приложение
+description: Добавьте распространенные финансовые функции, такие как обмен токенов и стратегии генерации дохода (yield), в ваше приложение с помощью готовых React компонентов из OnchainKit.
 ---
 
 import { Danger } from "/snippets/danger.mdx";
 
-When businesses and individuals make financial transactions, it often includes swapping assets and then storing eligible assets in a yield generating strategy. This guide will show you how to quickly add these features to your app with pre-built React components from OnchainKit.
+Когда компании и частные лица совершают финансовые операции, это часто включает обмен активов и последующее размещение подходящих активов в стратегиях, генерирующих доход (yield). Это руководство покажет вам, как быстро добавить эти функции в ваше приложение с помощью готовых React компонентов из OnchainKit.
 
-## Ready-to-use components
-- [`<Swap />`](/onchainkit/swap/swap): Swap assets directly within your app.
-- [`<Earn />`](/onchainkit/earn/earn): Generate yield directly within your app.
-- [`<FundCard />`](/onchainkit/fund/fund-card): Fund their wallets with fiat (via USDC, Apple Pay, or debit card) without leaving your appi
-- [`<Buy />`](/onchainkit/buy/buy): Purchase tokens directly within your app.
-
-
-By embedding the `Swap` and `Earn` components, your users don't need to leave your app to execute these common actions. For users who lack onchain funds, the `Fund` and `Buy` components offer an integrated fiat-to-crypto onramp.
+## Готовые к использованию компоненты
+- [`<Swap />`](/onchainkit/swap/swap): Обменивайте активы прямо в вашем приложении.
+- [`<Earn />`](/onchainkit/earn/earn): Генерируйте доход (yield) прямо в вашем приложении.
+- [`<FundCard />`](/onchainkit/fund/fund-card): Пополняйте кошельки фиатом (через USDC, Apple Pay или банковскую карту), не покидая ваше приложение
+- [`<Buy />`](/onchainkit/buy/buy): Покупайте токены прямо в вашем приложении.
 
 
-## Swap Component Integration
+Встраивая компоненты `Swap` и `Earn`, ваши пользователи не должны покидать ваше приложение для выполнения этих распространенных действий. Для пользователей, у которых нет средств в блокчейне, компоненты `Fund` и `Buy` предлагают интегрированный фиатный онрамп (fiat-to-crypto onramp).
 
-The `Swap` component lets users exchange one token for another directly in your application. It fetches live quotes, builds transactions, and executes swaps—abstracting the underlying complexity.
 
-Lets add the `Swap` component to your app.
+## Интеграция компонента Swap
+
+Компонент `Swap` позволяет пользователям обменивать один токен на другой прямо в вашем приложении. Он получает актуальные котировки, строит транзакции и выполняет обмены — абстрагируя лежащую в основе сложность.
+
+Давайте добавим компонент `Swap` в ваше приложение.
 
 <Steps>
-  <Step title="Install and Configure OnchainKit">
-  Create a new OnchainKit app
+  <Step title="Установите и настройте OnchainKit">
+  Создайте новое OnchainKit приложение
 
   ```bash Terminal
   npm create onchain@latest
   ```
   </Step>
-  <Step title="Import and Render the Swap Component">
+  <Step title="Импортируйте и отрендерите компонент Swap">
        ```typescript App.tsx
         import { SwapDefault } from '@coinbase/onchainkit/swap'; // [!code focus]
         import type { Token } from '@coinbase/onchainkit/token';
@@ -64,7 +64,7 @@ Lets add the `Swap` component to your app.
   </Step>
 </Steps>
 
-You should now see the following swap component in your app:
+Теперь вы должны увидеть следующий компонент обмена в вашем приложении:
 
 <iframe
   src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-swap-wallet--not-connected&viewMode=story&dark=true&hero=true"
@@ -92,27 +92,27 @@ You should now see the following swap component in your app:
     </SwapWrapper>
 </App> */}
 
-The Swap component uses **Uniswap V3** as the default router, but you can also use the **0x Aggregator** by setting the `experimental.useAggregator` prop to `true`.
+Компонент Swap использует **Uniswap V3** в качестве маршрутизатора по умолчанию, но вы также можете использовать **0x Aggregator**, установив свойство `experimental.useAggregator` в `true`.
 
 
 
-### Swap Settings
-The Swap component comes preconfigured but is highly customizable. Just a couple of the settings you can customize:
-- Swap settings
-- bidirectional or unidirectional swaps
-- Gasless swaps with paymasters
+### Настройки Swap
+Компонент Swap поставляется предварительно настроенным, но его можно значительно кастомизировать. Всего пара настроек, которые вы можете изменить:
+- Параметры обмена
+- Двусторонние или односторонние обмены
+- Бесплатные (gasless) обмены с помощью paymaster
 
-To learn more about how to customize the Swap component, check out the [Swap docs](/onchainkit/swap/swap).
+Чтобы узнать больше о том, как кастомизировать компонент Swap, ознакомьтесь с [документацией Swap](/onchainkit/swap/swap).
 
 
-## Earn Component Integration
+## Интеграция компонента Earn
 
-The `Earn` component enables users to deposit assets into yield-generating vaults and withdraw them later—all within your app. The `Earn` component currently supports Morpho vaults on Base.
+Компонент `Earn` позволяет пользователям депонировать активы в сейфы (vaults), генерирующие доход (yield), и выводить их позже - всё внутри вашего приложения. Компонент `Earn` в настоящее время поддерживает сейфы Morpho на Base.
 
 <Info>
-**Get a vault address**
+**Получите адрес хранилища**
 
-You can get a vault address from Morpho's [Vaults page](https://app.morpho.org/base/earn). You will use this address when setting up the `Earn` component.
+Вы можете получить адрес сейфа на странице [Vaults page](https://app.morpho.org/base/earn) Morpho. Вы будете использовать этот адрес при настройке компонента `Earn`.
 </Info>
 
 
@@ -123,7 +123,7 @@ import { Earn } from '@coinbase/onchainkit/earn'; // [!code focus]
 <Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A" /> // [!code focus]
 ```
 
-Just like that, you've added a yield-generating vault to your app.
+Вот так просто вы добавили сейф, генерирующий доход (yield), в ваше приложение.
 
 <iframe
   src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-earn--main&viewMode=story&dark=true&hero=true"
@@ -133,11 +133,11 @@ Just like that, you've added a yield-generating vault to your app.
 
 {/* <EarnMain /> */}
 
-### Advanced Customizations
-Similar to the Swap component, the Earn component is highly customizable. Lets customize our component to include custom deposit buttons for a streamlined user experience.
+### Продвинутая кастомизация
+Как и компонент Swap, компонент Earn можно значительно кастомизировать. Давайте настроим наш компонент, чтобы включить пользовательские кнопки для депозита, для оптимизированного пользовательского опыта.
 
-- `useEarnContext` to access the component's context values, `EarnDeposit` and `EarnDetails`
-- `DepositButton` to render custom deposit buttons
+- `useEarnContext` для доступа к значениям контекста компонента, `EarnDeposit` и `EarnDetails`
+- `DepositButton` для рендеринга пользовательских кнопок депозита
 
 <CodeGroup>
 ```tsx index.tsx
@@ -197,18 +197,18 @@ function CustomDepositButtons() {
 
 {/* <PredefinedInputDeposit /> */}
 
-## Onboarding Users in DeFi
+## Онбординг пользователей в DeFi
 
-In order to leverage the `<FundCard/>` and `<Buy />` components, users need to have funds in their wallet. If user's don't have funds, they'll need to onramp fiat or buy tokens in order to transact. We'll explore two out-of-the-box solutions from OnchainKit below.
+Чтобы использовать компоненты `<FundCard/>` и `<Buy />`, пользователям необходимо иметь средства в кошельке. Если у пользователей нет средств, им потребуется фиатный онрамп или покупка токенов для совершения транзакций. Ниже мы рассмотрим два готовых решения от OnchainKit.
 
-The `Fund` component (via `<FundCard />`) offers a complete fiat onramp experience, allowing users to add funds to their wallet directly in your app.  It provides:
-- Amount input with fiat/crypto switching
-- Payment method selection (Coinbase, Apple Pay, Debit Card)
-- Automatic exchange rate updates
-- Smart handling of payment method restrictions (based on country and subdivision)
+Компонент `Fund` (через `<FundCard />`) предлагает полный опыт фиатного онрампа, позволяя пользователям пополнять свои кошельки прямо в вашем приложении. Он предоставляет:
+- Ввод суммы с переключением между фиатом и криптовалютой
+- Выбор способа оплаты (Coinbase, Apple Pay, Банковская карта)
+- Автоматические обновления обменных курсов
+- Умную обработку ограничений способов оплаты (в зависимости от страны и региона)
 
 <Tip>
-To use the `FundCard` component, you'll need to provide a Client API Key in `OnchainKitProvider`. You can get one following our [Getting Started](/onchainkit/installation/nextjs#get-your-client-api-key) steps.
+Чтобы использовать компонент `FundCard`, вам нужно предоставить Client API Key в `OnchainKitProvider`. Вы можете получить его, следуя нашим шагам из ['Начало работы'](/onchainkit/installation/nextjs#get-your-client-api-key).
 </Tip>
 
 
@@ -248,16 +248,16 @@ import { FundCard } from '@coinbase/onchainkit/fund';
   </FundWrapper>
 </App> */}
 
-To learn more about the `FundCard` component and its features, check out the [FundCard docs](/onchainkit/fund/fund-card).
+Чтобы узнать больше о компоненте FundCard и его функциях, ознакомьтесь с [документацией FundCard](/onchainkit/fund/fund-card).
 
-## The `Buy` Component
+## Компонент `Buy`
 
-The `Buy` components provide a comprehensive interface for users to purchase [Tokens](/onchainkit/token/types#token).
+Компоненты `Buy` предоставляют комплексный интерфейс для покупки пользователями [токенов](/onchainkit/token/types#token).
 
-The `Buy` component supports token swaps from USDC and ETH by default with the option to provide an additional token of choice using the `fromToken` prop. Users are able to purchase tokens using their Coinbase account, Apple Pay, or debit card.
+Компонент `Buy` поддерживает обмен токенов из USDC и ETH по умолчанию, с возможностью предоставить дополнительный токен по выбору, используя свойство `fromToken`. Пользователи могут покупать токены, используя свой аккаунт Coinbase, Apple Pay или банковскую карту.
 
 <Note>
-This component requires a `projectId` to be set in the `OnchainKitProvider`. You can find your `projectId` on [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/onchainkit).
+Этот компонент требует установки `projectId` в `OnchainKitProvider`. Вы можете найти ваш `projectId` на [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/onchainkit).
 </Note>
 
 
@@ -300,27 +300,27 @@ export default function BuyComponents() { // [!code focus]
 </App> */}
 
 <Danger>
-**Note: This interface is for demonstration purposes only.**
+**Примечание: Этот интерфейс предназначен только для демонстрационных целей.**
 
-Swap and Onramp flows will execute and work out of the box when you implement the component in your own app.
+Потоки Swap и Onramp будут выполняться и работать из коробки, когда вы реализуете компонент в вашем собственном приложении.
 </Danger>
 
 
-By combining Swap, Earn, Fund, and Buy with these additional tools, you can quickly build a robust in-app DeFi experience with minimal development overhead. This lets you focus on building your unique value proposition.
+Комбинируя Swap, Earn, Fund и Buy с этими дополнительными инструментами, вы можете быстро построить надежный DeFi опыт внутри приложения с минимальными затратами на разработку. Это позволяет вам сосредоточиться на построении вашего уникального ценностного предложения.
 
 
-## Next Steps
+## Следующие шаги 
 
-If you're using these components, its likely you'll benefit from the following components:
+Если вы используете эти компоненты, вам, вероятно, будут полезны следующие компоненты:
 
-- [`<Transaction/>`](/onchainkit/transaction/transaction): Provides a high-level transaction interface for executing custom onchain transactions.
-
-
-- [`<TokenChip/>`](/onchainkit/token/token-chip): Offers utilities for token selection and display, ideal for building wallet-like interfaces.
+- [`<Transaction/>`](/onchainkit/transaction/transaction): Предоставляет высокоуровневый интерфейс для транзакций для выполнения пользовательских ончейн транзакций.
 
 
-- [`<WalletIsland/>`](/onchainkit/wallet/wallet-island): An advanced, draggable wallet widget that consolidates wallet management (QR code, buy options, swap, portfolio view) in one interface.
+- [`<TokenChip/>`](/onchainkit/token/token-chip): Предоставляет утилиты для выбора и отображения токенов, идеально подходит для создания интерфейсов, подобных кошелькам.
 
 
-### Go Gasless
-For the `<Buy />` and `<Swap/>` components, you can enable gasless transactions by setting the [`isSponsored`](/onchainkit/buy/buy#sponsor-gas-with-paymaster) prop to `true`.
+- [`<WalletIsland/>`](/onchainkit/wallet/wallet-island): Продвинутый, перемещаемый виджет кошелька, который объединяет управление кошельком (QR код, опции покупки, обмен, вид портфеля) в одном интерфейсе.
+
+
+### Используйте бесплатные транзакции (Go Gasless)
+Для компонентов `<Buy />` и `<Swap/>`, вы можете включить бесплатные транзакции (gasless), установив свойство [`isSponsored`](/onchainkit/buy/buy#sponsor-gas-with-paymaster) в `true`.
