@@ -1,10 +1,10 @@
 ---
-title: "AI Agent with Spend Permissions"
-description: "Build an AI agent that can autonomously buy creator coins using Spend Permissions from Base Account"
+title: "AI Agent с разрешениями на траты (Spend Permissions)"
+description: "Создайте AI агента, который может автономно покупать криптовалюту создателей с помощью Spend Permissions от Base Account"
 ---
 
-Learn how to build an AI agent that can autonomously purchase [Zora Creator Coins](https://docs.zora.co/coins) using secure [Spend Permissions](/base-account/improve-ux/spend-permissions) on Base.
-This example demonstrates how to combine Base Account's [Spend Permissions](/base-account/improve-ux/spend-permissions) with Coinbase Developer Platform (CDP) [Server Wallets](https://docs.cdp.coinbase.com/server-wallets/v2/introduction/quickstart) and [Trade API](https://docs.cdp.coinbase.com/trade-api/quickstart) for seamless, gas-free AI agent transactions.
+Узнайте, как создать AI агента, который может автономно покупать [Zora Creator Coins](https://docs.zora.co/coins) используя безопасные [Spend Permissions](/base-account/improve-ux/spend-permissions) в Base.
+Этот пример демонстрирует, как объединить [Spend Permissions](/base-account/improve-ux/spend-permissions) от Base Account с [Server Wallets](https://docs.cdp.coinbase.com/server-wallets/v2/introduction/quickstart) и [Trade API](https://docs.cdp.coinbase.com/trade-api/quickstart) от Coinbase Developer Platform (CDP) для выполнения бесшовных, бесплатных (gas-free) транзакций AI агентом.
 
 <Frame>
   <img
@@ -13,43 +13,43 @@ This example demonstrates how to combine Base Account's [Spend Permissions](/bas
   />
 </Frame>
 
-## Overview
+## Обзор
 
-This example showcases a complete AI agent implementation that:
+Этот пример демонстрирует полную реализацию AI агента, которая:
 
-- **Authenticates users** with Base Account using [Sign-In with Base (SIWE)](/base-account/guides/authenticate-users)
-- **Manages Spend Permissions** allowing users to set daily spending limits using [ Base Account Spend Permissions](/base-account/improve-ux/spend-permissions)
-- **Processes natural language** requests to buy Zora creator coins using [OpenAI](https://openai.com/)
-- **Executes transactions** autonomously using CDP [Server Wallets](https://docs.cdp.coinbase.com/server-wallets/v2/introduction/quickstart) and [Trade API](https://docs.cdp.coinbase.com/trade-api/quickstart)
-- **Sponsors gas fees** using [CDP Paymaster](https://docs.cdp.coinbase.com/paymaster/introduction/welcome) for seamless UX
-- **Fetches creator coin details** using [Zora SDK](https://docs.zora.co/coins/sdk)
+- **Аутентифицирует пользователей** с помощью Base Account, используя (SIWE)](/base-account/guides/authenticate-users)
+- **Управляет разрешениями на траты (Spend Permissions)**, позволяя пользователям устанавливать дневные лимиты с помощью [ Base Account Spend Permissions](/base-account/improve-ux/spend-permissions)
+- **Обрабатывает запросы на естественном языке** для покупки Zora creator coins с использованием [OpenAI](https://openai.com/)
+- **Выполняет транзакции** автономно с использованием [Server Wallets](https://docs.cdp.coinbase.com/server-wallets/v2/introduction/quickstart) и [Trade API](https://docs.cdp.coinbase.com/trade-api/quickstart) от CDP
+- **Спонсирует комиссию за газ (Gas Fees) с использованием [CDP Paymaster](https://docs.cdp.coinbase.com/paymaster/introduction/welcome) для бесшовного UX
+- **Получает детали creator coins** с использованием [Zora SDK](https://docs.zora.co/coins/sdk)
 
 <CardGroup cols={2}>
   <Card
-    title="Live Demo"
+    title="Живая демо"
     icon="rocket"
     href="https://base-agent-spend-permissions.vercel.app"
   >
-    Try the live application and see spend permissions in action
+    Попробуйте живое приложение и посмотрите разрешения на траты в действии
   </Card>
   <Card
-    title="Source Code"
+    title="Исходный код"
     icon="github"
     href="https://github.com/base/demos/tree/master/base-account/agent-spend-permissions"
   >
-    Explore the complete implementation on GitHub
+    Изучите полную реализацию на GitHub
   </Card>
 </CardGroup>
 
 <Warning>
-  **Production Security**: This example uses simplified session management for demonstration. In production, implement proper JWT tokens with secure session secrets.
+  **Безопасность для продакшена**: Этот пример использует упрощенное управление сессиями для демонстрации. В продакшене реализуйте корректные JWT токены с безопасными секретами сессий.
 </Warning>
 
-## Key Features
+## Ключевые возможности
 
-### 🔐 Secure Authentication
+### 🔐 Безопасная аутентификация
 
-The authentication flow combines frontend wallet connection with backend signature verification:
+Процесс аутентификации сочетает подключение кошелька на фронтенде с верификацией подписи на бэкенде:
 
 <CodeGroup>
 ```typescript src/components/SignInWithBase.tsx
@@ -58,11 +58,11 @@ const provider = createBaseAccountSDK({
   appName: "Zora Creator Coins Agent",
 }).getProvider();
 
-// 1. Get nonce from server
+// 1. Получаем nonce с сервера
 const nonceResponse = await fetch('/api/auth/verify', { method: 'GET' });
 const { nonce } = await nonceResponse.json();
 
-// 2. Connect with SIWE capability
+// 2. Подключаемся с поддержкой SIWE
 const connectResponse = await provider.request({
   method: "wallet_connect",
   params: [{
@@ -76,7 +76,7 @@ const connectResponse = await provider.request({
   }],
 });
 
-// 3. Verify signature on server
+// 3. Проверяем подпись на сервере
 const verifyResponse = await fetch('/api/auth/verify', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
@@ -85,20 +85,20 @@ const verifyResponse = await fetch('/api/auth/verify', {
 ```
 
 ```typescript src/app/api/auth/verify/route.ts
-// Backend: Signature verification and session management
+// Бэкенд: Верификация подписи и управление сессиями
 export async function POST(request: NextRequest) {
   const { address, message, signature } = await request.json();
 
-  // Extract and validate nonce
+  // Извлекаем и проверяем nonce
   const nonce = message.match(/Nonce: (\w+)/)?.[1];
   if (!nonce || !nonces.has(nonce)) {
     return NextResponse.json({ error: 'Invalid or expired nonce' }, { status: 401 });
   }
 
-  // Remove nonce to prevent reuse
+  // Удаляем nonce для предотвращения повторного использования
   nonces.delete(nonce);
 
-  // Verify signature using viem
+  // Проверяем подпись с помощью viem
   const isValid = await client.verifyMessage({ 
     address: address as `0x${string}`, 
     message, 
@@ -106,12 +106,12 @@ export async function POST(request: NextRequest) {
   });
   
   if (isValid) {
-    // Create secure session token
+    // Создаем безопасный токен сессии
     const sessionToken = Buffer.from(`${address}:${Date.now()}`).toString('base64');
     
     const response = NextResponse.json({ ok: true, address, sessionToken });
     
-    // Set secure session cookie
+    // Устанавливаем безопасную cookie сессии
     response.cookies.set('session', sessionToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
-  // Generate secure nonce for authentication challenge
+  // Генерируем безопасный nonce для запроса аутентификации
   const array = new Uint8Array(16);
   crypto.getRandomValues(array);
   const nonce = Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
@@ -135,41 +135,41 @@ export async function GET() {
 ```
 </CodeGroup>
 
-### 💸 Spend Permission Management
+### 💸 Управление разрешениями на траты (Spend Permission)
 
-Users can grant limited spending authority to the agent:
+Пользователи могут предоставлять агенту ограниченные права на расходование средств:
 
 <CodeGroup>
 ```typescript src/components/SpendPermissionSetup.tsx
-// Frontend: Request spend permission from user
+// Фронтенд: Запрос разрешения на траты у пользователя
 import { requestSpendPermission } from "@base-org/account/spend-permission";
 import { createBaseAccountSDK } from "@base-org/account";
 
 const handleSetupPermission = async () => {
-  // Get server wallet address
+  // Получаем адрес серверного кошелька
   const walletResponse = await fetch("/api/wallet/create", { method: "POST" });
   const { smartAccountAddress } = await walletResponse.json();
 
-  // Request spend permission
+  // Запрашиваем разрешение на траты
   const permission = await requestSpendPermission({
     account: userAddress as `0x${string}`,
     spender: smartAccountAddress as `0x${string}`,
     token: USDC_BASE_ADDRESS as `0x${string}`,
     chainId: 8453,
-    allowance: BigInt(dailyLimit * 1_000_000), // Convert USD to USDC (6 decimals)
+    allowance: BigInt(dailyLimit * 1_000_000), // Конвертируем USD в USDC (6 decimals)
     periodInDays: 1,
     provider: createBaseAccountSDK({
       appName: "Zora Creator Coins Agent",
     }).getProvider(),
   });
 
-  // Store permission for later use
+  // Сохраняем разрешение для дальнейшего использования
   localStorage.setItem("spendPermission", JSON.stringify(permission));
 };
 ```
 
 ```typescript src/lib/spend-permissions.ts
-// Utility: Spend permission constants and helpers
+// Утилита: Константы и вспомогательные функции для разрешений на траты
 export const USDC_BASE_ADDRESS = '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913';
 
 export async function getUserSpendPermissions(
@@ -185,7 +185,7 @@ export async function getUserSpendPermissions(
     }).getProvider(),
   });
 
-  // Filter for USDC permissions with case-insensitive comparison
+  // Фильтруем разрешения для USDC с учетом регистра
   return permissions.filter(p => 
     p.permission?.token?.toLowerCase() === USDC_BASE_ADDRESS.toLowerCase()
   );
@@ -194,16 +194,16 @@ export async function getUserSpendPermissions(
 </CodeGroup>
 
 <Callout type="info">
-  Spend permissions are granted for USDC on Base mainnet with daily limits between $1-$2, making it safe for testing and demonstrations.
+  Разрешения на траты предоставляются для USDC в сети Base mainnet с дневными лимитами от $1 до $2, что безопасно для тестирования и демонстраций.
 </Callout>
 
-### 🤖 AI Agent Integration
+### 🤖 Интеграция AI агента
 
-The agent processes natural language requests and executes transactions:
+Агент обрабатывает запросы на естественном языке и выполняет транзакции:
 
 <CodeGroup>
 ```typescript src/lib/openai.ts
-// AI function definition for creator coin purchases
+// Определение функции AI для покупки
 export const ZORA_BUY_FUNCTION = {
   type: 'function' as const,
   function: {
@@ -246,7 +246,7 @@ export async function generateChatResponse(
 ```
 
 ```typescript src/components/ChatInterface.tsx
-// Frontend: Chat interface with AI agent
+// Фронтенд: Интерфейс чата с AI агентом
 const sendMessage = async () => {
   const userMessage: Message = {
     id: Date.now().toString(),
@@ -293,24 +293,24 @@ const sendMessage = async () => {
 ```
 </CodeGroup>
 
-### ⛽ Gas-Free Transactions
+### ⛽ Бесплатные транзакции (Gas-Free)
 
-All transactions are sponsored using CDP Paymaster:
+Все транзакции спонсируются с использованием CDP Paymaster:
 
 ```typescript src/app/api/zora/buy/route.ts
-// Backend: Gas-sponsored transaction execution
+// Бэкенд: Выполнение транзакций со спонсированием газа
 import { prepareSpendCallData } from '@base-org/account/spend-permission';
 
 export async function POST(request: NextRequest) {
   const { zoraHandle, amountUSD, permission } = await request.json();
   
-  // Convert USD to USDC (6 decimals)
+  // Конвертируем USD в USDC (6 decimals)
   const amountUSDC = BigInt(Math.floor(amountUSD * 1_000_000));
   
-  // Prepare spend calls using the permission
+  // Подготавливаем вызовы для трат с использованием разрешения
   const spendCalls = await prepareSpendCallData(permission, amountUSDC);
   
-  // Execute with gas sponsorship
+  // Выполняем со спонсированием газа
   const result = await sendCalls({
     calls: spendCalls,
     capabilities: {
@@ -328,28 +328,28 @@ export async function POST(request: NextRequest) {
 }
 ```
 
-## Implementation Details
+## Детали реализации
 
-### Authentication Flow
+### Процесс аутентификации
 
 <Steps>
-  <Step title="Nonce Generation">
-    Server generates a secure nonce for the authentication challenge
+  <Step title="Генерация Nonce">
+    Сервер генерирует безопасный nonce для запроса аутентификации
   </Step>
-  <Step title="Signature Request">
-    User signs a SIWE message containing the nonce with their Base Account
+  <Step title="Запрос подписи">
+    Пользователь подписывает сообщение SIWE, содержащее nonce, с помощью своего Base Account
   </Step>
-  <Step title="Signature Verification">
-    Server verifies the signature and nonce to establish a secure session
+  <Step title="Проверка подписи">
+    Сервер проверяет подпись и nonce для установления безопасной сессии
   </Step>
-  <Step title="Session Creation">
-    Authenticated session is created with secure cookies
+  <Step title="Создание сессии">
+    Создается аутентифицированная сессия с безопасными cookies
   </Step>
 </Steps>
 
-### Spend Permission Workflow
+### Процесс работы с разрешениями на траты
 
-<Accordion title="Permission Request Flow">
+<Accordion title="Процесс запроса разрешения">
 ```mermaid
 sequenceDiagram
     participant User
@@ -358,18 +358,18 @@ sequenceDiagram
     participant BaseAccount
     participant SpendManager
 
-    User->>Frontend: Set daily limit ($1-$2)
-    Frontend->>Server: Create server wallet
-    Server-->>Frontend: Return spender address
-    Frontend->>BaseAccount: Request spend permission
-    BaseAccount->>User: Show signature prompt
-    User->>BaseAccount: Sign permission
-    BaseAccount-->>Frontend: Return signed permission
-    Frontend->>SpendManager: Store permission onchain
+    Пользователь->>Фронтенд: Устанавливает дневной лимит ($1-$2)
+    Фронтенд->>Сервер: Создает серверный кошелек
+    Сервер-->>Фронтенд: Возвращает адрес тратящего (spender)
+    Фронтенд->>BaseAccount: Запрашивает разрешение на траты
+    BaseAccount->>Пользователь: Показывает запрос на подпись
+    Пользователь->>BaseAccount: Подписывает разрешение
+    BaseAccount-->>Фронтенд: Возвращает подписанное разрешение
+    Фронтенд->>SpendManager: Сохраняет разрешение в блокчейне
 ```
 </Accordion>
 
-### AI Agent Transaction Flow
+### Процесс транзакций AI агента
 
 <Accordion title="Purchase Execution Flow">
 ```mermaid
@@ -380,23 +380,23 @@ sequenceDiagram
     participant Zora
     participant Base
 
-    User->>AI: "Buy $1.50 of @creator's coin"
-    AI->>Server: Execute buy_zora_coin function
-    Server->>Zora: Get creator coin details
-    Server->>Base: Prepare spend transaction
-    Base->>Base: Verify spend permission
-    Base->>Zora: Execute purchase (gas sponsored)
-    Zora-->>User: Transfer coins to wallet
+    Пользователь->>AI: "Купи на $1,50 coin пользователя @creator"
+    AI->>Сервер: Выполняет функцию buy_zora_coin
+    Сервер->>Zora: Получает детали creator coin
+    Сервер->>Base: Подготавливает транзакцию трат
+    Base->>Base: Проверяет разрешение на траты
+    Base->>Zora: Выполняет покупку (газ спонсирован)
+    Zora-->>Пользователь: Переводит coins в кошелек
 ```
 </Accordion>
 
-## Code Structure
+## Структура кода
 
-### Frontend Components
+### Фронтенд компоненты
 
 <CodeGroup>
 ```typescript src/components/SignInWithBase.tsx
-// Base Account authentication with SIWE
+// Аутентификация Base Account с SIWE
 import { createBaseAccountSDK } from "@base-org/account";
 
 export const SignInWithBaseButton = ({ onSignIn, colorScheme = "light" }) => {
@@ -409,11 +409,11 @@ export const SignInWithBaseButton = ({ onSignIn, colorScheme = "light" }) => {
         appName: "Zora Creator Coins Agent",
       }).getProvider();
 
-      // 1. Get nonce from server
+      // 1. Получаем nonce с сервера
       const nonceResponse = await fetch('/api/auth/verify', { method: 'GET' });
       const { nonce } = await nonceResponse.json();
       
-      // 2. Connect with SIWE capability
+      // 2. Подключаемся с поддержкой SIWE
       const connectResponse = await provider.request({
         method: "wallet_connect",
         params: [{
@@ -429,7 +429,7 @@ export const SignInWithBaseButton = ({ onSignIn, colorScheme = "light" }) => {
 
       const { address } = connectResponse.accounts[0];
 
-      // 3. Handle SIWE or fallback to manual signing
+      // 3. Обрабатываем SIWE или используем ручное подписание
       if (connectResponse.signInWithEthereum) {
         const { message, signature } = connectResponse.signInWithEthereum;
         
@@ -451,7 +451,7 @@ export const SignInWithBaseButton = ({ onSignIn, colorScheme = "light" }) => {
 ```
 
 ```typescript src/components/SpendPermissionSetup.tsx
-// Spend permission creation interface
+// Интерфейс создания разрешений на траты
 import { requestSpendPermission } from "@base-org/account/spend-permission";
 import { createBaseAccountSDK } from "@base-org/account";
 
@@ -462,12 +462,12 @@ export function SpendPermissionSetup({ userAddress, onPermissionGranted }) {
   const handleSetupPermission = async () => {
     setIsLoading(true);
     try {
-      // Get server wallet address
+      // Получаем адрес серверного кошелька
       const walletResponse = await fetch("/api/wallet/create", { method: "POST" });
       const walletData = await walletResponse.json();
       const spenderAddress = walletData.smartAccountAddress;
 
-      // Request spend permission from user
+      // Запрашиваем разрешение на траты у пользователя
       const permission = await requestSpendPermission({
         account: userAddress as `0x${string}`,
         spender: spenderAddress as `0x${string}`,
@@ -480,7 +480,7 @@ export function SpendPermissionSetup({ userAddress, onPermissionGranted }) {
         }).getProvider(),
       });
 
-      // Store permission locally
+      // Сохраняем разрешение локально
       localStorage.setItem("spendPermission", JSON.stringify(permission));
       onPermissionGranted();
     } catch (error) {
@@ -493,7 +493,7 @@ export function SpendPermissionSetup({ userAddress, onPermissionGranted }) {
 ```
 
 ```typescript src/components/SpendPermissionManager.tsx
-// Active permissions display and management
+// Отображение и управление активными разрешениями
 import { getUserSpendPermissions, revokeSpendPermission } from '@/lib/spend-permissions';
 
 export function SpendPermissionManager({ isAuthenticated, userAddress }) {
@@ -504,11 +504,11 @@ export function SpendPermissionManager({ isAuthenticated, userAddress }) {
     if (!userAddress) return;
     
     try {
-      // Get server wallet address
+      // Получаем адрес серверного кошелька
       const walletResponse = await fetch("/api/wallet/create", { method: "POST" });
       const { smartAccountAddress } = await walletResponse.json();
 
-      // Fetch user's spend permissions
+      // Получаем разрешения на траты пользователя
       const userPermissions = await getUserSpendPermissions(userAddress, smartAccountAddress);
       setPermissions(userPermissions);
     } catch (error) {
@@ -522,7 +522,7 @@ export function SpendPermissionManager({ isAuthenticated, userAddress }) {
       const result = await revokeSpendPermission(permission);
       console.log('Permission revoked:', result.id);
       
-      // Reload permissions
+      // Перезагружаем разрешения
       await loadPermissions();
     } catch (error) {
       console.error('Revoke error:', error);
@@ -534,11 +534,11 @@ export function SpendPermissionManager({ isAuthenticated, userAddress }) {
 ```
 </CodeGroup>
 
-### Backend API Routes
+### Бэкенд API маршруты
 
 <CodeGroup>
 ```typescript src/app/api/auth/verify/route.ts
-// Authentication endpoint with signature verification
+// Конечная точка аутентификации с проверкой подписи
 import { NextRequest, NextResponse } from 'next/server';
 import { createPublicClient, http } from 'viem';
 import { base } from 'viem/chains';
@@ -549,15 +549,15 @@ const nonces = new Set<string>();
 export async function POST(request: NextRequest) {
   const { address, message, signature } = await request.json();
   
-  // Extract and validate nonce
+  // Извлекаем и проверяем nonce
   const nonce = message.match(/Nonce: (\w+)/)?.[1];
   if (!nonce || !nonces.has(nonce)) {
     return NextResponse.json({ error: 'Invalid or expired nonce' }, { status: 401 });
   }
   
-  nonces.delete(nonce); // Prevent reuse
+  nonces.delete(nonce); // Предотвращаем повторное использование
   
-  // Verify signature using viem
+  // Проверяем подпись с помощью viem
   const isValid = await client.verifyMessage({ 
     address: address as `0x${string}`, 
     message, 
@@ -580,7 +580,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
-  // Generate secure nonce
+  // Генерируем безопасный nonce
   const array = new Uint8Array(16);
   crypto.getRandomValues(array);
   const nonce = Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
@@ -591,16 +591,16 @@ export async function GET() {
 ```
 
 ```typescript src/app/api/wallet/create/route.ts
-// Server wallet creation using CDP SDK
+// Создание серверного кошелька с использованием CDP SDK
 import { NextRequest, NextResponse } from 'next/server';
 import { Wallet } from '@coinbase/coinbase-sdk';
 
 export async function POST() {
   try {
-    // Create a new server wallet
+    // Создаем новый серверный кошелек
     const wallet = await Wallet.create();
     
-    // Create smart account for the wallet
+    // Создаем смарт-аккаунт для кошелька
     const smartAccount = await wallet.createSmartAccount();
     
     return NextResponse.json({
@@ -615,7 +615,7 @@ export async function POST() {
 ```
 
 ```typescript src/app/api/zora/buy/route.ts
-// Creator coin purchase execution
+// Выполнение покупки creator coin
 import { NextRequest, NextResponse } from 'next/server';
 import { prepareSpendCallData } from '@base-org/account/spend-permission';
 
@@ -623,13 +623,13 @@ export async function POST(request: NextRequest) {
   try {
     const { zoraHandle, amountUSD, permission } = await request.json();
     
-    // Convert USD to USDC (6 decimals)
+    // Конвертируем USD в USDC (6 decimals)
     const amountUSDC = BigInt(Math.floor(amountUSD * 1_000_000));
     
-    // Prepare spend transaction calls
+    // Подготавливаем вызовы для транзакции трат
     const spendCalls = await prepareSpendCallData(permission, amountUSDC);
     
-    // Execute with CDP Paymaster sponsorship
+    // Выполняем со спонсированием CDP Paymaster
     const result = await sendCalls({
       calls: spendCalls,
       capabilities: {
@@ -652,7 +652,7 @@ export async function POST(request: NextRequest) {
 ```
 
 ```typescript src/app/api/chat/route.ts
-// AI chat processing endpoint
+// Конечная точка обработки AI чата
 import { NextRequest, NextResponse } from 'next/server';
 import { generateChatResponse } from '@/lib/openai';
 
@@ -664,11 +664,11 @@ export async function POST(request: NextRequest) {
     const choice = response.choices[0];
     
     if (choice.message.tool_calls) {
-      // Process function call (buy_zora_coin)
+      // Обрабатываем вызов функции (buy_zora_coin)
       const toolCall = choice.message.tool_calls[0];
       const { zoraHandle, amountUSD } = JSON.parse(toolCall.function.arguments);
       
-      // Execute the purchase
+      // Выполняем покупку
       const purchaseResponse = await fetch('/api/zora/buy', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -696,9 +696,9 @@ export async function POST(request: NextRequest) {
 ```
 </CodeGroup>
 
-## Environment Variables
+## Переменные окружения
 
-Set up these environment variables for deployment:
+Настройте эти переменные окружения для деплоя:
 
 <CodeGroup>
 ```bash Production
@@ -717,108 +717,108 @@ PAYMASTER_URL=https://api.developer.coinbase.com/rpc/v1/base/your_key
 ```
 </CodeGroup>
 
-## Deployment
+## Деплой
 
-### Using Vercel CLI
+### Использование Vercel CLI
 
-Deploy directly from the project subfolder:
+Деплойте напрямую из подпапки проекта:
 
 ```bash
 cd base-account/agent-spend-permissions
 npx vercel --prod
 ```
 
-### Environment Setup
+### Настройка окружения
 
-1. Add environment variables in [Vercel](https://vercel.com) dashboard
-2. Set root directory to `base-account/agent-spend-permissions`
-3. Framework should auto-detect as Next.js
+1. Добавьте переменные окружения в дашборде [Vercel](https://vercel.com)
+2. Установите корневую директорию как `base-account/agent-spend-permissions`
+3. Фреймворк должен автоматически определиться как Next.js
 
 <Tip>
-  For monorepo deployments, using Vercel CLI from the subfolder is more reliable than configuring root directory in the dashboard.
+  Для деплоя в монорепозитории использование Vercel CLI из подпапки надежнее, чем настройка корневой директории в дашборде.
 </Tip>
 
-## Usage Examples
+## Примеры использования
 
-### Basic Creator Coin Purchase
-
-```
-User: "Buy $1.50 worth of @vitalik's creator coin"
-Agent: "I'll purchase $1.50 worth of @vitalik's creator coin for you..."
-       ✅ Purchase completed! Coins transferred to your wallet.
-```
-
-### Permission Management
+### Базовая покупка Creator Coin
 
 ```
-User: Views active permissions in right panel
-      - Daily Limit: $2.00 USDC • Active
-      - [Revoke] button available
+Пользователь: "Купи на $1,50 creator coin пользователя @vitalik"
+Агент: "Я куплю на $1,50 creator coin пользователя @vitalik для вас..."
+       ✅ Покупка завершена! Coins переведены в ваш кошелек.
+```
+
+### Управление разрешениями
+
+```
+Пользователь: Просматривает активные разрешения в правой панели
+      - Дневной лимит: $2.00 USDC • Активно
+      - Доступна кнопка [Отозвать]
       
-User: Clicks "Revoke" → Wallet popup → Permission revoked
-Agent: "✅ Spend permission revoked successfully!"
+Пользователь: Нажимает "Отозвать" → Всплывающее окно кошелька → Разрешение отозвано
+Агент: "✅ Разрешение на траты успешно отозвано!"
 ```
 
-## Related Documentation
+## Связанная документация
 
 <CardGroup cols={2}>
   <Card
-    title="Spend Permissions Guide"
+    title="Руководство по Spend Permissions"
     icon="shield-check"
     href="/base-account/improve-ux/spend-permissions"
   >
-    Learn more about Base Account spend permissions
+    Узнайте больше о разрешениях на траты (Spend Permissions) в Base Account
   </Card>
   <Card
-    title="Gas Sponsorship"
+    title="Спонсирование газа"
     icon="gas-pump"
     href="/base-account/improve-ux/sponsor-gas/paymasters"
   >
-    Implement gas-free transactions with CDP Paymaster
+    Реализуйте бесплатные транзакции с CDP Paymaster
   </Card>
   <Card
-    title="Base Account SDK Reference"
+    title="Справка по Base Account SDK"
     icon="wallet"
     href="/base-account/reference/core/createBaseAccount"
   >
-    Complete Base Account SDK reference
+    Полная справочная информация по Base Account SDK
   </Card>
   <Card
-    title="CDP Reference"
+    title="Справка по CDP"
     icon="cube"
     href="https://docs.cdp.coinbase.com/api-reference/v2/introduction"
   >
-    Complete Coinbase Developer Platform API reference
+    Полная справочная информация по API Coinbase Developer Platform
   </Card>
 </CardGroup>
 
-## Next Steps
+## Следующие шаги
 
 <Steps>
-  <Step title="Clone the Repository">
+  <Step title="Клонируйте репозиторий">
     ```bash
     git clone https://github.com/base/demos.git
     cd demos/base-account/agent-spend-permissions
     ```
   </Step>
-  <Step title="Install Dependencies">
+  <Step title="Установите зависимости">
     ```bash
     npm install
     ```
   </Step>
-  <Step title="Configure Environment">
-    Set up your environment variables for OpenAI, Zora, and CDP services
+  <Step title="Настройте окружение">
+    Настройте ваши переменные окружения для сервисов OpenAI, Zora и CDP
   </Step>
-  <Step title="Run Development Server">
+  <Step title="Запустите сервер для разработки">
     ```bash
     npm run dev
     ```
   </Step>
-  <Step title="Test the Flow">
-    Sign in, set up spend permissions, and chat with the AI agent
+  <Step title="Протестируйте процесс">
+    Войдите в систему, настройте разрешения на траты и общайтесь с AI агентом
   </Step>
 </Steps>
 
 <Tip>
-  **Want to customize?** You can modify the AI prompts, spending limits, supported tokens, or integrate with different creator platforms by updating the respective components and API routes.
+  **Хотите кастомизировать?** Вы можете изменять промты для AI, лимиты трат, поддерживаемые токены или интегрироваться с другими платформами для создателей, обновляя соответствующие компоненты и API маршруты.
 </Tip>
