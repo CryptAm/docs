@@ -1,44 +1,44 @@
 ---
-title: Essential Documentation Resources
-description: Navigate key documentation sources and understand when to use each resource for specific development needs
+title: Важные ресурсы документации
+description: Навигация по ключевым источникам документации и понимание, когда использовать каждый ресурс для конкретных задач разработки
 ---
 
-# Developer Resources
+# Ресурсы для разработчиков
 
-When building a Mini App for the Base App (TBA) and Farcaster, there are five main documentation sources you’ll use again and again. These aren’t just docs—they’re tools that will help you solve problems, debug issues, and keep shipping.
+При создании мини-приложения для Base App (TBA) и Farcaster есть пять основных источников документации, к которым вы будете возвращаться снова и снова. Это не просто документация - это инструменты, которые помогут вам решать проблемы, исправлять ошибки и продолжать разработку.
 
-Don’t worry if they feel intimidating at first. You’re not expected to memorize them. Instead, you’ll learn to reference and search these docs as needed—and prompt your AI assistant to help you understand and use them. (We’ll show you how to do that in the next section.)
+Не волнуйтесь, если сначала они кажутся пугающими. От вас не ожидается их запоминание. Вместо этого вы научитесь обращаться к этим документам и искать в них по мере необходимости - и давать промты вашему AI ассистенту, чтобы помочь понять и использовать их. (Мы покажем, как это сделать, в следующем разделе.)
 
-Here’s the key idea:
+Вот ключевая идея:
 
-- **Base Docs** focus on the Base chain and app platform—everything from MiniKit to OnchainKit to smart account tools.
-- **Coinbase Developer Platform (CDP)** gives you access to infrastructure tools—wallet APIs, Paymaster, and fiat onramps. Think of it as the backend services layer behind your app.
+- **Base Docs** фокусируются на цепи Base и платформе приложений - всё, от MiniKit до OnchainKit и инструментов для смарт-аккаунтов.
+- **Coinbase Developer Platform (CDP)** предоставляет доступ к инструментам инфраструктуры - API кошельков, Paymaster и фиатные онрампы. Считайте это слоем бэкенд-сервисов для вашего приложения.
 
-Use the table below to get a feel for when to reach for each one:
+Используйте таблицу ниже, чтобы понять, когда обращаться к каждому из них:
 
-| Documentation                     | Helps with                                               | When to use it                                                          | Example prompt                                                                                                                                                                                                                                                                                              |
+| Документация                     | Помогает с                                               | Когда использовать                                                         | Пример промта                                                                                                                                                                                                                                                                                              |
 | :-------------------------------- | :------------------------------------------------------- | :---------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Base Docs                         | Base Chain, Base Account, Base App, OnchainKit, Cookbook | Finding MiniKit templates; sponsoring transactions via Base Account     | `Using the Base documentation at docs.base.org, help me implement wallet connection in my Mini App. I need to: 1) Connect to a user's wallet, 2) Display their Basename if available, 3) Show their account balance. Provide complete React code using MiniKit SDK with TypeScript and explain each step.`  |
-| Coinbase Developer Platform (CDP) | Wallet services, Paymaster, onramps                      | Obtaining API keys; using the Paymaster endpoint; creating fiat onramps | `I want to sponsor transactions for my Mini App users using Coinbase Paymaster. Based on the CDP documentation, provide: 1) Setup instructions for API keys, 2) Complete code example for sponsoring a transaction, 3) Error handling best practices. Include both frontend and any required backend code.` |
-| Next.js Docs                      | App router, page rendering, project structure            | Deciding where to store assets; understanding routing and SSR/SSG       | `Using Next.js 14 App Router, help me structure my Mini App with: 1) A main app page, 2) A settings page, 3) API routes for data fetching, 4) Proper file organization for components and assets. Provide the complete folder structure and explain routing patterns.`                                      |
-| Wagmi / Viem                      | Wallet integration and on-chain data access              | Retrieving connected wallet address; reading on-chain data              | `Using Wagmi v2 and Viem, create a React hook that: 1) Connects to the user's wallet, 2) Reads their ETH balance on Base, 3) Fetches their last 5 transactions, 4) Handles loading and error states. Include TypeScript types and proper error handling.`                                                   |
-| Vercel V0 Docs                    | AI-powered UI generation with V0                         | Adding environment variables; downloading generated code                | `I generated a Mini App UI with V0 and want to deploy it. Help me: 1) Add environment variables for my API keys, 2) Download and integrate the V0 code into my local MiniKit project, 3) Deploy to Vercel with proper configuration. Provide step-by-step instructions.`                                    |
+| Base Docs                         | Base Chain, Base Account, Base App, OnchainKit, Cookbook | Поиск шаблонов MiniKit; спонсирование транзакций через Base Account     | `Используя документацию Base по адресу docs.base.org, помогите мне реализовать подключение кошелька в моем мини-приложении. Мне нужно: 1) Подключиться к кошельку пользователя, 2) Показать его Basename, если доступен, 3) Показать баланс его аккаунта. Предоставьте полный React код с использованием MiniKit SDK на TypeScript и объясните каждый шаг.`  |
+| Coinbase Developer Platform (CDP) | Сервисы кошельков, Paymaster, онрампы                     | Получение API ключей; использование endpoint'а Paymaster; создание фиатных онрампов | `Я хочу спонсировать транзакции для пользователей моего мини-приложения с помощью Coinbase Paymaster. На основе документации CDP предоставьте: 1) Инструкции по настройке API ключей, 2) Полный пример кода для спонсирования транзакции, 3) Рекомендации по обработке ошибок. Включите как фронтенд, так и необходимый бэкенд код.` |
+| Next.js Docs                      | App router, рендеринг страниц, структура проекта            | Определение, где хранить ассеты; понимание маршрутизации и SSR/SSG       | `Используя Next.js 14 App Router, помогите мне структурировать мое мини-приложение с: 1) Главной страницей приложения, 2) Страницей настроек, 3) API маршрутами для получения данных, 4) Правильной организацией файлов для компонентов и ассетов. Предоставьте полную структуру папок и объясните паттерны маршрутизации.`                                      |
+| Wagmi / Viem                      | Интеграция кошельков и доступ к данным в блокчейне             | Получение адреса подключенного кошелька; чтение данных из блокчейна              | `Используя Wagmi v2 и Viem, создайте React хук, который: 1) Подключается к кошельку пользователя, 2) Читает его баланс ETH в Base, 3) Получает его последние 5 транзакций, 4) Обрабатывает состояния загрузки и ошибок. Включите TypeScript типы и корректную обработку ошибок.`                                                   |
+| Vercel V0 Docs                    | Генерация UI с помощью AI в V0                         | Добавление переменных окружения; скачивание сгенерированного кода                | `Я сгенерировал UI мини-приложения с помощью V0 и хочу его задеплоить. Помогите мне: 1) Добавить переменные окружения для моих API ключей, 2) Скачать и интегрировать код V0 в мой локальный проект MiniKit, 3) Деплоить на Vercel с правильной конфигурацией. Предоставьте пошаговые инструкции.`                                    |
 
 ---
 
-## Example Prompt for Understanding Key Tools
+## Пример промта для понимания ключевых инструментов
 
-Use prompts like the one below to help an AI assistant explain concepts from documentation:
+Используйте промты, подобные приведенному ниже, чтобы помочь AI ассистенту объяснить концепции из документации:
 
 ```
-Help me understand blockchain frontend development by explaining these concepts in simple terms:
+Помогите мне понять фронтенд разработку для блокчейна, объяснив эти концепции простыми словами:
 
-  1. What is Wagmi and how does it simplify wallet connections in React?
-  2. How does Viem handle low-level blockchain operations?
-  3. What's the difference between reading blockchain data and writing transactions?
-  4. How do these tools work together in a typical Mini App?
+  1. Что такое Wagmi и как он упрощает подключение кошельков в React?
+  2. Как Viem обрабатывает низкоуровневые операции с блокчейном?
+  3. В чем разница между чтением данных из блокчейна и записью транзакций?
+  4. Как эти инструменты работают вместе в типичном мини-приложении?
 
-Focus on the Base network and provide practical examples for each concept. Include code snippets where helpful.
+Сосредоточьтесь на сети Base и предоставьте практические примеры для каждой концепции. Включите примеры кода, где это полезно.
 ```
 
-In the next section, we’ll show you how to prompt AI tools to make sense of all this documentation—so even the complex stuff becomes easier to use.
+В следующем разделе мы покажем, как создавать промты для AI инструментов, чтобы разобраться во всей этой документации - чтобы даже сложные вещи стало легче использовать.
