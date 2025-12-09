@@ -1,160 +1,160 @@
 ---
-title: Make Your Web App a Mini App
-description: Convert your downloaded frontend into a Mini App by integrating MiniKit, Smart Wallet, and Paymaster
+title: Превратите ваше веб-приложение в мини-приложение
+description: Конвертируйте ваш загруженный фронтенд в мини-приложение, интегрировав MiniKit, Smart Wallet и Paymaster
 ---
 
-# Add MiniKit to Your App
+# Добавьте MiniKit в ваше приложение
 
-You have a clean frontend. Now turn it into a Mini App. Vibe coding tools are great for UI, but they do not yet handle onchain pieces perfectly. Download your code, open it in Cursor or Claude Code, and add MiniKit to enable Smart Wallet, gasless transactions, and Base App integration.
+У вас есть чистый фронтенд. Теперь превратите его в мини-приложение. Инструменты для создания кода "по настроению" (vibe coding) отлично подходят для UI, но они пока не идеально обрабатывают ончейн части. Загрузите ваш код, откройте его в Cursor или Claude Code и добавьте MiniKit, чтобы включить Smart Wallet, бесплатные транзакции (gasless) и интеграцию с Base App.
 
 <Tip>
-  Before you prompt your AI IDE, list where you want onchain interactions to
-  happen. Examples: mint a collectible from the Create screen, tip from the
-  Feed, swap on the Trade screen. This helps the AI place MiniKit components in
-  the right files.
+  Перед тем как давать промт вашему AI IDE, составьте список мест, где вы хотите,
+  чтобы происходили ончейн взаимодействия. Примеры: минт (создание) коллекционного 
+  предмета на экране Create, чаевые (tip) в ленте (Feed), обмен (swap) на экране Trade. 
+  Это поможет AI разместить компоненты MiniKit в правильных файлах.
 </Tip>
 
 <Steps>
-  <Step title='Open your project in an AI IDE'>
-    Launch Cursor or Claude Code and open your Next.js project. Ensure it runs
-    locally first with <code>npm run dev</code> so the AI can follow a working
-    baseline.
+  <Step title='Откройте ваш проект в AI IDE'>
+    Запустите Cursor или Claude Code и откройте ваш Next.js проект. Убедитесь сначала, 
+    что он запускается локально с помощью <code>npm run dev</code>, чтобы AI мог 
+    отталкиваться от работающей основы.
   </Step>
-  <Step title='Provide docs context to the AI'>
-    Use the MiniKit existing-app integration page. Use the site dropdown to
-    “Copy page as Markdown for LLMs”, then paste that markdown into your AI IDE
-    as context.
+  <Step title='Предоставьте AI контекст из документации'>
+    Используйте страницу интеграции MiniKit для существующих приложений. 
+    Используйте выпадающий список на сайте для “Copy page as Markdown for LLMs”, 
+    затем вставьте этот markdown в вашу AI IDE в качестве контекста.
   </Step>
-  <Step title='Ask the AI to analyze your app'>
-    Have the AI map your routes, layout, and component structure. Ask it to
-    propose exact integration points for MiniKit provider and hooks.
+  <Step title='Попросите AI проанализировать ваше приложение'>
+    Пусть AI составит карту ваших маршрутов (routes), макета (layout) и структуры компонентов. 
+    Попросите его предложить точные точки интеграции для провайдера и хуков MiniKit.
   </Step>
-  <Step title='Integrate MiniKit provider and Smart Wallet'>
-    Add the MiniKit provider in <code>app/layout.tsx</code> (or your top-level
-    layout), wire basic hooks, and confirm no “login” button is added. Mini Apps
-    should feel native and sessionless.
+  <Step title='Интегрируйте провайдер MiniKit и Smart Wallet'>
+    Добавьте провайдер MiniKit в <code>app/layout.tsx</code> (или ваш главный макет), 
+    подключите базовые хуки и убедитесь, что кнопка "логин" не добавлена. Мини-приложения 
+    должны ощущаться нативными и не требующими сессии (sessionless).
   </Step>
-  <Step title='Add Paymaster for gasless UX'>
-    Configure Coinbase Developer Platform Paymaster with environment variables.
-    Update your action flows to sponsor transactions, then test locally.
+  <Step title='Добавьте Paymaster для бесплатного UX'>
+    Настройте Paymaster от Coinbase Developer Platform с переменными окружения. 
+    Обновите ваши потоки действий (action flows) для спонсирования транзакций, затем протестируйте локально.
   </Step>
-  <Step title='Verify and commit'>
-    Run your app, test every onchain touchpoint, and commit changes with clear
-    messages. You are ready to deploy.
+  <Step title='Проверьте и закоммитьте'>
+    Запустите ваше приложение, протестируйте каждую точку ончейн взаимодействия 
+    и закоммитьте изменения с четкими сообщениями. Вы готовы к деплою.
   </Step>
 </Steps>
 
-## Helpful Prompts:
+## Полезные промты:
 
 <Tip>
-  **Shortcut:** On any of the Base docs pages, use the dropdown to “Copy page as
-  Markdown for LLMs” and paste it directly into your AI chat. This gives the
-  model precise instructions and reduces hallucinations.
+  **Короткий путь:** На любой странице документации Base используйте выпадающий список 
+  для “Copy page as Markdown for LLMs” и вставьте его прямо в ваш AI чат. 
+  Это дает модели точные инструкции и уменьшает количество галлюцинаций.
 </Tip>
 
-<Accordion title="Prompt: Converting Existing Applications to Mini Apps">
+<Accordion title="Промт: Конвертация существующих приложений в мини-приложения">
 
 ```
-Guide me through converting my existing web application into a Mini App:
+Проведите меня через процесс конвертации моего существующего веб-приложения в мини-приложение:
 
-EXISTING APP ANALYSIS:
+АНАЛИЗ СУЩЕСТВУЮЩЕГО ПРИЛОЖЕНИЯ:
 
-My app is built with [DESCRIBE YOUR TECH STACK]
+Мое приложение построено с использованием [ОПИШИТЕ ВАШ СТЕК ТЕХНОЛОГИЙ]
 
-Current features include: [LIST MAIN FEATURES]
+Текущие функции включают: [ПЕРЕЧИСЛИТЕ ОСНОВНЫЕ ФУНКЦИИ]
 
-User authentication currently uses: [DESCRIBE AUTH METHOD]
+Сейчас аутентификация пользователя использует: [ОПИШИТЕ МЕТОД АУТЕНТИФИКАЦИИ]
 
-Data is stored using: [DESCRIBE DATA STORAGE]
+Данные хранятся с использованием: [ОПИШИТЕ СПОСОБ ХРАНЕНИЯ ДАННЫХ]
 
-INTEGRATION REQUIREMENTS:
+ТРЕБОВАНИЯ К ИНТЕГРАЦИИ:
 
-Add MiniKit provider and Smart Wallet in app/layout.tsx
+Добавьте провайдер MiniKit и Smart Wallet в app/layout.tsx
 
-Integrate Coinbase Paymaster for gasless transactions
+Интегрируйте Coinbase Paymaster для бесплатных транзакций (gasless)
 
-Place onchain actions on these screens: [LIST SCREENS]
+Разместите ончейн действия на этих экранах: [ПЕРЕЧИСЛИТЕ ЭКРАНЫ]
 
-Configure env vars for Base and CDP
+Настройте переменные окружения для Base и CDP
 
-Avoid adding any login button
+Избегайте добавления любой кнопки входа (login)
 
-DEPLOYMENT CONFIGURATION:
+КОНФИГУРАЦИЯ ДЛЯ ДЕПЛОЯ:
 
-Prepare .env.local for local and Vercel for production
+Подготовьте .env.local для локальной разработки и Vercel для продакшена
 
-Deploy with Vercel CLI
+Деплойте с помощью Vercel CLI
 
-Test Base App integration flows
+Протестируйте потоки интеграции с Base App
 
-TROUBLESHOOTING SETUP:
+НАСТРОЙКА ОТЛАДКИ:
 
-Log wallet and sponsorship states
+Логируйте состояния кошелька и спонсирования
 
-Add clear error toasts
+Добавьте понятные тосты (toasts) для ошибок
 
-Provide rollbacks for provider or env misconfig
+Предусмотрите откаты (rollbacks) для неправильной конфигурации провайдера или переменных окружения
 
-Provide step-by-step instructions with exact code changes and file paths. Include troubleshooting tips for common conversion issues.
+Предоставьте пошаговые инструкции с точными изменениями кода и путями к файлам. Включите советы по устранению распространенных проблем при конвертации.
 ```
 
 </Accordion>
 
-<Accordion title="Prompt: AI Analysis Prompt (for Cursor or Claude Code)">
-Paste this into your AI IDE. Replace bracketed parts with your details. Include the MiniKit “existing app integration” markdown from docs.base.org as an additional message.
+<Accordion title="Промт: AI анализ (для Cursor или Claude Code)">
+Вставьте это в вашу AI IDE. Замените части в скобках вашими деталями. Включите markdown "интеграция существующих приложений" из MiniKit (с docs.base.org) в качестве дополнительного сообщения.
 
 ```
-You are assisting me in converting a downloaded Next.js app into a Mini App for the Base App (TBA).
+Вы помогаете мне конвертировать загруженное Next.js приложение в мини-приложение для Base App (TBA).
 
-ANALYZE THE PROJECT
+ПРОАНАЛИЗИРУЙТЕ ПРОЕКТ
 
-Inspect my Next.js structure (app/, components/, utils/) and identify the best integration points for:
+Изучите мою структуру Next.js (app/, components/, utils/) и определите лучшие точки интеграции для:
 
-MiniKit provider in app/layout.tsx
+Провайдера MiniKit в app/layout.tsx
 
-Smart Wallet setup
+Настройки Smart Wallet
 
-Any hooks needed to access Base App context
+Любых хуков, необходимых для доступа к контексту Base App
 
-List every file you plan to modify and why.
+Перечислите каждый файл, который вы планируете изменить, и почему.
 
-INTEGRATION REQUIREMENTS
+ТРЕБОВАНИЯ К ИНТЕГРАЦИИ
 
-Use MiniKit as per the docs I will paste.
+Используйте MiniKit в соответствии с документацией, которую я вставлю.
 
-Use Coinbase Developer Platform (CDP) Paymaster for gasless transactions.
+Используйте Coinbase Developer Platform (CDP) Paymaster для бесплатных транзакций (gasless).
 
-Use Smart Wallet.
+Используйте Smart Wallet.
 
-Do NOT create a login button.
+НЕ создавайте кнопку входа (login button).
 
-Keep the current routing and UI intact.
+Сохраните текущую маршрутизацию и UI неизменными.
 
-ONCHAIN TOUCHPOINTS IN MY APP
+ТОЧКИ ОНЧЕЙН ВЗАИМОДЕЙСТВИЯ В МОЕМ ПРИЛОЖЕНИИ
 
-I want onchain interactions in these places:
-[Describe screens and actions, e.g., Create screen: mint item; Feed: tip creator; Trade: swap token]
+Я хочу, чтобы ончейн взаимодействия происходили в этих местах:
+[Опишите экраны и действия, например, Экран Create: создать предмет (mint item); Лента (Feed): отправить чаевые создателю (tip creator); Торговля (Trade): обменять токен (swap token)]
 
-IMPLEMENTATION PLAN
+ПЛАН РЕАЛИЗАЦИИ
 
-Propose exact code changes with file paths and code blocks.
+Предложите точные изменения кода с путями к файлам и блоками кода.
 
-- Add required env vars and tell me where to put them (.env.local).
-- Update any server actions or API routes needed to call Paymaster safely.
+- Добавьте необходимые переменные окружения и скажите мне, куда их поместить (.env.local).
+- Обновите любые серверные действия (server actions) или API маршруты, необходимые для безопасного вызова Paymaster.
 
-VALIDATION
+ВАЛИДАЦИЯ
 
-Provide a test checklist to verify:
-- Provider mounts without errors
-- Smart Wallet available
+Предоставьте чек-лист для тестирования, чтобы проверить:
+- Провайдер монтируется без ошибок
+- Smart Wallet доступен
 
-Paymaster sponsoring a sample transaction
+Paymaster спонсирует тестовую транзакцию
 
-No login button rendered
+Кнопка входа (login) не отображается
 
-Include troubleshooting tips for common issues (env vars, build errors, missing providers).
+Включите советы по устранению распространенных проблем (переменные окружения, ошибки сборки, отсутствующие провайдеры).
 
-Now request any files you need to see to proceed, and confirm assumptions before editing.
+Теперь запросите любые файлы, которые вам нужно просмотреть, чтобы продолжить, и подтвердите предположения перед редактированием.
 ```
 
 </Accordion>
