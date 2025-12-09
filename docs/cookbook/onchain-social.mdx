@@ -1,138 +1,138 @@
 ---
-title: Onchain Social
+title: Ончейн Социальные Приложения
 ---
 
-In this guide, you'll discover the world of onchain social applications and learn how to build interactive Mini Apps that live directly inside social feeds, creating seamless user experiences without traditional platform limitations.
+В этом руководстве вы откроете для себя мир ончейн социальных приложений и узнаете, как создавать интерактивные мини-приложения, которые живут прямо внутри социальных лент, обеспечивая бесшовный пользовательский опыт без традиционных ограничений платформ.
 
-## What Is Onchain Social?
+## Что такое ончейн социальные приложения?
 
-Traditional social media follows a familiar but limiting pattern: users sign in with email addresses, scroll through centralized feeds, and click links that redirect them away from the conversation. While this model works, it has fundamental limitations that onchain social aims to solve.
+Традиционные социальные сети следуют знакомой, но ограничивающей схеме: пользователи входят с адресами электронной почты, прокручивают централизованные ленты и кликают по ссылкам, которые перенаправляют их в сторону от беседы. Хотя эта модель работает, у нее есть фундаментальные ограничения, которые ончейн социальные приложения стремятся решить.
 
 <CardGroup cols={2}>
-  <Card title="Traditional Social" icon="lock">
-    Platform-owned identity and content with limited user control
+  <Card title="Традиционные соцсети" icon="lock">
+    Идентичность и контент принадлежат платформе, контроль пользователя ограничен
   </Card>
-  <Card title="Onchain Social" icon="key">
-    User-owned identity, programmable feeds, and embedded applications
+  <Card title="Ончейн социальные приложения" icon="key">
+    Принадлежащая пользователю идентичность, программируемые ленты и встроенные приложения
   </Card>
 </CardGroup>
 
-### The Onchain Social Paradigm
+### Парадигма ончейн социальных приложений
 
-Onchain social represents a fundamental shift in how we think about digital identity and social interactions:
+Ончейн социальные приложения представляют собой фундаментальный сдвиг в том, как мы думаем о цифровой идентичности и социальных взаимодействиях:
 
-**Traditional Model Problems:**
-- Your identity, content, and interactions are owned by the platform
-- Building requires working on top of platforms, never inside them
-- Users must leave conversations to access new experiences
-- Developers are limited by platform APIs and restrictions
+**Проблемы традиционной модели:**
+- Ваша идентичность, контент и взаимодействия принадлежат платформе
+- Разработка ведется поверх платформ, никогда внутри них
+- Пользователям приходится покидать беседы для доступа к новому опыту
+- Разработчики ограничены API и правилами платформ
 
-**Onchain Social Solutions:**
-- **Portable Identity**: Your Farcaster ID (FID) belongs to you, not locked to any single platform
-- **Embedded Experiences**: Rich, interactive apps run natively inside posts and conversations
-- **Developer Freedom**: Build as first-class citizens within the social graph
-- **User Ownership**: Control your data, content, and social connections
+**Решения ончейн социальных приложений:**
+- **Переносимая идентичность**: Ваш Farcaster ID (FID) принадлежит вам, а не привязан к какой-либо одной платформе
+- **Встроенные возможности**: Богатые, интерактивные приложения работают нативно внутри постов и бесед
+- **Свобода разработчика**: Создавайте как полноценные участники социального графа
+- **Владение пользователя**: Контролируйте свои данные, контент и социальные связи
 
 <Info>
-This isn't about replacing existing platforms—it's about removing the walls between users, developers, and the experiences they create together.
+Речь не идет о замене существующих платформ - речь идет о снятии стен между пользователями, разработчиками и опытом, который они создают вместе.
 </Info>
 
-## What You'll Build
+## Что вы создадите
 
-By the end of this guide, you'll have created a fully functional Mini App with these capabilities:
+К концу этого руководства вы создадите полностью функциональное мини-приложение со следующими возможностями:
 
 <CardGroup cols={2}>
-  <Card title="Interactive Social Features" icon="users">
-    Polls, games, and collaborative tools that run inside social feeds
+  <Card title="Интерактивные социальные функции" icon="users">
+    Опросы, игры и совместные инструменты, работающие внутри социальных лент
   </Card>
-  <Card title="Context-Aware Experiences" icon="brain">
-    Apps that know who opened them and adapt accordingly
+  <Card title="Контекстно-зависимый опыт" icon="brain">
+    Приложения, которые знают, кто их открыл, и адаптируются соответственно
   </Card>
-  <Card title="Onchain Integration" icon="link">
-    Direct access to wallets, DeFi protocols, and blockchain transactions
+  <Card title="Интеграция с блокчейном" icon="link">
+    Прямой доступ к кошелькам, DeFi протоколам и блокчейн-транзакциям
   </Card>
-  <Card title="Seamless Authentication" icon="fingerprint">
-    User-owned identity through Farcaster without separate logins
+  <Card title="Бесшовная аутентификация" icon="fingerprint">
+    Принадлежащая пользователю идентичность через Farcaster без отдельных входов
   </Card>
 </CardGroup>
 
-## Mini Apps: The Interface for Onchain Social
+## Мини-приложения: Интерфейс для ончейн социальных приложений
 
-Mini Apps are lightweight, expressive web applications that live directly inside social feeds. They launch instantly without installation and provide rich, interactive experiences that respond to your onchain identity.
+Мини-приложения - это легковесные, выразительные веб-приложения, которые живут прямо внутри социальных лент. Они запускаются мгновенно без установки и предоставляют богатый, интерактивный опыт, реагирующий на вашу ончейн идентичность.
 
-**What makes Mini Apps special:**
-- **Embedded experiences** that don't redirect users away from conversations
-- **Social context awareness** - they know who opened them and from where
-- **Onchain identity integration** with automatic personalization
-- **Native feel** within social platforms
+**Что делает мини-приложения особенными:**
+- **Встроенный опыт**, не перенаправляющий пользователей в сторону от бесед
+- **Осведомленность о социальном контексте* - они знают, кто их открыл и откуда
+- **Интеграция с ончейн идентичностью** с автоматической персонализацией
+- **Нативный вид и ощущения** внутри социальных платформ
 
-**Use cases include:**
-- Interactive polls and real-time voting
-- Social games and entertainment
-- E-commerce with instant checkout
-- DeFi interfaces and portfolio management
-- NFT showcases and trading
-- Collaborative decision-making tools
+**Примеры использования:**
+- Интерактивные опросы и голосования в реальном времени
+- Социальные игры и развлечения
+- Электронная коммерция с мгновенной оплатой
+- Интерфейсы DeFi и управление портфелем
+- Демонстрация и торговля NFT
+- Инструменты для совместного принятия решений
 
 <Tip>
-Mini Apps offer developers direct access to social distribution - you're building inside the conversation, not trying to pull users away from it.
+Мини-приложения предоставляют разработчикам прямой доступ к социальной дистрибуции - вы строите внутри беседы, а не пытаетесь отвлечь пользователей от нее.
 </Tip>
 
-## Build Your First Mini App
+## Создайте свое первое мини-приложение
 
 <Steps>
-  <Step title="Install MiniKit and Create Your Project">
-    The fastest way to build a Mini App is with MiniKit, which handles authentication, social context, and onchain integrations automatically.
+  <Step title="Установите MiniKit и создайте проект">
+    Самый быстрый способ создать мини-приложение - использовать MiniKit, который автоматически обрабатывает аутентификацию, социальный контекст и ончейн интеграции.
 
-    **Create a new Mini App:**
+    **Создайте новое мини-приложение:**
     ```bash
     npx create-onchain --mini
     cd your-mini-app-name
     npm install
     ```
 
-    **Start the development server:**
+    **Запустите сервер для разработки:**
     ```bash
     npm run dev
     ```
 
     <Check>
-    Your Mini App should now be running at `http://localhost:3000` with a fully functional social interface.
+    Ваше мини-приложение теперь должно работать по адресу `http://localhost:3000` с полностью функциональным социальным интерфейсом.
     </Check>
 
-    **What you get out of the box:**
-    - Complete frontend and backend scaffold
-    - Built-in support for Farcaster identity and notifications
-    - Native integrations with Base blockchain and OnchainKit
-    - Responsive design optimized for mobile social feeds
-    - Development tools for testing and debugging
+    **Что вы получаете из коробки:**
+    - Полный каркас фронтенда и бэкенда
+    - Встроенная поддержка идентичности Farcaster и уведомлений
+    - Нативная интеграция с блокчейном Base и OnchainKit
+    - Адаптивный дизайн, оптимизированный для мобильных социальных лент
+    - Инструменты разработки для тестирования и отладки
 
     <Tip>
-    The MiniKit scaffold includes example components and pages to help you understand the architecture quickly.
+    Каркас MiniKit включает примеры компонентов и страниц, которые помогут вам быстро понять архитектуру.
     </Tip>
   </Step>
 
-  <Step title="Understand Social Context">
-    Mini Apps have access to rich social context that traditional web apps lack. This context makes personalization effortless and enables intelligent interactions.
+  <Step title="Поймите социальный контекст">
+    Мини-приложения имеют доступ к богатому социальному контексту, которого лишены традиционные веб-приложения. Этот контекст делает персонализацию легкой и позволяет создавать   интеллектуальные взаимодействия.
 
-    **Access user and social context:**
+    **Получите доступ к контексту пользователя и соцсети:**
     ```tsx
     import { useMiniKit } from "@coinbase/onchainkit/minikit";
 
     export default function App() {
       const { context } = useMiniKit();
 
-      // Verified user information (always available)
+      // Проверенная информация о пользователе (всегда доступна)
       const userFid = context?.user?.fid;
       
-      // Additional user data (when available)
+      // Дополнительные данные пользователя (когда доступны)
       const username = context?.user?.username;
       const displayName = context?.user?.displayName;
       const pfpUrl = context?.user?.pfpUrl;
 
-      // Client information
-      const isAdded = context?.client?.added; // Whether user has added this Mini App
-      const location = context?.location; // Where the Mini App was launched from
+      // Информация о клиенте
+      const isAdded = context?.client?.added; // Добавил ли пользователь это мини-приложение
+      const location = context?.location; // Откуда было запущено мини-приложение
 
       return (
         <div className="mini-app">
@@ -146,21 +146,21 @@ Mini Apps offer developers direct access to social distribution - you're buildin
     }
     ```
 
-    **Verified context properties:**
-    - **User identity**: FID (always available), username, display name, profile image URL
-    - **Client status**: Whether the user has added your Mini App to their favorites
-    - **Launch context**: General location information about where the Mini App was opened
-    - **Safe area insets**: For proper mobile layout within Farcaster clients
+    **Проверенные свойства контекста:**
+    - **Идентификатор пользователя**: FID (всегда доступен), имя пользователя, отображаемое имя, URL изображения профиля
+    - **Статус клиента**: Добавил ли пользователь ваше мини-приложение в избранное
+    - **Контекст запуска**: Общая информация о том, откуда было открыто мини-приложение
+    - **Отступы безопасной зоны**: Для корректной мобильной верстки внутри клиентов Farcaster
 
     <Warning>
-    Always handle cases where context might be undefined, especially during development and testing.
+    Всегда обрабатывайте случаи, когда контекст может быть неопределен, особенно во время разработки и тестирования.
     </Warning>
   </Step>
 
-  <Step title="Build Interactive Features">
-    Create engaging social experiences that leverage the Mini App's embedded nature:
+  <Step title="Создайте интерактивные функции">
+    Создавайте увлекательный социальный опыт, использующий встроенную природу мини-приложения:
 
-    **Example: Social Voting App**
+    **Пример: Приложение для социального голосования**
     ```tsx
     import { useState, useEffect } from 'react';
     import { useMiniKit } from "@coinbase/onchainkit/minikit";
@@ -171,9 +171,9 @@ Mini Apps offer developers direct access to social distribution - you're buildin
       const [userVote, setUserVote] = useState(null);
 
       const handleVote = async (option) => {
-        if (userVote) return; // Prevent double voting
+        if (userVote) return; // Предотвращаем повторное голосование
 
-        // Submit vote to your backend
+        // Отправляем голос на ваш бэкенд
         const response = await fetch('/api/vote', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -225,12 +225,12 @@ Mini Apps offer developers direct access to social distribution - you're buildin
     ```
 
     <Tip>
-    Use the user's FID to prevent duplicate votes and create personalized experiences without requiring separate authentication.
+    Используйте FID пользователя, чтобы предотвратить дублирование голосов и создавать персонализированный опыт без отдельной аутентификации.
     </Tip>
   </Step>
 
-  <Step title="Add Onchain Integration">
-    Enhance your Mini App with blockchain functionality using OnchainKit:
+  <Step title="Добавьте интеграцию с блокчейном">
+    Усильте ваше мини-приложение блокчейн-функциональностью с помощью OnchainKit:
 
     ```tsx
     import { 
@@ -243,7 +243,7 @@ Mini Apps offer developers direct access to social distribution - you're buildin
       const { context } = useMiniKit();
       
       const handleTransaction = async () => {
-        // Create transaction based on social context
+        // Создаем транзакцию на основе социального контекста
         const txData = {
           to: '0x...',
           value: '1000000000000000000', // 1 ETH
@@ -273,100 +273,100 @@ Mini Apps offer developers direct access to social distribution - you're buildin
     ```
 
     <Check>
-    Your Mini App can now trigger blockchain transactions directly from social interactions.
+    Ваше мини-приложение теперь может инициировать блокчейн-транзакции прямо из социальных взаимодействий.
     </Check>
   </Step>
 
-  <Step title="Deploy and Test Your Mini App">
-    Deploy your Mini App to make it accessible within social feeds:
+  <Step title="Задеплойте и протестируйте ваше мини-приложение">
+    Задеплойте ваше мини-приложение, чтобы сделать его доступным внутри социальных лент:
 
-    **Deploy to Vercel (recommended):**
+    **Деплой в Vercel (рекомендуется):**
     ```bash
     npm install -g vercel
     vercel --prod
     ```
 
-    **Test your Mini App:**
-    1. **Local testing**: Use the MiniKit development tools
-    2. **Frame testing**: Test as a Farcaster Frame
-    3. **Social testing**: Deploy and test in actual social contexts
-    4. **Performance testing**: Ensure fast loading in mobile environments
+    **Протестируйте ваше мини-приложение:**
+    1. **Локальное тестирование**: Используйте инструменты разработки MiniKit
+    2. **Тестирование как Frame**: Тестируйте как Farcaster Frame
+    3. **Социальное тестирование**: Деплойте и тестируйте в реальных социальных контекстах
+    4. **Тестирование производительности**: Убедитесь в быстрой загрузке в мобильных окружениях
 
     <Warning>
-    Always test your Mini App in actual social contexts before broad deployment, as the social environment can affect performance and user experience.
+    Всегда тестируйте ваше мини-приложение в реальных социальных контекстах перед широким деплоем, так как социальная среда может влиять на производительность и пользовательский опыт.
     </Warning>
   </Step>
 </Steps>
 
-## Convert Existing Apps to Mini Apps
+## Конвертируйте существующие приложения в мини-приложения
 
-Transform your existing Next.js application into a Mini App without major restructuring. The process is straightforward and doesn't require rebuilding your entire application.
+Преобразуйте ваше существующее Next.js приложение в мини-приложение без серьезной перестройки. Этот процесс прост и не требует пересборки всего приложения.
 
-<Card title="Complete Integration Guide" icon="book" href="/base-app/build-with-minikit/existing-app-integration">
-Follow our comprehensive guide for integrating MiniKit into existing applications with step-by-step instructions, environment setup, and testing procedures.
+<Card title="Полное руководство по интеграции" icon="book" href="/base-app/build-with-minikit/existing-app-integration">
+Следуйте нашему комплексному руководству по интеграции MiniKit в существующие приложения с пошаговыми инструкциями, настройкой окружения и процедурами тестирования.
 </Card>
 
-**Key integration steps:**
-- Install MiniKit as part of OnchainKit
-- Wrap your app with `MiniKitProvider`
-- Add social context integration to existing components
-- Configure environment variables and deployment
+**Ключевые шаги интеграции:**
+- Установите MiniKit как часть OnchainKit
+- Оберните ваше приложение в MiniKitProvider
+- Добавьте интеграцию социального контекста в существующие компоненты
+- Настройте переменные окружения и деплой
 
 <Note>
-For new projects, use the [MiniKit CLI](/base-app/build-with-minikit/quickstart) for automatic setup with all features pre-configured.
+Для новых проектов используйте [MiniKit CLI](/base-app/build-with-minikit/quickstart) для автоматической настройки со всеми предварительно сконфигурированными функциями.
 </Note>
 
-## Advanced MiniKit Features
+## Продвинутые возможности MiniKit
 
-Once you have your basic Mini App running, explore advanced capabilities:
+Как только ваше базовое мини-приложение заработает, исследуйте расширенные возможности:
 
 <CardGroup cols={2}>
-  <Card title="Notifications & Engagement" icon="bell" href="/base-app/build-with-minikit/overview#usenotification">
-    Send push notifications to users who have added your Mini App
+  <Card title="Уведомления и вовлечение" icon="bell" href="/base-app/build-with-minikit/overview#usenotification">
+    Отправляйте push-уведомления пользователям, добавившим ваше мини-приложение
   </Card>
-  <Card title="Authentication Patterns" icon="key" href="/base-app/build-with-minikit/overview#useauthenticate">
-    Implement Farcaster authentication for secure, persistent sessions
+  <Card title="Паттерны аутентификации" icon="key" href="/base-app/build-with-minikit/overview#useauthenticate">
+    Реализуйте аутентификацию Farcaster для безопасных, постоянных сессий
   </Card>
-  <Card title="Profile Integration" icon="user" href="/base-app/build-with-minikit/overview#useviewprofile">
-    Navigate users to Farcaster profiles and build social connections
+  <Card title="Интеграция с профилем" icon="user" href="/base-app/build-with-minikit/overview#useviewprofile">
+    Направляйте пользователей к профилям Farcaster и стройте социальные связи
   </Card>
-  <Card title="Frame Management" icon="plus" href="/base-app/build-with-minikit/overview#useaddframe">
-    Allow users to save your Mini App for easy access
+  <Card title="Управление Frame" icon="plus" href="/base-app/build-with-minikit/overview#useaddframe">
+    Позволяйте пользователям сохранять ваше мини-приложение для легкого доступа
   </Card>
 </CardGroup>
 
-## Best Practices & Troubleshooting
+## Рекомендации и решение проблем
 
-Building successful Mini Apps requires understanding social-specific patterns and common pitfalls:
+Создание успешных мини-приложений требует понимания социально-специфичных паттернов и распространенных проблем:
 
 <CardGroup cols={2}>
-  <Card title="Social Design Patterns" icon="users" href="/base-app/guides/thinking-social">
-    Design patterns and best practices for building social Mini Apps
+  <Card title="Социальные паттерны дизайна" icon="users" href="/base-app/guides/thinking-social">
+    Паттерны дизайна и рекомендации для создания социальных мини-приложений
   </Card>
-  <Card title="Debugging Guide" icon="bug" href="/base-app/build-with-minikit/debugging">
-    Common issues and solutions when developing Mini Apps
+  <Card title="Руководство по отладке" icon="bug" href="/base-app/build-with-minikit/debugging">
+    Частые проблемы и решения при разработке мини-приложений
   </Card>
-  <Card title="Performance Optimization" icon="bolt" href="/base-app/build-with-minikit/overview#performance">
-    Optimize loading times and user experience for mobile social environments
+  <Card title="Оптимизация производительности" icon="bolt" href="/base-app/build-with-minikit/overview#performance">
+    Оптимизируйте время загрузки и пользовательский опыт для мобильных социальных окружений
   </Card>
-  <Card title="Coinbase Wallet Integration" icon="wallet" href="/base-app/introduction/mini-apps">
-    Specific guidance for optimizing Mini Apps in Base App
+  <Card title="Интеграция с Coinbase Wallet" icon="wallet" href="/base-app/introduction/mini-apps">
+    Специальные рекомендации по оптимизации мини-приложений в Base App
   </Card>
 </CardGroup>
 
-## Resources and Community
+## Ресурсы и сообщество
 
 <CardGroup cols={2}>
-  <Card title="MiniKit Documentation" icon="book" href="/base-app/build-with-minikit/overview">
-    Complete documentation for building Mini Apps with MiniKit
+  <Card title="Документация MiniKit" icon="book" href="/base-app/build-with-minikit/overview">
+    Полная документация по созданию мини-приложений с MiniKit
   </Card>
-  <Card title="MiniKit Quickstart" icon="rocket" href="/base-app/build-with-minikit/quickstart">
-    Get started with MiniKit in under 10 minutes
+  <Card title="Быстрый старт MiniKit" icon="rocket" href="/base-app/build-with-minikit/quickstart">
+    Начните работу с MiniKit менее чем за 10 минут
   </Card>
-  <Card title="Farcaster Protocol" icon="network" href="https://docs.farcaster.xyz/">
-    Learn about the underlying Farcaster social protocol
+  <Card title="Протокол Farcaster" icon="network" href="https://docs.farcaster.xyz/">
+    Узнайте о лежащем в основе социальном протоколе Farcaster
   </Card>
-  <Card title="Base Developer Community" icon="users" href="https://discord.com/invite/buildonbase">
-    Connect with other developers building onchain social apps
+  <Card title="Сообщество разработчиков Base" icon="users" href="https://discord.com/invite/buildonbase">
+    Общайтесь с другими разработчиками, создающими ончейн социальные приложения
   </Card>
 </CardGroup>
