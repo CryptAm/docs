@@ -180,7 +180,7 @@ contract MyToken is ERC20, Ownable {
     /**
      * @dev Минт новых токенов (только владелец контракта может вызывать)
      * @param to Адрес для получения новых токенов
-     * @param amount Количество токенов для чеканки
+     * @param amount Количество токенов для минта
      */
     function mint(address to, uint256 amount) public onlyOwner {
         require(totalSupply() + amount <= MAX_SUPPLY, "Minting would exceed max supply");
@@ -307,7 +307,7 @@ contract MyTokenTest is Test {
     function testMinting() public {
         uint256 mintAmount = 1000 * 10**18;
         
-        // Только владелец должен иметь возможность чеканить
+        // Только владелец должен иметь возможность минтить
         vm.prank(owner);
         token.mint(user, mintAmount);
         
@@ -327,7 +327,7 @@ contract MyTokenTest is Test {
     }
     
     function testFailMintExceedsMaxSupply() public {
-        // Этот тест должен падать при попытке чеканить больше максимальной эмиссии
+        // Этот тест должен падать при попытке минтить больше максимальной эмиссии
         uint256 excessiveAmount = token.MAX_SUPPLY() + 1;
         
         vm.prank(owner);
@@ -335,7 +335,7 @@ contract MyTokenTest is Test {
     }
     
     function testFailUnauthorizedMinting() public {
-        // Этот тест должен падать, когда не-владелец пытается чеканить
+        // Этот тест должен падать, когда не-владелец пытается минтить
         vm.prank(user);
         token.mint(user, 1000 * 10**18);
     }
