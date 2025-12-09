@@ -1,145 +1,145 @@
 ---
-sidebarTitle: Go Gasless
-title: 'Gasless Transactions on Base using a Paymaster'
-description: Learn how to leverage the Base Paymaster for seamless, gasless transactions on the Coinbase Cloud Developer Platform.
+sidebarTitle: Бесплатные транзакции
+title: 'Бесплатные транзакции (Gasless) на Base с использованием Paymaster'
+description: Узнайте, как использовать Base Paymaster для бесшовных, бесплатных (gasless) транзакций на платформе Coinbase Cloud Developer Platform.
 ---
 
 import { Danger } from "/snippets/danger.mdx";
 
-Base transaction fees are typically less than a penny, but the concept of gas can still be confusing for new users and lead to poor user experience when users don't have gas funds in their wallet. You can abstract this away and improve your UX by using the **Base Paymaster**. The Paymaster allows you to:
+Комиссии за транзакции на Base обычно составляют меньше цента, но сама концепция газа (gas) всё ещё может сбивать с толку новых пользователей и приводить к плохому пользовательскому опыту, когда у пользователей нет средств на газ в их кошельке. Вы можете абстрагироваться от этого и улучшить UX, используя **Base Paymaster**. Paymaster позволяет вам:
 
-- Batch multi-step transactions
-- Create custom gasless experiences
-- Sponsor up to $15k monthly on mainnet (unlimited on testnet)
+- Объединять многошаговые транзакции в пакеты
+- Создавать пользовательские бесплатные (gasless) сценарии
+- Спонсировать до $15k ежемесячно в основной сети (без ограничений в тестовой сети)
 
 <Tip>
-If you need an increase in your sponsorship limit, please [reach out on Discord][Discord]!
+Если вам нужно увеличить лимит спонсирования, пожалуйста, [свяжитесь с нами в Discord][Discord]!
 </Tip>
 
 
-## Objectives
+## Цели
 
-1. Configure security measures to ensure safe and reliable transactions.
-2. Manage and allocate resources for sponsored transactions.
-3. Subsidize transaction fees for users, enhancing the user experience by making transactions free.
-4. Set up and manage sponsored transactions on various schedules, including weekly, monthly, and daily cadences.
+1. Настроить меры безопасности для обеспечения безопасных и надежных транзакций.
+2. Управлять и распределять ресурсы для спонсируемых транзакций.
+3. Субсидировать комиссии за транзакции для пользователей, улучшая пользовательский опыт, делая транзакции бесплатными.
+4. Настроить и управлять спонсируемыми транзакциями по различным расписаниям, включая еженедельные, ежемесячные и ежедневные интервалы.
 
-## Prerequisites
+## Предварительные требования
 
-This tutorial assumes you have:
+Это руководство предполагает, что у вас есть:
 
-1. **A Coinbase Cloud Developer Platform Account**  
-   If not, sign up on the [CDP site]. Once you have your account, you can manage projects and utilize tools like the Paymaster.
+1. **Аккаунт на платформе Coinbase Cloud Developer Platform**  
+   Если нет, зарегистрируйтесь на [CDP site]. После получения аккаунта вы сможете управлять проектами и использовать такие инструменты, как Paymaster.
 
-2. **Familiarity with Smart Accounts and ERC 4337**  
-   Smart Accounts are the backbone of advanced transaction patterns (e.g., bundling, sponsorship). If you’re new to ERC 4337, check out external resources like the official [EIP-4337 explainer](https://eips.ethereum.org/EIPS/eip-4337) before starting.
+2. **Знакомство со смарт-аккаунтами и ERC 4337**  
+   Смарт-аккаунты (Smart Accounts) являются основой продвинутых паттернов транзакций (например, объединение в пакеты, спонсирование). Если вы новичок в ERC 4337, ознакомьтесь с внешними ресурсами, такими как официальный [объяснитель EIP-4337](https://eips.ethereum.org/EIPS/eip-4337) прежде чем начать.
 
 3. **Foundry**  
-   Foundry is a development environment, testing framework, and smart contract toolkit for Ethereum. You’ll need it installed locally for generating key pairs and interacting with smart contracts.
+   Foundry - это среда разработки, фреймворк для тестирования и набор инструментов для смарт-контрактов Ethereum. Он понадобится вам локально для генерации пар ключей и взаимодействия со смарт-контрактами.
 
 <Tip>
-**Testnet vs. Mainnet**  
-If you prefer not to spend real funds, you can switch to **Base Sepolia** (testnet). The steps below are conceptually the same. Just select _Base Sepolia_ in the Coinbase Developer Platform instead of _Base Mainnet_, and use a contract deployed on Base testnet for your allowlisted methods.
+**Тестовая сеть vs основная сеть**  
+Если вы предпочитаете не тратить реальные средства, вы можете переключиться на **Base Sepolia** (тестовая сеть). Шаги ниже концептуально одинаковы. Просто выберите _Base Sepolia_ в Coinbase Developer Platform вместо _Base Mainnet_ и используйте контракт, развернутый в тестовой сети Base, для ваших разрешенных методов.
 </Tip>
 
 
-## Set Up a Base Paymaster & Bundler
+## Настройте Base Paymaster & Bundler
 
-In this section, you will configure a Paymaster to sponsor payments on behalf of a specific smart contract for a specified amount.
+В этом разделе вы настроите Paymaster для спонсирования платежей от имени определенного смарт-контракта на указанную сумму.
 
-1. **Navigate to the [Coinbase Developer Platform].**
-2. Create or select your project from the upper left corner of the screen.
-3. Click on the **Paymaster** tool from the left navigation.
-4. Go to the **Configuration** tab and copy the **RPC URL** to your clipboard — you’ll need this shortly in your code.
+1. **Перейдите на [Coinbase Developer Platform].**
+2. Создайте или выберите ваш проект в левом верхнем углу экрана.
+3. Нажмите на инструмент **Paymaster** в левой навигации.
+4. Перейдите на вкладку **Configuration** и скопируйте **RPC URL** в буфер обмена - он скоро понадобится вам в коде.
 
-### Screenshots
+### Скриншоты
 
-- **Selecting your project**  
+- **Выбор вашего проекта**  
 <Frame>
   ![cdp-home.png](/images/gasless-transaction-on-base/cdp-select-project.png)
 </Frame>
 
-- **Navigating to the Paymaster tool**  
+- **Переход к инструменту Paymaster**  
 <Frame>
   ![cdp-paymaster-tool.png](/images/gasless-transaction-on-base/cdp-paymaster.png)
 </Frame>
 
-- **Configuration screen**  
+- **Экран конфигурации**  
 <Frame>
   ![cdp-paymaster-tool.png](/images/gasless-transaction-on-base/cdp-config.png)
 </Frame>
 
-### Allowlist a Sponsorable Contract
+### Добавьте разрешенный контракт (Allowlist)
 
-1. From the Configuration page, ensure **Base Mainnet** (or **Base Sepolia** if you’re testing) is selected.
-2. Enable your paymaster by clicking the toggle button.
-3. Click **Add** to add an allowlisted contract.
-4. For this example, add [`0x83bd615eb93eE1336acA53e185b03B54fF4A17e8`][simple NFT contract], and add the function `mintTo(address)`.
+1. На странице Configuration убедитесь, что выбрана **Base Mainnet** (или **Base Sepolia**, если вы тестируете).
+2. Включите ваш paymaster, нажав на переключатель.
+3. Нажмите **Add**, чтобы добавить разрешенный контракт.
+4. Для этого примера добавьте [`0x83bd615eb93eE1336acA53e185b03B54fF4A17e8`][simple NFT contract] и функцию `mintTo(address)`.
 
 <Frame>
 ![cdp-allowlist-contracts.png](/images/gasless-transaction-on-base/cdp-allowlist-contract.png)
 </Frame>
 
 <Note>
-**Use your own contract**  
- We use a [simple NFT contract][simple NFT contract] on Base mainnet as an example. Feel free to substitute your own.
+**Используйте свой собственный контракт**  
+ Мы используем [простой NFT контракт][simple NFT contract] в основной сети Base в качестве примера. Не стесняйтесь использовать свой собственный.
 </Note>
 
 
-### Global & Per User Limits
+### Глобальные и пользовательские лимиты
 
-Scroll down to the **Per User Limit** section. You can set:
+Прокрутите вниз до раздела **Per User Limit**. Вы можете установить:
 
-- **Dollar amount limit** or **number of UserOperations** per user
-- **Limit cycles** that reset daily, weekly, or monthly
+- **Лимит в долларах** или количество **UserOperations** на пользователя
+- **Циклы лимитов**, которые сбрасываются ежедневно, еженедельно или ежемесячно
 
-For example, you might set:
+Например, вы можете установить:
 
-- `max USD` to `$0.05`
-- `max UserOperation` to `1`
+- `max USD` в `$0.05`
+- `max UserOperation` в `1`
 
-This means **each user** can only have $0.05 in sponsored gas and **1** user operation before the cycle resets.
+Это означает, что **каждый пользователь** может получить только $0.05 спонсированного газа и **1** пользовательскую операцию (UserOperation) до сброса цикла.
 
 <Note>
-**Limit Cycles**  
-These reset based on the selected cadence (daily, weekly, monthly).
+**Циклы лимитов** 
+Они сбрасываются в зависимости от выбранного интервала (ежедневно, еженедельно, ежемесячно).
 </Note>
 
 
-Next, **set the Global Limit**. For example, set this to `$0.07` so that once the entire paymaster has sponsored \$0.07 worth of gas (across all users), no more sponsorship occurs unless you raise the limit.
+Далее **установите Глобальный лимит**. Например, установите его на $0.07, чтобы как только весь paymaster спонсировал газа на $0.07 (все пользователи вместе), спонсирование прекращалось, пока вы не увеличите лимит.
 
 <Frame>
 ![cdp-global-user-limits.png](/images/gasless-transaction-on-base/cdp-global-user-limits.png)
 </Frame>
 
-## Test Your Paymaster Policy
+## Протестируйте вашу политику Paymaster
 
-Now let’s verify that these policies work. We’ll:
+Теперь давайте проверим, работают ли эти политики. Мы:
 
-1. Create two local key pairs (or use private keys you own).
-2. Generate two Smart Accounts.
-3. Attempt to sponsor multiple transactions to see your policy in action.
+1. Создадим две локальные пары ключей (или используем ваши собственные приватные ключи).
+2. Сгенерируем два смарт-аккаунта.
+3. Попытаемся спонсировать несколько транзакций, чтобы увидеть политику в действии.
 
-### Installing Foundry
+### Установка Foundry
 
-1. Ensure you have **Rust** installed
+1. Убедитесь, что **Rust** установлен
    ```bash
    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
    ```
-2. Install Foundry
+2. Установите Foundry
    ```bash
    curl -L https://foundry.paradigm.xyz | bash
    foundryup
    ```
-3. Verify it works
+3. Проверьте, что все работает
    ```bash
    cast --help
    ```
-   If you see Foundry usage info, you’re good to go!
+   Если вы видите информацию об использовании Foundry, всё в порядке!
 
-### Create Your Project & Generate Key Pairs
+### Создайте ваш проект и сгенерируйте пары ключей
 
-1. Make a new folder and install dependencies, `viem` and `permissionless`:
+1. Создайте новую папку и установите зависимости, `viem` и `permissionless`:
    ```bash
    mkdir sponsored_transactions
    cd sponsored_transactions
@@ -148,20 +148,20 @@ Now let’s verify that these policies work. We’ll:
    npm install viem
    touch index.js
    ```
-2. Generate two key pairs with Foundry:
+2. Сгенерируйте две пары ключей с помощью Foundry:
    ```bash
    cast wallet new
    cast wallet new
    ```
-   You’ll see something like:
+   Вы увидите что-то вроде:
    ```bash
    Successfully created new keypair.
    Address: 0xD440D746...
    Private key: 0x01c9720c1dfa3c9...
    ```
-   **Store these private keys somewhere safe**
+   **Сохраните эти приватные ключи в безопасном месте**
 
-### Project Structure With Environment Variables
+### Структура проекта с переменными окружения
 
 Create a `.env` file in the `sponsored_transactions` directory. In the `.env`, you'll add the rpcURL for your paymaster and the private keys for your accounts:
 
