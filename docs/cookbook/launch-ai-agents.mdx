@@ -9,128 +9,128 @@ import ElizaInstructions from '/snippets/ai-instructions/eliza.mdx';
 
 AI агенты становятся экспоненциально более мощными, когда они находятся в блокчейне! Развернув AI агентов на Base, вы получаете доступ к **стейблкоинам**, **токенам**, **NFT** и обширной экосистеме **DeFi протоколов**. Это значительно увеличивает их автономность и спектр задач, которые они могут выполнять, от автоматической торговли до сложных многошаговых финансовых операций.
 
-## What You'll Build
+## Что вы создадите
 
-By the end of this guide, you'll have deployed a fully functional AI agent that can:
+К концу этого руководства вы развернете полностью функционального AI агента, который сможет:
 
-- **Execute onchain transactions** autonomously
-- **Interact with DeFi protocols** for trading and liquidity
-- **Manage digital assets** including tokens and NFTs
-- **Respond to market conditions** with intelligent automation
+- **Выполнять ончейн транзакции** автономно
+- **Взаимодействовать с DeFi протоколами** для торговли и обеспечения ликвидности
+- **Управлять цифровыми активами**, включая токены и NFT
+- **Реагировать на рыночные условия** с интеллектуальной автоматизацией
 
 <CardGroup cols={2}>
-  <Card title="Onchain Autonomy" icon="robot">
-    Agents can execute transactions, trade tokens, and interact with smart contracts
+  <Card title="Ончейн автономность" icon="robot">
+    Агенты могут выполнять транзакции, торговать токенами и взаимодействовать со смарт-контрактами
   </Card>
-  <Card title="DeFi Integration" icon="coins">
-    Access to DEXs, lending protocols, and yield farming opportunities
+  <Card title="Интеграция DeFi" icon="coins">
+    Доступ к DEX, кредитным протоколам и возможностям yield farming
   </Card>
-  <Card title="Asset Management" icon="wallet">
-    Manage portfolios, NFT collections, and cross-chain assets
+  <Card title="Управление активами" icon="wallet">
+    Управление портфелями, коллекциями NFT и кросс-чейн активами
   </Card>
-  <Card title="Market Intelligence" icon="chart-line">
-    Real-time market analysis and automated trading strategies
+  <Card title="Аналитика рынка" icon="chart-line">
+    Анализ рынка в реальном времени и автоматизированные торговые стратегии
   </Card>
 </CardGroup>
 
-## Prerequisites
+## Предварительные требования
 
-Before launching your AI agent, ensure you have the following setup:
+Перед запуском вашего AI агента убедитесь, что у вас настроено следующее:
 
 <Steps>
-  <Step title="Development Environment">
-    Choose your preferred development environment and ensure you have the necessary tools installed.
+  <Step title="Среда разработки">
+    Выберите предпочитаемую среду разработки и убедитесь, что необходимые инструменты установлены.
     
-    **For Local Development:**
-    - Node.js 18+ or Python 3.10+
-    - Git for repository management
-    - Code editor (VS Code recommended)
+    **Для локальной разработки:**
+    - Node.js 18+ или Python 3.10+
+    - Git для управления репозиториями
+    - Редактор кода (рекомендуется VS Code)
     
-    **For Replit (Browser-based):**
-    - Replit account for cloud development
-    - No local installation required
+    **Для Replit (в браузере):**
+    - Аккаунт Replit для облачной разработки
+    - Локальная установка не требуется
     
     <Tip>
-    Replit is perfect for quick prototyping, while local development gives you more control and flexibility.
+    Replit идеально подходит для быстрого прототипирования, тогда как локальная разработка дает больше контроля и гибкости.
     </Tip>
   </Step>
   
-  <Step title="API Keys and Credentials">
-    Gather the required API keys for your AI agent:
+  <Step title="API ключи и учетные данные">
+    Соберите необходимые API ключи для вашего AI агента:
     
-    - **Coinbase Developer Platform (CDP) API Key**: [Get your CDP credentials](https://www.coinbase.com/cloud)
-    - **OpenAI API Key**: [Create an OpenAI account](https://platform.openai.com/api-keys) for AI capabilities
-    - **Base Network Access**: Your agent will operate on Base Sepolia testnet initially
+    - **API ключ Coinbase Developer Platform (CDP)**: [Получите учетные данные CDP](https://www.coinbase.com/cloud)
+    - **API ключ OpenAI**: [Создайте аккаунт OpenAI](https://platform.openai.com/api-keys) for AI capabilities
+    - **Доступ к сети Base**: Изначально ваш агент будет работать в тестовой сети Base Sepolia
     
     <Warning>
-    Store all API keys securely and never commit them to version control. Use environment variables for all sensitive credentials.
+    Храните все API ключи безопасно и никогда не коммитьте их в систему контроля версий. Используйте переменные окружения для всех чувствительных учетных данных.
     </Warning>
   </Step>
   
-  <Step title="Understanding Agent Frameworks">
-    Choose the framework that best fits your needs:
+  <Step title="Понимание фреймворков для агентов">
+    Выберите фреймворк, который лучше всего соответствует вашим потребностям:
     
-    - **LangChain**: Full-featured framework with extensive integrations
-    - **Eliza**: Lightweight, fast setup for simple agents
+    - **LangChain**: Полнофункциональный фреймворк с обширными интеграциями
+    - **Eliza**: Легковесный, быстрая настройка для простых агентов
     
     <Note>
-    Each framework has different strengths. LangChain offers more customization, while Eliza provides rapid deployment.
+    Каждый фреймворк имеет разные преимущества. LangChain предлагает больше кастомизации, а Eliza обеспечивает быстрое развертывание.
     </Note>
   </Step>
 </Steps>
 
-## Choose Your Agent Framework
+## Выберите фреймворк для агента
 
-Select the framework and environment that best matches your development preferences and project requirements:
+Выберите фреймворк и среду, которые лучше всего соответствуют вашим предпочтениям разработки и требованиям проекта:
 
 <Tabs>
-  <Tab title="LangChain Framework">
-    **LangChain** provides a comprehensive framework for building sophisticated AI agents with extensive tooling and integrations.
+  <Tab title="Фреймворк LangChain">
+    **LangChain** предоставляет комплексный фреймворк для создания сложных AI агентов с расширенными инструментами и интеграциями.
     
     <Info>
-    **Best for:** Complex agents requiring custom tools, advanced reasoning, and extensive integrations with external services.
+    **Лучше всего подходит для:** Сложных агентов, требующих пользовательских инструментов, продвинутой логики и обширных интеграций с внешними сервисами.
     </Info>
 
-    ### Development Environment
+    ### Среда разработки
 
     <Tabs>
-      <Tab title="Replit (Cloud Development)">
-        Perfect for getting started quickly without local setup requirements.
+      <Tab title="Replit (Облачная разработка)">
+        Идеально для быстрого старта без необходимости локальной настройки.
         
         <LangChainReplitInstructions/>
         
         <Tip>
-        **Replit Advantages:**
-        - No local environment setup required
-        - Built-in collaboration features
-        - Automatic deployment and hosting
-        - Great for learning and prototyping
+        **Преимущества Replit:**
+        - Не требуется настройка локального окружения
+        - Встроенные функции для совместной работы
+        - Автоматический деплой и хостинг
+        - Отлично подходит для обучения и прототипирования
         </Tip>
       </Tab>
       
-      <Tab title="Local Development">
-        Recommended for production applications and advanced customization.
+      <Tab title="Локальная разработка">
+        Рекомендуется для продакшен приложений и расширенной кастомизации.
         
         <LangChainLocalInstructions/>
         
         <Tip>
-        **Local Development Advantages:**
-        - Full control over your environment
-        - Better performance for intensive operations
-        - Easier integration with existing toolchains
-        - Enhanced security for production applications
+        **Преимущества локальной разработки:**
+        - Полный контроль над вашим окружением
+        - Лучшая производительность для интенсивных операций
+        - Более простая интеграция с существующими инструментами
+        - Повышенная безопасность для продакшен приложений
         </Tip>
       </Tab>
     </Tabs>
     
-    ### Advanced LangChain Features
+    ### Продвинутые функции LangChain
     
-    Once your basic agent is running, you can enhance it with:
+    Как только ваш базовый агент заработает, вы можете улучшить его:
     
     <AccordionGroup>
-      <Accordion title="Custom Tools and Actions">
+      <Accordion title="Пользовательские инструменты и действия">
         ```python
-        # Example: Custom DeFi interaction tool
+        # Пример: Пользовательский инструмент для взаимодействия с DeFi
         from cdp_langchain.tools import CdpTool
         
         class CustomDeFiTool(CdpTool):
@@ -142,79 +142,79 @@ Select the framework and environment that best matches your development preferen
         ```
       </Accordion>
       
-      <Accordion title="Memory and Persistence">
+      <Accordion title="Память и сохранение состояния">
         ```python
-        # Add memory to your agent
+        # Добавьте память вашему агенту
         from langchain.memory import ConversationBufferWindowMemory
         
         memory = ConversationBufferWindowMemory(
-            k=10,  # Remember last 10 interactions
+            k=10,  # Запоминать последние 10 взаимодействий
             return_messages=True
         )
         ```
       </Accordion>
       
-      <Accordion title="Multi-Agent Coordination">
+      <Accordion title="Координация нескольких агентов">
         ```python
-        # Coordinate multiple specialized agents
+        # Координируйте несколько специализированных агентов
         trading_agent = create_trading_agent()
         portfolio_agent = create_portfolio_agent()
         
-        # Orchestrate agents for complex strategies
+        # Оркеструйте агентов для сложных стратегий
         coordinator = AgentCoordinator([trading_agent, portfolio_agent])
         ```
       </Accordion>
     </AccordionGroup>
   </Tab>
   
-  <Tab title="Eliza Framework">
-    **Eliza** offers the fastest path to deploying AI agents with minimal configuration and maximum speed.
+  <Tab title="Фреймворк Eliza">
+    **Eliza** предлагает самый быстрый путь к развертыванию AI агентов с минимальной конфигурацией и максимальной скоростью.
     
     <Info>
-    **Best for:** Quick deployments, simple autonomous agents, and rapid prototyping with immediate results.
+    **Лучше всего подходит для:** Быстрых развертываний, простых автономных агентов и быстрого прототипирования с немедленными результатами.
     </Info>
     
     <ElizaInstructions/>
     
-    ### Eliza Framework Benefits
+    ### Преимущества фреймворка Eliza
     
     <CardGroup cols={2}>
-      <Card title="Rapid Deployment" icon="rocket">
-        Get your agent running in under 5 minutes with the CLI tool
+      <Card title="Быстрое развертывание" icon="rocket">
+        Запустите вашего агента менее чем за 5 минут с помощью CLI инструмента
       </Card>
-      <Card title="Minimal Configuration" icon="settings">
-        Pre-configured templates for common agent patterns
+      <Card title="Минимальная конфигурация" icon="settings">
+        Предварительно настроенные шаблоны для распространенных паттернов агентов
       </Card>
-      <Card title="Built-in Integrations" icon="plug">
-        Native support for popular onchain actions and APIs
+      <Card title="Встроенные интеграции" icon="plug">
+        Нативная поддержка популярных ончейн действий и API
       </Card>
-      <Card title="Community Templates" icon="users">
-        Access to pre-built agent templates from the community
+      <Card title="Шаблоны сообщества" icon="users">
+        Доступ к предварительно созданным шаблонам агентов от сообщества
       </Card>
     </CardGroup>
     
-    ### Extending Your Eliza Agent
+    ### Расширение вашего агента Eliza
     
     <Steps>
-      <Step title="Add Custom Actions">
-        Extend your agent's capabilities by adding custom onchain actions:
+      <Step title="Добавьте пользовательские действия">
+        Расширьте возможности вашего агента, добавив пользовательские ончейн действия:
         
         ```typescript
-        // Add to your agent's action registry
+        // Добавьте в реестр действий вашего агента
         export const customActions = [
           {
             name: "YIELD_FARM",
             description: "Automatically farm yield on Base protocols",
             handler: async (params) => {
-              // Your yield farming logic
+              // Ваша логика для yield farming
             }
           }
         ];
         ```
       </Step>
       
-      <Step title="Configure Trading Strategies">
-        Implement automated trading strategies:
+      <Step title="Настройте торговые стратегии">
+        Реализуйте автоматизированные торговые стратегии:
         
         ```typescript
         export const tradingConfig = {
@@ -225,8 +225,8 @@ Select the framework and environment that best matches your development preferen
         ```
       </Step>
       
-      <Step title="Set Up Monitoring">
-        Add monitoring and alerts for your agent:
+      <Step title="Настройте мониторинг">
+        Добавьте мониторинг и оповещения для вашего агента:
         
         ```typescript
         export const monitoringConfig = {
@@ -242,219 +242,219 @@ Select the framework and environment that best matches your development preferen
   </Tab>
 </Tabs>
 
-## Testing Your AI Agent
+## Тестирование вашего AI агента
 
-Before deploying to mainnet, thoroughly test your agent's capabilities:
+Перед развертыванием в основную сеть тщательно протестируйте возможности вашего агента:
 
 <Steps>
-  <Step title="Testnet Validation">
-    **Test all functions on Base Sepolia testnet:**
+  <Step title="Валидация в тестовой сети">
+    **Протестируйте все функции в тестовой сети Base Sepolia:**
     
-    1. **Wallet Operations**: Create wallets, check balances, transfer tokens
-    2. **DeFi Interactions**: Test swaps, liquidity provision, lending
-    3. **NFT Operations**: Mint, transfer, and trade NFTs
-    4. **Error Handling**: Ensure graceful handling of failed transactions
+    1. **Операции с кошельками**: Создание кошельков, проверка балансов, перевод токенов
+    2. **Взаимодействие с DeFi**: Тестирование свопов, предоставления ликвидности, кредитования
+    3. **Операции с NFT**: Минт, перевод и торговля NFT
+    4. **Обработка ошибок**: Убедитесь в корректной обработке неудачных транзакций
     
     <Check>
-    Your agent should handle all basic operations without errors before proceeding.
+    Ваш агент должен обрабатывать все базовые операции без ошибок, прежде чем переходить к следующим шагам.
     </Check>
   </Step>
   
-  <Step title="Performance Testing">
-    **Evaluate agent performance under various conditions:**
+  <Step title="Тестирование производительности">
+    **Оцените производительность агента в различных условиях:**
     
-    - Response time to market changes
-    - Transaction success rates
-    - Gas optimization effectiveness
-    - Resource utilization
+    - Время реакции на изменения рынка
+    - Процент успешных транзакций
+    - Эффективность оптимизации газа
+    - Использование ресурсов
     
     <Tip>
-    Monitor your agent's performance metrics to identify optimization opportunities.
+    Мониторьте метрики производительности вашего агента, чтобы выявить возможности для оптимизации.
     </Tip>
   </Step>
   
-  <Step title="Security Audit">
-    **Verify security measures are in place:**
+  <Step title="Аудит безопасности">
+    **Убедитесь, что меры безопасности реализованы:**
     
-    - API keys are properly secured
-    - Wallet private keys are encrypted
-    - Rate limiting is implemented
-    - Transaction limits are configured
+    - API ключи должным образом защищены
+    - Приватные ключи кошельков зашифрованы
+    - Реализовано ограничение частоты запросов (rate limiting)
+    - Настроены лимиты транзакций
     
     <Warning>
-    Never deploy to mainnet without proper security auditing. Consider professional security reviews for high-value operations.
+    Никогда не развертывайте в основную сеть без надлежащего аудита безопасности. Рассмотрите возможность профессиональных проверок безопасности для операций с высокой стоимостью.
     </Warning>
   </Step>
 </Steps>
 
-## Deployment and Monitoring
+## Развертывание и мониторинг
 
 <Steps>
-  <Step title="Production Deployment">
-    **Deploy your agent to a production environment:**
+  <Step title="Развертывание в продакшен">
+    **Разверните вашего агента в продакшен окружении:**
     
     <Tabs>
-      <Tab title="Cloud Deployment">
+      <Tab title="Облачный деплой">
         ```bash
-        # Deploy to cloud provider
+        # Деплой в облачного провайдера
         npm run build
         npm run deploy:production
         
-        # Set production environment variables
+        # Установите переменные окружения для продакшена
         export CDP_API_KEY_NAME="your_production_key"
         export NETWORK_ID="base-mainnet"
         ```
       </Tab>
       
-      <Tab title="Self-Hosted">
+      <Tab title="Самодельный хостинг">
         ```bash
-        # Set up production server
+        # Настройте продакшен сервер
         pm2 start ecosystem.config.js
         pm2 startup
         pm2 save
         
-        # Configure monitoring
+        # Настройте мониторинг
         pm2 install pm2-logrotate
         ```
       </Tab>
     </Tabs>
     
     <Check>
-    Ensure your deployment includes proper logging, monitoring, and backup systems.
+    Убедитесь, что ваш деплой включает надлежащее логирование, мониторинг и системы резервного копирования.
     </Check>
   </Step>
   
-  <Step title="Monitoring and Alerts">
-    **Set up comprehensive monitoring:**
+  <Step title="Мониторинг и оповещения">
+    **Настройте комплексный мониторинг:**
     
-    - **Transaction Monitoring**: Track success rates and gas usage
-    - **Performance Metrics**: Monitor response times and throughput  
-    - **Financial Tracking**: Watch portfolio performance and P&L
-    - **System Health**: Monitor server resources and uptime
+    - **Мониторинг транзакций**: Отслеживайте процент успешных операций и использование газа
+    - **Метрики производительности**: Мониторьте время отклика и пропускную способность
+    - **Финансовый учет**: Следите за производительностью портфеля и прибылью/убытками
+    - **Состояние системы**: Мониторьте ресурсы сервера и время безотказной работы
     
     <Tip>
-    Use tools like Grafana, DataDog, or custom dashboards to visualize your agent's performance.
+    Используйте такие инструменты, как Grafana, DataDog или пользовательские дашборды для визуализации производительности вашего агента.
     </Tip>
   </Step>
 </Steps>
 
-## Troubleshooting
+## Решение проблем
 
 <AccordionGroup>
-  <Accordion title="Agent Not Responding">
-    **Common solutions:**
-    - Check API key validity and permissions
-    - Verify network connectivity to Base RPC endpoints
-    - Ensure sufficient gas funds in agent wallet
-    - Review agent logs for error messages
-    - Confirm OpenAI API quota and rate limits
+  <Accordion title="Агент не отвечает">
+    **Распространенные решения:**
+    - Проверьте действительность и разрешения API ключей
+    - Убедитесь в наличии подключения к RPC конечным точкам Base
+    - Проверьте, достаточно ли газа на кошельке агента
+    - Просмотрите логи агента на наличие сообщений об ошибках
+    - Подтвердите квоты и лимиты скорости для OpenAI API
   </Accordion>
   
-  <Accordion title="Transaction Failures">
-    **Debug transaction issues:**
-    - Verify sufficient token balance for operations
-    - Check gas price settings and network congestion
-    - Confirm smart contract addresses are correct
-    - Review transaction simulation results
-    - Validate slippage tolerance settings
+  <Accordion title="Сбои транзакций">
+    **Отладка проблем с транзакциями:**
+    - Убедитесь в достаточном балансе токенов для операций
+    - Проверьте настройки цены газа и загруженность сети
+    - Подтвердите корректность адресов смарт-контрактов
+    - Просмотрите результаты симуляции транзакций
+    - Проверьте настройки допустимого проскальзывания (slippage)
   </Accordion>
   
-  <Accordion title="Performance Issues">
-    **Optimize agent performance:**
-    - Implement request batching for multiple operations
-    - Use connection pooling for database operations
-    - Cache frequently accessed data
-    - Optimize trading frequency to reduce gas costs
-    - Review and tune AI model parameters
+  <Accordion title="Проблемы с производительностью">
+    **Оптимизируйте производительность агента:**
+    - Реализуйте пакетную обработку запросов для множественных операций
+    - Используйте пулы соединений для операций с базами данных
+    - Кэшируйте часто запрашиваемые данные
+    - Оптимизируйте частоту торговли для снижения затрат на газ
+    - Просмотрите и настройте параметры AI модели
   </Accordion>
   
-  <Accordion title="Security Concerns">
-    **Enhance security measures:**
-    - Rotate API keys regularly
-    - Implement transaction signing verification
-    - Set up multi-signature requirements for large transactions
-    - Enable wallet spending limits
-    - Monitor for unusual activity patterns
+  <Accordion title="Проблемы безопасности">
+    **Усильте меры безопасности:**
+    - Регулярно обновляйте API ключи
+    - Внедрите проверку подписи транзакций
+    - Настройте требования к мульти-подписи для крупных транзакций
+    - Включите лимиты трат для кошелька
+    - Мониторьте наличие необычных паттернов активности
   </Accordion>
 </AccordionGroup>
 
-## Advanced Use Cases
+## Продвинутые сценарии использования
 
-Explore advanced patterns for sophisticated AI agents:
+Изучите продвинутые паттерны для сложных AI агентов:
 
 <CardGroup cols={2}>
-  <Card title="Arbitrage Bot" icon="exchange">
-    Build agents that identify and execute arbitrage opportunities across DEXs
+  <Card title="Арбитражный бот" icon="exchange">
+    Создавайте агентов, которые выявляют и выполняют арбитражные возможности на разных DEX
   </Card>
-  <Card title="Portfolio Manager" icon="briefcase">
-    Create agents that rebalance portfolios based on market conditions
+  <Card title="Менеджер портфеля" icon="briefcase">
+    Создавайте агентов, которые ребалансируют портфели на основе рыночных условий
   </Card>
-  <Card title="Yield Optimizer" icon="trending-up">
-    Deploy agents that automatically find and compound the best yields
+  <Card title="Оптимизатор доходности" icon="trending-up">
+    Разверните агентов, которые автоматически находят и реинвестируют лучшую доходность
   </Card>
-  <Card title="NFT Trader" icon="image">
-    Develop agents that analyze and trade NFTs based on market trends
+  <Card title="Трейдер NFT" icon="image">
+    Разрабатывайте агентов, которые анализируют и торгуют NFT на основе рыночных трендов
   </Card>
 </CardGroup>
 
-## Next Steps
+## Следующие шаги
 
-Expand your AI agent's capabilities:
+Расширьте возможности вашего AI агента:
 
 <Steps>
-  <Step title="Integrate Additional Protocols">
-    Connect your agent to more DeFi protocols:
-    - **Uniswap** for advanced trading strategies
-    - **Aave** for lending and borrowing
-    - **Compound** for yield generation
-    - **1inch** for optimal trade routing
+  <Step title="Интегрируйте дополнительные протоколы">
+    Подключите вашего агента к большему количеству DeFi протоколов:
+    - **Uniswap** для продвинутых торговых стратегий
+    - **Aave** для кредитования и заимствования
+    - **Compound** для генерации дохода
+    - **1inch** для оптимальной маршрутизации сделок
   </Step>
   
-  <Step title="Implement Advanced Strategies">
-    Build sophisticated trading and management strategies:
-    - Dollar-cost averaging (DCA) algorithms
-    - Mean reversion trading
-    - Momentum-based strategies  
-    - Risk-adjusted portfolio rebalancing
+  <Step title="Реализуйте продвинутые стратегии">
+    Создавайте сложные торговые и управленческие стратегии:
+    - Алгоритмы усреднения долларовой стоимости (DCA)
+    - Торговля по принципу возврата к среднему (mean reversion)
+    - Стратегии на основе импульса (momentum)
+    - Ребалансировка портфеля с учетом риска
   </Step>
   
-  <Step title="Add Cross-Chain Capabilities">
-    Extend your agent across multiple chains:
-    - **Ethereum** for additional DeFi access
-    - **Polygon** for low-cost operations
-    - **Arbitrum** for advanced trading
-    - Cross-chain bridging automation
+  <Step title="Добавьте кросс-чейн возможности">
+    Расширьте вашего агента на несколько цепей:
+    - **Ethereum** для дополнительного доступа к DeFi
+    - **Polygon** для недорогих операций
+    - **Arbitrum** для продвинутой торговли
+    - Автоматизация кросс-чейн мостов
   </Step>
 </Steps>
 
-## Resources and Community
+## Ресурсы и сообщество
 
 <CardGroup cols={2}>
-  <Card title="CDP AgentKit Documentation" icon="book" href="https://docs.cdp.coinbase.com/agentkit/docs/welcome">
-    Complete documentation for building agents with CDP
+  <Card title="Документация CDP AgentKit" icon="book" href="https://docs.cdp.coinbase.com/agentkit/docs/welcome">
+    Полная документация по созданию агентов с CDP
   </Card>
-  <Card title="Base Developer Discord" icon="discord" href="https://discord.com/invite/buildonbase">
-    Connect with other developers building AI agents on Base
+  <Card title="Discord разработчиков Base" icon="discord" href="https://discord.com/invite/buildonbase">
+    Общайтесь с другими разработчиками, создающими AI агентов на Base
   </Card>
-  <Card title="GitHub Repository" icon="github" href="https://github.com/coinbase/agentkit">
-    Access source code, examples, and contribute to the project
+  <Card title="Репозиторий GitHub" icon="github" href="https://github.com/coinbase/agentkit">
+    Получите доступ к исходному коду, примерам и участвуйте в проекте
   </Card>
-  <Card title="Video Tutorials" icon="video" href="https://www.youtube.com/live/DlRR1focAiw">
-    Watch step-by-step tutorials for agent development
+  <Card title="Видео рководства" icon="video" href="https://www.youtube.com/live/DlRR1focAiw">
+    Смотрите пошаговые руководства по разработке агентов
   </Card>
 </CardGroup>
 
-## Conclusion
+## Заключение
 
-Congratulations! You've successfully launched an AI agent on Base with full onchain capabilities. Your agent can now:
+Поздравляем! Вы успешно запустили AI агента на Base с полным набором ончейн возможностей. Ваш агент теперь может:
 
-✅ **Execute autonomous transactions** with real-world financial impact  
-✅ **Interact with DeFi protocols** for advanced financial operations  
-✅ **Manage digital assets** including tokens and NFTs  
-✅ **Respond intelligently** to market conditions and opportunities
+✅ **Выполнять автономные транзакции** с реальным финансовым воздействием
+✅ **Взаимодействовать с DeFi протоколами** для продвинутых финансовых операций
+✅ **Управлять цифровыми активами**, включая токены и NFT
+✅ **Интеллектуально реагировать** на рыночные условия и возможности
 
-**Ready for production?** Consider implementing advanced monitoring, security audits, and gradual scaling as your agent proves its effectiveness in live markets.
+**Готовы к продакшену?** Рассмотрите возможность внедрения продвинутого мониторинга, аудитов безопасности и постепенного масштабирования по мере того, как ваш агент доказывает свою эффективность на живых рынках.
 
 <Check>
-Your AI agent is now part of the onchain economy, ready to operate 24/7 in the world of decentralized finance. Happy building on Base!
+Ваш AI агент теперь часть ончейн экономики, готовый работать 24/7 в мире децентрализованных финансов. Удачи в разработке на Base!
 </Check>
