@@ -1,13 +1,13 @@
 ---
-title: Add MiniKit
-description: Wrap your app with MiniKitProvider and initialize the frame
+title: Добавьте MiniKit
+description: Оберните ваше приложение в MiniKitProvider и инициализируйте фрейм
 ---
 
-Add the provider and initialize MiniKit in your main page.
+Добавьте провайдер и инициализируйте MiniKit на вашей главной странице.
 
-## Add MiniKitProvider
+## Добавьте MiniKitProvider
 
-Create `providers/MiniKitProvider.tsx` and wrap `app/layout.tsx`.
+Создайте `providers/MiniKitProvider.tsx` и оберните `app/layout.tsx`.
 
 ```jsx providers/MiniKitProvider.tsx
 'use client';
@@ -24,7 +24,7 @@ export function MiniKitContextProvider({ children }: { children: ReactNode }) {
 }
 ```
 
-Wrap your root layout:
+Оберните ваш корневой макет (layout):
 
 ```jsx app/layout.tsx
 import { MiniKitContextProvider } from '@/providers/MiniKitProvider';
@@ -40,9 +40,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 }
 ```
 
-## Initialize MiniKit in your page
+## Инициализируйте MiniKit на вашей странице
 
-Use `useMiniKit()` to call `setFrameReady()` when your app is ready.
+Используйте `useMiniKit()` для вызова `setFrameReady()`, когда ваше приложение готово.
 
 ```jsx app/page.tsx
 'use client';
@@ -61,7 +61,7 @@ export default function HomePage() {
 ```
 
 <Tip>
-The provider configures wagmi and react‑query and uses the Farcaster connector when available.
+Провайдер настраивает wagmi и react‑query и использует коннектор Farcaster, когда он доступен.
 </Tip>
 
 
