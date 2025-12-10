@@ -1,14 +1,14 @@
 ---
-title: Create Manifest
-description: Expose the required /.well-known/farcaster.json endpoint
+title: Создайте манифест
+description: Предоставьте обязательный endpoint /.well-known/farcaster.json
 ---
 
-Your Mini App's Manifest proves ownership of your app and powers search, discovery, and rich embeds in the Base App. 
+Манифест вашего мини-приложения подтверждает владение приложением и обеспечивает поиск, обнаружение и расширенные эмбеды (rich embeds) в Base App.
 
-Below we'll create a Next.js route at `app/.well-known/farcaster.json/route.ts` that returns your accountAssociation and frame metadata.
+Ниже мы создадим Next.js маршрут в  `app/.well-known/farcaster.json/route.ts` который возвращает ваши accountAssociation и метаданные фрейма.
 
 <Check>
-Visit `https://yourdomain.com/.well-known/farcaster.json` to verify JSON output.
+Посетите `https://ваш-домен.com/.well-known/farcaster.json` для проверки JSON вывода.
 </Check>
 
 
@@ -45,14 +45,14 @@ export async function GET() {
       ogTitle: process.env.NEXT_PUBLIC_APP_OG_TITLE,
       ogDescription: process.env.NEXT_PUBLIC_APP_OG_DESCRIPTION,
       ogImageUrl: process.env.NEXT_PUBLIC_APP_OG_IMAGE,
-      // use only while testing
+      // использовать только во время тестирования
       noindex: true,
     }),
   });
 }
 ```
 
-Review the full [Manifest guide](/mini-apps/features/manifest) and update all fields. Be sure to update your deployment environment with these values.
+Ознакомьтесь с полным [руководством по манифесту](/mini-apps/features/manifest) и обновите все поля. Не забудьте обновить ваше деплой-окружение этими значениями.
 
 
 
