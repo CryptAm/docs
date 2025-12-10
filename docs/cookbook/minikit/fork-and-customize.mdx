@@ -1,29 +1,29 @@
 ---
-title: Fork and Customize (Optional)
-description: Learn how to fork a reference Mini App, customize it with your own flows and branding, and deploy it to production
+title: Форкните и кастомизируйте (опционально)
+description: Узнайте, как форкнуть референсное мини-приложение, кастомизировать его под ваши потоки и брендинг, и задеплоить в продакшен
 ---
 
-## Fork, Customize and Deploy
+## Форкните, кастомизируйте и задеплойте
 
-Forking a reference Mini App can save time, then you can layer in your specific flows and branding.
+Форк референсного мини-приложения может сэкономить время, после чего вы можете добавить ваши конкретные потоки и брендинг.
 
 <Steps>
-  <Step title='Fork a relevant starter'>
-    Choose an example close to your use case. Update the
-    `/.well-known/farcaster.json` file, metadata in `app/layout.tsx` and
-    environment variables.
+  <Step title='Форкните подходящий стартовый проект'>
+    Выберите пример, близкий к вашему случаю использования. Обновите файл
+    `/.well-known/farcaster.json`, метаданные в `app/layout.tsx` и 
+    переменные окружения.
   </Step>
-  <Step title='Customize UI and contracts'>
-    Adjust theme tokens, copy, and any contract addresses or endpoints required
-    for your flows.
+  <Step title='Кастомизируйте UI и контракты'>
+    Настройте токены темы, текст и любые адреса контрактов или конечные точки (endpoints), 
+    требуемые для ваших потоков.
   </Step>
-  <Step title='Deploy and verify in Base App'>
-    Deploy with Vercel, test sharing and discovery, and validate wallet and
-    Paymaster flows end to end.
+  <Step title='Деплойте и проверьте в Base App'>
+    Деплойте с помощью Vercel, протестируйте публикацию и обнаружение, и проверьте потоки 
+    кошелька и Paymaster от начала до конца.
   </Step>
 </Steps>
 
-To fork a reference Mini App, open your terminal and run the following command:
+Чтобы форкнуть референсное мини-приложение, откройте терминал и выполните следующую команду:
 
 ```bash
 git clone https://github.com/base/demos.git
@@ -32,48 +32,48 @@ npm install
 npm run dev
 ```
 
-<Accordion title="Prompt: Forking and Customizing Mini Apps">
+<Accordion title="Промт: Форки и кастомизация мини-приложений">
 
 ```
-Help me fork and customize an existing Mini App for my specific needs:
+Помогите мне форкнуть и кастомизировать существующее мини-приложение под мои конкретные нужды:
 
-PROJECT REQUIREMENTS:
+ТРЕБОВАНИЯ К ПРОЕКТУ:
 
-I want to build: [DESCRIBE YOUR MINI APP IDEA]
+Я хочу создать: [ОПИШИТЕ ИДЕЮ ВАШЕГО МИНИ-ПРИЛОЖЕНИЯ]
 
-Target audience: [DESCRIBE YOUR USERS]
+Целевая аудитория: [ОПИШИТЕ ВАШИХ ПОЛЬЗОВАТЕЛЕЙ]
 
-Key differentiators: [WHAT MAKES YOUR APP UNIQUE]
+Ключевые отличия: [ЧТО ДЕЛАЕТ ВАШЕ ПРИЛОЖЕНИЕ УНИКАЛЬНЫМ]
 
-Branding requirements: [COLORS, STYLE, MESSAGING]
+Требования к брендингу: [ЦВЕТА, СТИЛЬ, СООБЩЕНИЯ]
 
-CUSTOMIZATION TASKS:
+ЗАДАЧИ КАСТОМИЗАЦИИ:
 
-Fork appropriate Base Mini App repository
+Форкните подходящий репозиторий Base Mini App
 
-Update miniapp.config.json metadata
+Обновите метаданные в miniapp.config.json
 
-Customize theme and copy
+Кастомизируйте тему и текст
 
-Configure contract addresses and env vars
+Настройте адреса контрактов и переменные окружения (env vars)
 
-DEPLOYMENT PROCESS:
+ПРОЦЕСС ДЕПЛОЯ:
 
-Deploy with Vercel
+Деплойте с помощью Vercel
 
-Set custom domain if needed
+Настройте пользовательский домен, если нужно
 
-Test Mini App behavior within Base App
+Протестируйте поведение мини-приложения внутри Base App
 
-VERIFICATION CHECKLIST:
+ЧЕК-ЛИСТ ПРОВЕРКИ:
 
-Social sharing displays correctly
+Публикация в соцсетях отображается корректно
 
-Smart Wallet and gasless flows work
+Потоки смарт-кошелька и бесплатные транзакции работают
 
-All custom features function as expected
+Все пользовательские функции работают, как ожидается
 
-Provide a file-by-file checklist, exact commands, and a short troubleshooting section.
+Предоставьте пофайловый чек-лист, точные команды и короткий раздел по устранению проблем.
 ```
 
 </Accordion>
