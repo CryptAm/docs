@@ -1,76 +1,75 @@
 ---
-title: Build Your Mini App With a Prompt
-description: Use AI to draft your Mini App’s UI quickly—then iterate on layout, flows, and components before adding onchain features
+title: Создайте ваше мини-приложение с помощью промта
+description: Используйте AI для быстрого создания макета UI вашего мини-приложения - затем итерируйте над макетом, потоками и компонентами перед добавлением ончейн функций
 ---
 
-# Your First Mini App Prompt
+# Ваш первый промт для мини-приложения
 
-Now that you’ve seen how to write effective prompts and where to find help, it’s time to build your first interface. In this section we’ll focus on the visuals: screens, flows, buttons, and layout. No onchain features yet—just getting the look and feel right so you can move fast.
+Теперь, когда вы увидели, как писать эффективные промты и где найти помощь, пришло время создать ваш первый интерфейс. В этом разделе мы сосредоточимся на визуальной части: экранах, потоках, кнопках и макете. Еще никаких ончейн функций - только правильный внешний вид и ощущения, чтобы вы могли двигаться быстро.
 
 <Tip>
-  Use a split-screen setup if your display allows. Keep **Vercel V0** open in
-  one window for generating UI, and a second window for **ChatGPT (or another
-  LLM)** plus a **Google Doc** for drafting and iterating on your prompt, and
-  skimming docs as needed. This reduces context switching and speeds up
-  iteration.
+  Используйте разделенный экран, если позволяет ваше устройство. Держите **Vercel V0**
+  открытым в одном окне для генерации UI, а второе окно для **ChatGPT (или другого LLM)** 
+  плюс **Google Doc** для создания и итерации над вашим промтом и просмотра документации 
+  по мере необходимости. Это уменьшает переключение контекста и ускоряет итерации.
 </Tip>
 
 <Steps>
-  <Step title='Draft your prompt with intent'>
-    Start in your notes or a Google Doc. Write a short, focused prompt that
-    describes the core user journey, key screens, and any visual preferences.
-    Keep it specific and concise.
+  <Step title='Создайте черновик промта с намерением'>
+    Начните в ваших заметках или Google Doc. Напишите короткий, сфокусированный промт, 
+    который описывает основной пользовательский путь, ключевые экраны и любые визуальные 
+    предпочтения. Будьте конкретными и краткими.
   </Step>
-  <Step title='Set up your workspace'>
-    Arrange two windows side by side. Left: Vercel V0 for UI generation. Right:
-    your LLM and notes for refining the prompt and searching documentation.
+  <Step title='Настройте ваше рабочее пространство'>
+    Расположите два окна бок о бок. Слева: Vercel V0 для генерации UI. Справа: 
+    ваш LLM и заметки для уточнения промта и поиска по документации.
   </Step>
-  <Step title='Generate the first UI in V0'>
-    Paste your prompt into V0 and generate an initial interface. Review the
-    output carefully: layout, component structure, naming, and accessibility.
+  <Step title='Сгенерируйте первый UI в V0'>
+    Вставьте ваш промт в V0 и сгенерируйте первоначальный интерфейс. Тщательно 
+    проверьте результат: макет, структуру компонентов, именование и доступность.
   </Step>
-  <Step title='Iterate with fast feedback loops'>
-    Identify issues or gaps, refine your prompt, and regenerate targeted parts
-    (not always the entire UI). Repeat until the flow matches your intent.
+  <Step title='Итерируйте с быстрыми циклами обратной связи'>
+    Определите проблемы или пробелы, уточните ваш промт и перегенерируйте целевые 
+    части (не всегда весь UI). Повторяйте, пока поток не совпадет с вашим намерением.
   </Step>
-  <Step title='Export when satisfied'>
-    When the interface feels right, download the code from V0. You’ll wire up
-    functionality and any onchain features later in your local environment.
+  <Step title='Экспортируйте, когда удовлетворены'>
+    Когда интерфейс ощущается правильным, скачайте код из V0. Вы подключите 
+    функциональность и любые ончейн функции позже в вашей локальной среде.
   </Step>
 </Steps>
 
-## Example: Frontend-Only Prompt Template
+## Пример: Шаблон промта только для фронтенда
 
-Use (and adapt) this prompt to have V0 generate a clean starting interface for your Mini App. Keep it UI-first—no wallet hooks or chain calls yet.
+Используйте (и адаптируйте) этот промт, чтобы V0 сгенерировал чистый начальный интерфейс для вашего мини-приложения. Сосредоточьтесь сначала на UI - еще никаких хуков кошелька или вызовов цепи.
 
 ```
-I’m designing the first version of a Mini App UI. Please generate React + TypeScript components with Tailwind CSS that focus on layout and flow only (no data fetching, no blockchain code).
+Я проектирую первую версию UI для мини-приложения. Пожалуйста, сгенерируйте React + TypeScript компоненты с Tailwind CSS, которые фокусируются только на макете и потоке (без получения данных, без блокчейн кода).
 
-## GOAL
-- A simple interface that lets users complete a primary task in under 3 taps/clicks.
+## ЦЕЛЬ
+- Простой интерфейс, который позволяет пользователям выполнить основную задачу менее чем за 3 нажатия/клика.
 
-## SCREENS
+## ЭКРАНЫ
 
-- Home: brief header, primary call to action, and a simple list/grid of recent items.
-- Create: a form with 2–3 inputs and a prominent submit button.
-- Activity: a read-only feed/timeline showing recent actions in clean cards.
+- Главная: краткий заголовок, основной призыв к действию и простой список/сетка недавних элементов.
+- Создать: форма с 2–3 полями ввода и заметной кнопкой отправки.
+- Активность: только для чтения лента/хронология, показывающая недавние действия в чистых карточках.
 
-## COMPONENTS
+## КОМПОНЕНТЫ
 
-- Reusable Button, Input, Card, and EmptyState components.
-- A top-level Layout with responsive header and mobile navigation.
+- Переиспользуемые компоненты Button, Input, Card и EmptyState.
+- Макет верхнего уровня (Layout) с адаптивным заголовком и мобильной навигацией.
 
-## UX & STYLE
+## UX & СТИЛЬ
 
-- Mobile-first, accessible, keyboard-friendly.
-- Clear hierarchy, generous spacing, and concise copy.
-- Subtle loading states and disabled states for buttons.
+- Mobile-first, доступный, удобный для клавиатуры.
+- Четкая иерархия, щедрые отступы и лаконичный текст.
+- Легкие состояния загрузки и отключенные состояния для кнопок.
 
-## DELIVERABLES
+## РЕЗУЛЬТАТЫ
 
-- A small component tree with sensible file names.
-- Minimal state management with placeholder handlers.
-- Inline comments describing where to wire real logic later.
+- Маленькое дерево компонентов с логичными именами файлов.
+- Минимальное управление состоянием с заглушками для обработчиков.
+- Встроенные комментарии, описывающие, где позже подключить реальную логику.
 
-Return complete, working code and explain key decisions briefly at the top of the file.
+Верните полный, рабочий код и кратко объясните ключевые решения в начале файла.
 ```
