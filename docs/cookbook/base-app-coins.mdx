@@ -1,21 +1,21 @@
 ---
-sidebarTitle: Base App Coins
-title: 'Find and load metadata for all coins created via Base App'
-description: 'Learn how to use onchain data to index all Uniswap v4 pools created for coins created via Zora and Base App and load metadata including available liquidity, current prices, token information, and more'
+sidebarTitle: Монеты Base App
+title: 'Найдите и загрузите метаданные для всех монет, созданных через Base App'
+description: 'Узнайте, как использовать данные из блокчейна для индексации всех пулов Uniswap v4, созданных для монет, созданных через Zora и Base App, и загрузки метаданных, включая доступную ликвидность, текущие цены, информацию о токенах и многое другое'
 ---
 
-With the launch of Base App, users can post on the network and get paid by coining their content. The content coins are created via Zora and a Uniswap v4 pool is automatically created and initialized for the coin. In this starter guide we will cover how you can index onchain data from Uniswap to identify all pools containing Zora ecosystem tokens, filtering Base App tokens from them, and loading metadata for those pools.
+С запуском Base App пользователи могут публиковать посты в сети и получать оплату, "монетизируя" свой контент. Монеты контента создаются через Zora, и пул Uniswap v4 автоматически создается и инициализируется для этой монеты. В этом стартовом руководстве мы расскажем, как индексировать данные из блокчейна от Uniswap для идентификации всех пулов, содержащих токены экосистемы Zora, фильтровать из них токены Base App и загружать метаданные для этих пулов.
 
-## Overview
+## Обзор
 
-The full code for this starter implementation can be found [here](https://github.com/base/demos/tree/master/base-app-coins). The guide below explains the core components, how it works, and what parts you may need to customize to your needs.
+Полный код для этой стартовой реализации можно найти [здесь](https://github.com/base/demos/tree/master/base-app-coins). Руководство ниже объясняет основные компоненты, как это работает, и какие части вам может потребоваться адаптировать под ваши нужды.
 
-The sample is a Bun + TypeScript project that uses `viem` for interacting with Base Chain via standard Ethereum JSON-RPC methods. It also utilizes Uniswap's SDKs to make some calculations easier.
+Пример представляет собой проект Bun + TypeScript, который использует `viem` для взаимодействия с сетью Base через стандартные методы Ethereum JSON-RPC. Он также использует SDK от Uniswap для упрощения некоторых расчетов.
 
-## Core Components
+## Основные компоненты
 
-#### 1. Event Monitoring (`index.ts`)
-The main entry point scans Uniswap V4 `Initialize` events within a specified block range to discover newly created pools.
+#### 1. Мониторинг событий (`index.ts`)
+Основная точка входа сканирует события `Initialize` Uniswap V4 в указанном диапазоне блоков для обнаружения вновь созданных пулов.
 
 ```typescript
 const logs = await publicClient.getContractEvents({
@@ -37,31 +37,31 @@ const poolKeys = logs.map((log) => {
 }) as PoolKey[]
 ```
 
-**Key aspects:**
-- Uses `publicClient.getContractEvents()` to fetch pool initialization events
-- Filters events from the Uniswap V4 PoolManager contract
-- Extracts pool keys (currency0, currency1, fee, tickSpacing, hooks) from event logs
+**Ключевые аспекты:**
+- Использует `publicClient.getContractEvents()` для получения событий инициализации пулов
+- Фильтрует события от контракта Uniswap V4 PoolManager
+- Извлекает ключи пулов (currency0, currency1, fee, tickSpacing, hooks) из логов событий
 
-**Customizations:**
-- Adjust `START_BLOCK_NUMBER` and `END_BLOCK_NUMBER` for your needs
-- If you'd like to index these events in real-time, use `viem`s `watchContractEvent` instead
+**Кастомизации:**
+- Настройте `START_BLOCK_NUMBER` и `END_BLOCK_NUMBER` под ваши нужды
+- Если вы хотите индексировать эти события в реальном времени, используйте `watchContractEvent` от `viem`
 
 
-#### 2. Pool Data Loading (`utils.ts`)
-Contains utilities for enriching pool data with on-chain information.
+#### 2. Загрузка данных о пулах (`utils.ts`)
+Содержит утилиты для обогащения данных о пулах информацией из блокчейна.
 
 ```typescript
 export async function loadData(key: PoolKey) {
-    // Load information about each token (name, symbol, decimals)
+    // Загружаем информацию о каждом токене (name, symbol, decimals)
     const [currency0, currency1] = await Promise.all([
         getCurrency(key.currency0),
         getCurrency(key.currency1)
     ])
 
     const poolId = Pool.getPoolId(currency0, currency1, key.fee, key.tickSpacing, key.hooks) as `0x${string}`;
-    // Load the current price of the pool
+    // Загружаем текущую цену пула
     const [sqrtPriceX96, tick, _protocolFee, _lpFee] = await stateView.read.getSlot0([poolId]);
-    // Load the total amount of liquidity available in the pool
+    // Загружаем общее количество доступной ликвидности в пуле
     const liquidity = await stateView.read.getLiquidity([poolId])
 
     //
@@ -80,7 +80,7 @@ export async function loadData(key: PoolKey) {
 ```
 
 
-**Currency Resolution:**
+**Определение валюты:**
 ```typescript
 export async function getCurrency(address: string): Promise<Currency> {
     if (address === zeroAddress) {
@@ -103,12 +103,12 @@ export async function getCurrency(address: string): Promise<Currency> {
 }
 ```
 
-**Technical details:**
-- Uses Uniswap V4 StateView contract for efficient state queries
-- Handles both ERC20 tokens and native ETH (zero address)
+**Технические детали:**
+- Использует контракт Uniswap V4 StateView для эффективных запросов состояния
+- Обрабатывает как токены ERC20, так и нативный ETH (нулевой адрес)
 
 
-#### 3. Token Classification Logic
+#### 3. Логика классификации токенов
 
 ```typescript
 let coinType: string | undefined;
@@ -120,7 +120,7 @@ if (key.hooks === "0xd61A675F8a0c67A73DC3B54FB7318B4D91409040") {
 
 if (!coinType) continue;
 
-// Detect if the coin is coming from Base App or Zora
+// Определяем, приходит ли монета из Base App или Zora
 const appType = await categorizeAppType(pool);
 ```
 
@@ -145,15 +145,15 @@ export async function categorizeAppType(pool: Pool) {
         }
     }
 
-    // Try to fetch `platformReferrer()` on both currencies in the Pool
-    // falling back to ADDRESS_ZERO if the function does not exist (currency is not a Zora coin)
+    // Пытаемся получить `platformReferrer()` для обеих валют в пуле
+    // возвращаем ADDRESS_ZERO, если функция не существует (валюта не является Zora монетой)
     const [currency0PlatformReferrer, currency1PlatformReferrer] = await Promise.all([
         tryGetPlatformReferrer(pool.currency0.wrapped.address),
         tryGetPlatformReferrer(pool.currency1.wrapped.address)
     ])
 
-    // If either of the currencies has the Base App referrer address,
-    // the coin is coming from the Base App
+    // Если любая из валют имеет адрес реферера Base App,
+    // монета приходит из Base App
     if ([currency0PlatformReferrer, currency1PlatformReferrer].includes(BASE_PLATFORM_REFERRER)) {
         return "TBA"
     }
@@ -162,10 +162,10 @@ export async function categorizeAppType(pool: Pool) {
 }
 ```
 
-Since the coins are created via Zora, filtering down to which ones are from Base App is a matter of looking at what the platform referrer address is on the Zora coin. We don't know if the Zora coin is necessarily `currency0` or `currency1` in the pool - so we attempt to fetch the platform referrer address for both. For tokens like WETH which don't have that view function available, it will just fall back to the zero address. If either of the currencies return a valid platform referrer address that also matches the referrer address used by the Base App, we classify the coin as having come from the Base App.
+Поскольку монеты создаются через Zora, фильтрация до тех, которые из Base App, сводится к просмотру адреса платформенного реферера (platform referrer) на Zora монете. Мы не знаем, является ли Zora монета обязательно currency0 или currency1 в пуле, поэтому мы пытаемся получить адрес платформенного реферера для обоих. Для токенов, таких как WETH, у которых эта функция просмотра недоступна, произойдет возврат к нулевому адресу. Если любая из валют возвращает действительный адрес платформенного реферера, который также соответствует адресу реферера, используемому Base App, мы классифицируем монету как пришедшую из Base App.
 
 
-#### 4. Liquidity Calculations
+#### 4. Расчеты ликвидности
 
 ```typescript
 const priceUpper = TickMath.getSqrtRatioAtTick(TickMath.MAX_TICK)
@@ -178,32 +178,32 @@ const amount0HumanReadable = formatUnits(BigInt(amount0.toString()), pool.curren
 const amount1HumanReadable = formatUnits(BigInt(amount1.toString()), pool.currency1.decimals);
 ```
 
-Given the `liquidity` amount we loaded previously for a pool, we utilize Uniswap's SDK to do some math and get human-friendly versions of how much of each token is available in the pool as total liquidity.
+Учитывая количество `liquidity`, которое мы ранее загрузили для пула, мы используем SDK Uniswap для вычислений и получаем удобочитаемые версии того, сколько каждого токена доступно в пуле в качестве общей ликвидности.
 
 
-## Alternative Implementation Approaches
+## Альтернативные подходы к реализации
 
-### Event Data Sources
+### Источники данных о событиях
 
-This implementation uses direct JSON-RPC calls via `viem`, but you can adapt it for other data sources:
+Эта реализация использует прямые вызовы JSON-RPC через `viem`, но вы можете адаптировать ее для других источников данных:
 
-**Subgraphs**: If you're already using The Graph Protocol, modify the event fetching logic to query a Uniswap V4 subgraph instead of making direct RPC calls. Replace the `getContractEvents` call with GraphQL queries.
+**Subgraphs**: Если вы уже используете The Graph Protocol, измените логику получения событий, чтобы запрашивать субграф Uniswap V4 вместо прямых RPC вызовов. Замените вызов `getContractEvents` на GraphQL запросы.
 
-**Indexing Services**: For projects using third-party indexing services with their own APIs, substitute their event APIs while maintaining the same pool key extraction logic.
+**Сервисы индексации**: Для проектов, использующих сторонние сервисы индексации со своими собственными API, замените их API событий, сохраняя ту же логику извлечения ключей пулов.
 
-**Real-time Monitoring**: Convert from batch processing to real-time by setting up WebSocket subscriptions to new block events and processing pools as they're created.
+**Мониторинг в реальном времени**: Преобразуйте из пакетной обработки в реальное время, настроив подписки WebSocket на события новых блоков и обрабатывая пулы по мере их создания.
 
-### Data Storage
+### Хранение данных
 
-The current implementation prints metadata to console, but you might want to:
-- Store results in a database for persistent analysis
-- Send data to external APIs or webhooks
-- Cache results to avoid re-processing known pools
+Текущая реализация выводит метаданные в консоль, но вы можете захотеть:
+- Сохранять результаты в базе данных для постоянного анализа
+- Отправлять данные во внешние API или вебхуки
+- Кэшировать результаты, чтобы избежать повторной обработки известных пулов
 
-## Output
+## Вывод
 
 
-The output metadata object contains the following fields:
+Объект метаданных содержит следующие поля:
 
 ```typescript
 const metadata = {
@@ -237,90 +237,90 @@ const metadata = {
 }
 ```
 
-### Pool Identifiers
-- `id`: Unique pool identifier hash
-- `key`: Complete pool key object with currencies, fee, tickSpacing, and hooks
+### Идентификаторы пулов
+- `id`: Уникальный хеш-идентификатор пула
+- `key`: Полный объект ключа пула с валютами, комиссией, интервалом тиков (tickSpacing) и хуками (hooks)
 
-### Currency Information
-- `currency0/currency1.name`: Human-readable token name
-- `currency0/currency1.symbol`: Token symbol (e.g., "USDC", "WETH")
-- `currency0/currency1.decimals`: Token decimal places for formatting
-- `currency0/currency1.address`: Contract address
+### Информация о валютах
+- `currency0/currency1.name`: Удобочитаемое имя токена
+- `currency0/currency1.symbol`: Символ токена (например, "USDC", "WETH")
+- `currency0/currency1.decimals`: Количество знаков после запятой токена для форматирования (decimals)
+- `currency0/currency1.address`: Адрес контракта
 
-### Price Data
-- `sqrtPriceX96`: Current pool price in Uniswap's sqrt format
-- `tick`: Current tick (logarithmic price representation)
-- `currency0Price`: Price of currency0 in terms of currency1
-- `currency1Price`: Price of currency1 in terms of currency0
-- `currency0PriceHumanReadable`: Formatted price string
-- `currency1PriceHumanReadable`: Formatted price string
+### Данные о цене
+- `sqrtPriceX96`: Текущая цена пула в формате sqrt Uniswap
+- `tick`: Текущий тик (логарифмическое представление цены)
+- `currency0Price`: Цена currency0 в терминах currency1
+- `currency1Price`: Цена currency1 в терминах currency0
+- `currency0PriceHumanReadable`: Форматированная строка цены
+- `currency1PriceHumanReadable`: Форматированная строка цены
 
-### Liquidity Metrics
-- `liquidity`: Total pool liquidity in Uniswap's internal format
-- `liquidityCurrency0`: Amount of currency0 in the pool (raw)
-- `liquidityCurrency1`: Amount of currency1 in the pool (raw)
-- `liquidityCurrency0HumanReadable`: Formatted amount with symbol
-- `liquidityCurrency1HumanReadable`: Formatted amount with symbol
+### Метрики ликвидности
+- `liquidity`: Общая ликвидность пула во внутреннем формате Uniswap
+- `liquidityCurrency0`: Количество currency0 в пуле (сырое значение)
+- `liquidityCurrency1`: Количество currency1 в пуле (сырое значение)
+- `liquidityCurrency0HumanReadable`: Форматированное количество с символом
+- `liquidityCurrency1HumanReadable`: Форматированное количество с символом
 
-### Classification
-- `coinType`: Type of Zora token ("ZORA_CREATOR_COIN" or "ZORA_V4_COIN")
-- `appType`: Application ecosystem ("ZORA" or "TBA")
+### Классификация
+- `coinType`: Тип токена Zora ("ZORA_CREATOR_COIN" или "ZORA_V4_COIN")
+- `appType`: Экосистема приложения ("ZORA" или "TBA")
 
-## Use Cases for Metadata
+## Сценарии использования метаданных
 
-### Analytics & Monitoring
-- **Price Tracking**: Monitor token prices and price movements over time
-- **Liquidity Analysis**: Track total value locked (TVL) in various token pools
-- **Market Discovery**: Identify new tokens entering the ecosystem
+### Аналитика и мониторинг
+- **Отслеживание цен**: Мониторьте цены токенов и движение цен с течением времени
+- **Анализ ликвидности**: Отслеживайте общую заблокированную стоимость (TVL) в различных пулах токенов
+- **Обнаружение рынков**: Выявляйте новые токены, входящие в экосистему
 
-### Trading & DeFi
-- **Arbitrage Detection**: Compare prices across different pools or DEXs
-- **Liquidity Provider Analysis**: Evaluate pool attractiveness for LP positions
-- **Volume Analysis**: Track trading activity in specific token categories
+### Торговля и DeFi
+- **Обнаружение арбитража**: Сравнивайте цены в разных пулах или DEX
+- **Анализ провайдеров ликвидности**: Оценивайте привлекательность пулов для позиций LP
+- **Анализ объема**: Отслеживайте торговую активность в определенных категориях токенов
 
-### Ecosystem Analysis
-- **Token Categorization**: Understand which tokens belong to which ecosystems
-- **Adoption Metrics**: Monitor growth of Zora and Base App token usage
-- **Cross-chain Comparison**: Compare activity across different networks
+### Анализ экосистемы
+- **Категоризация токенов**: Понимайте, какие токены принадлежат каким экосистемам
+- **Метрики адаптации**: Мониторьте рост использования токенов Zora и Base App
+- **Сравнение между сетями**: Сравнивайте активность в разных сетях
 
-### Integration Projects
-- **Portfolio Tracking**: Include Zora/Base App tokens in portfolio management apps
-- **Wallet Integration**: Enhance wallet UIs with ecosystem-specific token information
-- **DeFi Protocols**: Build lending, staking, or yield farming products around these tokens
+### Интеграционные проекты
+- **Отслеживание портфеля**: Включайте токены Zora/Base App в приложения для управления портфелем
+- **Интеграция с кошельками**: Улучшайте UI кошельков с информацией о токенах, специфичной для экосистемы
+- **Протоколы DeFi**: Создавайте продукты для кредитования, стейкинга или фарминга доходности (yield farming) вокруг этих токенов
 
-## Configuration
+## Конфигурация
 
-### Environment Variables
-- `RPC_URL`: Base chain RPC endpoint (required)
+### Переменные окружения 
+- `RPC_URL`: Конечная точка RPC сети Base (обязательно)
 
-### Block Range
-Modify `START_BLOCK_NUMBER` and `END_BLOCK_NUMBER` in `index.ts` to scan different ranges or implement continuous monitoring.
+### Диапазон блоков
+Измените `START_BLOCK_NUMBER` и `END_BLOCK_NUMBER` в `index.ts` для сканирования разных диапазонов или реализации непрерывного мониторинга.
 
-### Hook Addresses
-Add new hook addresses to the classification logic as new Zora contracts are deployed.
+### Адреса хуков (hook)
+Добавляйте новые адреса хуков в логику классификации по мере развертывания новых контрактов Zora.
 
-## Getting Started
+## Начало работы
 
 ```bash
-# Install dependencies
+# Установите зависимости
 bun install
 
-# Set your RPC URL
+# Установите ваш URL RPC
 export RPC_URL="your-base-rpc-endpoint"
 
-# Run the scanner
+# Запустите сканер
 bun run index.ts
 ```
 
-The output will display metadata for each discovered pool that matches the classification criteria.
+Вывод будет показывать метаданные для каждого обнаруженного пула, соответствующего критериям классификации.
 
-## Extensions & Modifications
+## Расширения и модификации
 
-This starter guide can be extended in many ways:
-- Add support for additional hook contracts as they're deployed
-- Include historical price and volume data
-- Add alerts for significant liquidity changes
-- Build web interfaces for browsing discovered pools
-- Integrate with portfolio tracking or trading applications
+Это стартовое руководство может быть расширено многими способами:
+- Добавьте поддержку дополнительных контрактов хуков по мере их развертывания
+- Включите исторические данные о ценах и объемах
+- Добавьте оповещения о значительных изменениях ликвидности
+- Создайте веб-интерфейсы для просмотра обнаруженных пулов
+- Интегрируйте с приложениями для отслеживания портфеля или торговли
 
-The modular structure makes it easy to adapt individual components while maintaining the core pool discovery and classification logic.
+Модульная структура упрощает адаптацию отдельных компонентов при сохранении основной логики обнаружения и классификации пулов.
