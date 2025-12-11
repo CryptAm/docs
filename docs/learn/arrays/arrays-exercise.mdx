@@ -1,17 +1,17 @@
 ---
-title: Arrays Exercise
-sidebarTitle: Exercise
-description: Exercise - Demonstrate your knowledge of arrays.
+title: Упражнение по массивам
+sidebarTitle: Упражнение
+description: Упражнение - продемонстрируйте свои знания о массивах.
 hide_table_of_contents: false
 ---
 
-Create a contract that adheres to the following specifications.
+Создайте контракт, соответствующий следующим спецификациям.
 
 ---
 
-## Contract
+## Контракт
 
-Review the contract in the starter snippet called `ArraysExercise`. It contains an array called `numbers` that is initialized with the numbers 1–10. Copy and paste this into your file.
+Ознакомьтесь с контрактом в стартовом сниппете под названием `ArraysExercise`. Он содержит массив `numbers`, инициализированный числами 1–10. Скопируйте и вставьте его в свой файл.
 
 ```solidity
 contract ArraysExercise {
@@ -19,67 +19,67 @@ contract ArraysExercise {
 }
 ```
 
-Add the following functions:
+Добавьте следующие функции:
 
-### Return a Complete Array
+### Возврат полного массива
 
-The compiler automatically adds a getter for individual elements in the array, but it does not automatically provide functionality to retrieve the entire array.
+Компилятор автоматически добавляет геттер для отдельных элементов массива, но не предоставляет автоматически функциональность для получения всего массива.
 
-Write a function called `getNumbers` that returns the entire `numbers` array.
+Напишите функцию `getNumbers`, которая возвращает весь массив `numbers`.
 
-### Reset Numbers
+### Сброс чисел
 
-Write a `public` function called `resetNumbers` that resets the `numbers` array to its initial value, holding the numbers from 1-10.
+Напишите `public` функцию `resetNumbers`, которая сбрасывает массив `numbers` к его исходному значению, содержащему числа от 1 до 10.
 
 <Info>
-We'll award the pin for any solution that works, but one that **doesn't** use `.push()` is more gas-efficient!
+Мы наградим значком любое решение, которое работает, но решение, которое **не** использует `.push()`, более эффективно по газу!
 </Info>
 
 
 <Warning>
-Remember, _anyone_ can call a `public` function! You'll learn how to protect functionality in another lesson.
+Помните, что _любой_ может вызвать `public` функцию! Вы узнаете, как защитить функциональность, в другом уроке.
 </Warning>
 
 
-### Append to an Existing Array
+### Добавление к существующему массиву
 
-Write a function called `appendToNumbers` that takes a `uint[] calldata` array called `_toAppend`, and adds that array to the `storage` array called `numbers`, already present in the starter.
+Напишите функцию `appendToNumbers`, которая принимает массив `uint[] calldata` с именем `_toAppend` и добавляет этот массив к `storage` массиву `numbers`, уже присутствующему в стартовом коде.
 
-### Timestamp Saving
+### Сохранение временных меток
 
-At the contract level, add an `address` array called `senders` and a `uint` array called `timestamps`.
+На уровне контракта добавьте массив `address` с именем `senders` и массив `uint` с именем `timestamps`.
 
-Write a function called `saveTimestamp` that takes a `uint` called `_unixTimestamp` as an argument. When called, it should add the address of the caller to the end of `senders` and the `_unixTimestamp` to `timestamps`.
+Напишите функцию `saveTimestamp`, которая принимает аргумент `uint` с именем `_unixTimestamp`. При вызове она должна добавлять адрес вызывающего в конец `senders` и `_unixTimestamp` в `timestamps`.
 
 <Tip>
-You'll need to research on your own to discover the correct _Special Variables and Functions_ that can help you with this challenge!
+Вам нужно будет самостоятельно исследовать, чтобы найти правильные _Специальные переменные и функции_, которые могут помочь вам в этом задании!
 </Tip>
 
 
-### Timestamp Filtering
+### Фильтрация временных меток
 
-Write a function called `afterY2K` that takes no arguments. When called, it should return two arrays.
+Напишите функцию `afterY2K`, которая не принимает аргументов. При вызове она должна возвращать два массива.
 
-The first should return all timestamps that are more recent than January 1, 2000, 12:00am. To save you a click, the Unix timestamp for this date and time is `946702800`.
+Первый должен возвращать все временные метки, которые новее 1 января 2000 года, 00:00. Чтобы сэкономить вам клик, Unix-временная метка для этой даты и времени - `946702800`.
 
-The second should return a list of `senders` addresses corresponding to those timestamps.
+Второй должен возвращать список адресов senders, соответствующих этим временным меткам.
 
-### Resets
+### Сбросы
 
-Add `public` functions called `resetSenders` and `resetTimestamps` that reset those storage variables.
+Добавьте `public` функции `resetSenders` и `resetTimestamps`, которые сбрасывают эти переменные хранилища.
 
 ---
 
-### Submit your Contract and Earn an NFT Badge! (BETA)
+### Отправьте свой контракт и получите NFT-значок! (BETA)
 
 <Note>
 #### Hey, where'd my NFT go!?
 
 [Testnets](/learn/deployment-to-testnet/test-networks) are not permanent! Base Goerli [will soon be sunset](https://base.mirror.xyz/kkz1-KFdUwl0n23PdyBRtnFewvO48_m-fZNzPMJehM4), in favor of Base Sepolia.
 
-As these are separate networks with separate data, your NFTs **will not** transfer over.
+Поскольку это отдельные сети с отдельными данными, ваши NFT **не будут** перенесены.
 
-**Don't worry!** We've captured the addresses of all NFT owners on Base Goerli and will include them when we release the mechanism to transfer these NFTs to mainnet later this year! You can also redeploy on Sepolia and resubmit if you'd like!
+**Не беспокойтесь!** Мы зафиксировали адреса всех владельцев NFT в Base Goerli и включим их, когда позже в этом году выпустим механизм переноса этих NFT в основную сеть! Вы также можете повторно развернуть на Sepolia и повторно отправить, если хотите!
 </Note>
 
 
