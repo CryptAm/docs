@@ -1,37 +1,37 @@
 ---
-title: Function Visibility and State Mutability
-sidebarTitle: Visibility Overview
-description: A quick reference for all your function declaring needs.
+title: Видимость функций и изменяемость состояния
+sidebarTitle: Обзор видимости
+description: Краткий справочник по всем вариантам объявления функций.
 hide_table_of_contents: false
 ---
 
-You've seen much of this before, but this document outlines and highlights the options for _function visibility_ and _state mutability_ all in one document.
+Вы уже видели большую часть этого материала ранее, но этот документ структурирует и освещает все варианты видимости функций и изменяемости состояния в одном месте.
 
 ---
 
-## Objectives
+## Цели обучения
 
-By the end of this lesson you should be able to:
+После изучения этого урока вы сможете:
 
-- Categorize functions as public, private, internal, or external based on their usage
-- Describe how pure and view functions are different than functions that modify storage
+- Классифицировать функции как public, private, internal или external на основе их использования
+- Описать, чем pure и view функции отличаются от функций, изменяющих хранилище
 
 ---
 
-## Function Visibility
+## Видимость функций
 
-There are four types of [visibility] for functions in Solidity: `external`, `public`, `internal`, and `private`. These labels represent a further division of the _public_ and _private_ labels you might use in another language.
+В Solidity существует четыре типа [visibility] функций: `external`, `public`, `internal`, and `private`. Эти метки представляют собой дальнейшее разделение меток _public_ и _private_, которые вы могли бы использовать в других языках.
 
 ### External
 
-Functions with `external` visibility are **only** callable from other contracts and cannot be called within their own contract. You may see older references stating you should use `external` over `public` because it forces the function to use `calldata`. This is no longer correct, because both function visibilities can now use `calldata` and `memory` for parameters. However, using `calldata` for either will cost less gas.
+Функции с видимостью `external` **только** вызываемы из других контрактов и не могут быть вызваны внутри собственного контракта. Вы могли видеть старые рекомендации о том, что следует использовать `external` вместо `public`, потому что это заставляет функцию использовать `calldata`. Это больше не верно, так как оба типа видимости теперь могут использовать `calldata` и `memory` для параметров. Однако использование `calldata` в любом случае будет стоить меньше газа.
 
 ```solidity
 contract Foo {
     constructor() {
-        // Bad code example, will not work
+        // Пример плохого кода, не будет работать
         uint bar = foo(3);
-        // ... other code
+        // ... другой код
     }
 
     function foo(uint _number) external pure returns (uint) {
@@ -42,14 +42,14 @@ contract Foo {
 
 ### Public
 
-Public functions work the same as external, except they may also be called within the contract that contains them.
+Public функции работают так же, как и external, за исключением того, что они также могут вызываться внутри контракта, который их содержит.
 
 ```solidity
 contract Foo {
     constructor() {
-        // Public functions may be called within the contract
+        // Public функции могут вызываться внутри контракта
         uint bar = foo(3);
-        // ... other code
+        // ... другой код
     }
 
     function foo(uint _number) public pure returns (uint) {
@@ -58,13 +58,13 @@ contract Foo {
 }
 ```
 
-### Private and Internal
+### Private и Internal
 
-Functions visible as `private` and `internal` operate nearly identically. Beyond writing hygienic code, these have a very important effect. Because they are not a part of the contract's ABI, you can use `mapping`s and `storage` variable references as parameters.
+Функции с видимостью `private` и `internal` работают почти идентично. Помимо написания чистого кода, они оказывают очень важное влияние. Поскольку они не являются частью ABI контракта, вы можете использовать `mapping` и ссылки на `storage` переменные в качестве параметров.
 
-The difference is that `private` functions can't be called from derived contracts. You'll learn more about that when we cover inheritance.
+Разница заключается в том, что `private` функции не могут вызываться из производных контрактов. Вы узнаете больше об этом, когда будем изучать наследование.
 
-Some developers prepend an underscore to `private` and `internal` functions.
+Некоторые разработчики добавляют символ подчеркивания перед названиями `private` и `internal` функций.
 
 ```solidity
 function _foo(uint _number) private returns (uint) {
@@ -73,19 +73,19 @@ function _foo(uint _number) private returns (uint) {
 ```
 
 <Warning>
-All data on a blockchain is public. Don't mistake hiding visibility while coding for hiding information from the world!
+Все данные в блокчейне являются публичными. Не путайте сокрытие видимости при написании кода со сокрытием информации от мира!
 </Warning>
 
 
 ---
 
-## Function State Mutability
+## Изменяемость состояния функций
 
-State mutability labels are relatively unique to Solidity. They determine how a function can interact with state, which has a substantial impact on gas costs.
+Метки изменяемости состояния относительно уникальны для Solidity. Они определяют, как функция может взаимодействовать с состоянием, что существенно влияет на стоимость газа.
 
 ### Pure
 
-`pure` functions promise to neither read nor write state. They're usually used for helper functions that support other functionality.
+`pure` функции гарантируют, что они не будут ни читать, ни записывать состояние. Обычно они используются для вспомогательных функций, которые поддерживают другую функциональность.
 
 ```solidity
 function abs(int x) public pure returns (int) {
@@ -93,11 +93,11 @@ function abs(int x) public pure returns (int) {
 }
 ```
 
-`pure` functions can be called from outside the blockchain without using gas, if they are also `public` or `external`.
+`pure` функции могут вызываться извне блокчейна без использования газа, если они также являются `public` или `external`.
 
 ### View
 
-`view` functions access state, but don't modify it. You've used these for tasks such as returning all the values in an array.
+`view` функции обращаются к состоянию, но не изменяют его. Вы использовали их для таких задач, как возврат всех значений в массиве.
 
 ```solidity
 function getArr() public view returns (uint[] memory) {
@@ -105,11 +105,11 @@ function getArr() public view returns (uint[] memory) {
 }
 ```
 
-`view` functions can be called from outside the blockchain without using gas, if they are also `public` or `external`.
+`view` функции могут вызываться извне блокчейна без использования газа, если они также являются `public` или `external`.
 
-### Unlabeled Functions
+### Функции без меток
 
-Functions that are not labeled `view` or `pure` can modify state and the compiler will generate a warning if they do not.
+Функции, которые не помечены как `view` или `pure`, могут изменять состояние, и компилятор выдаст предупреждение, если они этого не делают.
 
 ```solidity
 function addToArr(uint _number) public {
@@ -117,13 +117,13 @@ function addToArr(uint _number) public {
 }
 ```
 
-They can have any visibility and will always cost gas when called.
+Они могут иметь любую видимость и всегда будут стоить газа при вызове.
 
 ---
 
-## Conclusion
+## Заключение
 
-The visibility and mutability keywords in Solidity help you organize your code and alert other developers to the properties of each of your functions. Use them to keep your code organized and readable.
+Ключевые слова видимости и изменяемости в Solidity помогают вам организовывать код и предупреждать других разработчиков о свойствах каждой из ваших функций. Используйте их, чтобы ваш код оставался организованным и читаемым.
 
 ---
 
