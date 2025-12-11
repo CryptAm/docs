@@ -1,136 +1,136 @@
 ---
-title: Arrays
-sidebarTitle: Arrays Guide
-description: An overview of how arrays work in Solidity.
+title: Массивы
+sidebarTitle: Руководство по массивам
+description: Обзор того, как работают массивы в Solidity.
 hide_table_of_contents: false
 ---
 
-Solidity arrays are collections of the same type, accessed via an index, the same as any other language. Unlike other languages, there are three types of arrays - _storage_, _memory_, and _calldata_. Each has their own properties and constraints.
+Массивы в Solidity - это коллекции элементов одного типа, доступные по индексу, как и в любом другом языке. В отличие от других языков, существует три типа массивов - `storage`, `memory` и `calldata`. Каждый из них имеет свои свойства и ограничения.
 
 ---
 
-## Objectives
+## Цели обучения
 
-By the end of this lesson you should be able to:
+После изучения этого урока вы сможете:
 
-- Describe the difference between storage, memory, and calldata arrays
+- Описать разницу между массивами storage, memory и calldata
 
 ---
 
 ## Storage, Memory, and Calldata
 
-The `storage`, `memory`, or `calldata` keywords are required when declaring a new [reference type] variable. This keyword determines the [data location] where the variable is stored and how long it will persist.
+Ключевые слова `storage`, `memory` или `calldata` требуются при объявлении новой переменной . Это ключевое слово определяет , где хранится переменная и как долго она будет существовать.
 
 ### Storage
 
-The `storage` keyword is used to assign state variables that become a part of the blockchain as a part of the _storage_ for your contract. These remain as assigned until modified, for the lifetime of the contract.
+Ключевое слово `storage` используется для назначения переменных состояния, которые становятся частью блокчейна как часть хранилища вашего контракта. Они остаются назначенными до изменения в течение всего времени жизни контракта.
 
-Storage is **very expensive** compared to most other environments. It costs a minimum of 20000 gas to [store a value] in a new storage slot, though it's cheaper to update that value after the initial assignment (~5000+ gas).
+Storage **очень дорогой** по сравнению с большинством других сред. Минимальная стоимость в новом слоте хранилища составляет 20000 газа, хотя обновление этого значения после первоначального назначения дешевле (~5000+ газа).
 
-This cost isn't a reason to be afraid of using storage. In the long run, writing clear, maintainable, and logical code will always cost less than jumping through hoops to save gas here and there. Just be as thoughtful with storage on the EVM as you would be with computation in most other environments.
+Эта стоимость не является причиной бояться использования storage. В долгосрочной перспективе написание чистого, поддерживаемого и логичного кода всегда будет стоить дешевле, чем прыжки через обручи для экономии газа здесь и там. Просто будьте так же внимательны с хранилищем в EVM, как и с вычислениями в большинстве других сред.
 
 ### Memory
 
-The `memory` keyword creates temporary variables that only exist within the scope in which they are created. Memory is less expensive than storage, although this is relative. There are often circumstances where it is cheaper to work directly in storage rather than convert to memory and back. Copying from one location to another can be quite expensive!
+Ключевое слово `memory` создает временные переменные, которые существуют только в пределах области видимости, в которой они созданы. Memory менее затратен, чем storage, хотя это относительно. Часто бывают обстоятельства, когда дешевле работать напрямую в storage, чем конвертировать в memory и обратно. Копирование из одного места в другое может быть довольно дорогим!
 
 ### Calldata
 
-The `calldata` storage location is where function arguments are stored. It is non-modifiable and the Solidity docs recommend using it where possible to avoid unnecessary copying, because it can't be modified. You'll learn more about this later, but doing so can help prevent confusing bugs when calling a function from another contract that takes in values from that contract's `storage`.
+Место хранения `calldata` - это где хранятся аргументы функций. Оно неизменяемо, и документация Solidity рекомендует использовать его там, где это возможно, чтобы избежать ненужного копирования, потому что его нельзя изменить. Вы узнаете больше об этом позже, но это может помочь предотвратить запутанные ошибки при вызове функции из другого контракта, который принимает значения из `storage` этого контракта.
 
 ---
 
-## Array Data Locations
+## Места хранения массивов
 
-Arrays behave differently based on their data location. Assignment behavior also depends on data location. To [quote the docs]:
+Массивы ведут себя по-разному в зависимости от их места хранения. Поведение при присваивании также зависит от места хранения. [quote the docs]:
 
-> - Assignments between `storage` and `memory` (or from `calldata`) always create an independent copy.
+> - Присваивания между `storage` и `memory` (или из `calldata`) всегда создают независимую копию.
 >
-> - Assignments from `memory` to `memory` only create references. This means that changes to one memory variable are also visible in all other memory variables that refer to the same data.
+> - Присваивания из `memory` в `memory` создают только ссылки. Это означает, что изменения в одной переменной memory также видны во всех других переменных memory, которые ссылаются на те же данные.
 >
-> - Assignments from `storage` to a **local** storage variable also only assign a reference.
+> - Присваивания из `storage` в **локальную** переменную `storage` также только присваивают ссылку.
 >
-> - All other assignments to `storage` always copy. Examples for this case are assignments to state variables or to members of local variables of storage struct type, even if the local variable itself is just a reference.
+> - Все другие присваивания в `storage` всегда копируют. Примерами этого случая являются присваивания переменным состояния или членам локальных переменных типа storage struct, даже если сама локальная переменная является всего лишь ссылкой.
 
-### Storage Arrays
+### Массивы Storage
 
-_Arrays_ in `storage` are passed by _reference_. In other words, if you assign a _storage array_ half a dozen names, any changes you make will always modify the original, underlying storage array.
+_Массивы_ в `storage` передаются по ссылке. Другими словами, если вы назначите массив storage полдюжины имен, любые изменения, которые вы внесете, всегда будут изменять исходный, базовый массив storage.
 
 ```solidity
 contract StorageArray {
-    // Variables declared at the class level are always `storage`
+    // Переменные, объявленные на уровне класса, всегда `storage`
     uint[] arr = [1, 2, 3, 4, 5];
 
     function function_1() public {
         uint[] storage arr2 = arr;
 
-        arr2[0] = 99; // <- arr is now [99, 2, 3, 4, 5];
+        arr2[0] = 99; // <- arr теперь [99, 2, 3, 4, 5];
     }
 }
 ```
 
-You cannot use a `storage` array as a function parameter, and you cannot write a function that `return`s a `storage` array.
+Вы не можете использовать массив `storage` в качестве параметра функции, и вы не можете написать функцию, которая `return` массив `storage`.
 
-Storage arrays are dynamic, unless they are declared with an explicit size. However, their functionality is limited compared to other languages. The `.push(value)` function works as expected. The `.pop()` function removes the last value of an array, but it **does not** return that value. You also **may not** use `.pop()` with an index to remove an element from the middle of an array, or to remove more than one element.
+Массивы storage являются динамическими, если они не объявлены с явным размером. Однако их функциональность ограничена по сравнению с другими языками. Функция `.push(value)` работает как ожидается. Функция `.pop()` удаляет последнее значение массива, но она не возвращает это значение. Вы также не можете использовать `.pop()` с индексом для удаления элемента из середины массива или для удаления более чем одного элемента.
 
-You can use the `delete` keyword with an array. Doing so on an entire array will reset the array to zero length. Calling it on an element within the array will reset that value to its default. It **will not** resize the array!
+Вы можете использовать ключевое слово `delete` с массивом. Применение его ко всему массиву сбросит массив к нулевой длине. Вызов его для элемента внутри массива сбросит это значение к значению по умолчанию. Он **не изменит** размер массива!
 
 ```solidity
 uint[] arr_2 = [1, 2, 3, 4, 5];
 function function_2(uint _num) public returns(uint[] memory) {
-    arr_2.push(_num); // <- arr_2 is [1, 2, 3, 4, 5, <_num>]
+    arr_2.push(_num); // <- arr_2 это [1, 2, 3, 4, 5, <_num>]
 
-    delete arr_2[2];  // <- arr_2 is [1, 2, 0, 4, 5, <_num>]
+    delete arr_2[2];  // <- arr_2 это [1, 2, 0, 4, 5, <_num>]
 
-    arr_2.pop();  // <- arr_2 is [1, 2, 0, 4, 5] (_num IS NOT returned by .pop())
+    arr_2.pop();  // <- arr_2 это [1, 2, 0, 4, 5] (_num НЕ возвращается by .pop())
 
-    delete arr_2; // <- arr_2 is []
+    delete arr_2; // <- arr_2 это []
 
-    return arr_2; // <- returns []
+    return arr_2; // <- возвращает []
 }
 ```
 
-Storage arrays are implicitly convertible to `memory` arrays.
+Массивы storage неявно преобразуемы в массивы `memory`.
 
-### Memory Arrays
+### Массивы Memory
 
-Arrays declared as `memory` are temporary and only exist within the scope in which they are created. Arrays in `memory` are **not** dynamic and must be declared with a fixed size. This can be done at compile time, by declaring a size inside the `[]` or during runtime by using the `new` keyword. Finally, `memory` arrays can be implicitly cast from `storage` arrays.
+Массивы, объявленные как `memory`, являются временными и существуют только в пределах области видимости, в которой они созданы. Массивы в `memory` не являются динамическими и должны объявляться с фиксированным размером. Это можно сделать во время компиляции, объявив размер внутри `[]`, или во время выполнения, используя ключевое слово `new`. Наконец, массивы `memory` могут быть неявно приведены из массивов `storage`.
 
 ```solidity
 function function_3(uint _arrSize) public {
     uint[5] memory arrSizeFive;
     uint[] memory arrWithCustomSize = new uint[](_arrSize);
     uint[] memory localCopyOfArr = arr;
-    // ...do something
+    // ...сделать что-то
 }
 ```
 
-The declaration pattern impacts gas cost, though keep in mind that the first two examples are empty, and would cost additional gas depending on how they are eventually filled.
+Шаблон объявления влияет на стоимость газа, хотя имейте в виду, что первые два примера пусты и будут стоить дополнительный газ в зависимости от того, как они в конечном итоге заполняются.
 
 ```solidity
 function declareMemoryArrays() public view {
-    uint[5] memory simpleArr; // this line costs 135 gas
-    uint[] memory emptyArr = new uint[](5); // This line costs 194 gas
-    uint[] memory arrCopy = arr; // This line costs 13166 gas
+    uint[5] memory simpleArr; // эта строка стоит 135 газа
+    uint[] memory emptyArr = new uint[](5); // Эта строка стоит 194 газа
+    uint[] memory arrCopy = arr; // Эта строка стоит 13166 газа
 }
 ```
 
-The lack of dynamic `memory` arrays can require some gymnastics if you need to create an array where the size is not initially known. Depending on the specific needs of the problem, valid solutions for filtering an array and returning a smaller array could include:
+Отсутствие динамических массивов `memory` может потребовать некоторых ухищрений, если вам нужно создать массив, размер которого изначально неизвестен. В зависимости от конкретных потребностей задачи допустимыми решениями для фильтрации массива и возврата меньшего массива могут быть:
 
-- Looping through a larger array twice, first to count the number, then to copy the appropriate elements
-- Tracking the number of elements that meet condition X with a storage variable, then instantiating the array with `<type>[] memory filteredArray = new <type>[](numX);`
-- Using multiple data structures to track references to different subsets
+- Двойной проход по большему массиву, сначала для подсчета количества, затем для копирования соответствующих элементов
+- Отслеживание количества элементов, удовлетворяющих условию X, с помощью переменной storage, затем создание массива с помощью `<type>[] memory filteredArray = new <type>[](numX);`
+- Использование нескольких структур данных для отслеживания ссылок на разные подмножества
 
-### Calldata Arrays
+### Массивы Calldata
 
-Arrays in `calldata` are read only. Otherwise, they function the same as any other array.
+Массивы в `calldata` доступны только для чтения. В остальном они функционируют так же, как и любые другие массивы.
 
-Array [slices] are currently only implemented for `calldata` arrays.
+[slices] массивов в настоящее время реализованы только для массивов `calldata`.
 
 ---
 
-## Conclusion
+## Заключение
 
-In this lesson, you've learned the differences between the `memory`, `storage`, and `calldata` data locations. You've also learned how they apply to arrays, with each having its own properties, restrictions, and costs.
+В этом уроке вы узнали о различиях между местами хранения данных `memory`, `storage` и `calldata`. Вы также узнали, как они применяются к массивам, причем каждый из них имеет свои свойства, ограничения и стоимость.
 
 ---
 
