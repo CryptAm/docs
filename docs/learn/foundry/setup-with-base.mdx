@@ -1,53 +1,53 @@
 ---
-title: 'Foundry: Setting up Foundry with Base'
+title: 'Foundry: Настройка Foundry для работы с Base'
 slug: /intro-to-foundry-setup
-description: A tutorial that teaches how to set up your development environment to work with Foundry.
+description: Руководство, которое научит, как настроить среду разработки для работы с Foundry.
 author: Edson Alcala
 ---
 
-# Setting up Foundry with Base
+# Настройка Foundry для работы с Base
 
-In this tutorial, you'll learn how to set up [Foundry], a toolchain for smart contract development. You'll also learn how to configure it to work with Base.
+В этом руководстве вы узнаете, как настроить [Foundry] - набор инструментов для разработки смарт-контрактов. Вы также узнаете, как настроить его для работы с Base.
 
-## Objectives
+## Цели обучения
 
-By the end of this tutorial, you should be able to:
+После изучения этого руководства вы сможете:
 
-- Install Foundry
-- Create a Foundry project
-- Compile a smart contract using Foundry
-- Configure Foundry to work with Base
+- Установить Foundry
+- Создать проект Foundry
+- Скомпилировать смарт-контракт с помощью Foundry
+- Настроить Foundry для работы с Base
 
-## Overview
+## Обзор
 
-Foundry is a smart contract development toolchain that is composed of multiple small command line tools:
+Foundry - это набор инструментов для разработки смарт-контрактов, состоящий из нескольких небольших инструментов командной строки:
 
-- _[forge]_: Compile, test, and deploy your smart contracts
-- _[cast]_: Interact with the Blockchain over RPC. You can make smart contract calls, send transactions, or retrieve any type of chain data
-- _[chisel]_: A Solidity REPL. You can write Solidity code directly
-- _[anvil]_: A local Blockchain node for testing and development
+- _[forge]_: Компилировать, тестировать и развертывать ваши смарт-контракты
+- _[cast]_: Взаимодействовать с блокчейном через RPC. Вы можете вызывать смарт-контракты, отправлять транзакции или получать любые данные из цепи
+- _[chisel]_: REPL для Solidity. Вы можете писать код Solidity напрямую
+- _[anvil]_: Локальный узел блокчейна для тестирования и разработки
 
-Using Foundry you can manage your dependencies, compile your project, run tests, deploy smart contracts and interact with the chain from the command-line and via Solidity scripts.
+Используя Foundry, вы можете управлять зависимостями, компилировать проект, запускать тесты, развертывать смарт-контракты и взаимодействовать с цепью из командной строки и через скрипты Solidity.
 
-For a deep dive on the Foundry features and full capabilities, check out the [Foundry Book].
+Для глубокого погружения в функции и полные возможности Foundry ознакомьтесь с [Foundry Book].
 
-## Installing Foundry
+## Установка Foundry
 
-In order to install Foundry, you can use `Foundryup`, the Foundry's toolchain installer.
+Чтобы установить Foundry, вы можете использовать `Foundryup`, установщик инструментария Foundry.
 
-To install `Foundryup` you have to run in the terminal:
+Чтобы установить `Foundryup` выполните в терминале:
 
 ```bash
 $ curl -L https://foundry.paradigm.xyz | bash
 ```
 
-After `Foundryup` is installed, you can install `Foundry` by running:
+После установки `Foundryup` вы можете установить `Foundry`, выполнив:
 
 ```bash
 $ foundryup
 ```
 
-You can verify the installation by trying the following commands:
+Вы можете проверить установку, выполнив следующие команды:
 
 ```bash
 $ forge --version
@@ -56,48 +56,48 @@ $ chisel --version
 $ anvil --version
 ```
 
-## My First Foundry Project
+## Мой первый проект Foundry
 
-To create a foundry project you can simply run:
+Чтобы создать проект Foundry, вы можете просто выполнить:
 
 ```bash filename="terminal"
 $ forge init hello_foundry_in_base
 ```
 
-This will create a foundry project with the following structure:
+Это создаст проект Foundry со следующей структурой:
 
 ```text filename="project-structure"
-├── lib          # all the libraries installed
-├── script       # scripts folder, e.g., deploy scripts
-├── src          # smart contracts folder
-├── test         # tests folder
-└── foundry.toml # foundry configuration file
+├── lib          # все установленные библиотеки
+├── script       # папка скриптов, например, скрипты развертывания
+├── src          # папка смарт-контрактов
+├── test         # папка тестов
+└── foundry.toml # файл конфигурации Foundry
 ```
 
-You will also notice a `.gitmodules` file -- this is because `Foundry` handles dependencies using [Git submodules].
+Вы также заметите файл `.gitmodules` -- это потому, что Foundry обрабатывает зависимости с помощью [Git submodules].
 
-By default the Foundry structure stores smart contracts in the `src` folder. You can change this in the `foundry.toml` configuration file.
+По умолчанию структура Foundry хранит смарт-контракты в папке `src`. Вы можете изменить это в файле конфигурации `foundry.toml`.
 
-For instance:
+Например:
 
 ```toml filename="foundry.toml"
 [profile.default]
 src = 'contracts'
 ```
 
-In order to compile the project, simply run:
+Чтобы скомпилировать проект, просто выполните:
 
 ```bash filename="terminal"
 forge build
 ```
 
-## Setting up Foundry with Base
+## Настройка Foundry для работы с Base
 
-In order to work with Base, you need to configure a couple of settings in the configuration `foundry.toml` file.
+Для работы с Base необходимо настроить несколько параметров в файле конфигурации `foundry.toml`.
 
-The first thing is the Solidity version.
+Первое - это версия Solidity.
 
-You need to configure your config file as follows:
+Вам нужно настроить ваш конфигурационный файл следующим образом:
 
 ```toml filename="foundry.toml"
 [profile.default]
@@ -107,11 +107,11 @@ libs = ['lib']
 solc_version = "0.8.23"
 ```
 
-Be sure that you modify the pragma of your contracts and simply run `forge build` to ensure everything works well.
+Убедитесь, что вы изменили pragma ваших контрактов, и просто выполните `forge build`, чтобы убедиться, что все работает хорошо.
 
-We also recommend setting up JSON RPC endpoints for Base and the API key for [Basescan] in the configuration file so that your environment is ready to deploy your smart contracts.
+Мы также рекомендуем настроить JSON RPC endpoints для Base и API-ключ для [Basescan] в конфигурационном файле, чтобы ваша среда была готова к развертыванию ваших смарт-контрактов.
 
-Your configuration file should look like the following:
+Ваш конфигурационный файл должен выглядеть следующим образом:
 
 ```toml filename="foundry.toml"
 [profile.default]
@@ -129,11 +129,11 @@ baseSepolia = { key = "${BASESCAN_API_KEY}", url = "https://api-sepolia.basescan
 base = { key = "${BASESCAN_API_KEY}", url = "https://api.basescan.org/api" }
 ```
 
-We included 2 JSON RPC endpoints for `Base` and `Base Sepolia` and similar for the Etherscan section, we included the configuration for `Basescan` for Sepolia and Mainnet. Both rely on the same API Key, `BASESCAN_API_KEY`.
+Мы включили 2 JSON RPC endpoints для `Base` и `Base Sepolia` и аналогично для раздела Etherscan мы включили конфигурацию для `Basescan` для Sepolia и Mainnet. Оба полагаются на один и тот же API-ключ `BASESCAN_API_KEY`.
 
-## Conclusion
+## Заключение
 
-In this tutorial, you've embarked on the journey of smart contract development with Base and Foundry. You've learned the essential steps, from installing Foundry using the convenient `Foundryup` toolchain installer to creating your first project and configuring Foundry to seamlessly integrate with Base.
+В этом руководстве вы начали путь разработки смарт-контрактов с Base и Foundry. Вы изучили основные шаги: от установки Foundry с помощью удобного установщика `Foundryup` до создания вашего первого проекта и настройки Foundry для бесшовной интеграции с Base.
 
 [Foundry]: https://github.com/foundry-rs/foundry
 [Foundry Book]: https://book.getfoundry.sh/
