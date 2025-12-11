@@ -1,28 +1,28 @@
 ---
-title: Error Triage
-sidebarTitle: Error Guide
-description: Learn how to identify and resolve common errors in Solidity.
+title: Отладка ошибок
+sidebarTitle: Руководство по ошибкам
+description: Узнайте, как выявлять и исправлять распространенные ошибки в Solidity.
 hide_table_of_contents: false
 ---
 
-## Objectives
+## Цели обучения
 
-By the end of this lesson you should be able to:
+После изучения этого урока вы сможете:
 
-- Debug common solidity errors including transaction reverted, out of gas, stack overflow, value overflow/underflow, index out of range, etc.
+- Отлаживать распространенные ошибки Solidity, включая откат транзакции, нехватку газа, переполнение стека, переполнение/потерю значимости значения, выход индекса за пределы диапазона и т.д.
 
 ---
 
-## Compiler Errors
+## Ошибки компилятора
 
-Compiler errors are manifold but almost always very easy to debug, since the error message usually tells you what is wrong and how to fix it.
+Ошибки компилятора разнообразны, но почти всегда их очень легко исправить, поскольку сообщение об ошибке обычно говорит, что не так и как это исправить.
 
-### Type Errors
+### Ошибки типов
 
-You will get a compiler error if you try to assign a literal to the wrong type.
+Вы получите ошибку компилятора, если попытаетесь присвоить литерал неправильному типу.
 
 ```solidity
-// Bad code example, do not use
+// Плохой пример кода, не используйте
 function compilerTypeError() public pure returns (uint) {
     uint myNumber = "One";
     return myNumber;
@@ -38,7 +38,7 @@ TypeError: Type literal_string "One" is not implicitly convertible to expected t
   |         ^^^^^^^^^^^^^^^^^^^^^
 ```
 
-Fix by correcting the type or value, as appropriate for your needs:
+Исправьте, корректируя тип или значение в соответствии с вашими потребностями:
 
 <Accordion title="Reveal code">
 
@@ -52,12 +52,11 @@ function compilerTypeErrorFixed() public pure returns (string) {
 
 </Accordion>
 
-### Conversion Errors
+### Ошибки преобразования
 
-Conversion errors occur when you attempt to _implicitly_ convert one type to another. Solidity only allows this under very narrow circumstances where there is no possibility of ambiguous interpretation of the data.
-
+Ошибки преобразования возникают, когда вы пытаетесь _неявно_ преобразовать один тип в другой. Solidity позволяет это только в очень узких обстоятельствах, где нет возможности неоднозначной интерпретации данных.
 ```solidity
-// Bad code example, do not use
+// Плохой пример кода, не используйте
 function compilerConversionError() public pure returns (uint) {
     int8 first = 1;
 
@@ -66,15 +65,15 @@ function compilerConversionError() public pure returns (uint) {
 ```
 
 ```text
-from solidity:
-TypeError: Return argument type int8 is not implicitly convertible to expected type (type of first return variable) uint256.
+из solidity:
+TypeError: Аргумент возврата типа int8 не является неявно преобразуемым в ожидаемый тип (тип первой возвращаемой переменной) uint256.
   --> contracts/ErrorTriage.sol:15:16:
    |
 15 |         return first;
    |                ^^^^^
 ```
 
-Fix by explicitly casting as necessary:
+Исправьте, явно преобразуя при необходимости:
 
 <Accordion title="Reveal code">
 
@@ -90,16 +89,16 @@ function compilerConversionErrorFixed() public pure returns (uint) {
 </Accordion>
 
 <Tip>
-You'll commonly need to use multiple conversions to bridge from one type to another.
+Вам часто потребуется использовать несколько преобразований для перехода от одного типа к другому.
 </Tip>
 
 
-### Operator Errors
+### Ошибки операторов
 
-You cannot use operators between types as flexibly as you may be used to.
+Вы не можете использовать операторы между типами так гибко, как вы, возможно, привыкли.
 
 ```solidity
-// Bad code example, do not use
+// Плохой пример кода, не используйте
 function compilerOperatorError() public pure returns (uint) {
     int8 first = 1;
     uint256 second = 2;
@@ -110,25 +109,25 @@ function compilerOperatorError() public pure returns (uint) {
 }
 ```
 
-Operator errors are often paired with a type error.
+Ошибки операторов часто сопровождаются ошибкой типа.
 
 ```text
-from solidity:
-TypeError: Operator + not compatible with types int8 and uint256.
+из solidity:
+TypeError: Оператор + не совместим с типами int8 и uint256.
   --> contracts/ErrorTriage.sol:22:20:
    |
 22 |         uint sum = first + second;
    |                    ^^^^^^^^^^^^^^
 
-from solidity:
-TypeError: Type int8 is not implicitly convertible to expected type uint256.
+из solidity:
+TypeError: Тип int8 не является неявно преобразуемым в ожидаемый тип uint256.
   --> contracts/ErrorTriage.sol:22:9:
    |
 22 |         uint sum = first + second;
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^
 ```
 
-Resolve by explicitly converting to the final type:
+Исправьте, явно преобразуя к конечному типу:
 
 <Accordion title="Reveal code">
 
@@ -146,17 +145,17 @@ function compilerOperatorErrorFixed() public pure returns (uint) {
 
 </Accordion>
 
-### Stack Depth Limit
+### Лимит глубины стека
 
-The [EVM stack] has 1024 slots, but only the top 16 slots are accessible. As a result, you can only have fewer than 16 variables in scope at one time.
+[EVM stack] имеет 1024 слота, но доступны только верхние 16 слотов. В результате вы можете одновременно иметь менее 16 переменных в области видимости.
 
 <Warning>
-Other items can also use up these slots. You are **not** guaranteed 15 slots, it can be lower.
+Другие элементы также могут использовать эти слоты. Вам **не гарантируется** 15 слотов, их может быть меньше.
 </Warning>
 
 
 ```solidity
-// Bad code example, do not use
+// Плохой пример кода, не используйте
 function stackDepthLimit() public pure returns (uint) {
         uint first = 1;
         uint second = 2;
@@ -195,15 +194,15 @@ function stackDepthLimit() public pure returns (uint) {
 ```
 
 ```text
-from solidity:
-CompilerError: Stack too deep. Try compiling with --via-ir (cli) or the equivalent viaIR: true (standard JSON) while enabling the optimizer. Otherwise, try removing local variables.
+из solidity:
+CompilerError: Стек слишком глубокий. Попробуйте компилировать с --via-ir (cli) или эквивалентным viaIR: true (стандартный JSON) с включением оптимизатора. В противном случае попробуйте удалить локальные переменные.
   --> contracts/ErrorTriage.sol:92:17:
    |
 92 |                 eighth +
    |                 ^^^^^^
 ```
 
-Resolve this error by breaking up large functions and separating operations into different levels of scope.
+Исправьте эту ошибку, разбивая большие функции и разделяя операции на разные уровни области видимости.
 
 <Accordion title="Reveal code">
 
@@ -258,25 +257,25 @@ function stackDepthLimitFixed() public pure returns (uint) {
 
 ---
 
-## Logical Errors
+## Логические ошибки
 
-Logical errors occur when your code is syntactically correct, but still results in a data state that is a violation of the rules of the language.
+Логические ошибки возникают, когда ваш код синтаксически правилен, но все же приводит к состоянию данных, которое нарушает правила языка.
 
-A [panic] occurs when your code tries to do an illegal operation. These return with a very basic error code, which Remix unfortunately hides. However, it makes up for that annoyance by providing a very powerful debugger.
+[panic] возникает, когда ваш код пытается выполнить незаконную операцию. Они возвращаются с очень простым кодом ошибки, который, к сожалению, Remix скрывает. Однако он компенсирует это неудобство, предоставляя очень мощный отладчик.
 
 <Warning>
-The Remix VM doesn't behave exactly the same as true onchain operations, so note that these errors will not behave exactly the same if triggered while testing with Hardhat, or called from a front end.
+Виртуальная машина Remix ведет себя не совсем так же, как настоящие ончейн-операции, поэтому учтите, что эти ошибки не будут вести себя точно так же, если они возникнут при тестировании с Hardhat или при вызове из фронтенда.
 </Warning>
 caution
 
-For each of these examples, copy them into Remix to explore with the debugger on your own.
+Для каждого из этих примеров скопируйте их в Remix, чтобы изучить с помощью отладчика самостоятельно.
 
-### Array Index Out-of-Bounds
+### Выход индекса массива за границы
 
-A panic will be triggered if you try to access an array at an invalid index.
+Паника будет вызвана, если вы попытаетесь получить доступ к массиву по недопустимому индексу.A panic will be triggered if you try to access an array at an invalid index.
 
 ```solidity
-// Bad code example, do not use
+// Плохой пример кода, не используйте
 function badGetLastValue() public pure returns (uint) {
     uint[4] memory arr = [uint(1), 2, 3, 4];
 
@@ -284,44 +283,44 @@ function badGetLastValue() public pure returns (uint) {
 }
 ```
 
-Running this function will result in the following error in the console:
+Запуск этой функции приведет к следующей ошибке в консоли:
 
 ```text
-call to ErrorTriage.badGetLastValue errored: VM error: revert.
+ вызов ErrorTriage.badGetLastValue завершился ошибкой: Ошибка VM: revert.
 
 revert
-	The transaction has been reverted to the initial state.
-Note: The called function should be payable if you send value and the value you send should be less than your current balance.
-Debug the transaction to get more information.
+	Транзакция была откачена до исходного состояния.
+Примечание: Вызываемая функция должна быть payable, если вы отправляете значение, и отправляемое значение должно быть меньше вашего текущего баланса.
+Отладьте транзакцию, чтобы получить больше информации.
 ```
 
-Click the _Debug_ button to open the debugger.
+Нажмите кнопку _Debug_ чтобы открыть отладчик.
 
 <Frame>
 ![Debugger](/images/learn/error-triage/debugger.png)
 </Frame>
 
-The debugger contains panels with information about variables in storage, memory, what's on the stack, and so on. You can also add breakpoints to lines of code to further help with debugging.
+Отладчик содержит панели с информацией о переменных в хранилище, памяти, о том, что находится в стеке, и т.д. Вы также можете добавлять точки останова в строки кода для дальнейшей помощи в отладке.
 
-One of the most useful features is the link near the top instructing you to _"Click here to jump where the call reverted."_
+Одна из самых полезных функций - это ссылка вверху с инструкцией _"Click here to jump where the call reverted."_
 
-Click that link and the debugger will jump to the point of failure, **and highlight the code that caused the panic.** Neat!
+Нажмите на эту ссылку, и отладчик перейдет к точке сбоя **и выделит код, который вызвал панику**. Отлично!
 
 <Frame>
 ![Highlighted Code](/images/learn/error-triage/highlight-code.png)
 </Frame>
 
-You can find the specific error here, but it's difficult.
+Вы можете найти конкретную ошибку здесь, но это сложно.
 
-Look in the _Memory_ panel. The first item at `0x0` has a hash starting with `0x4e487b71`. This code indicates a panic.
+Посмотрите на панель _Memory_. Первый элемент по адресу `0x0` имеет хэш, начинающийся с `0x4e487b71`. Этот код указывает на панику.
 
-The second item, at `0x20` has the error code of `32` hidden in it, which is for array out-of-bounds.
+Второй элемент, по адресу `0x20`, содержит скрытый код ошибки `32`, который указывает на выход индекса массива за границы.
 
 <Frame>
 ![Array out-of-bounds](/images/learn/error-triage/array-out-of-bounds.png)
 </Frame>
 
-It's sometimes better to just review the code first to see if the error is obvious.
+Иногда лучше сначала просмотреть код, чтобы увидеть, очевидна ли ошибка.
 
 ```solidity
 function badGetLastValueFixed() public pure returns (uint) {
@@ -331,62 +330,62 @@ function badGetLastValueFixed() public pure returns (uint) {
 }
 ```
 
-### Out of Gas
+### Нехватка газа
 
-The default settings for Remix make it difficult to trigger an out of gas error because the VM will often crash first. For this example, go to the _Deploy & Run Transactions_ tab and reduce the gas limit to **300000**.
+Настройки по умолчанию в Remix затрудняют вызов ошибки нехватки газа, потому что виртуальная машина часто сначала падает. Для этого примера перейдите на вкладку _Deploy & Run Transactions_ и уменьшите лимит газа до **300000**.
 
-If you write code that can have an ambiguous execution time, it becomes very difficult to accurately estimate gas limits.
+Если вы пишете код, который может иметь неоднозначное время выполнения, становится очень сложно точно оценить лимиты газа.
 
-In this example, each loop has a 1 in 1000 chance of ending.
+В этом примере каждый цикл имеет шанс 1 из 1000 завершиться.
 
 <Warning>
-`block.timestamp` can be manipulated. **DO NOT** use this as a source of randomness if any value can be derived from one outcome over another!
+`block.timestamp` может быть подделан. **НЕ ИСПОЛЬЗУЙТЕ** это как источник случайности, если какое-либо значение может быть получено из одного результата по сравнению с другим!
 </Warning>
 
 
 ```solidity
-// Bad code example, do not use
+// Плохой пример кода, не используйте
 function badRandomLoop() public view returns (uint) {
     uint seed = 0;
-    // DO NOT USE THIS METHOD FOR RANDOM NUMBERS!!! IT IS EASILY EXPLOITABLE!!!
+    // НЕ ИСПОЛЬЗУЙТЕ ЭТОТ МЕТОД ДЛЯ СЛУЧАЙНЫХ ЧИСЕЛ!!! ЕГО ЛЕГКО ВЗЛОМАТЬ!!!
     while(uint(keccak256(abi.encodePacked(block.timestamp, seed))) % 1000 != 0) {
         seed++;
-        // ...do something
+        // ...сделать что-то
     }
 
     return seed;
 }
 ```
 
-Run this function a few times. Often, it will work just fine. Other times, an error appears:
+Запустите эту функцию несколько раз. Часто она будет работать нормально. В других случаях появляется ошибка:
 
 ```text
-call to ErrorTriage.badLoop errored: VM error: out of gas.
+вызов ErrorTriage.badLoop завершился ошибкой: Ошибка VM: out of gas.
 
 out of gas
-	The transaction ran out of gas. Please increase the Gas Limit.
+	В транзакции закончился газ. Пожалуйста, увеличьте Gas Limit.
 
-Debug the transaction to get more information.
+Отладьте транзакцию, чтобы получить больше информации.
 ```
 
-The error message here is a bit misleading. You do **not** usually want to fix this by increasing the gas limit. If you're getting a gas error because the transaction didn't estimate for enough gas, it's better to refactor for better predictability.
+Сообщение об ошибке здесь немного вводит в заблуждение. Вы обычно не хотите исправлять это, увеличивая лимит газа. Если вы получаете ошибку газа из-за того, что транзакция не оценила достаточное количество газа, лучше переработать код для лучшей предсказуемости.
 
 ```solidity
 function badRandomLoopFixed() public view returns (uint) {
-    // DO NOT USE THIS METHOD FOR RANDOM NUMBERS!!! IT IS EASILY EXPLOITABLE!!!
+    // НЕ ИСПОЛЬЗУЙТЕ ЭТОТ МЕТОД ДЛЯ СЛУЧАЙНЫХ ЧИСЕЛ!!! ЕГО ЛЕГКО ВЗЛОМАТЬ!!!
     uint times = uint(keccak256(abi.encodePacked(block.timestamp))) % 1000;
 
     for(uint i = 0; i <= times; i++) {
-        // ...do something
+        // ...сделать что-то
     }
 
     return times;
 }
 ```
 
-### Overflow or Underflow
+### Переполнение или потеря значимости
 
-The `uint` type will _panic_ in the event of an overflow or underflow.
+Тип `uint` вызовет _панику_ в случае переполнения или потери значимости.
 
 ```solidity
 function badSubtraction() public pure returns (uint) {
@@ -396,15 +395,15 @@ function badSubtraction() public pure returns (uint) {
 }
 ```
 
-As before, you can see the panic code and panic type in _memory_.
+Как и прежде, вы можете увидеть код паники и тип паники в _памяти_.
 
 <Frame>
 ![Underflow](/images/learn/error-triage/underflow.png)
 </Frame>
 
-In this case, the error type is `11`, for overflow/underflow outside of an `unchecked` block.
+В этом случае тип ошибки - `11`, для переполнения/потери значимости вне блока `unchecked`.
 
-Fix by changing your code to handle the expected range of values.
+Исправьте, изменив свой код для обработки ожидаемого диапазона значений.
 
 <Accordion title="Reveal code">
 
@@ -419,9 +418,9 @@ function badSubstractionFixed() public pure returns (int) {
 
 </Accordion>
 
-### Divide by Zero
+### Деление на ноль
 
-Divide by zero errors also trigger a panic, with a code of `12`.
+Ошибки деления на ноль также вызывают панику с кодом `12`.
 
 ```solidity
 function badDivision() public pure returns (uint) {
@@ -435,13 +434,13 @@ function badDivision() public pure returns (uint) {
 ![Divide by zero](/images/learn/error-triage/divide-by-zero.png)
 </Frame>
 
-Don't divide by zero.
+Не делите на ноль.
 
 ---
 
-## Conclusion
+## Заключение
 
-In this lesson, you reviewed the causes of and solutions for a number of compiler errors and logical errors that you may encounter.
+В этом уроке вы рассмотрели причины и решения ряда ошибок компилятора и логических ошибок, с которыми вы можете столкнуться.
 
 ---
 
