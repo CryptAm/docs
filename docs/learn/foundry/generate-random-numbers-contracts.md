@@ -1,7 +1,7 @@
 ---
-title: Generating random numbers contracts using Supra dVRF
+title: Создание контрактов со случайными числами с помощью Supra dVRF
 slug: /oracles-supra-vrf
-description: A tutorial that teaches how to use Supra dVRF to serve random numbers using an onchain randomness generation mechanism directly within your smart contracts on the Base testnet.
+description: Руководство, которое научит использовать Supra dVRF для предоставления случайных чисел с помощью механизма генерации случайности непосредственно в ваших смарт-контрактах в тестовой сети Base.
 author: taycaldwell
 keywords: [
     Oracle
@@ -32,82 +32,82 @@ difficulty: intermediate
 displayed_sidebar: null
 ---
 
-This tutorial will guide you through the process of creating a smart contract on Base that utilizes Supra dVRF to serve random numbers using an onchain randomness generation mechanism directly within your smart contracts.
+Это руководство проведет вас через процесс создания смарт-контракта на Base, который использует Supra dVRF для предоставления случайных чисел с помощью механизма генерации случайности непосредственно в ваших смарт-контрактах.
 
 
 
-## Objectives
+## Цели обучения
 
-By the end of this tutorial you should be able to do the following:
+После изучения этого руководства вы сможете сделать следующее:
 
-- Set up a smart contract project for Base using Foundry
-- Install the Supra dVRF as a dependency
-- Use Supra dVRF within your smart contract
-- Deploy and test your smart contracts on Base
+- Настроить проект смарт-контракта для Base с помощью Foundry
+- Установить Supra dVRF как зависимость
+- Использовать Supra dVRF в вашем смарт-контракте
+- Развернуть и протестировать ваши смарт-контракты на Base
 
 
 
-## Prerequisites
+## Предварительные требования
 
 ### Foundry
 
-This tutorial requires you to have Foundry installed.
+Это руководство требует установленного Foundry.
 
-- From the command-line (terminal), run: `curl -L https://foundry.paradigm.xyz | bash`
-- Then run `foundryup`, to install the latest (nightly) build of Foundry
+- Из командной строки (терминала) выполните: `curl -L https://foundry.paradigm.xyz | bash`
+- Затем выполните `foundryup`, чтобы установить последнюю (ночную) сборку Foundry
 
-For more information, see the Foundry Book [installation guide](https://book.getfoundry.sh/getting-started/installation).
+Для получения дополнительной информации смотрите [руководство по установке](https://book.getfoundry.sh/getting-started/installation) в книге Foundry.
 
-### Coinbase Wallet
+### Coinbase Wallet (кошелек)
 
-In order to deploy a smart contract, you will first need a wallet. You can create a wallet by downloading the Coinbase Wallet browser extension.
+Чтобы развернуть смарт-контракт, вам сначала понадобится кошелек. Вы можете создать кошелек, загрузив расширение для браузера Coinbase Wallet.
 
-- Download [Coinbase Wallet](https://chrome.google.com/webstore/detail/coinbase-wallet-extension/hnfanknocfeofbddgcijnmhnfnkdnaad?hl=en)
+- Скачайте [Coinbase Wallet](https://chrome.google.com/webstore/detail/coinbase-wallet-extension/hnfanknocfeofbddgcijnmhnfnkdnaad?hl=en)
 
-### Wallet funds
+### Средства в кошельке
 
-Deploying contracts to the blockchain requires a gas fee. Therefore, you will need to fund your wallet with ETH to cover those gas fees.
+Развертывание контрактов в блокчейне требует оплаты комиссии за газ. Поэтому вам нужно будет пополнить свой кошелек ETH для покрытия этих комиссий.
 
-For this tutorial, you will be deploying a contract to the Base Sepolia test network. You can fund your wallet with Base Sepolia ETH using one of the faucets listed on the Base [Network Faucets](https://docs.base.org/chain/network-faucets) page.
+Для этого руководства вы будете развертывать контракт в тестовой сети Base Sepolia. Вы можете пополнить свой кошелек Base Sepolia ETH, используя один из кранов, перечисленных на странице [Network Faucets](https://docs.base.org/chain/network-faucets) Base.
 
-### Supra wallet registration
+### Регистрация кошелька в Supra
 
 <Caution>
-Supra dVRF V2 requires subscription to the service with a customer controlled wallet address to act as the main reference.
+Supra dVRF V2 требует подписки на сервис с адресом кошелька, контролируемым клиентом, который будет выступать в качестве основного справочного элемента.
 
-Therefore you must register your wallet with the Supra team if you plan to consume Supra dVRF V2 within your smart contracts.
+Поэтому вы должны зарегистрировать свой кошелек в команде Supra, если планируете использовать Supra dVRF V2 в своих смарт-контрактах.
 
-Please refer to the [Supra documentation](https://docs.supra.com/oracles/dvrf/vrf-subscription-model) for the latest steps on how to register your wallet for their service.
+Пожалуйста, обратитесь к [документации Supra](https://docs.supra.com/oracles/dvrf/vrf-subscription-model) для получения актуальных шагов по регистрации вашего кошелька для их сервиса.
 </Caution>
 
 
 
-## What is a Verifiable Random Function (VRF)?
+## Что такое Верифицируемая Случайная Функция (VRF)?
 
-A Verifiable Random Function (VRF) provides a solution for generating random outcomes in a manner that is both decentralized and verifiably recorded onchain. VRFs are crucial for applications where randomness integrity is paramount, such as in gaming or prize drawings.
+Верифицируемая Случайная Функция (VRF) предоставляет решение для генерации случайных результатов децентрализованным и проверяемо записываемым в блокчейн способом. VRF критически важны для приложений, где целостность случайности имеет первостепенное значение, например, в играх или розыгрышах призов.
 
-Supra dVRF provides a decentralized VRF that ensures that the outcomes are not only effectively random but also responsive, scalable, and easily verifiable, thereby addressing the unique needs of onchain applications for trustworthy and transparent randomness.
+Supra dVRF предоставляет децентрализованную VRF, которая гарантирует, что результаты не только эффективно случайны, но и отзывчивы, масштабируемы и легко проверяемы, удовлетворяя уникальные потребности ончейн-приложений в надежной и прозрачной случайности.
 
 
 
-## Creating a project
+## Создание проекта
 
-Before you can begin writing smart contracts for Base, you need to set up your development environment by creating a Foundry project.
+Прежде чем начать писать смарт-контракты для Base, вам нужно настроить среду разработки, создав проект Foundry.
 
-To create a new Foundry project, first create a new directory:
+Чтобы создать новый проект Foundry, сначала создайте новую директорию:
 
 ```bash
 mkdir myproject
 ```
 
-Then run:
+Затем выполните:
 
 ```bash
 cd myproject
 forge init
 ```
 
-This will create a Foundry project, which has the following basic layout:
+Это создаст проект Foundry со следующей базовой структурой:
 
 ```bash
 .
@@ -122,13 +122,13 @@ This will create a Foundry project, which has the following basic layout:
 
 
 
-## Writing the Smart Contract
+## Написание смарт-контракта
 
-Once your Foundry project has been created, you can now start writing a smart contract.
+После создания вашего проекта Foundry вы можете начать писать смарт-контракт.
 
-The Solidity code below defines a basic contract named `RNGContract`. The smart contract's constructor takes in a single `address` and assigns it to a member variable named `supraAddr`. This address corresponds to the [contract address](https://docs.supra.com/oracles/data-feeds/pull-oracle/networks) of the Supra Router Contract that will be used to generate random numbers. The contract address of the Supra Router Contract on Base Sepolia testnet is `0x99a021029EBC90020B193e111Ae2726264a111A2`.
+Приведенный ниже код Solidity определяет базовый контракт с именем `RNGContract`. Конструктор смарт-контракта принимает один `address` и присваивает его переменной-члену с именем `supraAddr`. Этот адрес соответствует [адресу контракта](https://docs.supra.com/oracles/data-feeds/pull-oracle/networks) контракта Supra Router Contract, который будет использоваться для генерации случайных чисел. Адрес контракта Supra Router Contract в тестовой сети Base Sepolia - `0x99a021029EBC90020B193e111Ae2726264a111A2`.
 
-The contract also assigns the contract deployer (`msg.sender`) to a member variable named `supraClientAddress`. This should be the client wallet address that is registered and whitelisted to use Supra VRF (see: [Prerequisites](#prerequisites)).
+Контракт также присваивает развертывающего контракт (`msg.sender`) переменной-члену с именем `supraClientAddress`. Это должен быть адрес клиентского кошелька, который зарегистрирован и внесен в белый список для использования Supra VRF (см.: [Предварительные требования](#prerequisites)).
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -145,13 +145,13 @@ contract RNGContract {
 }
 ```
 
-In your project, add the code provided above to a new file named `src/ExampleContract.sol`, and delete the `src/Counter.sol` contract that was generated with the project. (you can also delete the `test/Counter.t.sol` and `script/Counter.s.sol` files).
+В вашем проекте добавьте предоставленный выше код в новый файл с именем `src/ExampleContract.sol`, и удалите контракт `src/Counter.sol` который был сгенерирован с проектом. (Вы также можете удалить файлы `test/Counter.t.sol` и `script/Counter.s.sol` files).
 
-The following sections will guide you step-by-step on how to update your contract to generate random numbers using the Supra Router contract.
+Следующие разделы проведут вас шаг за шагом по обновлению вашего контракта для генерации случайных чисел с помощью контракта Supra Router.
 
-### Adding the Supra Router Contract interface
+### Добавление интерфейса контракта Supra Router
 
-In order to help your contract (the requester contract) interact with the Supra Router contract and understand what methods it can call, you will need to add the following interface to your contract file.
+Чтобы помочь вашему контракту (контракту-запрашивателю) взаимодействовать с контрактом Supra Router и понимать, какие методы он может вызывать, вам нужно добавить следующий интерфейс в файл вашего контракта.
 
 ```solidity
 interface ISupraRouter {
@@ -160,30 +160,30 @@ interface ISupraRouter {
 }
 ```
 
-The `ISupraRouter` interface defines a `generateRequest` function. This function is used to create a request for random numbers. The `generateRequest` function is defined twice, because one of the definitions allows for an optional `_clientSeed` (defaults to `0`) for additional unpredictability.
+Интерфейс `ISupraRouter` определяет функцию `generateRequest`. Эта функция используется для создания запроса на случайные числа. Функция `generateRequest` определена дважды, потому что одно из определений позволяет использовать дополнительный `_clientSeed` (по умолчанию `0`) для дополнительной непредсказуемости.
 
 <Info>
-Alternatively, you can add the `ISupraRouter` interface in a separate interface file and inherit the interface in your contract.
+В качестве альтернативы вы можете добавить интерфейс `ISupraRouter` в отдельный файл интерфейса и наследовать интерфейс в вашем контракте.
 </Info>
 
-### Adding a request function
+### Добавление функции запроса
 
-Once you have defined the `ISupraRouter`, you are ready to add the logic to your smart contract for requesting random numbers.
+После определения `ISupraRouter` вы готовы добавить логику в ваш смарт-контракт для запроса случайных чисел.
 
-For Supra dVRF, adding logic for requesting random numbers requires two functions:
+Для Supra dVRF добавление логики для запроса случайных чисел требует двух функций:
 
-- A request function
-- A callback function
+- Функция запроса
+- Функция обратного вызова (callback)
 
-The request function is a custom function defined by the developer. There are no requirements when it comes to the signature of the request function.
+Функция запроса - это пользовательская функция, определяемая разработчиком. Нет требований к сигнатуре функции запроса.
 
-The following code is an example of a request function named `rng` that requests random numbers using the Supra Router Contract. Add this function to your smart contract:
+Следующий код - пример функции запроса с именем `rng`, которая запрашивает случайные числа с помощью контракта Supra Router Contract. Добавьте эту функцию в ваш смарт-контракт:
 
 ```solidity
 function rng() external returns (uint256) {
-    // Amount of random numbers to request
+    // Количество случайных чисел для запроса
     uint8 rngCount = 5;
-    // Amount of confirmations before the request is considered complete/final
+    // Количество подтверждений, прежде чем запрос будет считаться завершенным/окончательным
     uint256 numConfirmations = 1;
     uint256 nonce = ISupraRouter(supraAddr).generateRequest(
         "requestCallback(uint256,uint256[])",
@@ -192,19 +192,19 @@ function rng() external returns (uint256) {
         supraClientAddress
     );
     return nonce;
-    // store nonce if necessary (e.g., in a hashmap)
-    // this can be used to track parameters related to the request in a lookup table
-    // these can be accessed inside the callback since the response from supra will include the nonce
+    // при необходимости сохраните nonce (например, в хэш-карте)
+    // это можно использовать для отслеживания параметров, связанных с запросом, в таблице поиска
+    // к ним можно получить доступ внутри обратного вызова, поскольку ответ от supra будет включать nonce
 }
 ```
 
-The `rng` function above requests `5` random numbers (defined by `rngCount`), and waits `1` confirmation (defined by `numConfirmations`) before considering the result to be final. It makes this request by calling the `generateRequest` function of the Supra Router contract, while providing a callback function with the signature `requestCallback(uint256,uint256[])`.
+Функция `rng` выше запрашивает `5` случайных чисел (определено `rngCount`) и ждет `1` подтверждение (определено `numConfirmations`), прежде чем считать результат окончательным. Она делает этот запрос, вызывая функцию `generateRequest` контракта Supra Router, предоставляя функцию обратного вызова с сигнатурой `requestCallback(uint256,uint256[])`.
 
-### Adding a callback function
+### Добавление функции обратного вызова
 
-As seen in the previous section, the `generateRequest` method of the Supra Router contract expects a signature for a callback function. This callback function must be of the form: `uint256 nonce, uint256[] calldata rngList`, and must include validation code, such that only the Supra Router contract can call the function.
+Как видно в предыдущем разделе, метод `generateRequest` контракта Supra Router ожидает сигнатуру для функции обратного вызова. Эта функция обратного вызова должна быть вида: `uint256 nonce, uint256[] calldata rngList` и должна включать код валидации, чтобы только контракт Supra Router мог вызывать эту функцию.
 
-To do this, add the following callback function (`requestCallback`) to your smart contract:
+Для этого добавьте следующую функцию обратного вызова (`requestCallback`) в ваш смарт-контракт:
 
 ```solidity
 function requestCallback(uint256 _nonce ,uint256[] _rngList) external {
@@ -218,15 +218,15 @@ function requestCallback(uint256 _nonce ,uint256[] _rngList) external {
 }
 ```
 
-Once a random number is generated, `requestCallback` is executed by the Supra Router. The code above stores the resulting random numbers list in a map named `rngForNonce` using the `_nonce` argument. Because of this, you will need to add the following mapping to your contract:
+После генерации случайного числа `requestCallback` выполняется Supra Router. Приведенный выше код сохраняет результирующий список случайных чисел в карте с именем `rngForNonce`, используя аргумент `_nonce`. Из-за этого вам нужно будет добавить следующее отображение (mapping) в ваш контракт:
 
 ```solidity
 mapping (uint256 => uint256[] ) rngForNonce;
 ```
 
-### Adding a function to view the result
+### Добавление функции для просмотра результата
 
-To fetch resulting random numbers based on their associated `nonce`, you add a third function:
+Чтобы получить результирующие случайные числа на основе связанного с ними `nonce`, добавьте третью функцию:
 
 ```solidity
 function viewRngForNonce(uint256 nonce) external view returns (uint256[] memory) {
@@ -234,9 +234,9 @@ function viewRngForNonce(uint256 nonce) external view returns (uint256[] memory)
 }
 ```
 
-### Final smart contract code
+### Итоговый код смарт-контракта
 
-After following all the steps above, your smart contract code should look like the following:
+После выполнения всех шагов выше код вашего смарт-контракта должен выглядеть следующим образом:
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -259,9 +259,9 @@ contract RNGContract {
     }
 
     function rng() external returns (uint256) {
-        // Amount of random numbers to request
+        // Количество случайных чисел для запроса
         uint8 rngCount = 5;
-        // Amount of confirmations before the request is considered complete/final
+        // Количество подтверждений, прежде чем запрос будет считаться завершенным/окончательным
         uint256 numConfirmations = 1;
         uint256 nonce = ISupraRouter(supraAddr).generateRequest(
             "requestCallback(uint256,uint256[])",
@@ -289,18 +289,18 @@ contract RNGContract {
 ```
 
 <Warning>
-You must whitelist this smart contract under the wallet address you registered with Supra, and deposit funds to be paid for the gas fees associated with transactions for your callback function.
+Вы должны внести этот смарт-контракт в белый список под адресом кошелька, который вы зарегистрировали в Supra, и внести средства для оплаты комиссий за газ, связанных с транзакциями для вашей функции обратного вызова.
 
-Follow the [guidance steps](https://supraoracles.com/docs/vrf/v2-guide#step-1-create-the-supra-router-contract-interface-1) provided by Supra for whitelisting your contract and depositing funds.
+Следуйте [шагам руководства](https://supraoracles.com/docs/vrf/v2-guide#step-1-create-the-supra-router-contract-interface-1), предоставленным Supra, для внесения вашего контракта в белый список и внесения средств.
 
-If you have not yet registered your wallet with Supra, see the [Prerequisites](#prerequisites) section.
+Если вы еще не зарегистрировали свой кошелек в Supra, см. раздел [Предварительные требования](#prerequisites).
 </Warning>
 
 
 
-## Compiling the Smart Contract
+## Компиляция смарт-контракта
 
-To compile your smart contract code, run:
+Чтобы скомпилировать код вашего смарт-контракта, выполните:
 
 ```bash
 forge build
@@ -308,84 +308,84 @@ forge build
 
 
 
-## Deploying the smart contract
+## Развертывание смарт-контракта
 
-### Setting up your wallet as the deployer
+### Настройка вашего кошелька как развертывающего
 
-Before you can deploy your smart contract to the Base network, you will need to set up a wallet to be used as the deployer.
+Прежде чем вы сможете развернуть ваш смарт-контракт в сети Base, вам нужно настроить кошелек, который будет использоваться как развертывающий.
 
-To do so, you can use the [`cast wallet import`](https://book.getfoundry.sh/reference/cast/cast-wallet-import) command to import the private key of the wallet into Foundry's securely encrypted keystore:
+Для этого вы можете использовать команду [`cast wallet import`](https://book.getfoundry.sh/reference/cast/cast-wallet-import), чтобы импортировать приватный ключ кошелька в безопасное зашифрованное хранилище ключей Foundry:
 
 ```bash
 cast wallet import deployer --interactive
 ```
 
-After running the command above, you will be prompted to enter your private key, as well as a password for signing transactions.
+После выполнения команды выше вам будет предложено ввести ваш приватный ключ, а также пароль для подписания транзакций.
 
 <Warning>
-For instructions on how to get your private key from Coinbase Wallet, visit the [Coinbase Wallet documentation](https://docs.cloud.coinbase.com/wallet-sdk/docs/developer-settings#show-private-key).
+Инструкции о том, как получить ваш приватный ключ из Coinbase Wallet, смотрите в [документации Coinbase Wallet](https://docs.cloud.coinbase.com/wallet-sdk/docs/developer-settings#show-private-key).
 
-**It is critical that you do NOT commit this to a public repo**.
+**Крайне важно НЕ коммитить это в публичный репозиторий.**.
 </Warning>
 
-To confirm that the wallet was imported as the `deployer` account in your Foundry project, run:
+Чтобы подтвердить, что кошелек был импортирован как учетная запись `deployer` в вашем проекте Foundry, выполните:
 
 ```bash
 cast wallet list
 ```
 
-### Setting up environment variables for Base Sepolia
+### Настройка переменных окружения для Base Sepolia
 
-To setup your environment for deploying to the Base network, create an `.env` file in the home directory of your project, and add the RPC URL for the Base Sepolia testnet, as well as the Supra Router contract address for Base Sepolia testnet:
+Чтобы настроить ваше окружение для развертывания в сети Base, создайте файл `.env` в домашней директории вашего проекта и добавьте RPC URL для тестовой сети Base Sepolia, а также адрес контракта Supra Router для тестовой сети Base Sepolia:
 
 ```
 BASE_SEPOLIA_RPC="https://sepolia.base.org"
 ISUPRA_ROUTER_ADDRESS=0x99a021029EBC90020B193e111Ae2726264a111A2
 ```
 
-Once the `.env` file has been created, run the following command to load the environment variables in the current command line session:
+После создания файла `.env` выполните следующую команду, чтобы загрузить переменные окружения в текущей сессии командной строки:
 
 ```bash
 source .env
 ```
 
-### Deploying the smart contract to Base Sepolia
+### Развертывание смарт-контракта в Base Sepolia
 
-With your contract compiled and environment setup, you are ready to deploy the smart contract to the Base Sepolia Testnet!
+Теперь, когда ваш контракт скомпилирован и окружение настроено, вы готовы развернуть смарт-контракт в тестовой сети Base Sepolia!
 
-For deploying a single smart contract using Foundry, you can use the `forge create` command. The command requires you to specify the smart contract you want to deploy, an RPC URL of the network you want to deploy to, and the account you want to deploy with.
+Для развертывания одного смарт-контракта с помощью Foundry вы можете использовать команду `forge create`. Команда требует указать смарт-контракт, который вы хотите развернуть, RPC URL сети, в которую вы хотите развернуть, и учетную запись, с которой вы хотите развернуть.
 
-To deploy the `RNGContract` smart contract to the Base Sepolia test network, run the following command:
+Чтобы развернуть смарт-контракт `RNGContract` в тестовой сети Base Sepolia, выполните следующую команду:
 
 ```bash
 forge create ./src/RNGContract.sol:RNGContract --rpc-url $BASE_SEPOLIA_RPC --constructor-args $ISUPRA_ROUTER_ADDRESS --account deployer
 ```
 
-When prompted, enter the password that you set earlier, when you imported your wallet's private key.
+Когда будет предложено, введите пароль, который вы установили ранее, при импорте приватного ключа вашего кошелька.
 
 <Info>
-Your wallet must be funded with ETH on the Base Sepolia Testnet to cover the gas fees associated with the smart contract deployment. Otherwise, the deployment will fail.
+Ваш кошелек должен быть пополнен ETH в тестовой сети Base Sepolia для покрытия комиссий за газ, связанных с развертыванием смарт-контракта. В противном случае развертывание завершится неудачей.
 
-To get testnet ETH for Base Sepolia, see the [prerequisites](#prerequisites).
+Чтобы получить тестовый ETH для Base Sepolia, смотрите [предварительные требования](#prerequisites).
 </Info>
 
-After running the command above, the contract will be deployed on the Base Sepolia test network. You can view the deployment status and contract by using a [block explorer](/chain/block-explorers).
+После выполнения команды выше контракт будет развернут в тестовой сети Base Sepolia. Вы можете просмотреть статус развертывания и контракт, используя [обозреватель блоков](/chain/block-explorers).
 
 
 
-## Interacting with the Smart Contract
+## Взаимодействие со смарт-контрактом
 
-Foundry provides the `cast` command-line tool that can be used to interact with the smart contract that was deployed and call the `getLatestPrice()` function to fetch the latest price of ETH.
+Foundry предоставляет инструмент командной строки `cast`, который можно использовать для взаимодействия с развернутым смарт-контрактом и вызова функции `getLatestPrice()` для получения последней цены ETH.
 
-To call the `getLatestPrice()` function of the smart contract, run:
+Чтобы вызвать функцию `getLatestPrice()` смарт-контракта, выполните:
 
 ```bash
 cast call <DEPLOYED_ADDRESS> --rpc-url $BASE_SEPOLIA_RPC "rng()"
 ```
 
-You should receive a `nonce` value.
+Вы должны получить значение `nonce`.
 
-You can use this `nonce` value to call the `viewRngForNonce(uint256)` function to get the resulting list of randomly generated numbers:
+Вы можете использовать это значение `nonce` для вызова функции `viewRngForNonce(uint256)`, чтобы получить результирующий список сгенерированных случайных чисел:
 
 ```bash
 cast call <DEPLOYED_ADDRESS> --rpc-url $BASE_SEPOLIA_RPC "viewRngForNonce(uint256)" <NONCE>
@@ -393,11 +393,11 @@ cast call <DEPLOYED_ADDRESS> --rpc-url $BASE_SEPOLIA_RPC "viewRngForNonce(uint25
 
 
 
-## Conclusion
+## Заключение
 
-Congratulations! You have successfully deployed and interacted with a smart contract that generates a list of random numbers using Supra dVRF on the Base blockchain network.
+Поздравляем! Вы успешно развернули и взаимодействовали со смарт-контрактом, который генерирует список случайных чисел с помощью Supra dVRF в блокчейн-сети Base.
 
-To learn more about VRF and using Supra dVRF to generate random numbers within your smart contracts on Base, check out the following resources:
+Чтобы узнать больше о VRF и использовании Supra dVRF для генерации случайных чисел в ваших смарт-контрактах на Base, ознакомьтесь со следующими ресурсами:
 
 - [Oracles](https://docs.base.org/tools/oracles)
 - [Supra dVRF - Developer Guide V2](https://supraoracles.com/docs/vrf/v2-guide)
