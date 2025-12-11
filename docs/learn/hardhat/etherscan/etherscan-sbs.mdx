@@ -1,114 +1,114 @@
 ---
 title: Etherscan
-description: Learn about Etherscan
+description: Узнайте об Etherscan
 hide_table_of_contents: false
 ---
 
 # Etherscan
 
-In this article, you'll learn about Etherscan, a blockchain explorer to inspect the Blockchain state and activity.
+В этой статье вы узнаете об Etherscan - обозревателе блокчейна для проверки состояния и активности блокчейна.
 
 ---
 
-## Objectives
+## Цели обучения
 
-By the end of this lesson, you should be able to:
+После изучения этого урока вы сможете:
 
-- List some of the features of Etherscan
-- Read data from the Bored Ape Yacht Club contract on Etherscan
-- Write data to a contract using Etherscan.
+- Перечислить некоторые функции Etherscan
+- Читать данные из контракта Bored Ape Yacht Club на Etherscan
+- Записывать данные в контракт, используя Etherscan.
 
 ---
 
-## Overview
+## Обзор
 
-[Etherscan](https://etherscan.io) is a popular Blockchain explorer that works for several different networks. In it, you can explore the state and activity of a particular network.
+[Etherscan](https://etherscan.io) - популярный обозреватель блокчейна, который работает для нескольких разных сетей. В нем вы можете исследовать состояние и активность конкретной сети.
 
 ![Etherscan](/images/learn/etherscan/etherscan-user-interface.png)
 
-You can explore:
+Вы можете исследовать:
 
-- Blocks
-- Transactions
-- Smart contracts
-- And more!
+- Блоки
+- Транзакции
+- Смарт-контракты
+- И многое другое!
 
-For instance, the following shows the details of a Block:
+Например, ниже показаны детали блока:
 
 ![Block](/images/learn/etherscan/blocks.png)
 
-Where you see information such as:
+Где вы видите информацию, такую как:
 
-- Timestamp
-- Transactions
-- Block height
-- And other details
+- Временная метка
+- Транзакции
+- Высота блока
+- И другие детали
 
-There are many variations of Etherscan for different networks. For example:
+Существует множество вариантов Etherscan для разных сетей. Например:
 
 - [Base](https://basescan.org)
 - [Base Sepolia](https://sepolia.basescan.org)
 - [Sepolia Etherscan](https://sepolia.etherscan.io)
 
-## Reading data from smart contracts using Etherscan
+## Чтение данных из смарт-контрактов с использованием Etherscan
 
-One of the things you can do with Etherscan is interact with already-deployed contracts.
+Одна из вещей, которую вы можете делать с Etherscan - взаимодействовать с уже развернутыми контрактами.
 
-For example, if you want to read information from a famous contract such as [BAYC](https://etherscan.io/token/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d), you can simply go to Etherscan and explore the contract:
+Например, если вы хотите прочитать информацию из известного контракта, такого как [BAYC](https://etherscan.io/token/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d), вы можете просто перейти на Etherscan и изучить контракт:
 
 ![BAYC](/images/learn/etherscan/bayc.png)
 
-You are able to see information such as:
+Вы можете увидеть информацию, такую как:
 
-- The ETH balance it holds
-- The contract creator
-- The transaction when it was created
-- Latest transactions
-- And the verified contract
+- Баланс ETH, который он хранит
+- Создатель контракта
+- Транзакция, когда он был создан
+- Последние транзакции
+- И проверенный контракт
 
-In the **Contract** tab, you can see the full source code of BAYC:
+На вкладке **Contract** вы можете увидеть полный исходный код BAYC:
 
 ![BAYC Verified](/images/learn/etherscan/bayc-verified.png)
 
-For a developer, verifying contracts is important since it gives transparency to your users. However, there are some risks because this means that bad actors can see the full source code and can try to exploit it.
+Для разработчика проверка контрактов важна, поскольку она дает прозрачность вашим пользователям. Однако есть некоторые риски, потому что это означает, что злоумышленники могут видеть полный исходный код и могут пытаться его эксплуатировать.
 
-In order to read the state of the BAYC, you can go to the main menu and select the option **Read Contract**:
+Чтобы прочитать состояние BAYC, вы можете перейти в главное меню и выбрать опцию **Read Contract**:
 
 ![BAYC Read](/images/learn/etherscan/bayc-read.png)
 
-After you select that option, you are able to see all of the read functions of the contract.
+После выбора этой опции вы можете увидеть все функции чтения контракта.
 
-You can also query who is the owner of the BAYC with id 150:
+Вы также можете запросить, кто является владельцем BAYC с id 150:
 
 ![BAYC Query](/images/learn/etherscan/bayc-query.png)
 
-## Writing data to smart contracts using Etherscan
+## Запись данных в смарт-контракты с использованием Etherscan
 
-In a similar fashion, you can read data from smart contracts using Etherscan. It is also possible to write data.
+Подобным образом вы можете читать данные из смарт-контрактов с помощью Etherscan. Также возможно записывать данные.
 
-To write data, go to the **Write Contract** tab:
+Чтобы записать данные, перейдите на вкладку **Write Contract**:
 
 ![Write Contract](/images/learn/etherscan/bayc-write.png)
 
-From there, connect your wallet by clicking the **Connect with web3** button.
+Оттуда подключите свой кошелек, нажав кнопку **Connect with web3**.
 
-After you connect, the following UI appears:
+После подключения появляется следующий интерфейс:
 
 ![Write BAYC Connected](/images/learn/etherscan/bayc-write-connected.png)
 
-You can then call the functions you wish to write to.
+Затем вы можете вызвать функции, в которые хотите записать.
 
 <Info>
-Be aware that you may need to have real Ethereum in case you want to write to a contract in Ethereum mainnet. Also, any logic that the smart contract defines will be respected. This means that if you try to write to a contract that verifies certain conditions during the transaction (e.g., a function where only the owner of the contract can write information), then you won't be able to execute the transaction if you are not the owner.
+Имейте в виду, что вам может понадобиться реальный Ethereum, если вы хотите записать в контракт в основной сети Ethereum. Кроме того, любая логика, которую определяет смарт-контракт, будет соблюдаться. Это означает, что если вы попытаетесь записать в контракт, который проверяет определенные условия во время транзакции (например, функция, в которую только владелец контракта может записывать информацию), то вы не сможете выполнить транзакцию, если вы не владелец.
 </Info>
 
-## Conclusion
+## Заключение
 
-In this lesson, you've learned some of the main features of Etherscan, including interacting with already-deployed contracts such as BAYC in order to read and write data.
+В этом уроке вы узнали о некоторых основных функциях Etherscan, включая взаимодействие с уже развернутыми контрактами, такими как BAYC, для чтения и записи данных.
 
 ---
 
-## See also
+## Смотрите также
 
 [Base]: https://basescan.org
 [Base Sepolia]: https://sepolia.basescan.org
