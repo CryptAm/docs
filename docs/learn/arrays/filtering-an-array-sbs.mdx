@@ -1,27 +1,27 @@
 ---
-title: Filtering an Array
-sidebarTitle: Filtering Arrays
-description: Explore techniques to filter an array.
+title: Фильтрация массива
+sidebarTitle: Фильтрация массивов
+description: Изучите техники фильтрации массива.
 hide_table_of_contents: false
 ---
 
-In this exercise, you'll explore two different solutions for filtering an array in Solidity. By doing so, you'll gain a better understanding of the constraints present while working with arrays, and have the chance to learn and compare the gas costs of different approaches.
+В этом упражнении вы исследуете два различных решения для фильтрации массива в Solidity. Сделав это, вы лучше поймете ограничения, присутствующие при работе с массивами, и получите возможность изучить и сравнить стоимость газа разных подходов.
 
 ---
 
-## Objectives
+## Цели обучения
 
-By the end of this lesson you should be able to:
+После изучения этого урока вы сможете:
 
-- Write a function that can return a filtered subset of an array
+- Написать функцию, которая может возвращать отфильтрованное подмножество массива
 
 ---
 
-## First Pass Solution
+## Решение первого подхода
 
-### Setup
+### Настройка
 
-Create a new workspace in Remix and add a file called `ArrayDemo.sol` containing a `contract` called `ArrayDemo`. Initialize an array containing the numbers from 1 to 10. Add a stub for a function called `getEvenNumbers` that returns a `uint[] memory`.
+Создайте новую рабочую область в Remix и добавьте файл `ArrayDemo.sol` содержащий `contract` `ArrayDemo`. Инициализируйте массив, содержащий числа от 1 до 10. Добавьте заглушку для функции `getEvenNumbers`,которая возвращает `uint[] memory`.
 
 ```solidity
 contract ArrayDemo {
@@ -34,23 +34,23 @@ contract ArrayDemo {
 ```
 
 <Warning>
-You don't have to declare the size of the memory array to be returned. You usually don't want to either, unless the results will always be the same, known size.
+Вам не нужно объявлять размер возвращаемого массива memory. Обычно вы и не хотите этого делать, если только результаты не всегда будут одного известного размера.
 </Warning>
 
 
-### Finding the Number of Even Numbers
+### Поиск количества четных чисел
 
-We need to initialize a `memory` array to hold the results, but to do so, we need to know how big to make the array. Don't be tempted to count the number of evens in `numbers`, as what happens if we modify it later?
+Нам нужно инициализировать массив `memory` для хранения результатов, но чтобы это сделать, нам нужно знать, какого размера его создать. Не поддавайтесь соблазну подсчитать количество четных чисел в `numbers`, потому что что произойдет, если мы изменим его позже?
 
-The simple and obvious solution is to simply iterate through `numbers` and count how many even numbers are present. You could add that functionality in `getEvenNumbers()`, but it might be useful elsewhere, so a better practice would be to separate these concerns into another function.
+Простое и очевидное решение - просто пройтись по `numbers` и подсчитать, сколько четных чисел присутствует. Вы могли бы добавить эту функциональность в `getEvenNumbers()`, но она может быть полезна и в других местах, поэтому лучшей практикой было бы разделить эти обязанности на другую функцию.
 
-Go ahead and write it on your own. It needs to:
+Попробуйте написать ее самостоятельно. Она должна:
 
-- Instantiate a `uint` to hold the results
-- Iterate through all values in `numbers` and increment that number if the value is even
-- Return the result
+- Создать переменную `uint` для хранения результатов
+- Пройтись по всем значениям в `numbers` и увеличить это число, если значение четное
+- Вернуть результат
 
-You should end up with something like:
+У вас должно получиться что-то вроде:
 
 <Accordion title="Reveal code">
 
@@ -69,18 +69,18 @@ function _countEvenNumbers() internal view returns(uint) {
 ```
 </Accordion>
 
-The `_` in front of the function name is a practice used by some developers, in Solidity and in other languages, to indicate visually that this function is intended for internal use only.
+Символ `_` перед именем функции - это практика, используемая некоторыми разработчиками в Solidity и других языках, чтобы визуально указать, что эта функция предназначена только для внутреннего использования.
 
-### Returning Only Even Numbers
+### Возврат только четных чисел
 
-Now that we have a method to find out how big the return array needs to be in `getEvenNumbers()`, we can simply loop through `numbers`, and add the even numbers to the array to be returned.
+Теперь, когда у нас есть метод, чтобы узнать, какого размера должен быть возвращаемый массив в `getEvenNumbers()`, мы можем просто пройтись по `numbers` и добавить четные числа в массив для возврата.
 
-Finish the function on your own. It needs to:
+Завершите функцию самостоятельно. Она должна:
 
-- Determine the number of results and instantiate an array that size
-- Loop through the `numbers` array and if a given number is even, add it to the next unused index in the results array
+- Определить количество результатов и создать массив такого размера
+- Пройтись по массиву numbers и, если данное число четное, добавить его в следующий неиспользованный индекс в массиве результатов
 
-You should end up with something like:
+У вас должно получиться что-то вроде:
 
 <Accordion title="Reveal code">
 
@@ -105,29 +105,29 @@ function getEvenNumbers() external view returns(uint[] memory) {
 
 </Accordion>
 
-Did you catch the compiler warning about `view`? You aren't modifying state, so you should mark it as such.
+Вы заметили предупреждение компилятора о `view`? Вы не изменяете состояние, поэтому должны пометить функцию соответствующим образом.
 
-### Testing the Function
+### Тестирование функции
 
-Deploy your contract and test the function. You should get a return of `[2,4,6,8,10]`. The total gas cost will be about 63,947, depending on if you used the same helper variables, etc.
+Разверните свой контракт и протестируйте функцию. Вы должны получить возврат `[2,4,6,8,10]`. Общая стоимость газа составит около 63 947, в зависимости от того, использовали ли вы те же вспомогательные переменные и т.д.
 
 ---
 
-## Optimizing the Function
+## Оптимизация функции
 
-It does seem inefficient to loop through the same array twice. What if we instead kept track of how many even numbers to expect. That way, we would only need to loop once, thus saving gas! Right?
+Кажется неэффективным проходить по одному и тому же массиву дважды. Что если вместо этого мы будем отслеживать, сколько четных чисел ожидать. Таким образом, нам нужно будет пройтись только один раз, экономя газ! Верно?
 
-Only one way to find out.
+Есть только один способ выяснить.
 
-### Tracking Relevant Data
+### Отслеживание соответствующих данных
 
-Add a contract-level variable called `numEven`, and initialize it with **5**, the number of even numbers in the array. Modify `getEvenNumbers()` to use `numEven` instead of the `_countEvenNumbers()` function. It should now look like:
+Добавьте переменную уровня контракта `numEven` и инициализируйте ее значением 5 - количеством четных чисел в массиве. Измените `getEvenNumbers()`, чтобы использовать `numEven` вместо функции `_countEvenNumbers()`. Теперь она должна выглядеть так:
 
 <Accordion title="Reveal code">
 
 ```solidity
 function getEvenNumbers() external view returns(uint[] memory) {
-    uint resultsLength = numEven; // <- Changed here
+    uint resultsLength = numEven; // <- Изменено здесь
     uint[] memory results = new uint[](resultsLength);
     uint cursor = 0;
 
@@ -144,20 +144,20 @@ function getEvenNumbers() external view returns(uint[] memory) {
 
 </Accordion>
 
-Redeploy and test again. Success, the function now only costs about 57,484 gas to run! Except there is a catch. Remember, it's going to cost about 5000 gas to update `numEven` **each time** the array adds an even number.
+Повторно разверните и протестируйте. Успех, функция теперь стоит всего около 57 484 газа для выполнения! За исключением того, что есть загвоздка. Помните, что обновление `numEven` будет стоить около 5000 газа каждый раз, когда массив добавляет четное число.
 
-### A More Realistic Accounting
+### Более реалистичный учет
 
-As we considered above, in a real-world example, we wouldn't declare the array up front, it would be modified over time. A slightly more realistic example would be to fill the array with a function.
+Как мы рассмотрели выше, в реальном примере мы не объявляли бы массив заранее, он изменялся бы со временем. Немного более реалистичный пример - заполнение массива с помощью функции.
 
-Change the declaration for `numbers` and `numEven` so that they have their respective default values to begin with.
+Измените объявление `numbers` и `numEven` так, чтобы они имели соответствующие значения по умолчанию для начала.
 
 ```solidity
 uint[] public numbers;
 uint numEven;
 ```
 
-Add a new function called `debugLoadArray` that takes a `uint` called `_number` as an argument, and fills the array by looping through `_number` times, pushing each number into the array. **For now, _don't_ update `numEven`**.
+Добавьте новую функцию `debugLoadArray`, которая принимает аргумент `uint` с именем `_number` и заполняет массив, проходясь `_number` раз, добавляя каждое число в массив. **Пока _не_ обновляйте** `numEven`.
 
 <Accordion title="Reveal code">
 
@@ -171,7 +171,7 @@ function debugLoadArray(uint _number) external {
 
 </Accordion>
 
-Test out the function by loading in **10** numbers. It costs about 249,610 gas to load the array. Now, add functionality to **also** increment `numEven` when the number added is even. We can't just calculate it, because although the numbers are sequential in the debug function, they might not be in real world use.
+Протестируйте функцию, загрузив **10** чисел. Загрузка массива стоит около 249 610 газа. Теперь добавьте функциональность, чтобы **также** увеличивать `numEven`, когда добавляемое число четное. Мы не можем просто вычислить его, потому что хотя числа в отладочной функции последовательны, в реальном использовании они могут не быть таковыми.
 
 <Accordion title="Reveal code">
 
@@ -188,15 +188,15 @@ function debugLoadArray(uint _number) external {
 
 </Accordion>
 
-**Be sure to redeploy** and try again with **10** numbers. This time, the cost was about 275,335 gas. That's almost 26,000 more gas in an effort to save the 5,000 gas needed to run `_countEvenNumbers()`.
+**Обязательно повторно разверните** и попробуйте снова с **10** числами. На этот раз стоимость составила около 275 335 газа. Это почти на 26 000 газа больше в попытке сэкономить 5 000 газа, необходимых для запуска `_countEvenNumbers()`.
 
-### Looking at the Big Picture
+### Взгляд на общую картину
 
-What about more? What if there are a thousand numbers in the array? What about a million?
+А что насчет большего количества? Что, если в массиве тысяча чисел? А миллион?
 
-Let's start with 500, any more will break the Remix EVM simulation, and/or would trigger an out of gas error because we're approaching the gas limit for the entire block.
+Начнем с 500, больше сломает симуляцию EVM Remix и/или вызовет ошибку нехватки газа, потому что мы приближаемся к лимиту газа для всего блока.
 
-**Comment out** the `if` statement in `debugLoadArray` that checks for even numbers and load 500 numbers. The Remix EVM should be able to handle this, but it might hang up for a moment, or even crash. (You can also do this experiment with 250 numbers instead.)
+**Закомментируйте** оператор `if` в `debugLoadArray`, который проверяет четные числа, и загрузите 500 чисел. Remix EVM должен справиться с этим, но он может зависнуть на мгновение или даже упасть. (Вы также можете провести этот эксперимент с 250 числами вместо 500.)
 
 ```solidity
 function debugLoadArray(uint _number) external {
@@ -209,22 +209,22 @@ function debugLoadArray(uint _number) external {
 }
 ```
 
-You'll get a result of about 11,323,132 gas to load the array. That's a lot! The target total gas for a single block is 15 million, and the limit is 30 million.
+Вы получите результат около 11 323 132 газа для загрузки массива. Это много! Целевой общий газ для одного блока - 15 миллионов, а лимит — 30 миллионов.
 
-Try again with the code to increment `numEven`. You should get about 11,536,282, or an increase of about 213,150 gas.
+Попробуйте снова с кодом для увеличения `numEven`. Вы должны получить около 11 536 282, или увеличение примерно на 213 150 газа.
 
-Now, test out `getEvenNumbers()` using `numEven` vs. using `_countEvenNumbers()`. With `numEven`, it should cost about 1,578,741 gas to find the even numbers. Using `_countEvenNumbers()`, that cost increases to 1,995,579 gas, an increase of 416,838 gas.
+Теперь протестируйте `getEvenNumbers()`, используя `numEven` против использования `_countEvenNumbers()`. С `numEven` это должно стоить около 1 578 741 газа для поиска четных чисел. Используя `_countEvenNumbers()`, эта стоимость увеличивается до 1 995 579 газа, увеличение на 416 838 газа.
 
-### Which is Better?
+### Что лучше?
 
-As is often the case with code, it depends. You might think that the experiment makes things obvious. Paying 213k gas up front to track `_numEven` results in a savings of over 400k gas when filtering for even numbers. Even better, you might realize that the upfront cost difference will be spread across all of your users over time, making them almost trivial. You also might think that it's possible that the filter function could be called dozens of times for each time 500 numbers are loaded.
+Как это часто бывает с кодом, это зависит. Вы могли бы подумать, что эксперимент делает все очевидным. Оплата 213к газа авансом для отслеживания `_numEven` приводит к экономии более 400к газа при фильтрации четных чисел. Еще лучше, вы могли бы понять, что разница в первоначальной стоимости будет распределена между всеми вашими пользователями со временем, делая ее почти незначительной. Вы также могли бы подумать, что возможно, функция фильтрации будет вызываться десятки раз на каждую загрузку 500 чисел.
 
-These are all valid considerations that you should evaluate as you are developing your code solution to a business problem. One last critical element to consider is that there is only a gas cost to read from the blockchain if it's another contract calling the function. It **doesn't** cost any gas to call `view` or `pure` functions from a front end or app.
+Это все важные соображения, которые вы должны оценивать при разработке вашего кодового решения для бизнес-задачи. Последний критический элемент для рассмотрения заключается в том, что стоимость газа для чтения из блокчейна возникает только в том случае, если это другой контракт вызывает функцию. Не стоит никакого газа вызывать функции `view` или `pure` из фронтенда или приложения.
 
-If `getEvenNumbers` will never be called by another contract, then using `numEven` might cost more for no benefit!
+Если `getEvenNumbers` никогда не будет вызываться другим контрактом, то использование `numEven` может стоить больше без какой-либо пользы!
 
 ---
 
-## Conclusion
+## Заключение
 
-In this lesson, you've explored a few different approaches to a problem. You've learned how to filter an array, but more importantly, you've learned some of the specific considerations in blockchain development. Finally, you've seen that pushing 500 integers to an array, usually a trivial operation, is very large and very expensive on the EVM.
+В этом уроке вы исследовали несколько различных подходов к проблеме. Вы научились фильтровать массив, но что более важно, вы узнали некоторые специфические соображения в разработке блокчейна. Наконец, вы увидели, что добавление 500 целых чисел в массив, обычно тривиальная операция, является очень большой и очень дорогой на EVM.
