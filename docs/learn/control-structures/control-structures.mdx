@@ -1,41 +1,41 @@
 ---
-title: Control Structures
-sidebarTitle: Overview
-description: Learn how to control code flow in Solidity.
+title: Управляющие структуры
+sidebarTitle: Обзор
+description: Узнайте, как управлять потоком выполнения кода в Solidity.
 hide_table_of_contents: false
 ---
 
 
-Solidity supports many familiar control structures, but these come with additional restrictions and considerations due to the cost of gas and the necessity of setting a maximum amount of gas that can be spent in a given transaction.
+Solidity поддерживает многие знакомые управляющие структуры, но они имеют дополнительные ограничения и особенности из-за стоимости газа и необходимости установки максимального количества газа, которое можно потратить в данной транзакции.
 
 ---
 
-## Objectives
+## Цели обучения
 
-By the end of this lesson you should be able to:
+После изучения этого урока вы сможете:
 
-- Control code flow with `if`, `else`, `while`, and `for`
-- List the unique constraints for control flow in Solidity
-- Utilize `require` to write a function that can only be used when a variable is set to `true`
-- Write a `revert` statement to abort execution of a function in a specific state
-- Utilize `error` to control flow more efficiently than with `require`
+- Управлять потоком выполнения кода с помощью `if`, `else`, `while`, и `for`
+- Перечислить уникальные ограничения для управления потоком в Solidity
+- Использовать `require` для написания функции, которую можно использовать только когда переменная установлена в `true`
+- Написать оператор `revert` для прерывания выполнения функции в определенном состоянии
+- Использовать `error` для более эффективного управления потоком, чем с помощью `require`
 
 ---
 
-## Control Structures
+## Управляющие структуры
 
-Solidity supports the basic conditional and iterative [control structures] found in other curly bracket languages, but it **does not** support more advanced statements such as `switch`, `forEach`, `in`, `of`, etc.
+Solidity поддерживает базовые условные и итеративные [control structures], которые встречаются в других языках с фигурными скобками, но **не поддерживает** более продвинутые операторы, такие как `switch`, `forEach`, `in`, `of`, и т.д.
 
-Solidity does support `try`/`catch`, but only for calls to other contracts.
+Solidity поддерживает `try`/`catch`, но только для вызовов других контрактов.
 
 <Warning>
-[Yul] is an intermediate-level language that can be embedded in Solidity contracts and is documented within the docs for Solidity. Yul **does** contain the `switch` statement, which can confuse search results.
+[Yul] это язык промежуточного уровня, который может быть встроен в контракты Solidity и документирован в рамках документации по Solidity. Yul **содержит** оператор `switch`, что может сбивать с толку при поиске.
 </Warning>
 
 
-### Conditional Control Structure Examples
+### Примеры условных управляющих структур
 
-The `if`, `else if`, and `else`, statements work as expected. Curly brackets may be omitted for single-line bodies, but we recommend avoiding this as it is less explicit.
+Операторы  `if`, `else if`, и `else`, работают как ожидается. Фигурные скобки могут быть опущены для однострочных тел, но мы рекомендуем избегать этого, так как это менее явно.
 
 ```solidity
 function ConditionalExample(uint _number) external pure returns (string memory) {
@@ -49,17 +49,17 @@ function ConditionalExample(uint _number) external pure returns (string memory) 
 }
 ```
 
-### Iterative Control Structures
+### Итеративные управляющие структуры
 
-The `while`, `for`, and `do`, keywords function the same as in other languages. You can use `continue` to skip the rest of a loop and start the next iteration. `break` will terminate execution of the loop, and you can use `return` to exit the function and return a value at any point.
+Ключевые слова `while`, `for`, и `do` функционируют так же, как и в других языках. Вы можете использовать `continue`, чтобы пропустить остаток цикла и начать следующую итерацию. `break` завершит выполнение цикла, а `return` можно использовать для выхода из функции и возврата значения в любой точке.
 
 <Note>
-You can use `console.log` by importing `import "hardhat/console.sol";`. Doing so will require you to mark otherwise `pure` contracts as `view`.
+Вы можете использовать `console.log`, импортировав `import "hardhat/console.sol";`. Это потребует пометить иначе `pure` контракты как `view`.
 </Note>
 
 
 ```solidity
-uint times; // Default value is 0!
+uint times; // Значение по умолчанию — 0!
 for(uint i = 0; i <= times; i++) {
     console.log(i);
 }
@@ -74,7 +74,7 @@ for(uint i = 0; i <= timesWithContinue; i++) {
 
 uint timesWithBreak;
 for(uint i = 0; i <= timesWithBreak; i++) {
-    // Always stop at 7
+    // Всегда останавливаться на 7
     if(i == 7) {
         break;
     }
@@ -96,21 +96,21 @@ do {
 
 ---
 
-## Error Handling
+## Обработка ошибок
 
-Solidity contains a set of relatively unique, built-in functions and keywords to handle [errors]. They ensure certain requirements are met, and completely abort all execution of the function and revert any state changes that occurred during function execution. You can use these functions to help protect the security of your contracts and limit their execution.
+Solidity содержит набор относительно уникальных встроенных функций и ключевых слов для обработки [ошиибок][errors]. Они гарантируют выполнение определенных требований и полностью прерывают все выполнение функции, откатывая любые изменения состояния, произошедшие во время выполнения функции. Вы можете использовать эти функции, чтобы помочь защитить безопасность ваших контрактов и ограничить их выполнение.
 
-The approach may seem different than in other environments. If an error occurs partly through a high-stakes transaction such as transferring millions of dollars of tokens, you **do not** want execution to carry on, partially complete, or swallow any errors.
+Подход может показаться отличным от других сред. Если ошибка произойдет в середине высокорискованной транзакции, такой как перевод миллионов долларов токенов, вы **не хотите**, чтобы выполнение продолжалось, частично завершалось или поглощало ошибки.
 
-### Revert and Error
+### Revert и Error
 
-The `revert` keyword halts and reverses execution. It must be paired with a custom `error`. Revert should be used to prevent operations that are logically valid, but should not be allowed for business reasons. It is **not** a bug if a `revert` is triggered. Examples where `revert` and `error` would be used to control operations include:
+Ключевое слово `revert` останавливает и откатывает выполнение. Оно должно использоваться в паре с пользовательской `error`. Revert следует использовать для предотвращения операций, которые логически допустимы, но не должны быть разрешены по бизнес-причинам. Это **не** ошибка, если срабатывает `revert`. Примеры, где `revert` и `error` использовались бы для контроля операций, включают:
 
-- Allowing only certain senders to access functionality
-- Preventing the withdrawal of a deposit before a certain date
-- Allowing inputs under certain state conditions and denying them under others
+- Разрешение доступа к функциональности только определенным отправителям
+- Предотвращение вывода депозита до определенной даты
+- Разрешение вводов при определенных условиях состояния и запрет их при других
 
-Custom `error`s can be declared without parameters, but they are much more useful if you include them:
+Пользовательские `error` могут быть объявлены без параметров, но они гораздо полезнее, если вы их включаете:
 
 ```solidity
 error OddNumberSubmitted(uint _first, uint _second);
@@ -122,14 +122,14 @@ function onlyAddEvenNumbers(uint _first, uint _second) public pure returns (uint
 }
 ```
 
-When triggered, the `error` provides the values in the parameters provided. This information is very useful when debugging, and/or to transmit information to the front end to share what has happened with the user:
+При срабатывании `error` предоставляет значения в указанных параметрах. Эта информация очень полезна при отладке и/или для передачи информации на фронтенд, чтобы сообщить пользователю, что произошло:
 
 ```text
 call to HelloWorld.onlyAddEvenNumbers errored: VM error: revert.
 
 revert
-	The transaction has been reverted to the initial state.
-Error provided by the contract:
+	Транзакция была откачена до исходного состояния.
+Ошибка, предоставленная контрактом:
 OddNumberSubmitted
 Parameters:
 {
@@ -140,43 +140,43 @@ Parameters:
   "value": "2"
  }
 }
-Debug the transaction to get more information.
+Отладьте транзакцию, чтобы получить больше информации.
 ```
 
-You'll also encounter `revert` used as a function, returning a string error. This legacy pattern has been retained to maintain compatibility with older contracts:
+Вы также встретите `revert`, используемое как функция, возвращающая строковую ошибку. Этот устаревший шаблон был сохранен для поддержания совместимости со старыми контрактами:
 
 ```solidity
 function oldRevertAddEvenNumbers(uint _first, uint _second) public pure returns (uint) {
     if(_first % 2 != 0 || _second % 2 != 0) {
-        // Legacy use of revert, do not use
+        // Устаревшее использование revert, не используйте
         revert("One of the numbers is odd");
     }
     return _first + _second;
 }
 ```
 
-The error provided is less helpful:
+Сообщение об ошибке здесь менее полезно:
 
 ```text
-call to HelloWorld.oldRevertAddEvenNumbers errored: VM error: revert.
+Вызов HelloWorld.oldRevertAddEvenNumbers завершился ошибкой: Ошибка VM: revert.
 
 revert
-	The transaction has been reverted to the initial state.
-The reason provided by the contract: "One of the numbers is odd".
-Debug the transaction to get more information.
+	Транзакция была откачена до исходного состояния.
+Причина, предоставленная контрактом: "Одно из чисел нечетное".
+Отладьте транзакцию, чтобы получить больше информации.
 ```
 
 ### Require
 
-The `require` function is falling out of favor because it uses more gas than the pattern above. You should still become familiar with it because it is present in innumerable contracts, tutorials, and examples.
+Функция `require` выходит из употребления, потому что она использует больше газа, чем шаблон выше. Вам все равно следует ознакомиться с ней, потому что она присутствует в бесчисленных контрактах, руководствах и примерах.
 
-`require` takes a logical condition and a string error as arguments. It is more gas efficient to separate logical statements if they are not interdependent. In other words, don't use `&&` or `||` in a `require` if you can avoid it.
+`require` принимает логическое условие и строковую ошибку в качестве аргументов. Более эффективно по газу разделять логические операторы, если они не взаимозависимы. Другими словами, не используйте `&&` или `||` в `require`, если можете этого избежать.
 
-For example:
+Например:
 
 ```solidity
 function requireAddEvenNumbers(uint _first, uint _second) public pure returns (uint) {
-    // Legacy pattern, do not use
+    // Устаревший шаблон, не используйте
     require(_first % 2 == 0, "First number is not even");
     require(_second % 2 == 0, "Second number is not even");
 
@@ -184,46 +184,46 @@ function requireAddEvenNumbers(uint _first, uint _second) public pure returns (u
 }
 ```
 
-The output error message will be the first one that fails. If you were to submit `1`, and `3` to this function, the error will only contain the first message:
+Сообщение об ошибке будет содержать только первую неудачную проверку. Если вы отправите `1` и `3` в эту функцию, ошибка будет содержать только первое сообщение:
 
 ```test
-call to HelloWorld.requireAddEvenNumbers errored: VM error: revert.
+Вызов HelloWorld.requireAddEvenNumbers завершился ошибкой: Ошибка VM: revert.
 
 revert
-	The transaction has been reverted to the initial state.
-The reason provided by the contract: "First number is not even".
-Debug the transaction to get more information.
+	Транзакция была откачена до исходного состояния.
+Причина, предоставленная контрактом: "Первое число нечетное".
+Отладьте транзакцию, чтобы получить больше информации.
 ```
 
-### Assert and Panic
+### Assert и Panic
 
-The `assert` keyword throws a `panic` error if triggered. A `panic` is the same type of error that is thrown if you try to divide by zero or access an array out-of-bounds. It is used for testing internal errors and should never be triggered by normal operations, even with flawed input. You have a bug that should be resolved if an assert throws an exception:
+Ключевое слово `assert` выбрасывает ошибку `panic`, если срабатывает. `Panic` - это тот же тип ошибки, который возникает при попытке деления на ноль или доступа к массиву за пределами границ. Оно используется для тестирования внутренних ошибок и никогда не должно срабатывать при нормальных операциях, даже с ошибочным вводом. У вас есть ошибка, которую следует исправить, если assert выбрасывает исключение:
 
 ```solidity
 function ProcessEvenNumber(uint _validatedInput) public pure {
-    // If assert triggers, input validation has failed.  This should never
-    // happen!
+    // Если assert сработает, проверка ввода не удалась. Этого никогда не должно
+    // происходить!
     assert(_validatedInput % 2 == 0);
-    // Do something...
+    // Сделать что-то...
 }
 ```
 
-The output here isn't as helpful, so you may wish to use one of the patterns above instead.
+Вывод здесь не так полезен, поэтому вы можете предпочесть использовать один из шаблонов выше.
 
 ```text
-call to HelloWorld.ProcessEvenNumber errored: VM error: revert.
+Вызов HelloWorld.ProcessEvenNumber завершился ошибкой: Ошибка VM: revert.
 
 revert
-	The transaction has been reverted to the initial state.
-Note: The called function should be payable if you send value and the value you send should be less than your current balance.
-Debug the transaction to get more information.
+	Транзакция была откачена до исходного состояния.
+Примечание: Вызываемая функция должна быть payable, если вы отправляете значение, и отправляемое значение должно быть меньше вашего текущего баланса.
+Отладьте транзакцию, чтобы получить больше информации.
 ```
 
 ---
 
-## Conclusion
+## Заключение
 
-In this lesson, you've learned how to control code flow with standard conditional and iterative operators. You've also learned about the unique keywords Solidity uses to generate errors and reset changes if one of them has been triggered. You've been exposed to both newer and legacy methods of writing errors, and learned the difference between `assert` and `require`.
+В этом уроке вы узнали, как управлять потоком выполнения кода с помощью стандартных условных и итеративных операторов. Вы также узнали об уникальных ключевых словах, которые Solidity использует для генерации ошибок и сброса изменений, если одно из них сработало. Вы познакомились как с новыми, так и с устаревшими методами написания ошибок и узнали разницу между `assert` и `require`.
 
 
 
