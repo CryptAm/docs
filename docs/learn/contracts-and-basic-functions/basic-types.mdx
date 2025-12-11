@@ -1,28 +1,28 @@
 ---
-title: Basic Types
-description: Introduction to basic types in Solidity.
+title: Базовые типы
+description: Введение в базовые типы в Solidity.
 hide_table_of_contents: false
 ---
 
 import { Danger } from "/snippets/danger.mdx";
 
-Solidity contains most of the basic [types] you are used to from other languages, but their properties and usage are often a little different than other languages and are likely much more restrictive. In particular, Solidity is a very **explicit** language and will not allow you to make inferences most of the time.
+В Solidity присутствует большинство базовых [типов][types], к которым вы привыкли в других языках, но их свойства и использование часто немного отличаются от других языков и, вероятно, гораздо более ограничены. В частности, Solidity - очень **явный** язык и в большинстве случаев не позволит вам делать допущения.
 
 ---
 
-## Objectives
+## Цели обучения
 
-By the end of this lesson you should be able to:
+После изучения этого урока вы сможете:
 
-- Categorize basic data types
-- List the major differences between data types in Solidity as compared to other languages
-- Compare and contrast signed and unsigned integers
+- Классифицировать базовые типы данных
+- Перечислить основные различия между типами данных в Solidity по сравнению с другими языками
+- Сравнить и противопоставить знаковые и беззнаковые целые числа
 
 ---
 
-## Common Properties
+## Общие свойства
 
-In Solidity, [types] must always have a value and are never `undefined`, `null`, or `none`. Because of this, each type has a default value. If you declare a variable without assigning a value, it will instead have the default value for that type. This property can lead to some tricky bugs until you get used to it.
+В Solidity [типы][types] всегда должны иметь значение и никогда не бывают `undefined`, `null` или `none`. Из-за этого каждый тип имеет значение по умолчанию. Если вы объявляете переменную без присвоения значения, она вместо этого получит значение по умолчанию для этого типа. Это свойство может привести к коварным ошибкам, пока вы к нему не привыкнете.
 
 ```solidity
 uint defaultValue;
@@ -31,7 +31,7 @@ uint explicitValue = 0;
 // (defaultValue == explicitValue) <-- true
 ```
 
-Types can be cast from one type to another, but not as freely as you may expect. For example, to convert a `uint256` into a `int8`, you need to cast twice:
+Типы можно преобразовывать из одного типа в другой, но не так свободно, как вы могли бы ожидать. Например, чтобы преобразовать `uint256` в `int8`, нужно выполнить преобразование дважды:
 
 ```solidity
 uint256 first = 1;
@@ -39,89 +39,89 @@ int8 second = int8(int256(first));
 ```
 
 <Danger>
-Overflow/underflow protection (described below), does not provide protection when casting.
+Защита от переполнения/потери значимости (описанная ниже) не обеспечивает защиту при преобразовании типов.
 
 ```solidity
 uint256 first = 256;
-int8 second = int8(int256(first)); // <- The value stored in second is 0
+int8 second = int8(int256(first)); // <- Значение, сохраненное в second, равно 0
 ```
 </Danger>
 
 
-## Boolean
+## Логический тип (Boolean)
 
-[Booleans] can have a value of `true` or `false`. Solidity does not have the concept of _truthy_ or _falsey_, and non-boolean values cannot be cast to bools by design. The short conversation in this [issue] explains why, and explains the philosophy why.
+[Booleans] могут иметь значение `true` или `false`. В Solidity нет концепции truthy или falsey, и небулевые значения по замыслу не могут быть преобразованы в логические. Краткое обсуждение в этом [issue] объясняет почему и раскрывает философию этого решения.
 
-### Logical Operators
+### Логические операторы
 
-Standard logical operators (`!`, `&&`, `||`, `==`, `!=`) apply to booleans. Short-circuiting rules do apply, which can sometimes be used for gas savings since if the first operator in an `&&` is `false` or `||` is `true`, the second will not be evaluated. For example, the following code will execute without an error, despite the divide by zero in the second statement.
+Стандартные логические операторы (`!`, `&&`, `||`, `==`, `!=`) применяются к логическим значениям. Правила короткого замыкания действительно применяются, что иногда можно использовать для экономии газа, поскольку если первый оператор в `&&` равен `false` или в `||` равен `true`, второй не будет вычисляться. Например, следующий код выполнится без ошибки, несмотря на деление на ноль во втором выражении.
 
 ```solidity
-// Bad code for example.  Do not use.
+// Плохой код для примера. Не используйте.
 uint divisor = 0;
 if(1 < 2 || 1 / divisor > 0) {
-    // Do something...
+    // Сделать что-то...
 }
 ```
 
-You cannot use any variant of `>` or `<` with booleans, because they cannot be implicitly or explicitly cast to a type that uses those operators.
+Вы не можете использовать какие-либо варианты `>` или `<` с логическими значениями, потому что они не могут быть неявно или явно преобразованы в тип, который использует эти операторы.
 
 ---
 
-## Numbers
+## Числа
 
-Solidity has a number of types for signed and unsigned [integers], which are not ignored as much as they are in other languages, due to potential gas-savings when storing smaller numbers. Support for [fixed point numbers] is under development, but is not fully implemented as of version `0.8.17`.
+В Solidity существует несколько типов для знаковых и беззнаковых [integers], которые игнорируются не так часто, как в других языках, из-за потенциальной экономии газа при хранении меньших чисел. Поддержкаr [fixed point numbers] находится в разработке, но не полностью реализована по состоянию на версию `0.8.17`.
 
-Floating point numbers are not supported and are not likely to be. Floating precision includes an inherent element of ambiguity that doesn't work for explicit environments like blockchains.
+Числа с плавающей точкой не поддерживаются и вряд ли будут. Плавающая точность включает в себя присущий элемент неоднозначности, который не подходит для явных сред, таких как блокчейны.
 
-### Min, Max, and Overflow
+### Минимум, максимум и переполнение
 
-Minimum and maximum values for each type can be accessed with `type(<type>).min` and `type(<type>).max`. For example, `type(uint).min` is **0**, and `type(uint).max` is equal to **2^256-1**.
+Минимальные и максимальные значения для каждого типа можно получить с помощью `type(<type>).min` и `type(<type>).max`. Например, `type(uint).min` это **0**, и `type(uint).max` равно **2^256-1**.
 
-An overflow or underflow will cause a transaction to _revert_, unless it occurs in a code block that is marked as [unchecked].
+Переполнение или потеря значимости приведет к _откату_ (revert) транзакции, если только это не происходит в блоке кода, помеченном как [unchecked].
 
 ### `uint` vs. `int`
 
-In Solidity, it is common practice to favor `uint` over `int` when it is known that a value will never (or should never) be below zero. This practice helps you write more secure code by requiring you to declare whether or not a given value should be allowed to be negative. Use `uint` for values that should not, such as array indexes, account balances, etc. and `int` for a value that does **need** to be negative.
+В Solidity общепринятой практикой является предпочтение `uint` перед `int`, когда известно, что значение никогда (или не должно) быть ниже нуля. Эта практика помогает писать более безопасный код, требуя от вас объявлять, должно ли данное значение быть отрицательным. Используйте `uint` для значений, которые не должны быть отрицательными, таких как индексы массивов, балансы счетов и т.д., и `int` для значений, которым нужно быть отрицательными.
 
-### Integer Variants
+### Варианты целых чисел
 
-Smaller and larger variants of integers exist in many languages but have fallen out of favor in many instances, in part because memory and storage are relatively cheap. Solidity supports sizes in steps of eight from `uint8` to `uint256`, and the same for `int`.
+Меньшие и большие варианты целых чисел существуют во многих языках, но во многих случаях вышли из моды, отчасти потому, что память и хранилище относительно дешевы. Solidity поддерживает размеры с шагом восемь от `uint8` до `uint256`, и то же самое для `int`.
 
-Smaller sized integers are used to optimize gas usage in storage operations, but there is a cost. The EVM operates with 256 bit words, so operations involving smaller data types must be cast first, which costs gas.
+Целые числа меньшего размера используются для оптимизации расхода газа при операциях с хранилищем, но за это есть цена. EVM работает с 256-битными словами, поэтому операции с типами данных меньшего размера должны сначала быть преобразованы, что стоит газа.
 
-`uint` is an alias for `uint256` and can be considered the default.
+`uint` является псевдонимом для `uint256` и может считаться типом по умолчанию.
 
-### Operators
+### Операторы
 
-Comparisons (`<=`, `<`, `==`, `!=`, `>=`, `>`) and arithmetic (`+`, `-`, `*`, `/`, `%`, `**`) operators are present and work as expected. You can also use bit and shift operators.
+Операторы сравнения (`<=`, `<`, `==`, `!=`, `>=`, `>`) и арифметические операторы (`+`, `-`, `*`, `/`, `%`, `**`) присутствуют и работают как ожидается. Вы также можете использовать побитовые операторы и операторы сдвига.
 
-`uint` and `int` variants can be compared directly, such as `uint8` and `uint256`, but you must cast one value to compare a `uint` to an `int`.
+Варианты `uint` и `int` можно сравнивать напрямую, например `uint8` и `uint256`, но для сравнения `uint` с `int` необходимо преобразовать одно из значений.
 
 ```solidity
 uint first = 1;
 int8 second = 1;
 
 if(first == uint8(second)) {
-    // Do something...
+    // Сделать что-то...
 }
 ```
 
 ---
 
-## Addresses
+## Адреса (Addresses)
 
-The [address] type is a relatively unique type representing a wallet or contract address. It holds a 20-byte value, similar to the one we explored when you deployed your _Hello World_ contract in _Remix_. `address payable` is a variant of `address` that allows you to use the `transfer` and `send` methods. This distinction helps prevent sending Ether, or other tokens, to a contract that is not designed to receive it. If that were to happen, the Ether would be lost.
+Тип [address] - это относительно уникальный тип, представляющий адрес кошелька или контракта. Он хранит 20-байтовое значение, подобное тому, которое мы исследовали, когда вы развертывали свой контракт _Hello World_ в _Remix_. `address payable` - это вариант `address`, который позволяет использовать методы `transfer` и `send`. Это различие помогает предотвратить отправку Ether или других токенов в контракт, который не предназначен для их получения. Если бы это произошло, Ether был бы потерян.
 
-Addresses are **not** strings and do not need quotes when represented literally, but conversions from `bytes20` and `uint160` are allowed.
+Адреса **не** являются строками и не требуют кавычек при представлении в литеральной форме, но разрешены преобразования из `bytes20` и `uint160`.
 
 ```solidity
 address existingWallet = 0xd9145CCE52D386f254917e481eB44e9943F39138;
 ```
 
-### Members of Addresses
+### Члены адресов
 
-Addresses contain a number of functions. `balance` returns the balance of an address, and `transfer`, mentioned above, can be used to send `ether`.
+Адреса содержат ряд функций. `balance` возвращает баланс адреса, а `transfer`, упомянутый выше, можно использовать для отправки `ether`.
 
 ```solidity
 function getBalance(address _address) public view returns(uint) {
@@ -129,31 +129,31 @@ function getBalance(address _address) public view returns(uint) {
 }
 ```
 
-Later on, you'll learn about `call`, `delegatecall`, and `staticcall`, which can be used to call functions deployed in other contracts.
+Позже вы узнаете о `call`, `delegatecall` и `staticcall`, которые можно использовать для вызова функций, развернутых в других контрактах.
 
 ---
 
-## Contracts
+## Контракты
 
-When you declare a [contract], you are defining a type. This type can be used to instantiate one contract as a local variable inside a second contract, allowing the second to interact with the first.
-
----
-
-## Byte Arrays and Strings
-
-[Byte arrays] come as both fixed-size and dynamically-sized. They hold a sequence of bytes. Arrays are a little more complicated than in other languages and will be covered in-depth later.
-
-### Strings
-
-Strings are arrays in Solidity, not a type. You cannot concat them with `+`, but as of _0.8.12_, you can use `string.concat(first, second)`. They are limited to printable characters and escaped characters. Casting other data types to `string` is at best tricky, and sometimes impossible.
-
-Generally speaking, you should be deliberate when working with strings inside of a smart contract. Don't be afraid to use them when appropriate, but if possible, craft and display messages on the front end rather than spending gas to assemble them on the back end.
+Когда вы объявляете [contract], вы определяете тип. Этот тип можно использовать для создания экземпляра одного контракта в качестве локальной переменной внутри второго контракта, что позволяет второму взаимодействовать с первым.
 
 ---
 
-## Enums
+## Байтовые массивы и строки
 
-[Enums] allow you to apply human-readable labels to a list of unsigned integers.
+[Byte arrays] бывают как фиксированного, так и динамического размера. Они содержат последовательность байтов. Массивы немного сложнее, чем в других языках, и будут подробно рассмотрены позже.
+
+### Строки 
+
+Строки в Solidity являются массивами, а не отдельным типом. Вы не можете объединять их с помощью `+`, но начиная с версии 0.8.12 вы можете использовать `string.concat(first, second)`. Они ограничены печатными символами и escape-последовательностями. Преобразование других типов данных в `string` в лучшем случае сложно, а иногда невозможно.
+
+Вообще говоря, вы должны быть осмотрительны при работе со строками внутри смарт-контракта. Не бойтесь использовать их, когда это уместно, но по возможности создавайте и отображайте сообщения на фронтенде, а не тратьте газ на их сборку на бэкенде.
+
+---
+
+## Перечисления 
+
+[Enums] позволяют применять удобочитаемые метки к списку беззнаковых целых чисел.
 
 ```solidity
 enum Flavors { Vanilla, Chocolate, Strawberry, Coffee }
@@ -161,19 +161,19 @@ enum Flavors { Vanilla, Chocolate, Strawberry, Coffee }
 Flavors chosenFlavor = Flavors.Coffee;
 ```
 
-Enums can be explicitly cast to and from `uint`, but not implicitly. They are limited to 256 members.
+Перечисления могут быть явно преобразованы в `uint` и из `uint`, но не неявно. Они ограничены 256 элементами.
 
 ---
 
-## Constant and Immutable
+## Константы и неизменяемые переменные
 
-The [constant and immutable] keywords allow you to declare variables that cannot be changed. Both result in gas savings because the compiler does not need to reserve a storage slot for these values.
+[constant and immutable] позволяют объявлять переменные, которые нельзя изменить. Оба приводят к экономии газа, потому что компилятору не нужно резервировать слот хранилища для этих значений.
 
-As of _0.8.17_, `constant` and `immutable` are not fully implemented. Both are supported on [value types], and `constant` can also be used with strings.
+По состоянию на версию _0.8.17_ `constant` и `immutable` не полностью реализованы. Оба поддерживаются для [value types], а `constant` также можно использовать со строками.
 
-### Constant
+### Константы 
 
-Constants can be declared at the file level, or at the contract level. In Solidity, modifiers come after the type declaration. You must initialize a value when declaring a constant. Convention is to use SCREAMING_SNAKE_CASE for constants.
+Константы можно объявлять на уровне файла или на уровне контракта. В Solidity модификаторы указываются после объявления типа. Необходимо инициализировать значение при объявлении константы. Согласно конвенции, для констант используется SCREAMING_SNAKE_CASE.
 
 ```solidity
 uint constant NUMBER_OF_TEAMS = 10;
@@ -183,11 +183,11 @@ contract Cars {
 }
 ```
 
-At compilation, the compiler replaces every instance of the constant variable with its literal value.
+При компиляции компилятор заменяет каждый экземпляр константной переменной ее литеральным значением.
 
-### Immutable
+### Неизменяемые переменные
 
-The immutable keyword is used to declare variables that are set once within the constructor, which are then never changed:
+Ключевое слово immutable используется для объявления переменных, которые устанавливаются один раз в конструкторе, а затем никогда не изменяются:
 
 ```solidity
 contract Season {
@@ -201,9 +201,9 @@ contract Season {
 
 ---
 
-## Conclusion
+## Заключение
 
-You've learned the usage and some of the unique quirks of common variable types in Solidity. You've seen how overflow and underflow are handled and how that behavior can be overridden. You've learned why unsigned integers are used more commonly than in other languages, why floats are not present, and have been introduced to some of the quirks of working with strings. Finally, you've been introduced to the address and contract data types.
+Вы узнали об использовании и некоторых уникальных особенностях общих типов переменных в Solidity. Вы увидели, как обрабатывается переполнение и потеря значимости и как это поведение можно переопределить. Вы узнали, почему беззнаковые целые числа используются чаще, чем в других языках, почему числа с плавающей точкой отсутствуют, и познакомились с некоторыми особенностями работы со строками. Наконец, вы познакомились с типами данных адреса и контракта.
 
 ---
 
