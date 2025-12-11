@@ -1,50 +1,50 @@
 ---
-title: Control Structures Exercise
-sidebarTitle: Exercise
-description: Exercise - Demonstrate your knowledge of control structures.
+title: Упражнение по управляющим структурам
+sidebarTitle: Упражнение
+description: Упражнение - продемонстрируйте свои знания управляющих структур.
 hide_table_of_contents: false
 ---
 
-Create a contract that adheres to the following specifications:
+Создайте контракт, соответствующий следующим спецификациям:
 
 ---
 
-## Contract
+## Контракт
 
-Create a single contract called `ControlStructures`. It should not inherit from any other contracts and does not need a constructor. It should have the following functions:
+Создайте один контракт под названием `ControlStructures`. Он не должен наследоваться от других контрактов и не нуждается в конструкторе. Он должен иметь следующие функции:
 
-### Smart Contract FizzBuzz
+### FizzBuzz для смарт-контракта
 
-Create a function called `fizzBuzz` that accepts a `uint` called `_number` and returns a `string memory`. The function should return:
+Создайте функцию `fizzBuzz` которая принимает `uint` с именем `_number` и возвращает `string memory`. Функция должна возвращать:
 
-- "Fizz" if the `_number` is divisible by 3
-- "Buzz" if the `_number` is divisible by 5
-- "FizzBuzz" if the `_number` is divisible by 3 and 5
-- "Splat" if none of the above conditions are true
+- "Fizz" если `_number` делится на 3
+- "Buzz" если `_number` делится на 5
+- "FizzBuzz" если `_number` делится на 3 и 5
+- "Splat" если ни одно из вышеперечисленных условий не выполняется
 
-### Do Not Disturb
+### Не беспокоить
 
-Create a function called `doNotDisturb` that accepts a `uint` called `_time`, and returns a `string memory`. It should adhere to the following properties:
+Создайте функцию `doNotDisturb`, которая принимает `uint` с именем `_time` и возвращает `string memory`. Она должна соответствовать следующим свойствам:
 
-- If `_time` is greater than or equal to 2400, trigger a `panic`
-- If `_time` is greater than 2200 or less than 800, `revert` with a custom error of `AfterHours`, and include the time provided
-- If `_time` is between `1200` and `1259`, `revert` with a string message "At lunch!"
-- If `_time` is between 800 and 1199, return "Morning!"
-- If `_time` is between 1300 and 1799, return "Afternoon!"
-- If `_time` is between 1800 and 2200, return "Evening!"
+- Если `_time` больше или равно 2400, вызовите `panic`
+- Если `_time` больше 2200 или меньше 800, выполните `revert` с пользовательской ошибкой `AfterHours`, и укажите предоставленное время
+- Если `_time` находится между `1200` и `1259`, выполните `revert` со строковым сообщением "At lunch!"
+- Если `_time`  находится между 800 и 1199, верните "Morning!"
+- Если `_time` находится между 1300 и 1799, верните "Afternoon!"
+- Если `_time` находится между 1800 и 2200, верните "Evening!"
 
 ---
 
-### Submit your Contract and Earn an NFT Badge! (BETA)
+### Отправьте свой контракт и получите NFT-значок! (BETA)
 
 <Note>
-#### Hey, where'd my NFT go!?
+#### Эй, куда делся мой NFT?!
 
-[Testnets](/learn/deployment-to-testnet/test-networks) are not permanent! Base Goerli [will soon be sunset](https://base.mirror.xyz/kkz1-KFdUwl0n23PdyBRtnFewvO48_m-fZNzPMJehM4), in favor of Base Sepolia.
+[Тестовые сети](/learn/deployment-to-testnet/test-networks) не являются постоянными! Base Goerli [скоро будет отключена](https://base.mirror.xyz/kkz1-KFdUwl0n23PdyBRtnFewvO48_m-fZNzPMJehM4), в пользу Base Sepolia.
 
-As these are separate networks with separate data, your NFTs **will not** transfer over.
+Поскольку это отдельные сети с отдельными данными, ваши NFT **не** будут перенесены.
 
-**Don't worry!** We've captured the addresses of all NFT owners on Base Goerli and will include them when we release the mechanism to transfer these NFTs to mainnet later this year! You can also redeploy on Sepolia and resubmit if you'd like!
+**Не беспокойтесь!** Мы зафиксировали адреса всех владельцев NFT в Base Goerli и включим их, когда позже в этом году выпустим механизм переноса этих NFT в основную сеть! Вы также можете повторно развернуть на Sepolia и повторно отправить, если хотите!
 </Note>
 
 
