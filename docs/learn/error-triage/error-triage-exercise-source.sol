@@ -4,8 +4,8 @@ pragma solidity ^0.8.17;
 
 contract ErrorTriageExercise {
     /**
-     * Finds the difference between each uint with it's neighbor (a to b, b to c, etc.)
-     * and returns a uint array with the absolute integer difference of each pairing.
+     *  Находит разницу между каждым uint и его соседом (a и b, b и c и т.д.)
+     * и возвращает массив uint с абсолютной целочисленной разницей для каждой пары.
      */
     function diffWithNeighbor(
         uint _a,
@@ -23,8 +23,8 @@ contract ErrorTriageExercise {
     }
 
     /**
-     * Changes the _base by the value of _modifier.  Base is always >= 1000.  Modifiers can be
-     * between positive and negative 100;
+     * Изменяет _base на значение _modifier. Base всегда >= 1000. Модификаторы могут быть
+     * в диапазоне от -100 до +100.
      */
     function applyModifier(
         uint _base,
@@ -34,8 +34,8 @@ contract ErrorTriageExercise {
     }
 
     /**
-     * Pop the last element from the supplied array, and return the popped
-     * value (unlike the built-in function)
+     * Удаляет последний элемент из предоставленного массива и возвращает удаленное
+     * значение (в отличие от встроенной функции)
      */
     uint[] arr;
 
@@ -45,7 +45,7 @@ contract ErrorTriageExercise {
         return arr[index];
     }
 
-    // The utility functions below are working as expected
+    // Вспомогательные функции ниже работают как ожидается
     function addToArr(uint _num) public {
         arr.push(_num);
     }
