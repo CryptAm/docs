@@ -5,74 +5,74 @@ description: "A tutorial that teaches how to deploy a smart contract on the Base
 author: neodaoist
 ---
 
-# Deploying a smart contract using Foundry
+# Развертывание смарт-контракта с использованием Foundry
 
-This article will provide an overview of the [Foundry](https://book.getfoundry.sh/) development toolchain, and show you how to deploy a contract to **Base Sepolia** testnet.
+В этой статье представлен обзор набора инструментов разработки [Foundry](https://book.getfoundry.sh/) и показано, как развернуть контракт в тестовой сети **Base Sepolia**.
 
-Foundry is a powerful suite of tools to develop, test, and debug your smart contracts. It comprises several individual tools:
+Foundry - это мощный набор инструментов для разработки, тестирования и отладки ваших смарт-контрактов. Он включает несколько отдельных инструментов:
 
-- `forge`: the main workhorse of Foundry — for developing, testing, compiling, and deploying smart contracts
-- `cast`: a command-line tool for performing Ethereum RPC calls (e.g., interacting with contracts, sending transactions, and getting onchain data)
-- `anvil`: a local testnet node, for testing contract behavior from a frontend or over RPC
-- `chisel`: a Solidity [REPL](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop), for trying out Solidity snippets on a local or forked network
+- `forge`: основная рабочая лошадка Foundry - для разработки, тестирования, компиляции и развертывания смарт-контрактов
+- `cast`: инструмент командной строки для выполнения вызовов Ethereum RPC (например, взаимодействия с контрактами, отправки транзакций и получения данных из блокчейна)
+- `anvil`: локальный узел тестовой сети для тестирования поведения контракта из фронтенда или через RPC
+- `chisel`: [REPL](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop) для Solidity, для экспериментов с фрагментами кода Solidity в локальной или форкнутой сети
 
-Foundry offers extremely fast feedback loops (due to the under-the-hood Rust implementation) and less context switching — because you'll be writing your contracts, tests, and deployment scripts **All** in Solidity!
+Foundry предлагает чрезвычайно быстрые циклы обратной связи (благодаря реализации на Rust) и меньшее переключение контекста - потому что вы будете писать свои контракты, тесты и скрипты развертывания **все** на Solidity!
 
 <Info>
-For production / mainnet deployments the steps below in this tutorial will be almost identical, however, you'll want to ensure that you've configured `Base` (mainnet) as the network rather than `Base Sepolia` (testnet).
+Для развертывания в рабочую/основную сеть (mainnet) шаги ниже в этом руководстве будут почти идентичными, однако вам нужно будет убедиться, что вы настроили `Base` (mainnet) как сеть, а не `Base Sepolia` (testnet).
 </Info>
 
-## Objectives
+## Цели обучения
 
-By the end of this tutorial, you should be able to do the following:
+После изучения этого руководства вы сможете сделать следующее:
 
-- Setup Foundry for Base
-- Create an NFT smart contract for Base
-- Compile a smart contract for Base (using `forge`)
-- Deploy a smart contract to Base (also with `forge`)
-- Interact with a smart contract deployed on Base (using `cast`)
+- Настроить Foundry для Base
+- Создать NFT смарт-контракт для Base
+- Скомпилировать смарт-контракт для Base (используя `forge`)
+- Развернуть смарт-контракт в Base (также с помощью `forge`)
+- Взаимодействовать со смарт-контрактом, развернутым в Base (используя `cast`)
 
-## Prerequisites
+## Предварительные требования
 
 ### Foundry
 
-This tutorial requires you have Foundry installed.
+Для этого руководства требуется установленный Foundry.
 
-- From the command-line (terminal), run: `curl -L https://foundry.paradigm.xyz | bash`
-- Then run `foundryup`, to install the latest (nightly) build of Foundry
+- В командной строке (терминале) выполните: `curl -L https://foundry.paradigm.xyz | bash`
+- Затем выполните `foundryup`, чтобы установить последнюю (ночную) сборку Foundry
 
-For more information, see the Foundry Book [installation guide](https://book.getfoundry.sh/getting-started/installation).
+Для получения дополнительной информации смотрите [руководство по установке](https://book.getfoundry.sh/getting-started/installation) в книге Foundry.
 
 ### Coinbase Wallet
 
-In order to deploy a smart contract, you will first need a web3 wallet. You can create a wallet by downloading the Coinbase Wallet browser extension.
+Чтобы развернуть смарт-контракт, вам сначала понадобится web3 кошелек. Вы можете создать кошелек, загрузив расширение для браузера Coinbase Wallet.
 
-- Download [Coinbase Wallet](https://chrome.google.com/webstore/detail/coinbase-wallet-extension/hnfanknocfeofbddgcijnmhnfnkdnaad?hl=en)
+- Скачайте [Coinbase Wallet](https://chrome.google.com/webstore/detail/coinbase-wallet-extension/hnfanknocfeofbddgcijnmhnfnkdnaad?hl=en)
 
-### Wallet funds
+### Средства в кошельке
 
-Deploying contracts to the blockchain requires a gas fee. Therefore, you will need to fund your wallet with ETH to cover those gas fees.
+Развертывание контрактов в блокчейне требует оплаты комиссии за газ. Поэтому вам нужно будет пополнить свой кошелек ETH для покрытия этих комиссий.
 
-For this tutorial, you will be deploying a contract to the Base Sepolia test network. You can fund your wallet with Base Sepolia ETH using one of the faucets listed on the Base [Network Faucets](https://docs.base.org/base-chain/tools/network-faucets) page.
+Для этого руководства вы будете развертывать контракт в тестовой сети Base Sepolia. Вы можете пополнить свой кошелек Base Sepolia ETH, используя один из кранов, перечисленных на странице [Network Faucets](https://docs.base.org/base-chain/tools/network-faucets) Base.
 
-## Creating a project
+## Создание проекта
 
-Before you can begin deploying smart contracts to Base, you need to set up your development environment by creating a Foundry project.
+Прежде чем начать развертывать смарт-контракты в Base, вам нужно настроить среду разработки, создав проект Foundry.
 
-To create a new Foundry project, first create a new directory:
+Чтобы создать новый проект Foundry, сначала создайте новую директорию:
 
 ```bash
 mkdir myproject
 ```
 
-Then run:
+Затем выполните:
 
 ```bash
 cd myproject
 forge init
 ```
 
-This will create a Foundry project, which has the following basic layout:
+Это создаст проект Foundry со следующей базовой структурой:
 
 ```bash
 .
@@ -85,9 +85,9 @@ This will create a Foundry project, which has the following basic layout:
     └── Counter.t.sol
 ```
 
-## Compiling the smart contract
+## Компиляция смарт-контракта
 
-Below is a simple NFT smart contract ([ERC-721](https://eips.ethereum.org/EIPS/eip-721)) written in the Solidity programming language:
+Ниже приведен простой NFT смарт-контракт ([ERC-721](https://eips.ethereum.org/EIPS/eip-721)) написанный на языке программирования Solidity:
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -108,53 +108,53 @@ contract NFT is ERC721 {
 }
 ```
 
-The Solidity code above defines a smart contract named `NFT`. The code uses the `ERC721` interface provided by the [OpenZeppelin Contracts library](https://docs.openzeppelin.com/contracts/5.x/) to create an NFT smart contract. OpenZeppelin allows developers to leverage battle-tested smart contract implementations that adhere to official ERC standards.
+Код Solidity выше определяет смарт-контракт с именем `NFT`. Код использует интерфейс `ERC721`, предоставленный библиотекой [OpenZeppelin Contracts library](https://docs.openzeppelin.com/contracts/5.x/), для создания NFT смарт-контракта. OpenZeppelin позволяет разработчикам использовать проверенные в боях реализации смарт-контрактов, соответствующие официальным стандартам ERC.
 
-To add the OpenZeppelin Contracts library to your project, run:
+Чтобы добавить библиотеку OpenZeppelin Contracts в ваш проект, выполните:
 
 ```bash
 forge install openzeppelin/openzeppelin-contracts
 ```
 
-In your project, delete the `src/Counter.sol` contract that was generated with the project and add the above code in a new file called `src/NFT.sol`. (You can also delete the `test/Counter.t.sol` and `script/Counter.s.sol` files, but you should add your own tests ASAP!).
+В вашем проекте удалите контракт `src/Counter.sol`, который был сгенерирован с проектом, и добавьте приведенный выше код в новый файл с именем `src/NFT.sol`. (Вы также можете удалить файлы `test/Counter.t.sol` и `script/Counter.s.sol`, но вам следует добавить свои собственные тесты как можно скорее!).
 
-To compile our basic NFT contract using Foundry, run:
+Чтобы скомпилировать наш базовый NFT контракт с использованием Foundry, выполните:
 
 ```bash
 forge build
 ```
 
-## Configuring Foundry with Base
+## Настройка Foundry для работы с Base
 
-Next, you will configure your Foundry project to deploy smart contracts to the Base network. First you'll store your private key in an encrypted keystore, then you'll add Base as a network.
+Далее вы настроите свой проект Foundry для развертывания смарт-контрактов в сеть Base. Сначала вы сохраните свой приватный ключ в зашифрованном хранилище ключей, затем добавите Base как сеть.
 
-### Storing your private key
+### Хранение вашего приватного ключа
 
-The following command will import your private key to Foundry's secure keystore. You will be prompted to enter your private key, as well as a password for signing transactions:
+Следующая команда импортирует ваш приватный ключ в безопасное хранилище ключей Foundry. Вам будет предложено ввести ваш приватный ключ, а также пароль для подписания транзакций:
 
 ```bash
 cast wallet import deployer --interactive
 ```
 
 <Caution>
-For instructions on how to get your private key from Coinbase Wallet, visit the [Coinbase Wallet documentation](https://docs.cloud.coinbase.com/wallet-sdk/docs/developer-settings#show-private-key). **It is critical that you do NOT commit this to a public repo**.
+Инструкции о том, как получить ваш приватный ключ из Coinbase Wallet, смотрите в [документации Coinbase Wallet](https://docs.cloud.coinbase.com/wallet-sdk/docs/developer-settings#show-private-key). **Крайне важно НЕ коммитить это в публичный репозиторий**.
 </Caution>
 
-Run this command to confirm that the 'deployer' account is setup in Foundry:
+Выполните эту команду, чтобы подтвердить, что учетная запись 'deployer' настроена в Foundry:
 
 ```bash
 cast wallet list
 ```
 
-### Adding Base as a network
+### Добавление Base как сети
 
-When verifying a contract with BaseScan, you need an API key. You can get your BaseScan API key from [here](https://basescan.org/myapikey) after you sign up for an account.
+При проверке контракта с помощью BaseScan вам нужен API-ключ. Вы можете получить свой API-ключ BaseScan [отсюда](https://basescan.org/myapikey) после регистрации учетной записи.
 
 <Caution>
-Although they're made by the same folks, Etherscan API keys will **not** work on BaseScan!
+Хотя они сделаны одними и теми же людьми, API-ключи Etherscan **не будут** работать на BaseScan!
 </Caution>
 
-Now create a `.env` file in the home directory of your project to add the Base network and an API key for verifying your contract on BaseScan:
+Теперь создайте файл `.env` в домашней директории вашего проекта, чтобы добавить сеть Base и API-ключ для проверки вашего контракта на BaseScan:
 
 ```
 BASE_MAINNET_RPC="https://mainnet.base.org"
@@ -162,59 +162,59 @@ BASE_SEPOLIA_RPC="https://sepolia.base.org"
 ETHERSCAN_API_KEY="<YOUR API KEY>"
 ```
 
-Note that even though you're using BaseScan as your block explorer, Foundry expects the API key to be defined as `ETHERSCAN_API_KEY`.
+Обратите внимание, что даже если вы используете BaseScan как ваш обозреватель блоков, Foundry ожидает, что API-ключ будет определен как `ETHERSCAN_API_KEY`.
 
-### Loading environment variables
+### Загрузка переменных окружения
 
-Now that you've created the above `.env` file, run the following command to load the environment variables in the current command line session:
+Теперь, когда вы создали файл `.env`, выполните следующую команду, чтобы загрузить переменные окружения в текущую сессию командной строки:
 
 ```bash
 source .env
 ```
 
-## Deploying the smart contract
+## Развертывание смарт-контракта
 
-With your contract compiled and your environment configured, you are ready to deploy to the Base Sepolia test network!
+Теперь, когда ваш контракт скомпилирован и среда настроена, вы готовы развернуть в тестовой сети Base Sepolia!
 
-Today, you'll use the `forge create` command, which is a straightforward way to deploy a single contract at a time. In the future, you may want to look into [`forge script`](https://book.getfoundry.sh/guides/scripting-with-solidity), which enables scripting onchain transactions and deploying more complex smart contract projects.
+Сегодня вы будете использовать команду `forge create`, которая является простым способом развертывания одного контракта за раз. В будущем вы можете захотеть изучить [`forge script`](https://book.getfoundry.sh/guides/scripting-with-solidity), который позволяет создавать скрипты для ончейн транзакций и развертывать более сложные проекты смарт-контрактов.
 
-You'll need testnet ETH in your wallet. See the [prerequisites](#prerequisites) if you haven't done that yet. Otherwise, the deployment attempt will fail.
+Вам понадобится тестовый ETH в вашем кошельке. Смотрите [предварительные требования](#prerequisites) если вы еще этого не сделали. В противном случае попытка развертывания завершится неудачей.
 
-To deploy the contract to the Base Sepolia test network, run the following command. You will be prompted to enter the password that you set earlier, when you imported your private key:
+Чтобы развернуть контракт в тестовой сети Base Sepolia, выполните следующую команду. Вам будет предложено ввести пароль, который вы установили ранее, при импорте приватного ключа:
 
 ```bash
 forge create ./src/NFT.sol:NFT --rpc-url $BASE_SEPOLIA_RPC --account deployer
 ```
 
-The contract will be deployed on the Base Sepolia test network. You can view the deployment status and contract by using a [block explorer](/base-chain/tools/block-explorers) and searching for the address returned by your deploy script. If you've deployed an exact copy of the NFT contract above, it will already be verified and you'll be able to read and write to the contract using the web interface.
+Контракт будет развернут в тестовой сети Base Sepolia. Вы можете просмотреть статус развертывания и контракт с помощью [обозревателя блоков](/base-chain/tools/block-explorers) выполнив поиск по адресу, возвращенному вашим скриптом развертывания. Если вы развернули точную копию NFT контракта выше, он уже будет проверен, и вы сможете читать и записывать в контракт с помощью веб-интерфейса.
 
 <Info>
-If you'd like to deploy to mainnet, you'll modify the command like so:
+Если вы хотите развернуть в основную сеть (mainnet), вы измените команду следующим образом:
 </Info>
 
 ```bash
 forge create ./src/NFT.sol:NFT --rpc-url $BASE_MAINNET_RPC --account deployer
 ```
 
-Regardless of the network you're deploying to, if you're deploying a new or modified contract, you'll need to verify it.
+Независимо от сети, в которую вы развертываете, если вы развертываете новый или измененный контракт, вам нужно будет его проверить.
 
-## Verifying the Smart Contract
+## Проверка смарт-контракта
 
-In web3, it's considered best practice to verify your contracts so that users and other developers can inspect the source code, and be sure that it matches the deployed bytecode on the blockchain.
+В web3 считается лучшей практикой проверять ваши контракты, чтобы пользователи и другие разработчики могли проверить исходный код и убедиться, что он соответствует развернутому байткоду в блокчейне.
 
-Further, if you want to allow others to interact with your contract using the block explorer, it first needs to be verified. The above contract has already been verified, so you should be able to view your version on a block explorer already, but we'll still walk through how to verify a contract on Base Sepolia testnet.
+Кроме того, если вы хотите позволить другим взаимодействовать с вашим контрактом с помощью обозревателя блоков, его сначала необходимо проверить. Вышеуказанный контракт уже проверен, поэтому вы уже должны увидеть свою версию в обозревателе блоков, но мы все равно пройдемся по процессу проверки контракта в тестовой сети Base Sepolia.
 
 <Info>
-Remember, you need an API key from BaseScan to verify your contracts. You can get your API key from [the BaseScan site](https://basescan.org/myapikey) after you sign up for an account.
+Помните, вам нужен API-ключ от BaseScan для проверки ваших контрактов. Вы можете получить свой API-ключ на [сайте BaseScan](https://basescan.org/myapikey) после регистрации учетной записи.
 </Info>
 
-Grab the deployed address and run:
+Возьмите развернутый адрес и выполните:
 
 ```bash
 forge verify-contract <DEPLOYED_ADDRESS> ./src/NFT.sol:NFT --chain 84532 --watch
 ```
 
-You should see an output similar to:
+Вы должны увидеть вывод, похожий на:
 
 ```
 Start verifying contract `0x71bfCe1172A66c1c25A50b49156FAe45EB56E009` deployed on base-sepolia
@@ -234,10 +234,10 @@ Details: `Pass - Verified`
 Contract successfully verified
 ```
 
-Search for your contract on [BaseScan](https://sepolia.basescan.org/) to confirm it is verified.
+Найдите свой контракт на [BaseScan](https://sepolia.basescan.org/), чтобы подтвердить, что он проверен.
 
 <Info>
-You can't re-verify a contract identical to one that has already been verified. If you attempt to do so, such as verifying the above contract, you'll get an error similar to:
+Вы не можете повторно проверить контракт, идентичный уже проверенному. Если вы попытаетесь сделать это, например, проверить вышеуказанный контракт, вы получите ошибку, похожую на:
 </Info>
 
 ```text
@@ -246,53 +246,53 @@ Start verifying contract `0x71bfCe1172A66c1c25A50b49156FAe45EB56E009` deployed o
 Contract [src/NFT.sol:NFT] "0x71bfCe1172A66c1c25A50b49156FAe45EB56E009" is already verified. Skipping verification.
 ```
 
-## Interacting with the Smart Contract
+## Взаимодействие со смарт-контрактом
 
-If you verified on BaseScan, you can use the `Read Contract` and `Write Contract` sections under the `Contract` tab to interact with the deployed contract. To use `Write Contract`, you'll need to connect your wallet first, by clicking the `Connect to Web3` button (sometimes this can be a little finicky, and you'll need to click `Connect` twice before it shows your wallet is successfully connected).
+Если вы проверили на BaseScan, вы можете использовать разделы `Read Contract` и `Write Contract` на вкладке `Contract` для взаимодействия с развернутым контрактом. Чтобы использовать `Write Contract`, вам сначала нужно подключить ваш кошелек, нажав кнопку `Connect to Web3` (иногда это может быть немного капризным, и вам нужно нажать `Connect` дважды, прежде чем он покажет, что ваш кошелек успешно подключен).
 
-To practice using the `cast` command-line tool which Foundry provides, you'll perform a call without publishing a transaction (a read), then sign and publish a transaction (a write).
+Чтобы попрактиковаться в использовании инструмента командной строки `cast`, который предоставляет Foundry, вы выполните вызов без публикации транзакции (чтение), затем подпишете и опубликуете транзакцию (запись).
 
-### Performing a call
+### Выполнение вызова
 
-A key component of the Foundry toolkit, `cast` enables us to interact with contracts, send transactions, and get onchain data using Ethereum RPC calls. First you will perform a call from your account, without publishing a transaction.
+Ключевой компонент набора инструментов Foundry, `cast` позволяет нам взаимодействовать с контрактами, отправлять транзакции и получать данные из блокчейна с помощью вызовов Ethereum RPC. Сначала вы выполните вызов со своего аккаунта без публикации транзакции.
 
-From the command-line, run:
+Из командной строки выполните:
 
 ```bash
 cast call <DEPLOYED_ADDRESS> --rpc-url $BASE_SEPOLIA_RPC "balanceOf(address)" <YOUR_ADDRESS_HERE>
 ```
 
-You should receive `0x0000000000000000000000000000000000000000000000000000000000000000` in response, which equals `0` in hexadecimal. And that makes sense — while you've deployed the NFT contract, no NFTs have been minted yet and therefore your account's balance is zero.
+Вы должны получить `0x0000000000000000000000000000000000000000000000000000000000000000` в ответе, что равно `0` в шестнадцатеричной системе. И это логично - пока вы развернули NFT контракт, никакие NFT еще не были созданы (cминчены), поэтому баланс вашего аккаунта равен нулю.
 
-### Signing and publishing a transaction
+### Подписание и публикация транзакции
 
-Now, sign and publish a transaction, calling the `mint(address)` function on the NFT contract you just deployed.
+Теперь подпишите и опубликуйте транзакцию, вызвав функцию `mint(address)` в NFT контракте, который вы только что развернули.
 
-Run the following command:
+Выполните следующую команду:
 
 ```bash
 cast send <DEPLOYED_ADDRESS> --rpc-url=$BASE_SEPOLIA_RPC "mint(address)" <YOUR_ADDRESS_HERE> --account deployer
 ```
 
 <Info>
-Note that in this `cast send` command, you had to include your private key, but this is not required for `cast call`, because that's for calling view-only contract functions and therefore you don't need to sign anything.
+Обратите внимание, что в команде `cast send` вам нужно было включить ваш приватный ключ, но это не требуется для `cast call`, потому что это для вызова функций контракта только для чтения, и поэтому вам не нужно ничего подписывать.
 </Info>
 
-If successful, Foundry will respond with information about the transaction, including the `blockNumber`, `gasUsed`, and `transactionHash`.
+В случае успеха Foundry ответит информацией о транзакции, включая `blockNumber`, `gasUsed` и `transactionHash`.
 
-Finally, let's confirm that you did indeed mint yourself one NFT. If you run the first `cast call` command again, you should see that your balance increased from 0 to 1:
+Наконец, давайте подтвердим, что вы действительно создали (сминтили) себе один NFT. Если вы снова запустите первую команду `cast call`, вы должны увидеть, что ваш баланс увеличился с 0 до 1:
 
 ```bash
 cast call <DEPLOYED_ADDRESS> --rpc-url $BASE_SEPOLIA_RPC "balanceOf(address)" <YOUR_ADDRESS_HERE>
 ```
 
-And the response: `0x0000000000000000000000000000000000000000000000000000000000000001` (`1` in hex) — congratulations, you deployed a contract and minted an NFT with Foundry!
+И ответ: `0x0000000000000000000000000000000000000000000000000000000000000001` (`1` in hex) — поздравляем, вы развернули контракт и создали NFT с помощью Foundry!
 
-## Conclusion
+## Заключение
 
-Phew, that was a lot! You learned how to setup a project, deploy to Base, and interact with our smart contract using Foundry. The process is the same for real networks, just more expensive — and of course, you'll want to invest time and effort testing your contracts, to reduce the likelihood of user-impacting bugs before deploying.
+Фух, это было много! Вы узнали, как настроить проект, развернуть в Base и взаимодействовать с нашим смарт-контрактом с помощью Foundry. Процесс такой же для реальных сетей, просто дороже - и, конечно, вы захотите инвестировать время и усилия в тестирование ваших контрактов, чтобы снизить вероятность ошибок, влияющих на пользователей, перед развертыванием.
 
-For all things Foundry, check out the [Foundry book](https://book.getfoundry.sh/), or head to the official Telegram [dev chat](https://t.me/foundry_rs) or [support chat](https://t.me/foundry_support).
+По всем вопросам, связанным с Foundry, обратитесь к [книге Foundry](https://book.getfoundry.sh/), или перейдите в официальный Telegram [чат разработчиков](https://t.me/foundry_rs) или [чат поддержки](https://t.me/foundry_support).
 
 {/*-- Add reference style links here.  These do not render on the page. --*/}
 
