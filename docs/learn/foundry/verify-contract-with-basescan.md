@@ -1,63 +1,63 @@
 ---
-title: 'Verify a Smart Contract using Basescan API'
+title: 'Проверка смарт-контракта с помощью API Basescan'
 slug: /verify-smart-contract-using-basescan
-description: A tutorial that teaches how to verify a smart contract using Basescan APIs.
+description: Руководство, которое научит, как проверять смарт-контракт с помощью API Basescan.
 author: hughescoin
 ---
 
-[Basescan] is a block explorer specifically designed for [Base], offering developers a way to interact with and verify the smart contracts deployed on Base. Smart contract verification is a critical step in ensuring the transparency and security of onchain applications, as it allows others to review and validate the source code of deployed contracts. There are multiple ways to verify contracts and by the end of this tutorial you will learn how to verify a contract using the [Solidity] single file verification method using the [Basescan API].
+[Basescan] - это обозреватель блоков, специально разработанный для [Base], предоставляющий разработчикам возможность взаимодействовать и проверять смарт-контракты, развернутые на Base. Проверка смарт-контрактов - это критически важный шаг для обеспечения прозрачности и безопасности ончейн-приложений, поскольку она позволяет другим проверять и валидировать исходный код развернутых контрактов. Существует несколько способов проверки контрактов, и к концу этого руководства вы научитесь проверять контракт методом проверки одного файла [Solidity] с использованием [Basescan API].
 
 
 
-## Objectives
+## Цели обучения
 
-By the end of this tutorial, you should be able to:
+После изучения этого руководства вы сможете:
 
-- Deploy a smart contract using [Foundry]
-- Interact with the [Basescan API] to verify your deployed contract
-- Obtain and configure a (free) Base RPC Node from [Coinbase Developer Platform (CDP)](https://portal.cdp.coinbase.com/products/node)
+- Развернуть смарт-контракт с помощью [Foundry]
+- Взаимодействовать с [Basescan API] для проверки вашего развернутого контракта
+- Получить и настроить (бесплатный) RPC-узел Base от [Coinbase Developer Platform (CDP)](https://portal.cdp.coinbase.com/products/node)
 
 
 
-## Prerequisites
+## Предварительные требования
 
-**Familiarity with smart contract development and the Solidity programming language**
+**Знакомство с разработкой смарт-контрактов и языком программирования Solidity**
 
-Solidity is the primary programming language for writing smart contracts on Ethereum and Ethereum-compatible blockchains like Base. You should be comfortable with writing, compiling, and deploying basic smart contracts using Solidity. If not, check out [Base Learn].
+Solidity - это основной язык программирования для написания смарт-контрактов на Ethereum и совместимых с ним блокчейнах, таких как Base. Вы должны быть знакомы с написанием, компиляцией и развертыванием базовых смарт-контрактов с использованием Solidity. Если нет, ознакомьтесь с [Base Learn].
 
-**Basic understanding of Foundry for Ethereum development**
+**Базовое понимание Foundry для разработки на Ethereum**
 
-Foundry is a fast and portable toolkit for Ethereum application development. It simplifies the process of deploying, testing, and interacting with smart contracts. This tutorial assumes you have experience using Foundry to compile and [deploy smart contracts].
+Foundry - это быстрый и портативный набор инструментов для разработки приложений на Ethereum. Он упрощает процесс развертывания, тестирования и взаимодействия со смарт-контрактами. В этом руководстве предполагается, что у вас есть опыт использования Foundry для компиляции и [deploy smart contracts].
 
-**Access to a Coinbase Developer Platform (CDP) account**
+**Доступ к учетной записи Coinbase Developer Platform (CDP)**
 
-The [Coinbase Developer Platform] provides access to tools and services necessary for blockchain development, including RPC nodes for different networks. You'll need to sign up for a CDP account to obtain a [Base RPC Node], which will be essential for deploying and interacting with your smart contracts on the Base blockchain.
+[Coinbase Developer Platform] предоставляет доступ к инструментам и услугам, необходимым для блокчейн-разработки, включая RPC-узлы для разных сетей. Вам нужно будет зарегистрировать учетную запись CDP, чтобы получить [Base RPC Node], который будет необходим для развертывания и взаимодействия с вашими смарт-контрактами в блокчейне Base.
 
-**Node + Basic API requests**
+**Node + базовые запросы к API**
 
-## Jump Right In
+## Приступаем к делу
 
-For this tutorial, you will deploy a simple contract that is included in the Foundry quickstart. To do so, ensure that you have Foundry installed.
+Для этого руководства вы развернете простой контракт, который включен в быстрый старт Foundry. Для этого убедитесь, что у вас установлен Foundry.
 
-If you don't have Foundry install it:
+Если у вас нет Foundry, установите его:
 
 ```bash
 curl -L https://foundry.paradigm.xyz | bash
 ```
 
-Once installed, create a Foundry project:
+После установки создайте проект Foundry:
 
 ```bash
 forge init verify_contracts
 ```
 
-then change into the newly made directory:
+затем перейдите в только что созданную директорию:
 
 ```bash
 cd verify_contracts
 ```
 
-You should have a folder structure similar to this:
+У вас должна быть структура папок, похожая на эту:
 
 ```bash
 ├── lib
@@ -66,37 +66,37 @@ You should have a folder structure similar to this:
 └── test
 ```
 
-The `src` folder will contain a `Counter.sol` file which will serve as the contract you want to deploy.
+Папка `src` будет содержать файл `Counter.sol`, который будет служить контрактом, который вы хотите развернуть.
 
-<Note title="You will need ETH on Base to deploy">
-You (the deployer wallet) will need some ETH in order to broadcast the transaction to the Base network. Fortunately, transactions are usually < 1 cent on Base mainnet.
+<Note title="Вам понадобится ETH на Base для развертывания">
+Вам (кошельку развертывающего) понадобится немного ETH для передачи транзакции в сеть Base. К счастью, транзакции на Base mainnet обычно стоят < 1 цента.
 
-If using a [Coinbase Wallet] use the "Buy" button to onramp crypto from your Coinbase account.
+Если вы используете [Coinbase Wallet], используйте кнопку "Купить", чтобы пополнить криптовалютой с вашего счета Coinbase.
 </Note>
 
-You will need a private key of the wallet that you want to deploy the smart contract from. Obtain it and store it as an env variable in your terminal.
+Вам понадобится приватный ключ кошелька, с которого вы хотите развернуть смарт-контракт. Получите его и сохраните как переменную окружения в вашем терминале.
 
-Once you have the private key to the wallet of your choice, open your terminal and store it in an environment variable:
+После того как у вас есть приватный ключ к выбранному вами кошельку, откройте терминал и сохраните его в переменной окружения:
 
 ```bash
 export PRIVATE_KEY="<YOUR_PRIVATE_KEY>"
 ```
 
-To deploy our contract you will need an RPC URL to a Base node in order to broadcast our transactions to the network. [CDP] provides us with a free node for interacting with Base mainnet and testnet.
+Для развертывания нашего контракта вам понадобится RPC URL к узлу Base для передачи наших транзакций в сеть. предоставляет нам бесплатный узел для взаимодействия с Base mainnet и testnet.
 
-Obtain an rpc url from the [Node product] and store the url as an environment variable similar to the private key in the previous step.
+Получите rpc url из [Node product] и сохраните url как переменную окружения, аналогично приватному ключу на предыдущем шаге.
 
 ![cdp-node](/images/verify-with-basescan-api/cdp-node-full.png)
 
-Then store it as an environment variable in your terminal:
+Затем сохраните его как переменную окружения в вашем терминале:
 
 ```bash
 export BASE_RPC_URL="your_base_rpc_url"
 ```
 
-It's deployment time! Deploy the `Counter.sol` contract using `forge create --rpc-url $BASE_RPC_URL --private-key $PRIVATE_KEY src/Counter.sol:Counter`
+Время развертывания! Разверните контракт `Counter.sol`, используя `forge create --rpc-url $BASE_RPC_URL --private-key $PRIVATE_KEY src/Counter.sol:Counter`
 
-Once deployed, it should return something like this:
+После развертывания должно вернуться что-то вроде этого:
 
 ```bash ⠊ Compiling...
 [⠢] Compiling 1 files with Solc 0.8.26
@@ -107,27 +107,27 @@ Deployed to: 0xEF5fe818Cb814E5c8277C5F12B57106B4EC3DdaA
 Transaction hash: 0xb191f9679a1fee253cf430ac09a6838f6806cfb2a250757fef407880f5546836
 ```
 
-Congrats! You've now deployed a contract to Base. The output of the deployment command contains a contract address (e.g `Deployed to: 0xEF5fe818Cb814E5c8277C5F12B57106B4EC3DdaA`). Copy this address as you will need it in the next step.
+Поздравляем! Теперь вы развернули контракт на Base. Результат команды развертывания содержит адрес контракта (например, `Deployed to: 0xEF5fe818Cb814E5c8277C5F12B57106B4EC3DdaA`). Скопируйте этот адрес, так как он понадобится вам на следующем шаге.
 
-### Verify the contract
+### Проверка контракта
 
-You will now interact with the [Basescan API]. For this, you need API Keys. Create an account using an email or [login to Basescan].
+Теперь вы будете взаимодействовать с [Basescan API]. Для этого вам нужны API-ключи. Создайте учетную запись, используя email, или [login to Basescan].
 
-After signing in, navigate to your [Basescan account] then select `API Keys` on the left navigation bar.
+После входа перейдите в [Basescan account] затем выберите `API Keys` на левой панели навигации.
 
 ![basescan-sidebar](/images/verify-with-basescan-api/basescan-menu.png)
 
-From the [API Key page], click the blue "Add" button to create a new API Key then copy your `API Key Token`
+На [API Key page] нажмите синюю кнопку "Add", чтобы создать новый API-ключ, затем скопируйте ваш `API Key Token`
 
 ![basescan-api-key-page](/images/verify-with-basescan-api/basescan-apikey-page-add.png)
 
-Save this to your clipboard for the next step.
+Сохраните это в буфере обмена для следующего шага.
 
-Create a `.js` file to create a function to that will call the Basescan's contract verification endpoint.
+Создайте файл `.js`, чтобы создать функцию, которая будет вызывать конечную точку проверки контракта Basescan.
 
-In your terminal create a new file: `touch verifyContractBasescan.js` then open this file in your IDE of choice.
+В вашем терминале создайте новый файл: `touch verifyContractBasescan.js`, затем откройте этот файл в предпочитаемой вами IDE.
 
-At the top of the file create a variable that contains the `Counter.sol` that was created from your foundry project.
+В верхней части файла создайте переменную, содержащую `Counter.sol`, который был создан из вашего проекта Foundry.
 
 ```javascript
 const sourceCode = `pragma solidity ^0.8.13;
@@ -142,17 +142,17 @@ contract Counter {
 }`;
 ```
 
-Create an `async` function to call the basescan api. Basescan offers a few endpoints to interact with their api with the base url being: `https://api.basescan.org/api`
+Создайте `async` функцию для вызова API Basescan. Basescan предлагает несколько конечных точек для взаимодействия с их API, базовый URL: `https://api.basescan.org/api`
 
-To verify a contract you will use the `verifysourcecode` route, with the `contract` module, and your `apiKey` as query parameters.
+Для проверки контракта вы будете использовать маршрут `verifysourcecode`, с модулем `contract` и вашим `apiKey` в качестве параметров запроса.
 
-<Tip title="Unsure what data to input?">
-In every foundry project you will have a `.json` file that contains the contracts metadata and ABI. For this particular project, this information is located in the `/verify_contracts/out/Counter.sol/Counter.json`
+<Tip title="Не уверены, какие данные вводить?">
+В каждом проекте Foundry у вас будет файл `.json`, содержащий метаданные контракта и ABI. Для этого конкретного проекта эта информация находится в `/verify_contracts/out/Counter.sol/Counter.json`
 
-Under the `Metadata` object you will find the compiler version under `evmversion`
+В объекте `Metadata` вы найдете версию компилятора в `evmversion`.
 </Tip>
 
-Putting everything together, our function will look like this:
+Собрав все вместе, наша функция будет выглядеть так:
 
 ```
 async function verifySourceCode() {
@@ -177,9 +177,9 @@ async function verifySourceCode() {
   }
 ```
 
-Now add a `try-catch` block to send the request and log any errors to the console.
+Теперь добавьте блок `try-catch`, чтобы отправить запрос и залогировать любые ошибки в консоль.
 
-Your final file should look something like this:
+Ваш итоговый файл должен выглядеть примерно так:
 
 ```javascript
 const sourceCode = `pragma solidity ^0.8.13;
@@ -241,9 +241,9 @@ async function verifySourceCode() {
 verifySourceCode().catch((error) => console.error('Unhandled error:', error));
 ```
 
-Save your file and then run `node verifyContractBasescan.js` in your terminal
+Сохраните ваш файл, а затем запустите `node verifyContractBasescan.js` в вашем терминале.
 
-If successful, your terminal will output JSON text with three properties `status`, `message` and `result` like below:
+В случае успеха ваш терминал выведет JSON-текст с тремя свойствами: `status`, `message` и `result`, как показано ниже:
 
 ```bash
 {
@@ -253,23 +253,23 @@ If successful, your terminal will output JSON text with three properties `status
 }
 ```
 
-Result is the GUID and is a unique identifier for checking the status of your contracts verification.
+Result - это GUID и уникальный идентификатор для проверки статуса проверки вашего контракта.
 
-To verify the contract, let's create a curl request with the following parameters
+Чтобы проверить контракт, создайте curl-запрос со следующими параметрами:
 
 ```bash
 curl "https://api.basescan.org/api?module=contract&action=checkverifystatus&guid=cqjzzvppgswqw5adq4v6iq4xkmf519pj1higvcxsdiwcvwxemd&apikey=DK8M329VYXDSKTF633ABTK3SAEZ2U9P8FK"
 ```
 
-Run the command and you will see a that the contract should already be verified based on the `result` field
+Запустите команду, и вы увидите, что контракт уже должен быть проверен на основе поля `result`:
 
 ```json
 { "status": "0", "message": "NOTOK", "result": "Already Verified" }
 ```
 
-## Conclusion
+## Заключение
 
-Congratulations! You've successfully deployed and verified a smart contract using the Basescan API. Now, your users don't have to rely solely on your word—they can verify the contract's functionality through the code itself.
+Поздравляем! Вы успешно развернули и проверили смарт-контракт с помощью API Basescan. Теперь вашим пользователям не нужно полагаться только на ваше слово - они могут проверить функциональность контракта через сам код.
 
 
 
