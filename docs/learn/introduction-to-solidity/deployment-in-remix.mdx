@@ -1,65 +1,65 @@
 ---
-sidebarTitle: Step by Step Guide
-title: Deployment in Remix
-description: Use Remix to deploy and interact with a contract.
+sidebarTitle: Пошаговое руководство
+title: Развертывание в Remix
+description: спользуйте Remix для развертывания и взаимодействия с контрактом.
 hide_table_of_contents: false
 ---
 
-Remix contains a simulation of the blockchain that allows you to easily and safely deploy and interact with contracts, for free.
+Remix содержит симуляцию блокчейна, которая позволяет легко и безопасно развертывать и взаимодействовать с контрактами бесплатно.
 
 ---
 
-## Objectives
+## Цели
 
-By the end of this lesson you should be able to:
+К концу этого урока вы сможете:
 
-- Deploy and test the Storage.sol demo contract in Remix
+- Развернуть и протестировать демонстрационный контракт Storage.sol в Remix
 
 ---
 
-## Deploy the `Storage` Contract
+## Развертывание контракта `Storage`
 
-Deploying a contract is easy, but remember that if the contract doesn't compile, the deploy button will instead deploy the last good compiled version of your contract. Verify that you see a green checkmark on the icon for the _Compiler_ contract on the left side of the editor, then select the _Deploy & Run Transactions_ plugin.
+Развернуть контракт легко, но помните, что если контракт не скомпилируется, кнопка развертывания вместо этого развернет последнюю успешно скомпилированную версию вашего контракта. Убедитесь, что вы видите зеленую галочку на значке вкладки Compiler в левой части редактора, затем выберите плагин _Deploy & Run Transactions_.
 
-If you've already deployed any contracts, press the trash can button to the right of the _Deployed Contracts_ label. Then, press the orange button to deploy the `Storage` contract.
+Если вы уже развертывали какие-либо контракты, нажмите кнопку с корзиной справа от метки _Deployed Contracts_. Затем нажмите оранжевую кнопку, чтобы развернуть контракт `Storage`.
 
 <Frame>
 ![Deploy](/images/learn/introduction-to-solidity/deploy-button.png)
 </Frame>
 
-### Contract Addresses
+### Адреса контрактов
 
-After your contract deploys, it will appear in the _Deployed_ contracts section as _STORAGE AT_ followed by an address. Addresses are used for both contracts and wallets in EVM-compatible blockchains and serve a similar purpose to an IP address. You can copy the address to see what it looks like. It's 20 characters of hexadecimal, similar to `0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8`.
+После развертывания вашего контракта он появится в разделе Deployed contracts как _STORAGE AT_, за которым следует адрес. Адреса используются как для контрактов, так и для кошельков в блокчейнах, совместимых с EVM, и служат аналогичной цели, что и IP-адрес. Вы можете скопировать адрес, чтобы посмотреть, как он выглядит. Это 20 символов в шестнадцатеричном формате, например `0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8`.
 
-The address is what you will use to find your contract with tools such as _Etherscan_, or to connect to it with a front end.
+Адрес - это то, что вы будете использовать для поиска вашего контракта с помощью таких инструментов, как _Etherscan_, или для подключения к нему через фронтенд.
 
-However, when you deploy using the Remix VM simulation, it will only exist in your browser.
+Однако при развертывании с использованием симуляции Remix VM он будет существовать только в вашем браузере.
 
-### Deployments and Test Accounts
+### Развертывания и тестовые аккаунты
 
-The result of any transactions, including deployments, will appear in the Remix terminal. Click the chevron next to the blue _Debug_ button to expand the log.
+Результат любых транзакций, включая развертывания, появится в терминале Remix. Нажмите шеврон рядом с синей кнопкой _Debug_, чтобы развернуть лог.
 
 <Frame>
 ![Expand](/images/learn/introduction-to-solidity/remix-deploy-chevron.png)
 </Frame>
 
-Doing so will show the full transaction log, which contains all of the details of the transaction, such as its amount, the address to and from, and the inputs and outputs provided to the transaction.
+Это покажет полный лог транзакции, который содержит все детали транзакции, такие как ее сумма, адреса отправителя и получателя, а также входные и выходные данные, переданные в транзакцию.
 
-In this case, the sender (from) matches the first listed account in the panel, which has spent a small amount of simulated Ether to deploy the contract.
+В этом случае отправитель (from) совпадает с первым аккаунтом, указанным на панели, который потратил небольшое количество симулированного Эфира на развертывание контракта.
 
-You can access a list of 15 test wallets here, each with 100 Ether to spend. Among other uses, you can use these accounts to compare behavior between wallets that are and are not the owner of a deployed contract.
+Здесь вы можете получить доступ к списку из 15 тестовых кошельков, каждый с 100 Эфиром для траты. Среди прочего, вы можете использовать эти аккаунты для сравнения поведения между кошельками, которые являются и не являются владельцем развернутого контракта.
 
-### Interacting with the Contract
+### Взаимодействие с контрактом
 
-Click the chevron to expand your contract in the Deployed Contracts section of the left panel. You'll see two buttons, one for each `public` function in the `Storage` contract. Notice how the _Store_ button also has a field to pass a _uint256_, matching the parameter for `uint256 num`.
+Нажмите шеврон, чтобы развернуть ваш контракт в разделе _Deployed Contracts_ на левой панели. Вы увидите две кнопки, по одной для каждой `public` функции в контракте `Storage`. Обратите внимание, что кнопка Store также имеет поле для передачи uint256, соответствующее параметру uint256 num.
 
 <Frame>
 ![Function Buttons](/images/learn/introduction-to-solidity/remix-contract-buttons.png)
 </Frame>
 
-Let's click the retrieve button first. Before clicking, make a prediction: given that the `number` variable was instantiated without a value, what do you think the return will be?
+Давайте сначала нажмем кнопку retrieve. Прежде чем нажать, сделайте предположение: учитывая, что переменная `number` была создана без значения, что, по вашему мнению, будет возвращено?
 
-Go ahead and click – the result will appear below the button as:
+Нажмите - результат появится под кнопкой:
 
 ```text
 0: uint256: 0
@@ -69,29 +69,29 @@ Go ahead and click – the result will appear below the button as:
 ![Retrieve](/images/learn/introduction-to-solidity/remix-retrieve.png)
 </Frame>
 
-Outputs from the EVM are in the form of an array, so in this case, the only return is in the 0th element and it is a `uint256` of 0. Were you expecting `undefined` or an error?
+Выводы из EVM представлены в виде массива, поэтому в данном случае единственное возвращаемое значение находится в 0-м элементе, и это `uint256` со значением 0. Вы ожидали `undefined` или ошибку?
 
-Unlike many languages, variables in Solidity have a [default value] if not assigned. For `uint` and `int`, that value is 0.
+В отличие от многих языков, переменные в Solidity имеют , если они не присвоены. Для `uint` и `int` это значение равно 0.
 
-You can also review the results of your transaction in the console.
+Вы также можете просмотреть результаты вашей транзакции в консоли.
 
 <Frame>
 ![Console](/images/learn/introduction-to-solidity/remix-transaction-console.png)
 </Frame>
 
-The screenshot above is from a newer version of Remix than the video. Outputs are now often decoded for you!
+Снимок экрана выше сделан в более новой версии Remix, чем в видео. Теперь выходные данные часто декодируются для вас!
 
-### Storing and Retrieving a Value
+### Сохранение и извлечение значения
 
-Use the input to store and retrieve a value. Which costs more gas? Storing or retrieving? This isn't a trick question, but it is a bit nuanced. Both cost about 23500 gas, but there is only a gas cost for the retrieve function if it is called by another contract. Calling it from the web is free, because you're only reading data that is on the blockchain and are not asking the EVM to perform a computational task.
+Используйте поле ввода, чтобы сохранить и извлечь значение. Что стоит больше газа? Сохранение или извлечение? Это не каверзный вопрос, но он немного нюансированный. Обе операции стоят около 23500 газа, но стоимость газа для функции retrieve возникает только в том случае, если она вызывается другим контрактом. Вызов из веба бесплатен, потому что вы только читаете данные, которые находятся в блокчейне, и не просите EVM выполнить вычислительную задачу.
 
 ---
 
-## Disabling Artifact Generation
+## Отключение генерации артефактов
 
-Return to the _File Explorer_ by clicking the double document icon in the upper left. You should now see a folder called _artifacts_ that has been added to your project. This folder contains a number of build artifacts, such as the [_ABI_] for your contract, that will be useful to you later, but currently just cause clutter.
+Вернитесь в _File Explorer_, нажав на значок с двумя документами в верхнем левом углу. Теперь вы должны увидеть папку под названием _artifacts_, которая была добавлена в ваш проект. Эта папка содержит ряд артефактов сборки, таких как [_ABI_] для вашего контракта, которые будут полезны вам позже, но в настоящее время только создают беспорядок.
 
-You can disable artifact generation by clicking the settings gear in the bottom left corner, then deselecting the first checkbox to _Generate contract metadata..._
+Вы можете отключить генерацию артефактов, нажав на значок настроек (шестеренка) в нижнем левом углу, а затем сняв первую галочку _Generate contract metadata..._
 
 <Frame>
 ![Settings](/images/learn/introduction-to-solidity/remix-settings.png)
@@ -99,9 +99,9 @@ You can disable artifact generation by clicking the settings gear in the bottom 
 
 ---
 
-## Conclusion
+## Заключение
 
-Remix makes it easy to write, deploy, and test contracts. Contracts are deployed by a wallet address to their own address. These addresses are similar to how IP addresses work, in that they enable connections across the network. You can test deployed contracts directly in Remix and use the console to see detailed information about each transaction.
+Remix упрощает написание, развертывание и тестирование контрактов. Контракты развертываются адресом кошелька на их собственный адрес. Эти адреса похожи на то, как работают IP-адреса, поскольку они позволяют устанавливать соединения по сети. Вы можете тестировать развернутые контракты прямо в Remix и использовать консоль для просмотра подробной информации о каждой транзакции.
 
 ---
 
