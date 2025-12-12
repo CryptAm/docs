@@ -1,7 +1,7 @@
 ---
-title: 'Hardhat: Optimizing the size of smart contracts'
+title: 'Hardhat: Оптимизация размера смарт-контрактов'
 slug: /hardhat-profiling-size
-description: A tutorial that teaches how to optimize the size of your smart contracts using Hardhat.
+description: Руководство, которое учит, как оптимизировать размер ваших смарт-контрактов с помощью Hardhat.
 author: Edson Alcala and Brian Doyle
 keywords:
   [
@@ -22,52 +22,52 @@ hide_table_of_contents: false
 displayed_sidebar: null
 ---
 
-# Hardhat: Optimizing the size of smart contracts
+# Hardhat: Оптимизация размера смарт-контрактов
 
-In this tutorial, you'll learn how to profile and optimize smart contract sizes with Hardhat and the [Hardhat Contract Sizer] plugin.
-
-
-
-## Objectives
-
-By the end of this tutorial you should be able to:
-
-- Use Hardhat Contract Sizer plugin to profile contract size
-- Describe common strategies for managing the contract size limit
-- Describe the impact that inheritance has on the byte code size limit
-- Describe the impact that external contracts have on the byte code size limit
-- Describe the impact of using libraries has on the byte code size limit
-- Describe the impact of using the Solidity optimizer
+В этом учебнике вы узнаете, как профилировать и оптимизировать размер смарт-контрактов с помощью Hardhat и плагина [Hardhat Contract Sizer].
 
 
 
-## Overview
+## Цели
 
-In the world of blockchain and Ethereum, optimizing smart contract sizes is crucial. Smaller contracts consume less gas during deployment and execution, which is translated into gas costs savings for your users. Fortunately, you can use in Hardhat the `hardhat-contract-sizer` plugin that helps you analyze and optimize the size of your smart contracts.
+К концу этого учебника вы сможете:
 
-## Setting up the Hardhat Contract Sizer plugin
+- Использовать плагин Hardhat Contract Sizer для профилирования размера контракта
+- Описывать распространенные стратегии управления ограничением размера контракта
+- Описывать влияние наследования на ограничение размера байт-кода
+- Описывать влияние внешних контрактов на ограничение размера байт-кода
+- Описывать влияние использования библиотек на ограничение размера байт-кода
+- Описывать влияние использования оптимизатора Solidity
 
 
 
-Hardhat Contract Sizer is a community-developed plugin that enables the profiling of smart contract by printing the size of your smart contracts in the terminal. This is helpful during development since it allows you to immediately identify potential issues with the size of your smart contracts. Keep in mind that the [maximum size of a smart contract in Ethereum] is 24 KiB.
+## Обзор
 
-To install, run `npm install -D hardhat-contract-sizer`.
+В мире блокчейна и Ethereum оптимизация размеров смарт-контрактов имеет решающее значение. Меньшие контракты потребляют меньше газа при развертывании и выполнении, что приводит к экономии затрат на газ для ваших пользователей. К счастью, в Hardhat вы можете использовать плагин `hardhat-contract-sizer`, который помогает анализировать и оптимизировать размер ваших смарт-контрактов.
 
-Then, import `hardhat-contract-sizer` in `hardhat.config.ts`:
+## Настройка плагина Hardhat Contract Sizer
+
+
+
+Hardhat Contract Sizer - это плагин, разработанный сообществом, который позволяет профилировать смарт-контракты, выводя размер ваших контрактов в терминал. Это полезно во время разработки, так как позволяет сразу выявлять потенциальные проблемы с размером ваших смарт-контрактов. Помните, что [maximum size of a smart contract in Ethereum] составляет 24 КиБ.
+
+Для установки выполните `npm install -D hardhat-contract-sizer`.
+
+Затем импортируйте `hardhat-contract-sizer` in `hardhat.config.ts`:
 
 ```solidity
 import "hardhat-contract-sizer"
 ```
 
-When finished, you are ready to use the plugin.
+После завершения настройки вы готовы использовать плагин.
 
-## Your first size profiling
+## Ваше первое профилирование размера
 
-Similar to the previous tutorials, you begin by profiling the smart contract `Lock.sol`.
+Как и в предыдущих учебниках, вы начнете с профилирования смарт-контракта `Lock.sol`.
 
-Run `npx hardhat size-contracts`, which is a task added to Hardhat once you set up and configure the `hardhat-contract-sizer` plugin.
+Выполните `npx hardhat size-contracts` - это задача (task), добавленная в Hardhat после настройки и конфигурации плагина `hardhat-contract-sizer`.
 
-You are then able to see:
+Затем вы увидите:
 
 ```
  ·------------------------|--------------------------------|--------------------------------·
@@ -80,13 +80,13 @@ You are then able to see:
  |  Lock                  ·                      1.009 ()  ·                      1.461 ()  │
 ```
 
-Although your contract is simple, you can see immediately the power of the `hardhat-contract-sizer` plugin, since it show you the size of your contracts.
+Хотя ваш контракт прост, вы сразу видите силу плагина `hardhat-contract-sizer`, так как он показывает размер ваших контрактов.
 
-## Common strategies to optimize contract sizes
+## Распространенные стратегии для оптимизации размера контрактов
 
 <Video videoId='863776975' title='Manual Optimizations' />
 
-In order to illustrate some of the strategies to optimize the size of your contracts, create two smart contracts, `Calculator.sol` and `ScientificCalculator.sol`, with the following:
+Чтобы проиллюстрировать некоторые стратегии оптимизации размера ваших контрактов, создайте два смарт-контракта: `Calculator.sol` и `ScientificCalculator.sol` со следующим содержимым:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -125,7 +125,7 @@ contract ScientificCalculator is Calculator {
 }
 ```
 
-Then, run the command `npx hardhat size-contracts` again and you should be able to see:
+Затем снова выполните команду `npx hardhat size-contracts`, и вы должны увидеть:
 
 ```
  ·------------------------|--------------------------------|--------------------------------·
@@ -143,19 +143,19 @@ Then, run the command `npx hardhat size-contracts` again and you should be able 
  ·------------------------|--------------------------------|--------------------------------·
 ```
 
-Notice how the size of `ScientificCalculator` is bigger than `Calculator`. This is because `ScientificCalculator` is inheriting the contract `Calculator`, which means all of its functionality and code is available in `ScientificCalculator` and that will influence its size.
+Обратите внимание, что размер `ScientificCalculator` больше, чем `Calculator`. Это связано с тем, что `ScientificCalculator` наследует контракт `Calculator`, что означает, что весь его функционал и код доступны в `ScientificCalculator`, и это повлияет на его размер.
 
-### Code abstraction and modifiers
+### Абстракция кода и модификаторы
 
-At this point as a smart contract developer, you can review your smart contract code and look for ways into you can optimize it.
+На этом этапе, как разработчик смарт-контрактов, вы можете пересмотреть код своего смарт-контракта и найти способы его оптимизации.
 
-The first thing you notice in the source code is the extensive use of:
+Первое, что бросается в глаза в исходном коде - это частое использование:
 
 ```solidity
 require(a > 0 && b > 0, "Invalid values");
 ```
 
-A possible optimization is to abstract repetitive code into [modifiers], such as the following:
+Возможной оптимизацией является вынос повторяющегося кода в [modifiers], например:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -189,7 +189,7 @@ contract Calculator {
 }
 ```
 
-And for `ScientificCalculator`:
+И для `ScientificCalculator`:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -204,9 +204,9 @@ contract ScientificCalculator is Calculator {
 }
 ```
 
-Notice the usage of the modifier and the replacement of the require to use a custom error.
+Обратите внимание на использование модификатора и замену `require` на пользовательскую ошибку.
 
-When you run the `npx hardhat size-contracts` command, you should be able to see:
+Когда вы запустите команду `npx hardhat size-contracts`, вы должны увидеть:
 
 ```
  ·------------------------|--------------------------------|--------------------------------·
@@ -224,17 +224,17 @@ When you run the `npx hardhat size-contracts` command, you should be able to see
  ·------------------------|--------------------------------|--------------------------------·
 ```
 
-Although the optimization is small, you can see that there are some improvements.
+Хотя оптимизация невелика, вы видите некоторые улучшения.
 
-You can continue this process until you feel comfortable with the size of the contract.
+Вы можете продолжать этот процесс, пока не будете удовлетворены размером контракта.
 
-### Split into multiple contracts
+### Разделение на несколько контрактов
 
-It is common to split your smart contracts into multiple contracts, not only because of the size limitations but to create better abstractions, to improve readability, and to avoid repetition.
+Распространенной практикой является разделение ваших смарт-контрактов на несколько контрактов, не только из-за ограничений по размеру, но и для создания лучших абстракций, улучшения читаемости и избежания повторений.
 
-From a contract size perspective, having multiple independent contracts will reduce the size of each contract. For example, the original size of a smart contract was 30 KiB: by splitting into 2, you will end up with 2 smart contracts of ~15 KiB that are within the limits of Solidity. Keep in mind that this will influence gas costs during the execution of the contract because it will require it to call an external contract.
+С точки зрения размера контракта наличие нескольких независимых контрактов уменьшит размер каждого из них. Например, исходный размер смарт-контракта составлял 30 КиБ: разделив его на 2, вы получите 2 смарт-контракта размером примерно по 15 КиБ каждый, что соответствует ограничениям Solidity. Имейте в виду, что это повлияет на затраты газа при выполнении контракта, так как потребуется вызов внешнего контракта.
 
-In order to explain this example, create a contract called `Computer` that contains a function called `executeProcess`:
+Чтобы объяснить этот пример, создайте контракт под названием `Computer` который содержит функцию `executeProcess`:
 
 ```tsx
 // SPDX-License-Identifier: UNLICENSED
@@ -244,12 +244,12 @@ import "hardhat/console.sol";
 
 contract Computer {
      function executeProcess() external view {
-        // ...logic to be implemented
+        // ...логика для реализации
     }
 }
 ```
 
-In this example, the `executeProcess` function of `Computer` requires certain functionality of `Calculator` and a new contract called `Printer`:
+В этом примере функция `executeProcess` контракта `Computer` требует определенный функционал от `Calculator` и нового контракта под названием `Printer`:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -265,9 +265,9 @@ contract Printer {
 }
 ```
 
-The easiest way for `Computer` to access both functionalities is to inherit; however, as all of these contracts continue adding functionality, the size of the code will also increase. You will reach the contract size issue at some point, since you are copying the entire functionality into your contract. You can better allow that functionality to be kept with their specific contracts and if the `Computer` requires to access that functionality, you could call the `Calculator` and `Printer` contracts.
+Самый простой способ для `Computer` получить доступ к обоим функциям - это наследование. Однако по мере того, как все эти контракты продолжают добавлять функционал, размер кода также будет увеличиваться. В какой-то момент вы столкнетесь с проблемой размера контракта, поскольку копируете весь функционал в свой контракт. Лучше позволить этому функционалу оставаться в их конкретных контрактах, и если `Computer` потребуется доступ к нему, он может вызывать контракты `Calculator` и `Printer`.
 
-But in this example, there is a process that must call both `Calculator` and `Printer`:
+Но в этом примере есть процесс, который должен вызывать и `Calculator` и `Printer`:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -288,13 +288,13 @@ contract Computer {
     }
 
     function executeProcess() external view {
-        // call Calculator contract, i.e calculator.add(a, b);
-        // call Printer contract, i.e printer.print("value to print");
+        // вызов контракта Calculator, например calculator.add(a, b);
+        // вызов контракта Printer, например printer.print("value to print");
     }
 }
 ```
 
-If you run the contract sizer plugin, you get:
+Если вы запустите плагин contract sizer, вы получите:
 
 ```
  ·------------------------|--------------------------------|--------------------------------·
@@ -314,21 +314,21 @@ If you run the contract sizer plugin, you get:
  ·------------------------|--------------------------------|--------------------------------·
 ```
 
-Notice how your `Computer` contract is very small but still has the capability to access all the functionality of `Printer` and `Calculator`.
+Обратите внимание, как ваш контракт `Computer` очень мал, но все еще имеет возможность доступа ко всему функционалу `Printer` и `Calculator`.
 
-Although this will reduce the size of each contract, the costs of this are discussed more deeply in the [Gas Optimization] article.
+Хотя это уменьшит размер каждого контракта, стоимость этого обсуждается более подробно в статье [Gas Optimization].
 
-### Using libraries
+### Использование библиотек
 
-Libraries are another common way to encapsulate and abstract common functionality that can be shared across multiple contracts. This can significantly impact the bytecode size of the smart contracts. Remember that in Solidity, libraries can be external and internal.
+Библиотеки - еще один распространенный способ инкапсулировать и абстрагировать общий функционал, который может использоваться несколькими контрактами. Это может существенно повлиять на размер байт-кода смарт-контрактов. Помните, что в Solidity библиотеки могут быть внешними (external) и внутренними (internal).
 
-The way internal libraries affect the contract size is very similar to the way inherited contracts affects a contract's size; this is because the internal functions of the library is included within the final bytecode.
+То, как внутренние библиотеки влияют на размер контракта, очень похоже на то, как наследуемые контракты влияют на размер контракта; это связано с тем, что внутренние функции библиотеки включаются в итоговый байт-код.
 
-But when the libraries are external, the behavior is different: the way Solidity calls external libraries is by using a special function called [delegate call].
+Но когда библиотеки являются внешними, поведение иное: способ, которым Solidity вызывает внешние библиотеки, заключается в использовании специальной функции под названием [delegate call].
 
-External libraries are commonly deployed independently and can be reused my multiple contracts. Since libraries don't keep a state, they behave like pure functions in the Blockchain.
+Внешние библиотеки обычно развертываются независимо и могут повторно использоваться несколькими контрактами. Поскольку библиотеки не хранят состояние (stateless), они ведут себя как чистые функции (pure functions) в блокчейне.
 
-In this example, your computer will use the `Calculator` library only. Then, you would have the following:
+В этом примере ваш компьютер будет использовать только библиотеку `Calculator`. Тогда у вас будет следующее:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -362,7 +362,7 @@ library Calculator {
 }
 ```
 
-Then, `Computer` is:
+Тогда `Computer` выглядит так:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -380,14 +380,14 @@ contract Computer {
         uint256 a = 1;
         uint256 b = 2;
         uint256 result = a.add(b);
-        // ... logic to be implemented
+        // ... логика для реализации
     }
 }
 ```
 
-Notice how you instructing the smart contract to use the `Calculator` library for `uint256` and how in the `executeProcess` function, you can now use the `add` function from the `Calculator` library in all of the `uint256`.
+Обратите внимание, как вы указываете смарт-контракту использовать библиотеку `Calculator` для `uint256`, и как в функции `executeProcess` вы теперь можете использовать функцию `add` из библиотеки `Calculator` для всех `uint256`.
 
-If you run the `npx hardhat size-contracts` command, you then get:
+Если вы выполните команду `npx hardhat size-contracts`, вы получите:
 
 ```
  ·------------------------|--------------------------------|--------------------------------·
@@ -403,7 +403,7 @@ If you run the `npx hardhat size-contracts` command, you then get:
  ·------------------------|--------------------------------|--------------------------------·
 ```
 
-In order to compare the impact, you can modify the external modifier from all of the `Calculator` library functions and you will then have:
+Чтобы сравнить влияние, вы можете изменить модификатор external для всех функций библиотеки `Calculator`, и тогда вы получите:
 
 ```
  ·------------------------|--------------------------------|--------------------------------·
@@ -419,19 +419,19 @@ In order to compare the impact, you can modify the external modifier from all of
  ·------------------------|--------------------------------|--------------------------------·
 ```
 
-Which demonstrates why using external libraries can be a good option in order to optimize the size of your contracts.
+Что демонстрирует, почему использование внешних библиотек может быть хорошим вариантом для оптимизации размера ваших контрактов.
 
-### Using the Solidity compiler optimizer
+### Использование оптимизатора компилятора Solidity
 
 <Video videoId='863777593' title='Using the Optimizer' />
 
-Another way to optimize the size of the smart contracts is to simply use the Solidity optimizer.
+Еще один способ оптимизировать размер смарт-контрактов - просто использовать оптимизатор Solidity.
 
-From the [Solidity official docs]:
+Из [Solidity official docs]:
 
-> Overall, the optimizer tries to simplify complicated expressions, which reduces both code size and execution cost.
+> В целом, оптимизатор пытается упростить сложные выражения, что уменьшает как размер кода, так и стоимость выполнения.
 
-You can enable the solidity optimizer in hardhat by simply adding the following to the `hardhat.config.ts` file:
+Вы можете включить оптимизатор Solidity в Hardhat, просто добавив следующее в файл `hardhat.config.ts`:
 
 ```solidity
 const config: HardhatUserConfig = {
@@ -448,7 +448,7 @@ const config: HardhatUserConfig = {
 }
 ```
 
-Notice the optimizer is enabled and has a parameter `runs`. If you run the contract sizer command again, you will see the following:
+Обратите внимание, что оптимизатор включен и имеет параметр `runs`. Если вы снова запустите команду contract sizer, вы увидите следующее:
 
 ```
  ·------------------------|--------------------------------|--------------------------------·
@@ -466,7 +466,7 @@ Notice the optimizer is enabled and has a parameter `runs`. If you run the contr
  ·------------------------|--------------------------------|--------------------------------·
 ```
 
-Notice the bigger improvement, but see what happens if you increase the `runs` parameter value to 1000:
+Обратите внимание на значительное улучшение, но посмотрите, что произойдет, если вы увеличите значение параметра `runs` до 1000:
 
 ```
  ·------------------------|--------------------------------|--------------------------------·
@@ -484,13 +484,13 @@ Notice the bigger improvement, but see what happens if you increase the `runs` p
  ·------------------------|--------------------------------|--------------------------------·
 ```
 
-The size of the contract increased, however this means your code will be more efficient across the lifetime of the contract because the higher the `runs` value the more efficient during execution but more expensive during deployment. You can read more in the [Solidity documentation].
+Размер контракта увеличился, однако это означает, что ваш код будет более эффективным в течение всего времени жизни контракта, потому что чем выше значение `runs`, тем эффективнее выполнение, но дороже развертывание. Вы можете прочитать больше в [Solidity documentation].
 
-## Conclusion
+## Заключение
 
-In this tutorial, you've learned how to profile and optimise smart contracts using the Hardhat development environment and the Hardhat Contract Sizer plugin. By focusing on the critical aspect of contract size, we've equipped ourselves with tools and strategies to create more efficient Solidity code.
+В этом учебнике вы узнали, как профилировать и оптимизировать смарт-контракты, используя среду разработки Hardhat и плагин Hardhat Contract Sizer. Сосредоточившись на критически важном аспекте размера контракта, мы вооружили себя инструментами и стратегиями для создания более эффективного кода на Solidity.
 
-As you continue your journey in smart contract development, keep in mind that optimizing contract sizes is a continuous process that requires careful consideration of trade-offs between size, readability, and gas efficiency.
+Продолжая свой путь в разработке смарт-контрактов, помните, что оптимизация размеров контрактов - это непрерывный процесс, требующий тщательного учета компромиссов между размером, читаемостью и эффективностью газа.
 
 
 [Hardhat Contract Sizer]: https://github.com/ItsNickBarry/hardhat-contract-sizer
