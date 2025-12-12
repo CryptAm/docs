@@ -1,92 +1,92 @@
 ---
-title: 'Introduction to Remix'
-description: An introduction to the Remix online IDE.
-sidebarTitle: Remix Guide
+title: 'Введение в Remix'
+description: Введение в онлайн-IDE Remix.
+sidebarTitle: Руководство по Remix
 hide_table_of_contents: false
 ---
 
-In this lesson, you'll be introduced to an online Solidity IDE called Remix. You'll tour the workspace and explore a sample smart contract.
+В этом уроке вы познакомитесь с онлайн-IDE для Solidity под названием Remix. Вы совершите обзор рабочей среды и изучите пример смарт-контракта.
 
 ---
 
-## Objectives
+## Цели
 
-By the end of this lesson you should be able to:
+К концу этого урока вы сможете:
 
-- List the features, pros, and cons of using Remix as an IDE
-- Deploy and test the Storage.sol demo contract in Remix
+- Перечислить особенности, преимущества и недостатки использования Remix в качестве IDE
+- Развернуть и протестировать демонстрационный контракт Storage.sol в Remix
 
 ---
 
-## Remix Window Overview
+## Обзор окна Remix
 
-Begin by opening a browser window and navigating to [remix.ethereum.org]. Open the project you created and cleaned up at the end of the last reading, and open `1_Storage.sol`. The editor should be organized in a way that is familiar to you. It is divided into three areas:
+Начните с открытия окна браузера и перехода на сайт [remix.ethereum.org]. Откройте проект, который вы создали и очистили в конце предыдущего чтения, и откройте файл `1_Storage.sol`. Редактор должен быть организован привычным для вас образом. Он разделен на три области:
 
-- Editor Pane
-- Terminal/Output
-- Left Panel
+- Панель редактора
+- Терминал/Вывод
+- Левая панель
 
-### Editor Pane
+### Панель редактора
 
-The editor pane loads with the Remix home screen, which contains news, helpful links, and warnings about common scams. Double-click on `1_Storage.sol` to open it in the editor. You can close the home tab if you'd like.
+Панель редактора загружается с домашним экраном Remix, который содержит новости, полезные ссылки и предупреждения о распространенных мошенничествах. Дважды щелкните на `1_Storage.sol`, чтобы открыть его в редакторе. Вы можете закрыть вкладку домашней страницы, если хотите.
 
 <Frame>
 ![Remix Editor](/images/learn/introduction-to-solidity/editor-pane.png)
 </Frame>
 
-You'll edit your code in the editor pane. It also has most of the features you're expecting, such as syntax and error highlighting. Note that in Remix, errors are not underlined. Instead, you'll see an❗to the left of the line number where the error is present.
+Вы будете редактировать свой код на панели редактора. Она также имеет большинство функций, которые вы ожидаете, таких как подсветка синтаксиса и ошибок. Обратите внимание, что в Remix ошибки не подчеркиваются. Вместо этого вы увидите символ ❗ слева от номера строки, где присутствует ошибка.
 
-At the top, you'll see a large green arrow similar to the _Run_ button in other editors. In Solidity, this compiles your code, but it does not run it because you must first deploy your code to the simulated blockchain.
+Вверху вы увидите большую зеленую стрелку, похожую на кнопку Run в других редакторах. В Solidity это компилирует ваш код, но не запускает его, потому что вы должны сначала развернуть свой код в симулированном блокчейне.
 
-### Terminal/Output
+### Терминал/Вывод
 
-Below the editor pane, you'll find the terminal:
+Под панелью редактора вы найдете терминал:
 
 <Frame>
 ![Remix Terminal](/images/learn/introduction-to-solidity/remix-terminal.png)
 </Frame>
 
-You'll primarily use this panel to observe transaction logs from your smart contracts. It's also one way to access Remix's very powerful debugging tools.
+В основном вы будете использовать эту панель для наблюдения за логами транзакций ваших смарт-контрактов. Это также один из способов доступа к очень мощным инструментам отладки Remix.
 
-### Left Panel
+### Левая панель
 
-As with many other editors, the left panel in Remix has a number of vertical tabs that allow you to switch between different tools and functions. You can explore the files in your current workspace, create and switch between workspaces, search your code, and access a number of plugins.
+Как и во многих других редакторах, левая панель в Remix имеет несколько вертикальных вкладок, которые позволяют переключаться между различными инструментами и функциями. Вы можете исследовать файлы в текущей рабочей области, создавать и переключаться между рабочими областями, искать в своем коде и получать доступ к ряду плагинов.
 
 ---
 
-## Plugins
+## Плагины
 
-Most of the features in Remix are plugins and the ones you'll use the most are active by default. You can view and manage plugins by clicking the plug button in the lower-left corner, right above the settings gear. You can turn them off and on by clicking activate/deactivate, and some, such as the _Debug_ plugin will be automatically activated through other parts of the editor.
+Большинство функций в Remix являются плагинами, и те, которые вы будете использовать чаще всего, активны по умолчанию. Вы можете просматривать и управлять плагинами, нажав на кнопку с вилкой в нижнем левом углу, прямо над значком настроек (шестеренка). Вы можете включать и выключать их, нажимая activate/deactivate, а некоторые, такие как плагин _Debug_, будут автоматически активироваться через другие части редактора.
 
-### Solidity Compiler
+### Компилятор Solidity
 
-The first default plugin (after the search function) is the _Solidity Compiler_. Be sure to check the `Auto compile` option. Smart contracts are almost always very small files, so this shouldn't ever cause a performance problem while editing code.
+Первый плагин по умолчанию (после функции поиска) - это _Solidity Compiler_. Обязательно установите флажок `Auto compile`. Смарт-контракты почти всегда являются очень маленькими файлами, поэтому это не должно вызывать проблем с производительностью при редактировании кода.
 
-The `Compile and Run script` button in this plugin is a little misleading. This is **not** how you will usually run your contract through testing. You can click the `I` button for more information on this feature.
+Кнопка `Compile and Run script` в этом плагине немного вводит в заблуждение. Это не то, как вы обычно будете запускать свой контракт для тестирования. Вы можете нажать кнопку `I`, чтобы получить больше информации об этой функции.
 
-Finally, if you have errors in your contracts, the complete text for each error will appear at the bottom of the pane. Try it out by introducing some typos to `1_Storage.sol`.
+Наконец, если в ваших контрактах есть ошибки, полный текст каждой ошибки появится в нижней части панели. Попробуйте, внеся несколько опечаток в `1_Storage.sol`.
 
-### Deploy & Run Transactions
+### Развертывание и выполнение транзакций
 
-The _Deploy & Run Transactions_ plugin is what you'll use to deploy your contracts and then interact with them. At the top are controls to select which virtual machine to use, mock user wallets with test Ether, and a drop-down menu to select the contract you wish to deploy and test.
+Плагин _Deploy & Run Transactions_ - это то, что вы будете использовать для развертывания ваших контрактов и последующего взаимодействия с ними. Вверху находятся элементы управления для выбора виртуальной машины, имитации пользовательских кошельков с тестовым Эфиром и выпадающего меню для выбора контракта, который вы хотите развернуть и протестировать.
 
-Fix any errors you introduced to `1_Storage.sol` and then click the orange `Deploy` button. You'll see your contract appear below as _STORAGE AT \<address\>_.
+Исправьте любые ошибки, которые вы внесли в `1_Storage.sol`, а затем нажмите оранжевую кнопку `Deploy`. Вы увидите, как ваш контракт появится ниже как _STORAGE AT \<address\>_.
 
 <Warning>
-There are two common gotchas that can be very confusing when deploying contracts in Remix.
+Есть две распространенные ловушки, которые могут очень сбивать с толку при развертывании контрактов в Remix.
 
-1. Each time you hit the Deploy button, a new copy of your contract is deployed but the previous deployments remain. Unless you are comparing or debugging between different versions of a contract, or deploying multiple contracts at once, you should click the `Trash` button to erase old deployments before deploying again.
-1. If your code will not compile, **clicking the deploy button will not generate an error!** Instead, the last compiled version will be deployed. Visually check and confirm that there are no errors indicated by a number in a red circle on top of the Compiler plugin.
+1. Каждый раз, когда вы нажимаете кнопку Deploy, развертывается новая копия вашего контракта, но предыдущие развертывания остаются. Если вы не сравниваете или не отлаживаете различные версии контракта или не развертываете несколько контрактов одновременно, вам следует нажать кнопку `Trash` (корзина), чтобы удалить старые развертывания перед повторным развертыванием.
+1. Если ваш код не компилируется, **нажатие кнопки развертывания не вызовет ошибку**! Вместо этого будет развернута последняя скомпилированная версия. Визуально проверьте и убедитесь, что нет ошибок, указанных цифрой в красном кружке на значке плагина Compiler.
 </Warning>
 
 
 ---
 
-## Conclusion
+## Заключение
 
-Remix is a robust editor with many features and one or two gotchas. It is an excellent tool to use at the beginning of your journey because you can jump right in and start writing code for smart contracts.
+Remix - это мощный редактор со множеством функций и парой ловушек. Это отличный инструмент для использования в начале вашего пути, потому что вы можете сразу приступить к написанию кода для смарт-контрактов.
 
-## See also
+## Смотрите также
 
 [Remix](https://remix.ethereum.org)
 
