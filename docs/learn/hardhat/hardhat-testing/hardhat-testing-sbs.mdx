@@ -1,45 +1,44 @@
 ---
-title: Testing with Hardhat and Typechain
-description: Testing smart contracts with Hardhat and Typechain.
+title: Тестирование с помощью Hardhat и Typechain
+description: Тестирование смарт-контрактов с помощью Hardhat и Typechain.
 hide_table_of_contents: false
 ---
 
-# Testing with Hardhat and Typechain
+# Тестирование с помощью Hardhat и Typechain
 
-In this article, you'll learn how to test smart contracts with Hardhat and Typechain.
-
----
-
-## Objectives
-
-By the end of this lesson, you should be able to:
-
-- Set up TypeChain to enable testing
-- Write unit tests for smart contracts using Mocha, Chai, and the Hardhat Toolkit
-- Set up multiple signers and call smart contract functions with different signers
+В этой статье вы узнаете, как тестировать смарт-контракты с помощью Hardhat и Typechain.
 
 ---
 
-## Overview
+## Цели обучения
 
-Testing is an important aspect of software development and developing smart contracts is no different. In fact, you need to be more careful because
-smart contracts usually manage money and live in an adversarial environment, where anyone can see the code and interact with your smart contract. This means you can expect bad actors to try to exploit your smart contracts.
+После изучения этого урока вы сможете:
 
-## Setup Typechain
+- Настроить TypeChain для включения тестирования
+- Писать модульные тесты для смарт-контрактов с использованием Mocha, Chai и Hardhat Toolkit
+- Настроить несколько подписантов и вызывать функции смарт-контракта с разными подписантами
 
-In the previous guide, you created a new project using the `init` command that by default installs `@nomicfoundation/hardhat-toolbox`. This package already contains Typechain, which is a plugin that generates static types for your smart contracts. This means you can interact with your contracts and get immediate feedback about the parameters received by a particular function and the functions of a smart contract.
+---
 
-The best way to see its true potential is to start writing tests.
+## Обзор
 
-After compiling the hardhat project in the previous lesson, a new folder called `typechain-types` was created, which Typechain is already installed and running.
+Тестирование - важный аспект разработки программного обеспечения, и разработка смарт-контрактов не является исключением. На самом деле, вам нужно быть более осторожным, потому что смарт-контракты обычно управляют деньгами и существуют во враждебной среде, где любой может увидеть код и взаимодействовать с вашим смарт-контрактом. Это означает, что вы можете ожидать, что злоумышленники будут пытаться эксплуатировать ваши смарт-контракты.
 
-### Writing your first unit test with Typechain
+## Настройка Typechain
 
-Hardhat includes a sample smart contract named `Lock.sol` and a sample test inside the test folder named `Lock.ts`.
+В предыдущем руководстве вы создали новый проект с помощью команды `init` которая по умолчанию устанавливает `@nomicfoundation/hardhat-toolbox`. Этот пакет уже содержит Typechain, который является плагином, генерирующим статические типы для ваших смарт-контрактов. Это означает, что вы можете взаимодействовать с вашими контрактами и получать немедленную обратную связь о параметрах, принимаемых конкретной функцией, и о функциях смарт-контракта.
 
-In the following, you reuse this smart contract but rewrite the test using Typechain.
+Лучший способ увидеть его истинный потенциал - начать писать тесты.
 
-To remove the body of the `Lock.ts` file:
+После компиляции проекта Hardhat в предыдущем уроке была создана новая папка под названием `typechain-types`, где Typechain уже установлен и запущен.
+
+### Написание вашего первого модульного теста с Typechain
+
+Hardhat включает пример смарт-контракта с именем `Lock.sol` и пример теста внутри папки test с именем `Lock.ts`.
+
+Далее вы повторно используете этот смарт-контракт, но перепишете тест с использованием Typechain.
+
+Чтобы удалить тело файла `Lock.ts`:
 
 ```tsx
 import { expect } from 'chai';
@@ -48,13 +47,13 @@ import { ethers } from 'hardhat';
 describe('Lock', function () {});
 ```
 
-Then, import two files from `typechain-types`, `Lock`, and `Lock__Factory`.
+Затем импортируйте два файла из `typechain-types`, `Lock`, и `Lock__Factory`.
 
-Typechain always creates two files per contract. The first one `Lock` refers to the type and functions of a particular contract. `Lock__Factory` is used to deploy the Lock contract or to create instances of a particular contract.
+Typechain всегда создает два файла на контракт. Первый, `Lock`, относится к типу и функциям конкретного контракта. `Lock__Factory` используется для развертывания контракта Lock или для создания экземпляров конкретного контракта.
 
-The `Lock.sol` contract allows the creator to lock Ether until an unlock time has passed.
+Контракт `Lock.sol` позволяет создателю блокировать эфир до тех пор, пока не наступит время разблокировки.
 
-Notice the constructor has a payable keyword:
+Обратите внимание, что конструктор имеет ключевое слово payable:
 
 ```tsx
 constructor(uint _unlockTime) payable {
@@ -68,72 +67,72 @@ constructor(uint _unlockTime) payable {
     }
 ```
 
-This means the contract is expecting to receive an amount of ether.
+Это означает, что контракт ожидает получения определенной суммы эфира.
 
-Next, test the following:
+Далее протестируйте следующее:
 
-- The unlock time value
-- The value locked during creation
-- The owner address
-- The withdraw function
+- Значение времени разблокировки (unlockTime)
+- Значение, заблокированное при создании
+- Адрес владельца
+- Функцию вывода средств (withdraw)
 
 <details>
 
 <summary>Reveal code</summary>
 
-Start with the value locked, however you must set up a `before` function, which will run before each test case.
+Начните со значения, которое было заблокировано, однако вы должны настроить функцию `before`, которая будет выполняться перед каждым тестовым случаем.
 
-Then, include some new imports and variables:
+Затем включите некоторые новые импорты и переменные:
 
 ```tsx
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
 
-// A helper utility to get the timestamp.
+// Вспомогательная утилита для получения временной метки.
 import { time } from '@nomicfoundation/hardhat-network-helpers';
 
-// We import this type to have our signers typed.
+// Мы импортируем этот тип, чтобы типизировать наших подписантов.
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 
-// Types from typechain
+// Типы из typechain
 import { Lock__factory, Lock } from '../typechain-types';
 
 describe('Lock', function () {
-  // This represents the time in the future we expect to release the funds locked.
+  // Это представляет время в будущем, когда мы ожидаем разблокировать заблокированные средства.
   const UNLOCK_TIME = 10000;
 
-  // The amount of ether we plan to lock.
+  // Количество эфира, которое мы планируем заблокировать.
   const VALUE_LOCKED = ethers.parseEther('0.01');
 
-  // This variable will store the last block timestamp.
+  // Эта переменная будет хранить временную метку последнего блока.
   let lastBlockTimeStamp: number;
 
-  // Typechain allow us to type an instance of the Lock contract.
+  // Typechain позволяет нам типизировать экземпляр контракта Lock.
   let lockInstance: Lock;
 
-  // This is the Signer of the owner.
+  // Это подписант владельца.
   let ownerSigner: SignerWithAddress;
 
-  // A non owner signed is useful to test non owner transactions.
+  // Подписант не владельца полезен для тестирования транзакций не владельца.
   let otherUserSigner: SignerWithAddress;
 
   before(async () => {
-    // We get the latest block.timestamp using the latest function of time.
+    // Мы получаем последний block.timestamp, используя функцию latest из time.
     lastBlockTimeStamp = await time.latest();
 
-    // Hardhat provide us with some sample signers that simulate Ethereum accounts.
+    // Hardhat предоставляет нам несколько примерных подписантов, которые имитируют учетные записи Ethereum.
     const signers = await ethers.getSigners();
 
-    // We simply assign the first signer to ownerSigner
+    // Мы просто присваиваем первого подписанта ownerSigner
     ownerSigner = signers[0];
 
-    // We assign the second signer to otherUserSigner
+    // Мы присваиваем второго подписанта otherUserSigner
     otherUserSigner = signers[1];
 
-    // We estimate unlockTime to be the last time stamp plus UNLOCK_TIME
+    // Мы рассчитываем unlockTime как последнюю временную метку плюс UNLOCK_TIME
     const unlockTime = lastBlockTimeStamp + UNLOCK_TIME;
 
-    // Notice how we use the Lock__factory and pass a signer. Then we deploy by passing the unlockTime and the amount of ether we will lock.
+    // Обратите внимание, как мы используем Lock__factory и передаем подписанта. Затем мы развертываем, передавая unlockTime и количество эфира, которое мы заблокируем.
     lockInstance = await new Lock__factory(ownerSigner).deploy(unlockTime, {
       value: VALUE_LOCKED,
     });
@@ -143,46 +142,46 @@ describe('Lock', function () {
 
 </details>
 
-### Testing `unlockTime`
+### Тестирование `unlockTime`
 
-Next, you include test cases after the `before` function.
+Далее вы включите тестовые случаи после функции `before`.
 
-The first test case should verify that the `unlockTime` variable is correct.
+Первый тестовый случай должен проверить, что переменная `unlockTime` верна.
 
 <details>
 
-<summary>Reveal code</summary>
+<summary>Показать код</summary>
 
 ```tsx
 it('should get the unlockTime value', async () => {
-  // we get the value from the contract
+  // мы получаем значение из контракта
   const unlockTime = await lockInstance.unlockTime();
 
-  // We assert against the
+  // Мы утверждаем против
   expect(unlockTime).to.equal(lastBlockTimeStamp + UNLOCK_TIME);
 });
 ```
 
-Notice how autocomplete appears after entering `lockInstance`:
+Обратите внимание, как автодополнение появляется после ввода `lockInstance`:
 
 ![Auto complete](/images/learn/hardhat-testing/autocomplete-unlockTime.png)
 
-You can simply run `npx hardhat test` and then get:
+Вы можете просто запустить `npx hardhat test` и затем получить:
 
 ```
   Lock
-    ✔ should get the unlockTime value
+    ✔ должен получить значение unlockTime
 
-  1 passing (1s)
+  1 проходящий (1s)
 ```
 
 </details>
 
-### Testing Ether balance
+### Тестирование баланса эфира
 
-In order to get the balance of your `Lock` contract, you simply call `ethers.provider.getBalance`.
+Чтобы получить баланс вашего контракта `Lock`, вы просто вызываете `ethers.provider.getBalance`.
 
-Create a new test case:
+Создайте новый тестовый случай:
 
 <details>
 
@@ -190,13 +189,13 @@ Create a new test case:
 
 ```tsx
 it('should have the right ether balance', async () => {
-  // Get the Lock contract address
+  // Получаем адрес контракта Lock
   const lockInstanceAddress = await lockInstance.getAddress();
 
-  // Get the balance using ethers.provider.getBalance
+  // Получаем баланс с помощью ethers.provider.getBalance
   const contractBalance = await ethers.provider.getBalance(lockInstanceAddress);
 
-  // We assert the balance against the VALUE_LOCKED we initially sent
+  // Мы утверждаем, что баланс равен VALUE_LOCKED, который мы изначально отправили
   expect(contractBalance).to.equal(VALUE_LOCKED);
 });
 ```
@@ -204,27 +203,27 @@ it('should have the right ether balance', async () => {
 </details>
 <br/>
 
-Then, run `npx hardhat test` and you should get:
+Затем запустите `npx hardhat test`, и вы должны получить:
 
 ```
   Lock
-    ✔ should get the unlockTime value
-    ✔ should have the right ether balance
+    ✔ должен получить значение unlockTime
+    ✔ должен иметь правильный баланс эфира
 
-  2 passing (1s)
+  2 проходящих (1s)
 ```
 
-### Testing `owner`
+### Тестирование `owner`
 
-Similar to the previous test cases, you can verify that the owner is correct.
+Аналогично предыдущим тестовым случаям, вы можете проверить, что владелец верен.
 
 <details>
 
-<summary>Reveal code</summary>
+<summary>Показать код</summary>
 
 ```tsx
 it('should have the right owner', async () => {
-  // Notice ownerSigned has an address property
+  // Обратите внимание, ownerSigned имеет свойство address
   expect(await lockInstance.owner()).to.equal(ownerSigner.address);
 });
 ```
@@ -232,28 +231,28 @@ it('should have the right owner', async () => {
 </details>
 <br/>
 
-Then, run `npx hardhat test` and you should get:
+Затем запустите `npx hardhat test`, и вы должны получить:
 
 ```
   Lock
-    ✔ should get the unlockTime value
-    ✔ should have the right ether balance
-    ✔ should have the right owner
+    ✔ должен получить значение unlockTime
+    ✔ должен иметь правильный баланс эфира
+    ✔ должен иметь правильного владельца
 
-  3 passing (1s)
+  3 проходящих (1s)
 ```
 
-### Testing withdraw
+### Тестирование вывода средств
 
-Testing withdrawal is more complex because you need to assert certain conditions, such as:
+Тестирование вывода средств более сложное, потому что вам нужно утверждать определенные условия, такие как:
 
-- The owner cannot withdraw before the unlock time.
-- Only the owner can withdraw.
-- The withdraw function works as expected.
+- Владелец не может вывести средства до времени разблокировки.
+- Только владелец может вывести средства.
+- Функция вывода средств работает как ожидается.
 
-Hardhat allow you to test reverts with a set of custom matchers.
+Hardhat позволяет тестировать откаты (reverts) с набором пользовательских матчеров (matchers).
 
-For example, the following code checks that an attempt to call the function `withdraw` reverts with a particular message:
+Например, следующий код проверяет, что попытка вызвать функцию `withdraw` откатывается с определенным сообщением:
 
 ```tsx
 it('shouldn"t allow to withdraw before unlock time', async () => {
@@ -261,49 +260,49 @@ it('shouldn"t allow to withdraw before unlock time', async () => {
 });
 ```
 
-In addition, Hardhat also allows you to manipulate the time of the environment where the tests are executed. You can think of it as a Blockchain that is running before the tests and then the tests are executed against it.
+Кроме того, Hardhat также позволяет вам управлять временем среды, в которой выполняются тесты. Вы можете думать об этом как о блокчейне, который работает перед тестами, а затем тесты выполняются против него.
 
-You can modify `the block.timestamp` by using the time helper:
+Вы можете изменить `the block.timestamp` используя хелпер `time`:
 
 ```tsx
 it('shouldn"t allow to withdraw a non owner', async () => {
   const newLastBlockTimeStamp = await time.latest();
 
-  // We set the next block time stamp using this helper.
-  // We assign a value further in the future.
+  // Мы устанавливаем временную метку следующего блока с помощью этого хелпера.
+  // Мы присваиваем значение, более отдаленное в будущем.
   await time.setNextBlockTimestamp(newLastBlockTimeStamp + UNLOCK_TIME);
 
-  // Then we try to withdraw using other user signer. Notice the .connect function that is useful
-  //  to create and instance but have the msg.sender as the new signer.
+  // Затем мы пытаемся вывести средства, используя подписанта другого пользователя. Обратите внимание на функцию .connect, которая полезна
+  // для создания экземпляра, но с msg.sender в качестве нового подписанта.
   const newInstanceUsingAnotherSigner = lockInstance.connect(otherUserSigner);
 
-  // We attempt to withdraw, but since the sender is not the owner, it will revert.
+  // Мы пытаемся вывести, но поскольку отправитель не владелец, это вызовет откат.
   await expect(newInstanceUsingAnotherSigner.withdraw()).to.be.revertedWith("You aren't the owner");
 });
 ```
 
-Finally, test that the owner can withdraw. You can manipulate the time similarly to the previous test case but you won't change the signer and will assert the new balances.
+Наконец, протестируйте, что владелец может вывести средства. Вы можете управлять временем аналогично предыдущему тестовому случаю, но не будете менять подписанта и будете утверждать новые балансы.
 
 <details>
 
-<summary>Reveal code</summary>
+<summary>Показать код</summary>
 
 ```tsx
 it('should allow to withdraw an owner', async () => {
   const balanceBefore = await ethers.provider.getBalance(await lockInstance.getAddress());
 
-  // Its value will be the one we lock at deployment time.
+  // Его значение будет таким, которое мы заблокировали при развертывании.
   expect(balanceBefore).to.equal(VALUE_LOCKED);
 
   const newLastBlockTimeStamp = await time.latest();
 
-  // We increase time
+  // Мы увеличиваем время
   await time.setNextBlockTimestamp(newLastBlockTimeStamp + UNLOCK_TIME);
 
-  // Attempt to withdraw
+  // Попытка вывести средства
   await lockInstance.withdraw();
 
-  // Get new balance and assert that is 0
+  // Получаем новый баланс и утверждаем, что он равен 0
   const balanceAfter = await ethers.provider.getBalance(await lockInstance.getAddress());
   expect(balanceAfter).to.equal(0);
 });
@@ -313,27 +312,27 @@ it('should allow to withdraw an owner', async () => {
 
 <br/>
 
-You can then run `npx hardhat test` and you should get:
+Затем вы можете запустить `npx hardhat test`, и вы должны получить:
 
 ```
   Lock
-    ✔ should get the unlockTime value
-    ✔ should have the right ether balance
-    ✔ should have the right owner
-    ✔ shouldn"t allow to withdraw before unlock time (51ms)
-    ✔ shouldn"t allow to withdraw a non owner
-    ✔ should allow to withdraw an owner
+    ✔ должен получить значение unlockTime
+    ✔ должен иметь правильный баланс эфира
+    ✔ должен иметь правильного владельца
+    ✔ не должен позволять выводить до времени разблокировки (51ms)
+    ✔ не должен позволять выводить не владельцу
+    ✔ должен позволять выводить владельцу
 
-  6 passing (2s)
+  6 проходящих (2s)
 ```
 
-## Conclusion
+## Заключение
 
-In this lesson, you've learned how to test smart contracts using Hardhat and Typechain.
+В этом уроке вы узнали, как тестировать смарт-контракты с помощью Hardhat и Typechain.
 
 ---
 
-## See also
+## Смотрите также
 
 [Solidity Docs](https://docs.soliditylang.org/en/v0.8.17/)
 [Remix Project]: https://remix-project.org/
