@@ -1,46 +1,46 @@
 ---
-title: 'Hardhat: Optimizing the gas usage of smart contracts'
+title: 'Hardhat: Оптимизация потребления газа смарт-контрактами'
 slug: /hardhat-profiling-gas
-description: A tutorial that teaches how to optimize the gas usage of your smart contracts using Hardhat.
+description: Учебник, который учит, как оптимизировать потребление газа ваших смарт-контрактов с помощью Hardhat.
 author: Edson Alcala and Brian Doyle
 ---
 
-# Hardhat: Optimizing the gas usage of smart contracts
+# Hardhat: Оптимизация потребления газа смарт-контрактами
 
-In this tutorial, you'll learn how to profile and optimize your smart contract's gas usage with Hardhat and the [Hardhat Gas Reporter] plugin.
-
-
-
-## Objectives
-
-By the end of this tutorial you should be able to:
-
-- Use the Hardhat Gas Reporter plugin to profile gas usage
-- Describe common strategies for improving the gas usage of a contract
+В этом учебнике вы узнаете, как профилировать и оптимизировать потребление газа вашего смарт-контракта с помощью Hardhat и плагина [Hardhat Gas Reporter].
 
 
 
-## Overview
+## Цели
 
-In the world of smart contract development, optimizing the gas consumption of your smart contracts is important. Smaller contracts consume fewer gas resources during deployment and execution, resulting in significant cost savings for your users. In this tutorial, you will leverage the Hardhat Gas Reporter plugin to help you analyze and optimize your smart contract's gas usage.
+К концу этого учебника вы сможете:
 
-The following provides further information about smart contract profiling and gas optimization.
+- Использовать плагин Hardhat Gas Reporter для профилирования расхода газа
+- Описывать распространенные стратегии для улучшения расхода газа контракта
 
-## Setting up the Hardhat Gas Reporter plugin
+
+
+## Обзор
+
+В мире разработки смарт-контрактов оптимизация потребления газа ваших смарт-контрактов важна. Меньшие контракты потребляют меньше ресурсов газа при развертывании и выполнении, что приводит к значительной экономии средств для ваших пользователей. В этом учебнике вы будете использовать плагин Hardhat Gas Reporter, чтобы помочь вам анализировать и оптимизировать потребление газа вашим смарт-контрактом.
+
+Далее представлена дополнительная информация о профилировании смарт-контрактов и оптимизации газа.
+
+## Настройка плагина Hardhat Gas Reporter
 
 <Video videoId='867220421' title='Installing the Gas Analyzer' />
 
-The Hardhat Gas Reporter plugin is an invaluable tool for profiling gas usage in your smart contracts. It allows you to gain insights into the gas consumption of various contract functions, making it easier to identify potential optimization opportunities. This tool is particularly useful during development when you want to ensure your contracts are as gas-efficient as possible.
+Плагин Hardhat Gas Reporter - это бесценный инструмент для профилирования расхода газа в ваших смарт-контрактах. Он позволяет получить представление о потреблении газа различных функций контракта, что упрощает поиск потенциальных возможностей для оптимизации. Этот инструмент особенно полезен во время разработки, когда вы хотите убедиться, что ваши контракты максимально эффективны с точки зрения газа.
 
-To install, run `npm install -D hardhat-gas-reporter`.
+Для установки выполните `npm install -D hardhat-gas-reporter`.
 
-Then, import `hardhat-gas-reporter` in `hardhat.config.ts`:
+Затем импортируйте `hardhat-gas-reporter` в `hardhat.config.ts`:
 
 ```solidity
 import "hardhat-gas-reporter"
 ```
 
-Configure the plugin in the `hardhat.config.ts` file:
+Настройте плагин в файле `hardhat.config.ts`:
 
 ```tsx
 const config: HardhatUserConfig = {
@@ -51,11 +51,11 @@ const config: HardhatUserConfig = {
 };
 ```
 
-When finished, you are ready to use the plugin.
+После завершения настройки вы готовы использовать плагин.
 
-## Your first gas profiling
+## Ваше первое профилирование газа
 
-Create a contract called `Store` with the following settings:
+Создайте контракт с именем `Store` со следующим содержимым:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -93,7 +93,7 @@ contract Store {
 
 ```
 
-Add a test file called `Store.test.ts` in order to test the gas reporter plugin. The test file should contain the following:
+Добавьте тестовый файл с именем `Store.test.ts`, чтобы протестировать плагин gas reporter. Тестовый файл должен содержать следующее:
 
 ```tsx
 import { expect } from 'chai';
@@ -123,7 +123,7 @@ describe('Store tests', function () {
 });
 ```
 
-Run `npx hardhat test`. The following report appears:
+Выполните `npx hardhat test`. Появится следующий отчет:
 
 ```
 ·------------------------|---------------------------|---------------|-----------------------------·
@@ -141,17 +141,17 @@ Run `npx hardhat test`. The following report appears:
 ·------------------------|-------------|-------------|---------------|---------------|-------------·
 ```
 
-The reporter provides a detailed overview of the gas costs for the function `addItem` and the deployment costs.
+Отчет предоставляет подробный обзор затрат газа для функции `addItem` и затрат на развертывание.
 
-## Common strategies to optimize contract sizes
+## Распространенные стратегии для оптимизации размера контрактов
 
 <Video videoId='867222700' title='Improving Gas Usage' />
 
-After performing the first gas profiling, you can start ideating strategies to improve the gas costs. These strategies are certainly vast and this tutorial only covers some basic examples.
+После выполнения первого профилирования газа вы можете начать продумывать стратегии для улучшения затрат на газ. Эти стратегии, безусловно, обширны, и этот учебник охватывает лишь некоторые базовые примеры.
 
-### Using the optimizer
+### Использование оптимизатора
 
-From the previous report, you can identify that the optimizer of the project has a value of 10000 runs. This means the deployment costs will be more expensive. However, if you modify that value to 200, you get:
+Из предыдущего отчета видно, что оптимизатор проекта имеет значение 10000 runs. Это означает, что затраты на развертывание будут выше. Однако если изменить это значение на 200, получится:
 
 ```
 ·------------------------|---------------------------|-------------|-----------------------------·
@@ -169,13 +169,13 @@ From the previous report, you can identify that the optimizer of the project has
 ·------------------------|-------------|-------------|-------------|---------------|-------------·
 ```
 
-This automatically gives you some improvements for deployment gas costs but slightly more for transaction executions.
+Это автоматически дает некоторые улучшения для затрат газа на развертывание, но немного увеличивает затраты на выполнение транзакций.
 
-### Using immutable variables
+### Использование неизменяемых (immutable) переменных
 
-In our `Store` contract, you can identify certain variables that are only set during the creation of the contract. This means that an opportunity is possible to turn those variables into immutable, since immutable variables can still be assigned at construction time.
+В нашем контракте `Store` можно определить определенные переменные, которые устанавливаются только во время создания контракта. Это означает, что есть возможность превратить эти переменные в неизменяемые (immutable), поскольку неизменяемым переменным все еще можно присвоить значение во время конструирования.
 
-If you modify the `Store` contract to:
+Если вы измените контракт `Store` на:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -212,7 +212,7 @@ contract Store {
 }
 ```
 
-Then, run the gas reporter. You should see:
+Затем запустите gas reporter. Вы должны увидеть:
 
 ```
 ·------------------------|---------------------------|-------------|-----------------------------·
@@ -230,13 +230,13 @@ Then, run the gas reporter. You should see:
 ·------------------------|-------------|-------------|-------------|---------------|-------------·
 ```
 
-Which already presents some improvements.
+Что уже демонстрирует некоторые улучшения.
 
-### Avoid unnecessary data storage
+### Избегайте ненужного хранения данных
 
-Storing data and not storing data in a smart contract is a design decision that has pros and cons. Some of the pros are certainly that all the information is stored in the smart contract and you don't necessarily need to rely on events or any other service to access the storage of a contract. However, the cons of storing all the information on the contract is the fact that it will be more expensive to perform actions against the smart contract.
+Хранение данных и отказ от хранения данных в смарт-контракте - это дизайнерское решение, имеющее плюсы и минусы. Некоторые из плюсов, безусловно, заключаются в том, что вся информация хранится в смарт-контракте, и вам не обязательно полагаться на события или другие сервисы для доступа к хранилищу контракта. Однако минусом хранения всей информации в контракте является тот факт, что выполнение действий с контрактом будет дороже.
 
-In the `Store` smart contract, you have the following:
+В смарт-контракте `Store` есть следующее:
 
 ```solidity
 struct Item {
@@ -249,9 +249,9 @@ struct Item {
 mapping(uint256 => Item) public items;
 ```
 
-Looking closely, you can see that the `Id` of the `Item` struct and the `id` used in the mapping are similar. You can avoid duplicating this information by removing the id of the `Item` struct.
+Присмотревшись, можно заметить, что `Id` структуры  `Item` и `id` используемый в маппинге (mapping), одинаковы. Вы можете избежать дублирования этой информации, удалив id из структуры `Item`.
 
-The contract looks like:
+Контракт будет выглядеть так:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -286,7 +286,7 @@ contract Store {
 }
 ```
 
-If you run the gas reporter, you then get:
+Если вы запустите gas reporter, то получите:
 
 ```
 ·------------------------|---------------------------|-------------|-----------------------------·
@@ -304,9 +304,9 @@ If you run the gas reporter, you then get:
 ·------------------------|-------------|-------------|-------------|---------------|-------------·
 ```
 
-This presents another improvement in the gas consumption of the `Store` smart contract. However, you can go further and instead of storing the items in a `mapping`, you can simply emit `events` and use the events as a cheap form of storage.
+Это демонстрирует еще одно улучшение в потреблении газа смарт-контрактом `Store`. Однако можно пойти дальше и вместо хранения предметов в `mapping`, можно просто отправлять `events` и использовать события как дешевую форму хранения.
 
-For instance, you can modify the contract to look like:
+Например, можно изменить контракт так:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -337,7 +337,7 @@ contract Store {
 }
 ```
 
-Notice how instead of storing the items, you emit an `ItemCreated` event, which reduces the gas costs for deployment and execution:
+Обратите внимание, как вместо хранения предметов вы отправляете событие `ItemCreated`, что снижает затраты газа на развертывание и выполнение:
 
 ```
 ·------------------------|---------------------------|-------------|-----------------------------·
@@ -355,11 +355,11 @@ Notice how instead of storing the items, you emit an `ItemCreated` event, which 
 ·------------------------|-------------|-------------|-------------|---------------|-------------·
 ```
 
-As you can see, the improvements in terms of gas consumption are significant. However, the draw back is that now in order to access all of the items, you must go through all of the `ItemCreated` events emitted by the contract.
+Как видите, улучшения с точки зрения потребления газа значительны. Однако недостатком является то, что теперь для доступа ко всем предметам необходимо просматривать все события `ItemCreated, отправленные контрактом.
 
-### Using custom errors
+### Использование пользовательских ошибок
 
-Another common way to optimize gas costs is by removing `require`s and use custom errors. For instance, you can do the following:
+Еще один распространенный способ оптимизировать затраты на газ - это удаление `require`s и использование пользовательских ошибок (custom errors). Например, можно сделать следующее:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -394,7 +394,7 @@ contract Store {
 }
 ```
 
-Which gives you the following report:
+Что дает следующий отчет:
 
 ```
 ·------------------------|---------------------------|-------------|-----------------------------·
@@ -412,11 +412,11 @@ Which gives you the following report:
 ·------------------------|-------------|-------------|-------------|---------------|-------------·
 ```
 
-Notice the improvement in deployment gas costs.
+Обратите внимание на улучшение затрат газа на развертывание.
 
-## Conclusion
+## Заключение
 
-In this tutorial, you've learned some common strategies to profile and optimize the gas usage of your smart contracts using the Hardhat development environment and the Hardhat Gas Reporter plugin. By implementing these strategies and leveraging the Hardhat Gas Reporter plugin, you can create more efficient and cost-effective smart contracts for the benefit of the users, since this means less gas costs.
+В этом учебнике вы узнали о некоторых распространенных стратегиях профилирования и оптимизации расхода газа ваших смарт-контрактов с использованием среды разработки Hardhat и плагина Hardhat Gas Reporter. Реализуя эти стратегии и используя плагин Hardhat Gas Reporter, вы можете создавать более эффективные и экономичные смарт-контракты на благо пользователей, поскольку это означает меньшие затраты на газ.
 
 ---
 
