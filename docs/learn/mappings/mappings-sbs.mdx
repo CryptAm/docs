@@ -1,57 +1,57 @@
 ---
-title: Mappings
-sidebarTitle: Step by Step Guide
-description: Use the mapping data type to store key-value pairs.
+title: Отображения (Mappings)
+sidebarTitle: Пошаговое руководство
+description: Используйте тип данных mapping для хранения пар ключ-значение.
 hide_table_of_contents: false
 ---
 
-In Solidity, the hashtable/hashmap/dictionary-comparable type used to store key-value pairs is called a `mapping`. `mapping`s are a powerful tool with many uses, but they also have some unexpected limitations. They also **aren't** actually hash tables!
+В Solidity тип данных, сравнимый с хеш-таблицей/хеш-картой/словарем, используемый для хранения пар ключ-значение, называется `mapping.` `mapping` - это мощный инструмент со многими применениями, но он также имеет некоторые неожиданные ограничения. И они **не являются** на самом деле хеш-таблицами!
 
 ---
 
-## Objectives
+## Цели
 
-By the end of this lesson you should be able to:
+К концу этого урока вы сможете:
 
-- Construct a Map (dictionary) data type
-- Recall that assignment of the Map data type is not as flexible as for other data types/in other languages
-- Restrict function calls with the `msg.sender` global variable
-- Recall that there is no collision protection in the EVM and why this is (probably) ok
+- Создать тип данных Map (словарь)
+- Помнить, что присваивание типа данных Map не такое гибкое, как для других типов данных/в других языках
+- Ограничивать вызовы функций с помощью глобальной переменной `msg.sender`
+- Помнить, что в EVM нет защиты от коллизий, и почему это (вероятно) нормально
 
 ---
 
-## Mappings in Solidity vs. Hash Tables
+## Отображения (Mappings) в Solidity против хеш-таблиц
 
-On the surface, the [`mapping`] data type appears to be just another hash table implementation that stores pairs of any hashable type as a key, to any other type as a value. The difference is in implementation.
+На первый взгляд тип данных [`mapping`] кажется просто еще одной реализацией хеш-таблицы, которая хранит пары любого хешируемого типа в качестве ключа и любого другого типа в качестве значения. Разница заключается в реализации.
 
-In a more traditional implementation, the data is stored in memory as an array, with a hash-to-index _(hashmod)_ function used to determine which spot in the array to store a given value, based on the key. Sometimes, the _hashmod_ function for two different keys results in the same index, causing a _collision_.
+В более традиционной реализации данные хранятся в памяти как массив, а функция хеширования по модулю _(hashmod)_ используется для определения, в каком месте массива хранить данное значение, на основе ключа. Иногда функция _hashmod_ для двух разных ключей дает один и тот же индекс, вызывая _коллизию_.
 
-Collisions are resolved via additional solutions, such as linked list chaining; when the underlying array starts to get full, a bigger one is created, all the keys are re-hash-modded, and all the values moved over to the new array.
+Коллизии разрешаются с помощью дополнительных решений, таких как цепочки связных списков; когда базовый массив начинает заполняться, создается больший массив, все ключи повторно хешируются по модулю, и все значения перемещаются в новый массив.
 
-In the EVM, `mappings` do **not** have an array as the underlying data structure. Instead, the `keccak256` hash of the key plus the storage slot for the mapping itself is used to determine which storage slot out of all 2\*\*256 will be used for the value.
+В EVM `mapping` **не** имеют массива в качестве базовой структуры данных. Вместо этого хеш `keccak256` от ключа плюс слот хранения (storage slot) самого mapping используется для определения того, какой слот хранения из всех 2**256 будет использоваться для значения.
 
-There is no collision-handling, for the same reason that makes wallets work at all - 2\*\*256 is an unimaginably large number. One of the biggest numbers you might encounter regularly is the number of possible configurations for a [shuffled deck of cards], which is:
+Нет обработки коллизий по той же причине, по которой вообще работают кошельки - 2**256 — это невообразимо большое число. Одно из самых больших чисел, с которым вы можете регулярно сталкиваться, - это количество возможных комбинаций [shuffled deck of cards], которое равно:
 
 80658175170943878571660636856403766975289505440883277824000000000000
 
-Meanwhile, the number of variations of a `keccak256` hash are:
+Между тем количество вариаций хеша `keccak256` равно:
 
 115792089237316195423570985008687907853269984665640564039457584007913129639935
 
-Collisions are very unlikely.
+Коллизии очень маловероятны.
 
-As a result, there are a few special characteristics and limitations to keep in mind with the `mapping` data type:
+В результате есть несколько особых характеристик и ограничений, которые следует иметь в виду для типа данных `mapping`:
 
-- Mappings can only have a data location of `storage`
-- They can't be used as parameters or returns of public functions
-- They are not iterable and you cannot retrieve a list of keys
-- All possible keys will return the default value, unless another value has been stored
+- Отображения могут иметь расположение данных (data location) только `storage`
+- Они не могут использоваться в качестве параметров или возвращаемых значений публичных функций
+- Они не являются итерируемыми, и вы не можете получить список ключей
+- Все возможные ключи будут возвращать значение по умолчанию, если другое значение не было сохранено
 
-### Creating a Mapping
+### Создание mapping
 
-Create a contract called `Mappings`. In it, add a `mapping` from an `address` to a `uint` called `favoriteNumbers`.
+Создайте контракт под названием `Mappings`. В нем добавьте `mapping` от `address` к `uint` с именем `favoriteNumbers`.
 
-<Accordion title="Reveal code">
+<Accordion title="Показать код">
 
 ```solidity
 contract Mappings {
@@ -61,11 +61,11 @@ contract Mappings {
 
 </Accordion>
 
-### Writing to the Mapping
+### Запись в mapping
 
-Add a function called `saveFavoriteNumber` that takes an `address` and `uint`, then saves the `uint` in the mapping, with the `address` as the key.
+Добавьте функцию под названием `saveFavoriteNumber`, которая принимает `address` и `uint`, а затем сохраняет `uint` в `mapping`, используя `address` в качестве ключа.
 
-<Accordion title="Reveal code">
+<Accordion title="Показать код">
 
 ```solidity
 function saveFavoriteNumber(address _address, uint _favorite) public {
@@ -75,21 +75,21 @@ function saveFavoriteNumber(address _address, uint _favorite) public {
 
 </Accordion>
 
-Deploy and test it out. Does it work? Probably...
+Разверните и протестируйте. Работает ли? Вероятно...
 
-You don't have a way to read the data in `favoriteNumber`, but this problem is easy to correct. Similar to arrays, if you mark a `mapping` as public, the Solidity compiler will automatically create a getter for values in that `mapping`.
+У вас нет способа прочитать данные в `favoriteNumber`, но эту проблему легко исправить. Подобно массивам, если вы пометите `mapping` как public, компилятор Solidity автоматически создаст геттер для значений в этом `mapping`.
 
-Update the declaration of `favoriteNumbers` and deploy to test again.
+Обновите объявление `favoriteNumbers` и разверните, чтобы снова протестировать.
 
-### Utilizing msg.sender
+### Использование msg.sender
 
-Another issue with this contract is that a `public` function can be called by anyone and everyone with a wallet and funds to pay gas fees. As a result, anyone could go in after you and change your favorite number from lucky number **13** to anything, even **7**!
+Другая проблема с этим контрактом заключается в том, что `public` функцию может вызвать любой и каждый, у кого есть кошелек и средства для оплаты газа. В результате кто угодно может зайти после вас и изменить ваше любимое число с удачного числа **13** на что угодно, даже на **7**!
 
-That won't do at all!
+Это совершенно неприемлемо!
 
-Luckily, you can make use of a [global variable] called `msg.sender` to access the `address` of the wallet that sent the transaction. Use this to make it so that only the owner of an `address` can set their favorite number.
+К счастью, вы можете использовать [global variable] под названием `msg.sender` для получения `address` кошелька, отправившего транзакцию. Используйте это, чтобы сделать так, чтобы только владелец `address` мог установить свое любимое число.
 
-<Accordion title="Reveal code">
+<Accordion title="Показать код">
 
 ```solidity
 function saveFavoriteNumber(uint _favorite) public {
@@ -99,21 +99,21 @@ function saveFavoriteNumber(uint _favorite) public {
 
 </Accordion>
 
-Deploy and test again. Success!
+Разверните и протестируйте снова. Успех!
 
 ---
 
-## Retrieving All Favorite Numbers
+## Получение всех любимых чисел
 
-One challenging limitation of the `mapping` data type is that it is **not** iterable - you cannot loop through and manipulate or return **all** values in the `mapping`.
+Одно сложное ограничение типа данных `mapping` заключается в том, что он не является итерируемым - вы не можете пройтись по всем значениям в `mapping` и манипулировать ими или возвращать их.
 
-At least not with any built-in features, but you can solve this on your own. A common practice in Solidity with this and similar problems is to use multiple variables or data types to store the right combination needed to address the issue.
+По крайней мере, без встроенных функций, но вы можете решить эту проблему самостоятельно. Распространенной практикой в Solidity для решения этой и подобных проблем является использование нескольких переменных или типов данных для хранения нужной комбинации, необходимой для решения задачи.
 
-### Using a Helper Array
+### Использование вспомогательного массива
 
-For this problem, you can use a helper array to store a list of all the keys present in `favoriteNumbers`. Simply add the array, and push new keys to it when saving a new favorite number.
+Для этой проблемы вы можете использовать вспомогательный массив для хранения списка всех ключей, присутствующих в `favoriteNumbers`. Просто добавьте массив и добавляйте в него новые ключи при сохранении нового любимого числа.
 
-<Accordion title="Reveal code">
+<Accordion title="Показать код">
 
 ```solidity
 contract Mappings {
@@ -122,7 +122,7 @@ contract Mappings {
 
     function saveFavoriteNumber(uint _favorite) public {
         favoriteNumbers[msg.sender] = _favorite;
-        // Imperfect solution, see below
+        // Неидеальное решение, см. ниже
         addressesOfFavs.push(msg.sender);
     }
 }
@@ -130,10 +130,10 @@ contract Mappings {
 
 </Accordion>
 
-To return all of the favorite numbers, you can then iterate through `addressesOfFavs`, look up that addresses' favorite number, add it to a return array, and then return the array when you're done.
+Чтобы вернуть все любимые числа, вы можете затем перебрать `addressesOfFavs`, найти любимое число этого адреса, добавить его в возвращаемый массив и затем вернуть массив, когда закончите.
 
 
-<Accordion title="Reveal code">
+<Accordion title="Показать код">
 
 ```solidity
 function returnAllFavorites() public view returns (uint[] memory) {
@@ -149,11 +149,11 @@ function returnAllFavorites() public view returns (uint[] memory) {
 
 </Accordion>
 
-On the surface, this solution works, but there is a problem: What happens if a user **updates** their favorite number? Their address will end up in the list twice, resulting in a doubled entry in the return.
+На первый взгляд это решение работает, но есть проблема: что произойдет, если пользователь **обновит** свое любимое число? Его адрес окажется в списке дважды, что приведет к дублированию записи в возвращаемом значении.
 
-A solution here would be to check first if the `address` already has a number as a value in `favoriteNumbers`, and only push it to the array if not.
+Решение здесь - сначала проверить, есть ли у `address` уже число в качестве значения в `favoriteNumbers`, и добавлять его в массив только если нет.
 
-<Accordion title="Reveal code">
+<Accordion title="Показать код">
 
 ```solidity
 function saveFavoriteNumber(uint _favorite) public {
@@ -166,9 +166,9 @@ function saveFavoriteNumber(uint _favorite) public {
 
 </Accordion>
 
-You should end up with a contract similar to this:
+В итоге у вас должен получиться контракт, похожий на этот:
 
-<Accordion title="Reveal code">
+<Accordion title="Показать код">
 
 ```solidity
 pragma solidity 0.8.17;
@@ -200,9 +200,9 @@ contract Mappings {
 
 ---
 
-## Conclusion
+## Заключение
 
-In this lesson, you've learned how to use the `mapping` data type to store key-value pairs in Solidity. You've also explored one strategy for solving some of the limitations found in the `mapping` type when compared to similar types in other languages.
+В этом уроке вы узнали, как использовать тип данных `mapping` для хранения пар ключ-значение в Solidity. Вы также исследовали одну стратегию решения некоторых ограничений, присущих типу `mapping`, по сравнению с аналогичными типами в других языках.
 
 ---
 
