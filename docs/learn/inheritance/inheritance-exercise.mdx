@@ -1,86 +1,86 @@
 ---
-title: Inheritance Exercise
-description: Exercise - Demonstrate your knowledge of inheritance.
+title: Упражнение по наследованию
+description: Упражнение - продемонстрируйте свои знания по наследованию.
 hide_table_of_contents: false
 sidebarTitle: Exercise
 ---
 
-Create contracts that adhere to the following specifications.
+Создайте контракты, соответствующие следующим спецификациям.
 
 ---
 
-## Contracts
+## Контракты
 
 ### Employee
 
-Create an `abstract` contract called `Employee`. It should have:
+Создайте `abstract` контракт под названием `Employee`. Он должен иметь:
 
-- A public variable storing `idNumber`
-- A public variable storing `managerId`
-- A constructor that accepts arguments for and sets both of these variables
-- A `virtual` function called `getAnnualCost` that returns a `uint`
+- Публичную переменную, хранящую `idNumber`
+- Публичную переменную, хранящую `managerId`
+- Конструктор, который принимает аргументы для обеих этих переменных и устанавливает их
+- Виртуальную функцию `getAnnualCost`, которая возвращает `uint`
 
 ### Salaried
 
-A contract called `Salaried`. It should:
+Контракт под названием `Salaried`. Он должен:
 
-- Inherit from `Employee`
-- Have a public variable for `annualSalary`
-- Implement an `override` function for `getAnnualCost` that returns `annualSalary`
-- An appropriate constructor that performs any setup, including setting `annualSalary`
+- Наследовать от `Employee`
+- Иметь публичную переменную для `annualSalary`
+- Реализовать `override` функцию для `getAnnualCost`, которая возвращает `annualSalary`
+- Соответствующий конструктор, который выполняет любую настройку, включая установку `annualSalary`
 
 ### Hourly
 
-Implement a contract called `Hourly`. It should:
+Реализуйте контракт под названием `Hourly`. Он должен:
 
-- Inherit from `Employee`
-- Have a public variable storing `hourlyRate`
-- Include any other necessary setup and implementation
+- Наследовать от `Employee`
+- Иметь публичную переменную, хранящую `hourlyRate`
+- Включать любую другую необходимую настройку и реализацию
 
 <Tip>
-The annual cost of an hourly employee is their hourly rate \* 2080 hours.
+Годовая стоимость почасового сотрудника - это его почасовая ставка * 2080 часов.
 </Tip>
 
 
 ### Manager
 
-Implement a contract called `Manager`. It should:
+Реализуйте контракт под названием `Manager`. Он должен:
 
-- Have a public array storing employee Ids
-- Include a function called `addReport` that can add id numbers to that array
-- Include a function called `resetReports` that can reset that array to empty
+- Иметь публичный массив, хранящий идентификаторы сотрудников (employee Ids)
+- Включать функцию `addReport`, которая может добавлять номера идентификаторов в этот массив
+- Включать функцию `resetReports`, которая может сбрасывать этот массив до пустого состояния
 
 ### Salesperson
 
-Implement a contract called `Salesperson` that inherits from `Hourly`.
+Реализуйте контракт под названием `Salesperson`, который наследует от `Hourly`.
 
 ### Engineering Manager
 
-Implement a contract called `EngineeringManager` that inherits from `Salaried` and `Manager`.
+Реализуйте контракт под названием `EngineeringManager`, который наследует от `Salaried` и `Manager`.
 
-## Deployments
+## Развертывания
 
-You'll have to do a more complicated set of deployments for this exercise.
+Для этого упражнения вам нужно будет выполнить более сложный набор развертываний.
 
-Deploy your `Salesperson` and `EngineeringManager` contracts. You don't need to separately deploy the other contracts.
+Разверните свои контракты `Salesperson` и `EngineeringManager`. Вам не нужно отдельно развертывать другие контракты.
 
-Use the following values:
+Используйте следующие значения:
 
 ### Salesperson
 
-- Hourly rate is 20 dollars an hour
-- Id number is 55555
-- Manager Id number is 12345
+- Почасовая ставка составляет 20 долларов в час
+- Номер идентификатора (ID) - 55555
+- Номер идентификатора менеджера 12345
 
 ### Manager
 
-- Annual salary is 200,000
-- Id number is 54321
-- Manager Id is 11111
+- Годовая зарплата - 200,000
+- Номер идентификатора (ID) - 54321
+- Номер идентификатора менеджера (ID) - 11111
 
-## Inheritance Submission
+## Отправка наследования
 
-Copy the below contract and deploy it using the addresses of your `Salesperson` and `EngineeringManager` contracts.
+Скопируйте приведенный ниже контракт и разверните его, используя адреса ваших контрактов `Salesperson` и `EngineeringManager`.
 
 ```solidity
 contract InheritanceSubmission {
@@ -96,21 +96,21 @@ contract InheritanceSubmission {
 
 ---
 
-## Submit your Contracts and Earn an NFT Badge! (BETA)
+## Отправьте свои контракты и получите NFT-значок! (BETA)
 
 <Note>
-#### Hey, where'd my NFT go!?
+#### Эй, куда делся мой NFT?!
 
-[Testnets](/learn/deployment-to-testnet/test-networks) are not permanent! Base Goerli [will soon be sunset](https://base.mirror.xyz/kkz1-KFdUwl0n23PdyBRtnFewvO48_m-fZNzPMJehM4), in favor of Base Sepolia.
+[Тестовые сети](/learn/deployment-to-testnet/test-networks) не являются постоянными! Base Goerli [скоро будет приостановлена](https://base.mirror.xyz/kkz1-KFdUwl0n23PdyBRtnFewvO48_m-fZNzPMJehM4), в пользу Base Sepolia.
 
-As these are separate networks with separate data, your NFTs **will not** transfer over.
+Поскольку это отдельные сети с отдельными данными, ваши NFT **не будут** перенесены.
 
-**Don't worry!** We've captured the addresses of all NFT owners on Base Goerli and will include them when we release the mechanism to transfer these NFTs to mainnet later this year! You can also redeploy on Sepolia and resubmit if you'd like!
+**Не волнуйтесь!** Мы зафиксировали адреса всех владельцев NFT в Base Goerli и включим их, когда позже в этом году выпустим механизм для переноса этих NFT в основную сеть (mainnet)! Вы также можете повторно развернуть в Sepolia и отправить заново, если хотите!
 </Note>
 
 
 <Warning>
-Submit your address for your copy of the `InheritanceSubmission` contract that contains your other contract addresses.
+Отправьте адрес вашей копии контракта `InheritanceSubmission`, который содержит адреса ваших других контрактов.
 </Warning>
 
 
