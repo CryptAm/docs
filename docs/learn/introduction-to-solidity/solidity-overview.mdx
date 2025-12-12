@@ -1,40 +1,40 @@
 ---
-sidebarTitle: Overview
-title: 'Solidity Overview'
-description: An overview of the Solidity programming language.
+sidebarTitle: Обзор
+title: 'Обзор Solidity'
+description: Обзор языка программирования Solidity.
 hide_table_of_contents: false
 ---
 
 import { Danger } from "/snippets/danger.mdx";
 
-In this article, you'll learn about the origins and history of Solidity, where to find the docs, and review some of the considerations that make programming in Solidity relatively unique. You'll also learn about how to get started with development!
+В этой статье вы узнаете о происхождении и истории Solidity, где найти документацию, и рассмотрите некоторые особенности, которые делают программирование на Solidity относительно уникальным. Вы также узнаете, как начать разработку!
 
 ---
 
-## Objectives
+## Цели
 
-By the end of this lesson you should be able to:
+К концу этого урока вы сможете:
 
-- Describe why languages like Solidity are used to write smart contracts
-- Relate an overview of the history (and pace of change) of Solidity and its strengths and weaknesses
+- Описать, почему такие языки, как Solidity, используются для написания смарт-контрактов
+- Дать обзор истории (и темпов изменений) Solidity, а также его сильных и слабых сторон
 
 ---
 
-## Introduction to Solidity
+## Введение в Solidity
 
-Solidity is a high-level language used to develop smart contracts compatible with the Ethereum Virtual Machine. It is object-oriented, strongly typed, and allows variadic (more than one argument) returns. Solidity was [inspired] by a number of languages, particularly C++. Compared to other languages, Solidity changes very rapidly. Review the [releases] to see just how rapid!
+Solidity - это язык высокого уровня, используемый для разработки смарт-контрактов, совместимых с виртуальной машиной Ethereum (EVM). Он объектно-ориентированный, строго типизированный и позволяет возвращать несколько значений (вариативные возвраты). Solidity был [вдохновлен][inspired] рядом языков, особенно C++. По сравнению с другими языками Solidity меняется очень быстро. Ознакомьтесь с [релизами][releases], чтобы увидеть, насколько быстро!
 
-### The Docs
+### Документация
 
-The [Solidity Docs] are thorough and helpful. This guide will regularly reference them and they should be your first source for specific information related to any of the components in the language. As with any versioned doc source, always double-check that the version you're referencing matches the version you are developing with.
+[Solidity Docs] (Документация) подробна и полезна. Это руководство будет регулярно ссылаться на нее, и она должна быть вашим основным источником информации, связанной с любыми компонентами языка. Как и с любой версионированной документацией, всегда дважды проверяйте, что версия, на которую вы ссылаетесь, соответствует версии, с которой вы разрабатываете.
 
-### Origins TL;DR
+### Происхождение в двух словах
 
-Solidity was developed by the Ethereum Project's Solidity team and was first previewed in 2014 at DevCon0. The original goal was to create an easy-to-use language for smart contract development. A great [history overview] can be found in the team's blog.
+Solidity был разработан командой Solidity проекта Ethereum и впервые представлен в 2014 году на DevCon0. Первоначальной целью было создание простого в использовании языка для разработки смарт-контрактов. Отличный [обзор истории][history overview] можно найти в блоге команды.
 
-### What it Actually Does
+### Что он на самом деле делает
 
-Solidity is very similar to the programming languages you are familiar with in that it's a high-level language that is relatively human-readable, which is then compiled into byte-code that can be read by the EVM. For example, this:
+Solidity очень похож на языки программирования, к которым вы привыкли, в том смысле, что это язык высокого уровня, относительно удобочитаемый для человека, который затем компилируется в байт-код, читаемый EVM. Например, это:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -47,95 +47,95 @@ contract Hello {
 }
 ```
 
-compiles into this:
+компилируется в это:
 
 ```text
 0x608060405234801561001057600080fd5b50610173806100206000396000f3fe608060405234801561001057600080fd5b506004361061002b5760003560e01c80637fffb7bd14610030575b600080fd5b61003861004e565b604051610045919061011b565b60405180910390f35b60606040518060400160405280600c81526020017f48656c6c6f20576f726c64210000000000000000000000000000000000000000815250905090565b600081519050919050565b600082825260208201905092915050565b60005b838110156100c55780820151818401526020810190506100aa565b60008484015250505050565b6000601f19601f8301169050919050565b60006100ed8261008b565b6100f78185610096565b93506101078185602086016100a7565b610110816100d1565b840191505092915050565b6000602082019050818103600083015261013581846100e2565b90509291505056fea2646970667358221220575a1ec2ade1712a7a3a4e91cc5d83212207e4a5c70f5b2bc50079ee65ad29b364736f6c63430008110033
 ```
 
-As you can see, the first example is a little easier to read!
+Как видите, первый пример немного легче читать!
 
 ---
 
-## Programming for Ethereum with Solidity
+## Программирование для Ethereum на Solidity
 
-On the surface, writing code for the EVM using Solidity isn't particularly different from other programming languages. You write code organized into functions, and those functions get executed when called, often accepting arguments and returning values. However, there are a number of unusual traits that will require you to think a little differently. Additionally, the EVM is a much smaller, slower, and less-powerful computer than a desktop, or even a mobile device.
+На первый взгляд написание кода для EVM с использованием Solidity не сильно отличается от других языков программирования. Вы пишете код, организованный в функции, и эти функции выполняются при вызове, часто принимая аргументы и возвращая значения. Однако есть ряд необычных особенностей, которые заставят вас думать немного иначе. Кроме того, EVM - это гораздо меньший, медленный и менее мощный компьютер, чем настольный или даже мобильный.
 
-### Gas Fees
+### Комиссии за газ (Gas Fees)
 
-Every single [operation] your code performs costs gas, which your users pay for. You're probably already well-versed in _[time complexity]_ and know how to get an operation down to _O(log(n))_, when you have no choice but to run something that is _O(2^n)_, and that sometimes, nested for-loops go brrrrr. These constraints and practices still apply, but in Solidity, every inefficiency directly costs your users money, which can make your app more expensive, and less appealing, than needed.
+Каждая [операция][operation] которую выполняет ваш код, стоит газа, за который платят ваши пользователи. Вы, вероятно, уже хорошо разбираетесь в _[time complexity]_ и знаете, как сократить операцию до O(log(n)), когда у вас нет выбора, кроме как запустить что-то с O(2^n), и что иногда вложенные циклы for работают "брррр". Эти ограничения и практики все еще применяются, но в Solidity каждая неэффективность напрямую стоит вашим пользователям денег, что может сделать ваше приложение более дорогим и менее привлекательным, чем необходимо.
 
-When you were learning about _time complexity_, you probably heard the term _space complexity_ once, and then it was never mentioned again. This is because normally, computation is expensive, and storage is practically free. The opposite is true on the EVM. It costs a minimum of **20,000** gas to initialize a variable, and a minimum of **5,000** to change it. Meanwhile, the cost to add two numbers together is **3** gas. This means it is often much cheaper to repeatedly derive a value that is calculated from other values than it is to calculate it once and save it.
+Когда вы изучали _сложность по времени_, вы, вероятно, слышали термин сложность по памяти один раз, а потом о нем больше не упоминали. Это потому, что обычно вычисления дороги, а хранение практически бесплатно. В EVM все наоборот. Минимум **20 000** газа стоит инициализация переменной и минимум **5 000** — ее изменение. Между тем, стоимость сложения двух чисел составляет **3** газа. Это означает, что часто гораздо дешевле многократно вычислять значение, которое рассчитывается из других значений, чем вычислить его один раз и сохранить.
 
-You also have to be careful to write code with predictable execution paths. Each transaction is sent with a gas limit and which various frameworks, such as _ethers.js_, in order to do their best to estimate. If this estimate is wrong, the transaction will fail, but **it will still cost the gas used up until the point it failed!**
+Вы также должны быть осторожны, чтобы писать код с предсказуемыми путями выполнения. Каждая транзакция отправляется с лимитом газа, и различные фреймворки, такие как _ethers.js_, стараются его оценить. Если эта оценка неверна, транзакция завершится неудачей, но **она все равно будет стоить газа, использованного до момента сбоя**!
 
-### Contract Size Limit
+### Ограничение размера контракта
 
-[EIP-170] introduced a compiled byte-code size limit of **24 KiB** (24,576 B) to Ethereum Smart Contracts. Read that sentence again, as you're probably not used to thinking in this small of a number!
+[EIP-170] ввел ограничение размера скомпилированного байт-кода для смарт-контрактов Ethereum в **24 КиБ** (24 576 Б). Прочитайте это предложение еще раз, так как вы, вероятно, не привыкли думать в таких маленьких числах!
 
-While there isn't an exact ratio of lines of code to compiled byte-code size, you're limited to deploying contracts that are approximately 300-500 lines of Solidity.
+Хотя нет точного соотношения строк кода к размеру скомпилированного байт-кода, вы ограничены развертыванием контрактов размером примерно 300-500 строк на Solidity.
 
-Luckily, there are a few ways around this limitation. Contracts can expose their functions to be called by other contracts, although there is an additional cost. Using this, you can write a suite of contracts designed to work together, or even make use of contracts already deployed by others. You can also use more advanced solutions, such as [EIP-2535].
+К счастью, есть несколько способов обойти это ограничение. Контракты могут предоставлять свои функции для вызова другими контрактами, хотя это влечет дополнительные затраты. Используя это, вы можете написать набор контрактов, предназначенных для совместной работы, или даже использовать контракты, уже развернутые другими. Вы также можете использовать более продвинутые решения, такие как [EIP-2535].
 
-### Stack Limit
+### Ограничение стека
 
-Programs written for computers or mobile devices often work with hundreds of variables at the same time. The EVM operates with a stack that can hold 1,024 values, but it can only access the top 16.
+Программы, написанные для компьютеров или мобильных устройств, часто работают с сотнями переменных одновременно. EVM работает со стеком, который может содержать 1024 значения, но он может обращаться только к верхним 16.
 
-There are many implications of this limit, but the one you'll run into most commonly is the "Stack too Deep" error because you're trying to work with too many variables at once.
+Есть много последствий этого ограничения, но самое распространенное, с которым вы столкнетесь, — это ошибка «Стек слишком глубокий» (Stack too Deep), потому что вы пытаетесь работать со слишком большим количеством переменных одновременно.
 
-In Solidity/EVM, your functions are limited to a total of 16 variables that are input, output, or initialized by the function.
+В Solidity/EVM ваши функции ограничены в общей сложности 16 переменными, которые являются входными, выходными или инициализированными функцией.
 
-### Permanence
+### Постоянство
 
-Once deployed, smart contracts are permanent and cannot be changed by anyone, **even their creator(s)!** It is literally not possible to edit them. If the creators of a contract discover a vulnerability, they can't do anything about it except withdraw the funds - if the contract allows them to!
+После развертывания смарт-контракты постоянны и не могут быть изменены никем, **даже их создателем(-ями)**! Их буквально невозможно отредактировать. Если создатели контракта обнаружат уязвимость, они ничего не смогут с этим поделать, кроме как вывести средства — если контракт позволяет это!
 
-As a result, standard practice is to have a smart contract audited by an expert, before deployment.
+В результате стандартной практикой является проведение аудита смарт-контракта экспертом перед развертыванием.
 
-### Pace of Change
+### Темп изменений
 
-Solidity files always start with a license and a version:
+Файлы Solidity всегда начинаются с лицензии и версии:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.17;
 ```
 
-One of the reasons for this is that the pace of development for Solidity is **very** fast, and changes are not always backwards-compatible. As a result, the compiler needs to know which version to use when converting the Solidity code to byte-code.
+Одна из причин этого в том, что темп разработки Solidity **очень** высок, и изменения не всегда обратно совместимы. В результате компилятор должен знать, какую версию использовать при преобразовании кода Solidity в байт-код.
 
-Review the [changelog] to see some of the recent additions and fixes.
+Ознакомьтесь с [changelog], чтобы увидеть некоторые недавние дополнения и исправления.
 
 ---
 
-## Development Environments
+## Среды разработки
 
-We'll be covering two tools that can be used to develop in Solidity.
+Мы рассмотрим два инструмента, которые можно использовать для разработки на Solidity.
 
 ### Remix
 
-We'll start with [Remix], an online IDE similar to Codepen, Replit, or CodeSandbox. Remix is a great place to get started because it works out of the box, has a number of demo contracts, and has great debugging tools. More information can be found at the [Remix Project] website.
+Мы начнем с [Remix], онлайн-IDE, похожей на Codepen, Replit или CodeSandbox. Remix - отличное место для начала, потому что он работает из коробки, имеет ряд демонстрационных контрактов и отличные инструменты отладки. Дополнительную информацию можно найти на сайте [Remix Project].
 
 <Frame>
 ![Remix Home](/images/learn/introduction-to-solidity/remix-home.png)
 </Frame>
 
 <Danger>
-**BE VERY CAREFUL** while using Remix, as it can also be used by scammers. Remix itself will warn you about this, so take heed! One common scam is for the scammer to convince you to paste and deploy code that is allegedly some sort of automated moneymaker, such as a staking tool, or a bot.
+**БУДЬТЕ ОЧЕНЬ ВНИМАТЕЛЬНЫ** при использовании Remix, так как им также могут пользоваться мошенники. Сам Remix предупредит вас об этом, так что будьте бдительны! Один из распространенных мошеннических приемов - убедить вас вставить и развернуть код, который якобы является каким-то автоматическим генератором денег, например, инструментом для стейкинга или ботом.
 
-If you paste and run code that you don't understand, you may lose all assets from your currently connected wallet. You should also be careful to always navigate directly to `remix.ethereum.org`. More experienced developers prefer to use static versions of Remix deployed to [IPFS], but be careful. There are also deployments that are compromised and used as a part of a scam!
+Если вы вставите и запустите код, который не понимаете, вы можете потерять все активы с вашего текущего подключенного кошелька. Вы также должны быть осторожны, всегда переходя напрямую на `remix.ethereum.org`. Более опытные разработчики предпочитают использовать статические версии Remix, развернутые на [IPFS], но будьте осторожны. Также существуют скомпрометированные развертывания, используемые в качестве части мошенничества!
 </Danger>
 
 
 ### Hardhat
 
-[Hardhat] is a development environment that allows you to develop and test Solidity on your local machine. It includes debugging and unit testing tools, and has an ecosystem of third-party-developed plugins that ease development and deployment. Among other things, these plugins can help you deploy contracts, see the size of your compiled byte-code, and even see unit test coverage.
+[Hardhat] - это среда разработки, которая позволяет разрабатывать и тестировать Solidity на вашем локальном компьютере. Он включает инструменты отладки и модульного тестирования и имеет экосистему плагинов, разработанных сторонними разработчиками, которые упрощают разработку и развертывание. Среди прочего, эти плагины могут помочь вам развернуть контракты, увидеть размер скомпилированного байт-кода и даже увидеть покрытие модульных тестов.
 
-We'll introduce Hardhat and local development after the basics.
+Мы представим Hardhat и локальную разработку после основ.
 
-## Remix Setup
+## Настройка Remix
 
-The next lesson will explore one of the demo contracts within [Remix]. Open it up and review the quickstart information if this is your first time on the site. Then, open or create a new workspace using the `Default` template.
+Следующий урок исследует один из демонстрационных контрактов в [Remix]. Откройте его и ознакомьтесь с краткой информацией для начала, если вы впервые на сайте. Затем откройте или создайте новую рабочую область, используя шаблон `Default`.
 
-**Delete** everything except the contracts folder and the `1_Storage.sol` contract within that folder. You can also leave `.prettierrc.json` if you'd like.
+**Удалите** все, кроме папки contracts и контракта `1_Storage.sol` внутри этой папки. Вы также можете оставить `.prettierrc.json`, если хотите.
 
 <Frame>
 ![Delete](/images/learn/introduction-to-solidity/delete.png)
@@ -143,13 +143,13 @@ The next lesson will explore one of the demo contracts within [Remix]. Open it u
 
 ---
 
-## Conclusion
+## Заключение
 
-On the surface, Solidity is very similar to other programming languages; most developers won't struggle to write familiar operations. However, there are some critically important properties to keep in mind. Operations are much more expensive than in other environments, particularly storage. You can use most of the practices you are accustomed to, but you are limited to very small contract sizes and by the size of the stack. Finally, remember that you should always use a separate wallet for development. If you make a mistake, you could lose anything in it!
+На первый взгляд Solidity очень похож на другие языки программирования; большинству разработчиков не составит труда писать знакомые операции. Однако есть некоторые критически важные свойства, о которых нужно помнить. Операции намного дороже, чем в других средах, особенно хранение. Вы можете использовать большинство привычных вам практик, но вы ограничены очень маленькими размерами контрактов и размером стека. Наконец, помните, что вы всегда должны использовать отдельный кошелек для разработки. Если вы допустите ошибку, вы можете потерять все, что в нем есть!
 
 ---
 
-## See also
+## Смотрите также
 
 [Solidity Docs](https://docs.soliditylang.org/en/v0.8.17/)
 
