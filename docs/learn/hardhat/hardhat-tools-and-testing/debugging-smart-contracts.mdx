@@ -1,33 +1,33 @@
 ---
-title: 'Hardhat: Debugging smart contracts'
+title: 'Hardhat: Отладка смарт-контрактов'
 slug: /hardhat-debugging
-description: A tutorial that teaches how to debug your smart contracts using Hardhat.
+description: Руководство, которое научит отлаживать ваши смарт-контракты с помощью Hardhat.
 author: Edson Alcala
 ---
 
-# Debugging smart contracts using Hardhat
+# Отладка смарт-контрактов с использованием Hardhat
 
-In this tutorial, you'll learn how to debug your smart contracts using the built-in debugging capabilities of Hardhat.
+В этом руководстве вы узнаете, как отлаживать ваши смарт-контракты, используя встроенные возможности отладки Hardhat.
 
-## Objectives
+## Цели обучения
 
-By the end of this tutorial, you should be able to:
+После изучения этого руководства вы сможете:
 
-- Use `console.log` to write debugging logs
-- List common errors and their resolutions
-- Determine if an error is a contract error or an error in the test
+- Использовать `console.log` для записи журналов отладки
+- Перечислять распространенные ошибки и их решения
+- Определять, является ли ошибка ошибкой контракта или ошибкой в тесте
 
-## Overview
+## Обзор
 
-Debugging smart contracts can be a challenging task, especially when dealing with decentralized applications and blockchain technology. Hardhat provides powerful tools to simplify the debugging process.
+Отладка смарт-контрактов может быть сложной задачей, особенно при работе с децентрализованными приложениями и технологией блокчейна. Hardhat предоставляет мощные инструменты для упрощения процесса отладки.
 
-In this tutorial, you will explore the essential debugging features offered by Hardhat and learn how to effectively identify and resolve common errors in your smart contracts.
+В этом руководстве вы изучите основные функции отладки, предлагаемые Hardhat, и узнаете, как эффективно выявлять и устранять распространенные ошибки в ваших смарт-контрактах.
 
-## Your first `console.log`
+## Ваш первый `console.log`
 
-One of the key features of Hardhat is the ability to use `console.log` for writing debugging logs in your smart contracts. In order to use it, you must include `hardhat/console.sol` in the contract you wish to debug.
+Одной из ключевых функций Hardhat является возможность использования `console.log` для записи журналов отладки в ваших смарт-контрактах. Чтобы использовать его, вы должны включить `hardhat/console.sol` в контракт, который хотите отладить.
 
-In the following contract `Lock.sol` for example, you include `hardhat/console.sol` by importing it and adding a few `console.log`s in the constructor with the text "Creating" and the Ether balance of the contract. This can help you not only with tracking that the contract was created successfully but also, more importantly, with the ability to include additional logs such as the balance of the contract after it was created:
+Например, в следующем контракте `Lock.sol` вы включаете `hardhat/console.sol` импортируя его и добавляя несколько `console.log` в конструкторе с текстом "Creating" и балансом эфира контракта. Это может помочь вам не только отслеживать успешное создание контракта, но и, что более важно, добавлять дополнительные журналы, такие как баланс контракта после его создания:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -54,7 +54,7 @@ contract Lock {
 }
 ```
 
-In order to test it, you need to create a new file in the `test` folder called `Lock.test.ts` with the following content:
+Чтобы протестировать это, вам нужно создать новый файл в папке `test` с именем `Lock.test.ts` со следующим содержимым:
 
 ```solidity
 import { expect } from "chai";
@@ -90,13 +90,13 @@ describe("Lock Tests", function () {
 });
 ```
 
-Notice that a single test is included in order to get proper logs. However, you're only interested in the creation process that happens in the `before` hook. Then, you can run:
+Обратите внимание, что включен только один тест для получения правильных журналов. Однако вас интересует только процесс создания, который происходит в хуке `before`. Затем вы можете запустить:
 
 ```bash
 npx hardhat test
 ```
 
-You should see the following in the terminal:
+Вы должны увидеть следующее в терминале:
 
 ```bash
   Lock
@@ -105,20 +105,20 @@ Balance 10000000000000000
     ✔ should get the unlockTime value
 ```
 
-The terminal shows the text "Creating" and the balance (which is 0.01 Ether) because during the creation, you are depositing Ether in the smart contract via the `value` property.
+Терминал показывает текст "Creating" и баланс (который составляет 0.01 эфира), потому что во время создания вы вносите эфир в смарт-контракт через свойство `value`.
 
-### A note about `console.log`
+### Замечание о `console.log`
 
-In the previous example, you used `console.log` to include some debugging logs. Be aware that the `console.log` version of Solidity is limited compared to the ones that are provided in other programming languages, where you can log almost anything.
+В предыдущем примере вы использовали `console.log` для добавления некоторых журналов отладки. Имейте в виду, что версия `console.log` для Solidity ограничена по сравнению с теми, которые предоставляются в других языках программирования, где вы можете логировать почти все.
 
-`Console.log` can be called with up to four parameters of the following types:
+`Console.log` может вызываться с до четырех параметров следующих типов:
 
 - uint
 - string
 - bool
 - address
 
-Hardhat includes other `console` functions, such as:
+Hardhat включает другие функции `console`, такие как:
 
 - console.logInt(int i)
 - console.logBytes(bytes memory b)
@@ -127,23 +127,23 @@ Hardhat includes other `console` functions, such as:
 - ...
 - console.logBytes32(bytes32 b)
 
-These log functions are handy when the type you intend to log doesn't fall within the default accepted types of `console.log`. For further details, refer to the official [console.log] documentation.
+Эти функции логирования удобны, когда тип, который вы хотите залогировать, не попадает в типы, принимаемые по умолчанию `console.log`. Для получения дополнительной информации обратитесь к официальной [console.log] документации.
 
-## Identifying common errors
+## Определение распространенных ошибок
 
-While debugging your smart contracts, it's crucial to be familiar with common errors that can arise during development. Recognizing these errors and knowing how to resolve them is an important skill.
+При отладке ваших смарт-контрактов важно быть знакомым с распространенными ошибками, которые могут возникнуть во время разработки. Распознавание этих ошибок и знание того, как их устранить - важный навык.
 
-In our [Base Learn] series of tutorials, we cover a few compile-time errors in [Error Triage]. Other errors, such as `reverts` or `index out of bounds errors` can be unexpected during the runtime of the smart contract.
+В нашей серии руководств [Base Learn], мы рассматриваем несколько ошибок времени компиляции в разделе [Error Triage]. Другие ошибки, такие как `reverts` или `index out of bounds errors`, могут быть неожиданными во время выполнения смарт-контракта.
 
-The following explores typical techniques to debug these types of errors.
+Далее исследуются типичные методы отладки этих типов ошибок.
 
-### Revert errors
+### Ошибки отката
 
-When a transaction fails due to a `require` or `revert` statement, you'll need to diagnose why the condition isn't met and then resolve it. Typically, this involves verifying input parameters, state variables, or contract conditions.
+Когда транзакция завершается неудачей из-за оператора `require` или `revert`, вам нужно диагностировать, почему условие не выполняется, а затем устранить проблему. Обычно это включает проверку входных параметров, переменных состояния или условий контракта.
 
-The following is the `Lock.sol` contract with a require statement that validates that the parameter you are passing (`_unlockTime`) must be greater than the current `block.timestamp`.
+Ниже приведен контракт `Lock.sol` с оператором require, который проверяет, что передаваемый параметр (`_unlockTime`) должен быть больше текущего `block.timestamp`.
 
-A simple solution to troubleshoot this error is to log the value of `block.timestamp` and `_unlockTime`, which will help you compare these values and then ensure that you are passing the correct ones:
+Простое решение для устранения этой ошибки - залогировать значение `block.timestamp` и `_unlockTime`, что поможет вам сравнить эти значения и затем убедиться, что вы передаете правильные:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -174,7 +174,7 @@ contract Lock {
 }
 ```
 
-When you run the tests with `npx hardhat test`, you'll then see the following:
+Когда вы запускаете тесты с помощью `npx hardhat test`, вы увидите следующее:
 
 ```bash
 Lock Tests
@@ -185,13 +185,13 @@ Balance 10000000000000000
     ✔ should get the unlockTime value
 ```
 
-You are now able to see the `block.timestamp` and the value you are passing, which makes it easier to detect the error.
+Теперь вы можете видеть `block.timestamp` и значение, которое вы передаете, что облегчает обнаружение ошибки.
 
-### Unintended behavior errors
+### Ошибки непреднамеренного поведения
 
-Unintended behavior errors occur when you introduce unexpected behavior into the codebase due to a misunderstanding in the way Solidity works.
+Ошибки непреднамеренного поведения возникают, когда вы вводите неожиданное поведение в код из-за непонимания того, как работает Solidity.
 
-In the following example, `LockCreator` is a contract that allows anybody to deploy a `Lock.sol` instance. However, the `LockCreator` contains an error: the `createLock` functions are able to accept Ether to be locked but the amount sent is not being transferred to the `Lock` contract:
+В следующем примере `LockCreator` - это контракт, который позволяет любому развернуть экземпляр `Lock.sol`. Однако  `LockCreator` содержит ошибку: функции `createLock` могут принимать эфир для блокировки, но отправленная сумма не передается в контракт `Lock`:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -205,7 +205,7 @@ contract LockCreator {
 
     Lock[] internal locks;
 
-    // Example of bad code, do not use
+    // Пример плохого кода, не используйте
     function createLock(uint256 _unlockTime) external payable {
         Lock newLock = new Lock(_unlockTime);
         locks.push(newLock);
@@ -213,7 +213,7 @@ contract LockCreator {
 }
 ```
 
-You can create a test file `LockCreator.test.ts` that can identify the error and then solve it:
+Вы можете создать тестовый файл `LockCreator.test.ts`, который может идентифицировать ошибку и затем решить ее:
 
 ```solidity
 import { ethers } from "hardhat";
@@ -247,7 +247,7 @@ describe("LockCreator Tests", function () {
 });
 ```
 
-The following appears in the terminal where you can see the balance is `0`:
+В терминале появляется следующее, где вы можете видеть, что баланс равен `0`:
 
 ```bash
   LockCreator Tests
@@ -256,9 +256,9 @@ Balance 0
     ✔ should create a lock (318ms)
 ```
 
-Although this issue can be avoided by adding more test cases with proper assertions, the re-transfer of Ether from the `LockCreator` was something you may have overlooked.
+Хотя этой проблемы можно избежать, добавив больше тестовых случаев с правильными утверждениями (assertions), повторная передача эфира из `LockCreator` - это то, что вы могли упустить.
 
-The solution is to modify the `createLock` function with:
+Решение - изменить функцию `createLock` на:
 
 ```solidity
 function createLock(uint256 _unlockTime) external payable {
@@ -267,16 +267,16 @@ function createLock(uint256 _unlockTime) external payable {
 }
 ```
 
-### Out-of-bounds errors
+### Ошибки выхода за границы
 
-Attempting to access arrays at an invalid position can also cause errors.
+Попытка доступа к массивам по недопустимой позиции также может вызывать ошибки.
 
-If you wish to retrieve all the `Lock` contract instances being created in the previous example, you can make the `locks` array public. In order to illustrate this example, though, you can create a custom function called `getAllLocks`:
+Если вы хотите получить все экземпляры контракта `Lock`, созданные в предыдущем примере, вы можете сделать массив `locks` публичным. Чтобы проиллюстрировать этот пример, вы можете создать пользовательскую функцию `getAllLocks`:
 
 ```solidity
 contract LockCreator {
     //
-    // rest of the code..
+    // остальной код..
     //
     function getAllLocks() external view returns(Lock[] memory result) {
         result = new Lock[](locks.length);
@@ -287,7 +287,7 @@ contract LockCreator {
 }
 ```
 
-The function can be tested with the following test:
+Функцию можно протестировать следующим тестом:
 
 ```solidity
 describe("LockCreator Tests", function () {
@@ -319,7 +319,7 @@ describe("LockCreator Tests", function () {
 });
 ```
 
-Which will then throw an error:
+Что вызовет ошибку:
 
 ```bash
 LockCreator Tests
@@ -335,7 +335,7 @@ Balance 10000000000000000
      Error: VM Exception while processing transaction: reverted with panic code 0x32 (Array accessed at an out-of-bounds or negative index)
 ```
 
-You can include some debugging logs to identify the issue:
+Вы можете включить некоторые журналы отладки, чтобы идентифицировать проблему:
 
 ```solidity
  function getAllLocks() external view returns(Lock[] memory result) {
@@ -350,7 +350,7 @@ You can include some debugging logs to identify the issue:
 }
 ```
 
-Then, you see the following in the terminal:
+Затем вы видите следующее в терминале:
 
 ```bash
  LockCreator Tests
@@ -364,9 +364,9 @@ Locks index 1
      Error: VM Exception while processing transaction: reverted with panic code 0x32 (Array accessed at an out-of-bounds or negative index)
 ```
 
-Since arrays are 0 index based, an array with 1 item will store that item at the 0 index. In the above example, the `if` statement compares `<=` against the length of the array, so it tries to access the element in position 1, and crashes.
+Поскольку массивы индексируются с 0, массив с 1 элементом будет хранить этот элемент по индексу 0. В приведенном выше примере оператор `if` сравнивает `<=` с длиной массива, поэтому он пытается получить доступ к элементу в позиции 1 и падает.
 
-Here's the simple solution:
+Вот простое решение:
 
 ```solidity
  function getAllLocks() external view returns(Lock[] memory result) {
@@ -381,7 +381,7 @@ Here's the simple solution:
 }
 ```
 
-Which immediately solves the problem:
+Что сразу решает проблему:
 
 ```bash
   LockCreator Tests
@@ -395,11 +395,11 @@ all locks Result(1) [ '0x83BA8C2028EE8a6476396145C7692fBD09337acD' ]
   1 passing (3s)
 ```
 
-## Conclusion
+## Заключение
 
-In this tutorial, you've learned some techniques about how to debug smart contracts using Hardhat. You explored some common cases of various errors and how by simply using `console.log` and a proper test, you can identify and solve the problem.
+В этом руководстве вы изучили некоторые методы отладки смарт-контрактов с помощью Hardhat. Вы рассмотрели несколько распространенных случаев различных ошибок и то, как просто используя `console.log` и правильный тест, вы можете идентифицировать и решить проблему.
 
-## See also
+## Смотрите также
 
 [Console.log]: https://hardhat.org/hardhat-network/docs/reference#console.log
 [Error Triage]: https://docs.base.org/learn/error-triage/error-triage
