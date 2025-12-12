@@ -1,7 +1,7 @@
 ---
-title: 'Overview'
+title: 'Обзор'
 slug: /hardhat-tools-and-testing/overview
-description: What's in this learning material.
+description: Содержание этого учебного материала.
 author: Brian Doyle
 keywords:
   [
@@ -20,54 +20,54 @@ hide_table_of_contents: false
 displayed_sidebar: null
 ---
 
-# Overview of Hardhat Tools and Testing
+# Обзор инструментов и тестирования Hardhat
 
-This series of guides shows you how to use a number of [Hardhat plugins] that will help you more effectively build and test your smart contracts.
+Эта серия руководств покажет вам, как использовать ряд [Hardhat plugins], которые помогут вам более эффективно разрабатывать и тестировать свои смарт-контракты.
 
-Learn how to keep your contracts under the 24 kiB limit, improve gas costs for your users, make sure your unit tests fully cover your code, and practice debugging.
-
----
-
-## Objectives
-
-By the end of these guides, you should be able to:
-
-### Profiling Size
-
-- Use Hardhat Contract Sizer plugin to profile contract size
-- Describe common strategies for managing the contract size limit
-- Describe the impact that inheritance has on the byte code size limit
-- Describe the impact that external contracts have on the byte code size limit
-- Describe the impact of using libraries has on the byte code size limit
-- Describe the impact of using the Solidity optimizer
-
-### Profiling Gas
-
-- Use the Hardhat Gas Reporter plugin to profile gas usage
-- Describe common strategies for improving the gas usage of a contract
-
-### Debugging
-
-- Use `console.log` to write debugging logs
-- List common errors and their resolutions
-- Determine if an error is a contract error or an error in the test
-
-### Test Coverage
-
-- Use the Solidity Coverage plugin to analyze the coverage of your test suite
-- Increase the coverage of your test suite
+Научитесь сохранять размер ваших контрактов в пределах лимита 24 КиБ, улучшать стоимость газа для ваших пользователей, убеждаться, что ваши модульные тесты полностью покрывают код, и практиковаться в отладке.
 
 ---
 
-## Prerequisites
+## Цели
 
-### 1. Basic understanding of writing smart contracts
+К концу этих руководств вы сможете:
 
-These guides assume that you're reasonably comfortable writing basic smart contracts. If you're just getting started, jump over to our [Base Learn] guides and start learning!
+### Профилирование размера
 
-### 2. Familiarity with Hardhat
+- Использовать плагин Hardhat Contract Sizer для профилирования размера контракта
+- Описывать распространенные стратегии управления ограничением размера контракта
+- Описывать влияние наследования на ограничение размера байт-кода
+- Описывать влияние внешних контрактов на ограничение размера байт-кода
+- Описывать влияние использования библиотек на ограничение размера байт-кода
+- Описывать влияние использования оптимизатора Solidity
 
-We also assume that you've got Hardhat up and running, and can write unit tests for your smart contracts. If you're not there yet, but already know Solidity, you can [setup Hardhat here].
+### Профилирование газа
+
+- Использовать плагин Hardhat Gas Reporter для профилирования расхода газа
+- Описывать распространенные стратегии для улучшения расхода газа контракта
+
+### Отладка
+
+- Использовать `console.log` для записи отладочных логов
+- Перечислять распространенные ошибки и способы их устранения
+- Определять, является ли ошибка ошибкой контракта или ошибкой в тесте
+
+### Покрытие тестами
+
+- Использовать плагин Solidity Coverage для анализа покрытия вашего набора тестов
+- Увеличивать покрытие вашего набора тестов
+
+---
+
+## Предварительные требования
+
+### 1. Базовое понимание написания смарт-контрактов
+
+Эти руководства предполагают, что вы достаточно уверенно пишете базовые смарт-контракты. Если вы только начинаете, перейдите к нашим руководствам [Base Learn] и начните учиться!
+
+### 2. Знакомство с Hardhat
+
+Мы также предполагаем, что у вас установлен и работает Hardhat, и вы можете писать модульные тесты для своих смарт-контрактов. Если вы еще не достигли этого уровня, но уже знаете Solidity, вы можете [setup Hardhat here].
 
 [setup Hardhat here]: https://docs.base.org/base-learn/docs/hardhat-setup-overview/hardhat-setup-overview-sbs
 [Hardhat plugins]: https://hardhat.org/hardhat-runner/plugins
