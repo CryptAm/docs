@@ -1,47 +1,47 @@
 ---
-title: EVM Diagram
-description: An overview of the Ethereum Virtual Machine
+title: Диаграмма EVM
+description: Обзор виртуальной машины Ethereum
 ---
 
-In this article, we'll examine the inner workings of the EVM, its components, and its role within the Ethereum network.
-
----
-
-## Objectives
-
-By the end of this lesson you should be able to:
-
-- Diagram the EVM
+В этой статье мы рассмотрим внутреннюю работу EVM, ее компоненты и ее роль в сети Ethereum.
 
 ---
 
-## What is the EVM?
+## Цели
 
-The Ethereum Virtual Machine (EVM) is the core engine of Ethereum. It is a Turing-complete, sandboxed virtual machine designed to execute smart contracts on the network. The term "sandboxed" means that the EVM operates in an isolated environment, ensuring that each smart contract's execution does not interfere with others or the underlying blockchain. As we've learned, the EVM's Turing-complete nature allows developers to write complex programs that can perform any computationally feasible task.
+К концу этого урока вы сможете:
 
-The EVM employs a sophisticated resource management system using gas to regulate computation costs and prevent network abuse. It also supports a rich ecosystem of apps by providing a versatile set of opcodes for smart contract logic, and fostering interoperability with various programming languages, tools, and technologies. This adaptability has made the EVM a fundamental component in the advancement and growth of the Ethereum network.
-
----
-
-## EVM Components
-
-The EVM has several key components that enable it to process and manage smart contracts. Let's define them:
-
-- **World State:** Represents the entire Ethereum network, including all accounts and their associated storage.
-- **Accounts:** Entities that interact with the Ethereum network, including Externally Owned Accounts (EOAs) and Contract Accounts.
-- **Storage:** A key-value store associated with each contract account, containing the contract's state and data.
-- **Gas:** A mechanism for measuring the cost of executing operations in the EVM, which protects the network from spam and abuse.
-- **Opcodes:** Low-level instructions that the EVM executes during smart contract processing.
-- **Execution Stack:** A last-in, first-out (LIFO) data structure for temporarily storing values during opcode execution.
-- **Memory:** A runtime memory used by smart contracts during execution.
-- **Program Counter:** A register that keeps track of the position of the next opcode to be executed.
-- **Logs:** Events emitted by smart contracts during execution, which can be used by external systems for monitoring or reacting to specific events.
+- Описать схему работы EVM
 
 ---
 
-## EVM Execution Model
+## Что такое EVM?
 
-In simple terms, when a transaction is submitted to the network, the EVM first verifies its validity. If the transaction is deemed valid, the EVM establishes an execution context that incorporates the current state of the network and processes the smart contract's bytecode using opcodes. As the EVM runs the smart contract, it modifies the blockchain's world state and consumes gas accordingly. However, if the transaction is found to be invalid, it will be dismissed by the network without further processing. Throughout the smart contract's execution, logs are generated that provide insights into the contract's performance and any emitted events. These logs can be utilized by external systems for monitoring purposes or to respond to specific events.
+Виртуальная машина Ethereum (EVM) - это основной движок Ethereum. Это полная по Тьюрингу (Turing-complete), изолированная виртуальная машина, предназначенная для выполнения смарт-контрактов в сети. Термин «изолированная» (sandboxed) означает, что EVM работает в изолированной среде, гарантируя, что выполнение каждого смарт-контракта не мешает другим или базовому блокчейну. Как мы уже узнали, природа EVM, полная по Тьюрингу, позволяет разработчикам писать сложные программы, которые могут выполнять любую вычислительно выполнимую задачу.
+
+EVM использует сложную систему управления ресурсами с помощью газа (gas) для регулирования затрат на вычисления и предотвращения злоупотреблений сетью. Она также поддерживает богатую экосистему приложений, предоставляя универсальный набор опкодов (opcodes) для логики смарт-контрактов и способствуя взаимодействию с различными языками программирования, инструментами и технологиями. Эта адаптивность сделала EVM фундаментальным компонентом в развитии и росте сети Ethereum.
+
+---
+
+## Компоненты EVM
+
+EVM имеет несколько ключевых компонентов, которые позволяют ей обрабатывать и управлять смарт-контрактами. Давайте определим их:
+
+- **Состояние мира:** Представляет всю сеть Ethereum, включая все аккаунты и связанное с ними хранилище.
+- **Аккаунты:** Участники, взаимодействующие с сетью Ethereum, включая Аккаунты, принадлежащие извне (EOAs), и Контрактные аккаунты.
+- **Хранилище:** Хранилище ключ-значение, связанное с каждым контрактным аккаунтом, содержащее состояние и данные контракта.
+- **Газ:** Механизм измерения стоимости выполнения операций в EVM, который защищает сеть от спама и злоупотреблений.
+- **Опкоды:** Низкоуровневые инструкции, которые EVM выполняет во время обработки смарт-контракта.
+- **Стек выполнения:** Структура данных «последним пришел - первым ушел» (LIFO) для временного хранения значений во время выполнения опкодов.
+- **Память:** Память времени выполнения, используемая смарт-контрактами во время выполнения.
+- **Счетчик команд:** Регистр, который отслеживает позицию следующего опкода, который будет выполнен.
+- **Логи:** События, генерируемые смарт-контрактами во время выполнения, которые могут использоваться внешними системами для мониторинга или реагирования на конкретные события.
+
+---
+
+## Модель выполнения EVM
+
+Проще говоря, когда транзакция отправляется в сеть, EVM сначала проверяет ее валидность. Если транзакция признана валидной, EVM устанавливает контекст выполнения, который включает текущее состояние сети, и обрабатывает байт-код смарт-контракта с помощью опкодов. По мере того как EVM запускает смарт-контракт, она изменяет состояние мира блокчейна и потребляет газ соответственно. Однако если транзакция оказывается невалидной, она отклоняется сетью без дальнейшей обработки. На протяжении выполнения смарт-контракта генерируются логи, которые дают представление о производительности контракта и любых сгенерированных событиях. Эти логи могут использоваться внешними системами для целей мониторинга или реагирования на конкретные события.
 
 <Frame>
 ![EVM Execution Model](/images/learn/ethereum-virtual-machine/evm-execution-basic.png)
@@ -49,33 +49,33 @@ In simple terms, when a transaction is submitted to the network, the EVM first v
 
 ---
 
-## Gas and Opcode Execution
+## Газ и выполнение опкодов
 
-While we have already delved into the concept of gas in a previous lesson, it is worth reiterating its critical role within the EVM and as a fundamental component of Ethereum. Gas functions as a metric for quantifying the computational effort needed to carry out operations in the EVM. Every opcode in a smart contract carries a specific gas cost, which reflects the computational resources necessary for its execution.
+Хотя мы уже подробно рассмотрели концепцию газа в предыдущем уроке, стоит повторить его критическую роль в EVM и как фундаментального компонента Ethereum. Газ функционирует как метрика для количественной оценки вычислительных усилий, необходимых для выполнения операций в EVM. Каждый опкод в смарт-контракте имеет определенную стоимость газа, которая отражает вычислительные ресурсы, необходимые для его выполнения.
 
-Opcodes are the low-level instructions executed by the EVM. They represent elementary operations that allow the EVM to process and manage smart contracts.
+Опкоды - это низкоуровневые инструкции, выполняемые EVM. Они представляют элементарные операции, которые позволяют EVM обрабатывать и управлять смарт-контрактами.
 
 <Frame>
 ![Opcode Execution](/images/learn/ethereum-virtual-machine/opcode-execution.png)
 </Frame>
 
-During execution, the EVM reads opcodes from the smart contract, and depending on the opcode, it may update the world state, consume gas, or revert the state if an error occurs. Some common opcodes include:
+Во время выполнения EVM читает опкоды из смарт-контракта, и в зависимости от опкода она может обновлять состояние мира, потреблять газ или откатывать состояние в случае ошибки. Некоторые распространенные опкоды включают:
 
-- **ADD:** Adds two values from the stack.
-- **SUB:** Subtracts two values from the stack.
-- **MSTORE:** Stores a value in memory.
-- **SSTORE:** Stores a value in contract storage.
-- **CALL:** Calls another contract or sends ether.
+- **ADD:** Складывает два значения из стека
+- **SUB:** Вычитает два значения из стека.
+- **MSTORE:** Сохраняет значение в памяти.
+- **SSTORE:** Сохраняет значение в хранилище контракта.
+- **CALL:** Вызывает другой контракт или отправляет эфир.
 
 ---
 
-## Stack and Memory
+## Стек и память
 
-The EVM stack and memory are critical components of the EVM architecture, as they enable smart contracts to manage temporary data during opcode execution. The stack is a last-in, first-out (LIFO) data structure that is used for temporarily storing values during opcode execution. It is managed by the EVM and is separate from the contract's storage. The stack supports two primary operations: push and pop.
+Стек и память EVM являются критически важными компонентами архитектуры EVM, поскольку они позволяют смарт-контрактам управлять временными данными во время выполнения опкодов. Стек - это структура данных «последним пришел - первым ушел» (LIFO), которая используется для временного хранения значений во время выполнения опкодов. Он управляется EVM и отделен от хранилища контракта. Стек поддерживает две основные операции: push и pop.
 
-The push operation adds a value to the top of the stack, while the pop operation removes the top value from the stack. These operations are used to manage temporary data during opcode execution. For example, an opcode that performs an addition operation might push the two operands onto the stack, perform the addition, and then pop the result off the top of the stack.
+Операция push добавляет значение в вершину стека, а операция pop удаляет верхнее значение из стека. Эти операции используются для управления временными данными во время выполнения опкодов. Например, опкод, выполняющий операцию сложения, может поместить два операнда в стек, выполнить сложение, а затем извлечь результат с вершины стека.
 
-During contract execution, memory serves as a collection of bytes, organized in an array, for the purpose of temporarily storing data. It can be read from and written to by opcodes. Memory is often used to store temporary data during opcode execution, such as when working with dynamically sized data like strings or arrays that are being manipulated or computed within the smart contract before being stored in the contract's storage. When a smart contract needs to store temporary data during opcode execution, it can use the memory to store that data.
+Во время выполнения контракта память служит набором байтов, организованных в массив, для временного хранения данных. Она может читаться и записываться опкодами. Память часто используется для хранения временных данных во время выполнения опкодов, например, при работе с данными динамического размера, такими как строки или массивы, которые обрабатываются или вычисляются внутри смарт-контракта перед сохранением в хранилище контракта. Когда смарт-контракту нужно сохранить временные данные во время выполнения опкодов, он может использовать память для хранения этих данных.
 
 <Frame>
 ![EVM Stack and Memory](/images/learn/ethereum-virtual-machine/evm-stack-memory.png)
@@ -83,9 +83,9 @@ During contract execution, memory serves as a collection of bytes, organized in 
 
 ---
 
-## EVM Architecture and Execution Context
+## Архитектура EVM и контекст выполнения
 
-To fully grasp the EVM architecture and its components, it's important to see how they all come together in a cohesive manner. The following diagram provides an in-depth visualization of the EVM architecture, showcasing the interactions between key elements such as transactions, gas, opcodes, and the world state. With this diagram, you can see how each component plays a vital role in the seamless execution of smart contracts on the Ethereum network.
+Чтобы полностью понять архитектуру EVM и ее компоненты, важно увидеть, как они все объединяются в единое целое. Следующая диаграмма предоставляет углубленную визуализацию архитектуры EVM, демонстрируя взаимодействие между ключевыми элементами, такими как транзакции, газ, опкоды и состояние мира. С помощью этой диаграммы вы можете увидеть, как каждый компонент играет жизненно важную роль в бесперебойном выполнении смарт-контрактов в сети Ethereum.
 
 <Frame>
 ![Figure 13-1. EVM architecture and execution context.](/images/learn/ethereum-virtual-machine/evm-architecture-execution.png)
@@ -94,13 +94,13 @@ Image Source: [Mastering Ethereum](https://github.com/ethereumbook/ethereumbook)
 
 ---
 
-## Conclusion
+## Заключение
 
-The EVM plays a vital role within the Ethereum network. By examining the EVM's key components as well as its architecture and execution model, we've gained insight into the engine of Ethereum and how it enables the smooth execution of smart contracts on the platform.
+EVM играет жизненно важную роль в сети Ethereum. Изучив ключевые компоненты EVM, а также ее архитектуру и модель выполнения, мы получили представление о движке Ethereum и о том, как он обеспечивает плавное выполнение смарт-контрактов на платформе.
 
 ---
 
-## See Also
+## Смотрите также
 
 - [The Ethereum Virtual Machine (Mastering Ethereum)](https://cypherpunks-core.github.io/ethereumbook/13evm.html#evm_architecture)
 - [Ethereum Virtual Machine (Ethereum docs)](https://ethereum.org/en/developers/docs/evm/)
