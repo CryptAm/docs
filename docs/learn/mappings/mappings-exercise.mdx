@@ -1,28 +1,28 @@
 ---
-title: Mappings Exercise
-sidebarTitle: Exercise
-description: Exercise - Demonstrate your knowledge of mappings.
+title: Упражнение по отображениям (Mappings)
+sidebarTitle: Упражнение
+description: Упражнение - продемонстрируйте свои знания по отображениям (mappings).
 hide_table_of_contents: false
 ---
 
-Create a contract that adheres to the following specifications.
+Создайте контракт, соответствующий следующим спецификациям.
 
 ---
 
-## Contract
+## Контракт
 
-Create a single contract called `FavoriteRecords`. It should not inherit from any other contracts. It should have the following properties:
+Создайте один контракт под названием `FavoriteRecords`. Он не должен наследовать от других контрактов. Он должен иметь следующие свойства:
 
-### State Variables
+### Переменные состояния
 
-The contract should have the following state variables. It is **up to you** to decide if any supporting variables are useful.
+Контракт должен иметь следующие переменные состояния. **Вам решать**, нужны ли какие-либо вспомогательные переменные.
 
-- A public mapping `approvedRecords`, which returns `true` if an album name has been added as described below, and `false` if it has not
-- A mapping called `userFavorites` that indexes user addresses to a mapping of `string` record names which returns `true` or `false`, depending if the user has marked that album as a favorite
+- Публичное отображение `approvedRecords`, которое возвращает `true`, если название альбома было добавлено, как описано ниже, и `false`, если нет
+- Отображение под названием `userFavorites`, которое индексирует адреса пользователей в отображение `string` названий записей, которое возвращает `true` или `false` в зависимости от того, отметил ли пользователь этот альбом как избранный
 
-### Loading Approved Albums
+### Загрузка одобренных альбомов
 
-Using the method of your choice, load `approvedRecords` with the following:
+Используя выбранный вами метод, загрузите `approvedRecords` следующими названиями:
 
 - Thriller
 - Back in Black
@@ -34,34 +34,34 @@ Using the method of your choice, load `approvedRecords` with the following:
 - Rumours
 - Saturday Night Fever
 
-### Get Approved Records
+### Получение одобренных записей
 
-Add a function called `getApprovedRecords`. This function should return a list of all of the names currently indexed in `approvedRecords`.
+Добавьте функцию под названием `getApprovedRecords`. Эта функция должна возвращать список всех названий, в настоящее время проиндексированных в `approvedRecords`.
 
-### Add Record to Favorites
+### Добавление записи в избранное
 
-Create a function called `addRecord` that accepts an album name as a parameter. **If** the album is on the approved list, add it to the list under the address of the sender. Otherwise, reject it with a custom error of `NotApproved` with the submitted name as an argument.
+Создайте функцию под названием `addRecord`, которая принимает название альбома в качестве параметра. **Если** альбом находится в утвержденном списке, добавьте его в список под адресом отправителя. В противном случае отклоните его с пользовательской ошибкой `NotApproved` с переданным названием в качестве аргумента.
 
-### Users' Lists
+### Списки пользователей
 
-Write a function called `getUserFavorites` that retrieves the list of favorites for a provided `address memory`.
+Напишите функцию под названием `getUserFavorites`, которая извлекает список избранного для предоставленного `address memory`.
 
-### Reset My Favorites
+### Сброс моего избранного
 
-Add a function called `resetUserFavorites` that resets `userFavorites` for the sender.
+Добавьте функцию под названием `resetUserFavorites`, которая сбрасывает `userFavorites` для отправителя.
 
 ---
 
-### Submit your Contract and Earn an NFT Badge! (BETA)
+### Отправьте свой контракт и получите NFT-значок! (BETA)
 
 <Note>
-#### Hey, where'd my NFT go!?
+#### Эй, куда делся мой NFT?!
 
-[Testnets](/learn/deployment-to-testnet/test-networks) are not permanent! Base Goerli [will soon be sunset](https://base.mirror.xyz/kkz1-KFdUwl0n23PdyBRtnFewvO48_m-fZNzPMJehM4), in favor of Base Sepolia.
+[Тестовые сети](/learn/deployment-to-testnet/test-networks) не являются постоянными! Base Goerli [скоро будет приостановлена](https://base.mirror.xyz/kkz1-KFdUwl0n23PdyBRtnFewvO48_m-fZNzPMJehM4), в пользу Base Sepolia.
 
-As these are separate networks with separate data, your NFTs **will not** transfer over.
+Поскольку это отдельные сети с отдельными данными, ваши NFT **не будут** перенесены.
 
-**Don't worry!** We've captured the addresses of all NFT owners on Base Goerli and will include them when we release the mechanism to transfer these NFTs to mainnet later this year! You can also redeploy on Sepolia and resubmit if you'd like!
+**Не волнуйтесь!** Мы зафиксировали адреса всех владельцев NFT в Base Goerli и включим их, когда позже в этом году выпустим механизм для переноса этих NFT в основную сеть (mainnet)! Вы также можете повторно развернуть в Sepolia и отправить заново, если хотите!
 </Note>
 
 
