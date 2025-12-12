@@ -1,30 +1,30 @@
 ---
-title: Ethereum Applications
-description: An overview of the development ethos of Ethereum, applications built on its network, and a high-level comparison of Web2 and Web3
+title: Приложения на Ethereum
+description: Обзор философии разработки Ethereum, приложений, построенных на его сети, и высокоуровневое сравнение Web2 и Web3
 ---
 
-In this article, we'll explore Ethereum's significance and impact in the crypto ecosystem as well as its role in shaping the Web3 landscape. We'll learn about Ethereum's ethos and goals and also examine the different types of applications developed on Ethereum. Lastly, we'll take a look at the evolution of the web with an emphasis on comparing Web2 and Web3 development.
-
----
-
-## Objectives
-
-By the end of this lesson you should be able to:
-
-- Describe the origin and goals of the Ethereum blockchain
-- List common types of applications that can be developed with the Ethereum blockchain
-- Compare and contrast Web2 vs. Web3 development
-- Compare and contrast the concept of "ownership" in Web2 vs. Web3
+В этой статье мы исследуем значение и влияние Ethereum в крипто-экосистеме, а также его роль в формировании ландшафта Web3. Мы узнаем о философии и целях Ethereum, а также рассмотрим различные типы приложений, разработанных на Ethereum. Наконец, мы рассмотрим эволюцию веба с акцентом на сравнение разработки Web2 и Web3.
 
 ---
 
-## The Ethos and Goals of Ethereum
+## Цели
 
-Ethereum was originally proposed in 2013 by Vitalik Buterin, who was then a young developer in the Bitcoin community. Vitalik had a vision that the potential of blockchain technology extended far beyond a decentralized digital currency. When his ideas were rejected by the Bitcoin community, he set out to create a platform that could bring his vision to life.
+К концу этого урока вы сможете:
 
-The ethos of Ethereum is fundamentally different from Bitcoin's. Bitcoin development is conservative; it's focused on maintaining the existing protocol, making only incremental improvements over time rather than implementing radical changes. In other words, changes are slow and deliberate and any unnecessary risk-taking is generally frowned upon. Ethereum development, on the other hand, is focused on innovation and experimentation. There is more of a willingness to take risks and make radical changes to the protocol in order to improve on and expand upon functionality and enable new use cases.
+- Описать происхождение и цели блокчейна Ethereum
+- Перечислить распространенные типы приложений, которые можно разрабатывать с помощью блокчейна Ethereum
+- Сравнить и сопоставить разработку Web2 и Web3
+- Сравнить и сопоставить концепцию "ownership" в Web2 vs. Web3
 
-Ethereum's primary goal is to be a general, all-purpose blockchain that allows developers to create any type of decentralized application that their minds can conjure up. One of the most important features that unlock all of these possibilities is smart contracts. Without smart contract functionality, most applications built on the platform today would be nonexistent.
+---
+
+## Философия и цели Ethereum
+
+Ethereum был первоначально предложен в 2013 году Виталиком Бутериным, который в то время был молодым разработчиком в сообществе Bitcoin. У Виталика было видение, что потенциал технологии блокчейн выходит далеко за рамки децентрализованной цифровой валюты. Когда его идеи были отвергнуты сообществом Bitcoin, он решил создать платформу, которая могла бы воплотить его видение в жизнь.
+
+Философия Ethereum фундаментально отличается от философии Bitcoin. Разработка Bitcoin консервативна; она сосредоточена на поддержании существующего протокола, внося лишь постепенные улучшения с течением времени, а не реализуя радикальные изменения. Другими словами, изменения происходят медленно и обдуманно, и любое ненужное рискованное поведение, как правило, не приветствуется. Разработка Ethereum, с другой стороны, сосредоточена на инновациях и экспериментах. Здесь больше готовности идти на риски и вносить радикальные изменения в протокол, чтобы улучшить и расширить функциональность, а также включить новые варианты использования.
+
+Основная цель Ethereum - быть универсальным, многоцелевым блокчейном, который позволяет разработчикам создавать любые типы децентрализованных приложений, которые могут прийти им в голову. Одной из наиболее важных функций, открывающих все эти возможности, являются смарт-контракты. Без функциональности смарт-контрактов большинство приложений, построенных на платформе сегодня, не существовали бы.
 
 <Frame>
 ![Bitcoin & Ethereum Comparison](/images/learn/introduction-to-ethereum/btc-eth-comparison.png)
@@ -32,144 +32,143 @@ Ethereum's primary goal is to be a general, all-purpose blockchain that allows d
 
 ---
 
-## Applications on Ethereum
+## Приложения на Ethereum
 
-Before delving into the different types of applications built on Ethereum, let's review one of the underlying forces of the smart contracts that make them possible.
+Прежде чем углубляться в различные типы приложений, построенных на Ethereum, давайте вспомним одну из основных сил смарт-контрактов, которые делают их возможными.
 
-### Scripting
+### Скриптование (Scripting)
 
-As we've learned, one of Bitcoin's limitations when it comes to complex applications being built on the protocol is scripting. Its simple stack-based, left-to-right scripting system lacks the flexibility to support smart contracts. In the Ethereum whitepaper, Vitalik pointed out several limitations to Bitcoin scripting. A couple of key ones to note are:
+Как мы уже узнали, одним из ограничений Bitcoin, когда речь идет о сложных приложениях, построенных на протоколе, является скриптование. Его простая стековая, слева-направо система скриптов не обладает гибкостью для поддержки смарт-контрактов. В техническом документе Ethereum Виталик указал на несколько ограничений скриптования Bitcoin. Стоит отметить пару ключевых:
 
-- Lack of Turing-completeness. Although this is an intentional feature of Bitcoin to avoid infinite loops during transaction verification, without loops or recursion, running a complex program that a decentralized application demands, is not possible.
+- Отсутствие полноты по Тьюрингу (Turing-completeness). Хотя это намеренная особенность Bitcoin, позволяющая избежать бесконечных циклов во время проверки транзакций, без циклов или рекурсии запуск сложной программы, которую требует децентрализованное приложение, невозможен.
 
-- Lack of state. Bitcoin's UTXO model only allows for simple contracts and not the complex stateful contracts needed for most decentralized applications. What that means is that there is no internal state beyond a UTXO being spent or unspent.
+- Отсутствие состояния (state). Модель UTXO Bitcoin позволяет использовать только простые контракты, а не сложные контракты с состоянием (stateful), необходимые для большинства децентрализованных приложений. Это означает, что нет внутреннего состояния, кроме того, потрачен UTXO или нет.
 
-Ethereum's scripting languages, most notably Solidity, are Turing-complete and stateful, among other features. These features allow smart contracts to be executed deterministically, meaning that the outcome of the contract is predictable and can be enforced automatically and autonomously. They also allow developers to write much more complex programs that can execute a much wider range of operations.
+Языки скриптов Ethereum, наиболее известный из которых - Solidity, являются полными по Тьюрингу и поддерживают состояние (stateful), среди прочих функций. Эти функции позволяют смарт-контрактам выполняться детерминировано, то есть результат контракта предсказуем и может быть принудительно исполнен автоматически и автономно. Они также позволяют разработчикам писать гораздо более сложные программы, которые могут выполнять гораздо более широкий спектр операций.
 
-It is this flexibility and versatility in Ethereum's scripting that ultimately powers the decentralized applications that we know.
+Именно эта гибкость и универсальность в скриптовании Ethereum в конечном итоге питает децентрализованные приложения, которые мы знаем.
 
-### Decentralized Finance (DeFi)
+### Децентрализованные финансы (DeFi)
 
-DeFi is one of the most popular use cases for Ethereum. In DeFi Summer 2020, we saw an explosion in the usage and popularity of DeFi applications built on Ethereum. During this brief period alone, the total value locked in DeFi protocols increased from less than $1 billion to more than $10 billion. This period marked a turning point, as it brought more attention to the space, and it solidified Ethereum as the de facto smart contract platform of the DeFi and greater Web3 ecosystem.
+DeFi - один из самых популярных вариантов использования Ethereum. В «Лето DeFi» 2020 года мы увидели взрыв в использовании и популярности приложений DeFi, построенных на Ethereum. Только за этот короткий период общая стоимость, заблокированная в протоколах DeFi, выросла с менее чем 1 миллиарда долларов до более чем 10 миллиардов долларов. Этот период стал переломным моментом, поскольку он привлек больше внимания к пространству и укрепил Ethereum как де-факто платформу для смарт-контрактов экосистемы DeFi и более широкой Web3.
 
-DeFi applications are designed to provide traditional financial services, such as lending, borrowing, trading, and much more, in a transparent, open and accessible manner. All of these services are facilitated by smart contracts.
+Приложения DeFi предназначены для предоставления традиционных финансовых услуг, таких как кредитование, заимствование, торговля и многое другое, прозрачным, открытым и доступным образом. Все эти услуги обеспечиваются смарт-контрактами.
 
-How exactly does this work? Let's take a look at a simple example in the context of a DeFi lending platform, such as Aave or Compound.
+Как именно это работает? Давайте рассмотрим простой пример в контексте платформы DeFi для кредитования, такой как Aave или Compound.
 
-Suppose Alice wants to borrow 5 ETH but doesn't want to sell her 10,000 USDC. She can deposit that USDC as collateral and borrow 5 ETH against it.
+Предположим, Алиса хочет занять 5 ETH, но не хочет продавать свои 10 000 USDC. Она может внести эти USDC в качестве залога и взять взаймы 5 ETH под него.
 
-First, Alice must interact with the smart contract of the platform. The smart contract will check if Alice has 10,000 USDC in her wallet and, if so, will lock it up as collateral for the loan. The smart contract then transfers 5 ETH to Alice's wallet. The smart contract will also define the terms of the loan, such as the interest rate and the repayment date.
+Сначала Алиса должна взаимодействовать со смарт-контрактом платформы. Смарт-контракт проверит, есть ли у Алисы 10 000 USDC в ее кошельке, и если да, то заблокирует их в качестве залога для кредита. Затем смарт-контракт переведет 5 ETH на кошелек Алисы. Смарт-контракт также определит условия кредита, такие как процентная ставка и дата погашения.
 
-Alice now has 5 ETH that she can use for whatever she wants. However, she must repay the loan within the specified period. If Alice repays the loan on time, the smart contract will release her deposited collateral back to her. Otherwise, it will automatically liquidate her collateral and transfer it to the lender's address in exchange for the 5 ETH that was lent to her. The repayment will also include any accrued interest based on the interest rate set by the smart contract.
+Теперь у Алисы есть 5 ETH, которые она может использовать для чего угодно. Однако она должна погасить кредит в установленный срок. Если Алиса погасит кредит вовремя, смарт-контракт освободит ее внесенный залог и вернет ей. В противном случае он автоматически ликвидирует ее залог и переведет его на адрес кредитора в обмен на 5 ETH, которые ей были одолжены. Погашение также будет включать начисленные проценты в соответствии с процентной ставкой, установленной смарт-контрактом.
 
-In this way, smart contracts enable DeFi platforms to operate autonomously without a centralized entity. The smart contract provides security and transparency to both the borrower and the lender, as the terms of the loan are defined in the code and enforced automatically.
+Таким образом, смарт-контракты позволяют платформам DeFi работать автономно без централизованного субъекта. Смарт-контракт обеспечивает безопасность и прозрачность как для заемщика, так и для кредитора, поскольку условия кредита определены в коде и исполняются автоматически.
 
-Of course, this does not mean that DeFi comes without risks. Although it's beyond the scope of this article, it's worth mentioning that DeFi has been the target of numerous smart contract exploits involving hundreds of millions of dollars in value.
+Конечно, это не означает, что DeFi не сопряжено с рисками. Хотя это выходит за рамки данной статьи, стоит упомянуть, что DeFi стал целью многочисленных эксплойтов смарт-контрактов, связанных с сотнями миллионов долларов стоимости.
 
-### Non-Fungible Token (NFT)
+### Невзаимозаменяемые токены (NFT)
 
-NFTs are another application of Ethereum that has gained significant attention in recent years. NFTs are unique digital assets that represent ownership of a specific item. They can be used to represent just about anything, but most notably digital artwork, sports collectibles, and in-game items.
+NFT - еще одно применение Ethereum, которое приобрело значительное внимание в последние годы. NFT — это уникальные цифровые активы, которые представляют право собственности на конкретный предмет. Они могут использоваться для представления практически чего угодно, но чаще всего - цифровых произведений искусства, спортивных коллекционных предметов и внутриигровых предметов.
 
-Smart contracts play a crucial role in NFTs by providing a way to represent and enforce ownership of the digital asset. When a new NFT is created, a smart contract is deployed on Ethereum that defines the unique characteristics of that asset as well as the ownership information and rules for transferring ownership.
+Смарт-контракты играют решающую роль в NFT, предоставляя способ представления и обеспечения права собственности на цифровой актив. Когда создается новый NFT, на Ethereum развертывается смарт-контракт, который определяет уникальные характеристики этого актива, а также информацию о праве собственности и правила передачи прав собственности.
 
-Ethereum's ERC-721 standard was the first to introduce NFTs in 2017, and it has since become the most popular standard for creating and trading NFTs on Ethereum.
+Стандарт ERC-721 Ethereum был первым, кто представил NFT в 2017 году, и с тех пор он стал самым популярным стандартом для создания и торговли NFT на Ethereum.
 
-We'll cover more on tokens and token standards for fungible and non-fungible assets later on in the course.
+Мы расскажем больше о токенах и стандартах токенов для взаимозаменяемых и невзаимозаменяемых активов позже в курсе.
 
-### Decentralized Autonomous Organization (DAO)
+### Децентрализованные автономные организации (DAO)
 
-DAOs are another common use case for Ethereum and also one of the earliest use cases implemented on the network. In simple words, DAOs are software-enabled, community-led organizations. They allow a community to pool resources toward a shared goal, such as [buying one of the original copies of the U.S. Constitution](https://www.theverge.com/22820563/constitution-meme-47-million-crypto-crowdfunding-blockchain-ethereum-constitution) or determining the future of a protocol. Because DAOs aren't tied to a physical location, they are able to mobilize quickly and
-attract resources and capital from all over the world.
+DAO - еще один распространенный вариант использования Ethereum и один из самых ранних вариантов использования, реализованных в сети. Проще говоря, DAO — это организации, управляемые сообществом и основанные на программном обеспечении. Они позволяют сообществу объединять ресурсы для достижения общей цели, такой как [покупка одной из оригинальных копий Конституции США](https://www.theverge.com/22820563/constitution-meme-47-million-crypto-crowdfunding-blockchain-ethereum-constitution) или определение будущего протокола. Поскольку DAO не привязаны к физическому местоположению, они могут быстро мобилизоваться и привлекать ресурсы и капитал со всего мира.
 
-The rules of a DAO are established by community members through the use of smart contracts, which lay the groundwork for how a DAO operates. When a new DAO is created, a contract is deployed to the network. It contains the rules that govern the organization, including how its resources are managed. Members of the DAO can then interact with the contract by sending transactions to the blockchain.
+Правила DAO устанавливаются членами сообщества с помощью смарт-контрактов, которые закладывают основу того, как DAO функционирует. Когда создается новая DAO, контракт развертывается в сети. Он содержит правила, управляющие организацией, включая то, как управляются ее ресурсы. Затем члены DAO могут взаимодействовать с контрактом, отправляя транзакции в блокчейн.
 
-DAOs typically use a token-based system to govern voting and decision-making. Members of the DAO are issued tokens that represent their ownership and influence within the organization. These tokens can be used to vote on proposals and allocate resources.
+DAO обычно используют систему на основе токенов для управления голосованием и принятием решений. Членам DAO выдаются токены, которые представляют их собственность и влияние внутри организации. Эти токены могут использоваться для голосования по предложениям и распределения ресурсов.
 
-When a proposal is submitted to the DAO, members can vote on whether to accept or reject it. The smart contract tracks the votes and automatically executes the proposal if it receives enough support from the members. This process allows members of the DAO to collectively make decisions and take actions in a decentralized way.
+Когда предложение подается в DAO, члены могут проголосовать за его принятие или отклонение. Смарт-контракт отслеживает голоса и автоматически исполняет предложение, если оно получает достаточную поддержку от членов. Этот процесс позволяет членам DAO коллективно принимать решения и действовать децентрализованным образом.
 
-### Other Applications
+### Другие приложения
 
-While the above use cases have been the most prominent applications on Ethereum, there are a plethora of others, including:
+Хотя вышеупомянутые варианты использования были наиболее заметными приложениями на Ethereum, существует множество других, включая:
 
-- **Identity Management** is one use case that has come to the forefront in recent years. The most notable example is the Ethereum Name Service (ENS). It allows users to register human-readable domain names, similar to the traditional DNS system, but with the added functionality of being able to associate Ethereum and other blockchain addresses with a domain name, such as `vitalik.eth`. This makes it easier for users to send and receive transactions without having to remember or type in long and complex addresses.
+- **Управление идентификацией** - это вариант использования, который вышел на передний план в последние годы. Наиболее заметным примером является Ethereum Name Service (ENS). Он позволяет пользователям регистрировать удобочитаемые доменные имена, аналогичные традиционной системе DNS, но с дополнительной функциональностью возможности связать адреса Ethereum и других блокчейнов с доменным именем, например `vitalik.eth`. Это упрощает пользователям отправку и получение транзакций без необходимости запоминать или вводить длинные и сложные адреса.
 
-- **Gaming** is another common use case. Axie Infinity and Decentraland are both popular examples of decentralized games that make use of fungible and non-fungible tokens for a variety of purposes.
+- **Игры ** - еще один распространенный вариант использования. Axie Infinity и Decentraland - популярные примеры децентрализованных игр, которые используют взаимозаменяемые и невзаимозаменяемые токены для различных целей.
 
-- **Prediction markets** are another use case where users can bet on the outcome of real-world events, such as forecasting election results or predicting which team will win a game. Augur and Gnosis are popular examples of this application.
+- **Прогнозные рынки** - еще один вариант использования, где пользователи могут делать ставки на исход реальных событий, таких как прогнозирование результатов выборов или предсказание, какая команда выиграет игру. Augur и Gnosis - популярные примеры такого приложения.
 
-There are many other use cases from supply chain, energy, and intellectual property management to decentralized storage and content management to governance and voting systems. The list goes on and on, and it's worth taking some time to explore these types of applications on your own.
+Существует множество других вариантов использования: от управления цепочками поставок, энергетикой и интеллектуальной собственностью до децентрализованного хранения и управления контентом, систем управления и голосования. Список можно продолжать, и стоит потратить некоторое время на самостоятельное изучение этих типов приложений.
 
 ---
 
-## Evolution of the Web
+## Эволюция веба (Web)
 
-Opinions abound in the history, divisions, and eras of the development and evolution of the internet. One popular explanation divides the web into three major eras (so far).
+Мнения о истории, этапах и эрах развития и эволюции Интернета разнообразны. Одно популярное объяснение делит веб на три основные эры (пока что).
 
 #### Web1
 
-The web has come a long way since its humble read-only beginnings in the early 1990s. Web1 is often referred to as the _static web_, meaning it was primarily a collection of static web pages that provided information to users with limited interaction and dynamic content.
+Веб прошел долгий путь с момента своего скромного начала только для чтения в начале 1990-х годов. Web1 часто называют _статическим вебом_, что означает, что это была в основном коллекция статических веб-страниц, предоставляющих информацию пользователям с ограниченным взаимодействием и динамическим контентом.
 
 #### Web2
 
-In the early 2000s, a _dynamic web_ emerged. Web2 introduced more interactive and dynamic content, such as social media and e-commerce. It's characterized by the use of centralized servers that store and control user data. In other words, with Web2, users can interact with content, share information, and collaborate with others, but they have limited control over their data. A vast majority of the web today operates in this paradigm.
+В начале 2000-х годов появился _динамический веб_. Web2 представил более интерактивный и динамический контент, такой как социальные сети и электронная коммерция. Он характеризуется использованием централизованных серверов, которые хранят и контролируют пользовательские данные. Другими словами, с Web2 пользователи могут взаимодействовать с контентом, делиться информацией и сотрудничать с другими, но у них ограниченный контроль над своими данными. Подавляющее большинство веба сегодня работает в этой парадигме.
 
 #### Web3
 
-Web3 or the _decentralized web_ is the next phase of the web that has started to emerge in recent years with the rise in popularity of Ethereum. This iteration of the web is focused on user ownership and control over data, providing a more private, decentralized, and secure web experience.
+Web3 или _децентрализованный веб_ - это следующая фаза веба, которая начала появляться в последние годы с ростом популярности Ethereum. Эта итерация веба сосредоточена на владении пользователем и контроле над данными, обеспечивая более приватный, децентрализованный и безопасный веб-опыт.
 
-### The Limitations of Web2
+### Ограничения Web2
 
-While Web2 brought many benefits beyond its predecessor, there are some key limitations to consider.
+Хотя Web2 принес много преимуществ по сравнению со своим предшественником, есть несколько ключевых ограничений, которые стоит рассмотреть.
 
-- **Privacy & Control:** Users have limited control over their data and how it is used. Companies often have broad or even complete control over user data on a given platform.
+- **Конфиденциальность и контроль:** У пользователей ограниченный контроль над своими данными и тем, как они используются. Компании часто имеют широкий или даже полный контроль над пользовательскими данными на данной платформе.
 
-- **Censorship:** Due to centralized control of user data, corporations or governments can censor content they deem as inappropriate or dangerous, which can limit free speech and expression or block access to certain online services. This is especially concerning in countries with authoritarian regimes, which often use censorship as a tool to control citizens and maintain power.
+- **Цензура:** Из-за централизованного контроля над пользовательскими данными корпорации или правительства могут цензурировать контент, который они считают неподобающим или опасным, что может ограничивать свободу слова и самовыражения или блокировать доступ к определенным онлайн-сервисам. Это особенно беспокоит в странах с авторитарными режимами, которые часто используют цензуру как инструмент контроля над гражданами и удержания власти.
 
-- **Lack of transparency:** Users cannot always verify how their data is being used or who has access to it.
+- **Отсутствие прозрачности:** Пользователи не всегда могут проверить, как используются их данные или у кого есть к ним доступ.
 
-- **Security vulnerabilities:** Because Web2 relies on centralized servers, it is more vulnerable to hacking and data breaches, which can expose sensitive user information and compromise online safety.
+- **Уязвимости безопасности:** Поскольку Web2 полагается на централизованные серверы, он более уязвим для взломов и утечек данных, которые могут раскрыть конфиденциальную пользовательскую информацию и поставить под угрозу онлайн-безопасность.
 
-- **Limited interoperability:** Most Web2 platforms are not interoperable, meaning that different platforms may not be compatible with each other. Data is generally confined to one system.
+- **Ограниченная совместимость:** Большинство платформ Web2 не совместимы друг с другом, что означает, что разные платформы могут быть несовместимы. Данные, как правило, ограничены одной системой.
 
-### The Limitations of Web3
+### Ограничения Web3
 
-While many of the limitations of Web2 have spurred the development of Web3 by aiming to provide a more decentralized, secure, and private web, Web3 does not come without its own set of limitations.
+Хотя многие ограничения Web2 стимулировали разработку Web3, стремясь предоставить более децентрализованный, безопасный и приватный веб, Web3 также не лишен собственных ограничений.
 
-- **Speed:** The reliance on decentralized networks and consensus mechanisms result in much slower processing times compared to centralized systems.
+- **Скорость:** Зависимость от децентрализованных сетей и механизмов консенсуса приводит к гораздо более медленному времени обработки по сравнению с централизованными системами.
 
-- **Storage:** Storing data onchain can be very expensive, which can make it challenging for developers to create apps that require large amounts of storage.
+- **Хранение:** Хранение данных в блокчейне (onchain) может быть очень дорогим, что может затруднить для разработчиков создание приложений, требующих больших объемов хранения.
 
-- **Smart contract limitations:**
+- **Ограничения смарт-контрактов:**
 
-  - Smart contracts on Ethereum are currently limited to a maximum size of 24 KB, which can limit the complexity of the logic that can be programmed into them.
+  - Смарт-контракты на Ethereum в настоящее время ограничены максимальным размером 24 КБ, что может ограничивать сложность логики, которую можно запрограммировать в них.
 
-  - Once a smart contract is deployed, it cannot be updated or changed. If there is a bug or a flaw in the contract, it cannot be fixed unless a new contract is deployed.
+  - После развертывания смарт-контракт не может быть обновлен или изменен. Если в контракте есть ошибка или недостаток, ее нельзя исправить, пока не будет развернут новый контракт.
 
-- **All data is public:** The transparency of blockchain means that all data is public and visible to anyone. While this can be an advantage in terms of transparency and accountability, it can also be a limitation for applications that may require privacy or confidentiality.
+- **Все данные публичны:** Прозрачность блокчейна означает, что все данные являются общедоступными и видны всем. Хотя это может быть преимуществом с точки зрения прозрачности и подотчетности, это также может быть ограничением для приложений, требующих конфиденциальности или секретности.
 
 <Frame>
 ![Web2 & Web3 Limitations](/images/learn/introduction-to-ethereum/web2-web3-limitations.png)
 </Frame>
 
-### Web2 vs Web3 Development
+### Разработка Web2 vs Web3
 
-While there are many general distinctions to be made between Web2 and Web3, these characteristics are even more apparent when examining their development approaches.
+Хотя между Web2 и Web3 можно провести много общих различий, эти характеристики становятся еще более очевидными при рассмотрении их подходов к разработке.
 
 #### Web2
 
-In Web2, engineering is centered around a client-server architecture, and development is focused on building applications for specific platforms and using APIs and tools provided by those platforms to create user interfaces and access data. There is a top-down corporate approach to development processes, and code is generally proprietary and closed-sourced. As a result, there tends to be very limited collaboration with developers outside of a company and there is little integration between different platforms.
+В Web2 инженерия сосредоточена вокруг архитектуры клиент-сервер, а разработка сосредоточена на создании приложений для конкретных платформ и использовании API и инструментов, предоставляемых этими платформами, для создания пользовательских интерфейсов и доступа к данным. Существует корпоративный подход сверху вниз к процессам разработки, и код, как правило, является проприетарным и закрытым. В результате сотрудничество с разработчиками вне компании очень ограничено, и существует мало интеграции между различными платформами.
 
-Web2 developers rely on centralized infrastructure, such as servers and cloud-computing services provided by large tech companies to host their applications and store data. This creates a centralized system where the platforms and companies that control the infrastructure have significant power and control over the applications and data that are built on top of them.
+Разработчики Web2 полагаются на централизованную инфраструктуру, такую как серверы и облачные вычисления, предоставляемые крупными технологическими компаниями, для размещения своих приложений и хранения данных. Это создает централизованную систему, в которой платформы и компании, контролирующие инфраструктуру, имеют значительную власть и контроль над приложениями и данными, которые построены на их основе.
 
 #### Web3
 
-In contrast, the Web3 development paradigm is centered around a distributed architecture, where developers build applications that run on decentralized protocols and smart contracts. There is a bottom-up community approach to development processes, and there is an emphasis on open-source code and open standards. Web3 development culture is collaborative, and there is strong integration and interoperability between platforms.
+В отличие от этого, парадигма разработки Web3 сосредоточена вокруг распределенной архитектуры, где разработчики создают приложения, работающие на децентрализованных протоколах и смарт-контрактах. Существует подход сообщества снизу вверх к процессам разработки, и делается акцент на открытом исходном коде и открытых стандартах. Культура разработки Web3 является совместной, и существует сильная интеграция и совместимость между платформами.
 
-Web3 development requires a different set of engineering skills and tools. Developers need to have a strong understanding of blockchain technology, cryptography, and distributed systems, and they also need to be proficient in programming languages like Solidity.
+Разработка Web3 требует другого набора инженерных навыков и инструментов. Разработчикам необходимо иметь глубокое понимание технологии блокчейна, криптографии и распределенных систем, а также быть опытными в языках программирования, таких как Solidity.
 
-There is also a different approach to testing and deployment. Because onchain apps run on distributed systems, developers need to consider factors like network latency and the possibility of network partitions. They also need to ensure that their applications are extremely secure and resistant to a variety of attacks because the stakes can often be very high when it comes to dealing with millions and even billions of dollars of value that cannot be recovered in the event of a hack. Developers also have to consider concepts like immutability because once code is deployed to a blockchain, it cannot be edited.
+Также существует другой подход к тестированию и развертыванию. Поскольку приложения в блокчейне (onchain) работают в распределенных системах, разработчикам необходимо учитывать такие факторы, как задержка сети и возможность разделения сети. Им также необходимо обеспечить, чтобы их приложения были чрезвычайно безопасными и устойчивыми к различным атакам, потому что ставки часто могут быть очень высокими, когда речь идет о работе с миллионами и даже миллиардами долларов стоимости, которые невозможно восстановить в случае взлома. Разработчикам также приходится учитывать такие концепции, как неизменяемость (immutability), потому что после развертывания кода в блокчейне его нельзя редактировать.
 
-Overall, Web3 development requires a different set of engineering skills and tools as well as a deeper understanding of distributed systems and cryptography. Developers also need the ability to think creatively about how to build applications that are constrained by the technical limitations of the Web3 paradigm, such as speed, storage, and scalability.
+В целом, разработка Web3 требует другого набора инженерных навыков и инструментов, а также более глубокого понимания распределенных систем и криптографии. Разработчикам также необходима способность творчески мыслить о том, как создавать приложения, которые ограничены техническими ограничениями парадигмы Web3, такими как скорость, хранение и масштабируемость.
 
 <Frame>
 ![Web2 vs Web3 Development](/images/learn/introduction-to-ethereum/web2-web3-development.png)
@@ -177,15 +176,15 @@ Overall, Web3 development requires a different set of engineering skills and too
 
 ---
 
-## Conclusion
+## Заключение
 
-Ethereum was created to extend the potential of blockchain technology beyond just a decentralized digital currency platform. Its ethos of innovation and experimentation has made a major impact on shaping the crypto ecosystem and has played a significant role in shaping the landscape of Web3. The use of smart contracts has enabled a wide range of new web applications, including DeFi, NFTs, DAOs, and many more.
+Ethereum был создан для расширения потенциала технологии блокчейн за рамки просто платформы децентрализованной цифровой валюты. Его философия инноваций и экспериментов оказала большое влияние на формирование крипто-экосистемы и сыграла значительную роль в формировании ландшафта Web3. Использование смарт-контрактов позволило создать широкий спектр новых веб-приложений, включая DeFi, NFT, DAO и многие другие.
 
-The evolution of the web has brought us from a static Web1 to a dynamic Web2, and now to a decentralized Web3. While Web2 brought many key benefits, it also came with many drawbacks regarding privacy, censorship, and security vulnerabilities. Web3 aims to address these challenges but has its own set of limitations. Lastly, the development paradigms of Web2 and Web3 are distinct in their architecture, infrastructure, and their development approaches. Web3 development requires a different set of skills and a different mental framework from its predecessor.
+Эволюция веба привела нас от статического Web1 к динамическому Web2, а теперь и к децентрализованному Web3. Хотя Web2 принес много ключевых преимуществ, он также принес множество недостатков в отношении конфиденциальности, цензуры и уязвимостей безопасности. Web3 направлен на решение этих проблем, но имеет собственный набор ограничений. Наконец, парадигмы разработки Web2 и Web3 отличаются своей архитектурой, инфраструктурой и подходами к разработке. Разработка Web3 требует другого набора навыков и другого ментального подхода по сравнению со своим предшественником.
 
 ---
 
-## See also
+## Смотрите также
 
 - [Ethereum Whitepaper](https://ethereum.org/en/whitepaper/)
 - [Decentralized Applications (Dapps)](https://ethereum.org/en/dapps/)
