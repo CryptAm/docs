@@ -1,128 +1,128 @@
 ---
-title: Sending messages and tokens from Base to other chains using Chainlink CCIP
-description: A tutorial that teaches how to use Chainlink CCIP to perform cross-chain messaging and token transfers from Base Goerli testnet to Optimism Goerli testnet.
+title: Отправка сообщений и токенов из Base в другие цепи с использованием Chainlink CCIP
+description: Руководство, которое учит, как использовать Chainlink CCIP для выполнения кросс-чейн обмена сообщениями и перевода токенов из тестнета Base Goerli в тестнет Optimism Goerli.
 authors:
   - taycaldwell
 tags: ['cross-chain']
 difficulty: intermediate
 ---
 
-# Sending messages and tokens from Base to other chains using Chainlink CCIP
+# Отправка сообщений и токенов из Base в другие цепи с использованием Chainlink CCIP
 
-This tutorial will guide you through the process of sending messages and tokens from a Base smart contract to another smart contract on a different chain using Chainlink's Cross-chain Interoperability Protocol (CCIP).
+Это руководство проведет вас через процесс отправки сообщений и токенов из смарт-контракта на Base в другой смарт-контракт на другой цепи с использованием Протокола Кросс-Чейн Интероперабельности (CCIP) от Chainlink.
 
-## Objectives
+## Цели
 
-By the end of this tutorial you should be able to do the following:
+К концу этого руководства вы должны уметь делать следующее:
 
-- Set up a smart contract project for Base using Foundry
-- Install Chainlink CCIP as a dependency
-- Use Chainlink CCIP within your smart contract to send messages and/or tokens to contracts on other different chains
-- Deploy and test your smart contracts on Base testnet
+- Настроить проект смарт-контрактов для Base с использованием Foundry
+- Установить Chainlink CCIP в качестве зависимости
+- Использовать Chainlink CCIP в вашем смарт-контракте для отправки сообщений и/или токенов на контракты в других цепях
+- Развернуть и протестировать свои смарт-контракты в тестнете Base
 
 <Info>
-Chainlink CCIP is in an "Early Access" development stage, meaning some of the functionality described within this tutorial is under development and may change in later versions.
+Chainlink CCIP находится на стадии "Раннего Доступа", что означает, что некоторая функциональность, описанная в этом руководстве, находится в разработке и может измениться в будущих версиях.
 </Info>
 
-## Prerequisites
+## Предварительные требования
 
 ### Foundry
 
-This tutorial requires you to have Foundry installed.
+Для этого руководства требуется установленный Foundry.
 
-- From the command-line (terminal), run: `curl -L https://foundry.paradigm.xyz | bash`
-- Then run `foundryup`, to install the latest (nightly) build of Foundry
+- Из командной строки (терминала) выполните: `curl -L https://foundry.paradigm.xyz | bash`
+- Затем выполните `foundryup`, чтобы установить последнюю (ночную) сборку Foundry
 
-For more information, see the Foundry Book [installation guide](https://book.getfoundry.sh/getting-started/installation).
+Для получения дополнительной информации см. [руководство по установке](https://book.getfoundry.sh/getting-started/installation) в Foundry Book..
 
 ### Coinbase Wallet
 
-In order to deploy a smart contract, you will first need a wallet. You can create a wallet by downloading the Coinbase Wallet browser extension.
+Чтобы развернуть смарт-контракт, вам сначала понадобится кошелек. Вы можете создать кошелек, скачав браузерное расширение Coinbase Wallet.
 
-- Download [Coinbase Wallet](https://chrome.google.com/webstore/detail/coinbase-wallet-extension/hnfanknocfeofbddgcijnmhnfnkdnaad?hl=en)
+- Скачайте [Coinbase Wallet](https://chrome.google.com/webstore/detail/coinbase-wallet-extension/hnfanknocfeofbddgcijnmhnfnkdnaad?hl=en)
 
-### Wallet funds
+### Средства в кошельке
 
-For this tutorial you will need to fund your wallet with both ETH and LINK on Base Goerli and Optimism Goerli.
+Для этого руководства вам нужно будет пополнить кошелек как ETH, так и LINK в Base Goerli и Optimism Goerli.
 
-The ETH is required for covering gas fees associated with deploying smart contracts to the blockchain, and the LINK token is required to pay for associated fees when using CCIP.
+ETH необходим для покрытия комиссий за газ, связанных с развертыванием смарт-контрактов в блокчейне, а токен LINK требуется для оплаты связанных комиссий при использовании CCIP.
 
-- To fund your wallet with ETH on Base Goerli, visit a faucet listed on the [Base Faucets](https://docs.base.org/base-chain/tools/network-faucets) page.
-- To fund your wallet with ETH on Optimism Goerli, visit a faucet listed on the [Optimism Faucets](https://docs.optimism.io/builders/tools/faucets) page.
-- To fund your wallet with LINK, visit the [Chainlink Faucet](https://faucets.chain.link/base-testnet).
+- Чтобы пополнить кошелек ETH в Base Goerli, посетите краны, перечисленные на странице [Base Faucets](https://docs.base.org/base-chain/tools/network-faucets).
+- Чтобы пополнить кошелек ETH в Optimism Goerli, посетите краны, перечисленные на странице [Optimism Faucets](https://docs.optimism.io/builders/tools/faucets).
+- Чтобы пополнить кошелек LINK, посетите [Chainlink Faucet](https://faucets.chain.link/base-testnet).
 
 <Warning>
-If you are interested in building on Mainnet, you will need to [apply for Chainlink CCIP mainnet access](https://chainlinkcommunity.typeform.com/ccip-form?#ref_id=ccip_docs).
+Если вы заинтересованы в разработке для мейннета, вам необходимо [apply for Chainlink CCIP mainnet access](https://chainlinkcommunity.typeform.com/ccip-form?#ref_id=ccip_docs).
 </Warning>
 
 ---
 
-## What is Chainlink CCIP?
+## Что такое Chainlink CCIP?
 
-Chainlink CCIP (Cross-chain Interoperability Protocol) provides a solution for sending message data and transferring tokens across different chains.
+Chainlink CCIP (Протокол Кросс-Чейн Интероперабельности) предоставляет решение для отправки данных сообщений и перевода токенов между разными цепями.
 
-The primary way for users to interface with Chainlink CCIP is through smart contracts known as [Routers](https://docs.chain.link/ccip/architecture#router). A Router contract is responsible for initiating cross-chain interactions.
+Основной способ взаимодействия пользователей с Chainlink CCIP — через смарт-контракты, известные как [Routers](https://docs.chain.link/ccip/architecture#router). Контракт Router отвечает за инициирование кросс-чейн взаимодействий.
 
-Users can interact with [Routers](https://docs.chain.link/ccip/architecture#router) to perform the following cross-chain capabilities:
+Пользователи могут взаимодействовать с [Routers](https://docs.chain.link/ccip/architecture#router) для выполнения следующих кросс-чейн возможностей:
 
-| Capability                   | Description                                                                                  | Supported receivers     |
-| :--------------------------- | :------------------------------------------------------------------------------------------- | :---------------------- |
-| Arbitrary messaging          | Send arbitrary (encoded) data from one chain to another.                                     | Smart contracts only    |
-| Token transfers              | Send tokens from one chain to another.                                                       | Smart contracts or EOAs |
-| Programmable token transfers | Send tokens and arbitrary (encoded) data from one chain to another, in a single transaction. | Smart contracts only    |
+| Возможность                  | Описание                                                                                     | Поддерживаемые получатели  |
+| :--------------------------- | :------------------------------------------------------------------------------------------- | :------------------------- |
+| Произвольные сообщения          | Отправка произвольных (закодированных) данных из одной цепи в другую.                                   | Только смарт-контракты       |
+| Переводы токенов              | Отправка токенов из одной цепи в другую.                                                       | Смарт-контракты или EOA    |
+| Программируемые переводы токенов | Отправка токенов и произвольных (закодированных) данных из одной цепи в другую в одной транзакции. | Только смарт-контракты       |
 
 <Warning>
-Externally owned accounts (EOAs) on EVM blockchains are unable to receive message data, because of this, only smart contracts are supported as receivers when sending arbitrary messages or programmable token transfers. Any attempt to send a programmable token transfer (data and tokens) to an EOA, will result in only the tokens being received.
+Внешние аккаунты (EOA) в блокчейнах EVM не могут получать данные сообщений. Из-за этого только смарт-контракты поддерживаются в качестве получателей при отправке произвольных сообщений или программируемых переводов токенов. Любая попытка отправить программируемый перевод токенов (данные и токены) на EOA приведет к получению только токенов.
 </Warning>
 
-### High-level concepts
+### Основные концепции высокого уровня
 
-Although [Routers](https://docs.chain.link/ccip/architecture#router) are the primary interface users will interact with when using CCIP, this section will cover what happens after instructions for a cross-chain interaction are sent to a Router.
+Хотя [Routers](https://docs.chain.link/ccip/architecture#router) являются основным интерфейсом, с которым пользователи будут взаимодействовать при использовании CCIP, этот раздел расскажет о том, что происходит после того, как инструкции для кросс-чейн взаимодействия отправлены в Router.
 
-#### OnRamps
+#### OnRamps (Точки входа)
 
-Once a Router receives an instruction for a cross-chain interaction, it passes it on to another contract known as an [OnRamp](https://docs.chain.link/ccip/architecture#onramp). OnRamps are responsible for a variety of tasks, including: verifying message size and gas limits, preserving the sequencing of messages, managing any fee payments, and interacting with the [token pool](https://docs.chain.link/ccip/architecture#token-pools) to `lock` or `burn` tokens if a token transfer is being made.
+Цепь назначения будет иметь контракт, известный как [OnRamp](https://docs.chain.link/ccip/architecture#onramp). OnRamps отвечают за множество задач, включая: проверку размера сообщения и лимитов газа, сохранение последовательности сообщений, управление любыми платежами комиссий и взаимодействие [token pool](https://docs.chain.link/ccip/architecture#token-pools) для блокировки (`lock`) или сжигания (`burn`) токенов, если осуществляется перевод токенов.
 
-#### OffRamps
+#### OffRamps (Точки выхода)
 
-The destination chain will have a contract known as an [OffRamp](https://docs.chain.link/ccip/architecture#offramp). OffRamps are responsible for a variety of tasks, including: ensuring the authenticity of a message, making sure each transaction is only executed once, and transmitting received messages to the Router contract on the destination chain.
+Как только Router получает инструкцию для кросс-чейн взаимодействия, он передает ее другому контракту, известному как [OffRamp](https://docs.chain.link/ccip/architecture#offramp). OffRamps отвечают за множество задач, включая: обеспечение подлинности сообщения, гарантию того, что каждая транзакция выполняется только один раз, и передачу полученных сообщений в контракт Router в цепи назначения.
 
-#### Token pools
+#### Пул токенов (Token pools)
 
-A [token pool](https://docs.chain.link/ccip/architecture#token-pools) is an abstraction layer over ERC-20 tokens that facilitates OnRamp and OffRamp token-related operations. They are configured to use either a `Lock and Unlock` or `Burn and Mint` mechanism, depending on the type of token.
+[token pool](https://docs.chain.link/ccip/architecture#token-pools) - это уровень абстракции над токенами ERC-20, который облегчает операции, связанные с токенами, для OnRamp и OffRamp. Они настроены на использование механизма Заблокировать и Разблокировать (Lock and Unlock) или Сжечь и Создать (Burn and Mint), в зависимости от типа токена.
 
-For example, because blockchain-native gas tokens (i.e. ETH, MATIC, AVAX) can only be minted on their native chains, a `Lock and Mint` mechanism must be used. This mechanism locks the token at the source chain, and mints a synthetic asset on the destination chain.
+Например, поскольку нативные газовые токены блокчейна (т.е. ETH, MATIC, AVAX) могут быть созданы только в их нативных цепях, должен использоваться механизм `Lock and Mint`. Этот механизм блокирует токен в исходной цепи и создает синтетический актив в цепи назначения.
 
-In contrast, tokens that can be minted on multiple chains (i.e. USDC, USDT, FRAX, etc.), token pools can use a `Burn and Mint` mechanism, where the token is burnt on the source chain and minted on the destination chain.
+Напротив, для токенов, которые могут быть созданы в нескольких цепях (т.е. USDC, USDT, FRAX и т.д.), пулы токенов могут использовать механизм `Burn and Mint`, где токен сжигается в исходной цепи и создается в цепи назначения.
 
-#### Risk Management Network
+#### Сеть управления рисками (Risk Management Network)
 
-Between instructions for a cross-chain interaction making its way from an OnRamp on the source chain to an OffRamp on the destination chain, it will pass through the [Risk Management Network](https://docs.chain.link/ccip/concepts#risk-management-network).
+Между тем, как инструкции для кросс-чейн взаимодействия проходят путь от OnRamp в исходной цепи до OffRamp в цепи назначения, они проходят через [Risk Management Network](https://docs.chain.link/ccip/concepts#risk-management-network).
 
-The Risk Management Network is a secondary validation service built using a variety of offchain and onchain components, with the responsibilities of monitoring all chains against abnormal activities.
+Сеть управления рисками - это вторичная служба валидации, построенная с использованием различных оффчейн- и ончейн-компонентов, с ответственностью мониторинга всех цепей на предмет аномальной активности.
 
 <Info>
-A deep-dive on the technical details of each of these components is too much to cover in this tutorial, but if interested you can learn more by visiting the [Chainlink documentation](https://docs.chain.link/ccip/architecture).
+Подробное техническое описание каждого из этих компонентов выходит за рамки этого руководства, но если вам интересно, вы можете узнать больше, посетив [документацию Chainlink](https://docs.chain.link/ccip/architecture).
 </Info>
 
-## Creating a project
+## Создание проекта
 
-Before you begin, you need to set up your smart contract development environment. You can setup a development environment using tools like [Hardhat](/learn/hardhat/hardhat-tools-and-testing/deploy-with-hardhat) or [Foundry](/learn/foundry/deploy-with-foundry). For this tutorial you will use Foundry.
+Прежде чем начать, вам нужно настроить среду разработки смарт-контрактов. Вы можете настроить среду разработки с помощью таких инструментов, как [Hardhat](/learn/hardhat/hardhat-tools-and-testing/deploy-with-hardhat) или [Foundry](/learn/foundry/deploy-with-foundry). Для этого руководства вы будете использовать Foundry.
 
-To create a new Foundry project, first create a new directory:
+Чтобы создать новый проект Foundry, сначала создайте новую директорию:
 
 ```bash
 mkdir myproject
 ```
 
-Then run:
+Затем выполните:
 
 ```bash
 cd myproject
 forge init
 ```
 
-This will create a Foundry project with the following basic layout:
+Это создаст проект Foundry со следующей базовой структурой:
 
 ```bash
 .
@@ -133,37 +133,37 @@ This will create a Foundry project with the following basic layout:
 ```
 
 <Info>
-You can delete the `src/Counter.sol`, `test/Counter.t.sol`, and `script/Counter.s.sol` boilerplate files that were generated with the project, as you will not be needing them.
+Вы можете удалить шаблонные файлы `src/Counter.sol`, `test/Counter.t.sol` и `script/Counter.s.sol`, которые были сгенерированы вместе с проектом, так как они вам не понадобятся.
 </Info>
 
-## Installing Chainlink smart contracts
+## Установка смарт-контрактов Chainlink
 
-To use Chainlink CCIP within your Foundry project, you need to install Chainlink CCIP smart contracts as a project dependency using `forge install`.
+Чтобы использовать Chainlink CCIP в вашем проекте Foundry, вам нужно установить смарт-контракты Chainlink CCIP в качестве зависимости проекта с помощью `forge install`.
 
-To install Chainlink CCIP smart contracts, run:
+Чтобы установить смарт-контракты Chainlink CCIP, выполните:
 
 ```bash
 forge install smartcontractkit/ccip --no-commit
 ```
 
-Once installed, update your `foundry.toml` file by appending the following line:
+После установки обновите ваш файл `foundry.toml`, добавив следующую строку:
 
 ```bash
 remappings = ['@chainlink/contracts-ccip/=lib/ccip/contracts']
 ```
 
-## Writing the smart contracts
+## Написание смарт-контрактов
 
-The most basic use case for Chainlink CCIP is to send data and/or tokens between smart contracts on different blockchains.
+Самый простой вариант использования Chainlink CCIP - отправка данных и/или токенов между смарт-контрактами в разных блокчейнах.
 
-To accomplish this, in this tutorial, you will need to create two separate smart contracts:
+Для этого в данном руководстве вам нужно будет создать два отдельных смарт-контракта:
 
-- `Sender` contract: A smart contract that interacts with CCIP to send data and tokens.
-- `Receiver` contract: A smart contract that interacts with CCIP to receive data and tokens.
+- Контракт `Sender`: Смарт-контракт, который взаимодействует с CCIP для отправки данных и токенов.
+- Контракт `Receiver`: Смарт-контракт, который взаимодействует с CCIP для получения данных и токенов.
 
-### Creating a Sender contract
+### Создание контракта Sender (Отправитель)
 
-The code snippet below is for a basic smart contract that uses CCIP to send data:
+Фрагмент кода ниже представляет собой базовый смарт-контракт, использующий CCIP для отправки данных:
 
 ```solidity
 pragma solidity ^0.8.0;
@@ -227,20 +227,20 @@ contract Sender is OwnerIsCreator {
 }
 ```
 
-Create a new file under your project's `src/` directory named `Sender.sol` and copy the code above into the file.
+Создайте новый файл в директории src/ вашего проекта с именем Sender.sol и скопируйте код выше в файл.
 
-#### Code walkthrough
+#### Разбор кода
 
-The sections below provide a detailed explanation for the code for the `Sender` contract provided above.
+В разделах ниже приведено подробное объяснение кода для контракта `Sender`, предоставленного выше.
 
-##### Initializing the contract
+##### Инициализация контракта
 
-In order to send data using CCIP, the `Sender` contract will need access to the following dependencies:
+Чтобы отправлять данные с помощью CCIP, контракту `Sender` потребуется доступ к следующим зависимостям:
 
-1. **The `Router` contract**: This contract serves as the primary interface when using CCIP to send and receive messages and tokens.
-2. **The fee token contract**: This contract serves as the contract for the token that will be used to pay fees when sending messages and tokens. For this tutorial, the contract address for LINK token is used.
+1. **Контракт `Router`**: Этот контракт служит основным интерфейсом при использовании CCIP для отправки и получения сообщений и токенов.
+2. **Контракт токена комиссии**: Этот контракт служит контрактом для токена, который будет использоваться для оплаты комиссий при отправке сообщений и токенов. Для этого руководства используется адрес контракта токена LINK.
 
-The `Router` contract address and LINK token address are passed in as parameters to the contract's constructor and stored as member variables for later for sending messages and paying any associated fees.
+Адрес контракта `Router` и адрес токена LINK передаются в качестве параметров в конструктор контракта и сохраняются как переменные-члены для последующей отправки сообщений и оплаты связанных комиссий.
 
 ```solidity
 contract Sender is OwnerIsCreator {
@@ -257,28 +257,28 @@ contract Sender is OwnerIsCreator {
    }
 ```
 
-The `Router` contract provides two important methods that can be used when sending messages using CCIP:
+Контракт `Router` предоставляет два важных метода, которые можно использовать при отправке сообщений с помощью CCIP:
 
-- `getFee`: Given a chain selector and message, returns the fee amount required to send the message.
-- `ccipSend`: Given a chain selector and message, sends the message through the router and returns an associated message ID.
+- `getFee`: Учитывая селектор цепи и сообщение, возвращает сумму комиссии, необходимую для отправки сообщения.
+- `ccipSend`: Учитывая селектор цепи и сообщение, отправляет сообщение через маршрутизатор и возвращает связанный идентификатор сообщения (ID).
 
-The next section describes how these methods are utilized to send a message to another chain.
+Следующий раздел описывает, как эти методы используются для отправки сообщения в другую цепь.
 
-##### Sending a message
+##### Отправка сообщения
 
-The `Sender` contract defines a custom method named `sendMessage` that utilizes the methods described above in order to:
+Контракт `Sender` определяет пользовательский метод с именем sendMessage, который использует методы, описанные выше, чтобы:
 
-1. Construct a message using the `EVM2AnyMessage` method provided by the `Client` CCIP library, using the following data:
-   1. `receiver`: The receiver contract address (encoded).
-   1. `data`: The text data to send with the message (encoded).
-   1. `tokenAmounts`: The amount of tokens to send with the message. For sending just an arbitrary message this field is defined as an empty array (`new Client.EVMTokenAmount[](0)`), indicating that no tokens will be sent.
-   1. `extraArgs`: Extra arguments associated with the message, such as `gasLimit`.
-   1. `feeToken`: The `address` of the token to be used for paying fees.
-1. Get the fees required to send the message using the `getFee` method provided by the `Router` contract.
-1. Check that the contract holds an adequate amount of tokens to cover the fee. If not, revert the transaction.
-1. Approve the `Router` contract to transfer tokens on the `Sender` contracts behalf in order to cover the fees.
-1. Send the message to a specified chain using the `Router` contract's `ccipSend` method.
-1. Return a unique ID associated with the sent message.
+1. Построить сообщение, используя метод `EVM2AnyMessage`, предоставленный библиотекой CCIP `Client`, со следующими данными:
+   1. `receiver`: Адрес контракта получателя (закодированный).
+   1. `data`: Текстовые данные для отправки с сообщением (закодированные).
+   1. `tokenAmounts`: Количество токенов для отправки с сообщением. Для отправки только произвольного сообщения это поле определяется как пустой массив (`new Client.EVMTokenAmount[](0)`), указывающий, что токены отправляться не будут.
+   1. `extraArgs`: Дополнительные аргументы, связанные с сообщением, такие как `gasLimit`.
+   1. `feeToken`: `address` токена, который будет использоваться для оплаты комиссий.
+1. Получить комиссии, необходимые для отправки сообщения, с помощью метода `getFee`, предоставленного контрактом `Router`.
+1. Проверить, что контракт содержит достаточное количество токенов для покрытия комиссии. Если нет, отменить транзакцию.
+1. Разрешить контракту `Router` переводить токены от имени контракта `Sender` для покрытия комиссий.
+1. Отправить сообщение в указанную цепь, используя метод `ccipSend` контракта `Router`.
+1. Вернуть уникальный идентификатор, связанный с отправленным сообщением.
 
 ```solidity
 /// @param receiver The address of the recipient on the destination blockchain.
@@ -318,9 +318,9 @@ function sendMessage(
 }
 ```
 
-### Creating a Receiver contract
+### Создание контракта Receiver (Получатель)
 
-The code snippet below is for a basic smart contract that uses CCIP to receive data:
+Фрагмент кода ниже представляет собой базовый смарт-контракт, использующий CCIP для получения данных:
 
 ```solidity
 pragma solidity ^0.8.0;
@@ -359,15 +359,15 @@ contract Receiver is CCIPReceiver {
 }
 ```
 
-Create a new file under your project's `src/` directory named `Receiver.sol` and copy the code above into the file.
+Создайте новый файл в директории `src/` вашего проекта с именем `Receiver.sol` и скопируйте код выше в файл.
 
-#### Code walkthrough
+#### Разбор кода 
 
-The sections below provide a detailed explanation for the code for the `Receiver` contract provided above.
+В разделах ниже приведено подробное объяснение кода для контракта `Receiver`, предоставленного выше.
 
-##### Initializing the contract
+##### Инициализация контракта
 
-In order to receive data using CCIP, the `Receiver` contract will need to extend to the`CCIPReceiver` interface. Extending this interface allows the `Receiver` contract to initialize the contract with the router address from the constructor, as seen below:
+Для получения данных с помощью CCIP контракт `Receiver` должен расширять интерфейс `CCIPReceiver`. Расширение этого интерфейса позволяет контракту `Receiver` инициализировать контракт с адресом маршрутизатора из конструктора, как показано ниже:
 
 ```solidity
 import {CCIPReceiver} from "@chainlink/contracts-ccip/src/v0.8/ccip/applications/CCIPReceiver.sol";
@@ -380,9 +380,9 @@ contract Receiver is CCIPReceiver {
 }
 ```
 
-##### Receiving a message
+##### Получение сообщения
 
-Extending the `CCIPReceiver` interface also allows the `Receiver` contract to override the `_ccipReceive` handler method for when a message is received and define custom logic.
+Расширение интерфейса `CCIPReceiver` также позволяет контракту `Receiver` переопределить метод-обработчик `_ccipReceive` для случая, когда получено сообщение, и определить пользовательскую логику.
 
 ```solidity
 /// @notice Handle a received message
@@ -394,7 +394,7 @@ function _ccipReceive(
 }
 ```
 
-The `Receiver` contract in this tutorial provides custom logic that stores the `messageId` and `text` (decoded) as member variables.
+Контракт `Receiver` в этом руководстве предоставляет пользовательскую логику, которая сохраняет `messageId` и `text` (декодированный) как переменные-члены.
 
 ```solidity
 contract Receiver is CCIPReceiver {
@@ -417,9 +417,9 @@ contract Receiver is CCIPReceiver {
 }
 ```
 
-##### Retrieving a message
+##### Получение сообщения
 
-The `Receiver` contract defines a custom method named `getMessage` that returns the details of the last received message `_messageId` and `_text`. This method can be called to fetch the message data details after the `_ccipReceive` receives a new message.
+Контракт `Receiver` определяет пользовательский метод с именем `getMessage`, который возвращает детали последнего полученного сообщения `_messageId` и `_text`. Этот метод может быть вызван для получения деталей данных сообщения после того, как `_ccipReceive` получит новое сообщение.
 
 ```solidity
 /// @notice Gets the last received message.
@@ -434,41 +434,41 @@ function getMessage()
 }
 ```
 
-## Compiling the smart contracts
+## Компиляция смарт-контрактов
 
-To compile your smart contracts, run:
+Чтобы скомпилировать ваши смарт-контракты, выполните:
 
 ```bash
 forge build
 ```
 
-## Deploying the smart contract
+## Развертывание смарт-контракта
 
-### Setting up your wallet as the deployer
+### Настройка вашего кошелька как развертывающего
 
-Before you can deploy your smart contract to the Base network, you will need to set up a wallet to be used as the deployer.
+Прежде чем вы сможете развернуть свой смарт-контракт в сети Base, вам нужно настроить кошелек, который будет использоваться как развертывающий.
 
-To do so, you can use the [`cast wallet import`](https://getfoundry.sh/cast/reference/wallet/import/#cast-wallet-import) command to import the private key of the wallet into Foundry's securely encrypted keystore:
+Для этого вы можете использовать команду [`cast wallet import`](https://getfoundry.sh/cast/reference/wallet/import/#cast-wallet-import), чтобы импортировать приватный ключ кошелька в безопасно зашифрованное хранилище ключей Foundry:
 
 ```bash
 cast wallet import deployer --interactive
 ```
 
-After running the command above, you will be prompted to enter your private key, as well as a password for signing transactions.
+После выполнения команды выше вам будет предложено ввести ваш приватный ключ, а также пароль для подписи транзакций.
 
 <Warning>
-For instructions on how to get your private key from Coinbase Wallet, visit the [Coinbase Wallet documentation](https://docs.cloud.coinbase.com/wallet-sdk/docs/developer-settings#show-private-key). **It is critical that you do NOT commit this to a public repo**.
+Инструкции о том, как получить ваш приватный ключ из Coinbase Wallet, см. в [Coinbase Wallet documentation](https://docs.cloud.coinbase.com/wallet-sdk/docs/developer-settings#show-private-key). **Крайне важно, чтобы вы НЕ сохраняли это в публичном репозитории**.
 </Warning>
 
-To confirm that the wallet was imported as the `deployer` account in your Foundry project, run:
+Чтобы подтвердить, что кошелек был импортирован как учетная запись `deployer` в вашем проекте Foundry, выполните:
 
 ```bash
 cast wallet list
 ```
 
-### Setting up environment variables
+### Настройка переменных окружения
 
-To setup your environment, create an `.env` file in the home directory of your project, and add the RPC URLs, [CCIP chain selectors](https://docs.chain.link/ccip/supported-networks/v1_2_0/testnet), [CCIP router addresses](https://docs.chain.link/ccip/supported-networks/v1_2_0/testnet), and [LINK token addresses](https://docs.chain.link/resources/link-token-contracts) for both Base Goerli and Optimism Goerli testnets:
+Чтобы настроить ваше окружение, создайте файл `.env` в домашней директории вашего проекта и добавьте RPC URL, [CCIP chain selectors](https://docs.chain.link/ccip/supported-networks/v1_2_0/testnet), [CCIP router addresses](https://docs.chain.link/ccip/supported-networks/v1_2_0/testnet), и [LINK token addresses](https://docs.chain.link/resources/link-token-contracts) для тестнетов Base Goerli и Optimism Goerli:
 
 ```bash
 BASE_GOERLI_RPC="https://goerli.base.org"
@@ -484,115 +484,115 @@ BASE_GOERLI_LINK_ADDRESS="0x6D0F8D488B669aa9BA2D0f0b7B75a88bf5051CD3"
 OPTIMISM_GOERLI_LINK_ADDRESS="0xdc2CC710e42857672E7907CF474a69B63B93089f"
 ```
 
-Once the `.env` file has been created, run the following command to load the environment variables in the current command line session:
+После создания файла `.env` выполните следующую команду, чтобы загрузить переменные окружения в текущую сессию командной строки:
 
 ```bash
 source .env
 ```
 
-### Deploying the smart contracts
+### Развертывание смарт-контрактов
 
-With your contracts compiled and environment setup, you are ready to deploy the smart contracts.
+Когда ваши контракты скомпилированы и окружение настроено, вы готовы развернуть смарт-контракты.
 
-To deploy a smart contract using Foundry, you can use the `forge create` command. The command requires you to specify the smart contract you want to deploy, an RPC URL of the network you want to deploy to, and the account you want to deploy with.
+Чтобы развернуть смарт-контракт с помощью Foundry, вы можете использовать команду `forge create`. Команда требует указать смарт-контракт, который вы хотите развернуть, RPC URL сети, в которую вы хотите развернуть, и учетную запись, с которой вы хотите развернуть.
 
 <Info>
-Your wallet must be funded with ETH on the Base Goerli and Optimism Goerli to cover the gas fees associated with the smart contract deployment. Otherwise, the deployment will fail.
+Ваш кошелек должен быть пополнен ETH в Base Goerli и Optimism Goerli для покрытия комиссий за газ, связанных с развертыванием смарт-контракта. В противном случае развертывание завершится неудачей.
 
-To get testnet ETH for Base Goerli and Optimism Goerli, see the [prerequisites](#prerequisites).
+тобы получить тестовый ETH для Base Goerli и Optimism Goerli, см. [prerequisites](#prerequisites).
 </Info>
 
-#### Deploying the Sender contract to Base Goerli
+#### Развертывание контракта Sender в Base Goerli
 
-To deploy the `Sender` smart contract to the Base Goerli testnet, run the following command:
+Чтобы развернуть смарт-контракт `Sender` в тестнет Base Goerli, выполните следующую команду:
 
 ```bash
 forge create ./src/Sender.sol:Sender --rpc-url $BASE_GOERLI_RPC --constructor-args $BASE_GOERLI_ROUTER_ADDRESS $BASE_GOERLI_LINK_ADDRESS --account deployer
 ```
 
-When prompted, enter the password that you set earlier, when you imported your wallet's private key.
+Когда появится запрос, введите пароль, который вы установили ранее, при импорте приватного ключа вашего кошелька.
 
-After running the command above, the contract will be deployed on the Base Goerli test network. You can view the deployment status and contract by using a [block explorer](/base-chain/tools/block-explorers).
+После выполнения команды выше контракт будет развернут в тестовой сети Base Goerli. Вы можете просмотреть статус развертывания и контракт с помощью [block explorer](/base-chain/tools/block-explorers).
 
-#### Deploying the Receiver contract to Optimism Goerli
+#### Развертывание контракта Receiver в Optimism Goerli
 
-To deploy the `Receiver` smart contract to the Optimism Goerli testnet, run the following command:
+Чтобы развернуть смарт-контракт `Receiver` в тестнет Optimism Goerli, выполните следующую команду:
 
 ```bash
 forge create ./src/Receiver.sol:Receiver --rpc-url $OPTIMISM_GOERLI_RPC --constructor-args $OPTIMISM_GOERLI_ROUTER_ADDRESS --account deployer
 ```
 
-When prompted, enter the password that you set earlier, when you imported your wallet's private key.
+Когда появится запрос, введите пароль, который вы установили ранее, при импорте приватного ключа вашего кошелька.
 
-After running the command above, the contract will be deployed on the Optimism Goerli test network. You can view the deployment status and contract by using the [OP Goerli block explorer](https://goerli-optimism.etherscan.io/).
+После выполнения команды выше контракт будет развернут в тестовой сети Optimism Goerli. Вы можете просмотреть статус развертывания и контракт с помощью [проводника блоков OP Goerli](https://goerli-optimism.etherscan.io/).
 
-### Funding your smart contracts
+### Пополнение ваших смарт-контрактов
 
-In order to pay for the fees associated with sending messages, the `Sender` contract will need to hold a balance of LINK tokens.
+Для оплаты комиссий, связанных с отправкой сообщений, контракт `Sender` должен иметь баланс токенов LINK.
 
-Fund your contract directly from your wallet, or by running the following `cast` command:
+Пополните ваш контракт напрямую из вашего кошелька или, выполнив следующую команду `cast`:
 
 ```bash
 cast send $BASE_GOERLI_LINK_ADDRESS --rpc-url $BASE_GOERLI_RPC "transfer(address,uint256)" `SENDER_CONTRACT_ADDRESS` 5 --account deployer
 ```
 
-The above command sends `5` LINK tokens on Base Goerli testnet to the `Sender` contract.
+Команда выше отправляет `5` токенов LINK в тестнете Base Goerli на контракт `Sender`.
 
 <Info>
-Replace `SENDER_CONTRACT_ADDRESS` with the contract address of your deployed Sender contract before running the provided cast command.
+Замените `SENDER_CONTRACT_ADDRESS` на адрес контракта вашего развернутого контракта Sender перед выполнением предоставленной команды cast.
 </Info>
 
-## Interacting with the smart contract
+## Взаимодействие со смарт-контрактом
 
-Foundry provides the `cast` command-line tool that can be used to interact with deployed smart contracts and call their functions.
+Foundry предоставляет инструмент командной строки `cast`, который можно использовать для взаимодействия с развернутыми смарт-контрактами и вызова их функций.
 
-### Sending data
+### Отправка данных
 
-The `cast` command can be used to call the `sendMessage(uint64, address, string)` function on the `Sender` contract deployed to Base Goerli in order to send message data to the `Receiver` contract on Optimism Goerli.
+Команда `cast` может использоваться для вызова функции `sendMessage(uint64, address, string)` в контракте `Sender`, развернутом в Base Goerli, для отправки данных сообщения в контракт `Receiver` в Optimism Goerli.
 
-To call the `sendMessage(uint64, address, string)` function of the `Sender` smart contract, run:
+Чтобы вызвать функцию `sendMessage(uint64, address, string)` смарт-контракта `Sender`, выполните:
 
 ```bash
 cast send `SENDER_CONTRACT_ADDRESS` --rpc-url $BASE_GOERLI_RPC "sendMessage(uint64, address, string)" $OPTIMISM_GOERLI_CHAIN_SELECTOR `RECEIVER_CONTRACT_ADDRESS` "Based" --account deployer
 ```
 
-The command above calls the `sendMessage(uint64, address, string)` to send a message. The parameters passed in to the method include: The chain selector to the destination chain (Optimism Goerli), the `Receiver` contract address, and the text data to be included in the message (`Based`).
+Команда выше вызывает `sendMessage(uint64, address, string)` для отправки сообщения. Параметры, передаваемые в метод, включают: селектор цепи назначения (Optimism Goerli), адрес контракта `Receiver` и текстовые данные, которые будут включены в сообщение (`Based`).
 
 <Info>
-Replace `SENDER_CONTRACT_ADDRESS` and `RECEIVER_CONTRACT_ADDRESS` with the contract addresses of your deployed Sender and Receiver contracts respectively before running the provided cast command.
+Замените `SENDER_CONTRACT_ADDRESS` и `RECEIVER_CONTRACT_ADDRESS` на адреса контрактов ваших развернутых контрактов Sender и Receiver соответственно перед выполнением предоставленной команды cast.
 </Info>
 
-After running the command, a unique `messageId` should be returned.
+После выполнения команды должен быть возвращен уникальный `messageId`.
 
-Once the transaction has been finalized, it will take a few minutes for CCIP to deliver the data to Optimism Goerli and call the `ccipReceive` function on the `Receiver` contract.
+После того как транзакция будет завершена, CCIP потребуется несколько минут, чтобы доставить данные в Optimism Goerli и вызвать функцию `ccipReceive` в контракте `Receiver`.
 
 <Info>
-You can use the [CCIP explorer](https://ccip.chain.link/) to see the status of the CCIP transaction.
+Вы можете использовать [CCIP explorer](https://ccip.chain.link/) для просмотра статуса транзакции CCIP.
 </Info>
 
-### Receiving data
+### Получение данных
 
-The `cast` command can also be used to call the `getMessage()` function on the `Receiver` contract deployed to Optimism Goerli in order to read the received message data.
+Команда `cast` также может использоваться для вызова функции `getMessage()` в контракте `Receiver`, развернутом в Optimism Goerli, для чтения полученных данных сообщения.
 
-To call the `getMessage()` function of the `Receiver` smart contract, run:
+Чтобы вызвать функцию `getMessage()` смарт-контракта `Receiver`, выполните:
 
 ```bash
 cast send `RECEIVER_CONTRACT_ADDRESS` --rpc-url $OPTIMISM_GOERLI_RPC "getMessage()" --account deployer
 ```
 
 <Info>
-Replace `RECEIVER_CONTRACT_ADDRESS` with the contract addresses of your deployed Receiver contract before running the provided cast command.
+Замените `RECEIVER_CONTRACT_ADDRESS` на адрес контракта вашего развернутого контракта Receiver перед выполнением предоставленной команды cast.
 </Info>
 
-After running the command, the `messageId` and `text` of the last received message should be returned.
+После выполнения команды должен быть возвращен `messageId` и `text` последнего полученного сообщения.
 
-If the transaction fails, ensure the status of your `ccipSend` transaction has been finalized. You can using the [CCIP explorer](https://ccip.chain.link/).
+Если транзакция завершится неудачей, убедитесь, что статус вашей транзакции `ccipSend` был завершен. Вы можете использовать [CCIP explorer](https://ccip.chain.link/).
 
-## Conclusion
+## Заключение
 
-Congratulations! You have successfully learned how to perform cross-chain messaging on Base using Chainlink CCIP.
+Поздравляем! Вы успешно научились выполнять кросс-чейн обмен сообщениями на Base с использованием Chainlink CCIP.
 
-To learn more about cross-chain messaging and Chainlink CCIP, check out the following resources:
+Чтобы узнать больше о кросс-чейн обмене сообщениями и Chainlink CCIP, ознакомьтесь со следующими ресурсами:
 
 - [Cross-chain](https://docs.base.org/docs/tools/cross-chain)
 - [Chainlink CCIP](https://docs.chain.link/ccip)
