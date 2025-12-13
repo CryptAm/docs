@@ -1,119 +1,119 @@
-# Gasless Transactions on Base using Base Paymaster
+# Бесплатные транзакции на Base с использованием Base Paymaster
 
-Still trying to onboard users to your app? Want to break free from the worries of gas transactions and sponsor them for your users on Base? Look no further!
+Все еще пытаетесь привлечь пользователей в свое приложение? Хотите избавиться от забот о газе для транзакций и спонсировать их для своих пользователей на Base? Не ищите дальше!
 
-Base transaction fees are typically less than a penny, but the concept of gas can still be confusing for new users. You can abstract this away and improve your UX by using the **Base Paymaster**. The Paymaster allows you to:
+Комиссии за транзакции на Base обычно составляют меньше цента, но концепция газа все еще может сбивать с толку новых пользователей. Вы можете абстрагироваться от этого и улучшить пользовательский опыт, используя **Base Paymaster**. Paymaster позволяет вам:
 
-- Batch multi-step transactions
-- Create custom gasless experiences
-- Sponsor up to $10k monthly on mainnet (unlimited on testnet)
+- Пакетировать многошаговые транзакции
+- Создавать пользовательские бесплатные транзакции
+- Спонсировать до $10k ежемесячно в мейннете (без ограничений в тестнете)
 
-> **Note:** If you need an increase in your sponsorship limit, please [reach out on Discord][Discord]!
+> **Примечание:** Если вам нужно увеличить лимит спонсирования, пожалуйста, [reach out on Discord][Discord]!
 
-## Objectives
+## Цели
 
-1. Configure security measures to ensure safe and reliable transactions.
-2. Manage and allocate resources for sponsored transactions.
-3. Subsidize transaction fees for users, enhancing the user experience by making transactions free.
-4. Set up and manage sponsored transactions on various schedules, including weekly, monthly, and daily cadences.
+1. Настроить меры безопасности для обеспечения безопасных и надежных транзакций.
+2. Управлять и распределять ресурсы для спонсируемых транзакций.
+3. Субсидировать комиссии за транзакции для пользователей, улучшая пользовательский опыт, делая транзакции бесплатными.
+4. Настраивать и управлять спонсируемыми транзакциями по различным расписаниям, включая еженедельные, ежемесячные и ежедневные интервалы.
 
-## Prerequisites
+## Предварительные требования
 
-This tutorial assumes you have:
+Это руководство предполагает, что у вас есть:
 
-1. **A Coinbase Cloud Developer Platform Account**  
-   If not, sign up on the [CDP site]. Once you have your account, you can manage projects and utilize tools like the Paymaster.
+1. **Аккаунт в Coinbase Cloud Developer Platform**  
+   Если нет, зарегистрируйтесь на [CDP site]. После создания аккаунта вы сможете управлять проектами и использовать такие инструменты, как Paymaster.
 
-2. **Familiarity with Smart Accounts and ERC 4337**  
-   Smart Accounts are the backbone of advanced transaction patterns (e.g., bundling, sponsorship). If you’re new to ERC 4337, check out external resources like the official [EIP-4337 explainer](https://eips.ethereum.org/EIPS/eip-4337) before starting.
+2. **Знакомство со смарт-аккаунтами и ERC 4337**  
+   Смарт-аккаунты являются основой продвинутых паттернов транзакций (например, пакетирование, спонсирование). Если вы новичок в ERC 4337, ознакомьтесь с внешними ресурсами, такими как официальный [EIP-4337 explainer](https://eips.ethereum.org/EIPS/eip-4337), прежде чем начать.
 
 3. **Foundry**  
-   Foundry is a development environment, testing framework, and smart contract toolkit for Ethereum. You’ll need it installed locally for generating key pairs and interacting with smart contracts.
+   Foundry - это среда разработки, фреймворк для тестирования и набор инструментов для смарт-контрактов Ethereum. Он понадобится вам локально для генерации пар ключей и взаимодействия со смарт-контрактами.
 
 > **Testnet vs. Mainnet**  
-> If you prefer not to spend real funds, you can switch to **Base Goerli** (testnet). The steps below are conceptually the same. Just select _Base Goerli_ in the Coinbase Developer Platform instead of _Base Mainnet_, and use a contract deployed on Base testnet for your allowlisted methods.
+> Если вы предпочитаете не тратить реальные средства, вы можете переключиться на **Base Goerli** (тестнет). Шаги ниже концептуально те же самые. Просто выберите _Base Goerli_ в Coinbase Developer Platform вместо _Base Mainnet_ и используйте контракт, развернутый в тестнете Base, для ваших разрешенных методов.
 
-## Set Up a Base Paymaster & Bundler
+## Настройка Base Paymaster и Бандлера
 
-In this section, you will configure a Paymaster to sponsor payments on behalf of a specific smart contract for a specified amount.
+В этом разделе вы настроите Paymaster для спонсирования платежей от имени определенного смарт-контракта на указанную сумму.
 
-1. **Navigate to the [Coinbase Developer Platform].**
-2. Create or select your project from the upper left corner of the screen.
-3. Click on the **Paymaster** tool from the left navigation.
-4. Go to the **Configuration** tab and copy the **RPC URL** to your clipboard — you’ll need this shortly in your code.
+1. **Перейдите на [Coinbase Developer Platform].**
+2. Создайте или выберите ваш проект в верхнем левом углу экрана.
+3. Нажмите на инструмент **Paymaster** в левой навигации.
+4. Перейдите на вкладку **Configuration** и скопируйте the **RPC URL** в буфер обмена - он скоро понадобится вам в коде.
 
-### Screenshots
+### Скриншоты
 
-- **Selecting your project**  
+- **Выбор вашего проекта**  
   ![cdp-home.png](/images/gasless-transaction-on-base/cdp-select-project.png)
 
-- **Navigating to the Paymaster tool**  
+- **Навигация к инструменту Paymaster**  
   ![cdp-paymaster-tool.png](/images/gasless-transaction-on-base/cdp-paymaster.png)
 
-- **Configuration screen**  
+- **Экран конфигурации**  
   ![cdp-paymaster-tool.png](/images/gasless-transaction-on-base/cdp-config.png)
 
-### Allowlist a Sponsorable Contract
+### Добавление разрешенного контракта для спонсирования
 
-1. From the Configuration page, ensure **Base Mainnet** (or **Base Goerli** if you’re testing) is selected.
-2. Enable your paymaster by clicking the toggle button.
-3. Click **Add** to add an allowlisted contract.
-4. For this example, add [`0x83bd615eb93eE1336acA53e185b03B54fF4A17e8`][simple NFT contract], and add the function `mintTo(address)`.
+1. На странице конфигурации убедитесь, что выбран **Base Mainnet** (или **Base Goerli**, если вы тестируете).
+2. Активируйте ваш paymaster, нажав переключатель.
+3. Нажмите **Add** чтобы добавить разрешенный контракт.
+4. Для этого примера добавьте [`0x83bd615eb93eE1336acA53e185b03B54fF4A17e8`][simple NFT contract], и функцию `mintTo(address)`.
 
 ![cdp-allowlist-contracts.png](/images/gasless-transaction-on-base/cdp-allowlist-contract.png)
 
-> **Use your own contract**  
-> We use a [simple NFT contract][simple NFT contract] on Base mainnet as an example. Feel free to substitute your own.
+> **Используйте свой собственный контракт**  
+> Мы используем [simple NFT contract][simple NFT contract] в мейннете Base в качестве примера. Не стесняйтесь подставлять свой.
 
-### Global & Per User Limits
+### Глобальные и пользовательские лимиты
 
-Scroll down to the **Per User Limit** section. You can set:
+Прокрутите вниз до раздела **Per User Limit**. Вы можете установить:
 
-- **Dollar amount limit** or **number of UserOperations** per user
-- **Limit cycles** that reset daily, weekly, or monthly
+- **Лимит в долларах** или **количество UserOperations** на пользователя
+- **Циклы лимита**, которые сбрасываются ежедневно, еженедельно или ежемесячно
 
-For example, you might set:
+Например, вы можете установить:
 
-- `max USD` to `$0.05`
-- `max UserOperation` to `1`
+- `max USD` в `$0.05`
+- `max UserOperation` в `1`
 
-This means **each user** can only have \$0.05 in sponsored gas and **1** user operation before the cycle resets.
+Это означает, что **каждый пользователь** может получить только $0.05 в спонсированном газе и **1** пользовательскую операцию до сброса цикла.
 
-> **Limit Cycles**  
-> These reset based on the selected cadence (daily, weekly, monthly).
+> **Циклы лимита (Limit Cycles)**  
+> Они сбрасываются в соответствии с выбранным интервалом (ежедневно, еженедельно, ежемесячно).
 
-Next, **Set the Global Limit**. For example, set this to `$0.07` so that once the entire paymaster has sponsored \$0.07 worth of gas (across all users), no more sponsorship occurs unless you raise the limit.
+Затем **Установите Глобальный лимит (Set the Global Limit)**. Например, установите его в $0.07, чтобы после того, как весь paymaster спонсировал газа на $0.07 (по всем пользователям), спонсирование прекратилось, пока вы не увеличите лимит.
 
 ![cdp-global-user-limits.png](/images/gasless-transaction-on-base/cdp-global-user-limits.png)
 
-## Test Your Paymaster Policy
+## Тестирование вашей политики Paymaster
 
-Now let’s verify that these policies work. We’ll:
+Теперь давайте проверим, что эти политики работают. Мы:
 
-1. Create two local key pairs (or use private keys you own).
-2. Generate two Smart Accounts.
-3. Attempt to sponsor multiple transactions to see your policy in action.
+1. Создадим две локальные пары ключей (или используем приватные ключи, которые у вас уже есть).
+2. Сгенерируем два смарт-аккаунта.
+3. Попытаемся спонсировать несколько транзакций, чтобы увидеть политику в действии.
 
-### Installing Foundry
+### Установка Foundry
 
-1. Ensure you have **Rust** installed. If not:
+1. Убедитесь, что у вас установлен **Rust**. Если нет:
    ```bash Terminal
    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
    ```
-2. Install Foundry:
+2. Установите Foundry:
    ```bash Terminal
    curl -L https://foundry.paradigm.xyz | bash
    foundryup
    ```
-3. Verify it works:
+3. Убедитесь, что все работает:
    ```bash Terminal
    cast --help
    ```
-   If you see Foundry usage info, you’re good to go!
+   Если вы видите информацию об использовании Foundry, все в порядке!
 
-### Create Your Project & Generate Key Pairs
+### Создание проекта и генерация пар ключей
 
-1. Make a new folder and install dependencies:
+1. Создайте новую папку и установите зависимости:
    ```bash Terminal
    mkdir sponsored_transactions
    cd sponsored_transactions
@@ -122,22 +122,22 @@ Now let’s verify that these policies work. We’ll:
    npm install viem
    touch index.js
    ```
-2. Generate two key pairs with Foundry:
+2. Сгенерируйте две пары ключей с помощью Foundry:
    ```bash Terminal
    cast wallet new
    cast wallet new
    ```
-   You’ll see something like:
+   Вы увидите что-то вроде:
    ```bash Terminal
    Successfully created new keypair.
    Address: 0xD440D746...
    Private key: 0x01c9720c1dfa3c9...
    ```
-   **Store these private keys somewhere safe** — ideally in a `.env` file.
+   **Сохраните эти приватные ключи в надежном месте** - iжелательно в файле `.env`.
 
-### Project Structure With Environment Variables
+### Структура проекта с переменными окружения
 
-Create a `.env` file in `sponsored_transactions`:
+Создайте файл `.env` в `sponsored_transactions`:
 
 ```bash Terminal
 PAYMASTER_RPC_URL=https://api.developer.coinbase.com/rpc/v1/base/<SPECIAL-KEY>
@@ -145,19 +145,19 @@ PRIVATE_KEY_1=0x01c9720c1dfa3c9...
 PRIVATE_KEY_2=0xbcd6fbc1dfa3c9...
 ```
 
-> **Security**  
-> **Never** commit `.env` files to a public repo!
+> **Безопасность**  
+> **Никогда** не добавляйте файлы `.env` в публичный репозиторий!
 
-## Example `index.js` (Using Twoslash)
+## Пример `index.js` (с использованием Twoslash)
 
-Below is a full example of how you might structure `index.js`.  
-We’ll use **twoslash** code blocks (````js twoslash`) to highlight key lines and explanations.
+Ниже приведен полный пример того, как вы можете структурировать `index.js`.  
+Мы будем использовать блоки кода **twoslash** (````js twoslash`) для выделения ключевых строк и пояснений.
 
 ```js
 // --- index.js ---
 // @noErrors
 
-// 1. Import modules and environment variables
+// 1. Импорт модулей и переменных окружения
 import 'dotenv/config';
 import { http, createPublicClient, encodeFunctionData } from 'viem';
 import { base } from 'viem/chains';
@@ -165,30 +165,30 @@ import { createSmartAccountClient } from 'permissionless';
 import { privateKeyToSimpleSmartAccount } from 'permissionless/accounts';
 import { createPimlicoPaymasterClient } from 'permissionless/clients/pimlico';
 
-// 2. Retrieve secrets from .env
-// Highlight: environment variables for paymaster, private keys
+// 2. Получение секретов из .env
+// Highlight: переменные окружения для paymaster, приватные ключи
 const rpcUrl = process.env.PAYMASTER_RPC_URL; // highlight
 const firstPrivateKey = process.env.PRIVATE_KEY_1; // highlight
 const secondPrivateKey = process.env.PRIVATE_KEY_2; // highlight
 
-// 3. Declare Base addresses (entrypoint & factory)
+// 3. Объявление адресов Base (точка входа и фабрика)
 const baseEntryPoint = '0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789';
 const baseFactoryAddress = '0x15Ba39375ee2Ab563E8873C8390be6f2E2F50232';
 
-// 4. Create a public client for Base
+// 4. Создание публичного клиента для Base
 const publicClient = createPublicClient({
   chain: base,
   transport: http(rpcUrl),
 });
 
-// 5. Setup Paymaster client
+// 5. Настройка клиента Paymaster
 const cloudPaymaster = createPimlicoPaymasterClient({
   chain: base,
   transport: http(rpcUrl),
   entryPoint: baseEntryPoint,
 });
 
-// 6. Create Smart Accounts from the private keys
+// 6. Создание смарт-аккаунтов из приватных ключей
 async function initSmartAccounts() {
   const simpleAccount = await privateKeyToSimpleSmartAccount(publicClient, {
     privateKey: firstPrivateKey,
@@ -202,7 +202,7 @@ async function initSmartAccounts() {
     entryPoint: baseEntryPoint,
   });
 
-  // 7. Create SmartAccountClient for each
+  // 7. Создание SmartAccountClient для каждого
   const smartAccountClient = createSmartAccountClient({
     account: simpleAccount,
     chain: base,
@@ -224,25 +224,25 @@ async function initSmartAccounts() {
   return { smartAccountClient, smartAccountClient2 };
 }
 
-// 8. ABI for the NFT contract
+// 8. ABI для NFT-контракта
 const nftAbi = [
   // ...
-  // truncated for brevity
+  // усечено для краткости
 ];
 
-// 9. Example function to send a transaction from a given SmartAccountClient
+// 9. Пример функции для отправки транзакции из заданного SmartAccountClient
 async function sendTransaction(client, recipientAddress) {
   try {
-    // encode the "mintTo" function call
+    // кодируем вызов функции "mintTo"
     const callData = encodeFunctionData({
       abi: nftAbi,
       functionName: 'mintTo',
-      args: [recipientAddress], // highlight: specify who gets the minted NFT
+      args: [recipientAddress], // highlight: указываем, кто получает отминтированный NFT
     });
 
     const txHash = await client.sendTransaction({
       account: client.account,
-      to: '0x83bd615eb93eE1336acA53e185b03B54fF4A17e8', // address of the NFT contract
+      to: '0x83bd615eb93eE1336acA53e185b03B54fF4A17e8', // адрес NFT-контракта
       data: callData,
       value: 0n,
     });
@@ -254,28 +254,28 @@ async function sendTransaction(client, recipientAddress) {
   }
 }
 
-// 10. Main flow: init accounts, send transactions
+// 10. Основной поток: инициализация аккаунтов, отправка транзакций
 (async () => {
   const { smartAccountClient, smartAccountClient2 } = await initSmartAccounts();
 
-  // Send a transaction from the first account
+  // Отправляем транзакцию от первого аккаунта
   await sendTransaction(smartAccountClient, smartAccountClient.account.address);
 
-  // Send a transaction from the second account
-  // For variety, let’s also mint to the second account's own address
+  // Отправляем транзакцию от второго аккаунта
+  // Для разнообразия также минтаем на адрес второго аккаунта
   await sendTransaction(smartAccountClient2, smartAccountClient2.account.address);
 })();
 ```
 
-> **Note**:
+> **Примечание**:
 >
-> - Run this via `node index.js` from your project root.
-> - If your Paymaster settings are strict (e.g., limit 1 transaction per user), the second time you run the script, you may get a “request denied” error, indicating the policy is working.
+> - Запустите это через `node index.js` из корня вашего проекта.
+> - Если ваши настройки Paymaster строгие (например, лимит 1 транзакция на пользователя), при повторном запуске скрипта вы можете получить ошибку "request denied", что указывает на работу политики.
 
-## Hitting Policy Limits & Troubleshooting
+## Достижение лимитов политики и устранение неполадок
 
-1. **Per-User Limit**  
-   If you see an error like:
+1. **Пользовательский лимит**  
+   Если вы видите ошибку типа:
 
    ```json
    {
@@ -284,26 +284,26 @@ async function sendTransaction(client, recipientAddress) {
    }
    ```
 
-   That means you’ve hit your **UserOperation** limit for a single account. Return to the [Coinbase Developer Platform] UI to adjust the policy.
+   Это означает, что вы достигли вашего лимита **UserOperation** для одного аккаунта. Вернитесь в интерфейс , чтобы скорректировать политику.
 
-2. **Global Limit**  
-   If you repeatedly run transactions and eventually see:
+2. **Глобальный лимит**  
+   Если вы многократно запускаете транзакции и в итоге видите:
    ```json
    {
      "code": -32001,
      "message": "request denied - rejected due to max global usd Spend Permission reached"
    }
    ```
-   You’ve hit the **global** limit of sponsored gas. Increase it in the CDP dashboard and wait a few minutes for changes to take effect.
+   Вы достигли **глобального** лимита спонсированного газа. Увеличьте его в дашборде CDP и подождите несколько минут, чтобы изменения вступили в силу.
 
-## Verifying Token Ownership (Optional)
+## Проверка владения токеном (опционально)
 
-Want to confirm the token actually minted? You can read the NFT’s `balanceOf` function:
+Хотите убедиться, что токен действительно был отминтирован? Вы можете прочитать функцию `balanceOf` NFT:
 
 ```js
 import { readContract } from 'viem'; // highlight
 
-// example function
+// пример функции
 async function checkNftBalance(publicClient, contractAddress, abi, ownerAddress) {
   const balance = await publicClient.readContract({
     address: contractAddress,
@@ -315,24 +315,24 @@ async function checkNftBalance(publicClient, contractAddress, abi, ownerAddress)
 }
 ```
 
-## Conclusion
+## Заключение
 
-In this tutorial, you:
+В этом руководстве вы:
 
-- Set up and **configured** a Base Paymaster on the Coinbase Developer Platform.
-- **Allowlisted** a contract and specific function (`mintTo`) for sponsorship.
-- Established **per-user** and **global** sponsorship **limits** to control costs.
-- Demonstrated the **sponsorship flow** with Smart Accounts using `permissionless`, `viem`, and Foundry-generated private keys.
+- Настроили и **скомфигурировали** Base Paymaster в Coinbase Developer Platform.
+- **Добавили в Allowlist** контракт и конкретную функцию (`mintTo`) для спонсирования.
+- Установили **пользовательские** и **глобальные лимиты** спонсирования для контроля затрат.
+- Продемонстрировали **поток финансирования** со смарт-аккаунтами, используя `permissionless`, `viem`, и приватные ключи, сгенерированные Foundry.
 
-This approach can greatly improve your dApp’s user experience by removing gas friction. For more complex sponsorship schemes (like daily or weekly cycles), simply tweak your per-user and global limit settings in the Coinbase Developer Platform.
+Этот подход может значительно улучшить пользовательский опыт вашего dApp, устранив трение, связанное с газом. Для более сложных схем спонсирования (например, ежедневных или еженедельных циклов) просто настройте параметры пользовательских и глобальных лимитов в Coinbase Developer Platform.
 
-> **Next Steps**
+> **Следующие шаги**
 >
-> - Use a [proxy service][proxy service] for better endpoint security.
-> - Deploy your own contracts and allowlist them.
-> - Experiment with bundling multiple calls into a single sponsored transaction.
+> - Используйте [proxy service][proxy service] для лучшей безопасности конечных точек.
+> - Разверните свои собственные контракты и добавьте их в разрешенный список.
+> - Экспериментируйте с объединением нескольких вызовов в одну спонсируемую транзакцию.
 
-## References
+## Ссылки
 
 - [list of factory addresses]
 - [Discord]
