@@ -1,33 +1,33 @@
 ---
-title: "Connecting Your Frontend"
-description: "Learn how onchain frontends differ from Web2 by managing wallet connections, displaying real-time onchain data, and handling transaction flows using OnchainKit, wagmi, and Viem."
+title: "Подключение вашего фронтенда"
+description: "Узнайте, чем ончейн-фронтенды отличаются от Web2: управление подключением кошельков, отображение данных в реальном времени и обработка потоков транзакций с использованием OnchainKit, wagmi и Viem."
 ---
 
-Unlike Web2 frontends that primarily handle user input and REST API calls, onchain frontends must manage wallet connections, display onchain data in real time, and handle transaction flows. Fortunately, libraries like OnchainKit, wagmi, and Viem help you abstract away much of the complexity. Here, you'll learn how to easily support multiple wallet types, show transaction status, and seamlessly integrate onchain actions into a modern UI.
+В отличие от Web2-фронтендов, которые в основном работают с пользовательским вводом и вызовами REST API, ончейн-фронтенды должны управлять подключением кошельков, отображать ончейн-данные в реальном времени и обрабатывать потоки транзакций. К счастью, библиотеки, такие как OnchainKit, wagmi и Viem, помогают абстрагироваться от большей части сложностей. Здесь вы узнаете, как легко поддерживать несколько типов кошельков, показывать статус транзакции и бесшовно интегрировать ончейн-действия в современный интерфейс.
 
-## What's Unique for Onchain Frontends?
+## Что уникального в ончейн-фронтендах?
 
 <Info>
-Onchain frontends must handle unique requirements that don't exist in traditional Web2 applications:
-- Wallet connections (Coinbase Wallet,MetaMask, Smart Wallet, etc.)
-- Contract calls and transaction state management
-- Token and NFT interactions
+Ончейн-фронтенды должны справляться с уникальными требованиями, которых нет в традиционных Web2-приложениях:
+- Подключение кошельков (Coinbase Wallet, MetaMask, Smart Wallet и т.д.)
+- Вызовы контрактов и управление состоянием транзакций
+- Взаимодействие с токенами и NFT
 </Info>
 
 ## OnchainKit
 
-OnchainKit provides a comprehensive set of React components and TypeScript utilities for building onchain applications:
+OnchainKit предоставляет комплексный набор React-компонентов и TypeScript-утилит для создания ончейн-приложений:
 
 <Check>
-**Wallet Connection Flows**: Supporting multiple wallet types seamlessly
+**Процессы подключения кошельков**: Бесшовная поддержка нескольких типов кошельков
 </Check>
 
 <Check>
-**Common Onchain Actions**: Swapping tokens, minting NFTs, sending transactions
+**Общие ончейн-действия**: Обмен токенов, минт NFT, отправка транзакций
 </Check>
 
 <Check>
-**Integration Ready**: Works with popular client libraries like [wagmi](https://wagmi.sh/react/getting-started) and [Viem](https://viem.sh/docs/getting-started), connecting to the Base Node under the hood so you don't worry about low-level RPC details
+**Готовность к интеграции**: Работает с популярными клиентскими библиотеками, такими как [wagmi](https://wagmi.sh/react/getting-started) and [Viem](https://viem.sh/docs/getting-started), подключаясь к ноде Base «под капотом», так что вам не нужно беспокоиться о низкоуровневых деталях RPC
 </Check>
 
 [wagmi]: https://wagmi.sh/react/getting-started
