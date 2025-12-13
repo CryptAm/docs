@@ -1,27 +1,27 @@
 ---
 title: web3.js
-description: Documentation for using web3.js, a JavaScript library for interacting with EVM-compatible blockchains. This page covers installation, setup, connecting to the Base network and interacting with smart contracts.
+description: Документация по использованию web3.js, библиотеки JavaScript для взаимодействия с EVM-совместимыми блокчейнами. На этой странице рассматривается установка, настройка, подключение к сети Base и взаимодействие со смарт-контрактами.
 ---
 
 # web3.js
 
-[web3.js](https://web3js.org/) is a JavaScript library that allows developers to interact with EVM-compatible blockchain networks.
+[web3.js](https://web3js.org/) - это библиотека JavaScript, которая позволяет разработчикам взаимодействовать с EVM-совместимыми блокчейн-сетями.
 
-You can use web3.js to interact with smart contracts deployed on the Base network.
+Вы можете использовать web3.js для взаимодействия со смарт-контрактами, развернутыми в сети Base.
 
-## Install
+## Установка
 
-To install web3.js run the following command:
+Чтобы установить web3.js, выполните следующую команду:
 
 ```bash
 npm install web3
 ```
 
-## Setup
+## Настройка
 
-Before you can start using web3.js, you need to import it into your project.
+Прежде чем начать использовать web3.js, вам нужно импортировать его в ваш проект.
 
-Add the following line of code to the top of your file to import web3.js:
+Добавьте следующую строку кода в начало вашего файла, чтобы импортировать web3.js:
 
 ```javascript
 //web3.js v1
@@ -31,9 +31,9 @@ const Web3 = require('web3');
 const { Web3 } = require('web3');
 ```
 
-## Connecting to Base
+## Подключение к Base
 
-You can connect to Base by instantiating a new web3.js `Web3` object with a RPC URL of the Base network:
+Вы можете подключиться к Base, создав новый объект web3.js Web3 с RPC URL сети Base:
 
 ```javascript
 const { Web3 } = require('web3');
@@ -42,14 +42,14 @@ const web3 = new Web3('https://mainnet.base.org');
 ```
 
 <Info>
-To alternatively connect to Base Sepolia (testnet), change the above URL from `https://mainnet.base.org` to `https://sepolia.base.org`.
+Чтобы подключиться к Base Sepolia (тестнет), измените URL выше с `https://mainnet.base.org` на `https://sepolia.base.org`.
 </Info>
 
-## Accessing data
+## Доступ к данным
 
-Once you have created a provider, you can use it to read data from the Base network.
+После создания провайдера вы можете использовать его для чтения данных из сети Base.
 
-For example, you can use the `getBlockNumber` method to get the latest block:
+Например, вы можете использовать метод `getBlockNumber` для получения последнего блока:
 
 ```javascript
 async function getLatestBlock(address) {
@@ -58,11 +58,11 @@ async function getLatestBlock(address) {
 }
 ```
 
-## Deploying contracts
+## Развертывание контрактов
 
-Before you can deploy a contract to the Base network using web3.js, you must first create an account.
+Прежде чем вы сможете развернуть контракт в сети Base с помощью web3.js, вы должны сначала создать аккаунт.
 
-You can create an account by using `web3.eth.accounts`:
+Вы можете создать аккаунт с помощью `web3.eth.accounts`:
 
 ```javascript
 const privateKey = "PRIVATE_KEY";
@@ -70,16 +70,16 @@ const account = web3.eth.accounts.privateKeyToAccount(privateKey);
 ```
 
 <Info>
-`PRIVATE_KEY` is the private key of the wallet to use when creating the account.
+`PRIVATE_KEY` - это приватный ключ кошелька, который будет использоваться при создании аккаунта.
 </Info>
 
-## Interacting with smart contracts
+## Взаимодействие со смарт-контрактами
 
-You can use web3.js to interact with a smart contract on Base by instantiating a `Contract` object using the ABI and address of a deployed contract:
+Вы можете использовать web3.js для взаимодействия со смарт-контрактом на Base, создав объект `Contract`, используя ABI и адрес развернутого контракта:
 
 ```javascript
 const abi = [
-... // ABI of deployed contract
+... // ABI развернутого контракта
 ];
 
 const contractAddress = "CONTRACT_ADDRESS"
@@ -87,22 +87,22 @@ const contractAddress = "CONTRACT_ADDRESS"
 const contract = new web3.eth.Contract(abi, contractAddress);
 ```
 
-Once you have created a `Contract` object, you can use it to call desired methods on the smart contract:
+После создания объекта `Contract` вы можете использовать его для вызова нужных методов смарт-контракта:
 
 ```javascript
 async function setValue(value) {
-  // write query
+  // запрос на запись
   const tx = await contract.methods.set(value).send();
   console.log(tx.transactionHash);
 }
 
 async function getValue() {
-  // read query
+  // запрос на чтение
   const value = await contract.methods.get().call();
   console.log(value.toString());
 }
 ```
 
 <Info>
-For more information on deploying contracts on Base, see [Deploying a Smart Contract](../smart-contract-development/hardhat/deploy-with-hardhat.md).
+Для получения дополнительной информации о развертывании контрактов на Base см. [Deploying a Smart Contract](../smart-contract-development/hardhat/deploy-with-hardhat.md).
 </Info> 
