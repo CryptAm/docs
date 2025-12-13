@@ -1,86 +1,86 @@
 ---
-title: Building an Onchain App
-description: Learn step-by-step how to turn a regular template app into an onchain app with a wallet connection.
+title: Создание ончейн-приложения
+description: Пошагово изучите, как превратить обычное шаблонное приложение в ончейн-приложение с подключением кошелька.
 hide_table_of_contents: false
 ---
 
 import { Danger } from "/snippets/danger.mdx";
 
-# Building an Onchain App
+# Создание ончейн-приложения
 
-While it's convenient and fast to start from a template, the template may not fit your needs. Whether you prefer a different stack, or have already started building the traditional web components of your app, it's common to need to manually add onchain libraries to get your app working.
+Хотя начать с шаблона удобно и быстро, шаблон может не соответствовать вашим потребностям. Независимо от того, предпочитаете ли вы другой стек или уже начали создавать традиционные веб-компоненты вашего приложения, часто необходимо вручную добавлять ончейн-библиотеки, чтобы ваше приложение заработало.
 
-In this guide, you'll build the beginnings of an app similar to the one created by the [RainbowKit] quick start, but you'll do it piece by piece. You can follow along, and swap out any of our library choices with the ones you prefer.
-
----
-
-## Objectives
-
-By the end of this guide you should be able to:
-
-- Identify the role of a wallet aggregator in an onchain app
-- Debate the pros and cons of using a template
-- Add a wallet connection to a standard template app
+В этом руководстве вы создадите основу приложения, похожего на то, которое создается [RainbowKit], но сделаете это шаг за шагом. Вы можете следовать инструкциям и заменить любые из наших библиотек на те, которые предпочитаете.
 
 ---
 
-## Creating the Traditional App
+## Цели
 
-Start by running the [Next.js] script to create a Next.js app:
+К концу этого руководства вы должны уметь:
+
+- Определить роль агрегатора кошельков в ончейн-приложении
+- Обсудить плюсы и минусы использования шаблона
+- Добавить подключение кошелька в стандартное шаблонное приложение
+
+---
+
+## Создание традиционного приложения
+
+Начните с запуска скрипта [Next.js] для создания приложения Next.js:
 
 ```bash
 npx create-next-app@latest --use-yarn
 ```
 
-This script will accept `.`, if you want to add the project to the root of a folder you've already created. Otherwise, name your project. Select each option in the generation script as you see fit. We recommend the following selections:
+Этот скрипт принимает `.`, если вы хотите добавить проект в корень уже созданной папки. В противном случае назовите ваш проект. Выберите каждый вариант в скрипте генерации по своему усмотрению. Мы рекомендуем следующие варианты:
 
-- Use Typescript?: Yes
-- Use ESLint?: Yes
-- Use Tailwind?: Your preference
-- Use `src/` directory?: Yes
-- Use App Router?: Yes
-- Customize the default import alias?: No
+- Использовать Typescript?: Да
+- Использовать ESLint?: Да
+- Использовать Tailwind?: По вашему выбору
+- Использовать директорию `src/`?: Да
+- Использовать App Router?: Да
+- Настроить псевдоним импорта по умолчанию?: Нет
 
 <Note>
-The default Next.js script installs [Tailwind]. [RainbowKit]'s does not.
+Скрипт Next.js по умолчанию устанавливает [Tailwind]. [RainbowKit] этого не делает.
 </Note>
 
 
-Run your app with `yarn dev` to make sure it generated correctly.
+Запустите ваше приложение с помощью `yarn dev`, чтобы убедиться, что оно сгенерировано правильно.
 
-### Manually Installing RainbowKit, Wagmi, and Viem
+### Ручная установка RainbowKit, Wagmi и Viem
 
-The [quick start] guide for RainbowKit also contains step-by-step instructions for manual install. You'll be following an adjusted version here. Most of the setup is actually for configuring [wagmi], which sits on top of [viem] and makes it much easier to write React that interacts with the blockchain.
+Руководство по [quick start] для RainbowKit также содержит пошаговые инструкции для ручной установки. Здесь вы будете следовать адаптированной версии. Большая часть настройки на самом деле предназначена для конфигурации [wagmi], который находится поверх [viem] и значительно упрощает написание React-кода, взаимодействующего с блокчейном.
 
-Start by installing the dependencies:
+Начните с установки зависимостей:
 
 ```bash
 npm install @rainbow-me/rainbowkit wagmi viem@2.x @tanstack/react-query
 ```
 
 <Note>
-Onchain libraries and packages tend to require very current versions of Node. If you're not already using it, you may want to install [nvm].
+Ончейн-библиотеки и пакеты, как правило, требуют очень актуальных версий Node. Если вы еще не используете её, вы можете установить [nvm].
 </Note>
 
 
-## Adding Imports, Connectors, Config
+## Добавление импортов, коннекторов, конфигурации
 
-In Next.js with the app router, the root of your app is found in `app/layout.tsx`, if you followed the recommended setup options. As you want the blockchain provider context to be available for the entire app, you'll add it here.
+В Next.js с App Router корень вашего приложения находится в `app/layout.tsx`, если вы следовали рекомендуемым настройкам. Поскольку вы хотите, чтобы контекст провайдера блокчейна был доступен для всего приложения, вы добавите его здесь.
 
-You'll need to set up your providers in a second file, so that you can add `'use client';` to the top. Doing so forces this code to be run client side, which is necessary since your server won't have access to your users' wallet information.
+Вам нужно будет настроить ваши провайдеры во втором файле, чтобы вы могли добавить 'use client'; в начало. Это заставляет этот код выполняться на стороне клиента, что необходимо, поскольку ваш сервер не будет иметь доступа к информации о кошельке ваших пользователей.
 
 <Warning>
-You must configure these wrappers in a separate file. It will not work if you try to add them and `'use client';` directly in `layout.tsx`!
+Вы должны настроить эти обертки в отдельном файле. Это не сработает, если вы попытаетесь добавить их и `'use client';` напрямую в `layout.tsx`!
 </Warning>
 
 
-Add a new file in the `app` folder called `providers.tsx`.
+Добавьте новый файл в папке `app` с именем `providers.tsx`.
 
-### Imports
+### Импорты
 
-As discussed above, add `'use client';` to the top of the file.
+Как обсуждалось выше, добавьте 'use client'; в начало файла.
 
-Continue with the imports:
+Продолжите с импортами:
 
 ```tsx
 import '@rainbow-me/rainbowkit/styles.css';
@@ -92,23 +92,23 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 ```
 
 <Warning>
-If you're adapting this guide to a different set of libraries or platforms, you may need to import `styles.css` differently. You'll know this is the case if you get ugly text at the bottom of the page instead of a nice modal when you click the connect button.
+Если вы адаптируете это руководство для другого набора библиотек или платформ, вам может потребоваться импортировать `styles.css` по-другому. Вы поймете, что это так, если при нажатии кнопки подключения внизу страницы появится некрасивый текст вместо красивого модального окна.
 </Warning>
 
 
-### Config
+### Конфигурация
 
-Now, you need to configure the chains, wallet connectors, and providers for your app. You'll use `getDefaultConfig` for now, to get started. See our guide on [Connecting to the Blockchain] for more information on blockchain providers.
+Теперь вам нужно настроить цепи, коннекторы кошельков и провайдеры для вашего приложения. Пока вы будете использовать `getDefaultConfig`, чтобы начать. Смотрите наше руководство по для получения дополнительной информации о провайдерах блокчейна.
 
 <Note>
-To take advantage of a more advanced set of options with [OnchainKit], see our tutorial on how to [Use the Coinbase Smart Wallet and EOAs with OnchainKit]. If you just want to customize the list of wallets in [RainbowKit], see our tutorial for [Coinbase Smart Wallet with RainbowKit].
+Чтобы воспользоваться более продвинутым набором опций с [OnchainKit], посмотрите наше руководство о том, как [Use the Coinbase Smart Wallet and EOAs with OnchainKit]. Если вы просто хотите настроить список кошельков в [RainbowKit], посмотрите наше руководство для [Coinbase Smart Wallet with RainbowKit].
 </Note>
 
 
-You'll need a `projectId` from [Wallet Connect Cloud], which you can get for free on their site. Make sure to insert it in the appropriate place.
+Вам понадобится `projectId` из [Wallet Connect Cloud], который вы можете получить бесплатно на их сайте. Убедитесь, что вставили его в соответствующее место.
 
 <Danger>
-Remember, everything on the frontend is public! Be sure to configure the allowlist for your WalletConnect id!
+Помните, все на фронтенде публично! Обязательно настройте разрешенный список (allowlist) для вашего идентификатора WalletConnect!
 </Danger>
 
 
@@ -117,15 +117,15 @@ const config = getDefaultConfig({
   appName: 'Cool Onchain App',
   projectId: 'YOUR_PROJECT_ID',
   chains: [base, baseSepolia],
-  ssr: true, // If your dApp uses server side rendering (SSR)
+  ssr: true, // Если ваше dApp использует рендеринг на стороне сервера (SSR)
 });
 ```
 
-### Returning the Context Providers
+### Возврат контекстных провайдеров
 
-[TanStack Query] is now a required dependency for wagmi, and you need to add it as a React context provider. The short version is that it helps with state management. Read the docs for the long version!
+[TanStack Query] теперь является обязательной зависимостью для wagmi, и вам нужно добавить его как провайдера контекста React. Короткая версия: он помогает управлять состоянием. Читайте документацию для длинной версии!
 
-Add an exported function for the providers. This sets up the `QueryClient` and returns `props.children` wrapped in all of your providers.
+Добавьте экспортированную функцию для провайдеров. Это настраивает `QueryClient` и возвращает `props.children`, обернутые во все ваши провайдеры.
 
 ```tsx
 export function Providers(props: { children: ReactNode }) {
@@ -141,9 +141,9 @@ export function Providers(props: { children: ReactNode }) {
 }
 ```
 
-## Using Your new Providers
+## Использование ваших новых провайдеров
 
-Open `layout.tsx`. Import your `Providers`, being careful if you use auto-import as there are many other things with similar names in the list. Wrap the `children` in your `return` with the new `Providers`.
+Откройте `layout.tsx`. Импортируйте ваши `Providers`, будьте осторожны, если используете автоимпорт, так как в списке много других вещей с похожими именами. Оберните `children` в вашем `return` новыми `Providers`.
 
 ```tsx
 return (
@@ -155,20 +155,20 @@ return (
 );
 ```
 
-## Adding the Connect Button
+## Добавление кнопки подключения
 
-You're now ready to add your connect button. You can do this anywhere in your app, thanks to the `RainbowKitProvider`. Common practice would be to place the button in your app's header. Since the Next.js template doesn't have one, you can just add it to the top of the automatically generated page, rather than spending time implementing React components.
+Теперь вы готовы добавить кнопку подключения. Вы можете сделать это в любом месте вашего приложения благодаря `RainbowKitProvider`. Общепринятой практикой является размещение кнопки в заголовке вашего приложения. Поскольку шаблон Next.js не имеет заголовка, вы можете просто добавить ее в верхнюю часть автоматически сгенерированной страницы, вместо того чтобы тратить время на реализацию React-компонентов.
 
-Open up `page.tsx`, and import the `ConnectButton`:
+Откройте `page.tsx` и импортируйте `ConnectButton`:
 
 ```tsx
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 ```
 
-Then, simply add the `ConnectButton` component at the top of the first `<div>`:
+Затем просто добавьте компонент `ConnectButton` в начало первого `<div>`:
 
 ```tsx
-// This function has been simplified to save space.
+// Эта функция упрощена для экономии места.
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -183,9 +183,9 @@ export default function Home() {
 }
 ```
 
-Run your app with `yarn dev`, and you should be able to use the RainbowKit connect button to connect with your wallet and switch between networks.
+Запустите ваше приложение с помощью `yarn dev`, и вы должны иметь возможность использовать кнопку подключения RainbowKit для подключения вашего кошелька и переключения между сетями.
 
-You use the [Connect Button] props to modify its properties, or you can [customize the connect button] extensively. Some users dislike having the connect button display their token balance. Try disabling it with:
+Вы используете свойства [Connect Button] для изменения его свойств или можете [customize the connect button] в значительной степени. Некоторым пользователям не нравится, когда кнопка подключения отображает баланс их токенов. Попробуйте отключить это с помощью:
 
 ```tsx
 <ConnectButton showBalance={false} />
@@ -193,11 +193,11 @@ You use the [Connect Button] props to modify its properties, or you can [customi
 
 ---
 
-## Conclusion
+## Заключение
 
-In this guide, you've learned how to assemble your onchain app from several pieces. You can use this knowledge to integrate a wallet connection with an existing site, or adjust the stack to meet your preferences. Finally, you've learned how to insert and customize the connect button.
+В этом руководстве вы узнали, как собрать ваше ончейн-приложение из нескольких частей. Вы можете использовать эти знания для интеграции подключения кошелька на существующий сайт или адаптировать стек в соответствии с вашими предпочтениями. Наконец, вы узнали, как вставить и настроить кнопку подключения.
 
-If you're looking to quickly bootstrap a simple app, you can always use a script, such as the RainbowKit [quick start]. If you're looking for a robust start for a consumer application, check out [OnchainKit]!
+Если вы хотите быстро создать простое приложение, вы всегда можете использовать скрипт, такой как [quick start] RainbowKit. Если вы ищете надежное начало для потребительского приложения, ознакомьтесь с [OnchainKit]!
 
 ---
 
