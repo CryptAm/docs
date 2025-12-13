@@ -1,90 +1,90 @@
 ---
-title: "The Development Flow"
-description: "Learn the different approaches to onchain development, from client-side apps using OnchainKit to smart contract development with Hardhat and Foundry."
+title: "Процесс разработки"
+description: "Изучите различные подходы к ончейн-разработке: от клиентских приложений с использованием OnchainKit до разработки смарт-контрактов с Hardhat и Foundry."
 ---
 
-## Client-side Development
+## Клиентская разработка
 
-If you're focusing on the front end or building a user interface, Kits like OnchainKit provide an opinionated, model-agnostic setup for handling user authentication, contract interactions, and transaction status updates. With a client-side approach:
+Если вы сосредоточены на фронтенде или создаете пользовательский интерфейс, наборы инструментов (Kits), такие как OnchainKit, предоставляют готовую, модель-независимую настройку для обработки аутентификации пользователей, взаимодействия с контрактами и обновлений статуса транзакций. При клиентском подходе:
 
 <Steps>
-<Step title="Set up an RPC endpoint">
-    Configure an RPC endpoint to read chain data and interact with the blockchain.
+<Step title="Настройте RPC-эндпоинт">
+    Настройте RPC-эндпоинт для чтения данных цепи и взаимодействия с блокчейном.
 </Step>
 
-<Step title="Use OnchainKit">
-    Use OnchainKit (or an equivalent framework) to handle function calls, sign messages, or sponsor gas if you've integrated Paymaster solutions.
+<Step title="Используйте OnchainKit">
+    Используйте OnchainKit (или аналогичный фреймворк) для обработки вызовов функций, подписания сообщений или спонсирования газа, если вы интегрировали решения Paymaster.
 </Step>
 
-<Step title="Incorporate Identity Solutions">
-    Add Identity Solutions like Basenames or Onchain Profiles for more user-friendly experiences.
+<Step title="Внедрите решения для идентичности">
+    Добавьте решения для идентичности, такие как Basenames или Onchain Profiles, для более удобного пользовательского опыта.
 </Step>
 </Steps>
 
 
-## Smart Contract Development
+## Разработка смарт-контрактов
 
-Base is an EVM-equivalent chain, so you can build or reuse your smart contracts written in Solidity. Smart wallets, Paymaster services, and other infrastructure components on Base can significantly streamline the user experience around your onchain programs.
+Base - это цепь, эквивалентная EVM, поэтому вы можете создавать или повторно использовать свои смарт-контракты, написанные на Solidity. Смарт-аккаунты, сервисы Paymaster и другие инфраструктурные компоненты на Base могут значительно упростить пользовательский опыт при работе с вашими ончейн-программами.
 
 <Steps>
-<Step title="Choose a development environment">
-    Select a development environment such as Hardhat or Foundry.
+<Step title="Выберите среду разработки">
+    Выберите среду разработки, такую как Hardhat или Foundry.
 </Step>
 
-<Step title="Write and compile your contracts">
-    Write and compile your contracts in Solidity.
+<Step title="Напишите и скомпилируйте ваши контракты">
+    Напишите и скомпилируйте ваши контракты на Solidity.
 </Step>
 
-<Step title="Test locally">
-    Test locally or on a testnet before pushing to mainnet.
+<Step title="Протестируйте локально">
+    Протестируйте локально или в тестовой сети перед развертыванием в основной сети.
 </Step>
 
-<Step title="Deploy to Base">
-    Deploy to Base using your EOA wallet (or specialized deployment tooling).
+<Step title="Разверните в сети Base">
+    Разверните в сети Base, используя ваш EOA-кошелек (или специализированные инструменты развертывания).
 </Step>
 </Steps>
 
-### Smart Contract Guides
+### Руководства по смарт-контрактам
 
 <CardGroup cols={2}>
-<Card title="Deploy on Base" href="/base-chain/quickstart/deploy-on-base">
-    Quickstart: Deploy on Base
+<Card title="Развертывание на Base" href="/base-chain/quickstart/deploy-on-base">
+    Быстрый старт: Развертывание на Base
 </Card>
 
-<Card title="Foundry Tutorial" href="/learn/foundry/deploy-with-foundry">
-    Foundry Tutorial
+<Card title="Руководство по Foundry" href="/learn/foundry/deploy-with-foundry">
+    Руководство по Foundry
 </Card>
 
-<Card title="HardHat Development" href="/learn/hardhat/setup">
-    Base Learn: Development with HardHat
+<Card title="Разработка с HardHat" href="/learn/hardhat/setup">
+    Base Learn: Разработка с HardHat
 </Card>
 
-<Card title="Foundry Development" href="/cookbook/smart-contract-development/foundry/setup-with-base">
-    Base Learn: Development with Foundry
+<Card title="Разработка с Foundry" href="/cookbook/smart-contract-development/foundry/setup-with-base">
+    Base Learn: Разработка с Foundry
 </Card>
 
-<Card title="Contract Verification" href="/cookbook/smart-contract-development/foundry/verify-contract-with-basescan">
-    Verify a Smart Contract using Basescan API
+<Card title="Верификация контракта" href="/cookbook/smart-contract-development/foundry/verify-contract-with-basescan">
+    Верификация смарт-контракта с помощью API Basescan
 </Card>
 </CardGroup>
 
-## Developer Environments
+## Среда разработки
 
-Base offers multiple environments to help you iterate quickly:
+Base предлагает несколько сред, чтобы помочь вам быстро итерироваться:
 
 <Tabs>
 <Tab title="Mainnet">
-**Production Environment**
-Where real-value transactions occur. Use for live applications.
+**Продакшен-среда**
+Где происходят транзакции с реальной стоимостью. Используйте для живых приложений.
 </Tab>
 
-<Tab title="Testnets">
-**Base testnet on Sepolia**
-Great for QA or staging. Test your applications without real value.
+<Tab title="Тестовые сети">
+**Тестовая сеть Base на Sepolia**
+Отлично подходит для QA или стейджинга. Тестируйте ваши приложения без реальной стоимости.
 </Tab>
 
-<Tab title="Local Development">
-**Local EVM Environment**
-You can run a local EVM environment with Hardhat or similar tools to test your contracts before deploying.
+<Tab title="Локальная разработка">
+**Локальная среда EVM**
+Вы можете запустить локальную среду EVM с помощью Hardhat или аналогичных инструментов для тестирования ваших контрактов перед развертыванием.
 </Tab>
 </Tabs>
