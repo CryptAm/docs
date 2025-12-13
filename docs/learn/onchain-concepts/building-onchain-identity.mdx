@@ -1,41 +1,41 @@
 ---
-title: "Giving Onchain Accounts an Identity"
-description: "Learn how Basenames and onchain verifications make blockchain addresses human-readable and trustworthy, improving user experience and app functionality."
+title: "Присвоение идентичности ончейн-аккаунтам"
+description: "Узнайте, как Basenames и ончейн-верификации делают адреса блокчейна читаемыми для человека и заслуживающими доверия, улучшая пользовательский опыт и функциональность приложений."
 ---
 
-While blockchains publicly display wallet addresses by default, these long strings are not friendly for everyday use. Onchain naming systems like Basenames solve this by letting users register human-readable names (for example, "alice.base"). Beyond simple naming, onchain identity can be extended through verifications and attestations that prove additional facts (e.g., that a user is a verified account holder or resides in a specific country). Here, you'll learn how Basenames and onchain verifications work together to make your app more user-friendly and trustworthy.
+Хотя блокчейны по умолчанию публично отображают адреса кошельков, эти длинные строки неудобны для повседневного использования. Ончейн-системы именования, такие как Basenames, решают эту проблему, позволяя пользователям регистрировать читаемые имена (например, "alice.base"). Помимо простого именования, ончейн-идентичность может быть расширена с помощью верификаций и атестаций, которые подтверждают дополнительные факты (например, что пользователь является верифицированным владельцем аккаунта или проживает в определенной стране). Здесь вы узнаете, как Basenames и ончейн-верификации работают вместе, чтобы сделать ваше приложение более удобным и заслуживающим доверия.
 
-## Why Identity Matters
+## Почему важна идентичность
 
 <Info>
-**Address Readability**: By default, wallet addresses are long, unreadable hex strings. Onchain names (like "alice.base") make it easier to identify recipients or users.
+**Читаемость адресов**: По умолчанию адреса кошельков представляют собой длинные, нечитаемые hex-строки. Ончейн-имена (например, "alice.base") упрощают идентификацию получателей или пользователей.
 </Info>
 
 <Tip>
-**Trust Without Privacy Risk**: Attestations/Verifications allow your app to trust certain user attributes—without exposing personal data offchain.
+**Доверие без риска для конфиденциальности**: Атестации/Верификации позволяют вашему приложению доверять определенным атрибутам пользователя - без раскрытия личных данных вне цепи.
 </Tip>
 
 ## Basenames
 
 <Check>
-**Human-Readable Names** for addresses on Base (akin to DNS for IPs)
+**Человеко-читаемые имена** для адресов в сети Base (аналогично DNS для IP-адресов)
 </Check>
 
 <Check>
-**Unified Identity**: Users can register names, add a profile picture, and display them across all apps they connect to
+**Унифицированная идентичность**: Пользователи могут регистрировать имена, добавлять изображение профиля и отображать их во всех приложениях, к которым они подключаются
 </Check>
 
 <Check>
-**Reduced Friction**: Helps unify an onchain identity and reduce user friction
+**Снижение трения**: Помогает унифицировать ончейн-идентичность и снизить трение для пользователей
 </Check>
 
-## Onchain Verifications
+## Ончейн-верификации
 
 <Info>
-**The Challenge**: The chain can't natively see offchain data (e.g., your nationality or membership status).
+**Проблема**: Цепь не может изначально видеть данные вне цепи (например, ваше гражданство или статус членства).
 </Info>
 
 <Tip>
-**The Solution**: Verifications let you post attestations **onchain** so other contracts can read them without privacy risks. For example, prove you're a Coinbase user, or a resident of a certain country, and automatically unlock special privileges in dapps.
+**Решение**: Верификации позволяют вам публиковать атестации **в ончейн-среде**, чтобы другие контракты могли их читать без риска для конфиденциальности. Например, подтвердите, что вы пользователь Coinbase или резидент определенной страны, и автоматически разблокируйте особые привилегии в децентрализованных приложениях (dapps).
 </Tip>
 
