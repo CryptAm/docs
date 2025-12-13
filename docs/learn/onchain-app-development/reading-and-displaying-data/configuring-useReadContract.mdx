@@ -1,46 +1,46 @@
 ---
-title: Configuring `useReadContract`
-description: Configure the properties of the `useReadContract` hook.
+title: Настройка `useReadContract`
+description: Настройка свойств хука `useReadContract`.
 hide_table_of_contents: false
 ---
 
-# Configuring `useReadContract`
+# Настройка `useReadContract`
 
-The [`useReadContract`] hook has a number of configurable properties that will allow you to adapt it to your needs. You can combine the functionality of TanStack queries with [`useBlockNumber`] to watch the blockchain for changes, although doing so will consume a number of API calls.
-
----
-
-## Objectives
-
-By the end of this guide you should be able to:
-
-- Use `useBlockNumber` and the `queryClient` to automatically fetch updates from the blockchain
-- Describe the costs of using the above, and methods to reduce those costs
-- Configure arguments to be passed with a call to a `pure` or `view` smart contract function
-- Call an instance of `useReadContract` on demand
-- Utilize `isLoading` and `isFetching` to improve user experience
+Хук [`useReadContract`] имеет ряд настраиваемых свойств, которые позволят вам адаптировать его к вашим потребностям. Вы можете комбинировать функциональность TanStack queries с [`useBlockNumber`] для отслеживания изменений в блокчейне, хотя это потребует значительного количества вызовов API.
 
 ---
 
-## Fetching Updates from the Blockchain
+## Цели
 
-You'll continue with the project you've been building and last updated while learning about the [`useReadContract` hook].
+К концу этого руководства вы должны уметь:
 
-Once the excitement of your accomplishment of finally reading from your own contract subsides, try using BaseScan to add another issue, or vote on an existing issue. You'll notice that your frontend does **not** update. There are a few ways to handle this.
+- Использовать `useBlockNumber` и `queryClient` для автоматической выборки обновлений из блокчейна
+- Описать затраты на использование вышеуказанного и методы их снижения
+- Настраивать аргументы, передаваемые при вызове `pure` или `view` функции смарт-контракта
+- Вызывать экземпляр `useReadContract` по требованию
+- Использовать `isLoading` и `isFetching` для улучшения пользовательского опыта
+
+---
+
+## Получение обновлений из блокчейна
+
+Вы продолжите работать с проектом, который создавали и последний раз обновляли, изучая [`useReadContract` hook].
+
+Как только восторг от вашего достижения - чтения из собственного контракта — уляжется, попробуйте использовать BaseScan, чтобы добавить еще один вопрос (issue) или проголосовать за существующий. Вы заметите, что ваш фронтенд **не** обновляется. Есть несколько способов справиться с этим.
 
 <Steps>
-<Step title="Fetch updates from the blockchain">
-Use `useBlockNumber` with the `watch` feature to automatically keep track of the block number, then use the `queryClient` to update when that changes. **Make sure** you decompose the `queryKey` from the return of `useReadContract`.
+<Step title="Получение обновлений из блокчейна">
+Используйте `useBlockNumber` с функцией `watch` для автоматического отслеживания номера блока, затем используйте `queryClient` для обновления при его изменении. **Убедитесь**, что вы декомпозируете `queryKey` из возвращаемого значения `useReadContract`.
 
 ```tsx
 import { useEffect, useState } from 'react';
 import { useReadContract, useBlockNumber } from 'wagmi';
 import { useQueryClient } from '@tanstack/react-query';
 
-// Other Code
+// Другой код
 
 export function IssueList() {
-  // Other Code
+  // Другой код
 
   const queryClient = useQueryClient();
   const { data: blockNumber } = useBlockNumber({ watch: true });
@@ -60,15 +60,15 @@ export function IssueList() {
     queryClient.invalidateQueries({ queryKey: issuesQueryKey });
   }, [blockNumber, queryClient, issuesQueryKey]);
 
-  // Return code
+  // Код return
 }
 ```
 <Info>
-Don't do this, either use multi-call via [`useReadContracts`], or consolidate your `view`s into a single function that fetches all the data you need in one call.
+Не делайте этого. Вместо этого используйте мульти-вызов через [`useReadContracts`], или объедините ваши `view` функции в одну, которая получает все необходимые данные за один вызов.
 </Info>
 </Step>
-<Step title="Pause on blur">
-Stop watching the blockchain if the website doesn't have focus. Add a state variable to count how many times the function has settled, and one for if the page is focused. Set up event listeners to set the state of the latter when the page is focused or blurred.
+<Step title="Пауза при потере фокуса">
+Прекратите отслеживать блокчейн, если сайт не в фокусе. Добавьте переменную состояния для подсчета количества вызовов функции и одну для отслеживания фокуса страницы. Настройте слушатели событий для установки состояния последней, когда страница получает или теряет фокус.
 
 ```tsx
 const [timesCalled, setTimesCalled] = useState(0);
@@ -88,13 +88,13 @@ useEffect(() => {
 }, []);
 ```
 
-Update the `watch` for `useBlockNumber` so that it only does so if `pageIsFocused`.
+Обновите `watch` для `useBlockNumber`, чтобы он работал только если `pageIsFocused`.
 
 ```tsx
 const { data: blockNumber } = useBlockNumber({ watch: pageIsFocused });
 ```
 
-Add a line to the `useEffect` for `blockNumber` and increment your counter as well.
+Добавьте строку в `useEffect` для `blockNumber` и увеличьте ваш счетчик.
 
 ```tsx
 useEffect(() => {
@@ -103,7 +103,7 @@ useEffect(() => {
 }, [blockNumber, queryClient]);
 ```
 
-Finally, surface your counter in the component.
+Наконец, отобразите ваш счетчик в компоненте.
 
 ```tsx
 return (
@@ -117,8 +117,8 @@ return (
 );
 ```
 </Step>
-<Step title="Adjust the polling rate">
-Adjust your [`pollingInterval`] by setting it in `getDefaultConfig` in `_app.tsx`:
+<Step title="Настройка интервала опроса">
+Настройте ваш [`pollingInterval`] установив его в `getDefaultConfig` в `_app.tsx`:
 
 ```tsx
 const config = getDefaultConfig({
@@ -130,10 +130,10 @@ const config = getDefaultConfig({
 });
 ```
 
-Setting it to 30 seconds, or 30,000 milliseconds, will reduce your API calls dramatically, without negatively impacting members of the DAO.
+Установка интервала в 30 секунд (30 000 миллисекунд) значительно сократит ваши вызовы API, не влияя негативно на членов DAO.
 </Step>
-<Step title="Update on demand">
-Use a similar system to call your update function on demand. Add a button, a handler for that button, and a state variable for it to set:
+<Step title="Обновление по требованию">
+Используйте похожую систему для вызова вашей функции обновления по требованию. Добавьте кнопку, обработчик для нее и переменную состояния, которую она будет устанавливать:
 
 ```tsx
 const [triggerRead, setTriggerRead] = useState(false);
@@ -156,12 +156,12 @@ return (
 );
 ```
 
-Finally, set `watch` to equal `triggerRead`, instead of `pageIsFocused`, and reset `triggerRead` in the `useEffect`.
+Наконец, установите `watch` равным `triggerRead` вместо `pageIsFocused` и сбросьте `triggerRead` в `useEffect`.
 
 ```tsx
 const { data: blockNumber } = useBlockNumber({ watch: triggerRead });
 
-// Other code...
+// Другой код...
 
 useEffect(() => {
   setTriggerRead(false);
@@ -169,18 +169,18 @@ useEffect(() => {
 }, [blockNumber, queryClient]);
 ```
 </Step>
-<Step title="Set UI elements based on status">
-Use the "is" return values to set UI elements depending on the status of the hook as it attempts to call a function on the blockchain.
+<Step title="Настройка UI-элементов в зависимости от статуса">
+Используйте возвращаемые значения "is" для настройки UI-элементов в зависимости от статуса хука при попытке вызвать функцию в блокчейне.
 
 ```tsx
 <button disabled={issuesIsFetching} onClick={handleTriggerRead}>
   {issuesIsFetching ? 'Loading' : 'Read Now'}
 </button>
 ```
-You'll probably see the button flicker very quickly since the call doesn't take very long. For a production app, you'd need to add additional handling to smooth out the experience.
+Вы, вероятно, увидите, что кнопка мигает очень быстро, так как вызов не занимает много времени. Для продакшн-приложения потребуется дополнительная обработка, чтобы сгладить опыт.
 </Step>
-<Step title="Pass arguments to useReadContract">
-Arguments are passed into a `useReadContract` hook by adding an array of arguments, in order, to the `args` property. Common practice is to use React state variables set by UI elements to enable the arguments to be set and modified. For example, you might create a drop-down to set `issueNumber`, then fetch that issue with:
+<Step title="Передача аргументов в useReadContract">
+Аргументы передаются в хук `useReadContract` путем добавления массива аргументов по порядку в свойство `args`. Общепринятой практикой является использование переменных состояния React, устанавливаемых UI-элементами, чтобы аргументы можно было задавать и изменять. Например, вы можете создать выпадающий список для установки `issueNumber`, а затем получить этот вопрос с помощью:
 
 ```tsx
 const [issueNumber, setIssueNumber] = useState(0);
@@ -197,9 +197,9 @@ const { isLoading: getIssueIsLoading } = useReadContract({
 
 ---
 
-## Conclusion
+## Заключение
 
-In this guide, you've learned how to use the `watch` feature of `useBlockNumber` combined with `useEffect` and `queryClient.invalidateQueries` to enable your frontend to see updates to your smart contract. You've also learned the costs of doing so, and some strategies for mitigation. You've learned how to pass arguments to your functions. Finally, you've learned how to use the properties returned by `useReadContract` to adjust your UI to improve the experience for your users.
+В этом руководстве вы узнали, как использовать функцию `watch` в `useBlockNumber` в сочетании с `useEffect` и `queryClient.invalidateQueries`, чтобы ваш фронтенд мог видеть обновления вашего смарт-контракта. Вы также узнали о затратах на это и некоторые стратегии их снижения. Вы узнали, как передавать аргументы вашим функциям. Наконец, вы узнали, как использовать свойства, возвращаемые `useReadContract`, для настройки пользовательского интерфейса, чтобы улучшить опыт для ваших пользователей.
 
 ---
 
