@@ -1,46 +1,46 @@
 ---
-title: "Onchain Accounts (Wallets)"
-description: "Learn about onchain accounts, from traditional EOAs using private keys to modern Smart Wallets with passkeys, and how Base's Smart Wallet SDK simplifies integration."
+title: "Ончейн-аккаунты (Кошельки)"
+description: "Узнайте об ончейн-аккаунтах: от традиционных EOA с приватными ключами до современных Smart Wallet с паскями, а также о том, как Base Smart Wallet SDK упрощает интеграцию."
 ---
 
-Onchain accounts, often called "wallets", are the starting point for any onchain interaction. Unlike traditional accounts that store credentials in a database, onchain accounts authenticate and authorize transactions on the public network with credentials held by the user. The original onchain accounts (EOA's) use private keys backed up by a sequence of 24 random words. Recently, with the introduction of modern accounts like Smart Wallet, the credentials are Passkeys which provide improved security and recoverability. This sub-section covers these two main wallet types, the differences in user experience and security, and how Base's Smart Wallet SDK makes them easier to integrate.
+Ончейн-аккаунты, часто называемые «кошельками», являются отправной точкой для любого взаимодействия с ончейн-средой. В отличие от традиционных аккаунтов, которые хранят учетные данные в базе данных, ончейн-аккаунты аутентифицируют и авторизуют транзакции в публичной сети с использованием учетных данных, хранящихся у пользователя. Изначальные ончейн-аккаунты (EOA) используют приватные ключи, резервные копии которых представляют собой последовательность из 24 случайных слов. Недавно, с появлением современных аккаунтов, таких как Smart Wallet, учетными данными стали паски (Passkeys), обеспечивающие повышенную безопасность и возможность восстановления. Этот раздел охватывает эти два основных типа кошельков, различия в пользовательском опыте и безопасности, а также то, как Base Smart Wallet SDK упрощает их интеграцию.
 
-## What's Different?  
+## В чем различие?
 
 <Info>
-Every onchain action requires an account (a wallet) to sign transactions. Onchain accounts can **hold funds** and also **authorize** transactions on a blockchain.
+Каждое ончейн-действие требует аккаунта (кошелька) для подписания транзакций. Ончейн-аккаунты могут **хранить средства**, а также **авторизовывать** транзакции в блокчейне.
 </Info>
 
-## Types of Onchain Accounts
+## Типы ончейн-аккаунтов
 
-### Externally Owned Accounts (EOAs)
+### Аккаунты, управляемые извне (Externally Owned Accounts, EOAs)
 
 <Check>
-**Traditional Model**: Private key + seed phrase model (e.g., MetaMask, Rabby, Ledger)
+**Традиционная модель**: Модель приватного ключа + сид-фраза (например, MetaMask, Rabby, Ledger)
 </Check>
 
 <Warning>
-**User Experience**: Commonly used today but can be cumbersome or risky for new users
+**Пользовательский опыт**: Широко используются сегодня, но могут быть громоздкими или рискованными для новых пользователей
 </Warning>
 
 <Info>
-**Capabilities**: Holds digital assets but has no account level logic. Required for deploying smart contracts.
+**Возможности**: Хранят цифровые активы, но не имеют логики на уровне аккаунта. Требуются для развертывания смарт-контрактов.
 </Info>
 
-### Smart Wallets
+### Смарт-кошельки (Smart Wallets)
 
 <Tip>
-**Modern Approach**: Modern accounts with their own logic enabling improved security, recoverability, and functionality.
+**Современный подход**: Современные аккаунты с собственной логикой, обеспечивающей повышенную безопасность, возможность восстановления и функциональность.
 </Tip>
 
 <Check>
-**Enhanced Features**: Built-in recovery features, passkey authentication, and improved onboarding experience for users
+**Расширенные возможности**: Встроенные функции восстановления, аутентификация с помощью пасок и улучшенный процесс адаптации для пользователей
 </Check>
 
 <Check>
-**Advanced Permissions**: Can include features like "SpendPermissions" for fine-grained security and improved user experience
+**Расширенные разрешения**: Могут включать функции, такие как "SpendPermissions", для детализированной безопасности и улучшенного пользовательского опыта
 </Check>
 
-## Learn More
+## Узнать больше
 
-If you'd like a deeper dive on EOAs vs. smart wallets, check out our [Smart Wallet docs](/smart-wallet/concepts/what-is-smart-wallet) and recommended reading on [Account Abstraction](https://www.alchemy.com/learn/account-abstraction). Base provides an [SDK](/smart-wallet/technical-reference/sdk) to help you integrate Smart Wallets easily.
+Если вы хотите глубже изучить различия между EOA и смарт-аккаунтами, ознакомьтесь с нашей [документацией Smart Wallet](/smart-wallet/concepts/what-is-smart-wallet) и рекомендуемой статьей об [Account Abstraction](https://www.alchemy.com/learn/account-abstraction). Base предоставляет [SDK](/smart-wallet/technical-reference/sdk) который поможет вам легко интегрировать смарт-аккаунты.
