@@ -1,31 +1,31 @@
 ---
-title: The `useSimulateContract` hook
-description: Improve your user experience with the `useSimulateContract` hook.
+title: Хук `useSimulateContract`
+description: Улучшите пользовательский опыт с помощью хука `useSimulateContract`.
 hide_table_of_contents: false
 ---
 
-# The `useSimulateContract` hook
-The [`useSimulateContract`] hook simulates and validates a contract interaction without actually sending a transaction to the blockchain. Using it allows you to detect and respond to potential errors before the user tries to send a transaction.
+# Хук `useSimulateContract`
+Хук [`useSimulateContract`] симулирует и проверяет взаимодействие с контрактом без фактической отправки транзакции в блокчейн. Его использование позволяет вам обнаруживать и реагировать на потенциальные ошибки до того, как пользователь попытается отправить транзакцию.
 
 ---
 
-## Objectives
+## Цели
 
-By the end of this guide you should be able to:
+К концу этого руководства вы должны уметь:
 
-- Implement wagmi's `useSimulateContract` and `useWriteContract` to send transactions to a smart contract
-- Configure the options in `useSimulateContract` and `useWriteContract`
-- Call a smart contract function on-demand using the write function from `useWriteContract`, with arguments and a value
+- Реализовать wagmi `useSimulateContract` и `useWriteContract` для отправки транзакций в смарт-контракт
+- Настраивать опции в `useSimulateContract` и `useWriteContract`
+- Вызывать функцию смарт-контракта по требованию, используя функцию write из `useWriteContract`, с аргументами и значением (value)
 
 ---
 
-## Refining the Claim Component
+## Улучшение компонента Claim
 
-In the previous step-by-step, you used [`useWriteContract`] to set up a hook you can use to call the `claim` function in your smart contract when the user clicks a button. The component works well enough, but it can take a long time for the wallet to pop up, particularly if there is network congestion. You also have no way of responding to a problem with the transaction inputs until after the user tries to initiate a transaction.
+В предыдущем пошаговом руководстве вы использовали [`useWriteContract`] для настройки хука, который можно использовать для вызова функции claim в вашем смарт-контракте, когда пользователь нажимает кнопку. Компонент работает достаточно хорошо, но может потребоваться много времени для появления окна кошелька, особенно при высокой загрузке сети. У вас также нет возможности отреагировать на проблему с входными данными транзакции до того, как пользователь попытается инициировать транзакцию.
 
-### Using `useSimulateContract`
+### Использование `useSimulateContract`
 
-The `useSimulateContract` can be used in partnership with `useWriteContract`. To do so, you set up the transaction parameters in `useSimulateContract`, then use the `data?.request` returned by it as an argument in the call to write to the contract. Modify your `TokenInfo` component to test it:
+`useSimulateContract` можно использовать в паре с `useWriteContract`. Для этого вы настраиваете параметры транзакции в `useSimulateContract`, а затем используете возвращаемое `data?.request` в качестве аргумента при вызове записи в контракт. Измените ваш компонент `TokenInfo`, чтобы протестировать это:
 
 ```tsx
 const {
@@ -40,7 +40,7 @@ const {
 
 useEffect(() => {
   if (claimIsError) {
-    alert('Unable to claim'); // TODO: Better error handling
+    alert('Unable to claim'); // TODO: Улучшить обработку ошибок
   }
 }, [claimIsError]);
 
@@ -51,7 +51,7 @@ const handleClaimClick = () => {
 };
 ```
 
-You'll also need to update your handler to use the TypeScript pre-check feature, because the claim function will be briefly `undefined`.
+Вам также нужно будет обновить ваш обработчик, чтобы использовать функцию предварительной проверки TypeScript, потому что функция claim будет кратковременно `undefined`.
 
 ```tsx
 const handleClaimClick = () => {
@@ -59,17 +59,17 @@ const handleClaimClick = () => {
 };
 ```
 
-Reload the site and observe that the `alert` is triggered on load if you're signed in with an address that has already claimed tokens. You'll also see that the button is disabled, as though the user had clicked it and a transaction is loading in the wallet.
+Перезагрузите сайт и обратите внимание, что `alert` срабатывает при загрузке, если вы вошли с адресом, который уже получил токены. Вы также увидите, что кнопка отключена, как будто пользователь нажал на нее и транзакция загружается в кошельке.
 
-### Making Adjustments
+### Внесение корректировок
 
-The reason for this is a subtle difference in how `useWriteContract` and `useSimulateContract` work.
+Причина этого - тонкое различие в том, как работают `useWriteContract` и `useSimulateContract`.
 
-In the last step-by-step, you saw how viem runs a simulation of the transaction when the `write` function is called. `useSimulateContract` eagerly runs this simulation and updates it's variables.
+В предыдущем пошаговом руководстве вы видели, как viem запускает симуляцию транзакции при вызове функции `write`. `useSimulateContract` активно запускает эту симуляцию и обновляет свои переменные.
 
-You'll need to make some modifications for it to work. The `claimIsError` variable is being triggered when the data for the call is **simulated**, not when the call has settled. As a result, it immediately generates the error, and triggers the `alert` without requiring the user to click the button.
+Вам нужно внести некоторые изменения, чтобы это работало. Переменная `claimIsError` срабатывает, когда данные для вызова **симулируются**, а не когда вызов завершен. В результате она немедленно генерирует ошибку и вызывает alert без необходимости нажатия пользователем кнопки.
 
-You can solve this a number of ways, including simply not rendering the button if the user has already claimed. You could also modify the code, and combine it with `isError`, to share this information to the user.
+Вы можете решить эту проблему несколькими способами, включая простое отсутствие рендеринга кнопки, если пользователь уже получил токены. Вы также можете изменить код и объединить его с `isError`, чтобы поделиться этой информацией с пользователем.
 
 ```tsx
 const {
@@ -98,9 +98,9 @@ return (
 
 ---
 
-## Conclusion
+## Заключение
 
-In this step-by-step, you updated your app to use the `useSimulateContract` hook to provide a speedier wallet interaction for your users. You've also learned how you can predict and respond to potential errors without the user needing to attempt to send a transaction. You could use this functionality to let them know a username is already taken, a bid amount is not large enough, or an item is no longer available.
+В этом пошаговом руководстве вы обновили ваше приложение, чтобы использовать хук `useSimulateContract` для предоставления более быстрого взаимодействия с кошельком для ваших пользователей. Вы также узнали, как можно прогнозировать и реагировать на потенциальные ошибки без необходимости отправки транзакции пользователем. Вы могли бы использовать эту функциональность, чтобы сообщить им, что имя пользователя уже занято, сумма ставки недостаточно велика или товар больше не доступен.
 
 ---
 
