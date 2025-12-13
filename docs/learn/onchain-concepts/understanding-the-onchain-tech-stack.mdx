@@ -1,73 +1,73 @@
 ---
-title: "Understanding Onchain in Your Tech Stack"
-description: "Learn how blockchain technology augments traditional web stacks by adding globally accessible logic and data through smart contracts and onchain state."
+title: "Понимание роли ончейн-среды в вашем технологическом стеке"
+description: "Узнайте, как технология блокчейна дополняет традиционные веб-стеки, добавляя глобально доступную логику и данные через смарт-контракты и ончейн-состояние."
 ---
 
-In broad strokes, a traditional web application has a frontend, a backend, and a database. When we talk about "building onchain," we're adding a **blockchain** to that tech stack as globally accessible infrastructure that can provide both **logic** (smart contracts) and **data** (onchain state).
+В общих чертах традиционное веб-приложение имеет фронтенд, бэкенд и базу данных. Когда мы говорим о «создании в ончейн-среде», мы добавляем **блокчейн** к этому технологическому стеку как глобально доступную инфраструктуру, которая может предоставлять как **логику** (смарт-контракты), так и **данные** (ончейн-состояние).
 
-## Traditional vs Onchain Architecture
+## Традиционная архитектура vs Ончейн-архитектура
 
 <Tabs>
-<Tab title="Traditional Stack">
-- **Frontend**: Usually React, Vue, or another framework
-- **Backend**: Node.js, Python, or similar, handling business logic  
-- **Database**: A solution like Postgres or MongoDB for persistent storage
+<Tab title="Традиционный стек">
+- **Фронтенд**: Обычно React, Vue или другой фреймворк
+- **Бэкенд**: Node.js, Python или подобные, обрабатывающие бизнес-логику
+- **База данных**: Решение типа Postgres или MongoDB для постоянного хранения данных
 </Tab>
 
-<Tab title="Onchain as an Additional Layer">
-- **Smart Contracts**: Globally accessible logic
-- **Onchain State**: Data that lives on Base (balances, user profiles, etc.) and is accessible to any onchain or offchain application
+<Tab title="Ончейн-среда как дополнительный слой">
+- **Смарт-контракты**: Глобально доступная логика
+- **Ончейн-состояние**: Данные, которые хранятся в сети Base (балансы, профили пользователей и т.д.) и доступны любому ончейн- или оффчейн-приложению
 </Tab>
 </Tabs>
 
 <Note>
-Integrating a blockchain doesn't necessarily **replace** your database or your entire backend. Instead, it augments your stack. For instance, some business logic might remain in your backend, and sensitive data may remain in a traditional database.
+Интеграция блокчейна не обязательно **заменяет** вашу базу данных или весь ваш бэкенд. Вместо этого она дополняет ваш стек. Например, некоторая бизнес-логика может оставаться в вашем бэкенде, а конфиденциальные данные - в традиционной базе данных.
 </Note>
 
-## What belongs onchain?
+## Что относится к ончейн-среде?
 
-## Onchain State
+## Ончейн-состояние
 
-Onchain state has several notable properties:
+Ончейн-состояние обладает несколькими заметными свойствами:
 
 <Info>
-**Immutable**: Once recorded, data can't be deleted ensuring a permanent historical record
+**Неизменяемость**: После записи данные невозможно удалить, что обеспечивает постоянную историческую запись
 </Info>
 
 <Info>
-**Transparent**: All data is publicly viewable and verifiable
+**Прозрачность**: Все данные общедоступны для просмотра и проверки
 </Info>
 
 <Info>
-**Global**: Data is stored across multiple nodes, eliminating single points of failure
+**Глобальность**: Данные хранятся на множестве нод, устраняя единые точки отказа
 </Info>
 
 <Warning>
-**Expensive**: Storing data onchain is expensive because it must be stored by every node globally
+**Высокая стоимость**: Хранение данных в ончейн-среде дорого, потому что данные должны храниться каждой нодой глобально
 </Warning>
 
-Because of these properties, carefully consider what data is stored onchain. Ask yourself if the data is necessary for onchain logic or if the data should be immutable. Alternatively, you may be able to store your data offchain in a traditional database or a decentralized file storage network such as [IPFS](https://ipfs.tech/). If the state change is more informational, it may be best to emit an event, providing a more cost-effective alternative to direct onchain storage.
+Из-за этих свойств тщательно обдумывайте, какие данные хранить в ончейн-среде. Спросите себя, необходимы ли эти данные для ончейн-логики или должны ли они быть неизменяемыми. В качестве альтернативы вы можете хранить свои данные вне цепи в традиционной базе данных или децентрализованной сети хранения файлов, такой как [IPFS](https://ipfs.tech/). Если изменение состояния носит скорее информационный характер, возможно, лучше сгенерировать событие (event), что является более экономичной альтернативой прямому хранению в ончейн-среде.
 
-## Onchain Events
+## Ончейн-события (Events)
 
 <Tip>
-Since storing data onchain is expensive, we oftentimes use a cheaper alternative: events. Events are not part of the state, which makes them optional to store when running a node. They are a lot cheaper to use than state storage.
+Поскольку хранение данных в ончейн-среде дорого, мы часто используем более дешевую альтернативу: события. События не являются частью состояния, что делает их опциональными для хранения при запуске ноды. Их использование значительно дешевле, чем хранение в состоянии.
 </Tip>
 
-Events are triggered when an onchain method is called. Events can have different data formats. In order to make sure events follow the format we are looking to receive on the frontend, we often use data indexers. For that, you can build your own indexer or use one of the [existing tools](/base-chain/tools/data-indexers).
+События генерируются при вызове ончейн-метода. События могут иметь различные форматы данных. Чтобы гарантировать, что события соответствуют формату, который мы ожидаем получить на фронтенде, мы часто используем индексаторы данных. Для этого вы можете создать собственный индексатор или использовать один из [existing tools](/base-chain/tools/data-indexers).
 
-## Onchain Logic
+## Ончейн-логика
 
-Onchain logic is stored in smart contracts. Similar to onchain data, it is immutable, transparent, and global. By default, onchain logic is accessible to every network participant, but can be permissioned so that only certain participants can interact. This makes onchain logic highly composable where builders can leverage existing onchain logic and extend that logic in novel ways instead of building from scratch.
+Ончейн-логика хранится в смарт-контрактах. Подобно ончейн-данным, она неизменяема, прозрачна и глобальна. По умолчанию ончейн-логика доступна каждому участнику сети, но может быть настроена так, чтобы только определенные участники могли с ней взаимодействовать. Это делает ончейн-логику высоко композируемой, где разработчики могут использовать существующую ончейн-логику и расширять ее новыми способами вместо создания с нуля.
 
 <Check>
-**Capabilities**: Transfer funds and digital assets, create onchain games, create content and social posts onchain, and more. Pretty much anything you can do offchain can be done onchain.
+**Возможности**: Переводить средства и цифровые активы, создавать ончейн-игры, публиковать контент и социальные посты в ончейн-среде и многое другое. Практически все, что можно сделать вне цепи, можно сделать и в ончейн-среде.
 </Check>
 
 <Warning>
-**Cost Consideration**: Because every node in the network needs to execute every transaction, each transaction has a cost dependent on the computational expense of the onchain logic being run in that transaction.
+**Соображения стоимости**: Поскольку каждая нода в сети должна выполнять каждую транзакцию, каждая транзакция имеет стоимость, зависящую от вычислительной сложности ончейн-логики, выполняемой в этой транзакции.
 </Warning>
 
 <Note>
-If you have proprietary logic which you don't want public, this shouldn't be onchain. Or if the logic doesn't need to be decentralized and is computationally expensive, it may be better kept in a traditional backend opposed to onchain.
+Если у вас есть проприетарная логика, которую вы не хотите делать публичной, её не следует размещать в ончейн-среде. Или если логике не требуется децентрализация и она вычислительно затратна, возможно, лучше оставить её в традиционном бэкенде, а не в ончейн-среде.
 </Note>
