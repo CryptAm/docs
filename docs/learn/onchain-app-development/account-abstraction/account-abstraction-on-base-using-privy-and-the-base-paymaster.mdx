@@ -1,253 +1,253 @@
 ---
-title: 'Account Abstraction on Base using Privy and the Base Paymaster'
+title: 'Абстракция аккаунтов на Base с использованием Privy и Base Paymaster'
 slug: /account-abstraction-with-privy-and-base-paymaster
-description: A tutorial that teaches how to implement Account Abstraction into a Base project using Privy and the Base paymaster.
+description: Руководство, которое учит, как внедрить абстракцию аккаунтов в проект на Base с использованием Privy и Base paymaster.
 author: Brian Doyle and Aaron Hayslip
 ---
 
-# Account Abstraction on Base using Privy and the Base Paymaster
+# Абстракция аккаунтов на Base с использованием Privy и Base Paymaster
 
-This tutorial shows you how to use [Privy], [Alchemy's Account Kit], and the [Base Paymaster] to enable your users to use onchain apps without creating a wallet on their own, or even needing to pay for gas fees!
+Это руководство покажет вам, как использовать [Privy], [Alchemy's Account Kit], и [Base Paymaster], чтобы позволить вашим пользователям использовать ончейн-приложения без необходимости создавать кошелек самостоятельно или даже платить комиссию за газ!
 
-## Objectives
+## Цели
 
-By the end of this tutorial, you should be able to:
+К концу этого руководства вы должны уметь:
 
-### Intro to Account Abstraction
+### Введение в абстракцию аккаунтов
 
-- Explain how Account Abstraction can improve user experience for onchain apps
-- Describe the difference between contract accounts and EOAs, the limitations of contract accounts, and how EIP-4337 uses `UserOperation`s to mitigate these limitations
-- Outline how Account Abstraction works, and how users interact with smart contract wallets
+- Объяснить, как абстракция аккаунтов может улучшить пользовательский опыт в ончейн-приложениях
+- Описать разницу между контрактными аккаунтами и EOA, ограничения контрактных аккаунтов и как EIP-4337 использует UserOperation для смягчения этих ограничений
+- Описать, как работает абстракция аккаунтов, и как пользователи взаимодействуют со смарт-контрактными кошельками
 
-### Intro to Privy
+### Введение в Privy
 
-- Implement Privy's quick start to add onchain authentication to a NextJS application
-- Compare Privy's progressive authentication strategy with traditional wallet-based authentication
-- Use Privy's `PrivyProvider` context and `usePrivy` hook to implement basic authentication via an email address, SMS, EOA, and/or social auth
-- Utilize Privy's Embedded Wallets to enable users to utilize wallet-based actions without having to connect to an external wallet or leave your application
+- Реализовать быстрый старт Privy для добавления ончейн-аутентификации в приложение NextJS
+- Сравнить прогрессивную стратегию аутентификации Privy с традиционной аутентификацией на основе кошельков
+- Использовать контекст `PrivyProvider` и хук `usePrivy` от Privy для реализации базовой аутентификации через email, SMS, EOA и/или социальные сети
+- Использовать встроенные кошельки (Embedded Wallets) Privy, чтобы позволить пользователям выполнять действия, основанные на кошельках, без необходимости подключаться к внешнему кошельку или покидать ваше приложение
 
-### Implementing the Paymaster
+### Реализация Paymaster
 
-- Describe how a third party can use a _paymaster_ to sponsor gas
-- Modify Privy's Base [paymaster example] example to work in another app, using an EOA to allow a user to call a smart contract function without requiring the user to pay any gas
+- Описать, как третья сторона может использовать _paymaster_ для спонсирования газа
+- Модифицировать пример [paymaster example] от Privy для Base, чтобы он работал в другом приложении, используя EOA для того, чтобы позволить пользователю вызвать функцию смарт-контракта без требования оплаты газа со стороны пользователя
 
-## Prerequisites
+## Предварительные требования
 
-### 1. Be familiar with modern, frontend web development
+### 1. Будьте знакомы с современной фронтенд-разработкой
 
-In this tutorial, we'll be working with a React frontend built with [Next.js]. While you don't need to be an expert, we'll assume that you're comfortable with the basics.
+В этом руководстве мы будем работать с React-фронтендом, построенным на [Next.js]. Хотя вам не нужно быть экспертом, мы предполагаем, что вы знакомы с основами.
 
-### 2. Possess a general understanding of the EVM and smart contract development
+### 2. Иметь общее понимание EVM и разработки смарт-контрактов
 
-This tutorial assumes that you're reasonably comfortable writing basic smart contracts. If you're just getting started, jump over to our [Base Learn] guides and start learning!
+Это руководство предполагает, что вы достаточно уверенно пишете базовые смарт-контракты. Если вы только начинаете, перейдите к нашим гайдам [Base Learn] и начинайте учиться!
 
-## Intro do Account Abstraction
+## Введение в абстракцию аккаунтов
 
-[ERC-4337], also known as _Account Abstraction_, is a standard that allows smart contracts to initiate transactions, thus enabling any logic that users want to implement to be encoded into the smart contract wallet itself for execution on Ethereum.
+[ERC-4337], также известный как _Абстракция аккаунтов_, — это стандарт, который позволяет смарт-контрактам инициировать транзакции, что позволяет внедрять любую логику, которую пользователи хотят реализовать, непосредственно в сам смарт-контрактный кошелек для выполнения в сети Ethereum.
 
-Account Abstraction has the potential to be a massive game-changer for onchain user experience and many believe it will play a key role in bringing the next billion users onchain.
+Абстракция аккаунтов имеет потенциал стать революционным изменением для пользовательского опыта в ончейн-приложениях, и многие считают, что она сыграет ключевую роль в привлечении следующего миллиарда пользователей в ончейн.
 
-### The Problem Account Abstraction Solves
+### Проблема, которую решает абстракция аккаунтов
 
-Onchain applications are difficult to use for many people, as they require a lengthy onboarding process for the average internet user who already onchain.
+Ончейн-приложения сложны в использовании для многих людей, так как они требуют длительного процесса адаптации для среднего интернет-пользователя, который еще не в ончейн.
 
-For example,the preliminary steps a user needs to go through before they can use an onchain app are:
+Например, предварительные шаги, которые пользователь должен пройти, прежде чем сможет использовать ончейн-приложение:
 
-1. Create a wallet (Coinbase Wallet, Metamask, etc)
-1. Store the wallet mnemonic safely, without losing it or compromising it
-1. Sign a slightly frightening message to connect to an onchain app
-1. Try to do anything with the app and get a popup asking them to approve a transaction
-1. Attempt to do so, learn transactions cost gas, and that they don't have any
-1. Learn that gas is a fee that users must pay in ETH to use onchain apps
-1. Attempt to buy ETH, possibly buying the wrong flavor of ETH in the wrong location
-1. Try the transaction again
-1. Repeat until they finally find the correct path
+- Создать кошелек (Coinbase Wallet, Metamask и т.д.)
+- Безопасно сохранить мнемоническую фразу кошелька, не потеряв и не скомпрометировав ее
+- Подписать немного пугающее сообщение для подключения к ончейн-приложению
+- Попытаться что-либо сделать в приложении и получить всплывающее окно с запросом на подтверждение транзакции
+- Попытаться сделать это, узнать, что транзакции стоят газа, и что у него его нет
+- Узнать, что газ - это комиссия, которую пользователи должны платить в ETH для использования ончейн-приложений
+- Попытаться купить ETH, возможно, купив не ту версию ETH не в той сети
+- Повторить попытку транзакции
+- Повторять, пока не будет найден правильный путь
 
-For widespread adoption of onchain applications, this confusing and alienating process has to change.
+Для массового внедрения ончейн-приложений этот запутанный и отталкивающий процесс должен измениться.
 
-That's where Account Abstraction comes in. It allows you to improve the onboarding and usage flow for your users:
+Именно здесь на помощь приходит абстракция аккаунтов. Она позволяет улучшить процесс адаптации и использования для ваших пользователей:
 
-1. User goes to the onchain app and authenticates (using email, EOA, or social auth)
-2. User uses the app
-3. Transactions happen under the hood via a smart contract wallet and the app developer sponsors the user's gas fees until after they're onboarded.
+- Пользователь переходит в ончейн-приложение и аутентифицируется (используя email, EOA или социальные сети)
+- Пользователь использует приложение
+- Транзакции происходят "под капотом" через смарт-контрактный кошелек, а разработчик приложения спонсирует комиссии за газ пользователя до тех пор, пока тот не адаптируется.
 
-To summarize, Account Abstraction enables smart contract accounts to initiate user operations, similar to how an EOA would initiate a transaction. However, unlike EOAs, smart contract accounts are programmable and can enable a number of incredible features, such as:
+Подводя итог, абстракция аккаунтов позволяет смарт-контрактным аккаунтам инициировать пользовательские операции, аналогично тому, как EOA инициирует транзакцию. Однако, в отличие от EOA, смарт-контрактные аккаунты программируемы и могут обеспечивать ряд впечатляющих функций, таких как:
 
-- **Sponsored Transactions**: Allow application owners to cover the users gas fees with a paymaster or allow a user to use something other than ETH (USDC, for example) to cover gas
-- **Arbitrary Verification Logic**: Verify transactions with custom logic
-- **Account Recovery**: Create account recovery features for when user lose private keys
-- **Batching Transactions**: Change the user experience so that multiple transactions can be submitted at once
+- **Спонсируемые транзакции**: Позволяют владельцам приложений покрывать комиссии за газ пользователей с помощью paymaster или позволяют пользователю использовать что-то отличное от ETH (например, USDC) для оплаты газа.
+- **Произвольная логика верификации**: Верифицировать транзакции с помощью пользовательской логики.
+- **Восстановление аккаунта**: Создавать функции восстановления аккаунта на случай потери приватных ключей.
+- **Пакетирование транзакций**: Изменять пользовательский опыт так, чтобы несколько транзакций можно было отправить одновременно.
 
-### Overview of ERC-4337 - Account Abstraction
+### Обзор ERC-4337 - Абстракция аккаунтов
 
-"Account Abstraction" comes from [ERC-4337]. The proposal itself is a dense read, but one of stated goals of the proposal is to:
+Термин "Абстракция аккаунтов" происходит из [ERC-4337]. Сам документ сложен для чтения, но одна из заявленных целей предложения:
 
-> allow users to use smart contract wallets containing arbitrary verification logic instead of EOAs as their primary account. Completely remove any need at all for users to also have EOAs (as status quo SC wallets and EIP-3074 both require)
+> позволить пользователям использовать смарт-контрактные кошельки, содержащие произвольную логику верификации, вместо EOA в качестве основного аккаунта. Полностью устранить любую необходимость для пользователей также иметь EOA (как того требуют текущие SC кошельки и EIP-3074)
 
-In other words, the proposal seeks to allow users to use _smart contract wallets_ **instead** of EOAs to transact onchain.
+Другими словами, предложение стремится позволить пользователям использовать _смарт-контрактные кошельки_ **вместо** EOA для транзакций в ончейн.
 
 <Info>
-Privy enables seamless onboarding and wallet creation for users, abstracting away the complexity of private key management. Learn more in the [Privy documentation](https://docs.privy.io/).
+Privy обеспечивает беспрепятственную адаптацию и создание кошельков для пользователей, абстрагируясь от сложностей управления приватными ключами. Узнайте больше в [Privy documentation](https://docs.privy.io/).
 </Info>
 
-At first glance, you may be asking yourself if using smart contract accounts solve our problem. What's the difference between a smart contract account (or contract account) and an _Externally Owned Account_?
+На первый взгляд, вы можете спросить себя, решают ли смарт-контрактные аккаунты нашу проблему. В чем разница между смарт-контрактным аккаунтом (или контрактным аккаунтом) и _внешним аккаунтом_ (Externally Owned Account)?
 
-According to [ethereum.org], the differences are:
+Согласно [ethereum.org], различия следующие:
 
-**Externally Owned Account**
+**Внешний аккаунт (EOA)**
 
-- Creating an account costs nothing
-- Can initiate transactions
-- Transactions between externally-owned accounts can only be ETH/token transfers
-- Made up of a cryptographic pair of keys: public and private keys that control account activities
+- Создание аккаунта ничего не стоит.
+- Может инициировать транзакции.
+- Транзакции между внешними аккаунтами могут быть только переводами ETH/токенов.
+- Состоит из криптографической пары ключей: публичного и приватного, которые контролируют активность аккаунта.
 
-**Contract Accounts**
+**Контрактные аккаунты**
 
-- Creating a contract has a cost because you're using network storage
-- Can only send transactions in response to receiving a transaction
-- Transactions from an external account to a contract account can trigger code which can execute many different actions, such as transferring tokens or even creating a new contract
-- Contract accounts don't have private keys. Instead, they are controlled by the logic of the smart contract code
+- Создание контракта стоит денег, потому что вы используете сетевое хранилище.
+- Могут отправлять транзакции только в ответ на полученную транзакцию.
+- Транзакции от внешнего аккаунта к контрактному аккаунту могут запускать код, который может выполнять множество различных действий, таких как перевод токенов или даже создание нового контракта.
+- Контрактные аккаунты не имеют приватных ключей. Вместо этого они управляются логикой смарт-контрактного кода.
 
-Smart contract wallets _would_ solve our problems, **but**, as stated above, they can't initiate transactions. Since they cannot initiate transactions, users still need EOAs and those EOAs still need to pay for gas with ETH.
+Смарт-контрактные кошельки _могли бы_ решить наши проблемы, **но**, как указано выше, они не могут инициировать транзакции. Поскольку они не могут инициировать транзакции, пользователям все еще нужны EOA, и эти EOA все еще должны платить за газ ETH.
 
-There were two options to resolve this problem:
+Было два варианта решения этой проблемы:
 
-1. Change the protocol - hard fork!
+1. Изменить протокол - хардфорк!
 
-2. Change transactions, upstream (ERC-4337)
+2. Изменить транзакции на более раннем этапе (ERC-4337)
 
-In a nutshell, ERC-4337 doesn't change how Ethereum transactions work. Cryptographically signed instructions from accounts still initiate transactions to update the state of the Ethereum network.
+В двух словах, ERC-4337 не меняет то, как работают транзакции Ethereum. Криптографически подписанные инструкции от аккаунтов по-прежнему инициируют транзакции для обновления состояния сети Ethereum.
 
-What ERC-4337 changes is everything _upstream_ of that signed transaction. It does this by introducing a new _user intent layer_ that acts as a proxy for an EOA. This layer allows users to initiate transactions, with highly customizable smart contract wallets, but without using an EOA. The Ethereum network still receives what it received before - signed transactions.
+Что меняет ERC-4337, так это все, что происходит _ранее_ этой подписанной транзакции. Для этого он вводит новый _слой пользовательских намерений_, который действует как прокси для EOA. Этот слой позволяет пользователям инициировать транзакции с помощью высоконастраиваемых смарт-контрактных кошельков, но без использования EOA. Сеть Ethereum по-прежнему получает то, что получала раньше - подписанные транзакции.
 
-The result is a better experience for the user without changing the Ethereum protocol.
+Результат - лучший опыт для пользователя без изменения протокола Ethereum.
 
-### How Account Abstraction Works
+### Как работает абстракция аккаунтов
 
-With typical Ethereum transactions an EOA initiates and signs a transaction. That transaction is sent to Ethereum's Public Mempool, is validated and added to a block, onchain.
+При обычных транзакциях Ethereum EOA инициирует и подписывает транзакцию. Эта транзакция отправляется в публичный мемпул Ethereum, проверяется и добавляется в блок, попадая в ончейн.
 
-Note that the following steps are primarily happening **before** any of that.
+Обратите внимание, что следующие шаги в основном происходят **до** всего этого.
 
-#### 1. **Smart Contract Wallet Creation**
+#### 1. **Создание смарт-контрактного кошелька**
 
-First, a new smart contract wallet must be created for a user. This wallet is owned by its creator who is designated as the _signer_. This signer must validate any of its future operations.
+Сначала для пользователя должен быть создан новый смарт-контрактный кошелек. Этим кошельком владеет его создатель, который назначается _подписантом_ (signer). Этот подписант должен проверять все его будущие операции.
 
-This wallet may come with a variety of features, but it must be able to at least validate `UserOperations`s with a function called, `validateUserOp`. `validateUserOp` will check each `UserOperation`'s signature, increment the nonce, and handle the operation's fees.
+Этот кошелек может иметь различные функции, но он должен как минимум уметь проверять `UserOperation` с помощью функции `validateUserOp`. `validateUserOp` будет проверять подпись каждого `UserOperation`, увеличивать nonce и обрабатывать комиссии операции.
 
-#### 2. **User Operation Creation**
+#### 2. **Создание Пользовательской Операции**
 
-From the smart contract account, `UserOperations`s are created. These are not yet transactions, but rather represent intents from the user. These intents can represent any onchain user operation.
+Со смарт-контрактного аккаунта создаются `UserOperation`. Это еще не транзакции, а скорее представляют намерения пользователя. Эти намерения могут представлять любую ончейн-операцию пользователя.
 
-`UserOperation` includes the details of the transaction such as sender, nonce, gas limit, max fee per gas, paymaster data (if applicable), and a signature.
+`UserOperation` включает детали транзакции, такие как отправитель, nonce, лимит газа, максимальная комиссия за газ, данные paymaster (если применимо) и подпись.
 
-#### 3. **Signature Generation**:
+#### 3. **Генерация подписи**:
 
-The `UserOperation` is then signed using the private key associated with the initiating account. This signature serves to authenticate the transaction and validate that it was indeed initiated by the owner of the smart contract account.
+Затем `UserOperation` подписывается с использованием приватного ключа, связанного с инициирующим аккаунтом. Эта подпись служит для аутентификации транзакции и подтверждения того, что она действительно была инициирована владельцем смарт-контрактного аккаунта.
 
-#### 4. **Alt Mempool**:
+#### 4. **Альтернативный мемпул**:
 
-ERC-4337 introduces an _Alt Mempool_ where operations are stored until they're picked up by a _Bundler_. The Alt Mempool is not very different from the transaction pool typically used in Ethereum, but this mempool exists earlier on in the transaction and holds user operations, where Ethereum's mempool holds signed transactions.
+ERC-4337 вводит _альтернативный мемпул_, где операции хранятся до тех пор, пока их не заберет _Бандлер_. Альтернативный мемпул не сильно отличается от пула транзакций, обычно используемого в Ethereum, но этот мемпул существует на более раннем этапе транзакции и содержит пользовательские операции, тогда как мемпул Ethereum содержит подписанные транзакции.
 
-#### 5. **Bundler and Operation Submission**:
+#### 5. **Бандлер (Bundler) и отправка операции:**:
 
-Nodes on the Ethereum network have the option to serve as a _Bundler_, a role that involves collecting multiple signed `UserOperation`s and consolidating them into a single transaction, called a bundle transaction. These bundle transactions are then directed towards a universal smart contract, called the _EntryPoint_.
+Ноды в сети Ethereum могут выступать в роли _Бандлера_, задача которого заключается в сборе нескольких подписанных `UserOperation` и объединении их в одну транзакцию, называемую bundle transaction. Эти bundle transactions затем направляются в универсальный смарт-контракт, называемый _Точкой входа_ (EntryPoint).
 
-The submission of the signed `UserOperation` to the EntryPoint contract can be done directly or through a _paymaster_, which is a contract that agrees to cover the cost of operations for certain users.
+Отправка подписанного `UserOperation` в контракт EntryPoint может быть выполнена напрямую или через _paymaster_ - контракт, который соглашается покрывать стоимость операций для определенных пользователей.
 
-#### 6. **Operation Validation**:
+#### 6. **Валидация операции**:
 
-The Bundler triggers a function named `handleOps` on the EntryPoint smart contract, which receives the bundle transaction. The EntryPoint then calls `validateUserOp` for each account within this bundle transaction.
+Бандлер запускает функцию `handleOps` в смарт-контракте EntryPoint, который получает bundle transaction. Затем EntryPoint вызывает `validateUserOp` для каждого аккаунта в этой bundle transaction.
 
-Each smart contract wallet is then required to implement an additional function and execute the actual operation sent by the EntryPoint contract.
+Каждый смарт-контрактный кошелек затем должен реализовать дополнительную функцию и выполнить фактическую операцию, отправленную контрактом EntryPoint.
 
-#### 7. **Operation Execution**:
+#### 7. **Выполнение операции**:
 
-Once the operation has been validated and the fees have been handled, the operation is executed on the Ethereum network.
+После того как операция проверена и комиссии обработаны, операция выполняется в сети Ethereum.
 
-## Intro to Privy
+## Введение в Privy
 
-[Privy] makes authentication and user-management in onchain apps easier by bridging onchain and offchain user data. In preparation to dive into our Base Paymaster example app, this lesson will cover the basics of Privy.
+[Privy] упрощает аутентификацию и управление пользователями в ончейн-приложениях, объединяя ончейн- и оффчейн-данные пользователей. В рамках подготовки к углублению в пример приложения с Base Paymaster, этот урок охватит основы Privy.
 
-In this tutorial, you'll quick start and review a sample application where users can authenticate with [Privy].
+В этом руководстве вы быстро запустите и рассмотрите пример приложения, где пользователи могут аутентифицироваться с помощью [Privy].
 
-### Overview of Privy
+### Обзор Privy
 
-Privy self-describes as "a simple toolkit for progressive authentication in web3". In this app, you'll primarily use Privy for its authentication and user-handling capabilities, but some of Privy's most popular features include:
+Privy описывает себя как "простой набор инструментов для прогрессивной аутентификации в web3". В этом приложении вы в основном будете использовать Privy для его возможностей аутентификации и работы с пользователями, но некоторые из самых популярных функций Privy включают:
 
-**Authentication Options**: Privy allows developers to configure how users authenticate. This can be with a crypto wallet, an email address, phone number or social profiles. Conveniently, Privy handles sessions and provides all necessary authentication methods.
+**Варианты аутентификации**: Privy позволяет разработчикам настраивать способ аутентификации пользователей. Это может быть криптокошелек, email-адрес, номер телефона или профили в социальных сетях. Удобно, что Privy обрабатывает сессии и предоставляет все необходимые методы аутентификации.
 
-**Progressive Onboarding**: Privy creates a `user` object for each session. Before authentication, this `user` object is `null`, but as the user interacts with your application it will progressively associate more user information with this object. For example, users can start by authenticating with their email address and later add their wallet address or any other user information as the application requires.
+**Прогрессивная адаптация**: Privy создает объект `user` для каждой сессии. До аутентификации этот объект `user` равен `null`, но по мере взаимодействия пользователя с вашим приложением он будет постепенно связывать больше пользовательской информации с этим объектом. Например, пользователи могут начать с аутентификации по email, а позже добавить адрес своего кошелька или любую другую информацию, которую требует приложение.
 
-**Embedded Wallets**: Embedded wallets are "self-custodial Ethereum wallets that are embedded into your app. This allows your users to take wallet-based actions without ever leaving your site. Embedded wallets are the easiest way to unlock your full product experience for users who don't have, or don't want to connect, their own wallet." Developers can simply configure Privy to automatically created an Embedded Wallet on `login` or they can be pregenerated on the backend.
+**Встроенные кошельки**: Встроенные кошельки - это "самокастодиальные кошельки Ethereum, встроенные в ваше приложение. Это позволяет вашим пользователям выполнять действия, основанные на кошельках, никогда не покидая ваш сайт. Встроенные кошельки — это самый простой способ разблокировать полный опыт вашего продукта для пользователей, у которых нет собственного кошелька или которые не хотят его подключать". Разработчики могут просто настроить Privy на автоматическое создание встроенного кошелька при `login` или они могут быть предварительно созданы на стороне сервера.
 
 <Warning>
-Embedded wallets are still EOAs and should not be confused with _smart contract wallets_. A user may have both. During development, this division can lead to confusing situations where `msg.sender` is **not** the address you were expecting.
+Встроенные кошельки по-прежнему являются EOA, и их не следует путать со _смарт-контрактными кошельками_. У пользователя могут быть и те, и другие. Во время разработки это разделение может привести к запутанным ситуациям, когда `msg.sender` - это **не** тот адрес, который вы ожидали.
 </Warning>
 
-### Privy Quick Start
+### Быстрый старт Privy
 
-As with most onchain frontend connector libraries, you can use [Privy's Quick Start] to jump start your development with their platform. In this example, you'll use the NextJS starter.
+Как и в случае с большинством фронтенд-библиотек для подключения к ончейну, вы можете использовать [Privy's Quick Start], чтобы быстро начать разработку на их платформе. В этом примере вы будете использовать стартер NextJS.
 
-#### Setup
+#### Настройка
 
-First, navigate to the repository: [https://github.com/privy-io/create-next-app] and clone the repo.
+Сначала перейдите в репозиторий: [https://github.com/privy-io/create-next-app] и клонируйте его.
 
 ```bash
 git clone https://github.com/privy-io/create-next-app
 ```
 
-Next, `cd create-next-app` and install dependencies with `yarn`.
+Затем перейдите в папку `cd create-next-app` и установите зависимости с помощью `yarn`.
 
-#### Setting Your App Id
+#### Установка вашего App ID
 
-To use Privy, you'll need your own environment variables. In your terminal, run:
+Для использования Privy вам понадобятся ваши собственные переменные окружения. В терминале выполните:
 
 ```bash
 cp .env.example .env.local
 ```
 
-This will create a `.env.local` file in your project's root. This is where you'll add your Privy App ID:
+Это создаст файл `.env.local` в корне вашего проекта. Именно сюда вы добавите ваш Privy App ID:
 
 ```text
 NEXT_PUBLIC_PRIVY_APP_ID=<your-privy-app-id>
 ```
 
 <Info>
-Note - to get an App ID, you'll need to request one and access it at [https://console.privy.io/]. This process can take a while, but for the Base community, Privy will expedite this process! Developers can send an email to `base@privy.io` with:
+Примечание - чтобы получить App ID, вам нужно запросить его и получить доступ на [https://console.privy.io/]. Этот процесс может занять некоторое время, но для сообщества Base Privy ускорит его! Разработчики могут отправить email на `base@privy.io` с указанием:
 
-- Your app name
-- The email address you want as admin
-- A one liner on what you're building
+- Названия вашего приложения
+- Email-адреса, который вы хотите использовать в качестве администратора
+- Краткого описания того, что вы создаете
 
 </Info>
 
-#### Starting the App
+#### Запуск приложения
 
-Finally, run `yarn dev` and navigate to [http://localhost:3000] to see the starter application.
+Наконец, запустите `yarn dev` и перейдите по адресу [http://localhost:3000], чтобы увидеть стартовое приложение.
 
-### Privy Login Walkthrough
+### Пошаговое руководство по входу в Privy
 
-Before exploring the code, test the app. First, you should see this login page:
+Прежде чем изучать код, протестируйте приложение. Сначала вы должны увидеть эту страницу входа:
 
 ![Privy Login Page](/images/account-abstraction/privy-login-page.png)
 
-After clicking "Log in" you'll see the following modal:
+После нажатия "Log in" вы увидите следующее модальное окно:
 
 ![Privy Login Modal](/images/account-abstraction/privy-login-modal.png)
 
-By default, you can login with a wallet, or email.
+По умолчанию вы можете войти с помощью кошелька или email.
 
-After logging in, you'll be redirected to the `/dashboard` page, where the demo app will allow you to connect a number of other accounts to your `user` object:
+После входа в систему вы будете перенаправлены на страницу `/dashboard`, где демонстрационное приложение позволит вам подключить ряд других аккаунтов к вашему объекту `user`:
 
 ![Privy Dashboard Page](/images/account-abstraction/privy-dashboard-page.png)
 
-If you navigate to [console.privy.io](https://console.privy.io/), you'll see that Privy stores all your users and their data here.
+Если вы перейдете на [console.privy.io](https://console.privy.io/), вы увидите, что Privy хранит всех ваших пользователей и их данные здесь.
 
 ![Privy Console](/images/account-abstraction/privy-console.png)
 
 ### PrivyProvider
 
-Diving into the code, first look at the `PrivyProvider` inside of `_app.jsx`:
+Углубляясь в код, сначала взгляните на `PrivyProvider` внутри `_app.jsx`:
 
 ```tsx
 <PrivyProvider
@@ -258,11 +258,11 @@ Diving into the code, first look at the `PrivyProvider` inside of `_app.jsx`:
 </PrivyProvider>
 ```
 
-`PrivyProvider` uses React Context and wraps any components that will use the `usePrivy` hook.
+`PrivyProvider` использует React Context и оборачивает любые компоненты, которые будут использовать хук `usePrivy`.
 
-Additionally, it's here that you can pass an optional `config` property to enable more authentication methods.
+Кроме того, здесь вы можете передать необязательное свойство `config` для включения дополнительных методов аутентификации.
 
-Add a `config` property to the `<PrivyProvider />` in `_app.jsx` with `'github'` and `'sms'` as the login options:
+Добавьте свойство `config` в `<PrivyProvider />` в `_app.jsx` с параметрами входа `'github'` и `'sms'`:
 
 ```tsx
 <PrivyProvider
@@ -276,21 +276,21 @@ Add a `config` property to the `<PrivyProvider />` in `_app.jsx` with `'github'`
 </PrivyProvider>
 ```
 
-Refresh to see that authentication is only possible now through Github or SMS:
+Обновите страницу, чтобы увидеть, что теперь аутентификация возможна только через Github или SMS:
 
 ![Privy Login Methods](/images/account-abstraction/privy-login-methods.png)
 
-You can find a full list of `loginMethods` in the docs for [`PrivyClientConfig`].
+Полный список `loginMethods` вы можете найти в документации по [`PrivyClientConfig`].
 
-### The `usePrivy` Hook
+### Хук `usePrivy`
 
-The primary method you'll use to utilize Privy's authentication features is `usePrivy`. Open `pages/dashboard.tsx` to see the methods decomposed from `usePrivy` in the starter, and how they are used.
+Основной метод, который вы будете использовать для задействования функций аутентификации Privy, - это `usePrivy`. Откройте `pages/dashboard.tsx`, чтобы увидеть методы, декомпозированные из `usePrivy` в стартовом проекте, и то, как они используются.
 
-A full list of the fields and methods returned from `usePrivy` are [documented here].
+Полный список полей и методов, возвращаемых из `usePrivy`, [documented here].
 
-### The `useWallets` Hook
+### Хук `useWallets`
 
-To access wallet data for currently authenticated user, use the `useWallets` hook:
+Для доступа к данным кошелька текущего аутентифицированного пользователя используйте хук `useWallets`:
 
 ```tsx
 import { ConnectedWallet, useWallets } from '@privy-io/react-auth';
@@ -321,22 +321,22 @@ const { wallets } = useWallets();
 // ],
 ```
 
-As you can see, a user may connect multiple wallets to Privy, including Embedded Wallets.
+Как видите, пользователь может подключить несколько кошельков к Privy, включая встроенные кошельки.
 
-### Embedded Wallets
+### Встроенные кошельки
 
-Lastly, configure your starter app to create an Embedded Wallet for your users on login.
+Наконец, настройте ваше стартовое приложение на создание встроенного кошелька для ваших пользователей при входе в систему.
 
-As stated in the Privy docs,
+Как указано в документации Privy,
 
-> Embedded wallets are self-custodial Ethereum wallets that are embedded into your app. This allows your users to take wallet-based actions without ever leaving your site. Embedded wallets are the easiest way to unlock your full product experience for users who don't have, or don't want to connect, their own wallet.
+> Встроенные кошельки - это самокастодиальные кошельки Ethereum, встроенные в ваше приложение. Это позволяет вашим пользователям выполнять действия, основанные на кошельках, никогда не покидая ваш сайт. Встроенные кошельки — это самый простой способ разблокировать полный опыт вашего продукта для пользователей, у которых нет собственного кошелька или которые не хотят его подключать.
 
-When configuring your app to create embedded wallets on login, you have 2 options:
+При настройке вашего приложения на создание встроенных кошельков при входе в систему у вас есть 2 варианта:
 
-- `users-without-wallets`: This will create embedded wallets for all use who did not login with an external wallet
-- `all-users`: This will create an additional embedded wallet for all users, regardless if they have linked an external wallet
+- `users-without-wallets`: Это создаст встроенные кошельки для всех пользователей, которые вошли не с помощью внешнего кошелька.
+- `all-users`: Это создаст дополнительный встроенный кошелек для всех пользователей, независимо от того, подключили ли они внешний кошелек.
 
-Inside of `_app.tsx`, update your `PrivyProvider`:
+Внутри `_app.tsx`, обновите ваш `PrivyProvider`:
 
 ```tsx
 <PrivyProvider
@@ -350,7 +350,7 @@ Inside of `_app.tsx`, update your `PrivyProvider`:
 >
 ```
 
-Log out of your application, then log in again and see that your user has an additional `linkedAccount` which is the Privy Embedded Wallet:
+Выйдите из своего приложения, затем войдите снова и посмотрите, что у вашего пользователя появился дополнительный `linkedAccount`, который является встроенным кошельком Privy:
 
 ```tsx
 {
@@ -366,83 +366,83 @@ Log out of your application, then log in again and see that your user has an add
 },
 ```
 
-More information on Privy's Embedded Wallets, including information about the addresses, signing transactions, funding the wallet and more, can be found here: [https://docs.privy.io/guide/frontend/embedded/overview]
+Больше информации о встроенных кошельках Privy, включая информацию об адресах, подписании транзакций, пополнении кошелька и т.д., можно найти здесь:[https://docs.privy.io/guide/frontend/embedded/overview]
 
-## Implementing the Paymaster
+## Реализация Paymaster
 
-A _paymaster_ is a type of smart contract account, introduced in [ERC-4337], that is able to pay for gas on behalf of another account. In this step-by-step, you'll modify an example created by [Privy], move it to another onchain app, and use it to call a smart contract function. Along the way, you'll encounter and resolve some of the confusing pitfalls associated with working with smart contract accounts.
-
-<Warning>
-The tutorial below does not account for recent changes to the [Base Paymaster]. Please reference the linked repo and adjust. We'll update the tutorial soon!
-</Warning>
-
-### Reviewing the Example
-
-Start by reviewing the [paymaster example]. The address in the `about` section of the Github page links to a deployed version of the app. It's the same app you get from [Privy's Quick Start], with the addition of a mint button (the versions may be a little older).
-
-The app is limited to social auth, so log in with either your Google account or email. You'll see the dashboard, with the addition of a `Mint NFT` button at the top.
-
-Click the button and you'll see a toast notification informing you of updates to the transaction status. Note that this happens **without** you needing to approve a transaction or fund a wallet!
-
-Click to see the transaction when it's done to open BaseScan. If you missed it, mint another NFT, it's not like you're paying gas!
-
-### Reviewing the Transaction and Contract
-
-The transaction page should appear fairly standard. You can see from it that an NFT was minted by the [NFT Contract] and transferred to the smart wallet address listed on the dashboard. Digging in a little more, you'll see some things that might be different than what you'd expect.
-
-#### Tokens Transferred and the NFT Contract
-
-In the `ERC-721 Tokens Transferred` section, click the link to `NFT Name (NFT)` to open up the overview page for the token. You'll see a list of transfers, with yours likely on the top. Click the address for the contract to open up the [view for the contract itself].
-
-You may be surprised to see that there are very few transactions listed for this contract, despite the list of transfers you can see on the token page, or the `Events` tab. Currently, Etherscan and BaseScan won't display transactions done via the paymaster.
+A _paymaster_ - это тип смарт-контрактного аккаунта, введенный в [ERC-4337], который может оплачивать газ от имени другого аккаунта. В этом пошаговом руководстве вы измените пример, созданный [Privy], перенесете его в другое ончейн-приложение и используете для вызова функции смарт-контракта. По пути вы столкнетесь и разрешите некоторые из запутанных подводных камней, связанных с работой со смарт-контрактными аккаунтами.
 
 <Warning>
-Blockchain explorers are service providers that provide information about the state of various blockchains. They are **not** a source of truth.
+Приведенное ниже руководство не учитывает недавние изменения в [Base Paymaster]. Пожалуйста, обратитесь к связанному репозиторию и внесите корректировки. Мы скоро обновим руководство!
+</Warning>
 
-It is possible for onchain activity to be missing from these services.
+### Обзор примера
+
+Начните с изучения [paymaster example]. Адрес в разделе `about` на странице Github ссылается на развернутую версию приложения. Это то же приложение, что вы получаете из [Privy's Quick Start], с добавлением кнопки минта (версии могут быть немного старше).
+
+В приложении доступна только аутентификация через социальные сети, поэтому войдите, используя свою учетную запись Google или email. Вы увидите панель управления с добавлением кнопки `Mint NFT` вверху.
+
+Нажмите кнопку, и вы увидите уведомление (toast), информирующее вас об обновлениях статуса транзакции. Обратите внимание, что это происходит **без** необходимости подтверждать транзакцию или пополнять кошелек!
+
+Нажмите, чтобы увидеть транзакцию, когда она будет завершена, и откроется BaseScan. Если вы пропустили, отминтьте еще один NFT, вы же не платите за газ!
+
+### Обзор транзакции и контракта
+
+Страница транзакции должна выглядеть довольно стандартно. Из нее видно, что NFT был создан [NFT Contract] и передан на адрес смарт-кошелька, указанный на панели управления. Копнув немного глубже, вы увидите некоторые вещи, которые могут отличаться от того, что вы ожидаете.
+
+#### Переданные токены и NFT-контракт
+
+В разделе `ERC-721 Tokens Transferred` нажмите на ссылку `NFT Name (NFT)`, чтобы открыть страницу обзора токена. Вы увидите список переводов, скорее всего, ваш будет наверху. Нажмите на адрес контракта, чтобы открыть [view for the contract itself].
+
+Вы можете удивиться, увидев, что для этого контракта указано очень мало транзакций, несмотря на список переводов, который вы видите на странице токена, или на вкладке `Events`. В настоящее время Etherscan и BaseScan не отображают транзакции, выполненные через paymaster.
+
+<Warning>
+Проводники блокчейна (blockchain explorers) — это поставщики услуг, которые предоставляют информацию о состоянии различных блокчейнов. Они **не** являются источником истины.
+
+Возможно, что ончейн-активность отсутствует в этих сервисах.
 
 </Warning>
 
-#### The Bundler (Transaction Sender)
+#### Бандлер (отправитель транзакции)
 
-Return to the transactions summary and look at the `From:` field. It will contain `0x1e6754b227c6ae4b0ca61d82f79d60660737554a`. What is this address? It's not your smart wallet address or signer address. If you mint another NFT from a different login, you'll get the same sender.
+Вернитесь к сводке транзакции и посмотрите на поле `From:`. В нем будет указан адрес `0x1e6754b227c6ae4b0ca61d82f79d60660737554a`. Что это за адрес? Это не адрес вашего смарт-кошелька или адрес подписанта. Если вы отминтите еще один NFT с другого входа в систему, вы получите того же отправителя.
 
-This address is the [bundler], which is a special node that bundles user operations from the alt mempool into a single transaction and sends them to the single [EntryPoint] contract.
+Этот адрес - [bundler], специальная нода, которая собирает пользовательские операции из альтернативного мемпула в одну транзакцию и отправляет их в единый контракт [EntryPoint].
 
-#### EntryPoint
+#### Точка входа (EntryPoint)
 
-The EntryPoint contract for Base Goerli is located at `0x5ff137d4b0fdcd49dca30c7cf57e578a026d2789`. Strangely, in your transaction receipt you'll see that the transaction includes a transfer of ETH **from** the EntryPoint **to** the bundler. This transaction is how the bundler gets compensated for performing the service of bundling user ops and turning them into transactions -- the EntryPoint calculates the gas used by user ops and multiplies that by the fee percentage and send it to the bundler.
+Контракт EntryPoint для Base Goerli находится по адресу `0x5ff137d4b0fdcd49dca30c7cf57e578a026d2789`. Странно, но в вашем квитанции о транзакции вы увидите, что транзакция включает перевод ETH **из** Точки входа **в** бандлер. Эта транзакция -- то, как бандлер получает компенсацию за предоставление услуги по сборке пользовательских операций и превращению их в транзакции -- EntryPoint вычисляет газ, использованный пользовательскими операциями, умножает его на процент комиссии и отправляет бандлеру.
 
-### Review the Example Code
+### Обзор кода примера
 
-Return to the [paymaster example] and review the readme. The section on _Copying into your code_ lists the three files you'll need to copy over to implement the paymaster in your own app. All three are extensively documented via comments. You'll also want to review how the demo app uses these to call a function.
+Вернитесь к [paymaster example] и ознакомьтесь с файлом readme. Раздел _Copying into your code_ перечисляет три файла, которые вам нужно скопировать для реализации paymaster в вашем собственном приложении. Все три подробно задокументированы в комментариях. Вам также стоит посмотреть, как демонстрационное приложение использует их для вызова функции.
 
 #### `SmartAccountContext.tsx`
 
-The first file, [`hooks/SmartAccountContext.tsx`] uses a React Context provider to create a ` SmartAccountProvider`` and pass it into your app. You can see it in use in  `\_app.tsx`, with the regular `PrivyProvider` around it. Review the file in detail.
+Первый файл, [`hooks/SmartAccountContext.tsx`] использует провайдер контекста React для создания ` SmartAccountProvider`` и передачи его в ваше приложение. Вы можете увидеть его использование в  `\_app.tsx`, с обычным `PrivyProvider` вокруг него. Подробно изучите файл.
 
-Starting on line 63, the exported `SmartAccountProvider` does the following:
+Начиная со строки 63, экспортированный `SmartAccountProvider` выполняет следующее:
 
-1. Fetch the user's wallets and find their Privy wallet. This wallet is provided, and if need be created, by the `PrivyProvider`
-1. Set up state variables to manage and share connection status and the smart account itself
-1. Initialize an RPC client for the [Base Paymaster] (on Goerli). The URL is hardcoded in `lib/constants.ts`
-1. Initialize an ERC-4337 RPC client for Alchemy's network. This network is where the bundler address comes from
-1. Create a smart wallet. In this case, the `signer` is your EOA embedded wallet created by Privy and fetched in the first step
-1. The EOA address is displayed in the example app as `YOUR SIGNER ADDRESS`
-1. Initialize an Alchemy provider for the smart account signer, using Alchemy's [Account Kit].
-1. This creates the smart account and its address, which is displayed in the example app as `YOUR SMART WALLET ADDRESS`
+1. Получает кошельки пользователя и находит его кошелек Privy. Этот кошелек предоставляется и, при необходимости, создается `PrivyProvider`.
+2. Устанавливает переменные состояния для управления и обмена статусом подключения и самим смарт-аккаунтом.
+3. Инициализирует RPC-клиент для [Base Paymaster] (на Goerli). URL жестко задан в `lib/constants.ts`.
+4. Инициализирует ERC-4337 RPC-клиент для сети Alchemy. Именно из этой сети берется адрес бандлера.
+5. Создает смарт-кошелек. В данном случае `signer` - это ваш EOA встроенный кошелек, созданный Privy и полученный на первом шаге.
+6. Адрес EOA отображается в примере приложения как `YOUR SIGNER ADDRESS`.
+7. Инициализирует провайдер Alchemy для подписанта смарт-аккаунта, используя [Account Kit] от Alchemy.
+8. Это создает смарт-аккаунт и его адрес, который отображается в примере приложения как `YOUR SMART WALLET ADDRESS`.
 
-Finally, the `sendSponsoredUserOperation` function takes a traditional transaction, turns it into a user operation, adds the data for the paymaster to pay the gas, signs it, and sends it. Whew!
+Наконец, функция `sendSponsoredUserOperation` принимает традиционную транзакцию, превращает ее в пользовательскую операцию, добавляет данные для paymaster, чтобы оплатить газ, подписывает ее и отправляет. Фух!
 
-If you want a deeper dive into the inner workings of this process, review the helper functions in [`user-operations.ts`].
+Если вы хотите глубже погрузиться во внутреннюю работу этого процесса, ознакомьтесь с вспомогательными функциями в [`user-operations.ts`].
 
-#### How to Call a Smart Contract Function with the Paymaster
+#### Как вызвать функцию смарт-контракта с помощью Paymaster
 
-Open [`pages/dashboard.tsx`] and take a look at the `onMint` function on line 32. This function is used as the `oncClick` handler for the `Mint` button at the top of the dashboard.
+Откройте [`pages/dashboard.tsx`] и посмотрите на функцию `onMint` в строке 32. Эта функция используется как обработчик `oncClick` для кнопки `Mint` в верхней части панели управления.
 
-If you're used to working with wagmi, you'll find the process of sending and awaiting for confirmation of a transaction a little on the manual side. Most of this will be familiar if you've used viem directly, or have worked with _Ethers_.
+Если вы привыкли работать с wagmi, процесс отправки и ожидания подтверждения транзакции может показаться немного ручным. Большая часть этого будет знакомой, если вы использовали viem напрямую или работали с _Ethers_.
 
-When a user clicks, the app first creates a viem `RpcTransactionRequest` for the `mint` function on the smart contract. The `smartContractAddress` is supplied by the `SmartAccountProvider`, and the `ABI` and contract `NFT_ADDRESS` are loaded from `lib/constants.ts`:
+Когда пользователь нажимает, приложение сначала создает `RpcTransactionRequest` от viem для функции `mint` в смарт-контракте. `smartContractAddress` предоставляется `SmartAccountProvider`, а `ABI` и адрес контракта `NFT_ADDRESS` загружаются из `lib/constants.ts`:
 
 ```tsx
 {
@@ -456,17 +456,17 @@ When a user clicks, the app first creates a viem `RpcTransactionRequest` for the
 }
 ```
 
-The app then updates the toast component to update the users while it `await`s first the `userOpHash`, then the `transactionHash`, indicating that transaction has completed successfully. It then updates the link in the toast to send the user to that transaction on Goerli BaseScan.
+Затем приложение обновляет компонент уведомления (toast), чтобы информировать пользователей, пока оно `await`s сначала `userOpHash`, затем `transactionHash`, что указывает на успешное завершение транзакции. Затем оно обновляет ссылку в уведомлении, чтобы отправить пользователя на эту транзакцию в BaseScan Goerli.
 
-### Implementing the Paymaster in your own App
+### Реализация Paymaster в вашем собственном приложении
 
-Create a new project using Privy's [`create-next-app`] template, and complete the setup instructions in the readme.
+Создайте новый проект, используя шаблон от Privy [`create-next-app`], и выполните инструкции по настройке в файле readme.
 
-Add an environment variable for `NEXT_PUBLIC_ALCHEMY_API_KEY` and paste in the an API key for a Base Goerli app. If you need a key, go to [add an app] and create a new one.
+Добавьте переменную окружения для `NEXT_PUBLIC_ALCHEMY_API_KEY` и вставьте в нее API-ключ для приложения Base Goerli. Если вам нужен ключ, перейдите на страницу [add an app] и создайте новое.
 
-#### Copying and Updating the Source Files
+#### Копирование и обновление исходных файлов
 
-Copy the `hooks` and `lib` folders into your _new_ project. You'll need to install some more dependencies. Use `npm` or `yarn` to add:
+Скопируйте папки `hooks` и `lib` в ваш новый проект. Вам нужно будет установить несколько дополнительных зависимостей. Используйте `npm` или `yarn`, чтобы добавить:
 
 - viem
 - react-dom
@@ -474,52 +474,52 @@ Copy the `hooks` and `lib` folders into your _new_ project. You'll need to insta
 - @alchemy/aa-alchemy
 - @alchemy/aa-core
 
-Open `SmartAccountContext.tsx` in your project. You'll see an error for `getDefaultLightAccountFactory`. The name of this function has been updated to `getDefaultLightAccountFactoryAddress`. Change it in the import, and where it is used in the file in the call to `LightSmartContractAccount`.
+Откройте `SmartAccountContext.tsx` в вашем проекте. Вы увидите ошибку для `getDefaultLightAccountFactory`. Имя этой функции было обновлено до `getDefaultLightAccountFactoryAddress`. Измените его в импорте и там, где оно используется в файле при вызове `LightSmartContractAccount`.
 
-#### Updating to Use the User's Wallet
+#### Обновление для использования кошелька пользователя
 
-The app is currently configured to find and use the user's embedded Privy wallet as the signer. To change this, modify the instantiation of the `SmartAccountProvider`. Instead of `find`ing the user's Privy wallet:
+В настоящее время приложение настроено на поиск и использование встроенного кошелька Privy пользователя в качестве подписанта. Чтобы изменить это, измените создание `SmartAccountProvider`. Вместо того, чтобы находить кошелек Privy пользователя:
 
 ```tsx
-// Old code to change
+// Старый код для изменения
 
-// Get a list of all of the wallets (EOAs) the user has connected to your site
+// Получить список всех кошельков (EOA), которые пользователь подключил к вашему сайту
 const { wallets } = useWallets();
-// Find the embedded wallet by finding the entry in the list with a `walletClientType` of 'privy'
+// Найти встроенный кошелек, найдя запись в списке с `walletClientType`, равным 'privy'
 const embeddedWallet = wallets.find((wallet) => wallet.walletClientType === 'privy');
 ```
 
-Simply grab the first wallet in the list (you'll want to do something more elegant for a production app):
+Просто возьмите первый кошелек из списка (для продакшн-приложения вам захочется сделать что-то более элегантное):
 
 ```tsx
-// Updated Code
+// Обновленный код
 
-// Get a list of all of the wallets (EOAs) the user has connected to your site
+// Получить список всех кошельков (EOA), которые пользователь подключил к вашему сайту
 const { wallets } = useWallets();
 
-// Grab the first wallet on the list
-// TODO: Implement the option to allow the user to choose another wallet
+// Взять первый кошелек из списка
+// TODO: Реализовать возможность позволить пользователю выбрать другой кошелек
 const wallet = wallets[0];
 ```
 
-Then, update the call at the bottom of `useEffect` to `createSmartWallet` if there is an `embeddedWallet` to instead create it if there is a `wallet`, using that `wallet`. You'll also need to update the dependency in the dependency array.
+Затем обновите вызов внизу `useEffect` к `createSmartWallet`, если есть `embeddedWallet`, чтобы вместо этого создавать его, если есть `wallet`, используя этот `wallet`. Вам также нужно будет обновить зависимость в массиве зависимостей.
 
 ```tsx
 useEffect(() => {
-  // Other code
+  // Другой код
 
   if (wallet) createSmartWallet(wallet);
 }, [wallet?.address]);
 ```
 
-#### Configuring the PrivyProvider and Adding SmartAccountProvider
+#### Настройка PrivyProvider и добавление SmartAccountProvider
 
-By default, the `PrivyProvider` allows logging in with a wallet or email address. To limit it to only the wallet, update the config. You can also set the default chain here. You'll need to import `baseGoerli` to do so.
+По умолчанию `PrivyProvider` позволяет входить с помощью кошелька или email-адреса. Чтобы ограничить только кошельком, обновите config. Вы также можете установить цепь по умолчанию здесь. Для этого вам нужно будет импортировать `baseGoerli`.
 
-You also need to import and wrap the app with `SmartAccountProvider`, imported from `hooks/SmartAccountContext.tsx`.
+Вам также нужно импортировать и обернуть приложение с помощью `SmartAccountProvider`, импортированного из `hooks/SmartAccountContext.tsx`.
 
 <Warning>
-The `@alchemy/aa-core` package also exports `SmartAccountProvider` and this export takes precedence when VSCode attempts to help you by automatically adding the import. You'll know you've got the wrong one if `SmartAccountProvider` generates an error that:
+Пакет `@alchemy/aa-core` также экспортирует `SmartAccountProvider`, и этот экспорт имеет приоритет, когда VSCode пытается помочь вам, автоматически добавляя импорт. Вы поймете, что взяли не тот, если `SmartAccountProvider` выдаст ошибку:
 
 ```text
 'SmartAccountProvider' cannot be used as a JSX component.
@@ -543,9 +543,9 @@ Its instance type 'SmartAccountProvider<Transport>' is not a valid JSX element.
 </PrivyProvider>
 ```
 
-#### Checking Progress
+#### Проверка прогресса
 
-Grab the snippet from the original demo that displays the user's addresses, and add it to `dashboard.tsx` in the new project:
+Возьмите фрагмент из оригинальной демо-версии, который отображает адреса пользователя, и добавьте его в `dashboard.tsx` в новом проекте:
 
 ```tsx
 <p className="mt-6 font-bold uppercase text-sm text-zinc-600">
@@ -568,9 +568,9 @@ Grab the snippet from the original demo that displays the user's addresses, and 
 </a>
 ```
 
-Paste it above the `<p>` for the `User Object` window.
+Вставьте его выше `<p>` для окна `User Object`.
 
-You'll need to import `BASE_GOERLI_SCAN_URL` from `constants.ts`. The `useSmartAccount` hook returns `smartAccountProvider` and `eoa`. Import it and add it under the `usePrivy` hook. You don't need them just yet, but go ahead and decompose `smartAccountProvider` and `sendSponsoredUserOperation` as well:
+Вам нужно будет импортировать `BASE_GOERLI_SCAN_URL` из `constants.ts`. Хук `useSmartAccount` возвращает `smartAccountProvider` и `eoa`. Импортируйте его и добавьте под хуком `usePrivy`. Они вам пока не нужны, но все же декомпозируйте `smartAccountProvider` и `sendSponsoredUserOperation`:
 
 ```tsx
 const router = useRouter();
@@ -596,34 +596,34 @@ const { smartAccountAddress, smartAccountProvider, sendSponsoredUserOperation, e
   useSmartAccount();
 ```
 
-Run the app. You'll now see your familiar wallet address as `YOUR SIGNER ADDRESS`!
+Запустите приложение. Теперь вы увидите свой знакомый адрес кошелька как `YOUR SIGNER ADDRESS`!
 
 <Warning>
-The app sometimes gets confused with login state after you've made changes to `config`.  If you see the `Log In` button but clicking it does nothing, try manually navigating to `localhost:3000/dashboard` or clearing the cache.
+Иногда приложение путается в состоянии входа после внесения изменений в `config`. Если вы видите кнопку `Log In`, но нажатие на нее ничего не делает, попробуйте вручную перейти по адресу `localhost:3000/dashboard` или очистить кеш.
 </Warning>
 
-#### Calling a Smart Contract Function
+#### Вызов функции смарт-контракта
 
-You've adjusted the foundation of the app to allow you to use the Base Goerli Paymaster with your normal wallet as the signer. Now, it's time to call a smart contract function.
+Вы изменили основу приложения, чтобы позволить вам использовать Base Goerli Paymaster с вашим обычным кошельком в качестве подписанта. Теперь пришло время вызвать функцию смарт-контракта.
 
-Start by using the `mint` function in the original example. In the `DashboardPage` component, add a state variable holding an empty element:
+Начните с использования функции `mint` из оригинального примера. В компоненте `DashboardPage` добавьте переменную состояния, содержащую пустой элемент:
 
 ```tsx
 const [transactionLink, setTransactionLink] = useState(<></>);
 ```
 
-Then, add a variant of the original `onMint` function that sets this variable and has the code related to the toast removed.
+Затем добавьте вариант оригинальной функции `onMint`, которая устанавливает эту переменную и из которой удален код, связанный с уведомлением (toast).
 
-**Note:** make sure you change your wallet address in `args` to make sure the NFT is sent to your EOA wallet address!
+**Примечание:** обязательно измените адрес вашего кошелька в `args`, чтобы NFT был отправлен на адрес вашего EOA-кошелька!
 
 ```tsx
 const onMint = async () => {
-  // The mint button is disabled if either of these are undefined
+  // Кнопка минта отключена, если любой из этих параметров не определен
   if (!smartAccountProvider || !smartAccountAddress) return;
 
   try {
-    // From a viem `RpcTransactionRequest` (e.g. calling an ERC-721's `mint` method),
-    // build and send a user operation. Gas fees will be sponsored by the Base Paymaster.
+    // Из `RpcTransactionRequest` viem (например, вызов метода `mint` ERC-721),
+    // построить и отправить пользовательскую операцию. Комиссии за газ будут спонсироваться Base Paymaster.
     const userOpHash = await sendSponsoredUserOperation({
       from: smartAccountAddress,
       to: NFT_ADDRESS,
@@ -634,8 +634,8 @@ const onMint = async () => {
       }),
     });
 
-    // Once we have a hash for the user operation, watch it until the transaction has
-    // been confirmed.
+    // Как только у нас есть хэш пользовательской операции, следим за ним, пока транзакция не
+    // будет подтверждена.
     const transactionHash = await smartAccountProvider.waitForUserOperationTransaction(userOpHash);
 
     setTransactionLink(
@@ -649,7 +649,7 @@ const onMint = async () => {
 };
 ```
 
-Finally, above where you added the addresses, add a button to call the function, and display the link to the transaction:
+Наконец, выше места, где вы добавили адреса, добавьте кнопку для вызова функции и отображения ссылки на транзакцию:
 
 ```tsx
 <button
@@ -664,17 +664,17 @@ Finally, above where you added the addresses, add a button to call the function,
 }
 ```
 
-Run it and confirm it works. You need the full transaction receipt for the process to finish, so expect to wait as long as 10 or 15 seconds.
+Запустите его и убедитесь, что он работает. Для завершения процесса вам нужна полная квитанция о транзакции, поэтому ожидайте, что это может занять до 10 или 15 секунд.
 
 <Warning>
-For simplicity, we've stripped out the code to disable the button while it is minting. You'll want to implement your own solution to avoid confusing your users!
+Для простоты мы удалили код, отключающий кнопку во время минта. Вам нужно будет реализовать собственное решение, чтобы не запутать своих пользователей!
 </Warning>
 
-#### Calling Another Function
+#### Вызов другой функции
 
-The [Base Paymaster] on Goerli is very permissive. To call another function, all you need to do is to change the `RpcTransactionRequest` in `sendSponsoredUserOperation` to match the address, abi, function name, and arguments of your function on your smart contract.
+[Base Paymaster] на Goerli очень разрешительный. Чтобы вызвать другую функцию, все, что вам нужно сделать, это изменить `RpcTransactionRequest` в `sendSponsoredUserOperation`, чтобы он соответствовал адресу, abi, имени функции и аргументам вашей функции в вашем смарт-контракте.
 
-For example, to call the `claim` function in the Weighted Voting contract we've used in other tutorials, you'd simply need to import the Hardhat-style [artifact] for the contract and use it to call the function:
+Например, чтобы вызвать функцию claim в контракте Weighted Voting, который мы использовали в других руководствах, вам просто нужно импортировать в стиле Hardhat [artifact] для контракта и использовать его для вызова функции:
 
 ```tsx
 const userOpHash = await sendSponsoredUserOperation({
@@ -688,12 +688,12 @@ const userOpHash = await sendSponsoredUserOperation({
 ```
 
 <Warning>
-The function in this example can only be called once per address. It will then fail, because one wallet cannot claim more than one batch of tokens.
+Функция в этом примере может быть вызвана только один раз для каждого адреса. Затем она завершится ошибкой, потому что один кошелек не может получить более одной партии токенов.
 </Warning>
 
-## Conclusion
+## Заключение
 
-In this article, we've explored the transformative potential of Account Abstraction for the Ethereum ecosystem, highlighting how it enables smart contract accounts to initiate transactions without altering the core protocol. This innovation, coupled with the utilization of Privy for streamlined user onboarding and secure data management, marks a significant advancement towards reducing onboarding friction for onchain applications. Through a practical implementation involving Privy and the [Base Paymaster], we demonstrated how users can perform onchain actions without incurring gas fees, showcasing the adaptability and user-centric benefits of these technologies. This tutorial not only sheds light on the technical workings of Account Abstraction but also illustrates its practical application in enhancing the blockchain user experience.
+В этой статье мы исследовали преобразующий потенциал абстракции аккаунтов для экосистемы Ethereum, подчеркнув, как она позволяет смарт-контрактным аккаунтам инициировать транзакции без изменения основного протокола. Эта инновация в сочетании с использованием Privy для оптимизированной адаптации пользователей и безопасного управления данными знаменует собой значительный шаг вперед в снижении трения при адаптации к ончейн-приложениям. Через практическую реализацию с использованием Privy и [Base Paymaster], we demonstrated мы продемонстрировали, как пользователи могут выполнять ончейн-действия без оплаты комиссий за газ, показывая адаптивность и ориентированность на пользователя этих технологий. Это руководство не только проливает свет на технические аспекты работы абстракции аккаунтов, но также иллюстрирует ее практическое применение для улучшения пользовательского опыта в блокчейне.
 
 [ERC-4337]: https://eips.ethereum.org/EIPS/eip-4337
 [ethereum.org]: https://ethereum.org/en/developers/docs/accounts/#key-differences
