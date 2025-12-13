@@ -1,74 +1,74 @@
 ---
-title: Add an In-App Onramp  with OnchainKit
-description: Learn how to create a app that detects if a smart wallet has ETH and prompts users to add funds if needed.
+title: Добавление встроенной покупки в приложение с помощью OnchainKit
+description: Узнайте, как создать приложение, которое определяет, есть ли у смарт-кошелька ETH, и предлагает пользователям пополнить баланс при необходимости.
 authors: [hughescoin]
 ---
 
-# Add an In-App Onramp  with OnchainKit
+# Добавление встроенной покупки в приложение с помощью OnchainKit
 
-In this tutorial, you'll learn how to build an onchain app that checks a user's wallet balance and either allows them to mint an NFT or prompts them to add funds. We'll use the OnchainKit App Template as a starting point.
+В этом руководстве вы узнаете, как создать ончейн-приложение, которое проверяет баланс кошелька пользователя и либо позволяет ему отминтить NFT, либо предлагает пополнить баланс. Мы будем использовать шаблон приложения OnchainKit в качестве отправной точки.
 
-## Objectives
+## Цели
 
-By the end of this tutorial you should be able to:
+К концу этого руководства вы должны уметь:
 
-- Set up a project using the Onchain Kit App Template
-- Configure the app for to onboard users easily using [Smart Wallets]
-- Implement balance checking and conditional rendering
-- Use the Fund component to allow users to add funds to their wallet
+- Настроить проект с использованием шаблона приложения Onchain Kit
+- Сконфигурировать приложение для простой адаптации пользователей с помощью [Smart Wallets]
+- Реализовать проверку баланса и условный рендеринг
+- Использовать компонент Fund, чтобы позволить пользователям пополнять свой кошелек
 
-## Prerequisites
+## Предварительные требования
 
-### React and TypeScript
+### React и TypeScript
 
-You should be familiar with React and TypeScript. If you're new to these technologies, consider reviewing their [official documentation] first.
+Вы должны быть знакомы с React и TypeScript. Если вы новичок в этих технологиях, рассмотрите возможность предварительного ознакомления с их [official documentation].
 
 ### OnchainKit
 
-This tutorial uses Coinbase's Onchain Kit. Familiarity with its basic concepts will be helpful.
+В этом руководстве используется Onchain Kit от Coinbase. Знакомство с его основными концепциями будет полезно.
 
-### Access to the Coinbase Developer Platform
+### Доступ к Coinbase Developer Platform
 
-You'll need to set up an account on with [Coinbase Developer Platform (CDP) Account](https://www.coinbase.com/cloud). The CDP provides various tools and services for blockchain development, including access to API endpoints and other resources that will be instrumental in your project. Once you've created your account, you'll be ready to move forward with integrating these services into your application.
+Вам нужно будет настроить учетную запись в [Coinbase Developer Platform (CDP) Account](https://www.coinbase.com/cloud). CDP предоставляет различные инструменты и услуги для разработки блокчейн-приложений, включая доступ к конечным точкам API и другим ресурсам, которые будут полезны в вашем проекте. После создания учетной записи вы будете готовы интегрировать эти сервисы в ваше приложение.
 
 <Tip>
-**CDP Configurations:**
+**Конфигурации CDP:**
 
-If you see a "something went wrong" error message when navigating to pay.coinbase.com, make sure you have "enforce secure initialization" disabled on the [Onramp config page] in Coinbase Developer Platform Dashboard.
+Если при переходе на pay.coinbase.com, вы видите сообщение об ошибке "что-то пошло не так", убедитесь, что опция "enforce secure initialization" отключена на в дашборде Coinbase Developer Platform.
 
 ![fund-onramp-config](/images/onchainkit-tutorials/fund-onramp-config.png)
 </Tip>
 
-## Setting up the Project
+## Настройка проекта
 
-To get started, clone the Onchain Kit App Template by running
+Чтобы начать, клонируйте шаблон приложения Onchain Kit, выполнив в терминале
 
 ```bash
 git clone git@github.com:coinbase/onchain-app-template.git
 ```
 
-in your terminal, then navigate into the project directory with:
+затем перейдите в директорию проекта:
 
 ```bash
 cd onchain-app-template
 ```
 
-Next, install the necessary dependencies by executing `bun install` followed by `bun install viem`.
+Затем установите необходимые зависимости, выполнив `bun install`, а затем `bun install viem`.
 
-After setting up the project, you'll need to configure your environment variables. Create a `.env` file in the root directory of your project and add the following line: `NEXT_PUBLIC_WC_PROJECT_ID=your_project_id_here`. Remember to replace 'your_project_id_here' with your actual project ID. Additionally, don't forget to configure your apiKey in the `src/app/components/OnchainProviders.tsx` file.
+После настройки проекта вам нужно будет сконфигурировать переменные окружения. Создайте файл `.env` в корневой директории вашего проекта и добавьте следующую строку: `NEXT_PUBLIC_WC_PROJECT_ID=your_project_id_here`. Не забудьте заменить 'your_project_id_here' на ваш реальный идентификатор проекта. Кроме того, не забудьте настроить ваш `apiKey` в файле `src/app/components/OnchainProviders.tsx`.
 
-## Configuring for Smart Wallets
+## Конфигурация для смарт-кошельков
 
-To make the app work only with smart wallets, modify `src/wagmi.ts`:
+Чтобы заставить приложение работать только со смарт-кошельками, измените `src/wagmi.ts`:
 
 ```typescript
-// Inside the useWagmiConfig() function, before the useMemo() hook
+// Внутри функции useWagmiConfig(), перед хуком useMemo()
 coinbaseWallet.preference = 'smartWalletOnly';
 ```
 
-## Implementing Balance Checking
+## Реализация проверки баланса
 
-Now well implement a check on the user's wallet to see if they have enough funds. Before we implement this check, let's create a helper function that grabs the user's Ethereum balance using [viem]. To do so, create a `utils.ts` file in the `src` directory that creates a client connected to Base and fetches the user's ETH balance:
+Теперь реализуем проверку кошелька пользователя, чтобы узнать, достаточно ли у него средств. Прежде чем реализовать эту проверку, давайте создадим вспомогательную функцию, которая получает баланс Ethereum пользователя с помощью [viem]. Для этого создайте файл `utils.ts` в директории `src`, который создает клиент, подключенный к Base, и получает баланс ETH пользователя:
 
 ```typescript
 import { createPublicClient, http } from 'viem';
@@ -86,14 +86,14 @@ export async function getBalance(address: GetBalanceParameters) {
 }
 ```
 
-Next, import the `getBalance()` function into your main component file (e.g., `src/app/page.tsx`). You will want to add a few [react hooks] to fetch the balance and store it as a state variable. Add the following lines of code to your `page.tsx` file:
+Затем импортируйте функцию `getBalance()` в ваш основной файл компонента (например, `src/app/page.tsx`). Вам нужно будет добавить несколько , чтобы получить баланс и сохранить его как переменную состояния. Добавьте следующие строки кода в ваш файл `page.tsx`:
 
 ```typescript
 import { useState, useEffect } from 'react';
 import { getBalance } from '../utils';
 import { FundButton } from '@coinbase/onchainkit/fund';
 
-// Inside your component
+// Внутри вашего компонента
 const [walletBalance, setWalletBalance] = useState('');
 
 useEffect(() => {
@@ -107,15 +107,15 @@ useEffect(() => {
 }, [address]);
 ```
 
-## Implementing Conditional Rendering
+## Реализация условного рендеринга
 
-Now that we know the user's balance, we can then have them mint an NFT or prompt them to fund their wallet if they do not have enough ETH.
+Теперь, когда мы знаем баланс пользователя, мы можем позволить ему отминтить NFT или предложить ему пополнить кошелек, если у него недостаточно ETH.
 
-The end state is to show their balance along with the appropriate call to actions like so:
+Конечная цель - показать его баланс вместе с соответствующим призывом к действию, как показано ниже:
 
 ![fund-wallet](/images/onchainkit-tutorials/fund-wallet-balance.png)
 
-Update your component's return statement with the following code:
+Обновите оператор `return` вашего компонента следующим кодом:
 
 ```typescript
 return (
@@ -144,14 +144,14 @@ return (
 );
 ```
 
-Sweet! Now our conditional rendering is in full force. If a user clicks on the `+ Add funds to transact` button they will be given three options for topping up their smart wallet:
+Отлично! Теперь наш условный рендеринг работает в полную силу. Если пользователь нажмет кнопку `+ Add funds to transact`, ему будут предоставлены три варианта пополнения его смарт-кошелька:
 
 ![fund-wallet](/images/onchainkit-tutorials/fund-funding-options.png)
 
-## Conclusion
+## Заключение
 
-Congratulations! You've built a app that checks a user's smart wallet balance and provides appropriate options based on their funds.
-This app can serve as a foundation for more complex onchain applications that require users to have funded smart wallets.
+Поздравляем! Вы создали приложение, которое проверяет баланс смарт-кошелька пользователя и предоставляет соответствующие варианты действий в зависимости от его средств.
+Это приложение может служить основой для более сложных ончейн-приложений, требующих от пользователей наличия пополненных смарт-кошельков.
 
 [Onchain Kit]: https://github.com/coinbase/onchainkit
 [Viem]: https://viem.sh/
