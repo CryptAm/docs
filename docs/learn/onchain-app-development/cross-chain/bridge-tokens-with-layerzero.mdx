@@ -1,87 +1,87 @@
 ---
-title: Sending messages from Base to other chains using LayerZero V2
-description: A tutorial that teaches how to use LayerZero V2 to perform cross-chain messaging from Base Sepolia testnet to Optimism Sepolia testnet.
+title: Отправка сообщений из Base в другие цепи с использованием LayerZero V2
+description: Руководство, которое учит, как использовать LayerZero V2 для отправки кросс-чейн сообщений из тестнета Base Sepolia в тестнет Optimism Sepolia.
 authors:
   - taycaldwell
 ---
 
-# Sending messages from Base to other chains using LayerZero V2
+# Отправка сообщений из Base в другие цепи с использованием LayerZero V2
 
-This tutorial will guide you through the process of sending cross-chain message data from a Base smart contract to another smart contract on a different chain using LayerZero V2.
+Это руководство проведет вас через процесс отправки данных кросс-чейн сообщений из смарт-контракта на Base в другой смарт-контракт на другой цепи с использованием LayerZero V2.
 
-## Objectives
+## Цели
 
-By the end of this tutorial you should be able to do the following:
+К концу этого руководства вы должны уметь делать следующее:
 
-- Set up a smart contract project for Base using Foundry
-- Install the LayerZero smart contracts as a dependency
-- Use LayerZero to send messages and from smart contracts on Base to smart contracts on different chains
-- Deploy and test your smart contracts on Base testnet
+- Настроить проект смарт-контрактов для Base с использованием Foundry
+- Установить смарт-контракты LayerZero в качестве зависимости
+- Использовать LayerZero для отправки и получения сообщений между смарт-контрактами на Base и смарт-контрактами на других цепях
+- Развернуть и протестировать свои смарт-контракты в тестнете Base
 
-## Prerequisites
+## Предварительные требования
 
 ### Foundry
 
-This tutorial requires you to have Foundry installed.
+Для этого руководства требуется установленный Foundry.
 
-- From the command-line (terminal), run: `curl -L https://foundry.paradigm.xyz | bash`
-- Then run `foundryup`, to install the latest (nightly) build of Foundry
+- Из командной строки (терминала) выполните: `curl -L https://foundry.paradigm.xyz | bash`
+- Затем выполните `foundryup`, чтобы установить последнюю (ночную) сборку Foundry
 
-For more information, see the Foundry Book [installation guide](https://book.getfoundry.sh/getting-started/installation).
+Для получения дополнительной информации см. [руководство по установке](https://book.getfoundry.sh/getting-started/installation) в Foundry Book.
 
 ### Coinbase Wallet
 
-In order to deploy a smart contract, you will first need a wallet. You can create a wallet by downloading the Coinbase Wallet browser extension.
+Чтобы развернуть смарт-контракт, вам сначала понадобится кошелек. Вы можете создать кошелек, скачав браузерное расширение Coinbase Wallet.
 
-- Download [Coinbase Wallet](https://chrome.google.com/webstore/detail/coinbase-wallet-extension/hnfanknocfeofbddgcijnmhnfnkdnaad?hl=en)
+- Скачайте [Coinbase Wallet](https://chrome.google.com/webstore/detail/coinbase-wallet-extension/hnfanknocfeofbddgcijnmhnfnkdnaad?hl=en)
 
-### Wallet funds
+### Средства в кошельке
 
-To complete this tutorial, you will need to fund a wallet with ETH on Base Sepolia and Optimism Sepolia.
+Чтобы завершить это руководство, вам нужно пополнить кошелек ETH в Base Sepolia и Optimism Sepolia.
 
-The ETH is required for covering gas fees associated with deploying smart contracts to each network.
+ETH необходим для покрытия комиссий за газ, связанных с развертыванием смарт-контрактов в каждой сети.
 
-- To fund your wallet with ETH on Base Sepolia, visit a faucet listed on the [Base Faucets](/base-chain/tools/network-faucets) page.
-- To fund your wallet with ETH on Optimism Sepolia, visit a faucet listed on the [Optimism Faucets](https://docs.optimism.io/builders/tools/faucets) page.
+- Чтобы пополнить кошелек ETH в Base Sepolia, посетите краны, перечисленные на странице [кранов Base](/base-chain/tools/network-faucets).
+- Чтобы пополнить кошелек ETH в Optimism Sepolia, посетите краны, перечисленные на странице [кранов Optimism](https://docs.optimism.io/builders/tools/faucets).
 
-## What is LayerZero?
+## Что такое LayerZero?
 
-LayerZero is an interoperability protocol that allows developers to build applications (and tokens) that can connect to multiple blockchains. LayerZero defines these types of applications as "omnichain" applications.
+LayerZero - это протокол интероперабельности, который позволяет разработчикам создавать приложения (и токены), которые могут подключаться к нескольким блокчейнам. LayerZero определяет такие приложения как "омниканальные" (omnichain) приложения.
 
-The LayerZero protocol is made up of immutable on-chain [Endpoints](https://docs.layerzero.network/v2/concepts/protocol/layerzero-endpoint), a configurable [Security Stack](https://docs.layerzero.network/explore/decentralized-verifier-networks), and a permissionless set of [Executors](https://docs.layerzero.network/v2/concepts/permissionless-execution/executors) that transfer messages between chains.
+Протокол LayerZero состоит из неизменяемых ончейн [Endpoints](https://docs.layerzero.network/v2/concepts/protocol/layerzero-endpoint), настраиваемого [Security Stack](https://docs.layerzero.network/explore/decentralized-verifier-networks), и набором [Executors](https://docs.layerzero.network/v2/concepts/permissionless-execution/executors) без разрешений, которые передают сообщения между цепями.
 
-### High-level concepts
+### Основные концепции высокого уровня
 
-#### Endpoints
+#### Конечные точки (Endpoints)
 
-Endpoints are immutable LayerZero smart contracts that implement a standardized interface for your own smart contracts to use and in order to manage security configurations and send and receive messages.
+Конечные точки - это неизменяемые смарт-контракты LayerZero, которые реализуют стандартизированный интерфейс для использования вашими собственными смарт-контрактами, а также для управления конфигурациями безопасности и отправки и получения сообщений.
 
-#### Security Stack (DVNs)
+#### Стек безопасности (DVNs)
 
-The [Security Stack](https://docs.layerzero.network/explore/decentralized-verifier-networks) is a configurable set of required and optional Decentralized Verifier Networks (DVNs). The DVNs are used to verify message payloads to ensure integrity of your application's messages.
+[Security Stack](https://docs.layerzero.network/explore/decentralized-verifier-networks) - это настраиваемый набор обязательных и опциональных Децентрализованных Сетей Верификаторов (DVNs). DVNs используются для проверки полезной нагрузки сообщений, чтобы обеспечить целостность сообщений вашего приложения.
 
-#### Executors
+#### Исполнители (Executors)
 
-[Executors](https://docs.layerzero.network/v2/concepts/permissionless-execution/executors) are responsible for initiating message delivery. They will automatically execute the `lzReceive` function of the endpoint on the destination chain once a message has been verified by the Security Stack.
+[Executors](https://docs.layerzero.network/v2/concepts/permissionless-execution/executors) отвечают за инициацию доставки сообщений. Они автоматически выполнят функцию `lzReceive` конечной точки в целевой цепи, как только сообщение будет проверено Стеком безопасности.
 
-## Creating a project
+## Создание проекта
 
-Before you begin, you need to set up your smart contract development environment by creating a Foundry project.
+Прежде чем начать, вам нужно настроить среду разработки смарт-контрактов, создав проект Foundry.
 
-To create a new Foundry project, first create a new directory:
+Чтобы создать новый проект Foundry, сначала создайте новую директорию:
 
 ```bash
 mkdir myproject
 ```
 
-Then run:
+Затем выполните:
 
 ```bash
 cd myproject
 forge init
 ```
 
-This will create a Foundry project with the following basic layout:
+Это создаст проект Foundry со следующей базовой структурой:
 
 ```bash
 .
@@ -92,14 +92,14 @@ This will create a Foundry project with the following basic layout:
 ```
 
 <Info>
-You can delete the `src/Counter.sol`, `test/Counter.t.sol`, and `script/Counter.s.sol` boilerplate files that were generated with the project, as you will not be needing them.
+Вы можете удалить шаблонные файлы `src/Counter.sol`, `test/Counter.t.sol` и `script/Counter.s.sol`, которые были сгенерированы вместе с проектом, так как они вам не понадобятся.
 </Info>
 
-## Installing the LayerZero smart contracts
+## Установка смарт-контрактов LayerZero
 
-To use LayerZero within your Foundry project, you need to install the LayerZero smart contracts and their dependencies using `forge install`.
+Чтобы использовать LayerZero в вашем проекте Foundry, вам нужно установить смарт-контракты LayerZero и их зависимости с помощью `forge install`.
 
-To install LayerZero smart contracts and their dependencies, run the following commands:
+Чтобы установить смарт-контракты LayerZero и их зависимости, выполните следующие команды:
 
 ```bash
 forge install GNSPS/solidity-bytes-utils --no-commit
@@ -107,7 +107,7 @@ forge install OpenZeppelin/openzeppelin-contracts@v4.9.4 --no-commit
 forge install LayerZero-Labs/LayerZero-v2 --no-commit
 ```
 
-Once installed, update your `foundry.toml` file by appending the following lines:
+После установки обновите ваш файл `foundry.toml`, добавив следующие строки:
 
 ```bash
 remappings = [
@@ -120,9 +120,9 @@ remappings = [
 
 ```
 
-## Getting started with LayerZero
+## Начало работы с LayerZero
 
-LayerZero provides a smart contract standard called [OApp](https://docs.layerzero.network/v2/developers/evm/oapp/overview) that is intended for omnichain messaging and configuration.
+LayerZero предоставляет стандарт смарт-контрактов под названием [OApp](https://docs.layerzero.network/v2/developers/evm/oapp/overview), предназначенный для омниканального обмена сообщениями и конфигурации.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -143,27 +143,27 @@ abstract contract OApp is OAppSender, OAppReceiver {
 ```
 
 <Info>
-You can view the source code for this contract on [GitHub](https://github.com/LayerZero-Labs/LayerZero-v2/blob/main/packages/layerzero-v2/evm/oapp/contracts/oapp/OApp.sol).
+Вы можете просмотреть исходный код этого контракта на [GitHub](https://github.com/LayerZero-Labs/LayerZero-v2/blob/main/packages/layerzero-v2/evm/oapp/contracts/oapp/OApp.sol).
 </Info>
 
-To get started using LayerZero, developers simply need to inherit from the [OApp](https://github.com/LayerZero-Labs/LayerZero-v2/blob/main/packages/layerzero-v2/evm/oapp/contracts/oapp/OApp.sol) contract, and implement the following two inherited functions:
+Чтобы начать использовать LayerZero, разработчикам достаточно унаследовать свой контракт от контракта [OApp](https://github.com/LayerZero-Labs/LayerZero-v2/blob/main/packages/layerzero-v2/evm/oapp/contracts/oapp/OApp.sol) и реализовать следующие две унаследованные функции:
 
-- `_lzSend`: A function used to send an omnichain message
-- `_lzReceive`: A function used to receive an omnichain message
+- `_lzSend`: Функция, используемая для отправки омниканального сообщения
+- `_lzReceive`: Функция, используемая для получения омниканального сообщения
 
-In this tutorial, you will be implementing the [OApp](https://docs.layerzero.network/v2/developers/evm/oapp/overview) standard into your own project to add the capability to send messages from a smart contract on Base to a smart contract on Optimism.
+В этом руководстве вы реализуете стандарт [OApp](https://docs.layerzero.network/v2/developers/evm/oapp/overview) в своем собственном проекте, чтобы добавить возможность отправки сообщений из смарт-контракта на Base в смарт-контракт на Optimism.
 
 <Info>
-An extension of the [OApp](https://docs.layerzero.network/v2/developers/evm/oapp/overview) contract standard known as [OFT](https://docs.layerzero.network/contracts/oft) is also available for supporting omnichain fungible token transfers.
+Также доступно расширение стандарта контрактов [OApp](https://docs.layerzero.network/v2/developers/evm/oapp/overview) известное как [OFT](https://docs.layerzero.network/contracts/oft) для поддержки омниканальных переводов взаимозаменяемых токенов.
 </Info>
 
 <Info>
-For more information on transferring tokens across chains using LayerZero, visit the [LayerZero documentation](https://docs.layerzero.network/contracts/oft).
+Для получения дополнительной информации о переводе токенов между цепями с использованием LayerZero посетите [LayerZero documentation](https://docs.layerzero.network/contracts/oft).
 </Info>
 
-## Writing the smart contract
+## Написание смарт-контракта
 
-To get started, create a new Solidity smart contract file in your project's `src/` directory named `ExampleContract.sol`, and add the following content:
+Для начала создайте новый файл смарт-контракта Solidity в директории `src/` вашего проекта с именем `ExampleContract.sol`, и добавьте следующее содержимое:
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -176,67 +176,67 @@ contract ExampleContract is OApp {
 }
 ```
 
-The code snippet above defines a new smart contract named `ExampleContract` that extends the `OApp` contract standard.
+Фрагмент кода выше определяет новый смарт-контракт с именем `ExampleContract`, который расширяет стандарт контрактов `OApp`.
 
-The contract's constructor expects two arguments:
+Конструктор контракта ожидает два аргумента:
 
-- `_endpoint`: The [LayerZero Endpoint](https://docs.layerzero.network/v2/deployments/deployed-contracts) `address` for the chain the smart contract is deployed to.
-- `_owner`: The `address` of the owner of the smart contract.
+- `_endpoint`: The [LayerZero Endpoint](https://docs.layerzero.network/v2/deployments/deployed-contracts) `address` для цепи, в которую развертывается смарт-контракт.
+- `_owner`: The `address` владельца смарт-контракта.
 
 <Info>
-[LayerZero Endpoints](https://docs.layerzero.network/v2/deployments/deployed-contracts) are smart contracts that expose an interface for OApp contracts to manage security configurations and send and receive messages via the LayerZero protocol.
+[LayerZero Endpoints](https://docs.layerzero.network/v2/deployments/deployed-contracts) - это смарт-контракты, которые предоставляют интерфейс для контрактов OApp для управления конфигурациями безопасности и отправки и получения сообщений через протокол LayerZero.
 </Info>
 
-### Implementing message sending (`_lzSend`)
+### Реализация отправки сообщений (`_lzSend`)
 
-To send messages to another chain, your smart contract must call the `_lzSend` function inherited from the [OApp](https://docs.layerzero.network/v2/developers/evm/oapp/overview) contract.
+Чтобы отправлять сообщения в другую цепь, ваш смарт-контракт должен вызвать функцию `_lzSend`, унаследованную от контракта [OApp](https://docs.layerzero.network/v2/developers/evm/oapp/overview).
 
-Add a new custom function named `sendMessage` to your smart contract that has the following content:
+Добавьте новую пользовательскую функцию с именем `sendMessage` в ваш смарт-контракт со следующим содержимым:
 
 ```solidity
-/// @notice Sends a message from the source chain to the destination chain.
-/// @param _dstEid The endpoint ID of the destination chain.
-/// @param _message The message to be sent.
-/// @param _options The message execution options (e.g. gas to use on destination).
+/// @notice Отправляет сообщение из исходной цепи в цепь назначения.
+/// @param _dstEid Идентификатор конечной точки (endpoint ID) цепи назначения.
+/// @param _message Сообщение для отправки.
+/// @param _options Опции выполнения сообщения (например, газ для использования на стороне назначения).
 function sendMessage(uint32 _dstEid, string memory _message, bytes calldata _options) external payable {
-   bytes memory _payload = abi.encode(_message); // Encode the message as bytes
+   bytes memory _payload = abi.encode(_message); // Кодируем сообщение в байты
    _lzSend(
        _dstEid,
        _payload,
        _options,
-       MessagingFee(msg.value, 0), // Fee for the message (nativeFee, lzTokenFee)
-       payable(msg.sender) // The refund address in case the send call reverts
+       MessagingFee(msg.value, 0), // Комиссия за сообщение (nativeFee, lzTokenFee)
+       payable(msg.sender) // Адрес для возврата средств в случае отмены вызова отправки
    );
 }
 ```
 
-The `sendMessage` function above calls the inherited `_lzSend` function, while passing in the following expected data:
+Функция `sendMessage` выше вызывает унаследованную функцию `_lzSend`, передавая следующие ожидаемые данные:
 
-| Name             | Type                                                                                                                                                                      | Description                                                                                                                                                      |
+| Название             | Тип                                                                                                                                                                      | Описание                                                                                                                                                      |
 | :--------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `_dstEid`        | `uint32`                                                                                                                                                                  | The [endpoint ID](https://docs.layerzero.network/v2/deployments/deployed-contracts?stages=mainnet&chains=base) of the destination chain to send the message to.                                  |
-| `_payload`       | `bytes`                                                                                                                                                                   | The message (encoded) to send.                                                                                                                                   |
-| `_options`       | `bytes`                                                                                                                                                                   | [Additional options](https://docs.layerzero.network/v2/concepts/message-options#why-do-options-matter) when sending the message, such as how much gas should be used when receiving the message. |
-| `_fee`           | [`MessagingFee`](https://github.com/LayerZero-Labs/LayerZero-v2/blob/c3213200dfe8fabbf7d92c685590d34e6e70da43/protocol/contracts/interfaces/ILayerZeroEndpointV2.sol#L24) | The calculated fee for sending the message.                                                                                                                      |
-| `_refundAddress` | `address`                                                                                                                                                                 | The `address` that will receive any excess fee values sent to the endpoint in case the `_lzSend` execution reverts.                                              |
+| `_dstEid`        | `uint32`                                                                                                                                                                  | [endpoint ID](https://docs.layerzero.network/v2/deployments/deployed-contracts?stages=mainnet&chains=base) цепи назначения, на которую отправляется сообщение.                                  |
+| `_payload`       | `bytes`                                                                                                                                                                   | Сообщение (закодированное) для отправки.                                                                                                                                   |
+| `_options`       | `bytes`                                                                                                                                                                   | [Дополнительные опции](https://docs.layerzero.network/v2/concepts/message-options#why-do-options-matter) при отправке сообщения, например, сколько газа должно быть использовано при получении сообщения. |
+| `_fee`           | [`MessagingFee`](https://github.com/LayerZero-Labs/LayerZero-v2/blob/c3213200dfe8fabbf7d92c685590d34e6e70da43/protocol/contracts/interfaces/ILayerZeroEndpointV2.sol#L24) | Рассчитанная комиссия за отправку сообщения.                                                                                                                      |
+| `_refundAddress` | `address`                                                                                                                                                                 | `address` который получит любые излишки комиссии, отправленные на конечную точку, в случае отмены выполнения `_lzSend`.                                              |
 
-### Implementing gas fee estimation (`_quote`)
+### Реализация оценки комиссии за газ (`_quote`)
 
-As shown in the table provided in the last section, the `_lzSend` function expects an estimated gas [fee](https://github.com/LayerZero-Labs/LayerZero-v2/blob/c3213200dfe8fabbf7d92c685590d34e6e70da43/protocol/contracts/interfaces/ILayerZeroEndpointV2.sol#L24) to be provided when sending a message (`_fee`).
+Как показано в таблице в предыдущем разделе, функция `_lzSend` ожидает предоставления расчетной [fee](https://github.com/LayerZero-Labs/LayerZero-v2/blob/c3213200dfe8fabbf7d92c685590d34e6e70da43/protocol/contracts/interfaces/ILayerZeroEndpointV2.sol#L24) за газ (`_fee`) при отправке сообщения.
 
-Therefore, sending a message using the `sendMessage` function of your contract, you first need to estimate the associated gas fees.
+Следовательно, для отправки сообщения с помощью функции `sendMessage` вашего контракта сначала необходимо оценить связанные комиссии за газ.
 
-There are multiple fees incurred when sending a message across chains using LayerZero, including: paying for gas on the source chain, fees paid to DVNs validating the message, and gas on the destination chain. Luckily, LayerZero bundles all of these fees together into a single fee to be paid by the `msg.sender`, and LayerZero Endpoints expose a `_quote` function to estimate this fee.
+При отправке сообщения между цепями с использованием LayerZero возникает несколько комиссий, включая: оплату газа в исходной цепи, комиссии, выплачиваемые DVNs за проверку сообщения, и газ в цепи назначения. К счастью, LayerZero объединяет все эти комиссии в единую комиссию, которую должен оплатить `msg.sender`, а Конечные точки LayerZero предоставляют функцию `_quote` для оценки этой комиссии.
 
-Add a new function to your `ExampleContract` contract called `estimateFee` that calls the `_quote` function, as shown below:
+Добавьте новую функцию в ваш контракт `ExampleContract` с именем `estimateFee`, которая вызывает функцию `_quote`, как показано ниже:
 
 ```solidity
-/// @notice Estimates the gas associated with sending a message.
-/// @param _dstEid The endpoint ID of the destination chain.
-/// @param _message The message to be sent.
-/// @param _options The message execution options (e.g. gas to use on destination).
-/// @return nativeFee Estimated gas fee in native gas.
-/// @return lzTokenFee Estimated gas fee in ZRO token.
+/// @notice Оценивает газ, связанный с отправкой сообщения.
+/// @param _dstEid Идентификатор конечной точки (endpoint ID) цепи назначения.
+/// @param _message Сообщение для отправки.
+/// @param _options Опции выполнения сообщения (например, газ для использования на стороне назначения).
+/// @return nativeFee Расчетная комиссия за газ в нативной валюте.
+/// @return lzTokenFee Расчетная комиссия за газ в токене ZRO.
 function estimateFee(
    uint32 _dstEid,
    string memory _message,
@@ -248,35 +248,35 @@ function estimateFee(
 }
 ```
 
-The `estimateFee` function above calls the inherited `_quote` function, while passing in the following expected data:
+Функция `estimateFee` выше вызывает унаследованную функцию `_quote`, передавая следующие ожидаемые данные:
 
-| Name            | Type     | Description                                                                                                                                                      |
+| Название            | Тип     | Описание                                                                                                                                                      |
 | :-------------- | :------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `_dstEid`       | `uint32` | The [endpoint ID](https://docs.layerzero.network/v2/deployments/deployed-contracts?stages=mainnet&chains=base) of the destination chain the message will be sent to.                             |
-| `_payload`      | `bytes`  | The message (encoded) that will be sent.                                                                                                                         |
-| `_options`      | `bytes`  | [Additional options](https://docs.layerzero.network/v2/concepts/message-options#why-do-options-matter) when sending the message, such as how much gas should be used when receiving the message. |
-| `_payInLzToken` | `bool`   | Boolean flag for which token to use when returning the fee (native or ZRO token).                                                                                |
+| `_dstEid`       | `uint32` | [endpoint ID](https://docs.layerzero.network/v2/deployments/deployed-contracts?stages=mainnet&chains=base) цепи назначения, на которую будет отправлено сообщение.                             |
+| `_payload`      | `bytes`  | Сообщение (закодированное), которое будет отправлено.                                                                                                                         |
+| `_options`      | `bytes`  | [Additional options](https://docs.layerzero.network/v2/concepts/message-options#why-do-options-matter) при отправке сообщения, например, сколько газа должно быть использовано при получении сообщения. |
+| `_payInLzToken` | `bool`   | Булев флаг для выбора токена, который будет использоваться при возврате комиссии (нативный или токен ZRO).                                                                                |
 
 <Info>
-Your contract's `estimateFee` function should always be called immediately before calling `sendMessage` to accurately estimate associated gas fees.
+Функцию `estimateFee` вашего контракта всегда следует вызывать непосредственно перед вызовом `sendMessage` для точной оценки связанных комиссий за газ.
 </Info>
 
-### Implementing message receiving (`_lzReceive`)
+### Реализация получения сообщений (`_lzReceive`)
 
-To receive messages on the destination chain, your smart contract must override the `_lzReceive` function inherited from the [OApp](https://docs.layerzero.network/v2/developers/evm/oapp/overview) contract.
+Для получения сообщений в цепи назначения ваш смарт-контракт должен переопределить функцию `_lzReceive`, унаследованную от контракта [OApp](https://docs.layerzero.network/v2/developers/evm/oapp/overview) contract.
 
-Add the following code snippet to your `ExampleContract` contract to override the `_lzReceive` function:
+Добавьте следующий фрагмент кода в ваш контракт `ExampleContract`, чтобы переопределить функцию `_lzReceive`:
 
 ```solidity
-/// @notice Entry point for receiving messages.
-/// @param _origin The origin information containing the source endpoint and sender address.
-///  - srcEid: The source chain endpoint ID.
-///  - sender: The sender address on the src chain.
-///  - nonce: The nonce of the message.
-/// @param _guid The unique identifier for the received LayerZero message.
-/// @param _message The payload of the received message.
-/// @param _executor The address of the executor for the received message.
-/// @param _extraData Additional arbitrary data provided by the corresponding executor.
+/// @notice Точка входа для получения сообщений.
+/// @param _origin Информация о происхождении, содержащая идентификатор исходной конечной точки и адрес отправителя.
+///  - srcEid: Идентификатор конечной точки исходной цепи.
+///  - sender: Адрес отправителя в исходной цепи.
+///  - nonce: nonce сообщения.
+/// @param _guid Уникальный идентификатор полученного сообщения LayerZero.
+/// @param _message Полезная нагрузка полученного сообщения.
+/// @param _executor Адрес исполнителя для полученного сообщения.
+/// @param _extraData Дополнительные произвольные данные, предоставленные соответствующим исполнителем.
 function _lzReceive(
    Origin calldata _origin,
    bytes32 _guid,
@@ -285,23 +285,23 @@ function _lzReceive(
    bytes calldata _extraData
    ) internal override {
        data = abi.decode(payload, (string));
-       // other logic
+       // другая логика
 }
 ```
 
-The overridden `_lzReceive` function receives the following arguments when receiving a message:
+Переопределенная функция `_lzReceive` получает следующие аргументы при получении сообщения:
 
-| Name          | Type      | Description                                                                                                           |
+| Название      | Тип       | Описание                                                                                                              |
 | :------------ | :-------- | :-------------------------------------------------------------------------------------------------------------------- |
-| `_origin`     | `Origin`  | The origin information containing the source endpoint and sender address.                                             |
-| `_guid`       | `bytes32` | The unique identifier for the received LayerZero message.                                                             |
-| `payload`     | `bytes`   | The payload of the received message (encoded).                                                                        |
-| `_executor`   | `address` | The `address` of the [Executor](https://docs.layerzero.network/v2/concepts/permissionless-execution/executors) for the received message.           |
-| `_extraData ` | `bytes`   | Additional arbitrary data provided by the corresponding [Executor](https://docs.layerzero.network/v2/concepts/permissionless-execution/executors). |
+| `_origin`     | `Origin`  | Информация о происхождении, содержащая идентификатор исходной конечной точки и адрес отправителя.                                             |
+| `_guid`       | `bytes32` | Уникальный идентификатор полученного сообщения LayerZero.                                                            |
+| `payload`     | `bytes`   | Полезная нагрузка полученного сообщения (закодированная).                                                                       |
+| `_executor`   | `address` | `address` [Executor](https://docs.layerzero.network/v2/concepts/permissionless-execution/executors) для полученного сообщения.           |
+| `_extraData ` | `bytes`   | Дополнительные произвольные данные, предоставленные соответствующим [Executor](https://docs.layerzero.network/v2/concepts/permissionless-execution/executors). |
 
-Note that the overridden method decodes the message payload, and stores the string into a variable named `data` that you can read from later to fetch the latest message.
+Обратите внимание, что переопределенный метод декодирует полезную нагрузку сообщения и сохраняет строку в переменной `data`, которую вы можете позже прочитать, чтобы получить последнее сообщение.
 
-Add the `data` field as a member variable to your contract:
+Добавьте поле `data` как переменную-член вашего контракта:
 
 ```solidity
 contract ExampleContract is OApp {
@@ -314,12 +314,12 @@ contract ExampleContract is OApp {
 ```
 
 <Info>
-Overriding the `_lzReceive` function allows you to provide any custom logic you wish when receiving messages, including making a call back to the source chain by invoking `_lzSend`. Visit the LayerZero [Message Design Patterns](https://docs.layerzero.network/v2/developers/evm/oapp/message-design-patterns) for common messaging flows.
+Переопределение функции `_lzReceive` позволяет вам реализовать любую пользовательскую логику при получении сообщений, включая обратный вызов в исходную цепь путем вызова `_lzSend`. Посетите [Message Design Patterns](https://docs.layerzero.network/v2/developers/evm/oapp/message-design-patterns) для распространенных потоков сообщений.
 </Info>
 
-### Final code
+### Финальный код
 
-Once you complete all of the steps above, your contract should look like this:
+После выполнения всех шагов выше ваш контракт должен выглядеть так:
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -333,27 +333,27 @@ contract ExampleContract is OApp {
 
   constructor(address _endpoint) OApp(_endpoint, msg.sender) {}
 
-  /// @notice Sends a message from the source chain to the destination chain.
-  /// @param _dstEid The endpoint ID of the destination chain.
-  /// @param _message The message to be sent.
-  /// @param _options The message execution options (e.g. gas to use on destination).
+  /// @notice Отправляет сообщение из исходной цепи в цепь назначения.
+  /// @param _dstEid Идентификатор конечной точки (endpoint ID) цепи назначения.
+  /// @param _message Сообщение для отправки.
+  /// @param _options Опции выполнения сообщения (например, газ для использования на стороне назначения).
   function sendMessage(uint32 _dstEid, string memory _message, bytes calldata _options) external payable {
-     bytes memory _payload = abi.encode(_message); // Encode the message as bytes
+     bytes memory _payload = abi.encode(_message); // Кодируем сообщение в байты
      _lzSend(
            _dstEid,
            _payload,
            _options,
-           MessagingFee(msg.value, 0), // Fee for the message (nativeFee, lzTokenFee)
-           payable(msg.sender) // The refund address in case the send call reverts
+           MessagingFee(msg.value, 0), // Комиссия за сообщение (nativeFee, lzTokenFee)
+           payable(msg.sender) // Адрес для возврата средств в случае отмены вызова отправки
      );
   }
 
-  /// @notice Estimates the gas associated with sending a message.
-  /// @param _dstEid The endpoint ID of the destination chain.
-  /// @param _message The message to be sent.
-  /// @param _options The message execution options (e.g. gas to use on destination).
-  /// @return nativeFee Estimated gas fee in native gas.
-  /// @return lzTokenFee Estimated gas fee in ZRO token.
+  /// @notice Оценивает газ, связанный с отправкой сообщения.
+  /// @param _dstEid Идентификатор конечной точки (endpoint ID) цепи назначения.
+  /// @param _message Сообщение для отправки.
+  /// @param _options Опции выполнения сообщения (например, газ для использования на стороне назначения).
+  /// @return nativeFee Расчетная комиссия за газ в нативной валюте.
+  /// @return lzTokenFee Расчетная комиссия за газ в токене ZRO.
   function estimateFee(
      uint32 _dstEid,
      string memory _message,
@@ -364,15 +364,15 @@ contract ExampleContract is OApp {
      return (fee.nativeFee, fee.lzTokenFee);
   }
 
-  /// @notice Entry point for receiving messages.
-  /// @param _origin The origin information containing the source endpoint and sender address.
-  ///  - srcEid: The source chain endpoint ID.
-  ///  - sender: The sender address on the src chain.
-  ///  - nonce: The nonce of the message.
-  /// @param _guid The unique identifier for the received LayerZero message.
-  /// @param _message The payload of the received message.
-  /// @param _executor The address of the executor for the received message.
-  /// @param _extraData Additional arbitrary data provided by the corresponding executor.
+  /// @notice Точка входа для получения сообщений.
+  /// @param _origin Информация о происхождении, содержащая идентификатор исходной конечной точки и адрес отправителя.
+  ///  - srcEid: Идентификатор конечной точки исходной цепи.
+  ///  - sender: Адрес отправителя в исходной цепи.
+  ///  - nonce: nonce сообщения.
+  /// @param _guid Уникальный идентификатор полученного сообщения LayerZero.
+  /// @param _message Полезная нагрузка полученного сообщения.
+  /// @param _executor Адрес исполнителя для полученного сообщения.
+  /// @param _extraData Дополнительные произвольные данные, предоставленные соответствующим исполнителем.
   function _lzReceive(
      Origin calldata _origin,
      bytes32 _guid,
@@ -385,43 +385,43 @@ contract ExampleContract is OApp {
 }
 ```
 
-## Compiling the smart contract
+## Компиляция смарт-контракта
 
-Compile the smart contract to ensure it builds without any errors.
+Скомпилируйте смарт-контракт, чтобы убедиться, что он собирается без ошибок.
 
-To compile your smart contract, run:
+Чтобы скомпилировать ваш смарт-контракт, выполните:
 
 ```bash
 forge build
 ```
 
-## Deploying the smart contract
+## Развертывание смарт-контракта
 
-### Setting up your wallet as the deployer
+### Настройка вашего кошелька как развертывающего
 
-Before you can deploy your smart contract to various chains you will need to set up a wallet to be used as the deployer.
+Прежде чем вы сможете развернуть свой смарт-контракт в различных цепях, вам нужно настроить кошелек, который будет использоваться как развертывающий.
 
-To do so, you can use the [`cast wallet import`](https://getfoundry.sh/cast/reference/wallet/import#cast-wallet-import) command to import the private key of the wallet into Foundry's securely encrypted keystore:
+Для этого вы можете использовать команду [`cast wallet import`](https://getfoundry.sh/cast/reference/wallet/import#cast-wallet-import), чтобы импортировать приватный ключ кошелька в безопасно зашифрованное хранилище ключей Foundry:
 
 ```bash
 cast wallet import deployer --interactive
 ```
 
-After running the command above, you will be prompted to enter your private key, as well as a password for signing transactions.
+После выполнения команды выше вам будет предложено ввести ваш приватный ключ, а также пароль для подписи транзакций.
 
 <Info>
-For instructions on how to get your private key from Coinbase Wallet, visit the [Coinbase Wallet documentation](https://docs.cloud.coinbase.com/wallet-sdk/docs/developer-settings#show-private-key). **It is critical that you do NOT commit this to a public repo**.
+Инструкции о том, как получить ваш приватный ключ из Coinbase Wallet, см. в [документации Coinbase Wallet](https://docs.cloud.coinbase.com/wallet-sdk/docs/developer-settings#show-private-key). **Крайне важно, чтобы вы НЕ сохраняли это в публичном репозитории**.
 </Info>
 
-To confirm that the wallet was imported as the `deployer` account in your Foundry project, run:
+Чтобы подтвердить, что кошелек был импортирован как учетная запись `deployer` в вашем проекте Foundry, выполните:
 
 ```bash
 cast wallet list
 ```
 
-### Setting up environment variables
+### Настройка переменных окружения
 
-To setup your environment, create an `.env` file in the home directory of your project, and add the RPC URLs and [LayerZero Endpoint](https://docs.layerzero.network/v2/deployments/deployed-contracts?chains=base-sepolia%2Coptimism-sepolia) information for both Base Sepolia and Optimism Sepolia testnets:
+Чтобы настроить ваше окружение, создайте файл `.env` в домашней директории вашего проекта и добавьте RPC URL и информацию о [LayerZero Endpoint](https://docs.layerzero.network/v2/deployments/deployed-contracts?chains=base-sepolia%2Coptimism-sepolia) для тестнетов Base Sepolia и Optimism Sepolia:
 
 ```bash
 BASE_SEPOLIA_RPC="https://sepolia.base.org"
@@ -433,102 +433,102 @@ OPTIMISM_SEPOLIA_LZ_ENDPOINT=0x6EDCE65403992e310A62460808c4b910D972f10f
 OPTIMISM_SEPOLIA_LZ_ENDPOINT_ID=40232
 ```
 
-Once the `.env` file has been created, run the following command to load the environment variables in the current command line session:
+После создания файла `.env` выполните следующую команду, чтобы загрузить переменные окружения в текущую сессию командной строки:
 
 ```
 source .env
 ```
 
-With your contract compiled and environment setup, you are now ready to deploy the smart contract to different networks.
+Когда ваш контракт скомпилирован и окружение настроено, вы готовы развернуть смарт-контракт в разных сетях.
 
-### Deploying the smart contract to Base Sepolia
+### Развертывание смарт-контракта в Base Sepolia
 
-To deploy a smart contract using Foundry, you can use the `forge create` command. The command requires you to specify the smart contract you want to deploy, an RPC URL of the network you want to deploy to, and the account you want to deploy with.
+Чтобы развернуть смарт-контракт с помощью Foundry, вы можете использовать команду `forge create`. Команда требует указать смарт-контракт, который вы хотите развернуть, RPC URL сети, в которую вы хотите развернуть, и учетную запись, с которой вы хотите развернуть.
 
 <Info>
-Your wallet must be funded with ETH on the Base Sepolia and Optimism Sepolia to cover the gas fees associated with the smart contract deployment. Otherwise, the deployment will fail.
+Ваш кошелек должен быть пополнен ETH в Base Sepolia и Optimism Sepolia для покрытия комиссий за газ, связанных с развертыванием смарт-контракта. В противном случае развертывание завершится неудачей.
 
-To get testnet ETH, see the [prerequisites](#prerequisites).
+Чтобы получить тестовый ETH, см. [prerequisites](#prerequisites).
 </Info>
 
-To deploy the `ExampleContract` smart contract to the Base Sepolia testnet, run the following command:
+Чтобы развернуть смарт-контракт `ExampleContract` в тестнет Base Sepolia, выполните следующую команду:
 
 ```bash
 forge create ./src/ExampleContract.sol:ExampleContract --rpc-url $BASE_SEPOLIA_RPC --constructor-args $BASE_SEPOLIA_LZ_ENDPOINT --account deployer
 ```
 
-When prompted, enter the password that you set earlier, when you imported your wallet's private key.
+Когда появится запрос, введите пароль, который вы установили ранее, при импорте приватного ключа вашего кошелька.
 
-After running the command above, the contract will be deployed on the Base Sepolia test network. You can view the deployment status and contract by using a [block explorer](/base-chain/tools/block-explorers).
+После выполнения команды выше контракт будет развернут в тестовой сети Base Sepolia. Вы можете просмотреть статус развертывания и контракт с помощью [block explorer](/base-chain/tools/block-explorers).
 
-### Deploying the smart contract to Optimism Sepolia
+### Развертывание смарт-контракта в Optimism Sepolia
 
-To deploy the `ExampleContract` smart contract to the Optimism Sepolia testnet, run the following command:
+Чтобы развернуть смарт-контракт `ExampleContract` в тестнет Optimism Sepolia, выполните следующую команду:
 
 ```bash
 forge create ./src/ExampleContract.sol:ExampleContract --rpc-url $OPTIMISM_SEPOLIA_RPC --constructor-args $OPTIMISM_SEPOLIA_LZ_ENDPOINT --account deployer
 ```
 
-When prompted, enter the password that you set earlier, when you imported your wallet's private key.
+Когда появится запрос, введите пароль, который вы установили ранее, при импорте приватного ключа вашего кошелька.
 
-After running the command above, the contract will be deployed on the Optimism Sepolia test network. You can view the deployment status and contract by using the [OP Sepolia block explorer](https://sepolia-optimism.etherscan.io/).
+После выполнения команды выше контракт будет развернут в тестовой сети Optimism Sepolia. Вы можете просмотреть статус развертывания и контракт с помощью [OP Sepolia block explorer](https://sepolia-optimism.etherscan.io/).
 
-## Opening the messaging channels
+## Открытие каналов сообщений
 
-Once your contract has been deployed to Base Sepolia and Optimism Sepolia, you will need to open the messaging channels between the two contracts so that they can send and receive messages from one another. This is done by calling the `setPeer` function on the contract.
+После того как ваш контракт был развернут в Base Sepolia и Optimism Sepolia, вам нужно будет открыть каналы сообщений между двумя контрактами, чтобы они могли отправлять и получать сообщения друг от друга. Это делается путем вызова функции `setPeer` в контракте.
 
-The `setPeer` function expects the following arguments:
+Функция `setPeer` ожидает следующие аргументы:
 
-| Name    | Type      | Description                                                                                              |
+| Название    | Тип      | Описание                                                                                              |
 | :------ | :-------- | :------------------------------------------------------------------------------------------------------- |
-| `_eid`  | `uint32`  | The [endpoint ID](https://docs.layerzero.network/v2/deployments/deployed-contracts) of the destination chain. |
-| `_peer` | `bytes32` | The contract address of the OApp contract on the destination chain.                                      |
+| `_eid`  | `uint32`  | The [endpoint ID](https://docs.layerzero.network/v2/deployments/deployed-contracts) цепи назначения.     |
+| `_peer` | `bytes32` | Адрес контракта OApp в цепи назначения.                                                                  |
 
-### Setting the peers
+### Установка пиров (peers)
 
-Foundry provides the `cast` command-line tool that can be used to interact with deployed smart contracts and call their functions.
+Foundry предоставляет инструмент командной строки `cast`, который можно использовать для взаимодействия с развернутыми смарт-контрактами и вызова их функций.
 
-To set the peer of your `ExampleContract` contracts, you can use `cast` to call the `setPeer` function while providing the [endpoint ID](https://docs.layerzero.network/v2/deployments/deployed-contracts) and address (in bytes) of the deployed contract on the respective destination chain.
+Чтобы установить пиры ваших контрактов `ExampleContract`, вы можете использовать `cast` для вызова функции `setPeer`, предоставляя [endpoint ID](https://docs.layerzero.network/v2/deployments/deployed-contracts) и адрес (в байтах) развернутого контракта в соответствующей цепи назначения.
 
-To set the peer of the Base Sepolia contract to the Optimism Sepolia contract, run the following command:
+Чтобы установить пир контракта Base Sepolia на контракт Optimism Sepolia, выполните следующую команду:
 
 ```bash
 cast send <BASE_SEPOLIA_CONTRACT_ADDRESS> --rpc-url $BASE_SEPOLIA_RPC "setPeer(uint32, bytes32)" $OPTIMISM_SEPOLIA_LZ_ENDPOINT_ID <OPTIMISM_SEPOLIA_CONTRACT_ADDRESS> --account deployer
 ```
 
 <Info>
-Replace `<BASE_SEPOLIA_CONTRACT_ADDRESS>` with the contract address of your deployed `ExampleContract` contract on Base Sepolia, and`<OPTIMISM_SEPOLIA_CONTRACT_ADDRESS>` with the contract address (as bytes) of your deployed `ExampleContract` contract on Optimism Sepolia before running the provided `cast` command.
+Замените `<BASE_SEPOLIA_CONTRACT_ADDRESS>` на адрес контракта вашего развернутого контракта `ExampleContract` в Base Sepolia, а `<OPTIMISM_SEPOLIA_CONTRACT_ADDRESS>` на адрес контракта (в байтах) вашего развернутого контракта `ExampleContract` в Optimism Sepolia перед выполнением предоставленной команды `cast`.
 </Info>
 
-To set the peer of the Optimism Sepolia contract to the Base Sepolia contract, run the following command:
+Чтобы установить пир контракта Optimism Sepolia на контракт Base Sepolia, выполните следующую команду:
 
 ```bash
 cast send <OPTIMISM_SEPOLIA_CONTRACT_ADDRESS> --rpc-url $OPTIMISM_SEPOLIA_RPC "setPeer(uint32, bytes32)" $BASE_SEPOLIA_LZ_ENDPOINT_ID <BASE_SEPOLIA_CONTRACT_ADDRESS> --account deployer
 ```
 
 <Info>
-Replace `<OPTIMISM_SEPOLIA_CONTRACT_ADDRESS>` with the contract address of your deployed `ExampleContract` contract on Optimism Sepolia, and`<BASE_SEPOLIA_CONTRACT_ADDRESS>` with the contract address (as bytes) of your deployed `ExampleContract` contract on Base Sepolia before running the provided `cast` command.
+Замените `<OPTIMISM_SEPOLIA_CONTRACT_ADDRESS>` на адрес контракта вашего развернутого контракта `ExampleContract` в Optimism Sepolia, а `<BASE_SEPOLIA_CONTRACT_ADDRESS>` на адрес контракта (в байтах) вашего развернутого контракта `ExampleContract` в Base Sepolia перед выполнением предоставленной команды `cast`.
 </Info>
 
-## Sending messages
+## Отправка сообщений
 
-Once peers have been set on each contract, they are now able to send and receive messages from one another.
+После того как пиры установлены на каждом контракте, они теперь могут отправлять и получать сообщения друг от друга.
 
-Sending a message using the newly created `ExampleContract` contract can be done in three steps:
+Отправка сообщения с использованием вновь созданного контракта ExampleContract может быть выполнена в три шага:
 
-1. Build [message options](https://docs.layerzero.network/v2/developers/evm/toolbox#building-message-options) to specify logic associated with the message transaction
-2. Call the `estimateFee` function to estimate the gas fee for sending a message
-3. Call the `sendMessage` function to send a message
+1. Построить [message options](https://docs.layerzero.network/v2/developers/evm/toolbox#building-message-options) для указания логики, связанной с транзакцией сообщения
+2. Вызвать функцию `estimateFee` для оценки комиссии за газ для отправки сообщения
+3. Вызвать функцию `sendMessage` для отправки сообщения
 
-### Building message options
+### Построение опций сообщения
 
-The `estimateFee` and `sendMessage` custom functions of the `ExampleContract` contract both require a [message options](https://docs.layerzero.network/v2/developers/evm/toolbox#building-message-options) (`_options`) argument to be provided.
+Пользовательские функции `estimateFee` и `sendMessage` контракта `ExampleContract` обе требуют предоставления аргумента [message options](https://docs.layerzero.network/v2/developers/evm/toolbox#building-message-options) (`_options`).
 
-Message options allow you to specify arbitrary logic as part of the message transaction, such as the gas amount the [Executor](https://docs.layerzero.network/v2/concepts/permissionless-execution/executors) pays for message delivery, the order of message execution, or dropping an amount of gas to a destination address.
+Опции сообщения позволяют вам указать произвольную логику как часть транзакции сообщения, например, количество газа, которое [Executor](https://docs.layerzero.network/v2/concepts/permissionless-execution/executors) платит за доставку сообщения, порядок выполнения сообщений или отправку определенного количества газа на адрес назначения.
 
-LayerZero provides a [Solidity](https://github.com/LayerZero-Labs/LayerZero-v2/blob/ccfd0d38f83ca8103b14ab9ca77f32e0419510ff/oapp/contracts/oapp/libs/OptionsBuilder.sol#L12) library and [TypeScript SDK](https://docs.layerzero.network/plugins#layerzerolabssg-sdk) for building these message options.
+LayerZero предоставляет библиотеку [Solidity](https://github.com/LayerZero-Labs/LayerZero-v2/blob/ccfd0d38f83ca8103b14ab9ca77f32e0419510ff/oapp/contracts/oapp/libs/OptionsBuilder.sol#L12) и [TypeScript SDK](https://docs.layerzero.network/plugins#layerzerolabssg-sdk) для построения этих опций сообщения.
 
-As an example, below is a Foundry script that uses OptionsBuilder from the Solidity library to generate message options (as `bytes`) that set the gas amount that the Executor will pay upon message delivery to `200000` wei:
+В качестве примера ниже приведен скрипт Foundry, который использует OptionsBuilder из библиотеки Solidity для генерации опций сообщения (в виде `bytes`), устанавливающих количество газа, которое Исполнитель заплатит при доставке сообщения, равным `200000` wei:
 
 ```solidity
 pragma solidity ^0.8.0;
@@ -548,50 +548,50 @@ contract OptionsScript is Script {
 }
 ```
 
-The output of this script results in:
+Результат выполнения этого скрипта:
 
 ```bash
 0x00030100110100000000000000000000000000030d40
 ```
 
-For this tutorial, rather than building and generating your own message options, you can use the bytes output provided above.
+Для этого руководства, вместо построения и генерации ваших собственных опций сообщения, вы можете использовать вывод в байтах, предоставленный выше.
 
 <Info>
-Covering all of the different message options in detail is out of scope for this tutorial. If you are interested in learning more about the different message options and how to build them, visit the [LayerZero developer documentation](https://docs.layerzero.network/v2/developers/evm/overview).
+Подробное рассмотрение всех различных опций сообщений выходит за рамки этого руководства. Если вы заинтересованы узнать больше о различных опциях сообщений и том, как их строить, посетите [LayerZero developer documentation](https://docs.layerzero.network/v2/developers/evm/overview).
 </Info>
 
-### Estimating the gas fee
+### Оценка комиссии за газ
 
-Before you can send a message from your contract on Base Sepolia, you need to estimate the fee associated with sending the message. You can use the `cast` command to call the `estimateFee()` function of the `ExampleContract` contract.
+режде чем вы сможете отправить сообщение из вашего контракта в Base Sepolia, вам нужно оценить комиссию, связанную с отправкой сообщения. Вы можете использовать команду `cast` для вызова функции `estimateFee()` контракта `ExampleContract`.
 
-To estimate the gas fee for sending a message from Base Sepolia to Optimism Sepolia, run the following command:
+Чтобы оценить комиссию за газ для отправки сообщения из Base Sepolia в Optimism Sepolia, выполните следующую команду:
 
 ```bash
 cast send <BASE_SEPOLIA_CONTRACT_ADDRESS> --rpc-url $BASE_SEPOLIA_RPC "estimateFee(uint32, string, bytes)" $OPTIMISM_SEPOLIA_LZ_ENDPOINT_ID "Hello World" 0x00030100110100000000000000000000000000030d40 --account deployer
 ```
 
 <Info>
-Replace `<BASE_SEPOLIA_CONTRACT_ADDRESS>` with the contract address of your deployed `ExampleContract` contract on Base Sepolia before running the provided `cast` command.
+Замените `<BASE_SEPOLIA_CONTRACT_ADDRESS>` на адрес контракта вашего развернутого контракта `ExampleContract` в Base Sepolia перед выполнением предоставленной команды `cast`.
 </Info>
 
-The command above calls `estimateFee(uint32, string, bytes, bool)`, while providing the required arguments, including: the endpoint ID of the destination chain, the text to send, and the message options (generated in the last section).
+Команда выше вызывает `estimateFee(uint32, string, bytes, bool)`, предоставляя необходимые аргументы, включая: идентификатор конечной точки цепи назначения, текст для отправки и опции сообщения (сгенерированные в предыдущем разделе).
 
-### Sending the message
+### Отправка сообщения
 
-Once you have fetched the estimated gas for sending your message, you can now call `sendMessage` and provide the value returned as the `msg.value`.
+После того как вы получили расчетный газ для отправки вашего сообщения, вы теперь можете вызвать `sendMessage` и предоставить возвращенное значение как `msg.value`.
 
-For example, to send a message from Base Sepolia to Optimism Sepolia with an estimated gas fee, run the following command:
+Например, чтобы отправить сообщение из Base Sepolia в Optimism Sepolia с расчетной комиссией за газ, выполните следующую команду:
 
 ```bash
 cast send <BASE_SEPOLIA_CONTRACT_ADDRESS> --rpc-url $BASE_SEPOLIA_RPC --value <GAS_ESTIMATE_IN_WEI> "sendMessage(uint32, string, bytes)" $OPTIMISM_SEPOLIA_LZ_ENDPOINT_ID "Hello World" 0x00030100110100000000000000000000000000030d40 --account deployer
 ```
 
 <Info>
-Replace `<BASE_SEPOLIA_CONTRACT_ADDRESS>` with the contract address of your deployed `ExampleContract` contract on Base Sepolia, and `<GAS_ESTIMATE_IN_WEI>` with the gas estimate (in wei) returned by the call to estimateFee, before running the provided `cast` command.
+Замените `<BASE_SEPOLIA_CONTRACT_ADDRESS>` на адрес контракта вашего развернутого контракта `ExampleContract` в Base Sepolia, а `<GAS_ESTIMATE_IN_WEI>` на оценку газа (в wei), возвращенную вызовом estimateFee, перед выполнением предоставленной команды `cast`.
 </Info>
 
-You can view the status of your cross-chain transaction on [LayerZero Scan](https://layerzeroscan.com/).
+Вы можете просмотреть статус вашей кросс-чейн транзакции на [LayerZero Scan](https://layerzeroscan.com/).
 
-### Receiving the message
+### Получение сообщения
 
-Once the message has been sent and received on the destination chain, the \_Receive function will be called on the `
+Как только сообщение будет отправлено и получено в цепи назначения, на контракте `ExampleContract` будет вызвана функция `_Receive`
