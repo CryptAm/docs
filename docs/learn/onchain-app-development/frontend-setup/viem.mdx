@@ -1,30 +1,30 @@
 ---
 title: viem
 slug: /tools/viem
-description: Documentation for using Viem, a TypeScript interface for EVM-compatible blockchains. This page covers installation, setup, and various functionalities such as reading and writing blockchain data and interacting with smart contracts on Base.
+description: Документация по использованию Viem, интерфейса TypeScript для EVM-совместимых блокчейнов. На этой странице рассматривается установка, настройка и различные функциональные возможности, такие как чтение и запись данных блокчейна, а также взаимодействие со смарт-контрактами на Base.
 ---
 
 # viem
 
 <Info>
-Viem is currently only available on Base Sepolia testnet.
+Viem в настоящее время доступен только в тестнете Base Sepolia.
 </Info>
 
-[viem](https://viem.sh/) a TypeScript interface for Ethereum that provides low-level stateless primitives for interacting with Ethereum.
+[viem](https://viem.sh/) - это интерфейс TypeScript для Ethereum, который предоставляет низкоуровневые примитивы без состояния (stateless primitives) для взаимодействия с Ethereum.
 
-You can use viem to interact with smart contracts deployed on Base.
+Вы можете использовать viem для взаимодействия со смарт-контрактами, развернутыми на Base.
 
-## Install
+## Установка
 
-To install viem run the following command:
+Чтобы установить viem, выполните следующую команду:
 
 ```bash
 npm install --save viem
 ```
 
-## Setup
+## Настройка
 
-Before you can start using viem, you need to setup a [Client](https://viem.sh/docs/clients/intro.html) with a desired [Transport](https://viem.sh/docs/clients/intro.html) and [Chain](https://viem.sh/docs/chains/introduction).
+Прежде чем начать использовать viem, вам нужно настроить [Client](https://viem.sh/docs/clients/intro.html) с желаемым [Transport](https://viem.sh/docs/clients/intro.html) и [Chain](https://viem.sh/docs/chains/introduction).
 
 ```javascript
 import { createPublicClient, http } from 'viem';
@@ -37,26 +37,26 @@ const client = createPublicClient({
 ```
 
 <Info>
-To use Base, you must specify `base` as the chain when creating a Client.
+Для использования Base необходимо указать `base` в качестве цепи при создании Клиента.
 
-To use Base Sepolia (testnet), replace `base` with `baseSepolia`.
+Для использования Base Sepolia (тестнет) замените `base` на `baseSepolia`.
 </Info>
 
-## Reading data from the blockchain
+## Чтение данных из блокчейна
 
-Once you have created a client, you can use it to read and access data from Base using [Public Actions](https://viem.sh/docs/actions/public/introduction.html)
+После создания клиента вы можете использовать его для чтения и доступа к данным из Base с помощью [Public Actions](https://viem.sh/docs/actions/public/introduction.html)
 
-Public Actions are client methods that map one-to-one with a "public" Ethereum RPC method (`eth_blockNumber`, `eth_getBalance`, etc.)
+Публичные Действия - это методы клиента, которые соотносятся один к одному с "публичным" методом Ethereum RPC (`eth_blockNumber`, `eth_getBalance` и т.д.).
 
-For example, you can use the `getBlockNumber` client method to get the latest block:
+Например, вы можете использовать метод клиента `getBlockNumber` для получения последнего блока:
 
 ```javascript
 const blockNumber = await client.getBlockNumber();
 ```
 
-## Writing data to the blockchain
+## Запись данных в блокчейн
 
-In order to write data to Base, you need to create a Wallet client (`createWalletClient`) and specify an [`Account`](https://ethereum.org/en/developers/docs/accounts/) to use.
+Чтобы записать данные в Base, вам нужно создать клиент кошелька (`createWalletClient`) и указать используемый [`Account`](https://ethereum.org/en/developers/docs/accounts/).
 
 ```javascript
 import { createWalletClient, custom } from 'viem'
@@ -77,31 +77,31 @@ client.sendTransaction({ ... })
 ```
 
 <Info>
-In addition to making a JSON-RPC request (`eth_requestAccounts`) to get an Account, viem provides various helper methods for creating an `Account`, including: [`privateKeyToAccount`](https://viem.sh/docs/accounts/local/privateKeyToAccount), [`mnemonicToAccount`](https://viem.sh/docs/accounts/local/mnemonicToAccount), and [`hdKeyToAccount`](https://viem.sh/docs/accounts/local/hdKeyToAccount).
+В дополнение к выполнению JSON-RPC запроса (`eth_requestAccounts`) для получения Аккаунта, viem предоставляет различные вспомогательные методы для создания `Аккаунта`, включая: [`privateKeyToAccount`](https://viem.sh/docs/accounts/local/privateKeyToAccount), [`mnemonicToAccount`](https://viem.sh/docs/accounts/local/mnemonicToAccount), и [`hdKeyToAccount`](https://viem.sh/docs/accounts/local/hdKeyToAccount).
 
-To use Base Sepolia (testnet), replace `base` with `baseSepolia`.
+Для использования Base Sepolia (тестнет) замените`base` на `baseSepolia`.
 </Info>
 
-## Interacting with smart contracts
+## Взаимодействие со смарт-контрактами
 
-You can use viem to interact with a smart contract on Base by creating a `Contract` instance using [`getContract`](https://viem.sh/docs/contract/getContract.html) and passing it the contract ABI, contract address, and [Public](https://viem.sh/docs/clients/public.html) and/or [Wallet](https://viem.sh/docs/clients/wallet.html) Client:
+Вы можете использовать viem для взаимодействия со смарт-контрактом на Base, создав экземпляр `Contract` с помощью [`getContract`](https://viem.sh/docs/contract/getContract.html) и передав ему ABI контракта, адрес контракта и [Public](https://viem.sh/docs/clients/public.html) и/или [Wallet](https://viem.sh/docs/clients/wallet.html) Клиент:
 
 ```javascript
 import { getContract } from 'viem';
 import { wagmiAbi } from './abi';
 import { publicClient } from './client';
 
-// 1. Create contract instance
+// 1. Создаем экземпляр контракта
 const contract = getContract({
   address: 'CONTRACT_ADDRESS',
   abi: wagmiAbi,
   publicClient,
 });
 
-// 2. Call contract methods, listen to events, etc.
+// 2. Вызываем методы контракта, слушаем события и т.д.
 const result = await contract.read.totalSupply();
 ```
 
 <Info>
-`CONTRACT_ADDRESS` is the address of the deployed contract.
+`CONTRACT_ADDRESS` - это адрес развернутого контракта.
 </Info> 
