@@ -1,42 +1,42 @@
 ---
-title: The `useWriteContract` hook
-description: Write to your smart contracts with the `useWriteContract` hook.
+title: Хук `useWriteContract`
+description:Записывайте данные в ваши смарт-контракты с помощью хука `useWriteContract`.
 hide_table_of_contents: false
 ---
 
-# The `useWriteContract` hook
+# Хук `useWriteContract`
 
-The [`useWriteContract`] hook allows you to call your `public` and `external` smart contract functions that write to state and create a permanent modification to the data on chain.
-
----
-
-## Objectives
-
-By the end of this guide you should be able to:
-
-- Implement wagmi's `useWriteContract` hook to send transactions to a smart contract
-- Configure the options in `useWriteContract`
-- Display the execution, success, or failure of a function with button state changes, and data display
+Хук [`useWriteContract`] позволяет вызывать функции вашего смарт-контракта с модификаторами `public` и `external`, которые записывают состояние и создают постоянное изменение данных в цепи.
 
 ---
 
-## Sending a Transaction to the Blockchain
+## Цели
+
+К концу этого руководства вы должны уметь:
+
+- Реализовать хук useWriteContract от wagmi для отправки транзакций в смарт-контракт
+- Настраивать параметры в useWriteContract
+- Отображать статус выполнения, успеха или неудачи функции с помощью изменения состояния кнопок и отображения данных
+
+---
+
+## Отправка транзакции в блокчейн
 
 <Warning>
-In this step-by-step, you're going to start with the [`useWriteContract`] hook. You probably won't want to use this method in production. In the next step-by-step, we'll show you the [`useSimulateContract`] hook, how it works with `useWriteContract`, and how you can use it to create a better user experience.
+В этом пошаговом руководстве вы начнете с хука [`useWriteContract`]. Вероятно, вы не захотите использовать этот метод в продакшене. В следующем руководстве мы покажем вам хук [`useSimulateContract`], как он работает в связке с `useWriteContract`, и как вы можете использовать его для улучшения пользовательского опыта.
 
-Exploring them separately will highlight the functionality provided by the prepare hook.
+Изучение их по отдельности поможет лучше понять функциональность, предоставляемую хук `prepare`.
 </Warning>
 
 <Note>
-In this module, you'll extend the onchain app you build in the previous module, [Reading and Displaying Data].
+В этом модуле вы расширите ончейн-приложение, созданное в предыдущем модуле [Reading and Displaying Data].
 </Note>
 
-You've built an app that can read from your Simple DAO smart contract, but so far, you've used BaseScan to send transactions that call your write functions. You can use the [`useWriteContract`] hook in a similar way to call those functions directly from your app.
+Вы создали приложение, которое может читать данные из вашего смарт-контракта Simple DAO, но до сих пор использовали BaseScan для отправки транзакций, вызывающих функции записи. Вы можете использовать хук [`useWriteContract`] аналогичным образом, чтобы вызывать эти функции напрямую из вашего приложения.
 
-### Setting up the Component
+### Настройка компонента
 
-Add a new component called `TokenInfo` to the project, and a state variable for `tokenBalance`.
+Добавьте в проект новый компонент с именем `TokenInfo` и переменную состояния для `tokenBalance`.
 
 ```tsx
 import { useState } from 'react';
@@ -46,11 +46,11 @@ export function TokenInfo() {
 }
 ```
 
-### Reading the Token Balance
+### Чтение баланса токенов
 
-You'll need to know how many tokens the user has to be able to make decisions on what UI controls to display, so start by adding a `useReadContract`. You don't have a function for this directly in your contract, but your contract inherits from the [OpenZeppelin ERC20] contract, which has a function called `balanceOf` that takes an address and returns the balance for that address.
+Вам нужно знать, сколько токенов у пользователя, чтобы принимать решения о том, какие элементы интерфейса отображать. Начните с добавления useReadContract. Прямой функции для этого в вашем контракте нет, но ваш контракт наследует от контракта [OpenZeppelin ERC20], в котором есть функция `balanceOf`, принимающая адрес и возвращающая баланс для этого адреса.
 
-You'll need the user's address to use in `args`, which you can conveniently get from the [`useAccount`] hook using the pattern below.
+Вам понадобится адрес пользователя для использования в args, который удобно можно получить с помощью хука [`useAccount`] используя шаблон ниже.
 
 ```tsx
 const { data: balanceData, queryKey: balanceQueryKey } =
@@ -73,10 +73,10 @@ useEffect(() => {
 ```
 
 <Warning>
-Remember, this is an expensive method to watch for data to change on the blockchain. In this case, a more production-suitable solution might be to call `balanceOf` after the user has done something that might change the balance.
+Помните, что это ресурсоемкий метод отслеживания изменений данных в блокчейне. В данном случае более подходящим для продакшена решением мог бы быть вызов `balanceOf` после того, как пользователь совершил действие, которое может изменить баланс.
 </Warning>
 
-Set the `return` for your component to display this balance to the user:
+Настройте `return` вашего компонента для отображения этого баланса пользователю:
 
 ```tsx
 return (
@@ -86,7 +86,7 @@ return (
 );
 ```
 
-Then, add the component to your app in `index.tsx`.
+Затем добавьте компонент в ваше приложение в `index.tsx`.
 
 ```tsx
 return (
@@ -100,19 +100,19 @@ return (
 );
 ```
 
-Run the app and make sure you see the expected balance displayed on the page.
+Запустите приложение и убедитесь, что ожидаемый баланс отображается на странице
 
-### Setting up `useWriteContract`
+### Настройка `useWriteContract`
 
-The [`useWriteContract`] hook is configured similarly to the [`useReadContract`] hook, with one important difference. You'll need to decompose the `write` property from the function call. This is a function that you can use to call your smart contract function whenever you'd like!
+[`useWriteContract`] настраивается аналогично хуку [`useReadContract`] с одной важной разницей. Вам нужно деструктурировать свойство `write` из вызова функции. Это функция, которую вы можете использовать для вызова функции вашего смарт-контракта в любой момент!
 
 ```tsx
 const { writeContract: claim, isPending: claimIsPending } = useWriteContract();
 ```
 
-Add an event handler function and a button. As with the `useReadContract` hook, you can use `isPending` and other state helpers to adjust your UI. The name of this one is a little misleading. `isPending` will be `true` starting from the moment the transaction gets sent to the user's wallet.
+Добавьте функцию-обработчик события и кнопку. Как и с хуком `useReadContract`, вы можете использовать `isPending` и другие вспомогательные состояния для настройки вашего интерфейса. Название `isPending` здесь может немного вводить в заблуждение. `isPending` будет иметь значение `true`, начиная с момента отправки транзакции в кошелек пользователя.
 
-You can use this to nudge them to look to their wallet to complete the transaction. Additionally, add a `useEffect` to watch for an error state.
+Вы можете использовать это, чтобы подтолкнуть пользователя посмотреть в свой кошелек для завершения транзакции. Кроме того, добавьте `useEffect` для отслеживания состояния ошибки.
 
 ```tsx
 const handleClaimClick = () => {
@@ -133,15 +133,15 @@ return (
 );
 ```
 
-Try it out. Notice that the button text briefly changes without the wallet window popping up if you click the `Claim Tokens` button while connected with a wallet that already owns the tokens. The reason this happens is that viem, which underlies wagmi, runs a simulation of the transaction to estimate gas costs. If that simulation fails, it triggers the fail mechanism immediately, rather than allowing the app to send a bad transaction to the blockchain and cost the user gas for a call doomed to fail. You will fix this in the next tutorial.
+Попробуйте это. Обратите внимание, что если вы нажмете кнопку `Claim Tokens` будучи подключенным с кошельком, в котором уже есть токены, текст кнопки ненадолго изменится, но окно кошелька не появится. Причина в том, что viem, на котором построен wagmi, запускает симуляцию транзакции для оценки стоимости газа. Если эта симуляция завершается неудачей, она немедленно запускает механизм обработки ошибки, вместо того чтобы позволить приложению отправить некорректную транзакцию в блокчейн и заставить пользователя платить газ за вызов, обреченный на провал. Вы исправите это в следующем руководстве.
 
-In the meantime, you'll need to change to a new wallet or redeploy your contract a couple of times to complete your testing. Do that, and try out the call on a wallet that hasn't claimed any tokens. Notice that the button is disabled and the text now prompts the user to look to their wallet to approve the transaction.
+А пока вам нужно переключиться на новый кошелек или несколько раз переразвернуть ваш контракт, чтобы завершить тестирование. Сделайте это и попробуйте вызвать функцию с кошелька, на котором еще не запрашивались токены. Обратите внимание, что кнопка становится неактивной, а текст теперь предлагает пользователю обратиться к своему кошельку для подтверждения транзакции.
 
 ---
 
-## Conclusion
+## Заключение
 
-In this step-by-step, you've learned how to use the [`useWriteContract`] hook to call your smart contract functions on demand. You've also tested methods to manage the UI/UX experience for your users, based on the state of the transaction, as well as its success or failure.
+В этом пошаговом руководстве вы узнали, как использовать хук [`useWriteContract`] для вызова функций вашего смарт-контракта по запросу. Вы также протестировали методы управления пользовательским опытом (UI/UX) на основе состояния транзакции, а также её успеха или неудачи.
 
 ---
 
