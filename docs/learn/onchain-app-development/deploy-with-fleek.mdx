@@ -1,6 +1,6 @@
 ---
-title: 'Deploy an Onchain App with Fleek'
-description: Learn how to deploy an onchain app using Fleek.
+title: 'Развертывание ончейн-приложения с помощью Fleek'
+description: Узнайте, как развернуть ончейн-приложение с использованием Fleek.
 authors:
   - briandoyle81
 tags: ['frontend']
@@ -10,55 +10,55 @@ hide_table_of_contents: false
 image: https://docs.base.org/img/base-learn-open-graph.png
 ---
 
-# Deploy an Onchain App with Fleek
+# Развертывание ончейн-приложения с помощью Fleek
 
-One of the "secrets" of onchain apps is that they almost always have a very large web2 component that they're dependent on. Most onchain apps rely on traditional infrastructure for their frontends, APIs, and other parts of the architecture.
+Одна из «секретов» ончейн-приложений заключается в том, что почти всегда у них есть очень крупный web2-компонент, от которого они зависят. Большинство ончейн-приложений полагаются на традиционную инфраструктуру для своих фронтендов, API и других частей архитектуры.
 
-[Fleek]'s goal is to address this issue with the [Fleek Network], a fast and trustless Content Delivery Network (CDN).
+Цель [Fleek] - решить эту проблему с помощью [Fleek Network] - быстрой и не требующей доверия сети доставки контента (CDN).
 
-In this tutorial, you'll use [Fleek] to deploy a site built with the [Onchain App Template].
+В этом руководстве вы используете [Fleek] для развертывания сайта, созданного на основе [Onchain App Template].
 
-## Objectives
+## Цели
 
-By the end of this tutorial you should be able to:
+К концу этого руководства вы должны уметь:
 
-- Deploy a [Next.js] using the Coinbase [Smart Wallet] on [Fleek]
-- Integrate with [Github] for CI/CD
+- Развернуть [Next.js] приложение с использованием [Smart Wallet] от Coinbase на [Fleek]
+- Интегрировать [Github] для CI/CD
 
-## Prerequisites
+## Предварительные требования
 
 ### Next.js
 
-You should be familiar with [Next.js], but do not need to be an expert. If you are comfortable with other React libraries, the pattern should be relatively easy to follow.
+Вы должны быть знакомы с [Next.js], но необязательно быть экспертом. Если вы работали с другими библиотеками React, шаблон будет относительно прост для понимания.
 
-### Onchain Apps
+### Ончейн-приложения
 
-The tutorial assumes you're comfortable with the basics of deploying an app and connecting it to a smart contract. If you're still learning this part, check out our tutorials in [Base Learn] for [Building an Onchain App].
+Предполагается, что вы знакомы с основами развертывания приложения и его подключения к смарт-контракту. Если вы все еще изучаете эту часть, ознакомьтесь с нашими руководствами на [Base Learn] по [Building an Onchain App].
 
-## Setting up the Template
+## Настройка шаблона
 
-You can skip this section if you've already built an app based off the template, such as our tutorial for [How to Mint on Zora with an App].
+Этот раздел можно пропустить, если вы уже создавали приложение на основе этого шаблона, например, по нашему руководству [How to Mint on Zora with an App].
 
-Open [Onchain App Template], click the green `Use  this template` button, and create a new repository from the template. Clone your repo and open it in an editor.
+Откройте [Onchain App Template], нажмите зеленую кнопку `Use this template` и создайте новый репозиторий из шаблона. Склонируйте свой репозиторий и откройте его в редакторе кода.
 
-Install _bun_ if you need to, and install dependencies.
+Установите _bun_ при необходимости, а затем зависимости
 
 ```bash
-# Install bun in case you don't have it
+# Установите bun, если он не установлен
 curl -fsSL https://bun.sh/install | bash
 
-# Install packages
+# Установите пакеты
 bun i
 
-# Run Next app
+# Запустите приложение Next
 bun run dev
 ```
 
-Navigate to `localhost:3000` and make sure that it's working, then shut down the server. For this tutorial, you **do not** need to set any environment variables.
+Перейдите по адресу `localhost:3000`, убедитесь, что все работает, а затем остановите сервер. Для этого руководства **не нужно** задавать переменные окружения
 
-## Installing and Configuring Fleek
+## Установка и настройка Fleek
 
-[Fleek] requires static pages, so you'll need to ensure that your build process produces them. In your editor, open `next.config.js` and update the `nextConfig`.
+[Fleek] требует статические страницы, поэтому необходимо убедиться, что ваш процесс сборки их создает. В редакторе откройте `next.config.js` и обновите `nextConfig`.
 
 ```javascript
 /** @type {import('next').NextConfig} */
@@ -74,53 +74,53 @@ const nextConfig = {
 module.exports = nextConfig;
 ```
 
-Save and close the file.
+Сохраните и закройте файл.
 
-Run `bun run build` and confirm that a directory called `out` is created.
+Запустите `bun run build` и убедитесь, что создана директория с именем `out`.
 
-Navigate to [Fleek]'s website and create an account, or log in if you already have one.
+Перейдите на сайт [Fleek], создайте аккаунт или войдите в систему, если он уже есть.
 
-Click into `First Project`. You can rename it if you want in the `Settings` tab.
+Нажмите на `First Project`. При желании его можно переименовать во вкладке `Settings`.
 
-The best way to start is to link Fleek to your repo from the beginning. Click `Add New` from the upper right corner, then select `Deploy My Site`. Select your code location, log into your Git provider, and accept installing the Fleek app.
+Лучше всего начать, привязав Fleek к вашему репозиторию с самого начала. Нажмите `Add New` в правом верхнем углу, затем выберите `Deploy My Site`. Выберите местоположение кода, войдите в свою учетную запись Git-провайдера и согласитесь установить приложение Fleek
 
-You can either give it permissions for all repos, or add them one at a time.
+Можно предоставить разрешения для всех репозиториев или добавлять их по одному
 
-Select your repo, and click the `Deploy` button. The `Configure Site` window should automatically populate with the appropriate information, but just in case:
+Выберите свой репозиторий и нажмите кнопку `Deploy`. Окно `Configure Site` должно автоматически заполниться соответствующей информацией, но на всякий случай проверьте:
 
-- Site Name: Your site name
+- Site Name: Имя вашего сайта
 - Framework: Next.js
 - Branch: main
 - Publish Directory: out
 - Build Command: npm install && npm run build
 
-Click `Deploy Site`. Your deploy will probably fail, but this is expected!
+Нажмите `Deploy Site`. Скорее всего, развертывание завершится неудачей, но это ожидаемо!
 
-Return to your code editor.
+Вернитесь в редактор кода.
 
-Open a terminal and install the Fleek CLI with:
+Откройте терминал и установите Fleek CLI с помощью команды:
 
 ```bash
 npm install -g @fleek-platform/cli
 ```
 
-Then, **in the root of your project** run:
+Затем в **корневой директории вашего проекта** выполните:
 
 ```bash
 fleek login
 ```
 
-Click the link in your terminal, then click `Confirm` in the web page that opens up. Once you are connected, click the `Visit Dashboard` button. The site automatically creates a project called `First Project`. If you'd like, you can rename it, or add a new one.
+Нажмите на ссылку в терминале, а затем нажмите `Confirm` на открывшейся веб-странице. После подключения нажмите кнопку `Visit Dashboard`. Сайт автоматически создаст проект с именем `First Project`. При желании его можно переименовать или добавить новый.
 
-Each project can include more than one site.
+Каждый проект может включать более одного сайта.
 
-Return to your terminal in the app folder, and run:
+Вернитесь в терминал в папке приложения и выполните:
 
 ```bash
 fleek sites init
 ```
 
-Select `First Project` from the list
+Выберите `First Projec`t из списка:
 
 ```
 ⚠️ Warning! To proceed, please select a project...
@@ -130,46 +130,46 @@ Select `First Project` from the list
 ✅ Success! You have switched to project "First Project".
 ```
 
-For `We've found existing sites. Would you like to link to one of them?`, pick: `Y`
+На запрос `We've found existing sites. Would you like to link to one of them?`, выберите: `Y`
 
-Find the site you just added and select it.
+Найдите только что добавленный сайт и выберите его.
 
 <Warning>
-You're using TypeScript, but **do not** select `TypeScript (fleek.config.ts)` in the final prompt. Select `JSON (fleek.config.json)`.
+Вы используете TypeScript, но **не выбирайте** `TypeScript (fleek.config.ts)` в последнем запросе. Выберите `JSON (fleek.config.json)`.
 </Warning>
 
-You'll get a few more prompts:
+Появится еще несколько запросов:
 
 - ? Please specify the directory containing the site files to be uploaded
-  - Enter `out`
+  - Введите `out`
 - ? Would you like to include the optional "build" command?
-  - Pick `Y`
+  - Введите `Y`
 - ? Specify `build` command:
-  - Enter `npm install && npm run build`
-  - Select `JSON (fleek.config.json)`
+  - Введите `npm install && npm run build`
+  - Выберите `JSON (fleek.config.json)`
 
-### Deployment
+### Развертывание
 
-You can deploy the site from the CLI as the docs describe, but you **do not need to**. There is a better way!
+Развернуть сайт можно из CLI, как описано в документации, но **в этом нет необходимости**. Есть лучший способ!
 
 ```bash
-# Don't use, better method below!
+# Не используйте, ниже показан лучший метод!
 fleek sites deploy
 ```
 
-Instead, trigger an automatic deploy by making a change to the text at `src/app/page.tsx`, committing your changes, and pushing to your repo.
+Вместо этого запустите автоматическое развертывание, внеся изменение в текст в файле `src/app/page.tsx`, закоммитив изменения и отправив их в свой репозиторий.
 
-## Dashboard Overview and Confirming Deployment
+## Обзор панели управления и подтверждение развертывания
 
-Return to your dashboard and click on the `Sites` tab. Click on the card for your new site to open it. Here, you can see information about your site in a similar presentation to other deployment providers.
+Вернитесь в свою панель управления и нажмите на вкладку `Sites`. Нажмите на карточку вашего нового сайта, чтобы открыть ее. Здесь вы можете увидеть информацию о вашем сайте в формате, аналогичном другим провайдерам развертывания.
 
-Click on the `<-> Deploys` tab and you'll see the automatic deploy you triggered by pushing the commit! Open your site by clicking on the build once it shifts from `Pending` to `Live`. You can then click on the link to view your site.
+Нажмите на вкладку `<-> Deploys`, и вы увидите автоматическое развертывание, которое запустили пушем коммита! Откройте свой сайт, нажав на сборку, когда ее статус изменится с `Pending` на `Live`. Затем вы можете нажать на ссылку, чтобы просмотреть свой сайт.
 
-Click on `Settings`. If you'd like, you can change the slug for your site to a name that's more related to your project.
+Нажмите на `Settings`. При желании можно изменить slug (идентификатор) для вашего сайта на более подходящее для вашего проекта имя.
 
-## Conclusion
+## Заключение
 
-In this tutorial, you learned how to use [Fleek] to deploy a [Next.js] site based on [Onchain App Template]. You also learned how to link Fleek to your Git provider to enable CI/CD.
+В этом руководстве вы узнали, как использовать [Fleek] для развертывания сайта на [Next.js] основанного на [Onchain App Template]. Вы также узнали, как связать Fleek с вашим Git-провайдером для включения CI/CD
 
 [Base Learn]: https://base.org/learn
 [Smart Wallet]: https://www.smartwallet.dev/why
