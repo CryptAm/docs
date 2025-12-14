@@ -2,20 +2,20 @@
 title: getAvatar
 ---
 
-The `getAvatar` utility is designed to retrieve an avatar image
-URL from an onchain identity provider for a given name.
+Утилита `getAvatar` предназначена для получения URL изображения 
+аватара из провайдера ончейн-идентификации по заданному имени.
 
-Consider the utility instead of the hook when you
-use it with Next.js or any Node.js backend.
+Рассмотрите использование утилиты вместо хука, если
+вы работаете с Next.js или любым Node.js бэкендом.
 
-Supported providers:
+Поддерживаемые провайдеры:
 
 - [Basenames](https://www.base.org/names)
 - ENS
 
-## Usage
+## Использование
 
-Get Basename avatar:
+Получение аватара Basename:
 
 <CodeGroup>
 ```tsx code
@@ -32,7 +32,7 @@ https://zku9gdedgba48lmr.public.blob.vercel-storage.com/basenames/avatar/paul.ba
 
 </CodeGroup>
 
-Get ENS avatar:
+Получение аватара ENS:
 
 <CodeGroup>
 ```tsx code
@@ -49,7 +49,7 @@ https://euc.li/paulcramer.eth;
 
 </CodeGroup>
 
-## Returns
+## Возвращает
 
 ```typescript
 Promise<GetAvatarReturnType>
@@ -57,19 +57,19 @@ Promise<GetAvatarReturnType>
 type GetAvatarReturnType = string | null;
 ```
 
-## Parameters
+## Параметры
 
 ```typescript
 type GetAvatarParams = {
-  /** The ENS or Basename to fetch the avatar for. */
+  /** ENS или Basename, для которого нужно получить аватар. */
   ensName: string;
-  /** Optional chain for domain resolution */
+  /** Необязательная цепь для разрешения домена */
   chain?: Chain;
 };
 
 type Chain = {
   id: number;
   name: string;
-  // ... other chain properties
+  // ... другие свойства цепи
 };
 ```
