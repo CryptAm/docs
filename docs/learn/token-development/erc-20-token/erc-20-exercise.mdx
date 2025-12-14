@@ -1,118 +1,118 @@
 ---
-title: ERC-20 Tokens Exercise
-description: Exercise - Create your own ERC-20 token!
+title: Упражнение по токенам ERC-20
+description: Упражнение - Создайте свой собственный токен ERC-20!
 hide_table_of_contents: false
-sidebarTitle: Exercise
+sidebarTitle: Упражнение
 ---
 
-Create a contract that adheres to the following specifications.
+Создайте контракт, соответствующий следующим спецификациям.
 
 ---
 
-## Contract
+## Контракт
 
-Create a contract called `WeightedVoting`. Add the following:
+Создайте контракт с именем `WeightedVoting`. Добавьте следующее:
 
-- A `maxSupply` of 1,000,000
-- Errors for:
+- `maxSupply` в размере 1 000 000
+- Ошибки для:
   - `TokensClaimed`
   - `AllTokensClaimed`
   - `NoTokensHeld`
-  - `QuorumTooHigh`, returning the quorum amount proposed
+  - `QuorumTooHigh`, возвращающая предложенное количество кворума
   - `AlreadyVoted`
   - `VotingClosed`
-- A struct called `Issue` containing:
-  - An OpenZeppelin Enumerable Set storing addresses called `voters`
-  - A string `issueDesc`
-  - Storage for the number of `votesFor`, `votesAgainst`, `votesAbstain`, `totalVotes`, and `quorum`
-  - Bools storing if the issue is `passed` and `closed`
+- Структуру с именем `Issue`, содержащую:
+  - Набор OpenZeppelin Enumerable Set для хранения адресов с именем `voters`
+  - Строку `issueDesc`
+  - Хранилище для количества `votesFor`, `votesAgainst`, `votesAbstain`, `totalVotes`, и `quorum`
+  - Логические значения, хранящие, является ли вопрос `passed` и `closed`
 
 <Warning>
-The unit tests require this `struct` to be constructed with the variables in the order above.
+Модульные тесты требуют, чтобы эта `struct` была построена с переменными в указанном выше порядке.
 </Warning>
 
 
-- An array of `Issue`s called `issues`
-- An `enum` for `Vote` containing:
+- Массив `Issue` с именем `issues`
+- Перечисление (`enum`) для `Vote`, содержащее:
   - `AGAINST`
   - `FOR`
   - `ABSTAIN`
-- Anything else needed to complete the tasks
+- Все остальное, необходимое для выполнения задач
 
-Add the following functions.
+Добавьте следующие функции.
 
-### Constructor
+### Конструктор
 
-Initialize the ERC-20 token and burn the zeroeth element of `issues`.
+Инициализируйте токен ERC-20 и сожгите нулевой элемент `issues`.
 
-### Claim
+### Получение токенов (Claim)
 
-Add a `public` function called `claim`. When called, so long as a number of tokens equalling the `maximumSupply` have not yet been distributed, any wallet _that has not made a claim previously_ should be able to claim 100 tokens. If a wallet tries to claim a second time, it should revert with `TokensClaimed`.
+Добавьте `public` функцию с именем `claim`. При вызове, пока количество токенов, равное `maximumSupply`, еще не было распределено, любой кошелек, который еще не получал токены ранее, должен иметь возможность получить 100 токенов. Если кошелек попытается получить токены во второй раз, должен произойти откат (revert) с ошибкой `TokensClaimed`.
 
-Once all tokens have been claimed, this function should revert with an error `AllTokensClaimed`.
+Как только все токены будут получены, эта функция должна выполнить откат с ошибкой `AllTokensClaimed`.
 
 <Warning>
-In our simple token, we used `totalSupply` to mint our tokens up front. The ERC20 implementation we're using also tracks `totalSupply`, but does it differently.
+В нашем простом токене мы использовали `totalSupply` для предварительной чеканки токенов. Реализация ERC20, которую мы используем, также отслеживает `totalSupply`, но делает это по-другому.
 
-Review the docs and code comments to learn how.
+Ознакомьтесь с документацией и комментариями в коде, чтобы узнать как.
 </Warning>
 
 
-### Create Issue
+### Создание вопроса (Create Issue)
 
-Implement an `external` function called `createIssue`. It should add a new `Issue` to `issues`, allowing the user to set the description of the issue, and `quorum` - which is how many votes are needed to close the issue.
+Реализуйте `external` функцию с именем `createIssue`. Она должна добавлять новый `Issue` в `issues`, позволяя пользователю установить описание вопроса и `quorum` - количество голосов, необходимое для закрытия вопроса.
 
-Only token holders are allowed to create issues, and issues cannot be created that require a `quorum` greater than the current total number of tokens.
+Только держатели токенов могут создавать вопросы, и нельзя создавать вопросы, требующие `quorum` больше текущего общего количества токенов.
 
-This function must return the index of the newly-created issue.
+Эта функция должна возвращать индекс вновь созданного вопроса.
 
 <Warning>
-One of the unit tests will break if you place your check for `quorum` before the check that the user holds a token. The test compares encoded error names, which are **not** human-readable. If you are getting `-> AssertionError: �s is not equal to �9�` or similar, this is likely the issue.
+Один из модульных тестов сломается, если вы разместите проверку `quorum` перед проверкой того, что пользователь владеет токеном. Тест сравнивает закодированные имена ошибок, которые **не** читаемы человеком. Если вы получаете `-> AssertionError: �s is not equal to �9�` или подобное, скорее всего, проблема в этом.
 </Warning>
 
 
-### Get Issue
+### Получение вопроса (Get Issue)
 
-Add an `external` function called `getIssue` that can return all of the data for the issue of the provided `_id`.
+Добавьте `external` функцию с именем `getIssue`, которая может возвращать все данные для вопроса с предоставленным `_id`.
 
-`EnumerableSet` has a `mapping` underneath, so it can't be returned outside of the contract. You'll have to figure something else out.
+`EnumerableSet` имеет внутри `mapping`, поэтому он не может быть возвращен за пределами контракта. Вам придется что-то придумать.
 
 <Note>
-**Hint**
+**Подсказка**
 
-The return type for this function should be a `struct` very similar to the one that stores the issues.
+Тип возвращаемого значения для этой функции должен быть `struct`, очень похожим на тот, который хранит вопросы.
 </Note>
 
-### Vote
+### Голосование  (Vote)
 
-Add a `public` function called `vote` that accepts an `_issueId` and the token holder's vote. The function should revert if the issue is closed, or the wallet has already voted on this issue.
+Добавьте `public` функцию с именем `vote`, которая принимает `_issueId` и голос держателя токенов. Функция должна выполнять откат, если вопрос закрыт или кошелек уже голосовал по этому вопросу.
 
-Holders must vote all of their tokens for, against, or abstaining from the issue. This amount should be added to the appropriate member of the issue and the total number of votes collected.
+Держатели должны проголосовать всеми своими токенами за, против или воздержаться от голосования по вопросу. Это количество должно быть добавлено к соответствующему члену вопроса и общему количеству собранных голосов.
 
-If this vote takes the total number of votes to or above the `quorum` for that vote, then:
+Если это голосование приводит общее количество голосов к `quorum` для этого голосования или превышает его, тогда:
 
-- The issue should be set so that `closed` is true
-- If there are **more** votes for than against, set `passed` to `true`
+- Вопрос должен быть установлен так, чтобы `closed` был `true`
+- Если голосов за больше, чем против, установить `passed` в `true`
 
 ---
 
-### Submit your Contract and Earn an NFT Badge! (BETA)
+### Отправьте свой контракт и получите NFT-значок! (BETA)
 
 <Note>
-#### Hey, where'd my NFT go!?
+#### Эй, куда делся мой NFT?!
 
-[Testnets](/learn/deployment-to-testnet/test-networks) are not permanent! Base Goerli [will soon be sunset](https://base.mirror.xyz/kkz1-KFdUwl0n23PdyBRtnFewvO48_m-fZNzPMJehM4), in favor of Base Sepolia.
+[Тестовые сети](/learn/deployment-to-testnet/test-networks) не являются постоянными! Base Goerli [скоро будет приостановлена](https://base.mirror.xyz/kkz1-KFdUwl0n23PdyBRtnFewvO48_m-fZNzPMJehM4), в пользу Base Sepolia.
 
-As these are separate networks with separate data, your NFTs **will not** transfer over.
+Поскольку это отдельные сети с отдельными данными, ваши NFT **не будут** перенесены.
 
-**Don't worry!** We've captured the addresses of all NFT owners on Base Goerli and will include them when we release the mechanism to transfer these NFTs to mainnet later this year! You can also redeploy on Sepolia and resubmit if you'd like!
+**Не волнуйтесь!** Мы зафиксировали адреса всех владельцев NFT на Base Goerli и включим их, когда позже в этом году выпустим механизм переноса этих NFT в основную сеть! Вы также можете повторно развернуть на Sepolia и повторно отправить, если хотите!
 </Note>
 
 
 <Warning>
-The contract specification contains actions that can only be performed once by a given address. As a result, the unit tests for a passing contract will only be successful the **first** time you test.
+Спецификация контракта содержит действия, которые могут быть выполнены только один раз данным адресом. В результате модульные тесты для проходящего контракта будут успешными только **первый** раз, когда вы тестируете.
 
-**You may need to submit a fresh deployment to pass**
+**Возможно, вам потребуется отправить новое развертывание, чтобы пройти тест**
 </Warning>
 
 {/* <CafeUnitTest nftNum={14}/> */}
