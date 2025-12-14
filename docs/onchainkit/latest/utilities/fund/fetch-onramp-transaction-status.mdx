@@ -2,9 +2,9 @@
 title: fetchOnrampTransactionStatus
 ---
 
-The `fetchOnrampTransactionStatus` utility retrieves the status of onramp transactions for a specific user. This is useful for tracking the progress of crypto purchases and displaying transaction history.
+Утилита fetchOnrampTransactionStatus получает статус транзакций покупки криптовалюты для конкретного пользователя. Это полезно для отслеживания прогресса покупок и отображения истории транзакций.
 
-## Usage
+## Использование
 
 <CodeGroup>
 ```tsx code
@@ -14,7 +14,7 @@ const transactions = await fetchOnrampTransactionStatus({
 partnerUserId: 'user123',
 nextPageKey: '',
 pageSize: '10',
-apiKey: 'your-api-key', // Required when using without OnchainKitProvider or in non-React environment
+apiKey: 'your-api-key', // Обязателен при использовании без OnchainKitProvider или вне окружения React
 });
 
 ````
@@ -38,31 +38,31 @@ apiKey: 'your-api-key', // Required when using without OnchainKitProvider or in 
 
 </CodeGroup>
 
-## Parameters
+## Параметры
 
 ```typescript
 {
   /**
-   * A unique identifier that will be associated with any transactions created
-   * by the user during their Onramp session. You can use this with the
-   * Transaction Status API to check the status of the user's transaction.
-   * See https://docs.cdp.coinbase.com/onramp/docs/api-reporting#buy-transaction-status
+   * Уникальный идентификатор, который будет связан с любыми транзакциями,
+   * созданными пользователем во время его сессии Onramp. Его можно использовать
+   * с API статуса транзакций для проверки статуса транзакции пользователя.
+   * См. https://docs.cdp.coinbase.com/onramp/docs/api-reporting#buy-transaction-status
    */
-  partnerUserId: string; // Your unique identifier for the user
-  nextPageKey: string;   // Token for pagination
-  pageSize: string;      // Number of transactions per page
+  partnerUserId: string; // Ваш уникальный идентификатор пользователя
+  nextPageKey: string;   // Токен для постраничной навигации (пагинации)
+  pageSize: string;      // Количество транзакций на страницу
   /**
-   * Optional API key for Coinbase Onramp. If not provided, the API key from
-   * OnchainKitProvider will be used. Required when using the utility without
-   * OnchainKitProvider or in a non-React environment.
+   * Необязательный API-ключ для Coinbase Onramp. Если не предоставлен,
+   * будет использован API-ключ из OnchainKitProvider. Обязателен при использовании
+   * утилиты без OnchainKitProvider или вне окружения React.
    */
   apiKey?: string;
 }
 ```
 
-## Returns
+## Возвращает
 
-`Promise<OnrampTransactionStatusResponseData>` - Returns a promise that resolves to the transaction status data.
+`Promise<OnrampTransactionStatusResponseData>` - Возвращает промис, который резолвится в данные статуса транзакции.
 
 ```typescript
 type OnrampTransactionStatusResponseData = {
