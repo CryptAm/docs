@@ -1,12 +1,12 @@
 ---
 title: isWalletACoinbaseSmartWallet
 sidebarTitle: isWalletACoinbaseSmartWallet
-description: Utility to verify if a sender address is a Coinbase Smart Wallet
+description: Утилита для проверки, является ли адрес отправителя Coinbase Smart Wallet
 ---
 
-The `isWalletACoinbaseSmartWallet` utility is designed to verify if a given sender address is a Smart Wallet proxy with the expected implementation before sponsoring a transaction.
+Утилита `isWalletACoinbaseSmartWallet` предназначена для проверки, является ли заданный адрес отправителя прокси смарт-кошелька с ожидаемой имплементацией, перед спонсированием транзакции.
 
-## Usage
+## Использование
 
 <CodeGroup>
 ```tsx code
@@ -37,7 +37,7 @@ true;
 
 </CodeGroup>
 
-## Returns
+## Возвращает
 
 ```typescript
 Promise<IsWalletACoinbaseSmartWalletResponse>
@@ -47,7 +47,7 @@ type IsWalletACoinbaseSmartWalletResponse =
   | { isCoinbaseSmartWallet: false; error: string; code: string };
 ```
 
-## Parameters
+## Параметры
 
 ```typescript
 type IsWalletACoinbaseSmartWalletOptions = {
@@ -59,13 +59,13 @@ type PublicClient = {
   // Viem PublicClient type
   getBytecode: (args: { address: Address }) => Promise<Hex | undefined>;
   request: <T>(args: { method: string; params: any[] }) => Promise<T>;
-  // ... other PublicClient properties
+  // ... другие свойства PublicClient
 };
 
 type RpcUserOperation<T> = {
   sender: Address;
   initCode?: Hex;
-  // ... other UserOperation properties
+  // ... другие свойства UserOperation
 };
 
 type Address = `0x${string}`;
