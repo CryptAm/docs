@@ -2,13 +2,13 @@
 title: getAttestations
 ---
 
-The `getAttestations` function fetches attestations for a specified address
-and blockchain in Ethereum Attestation Service (EAS). It allows optional filtering
-based on schema IDs, revocation status, expiration time, and the number of attestations to return.
+Функция `getAttestations` получает аттестации для указанного адреса и блокчейна
+в службе Ethereum Attestation Service (EAS). Она позволяет выполнять опциональную фильтрацию
+по идентификаторам схем, статусу отзыва, времени истечения и количеству возвращаемых аттестаций.
 
-In the example, we use the Coinbase [Verified Account](https://base.easscan.org/schema/view/0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9) schema ID.
+В примере используется идентификатор схемы Coinbase [Verified Account](https://base.easscan.org/schema/view/0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9).
 
-## Usage
+## Использование
 
 <CodeGroup>
 ```tsx code
@@ -48,29 +48,29 @@ const attestations = [
 
 </CodeGroup>
 
-## Returns
+## Возвращает
 
 ```typescript
 Promise<Attestation[]>
 
 type Attestation = {
-  /** The attester who created the attestation. */
+  /** Провайдер (attester), создавший аттестацию. */
   attester: Address;
-  /** The attestation data decoded to JSON. */
+  /** Данные аттестации, декодированные в JSON. */
   decodedDataJson: string;
-  /** The Unix timestamp when the attestation expires (0 for no expiration). */
+  /** Unix-время истечения срока действия аттестации (0 - без истечения). */
   expirationTime: number;
-  /** The unique identifier of the attestation. */
+  /** Уникальный идентификатор аттестации. */
   id: string;
-  /** The Ethereum address of the recipient of the attestation. */
+  /** Адрес Ethereum получателя аттестации. */
   recipient: Address;
-  /** The Unix timestamp when the attestation was revoked, if applicable. */
+  /** Unix-время отзыва аттестации, если применимо. */
   revocationTime: number;
-  /** A boolean indicating whether the attestation is revoked or not. */
+  /** Булево значение, указывающее, отозвана ли аттестация. */
   revoked: boolean;
-  /** The schema identifier associated with the attestation. */
+  /** Идентификатор схемы, связанный с аттестацией. */
   schemaId: EASSchemaUid;
-  /** The Unix timestamp when the attestation was created. */
+  /** Unix-время создания аттестации. */
   time: number;
 };
 
@@ -78,18 +78,18 @@ type Address = `0x${string}`;
 type EASSchemaUid = `0x${string}`;
 ```
 
-## Parameters
+## Параметры
 
 ### Address
 
 ```ts
-type Address = `0x${string}`; // The address for which attestations are being queried.
+type Address = `0x${string}`; // Адрес, для которого запрашиваются аттестации.
 ```
 
 ### Chain
 
 ```ts
-type Chain = { // The blockchain of interest.
+type Chain = { // Интересующий блокчейн.
   id: string;
   name: string;
   network: string;
@@ -108,13 +108,13 @@ type Chain = { // The blockchain of interest.
 
 ```typescript
 type GetAttestationsParams = {
-  /** Array of schema UIDs to filter by */
+  /** Массив UID схем для фильтрации */
   schemas?: EASSchemaUid[];
-  /** Filter by revocation status */
+  /** Фильтр по статусу отзыва */
   revoked?: boolean;
-  /** Filter by expiration time */
+  /** Фильтр по времени истечения */
   expirationTime?: number;
-  /** Limit number of results */
+  /** Ограничение количества результатов */
   limit?: number;
 };
 ```
