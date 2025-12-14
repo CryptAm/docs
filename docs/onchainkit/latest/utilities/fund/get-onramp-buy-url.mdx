@@ -2,29 +2,28 @@
 title: getOnrampBuyUrl
 ---
 
-The `getOnrampBuyUrl` utility is a helper method to generate a Coinbase Onramp URL. It helps you customize the funding
-experience for your users. For example:
+Утилита `getOnrampBuyUrl` - это вспомогательный метод для генерации URL Coinbase Onramp. Она помогает кастомизировать опыт пополнения средств для ваших пользователей. Например:
 
-- Setting a default buy/send amount, defaultAsset, or defaultNetwork
-- Setting a redirect URL to return your users to your app after they complete the fund flow
+- Установка суммы покупки/отправки по умолчанию, актива по умолчанию или сети по умолчанию
+- Установка URL для перенаправления, чтобы вернуть пользователей в ваше приложение после завершения потока пополнения
 
 <Info>
-**Session Token Required:** This utility requires a session token generated on your backend server using your CDP API keys. The session token encapsulates user addresses, supported assets, and client IP.
+**Требуется токен сессии:** Для этой утилиты необходим токен сессии, сгенерированный на вашем сервере бэкенда с использованием ваших CDP API-ключей. Токен сессии инкапсулирует адреса пользователей, поддерживаемые активы и IP-адрес клиента.
 
-**Note:** Restricting assets and addresses are done during session token creation on your backend.
+**Примечание:** Ограничение активов и адресов выполняется во время создания токена сессии на вашем бэкенде.
 
-See [Session Token Authentication](https://docs.cdp.coinbase.com/onramp-&-offramp/session-token-authentication) for implementation details.
+См. [Session Token Authentication](https://docs.cdp.coinbase.com/onramp-&-offramp/session-token-authentication) для деталей реализации.
 
 </Info>
 
-## Usage
+## Использование
 
 <CodeGroup>
 ```tsx code
 import { getOnrampBuyUrl } from '@coinbase/onchainkit/fund';
 
-// First, generate a session token on your backend server
-// See: https://docs.cdp.coinbase.com/onramp-&-offramp/session-token-authentication
+// Сначала сгенерируйте токен сессии на вашем сервере бэкенда
+// См.: https://docs.cdp.coinbase.com/onramp-&-offramp/session-token-authentication
 const sessionToken = 'YOUR_SESSION_TOKEN';
 
 const onrampBuyUrl = getOnrampBuyUrl({
@@ -42,20 +41,20 @@ redirectUrl: 'https://yourapp.com/onramp-return?param=foo',
 
 </CodeGroup>
 
-## Returns
+## Возвращает
 
-`string` - Returns a full Coinbase Onramp URL that you can redirect your users to, or open in a popup.
+`string` - Возвращает полный URL Coinbase Onramp, на который вы можете перенаправить своих пользователей или открыть его во всплывающем окне.
 
-## Parameters
+## Параметры
 
 [`GetOnrampUrlParams`](/onchainkit/fund/types#getonrampurlparams)
 
-## Session Token Generation
+## Генерация токена сессии
 
-Session tokens must be generated on your backend server using the CDP API. The token encapsulates:
+Токены сессии должны быть сгенерированы на вашем сервере бэкенда с использованием CDP API. Токен инкапсулирует:
 
-- User wallet addresses
-- Supported assets and blockchains
-- Client IP address
+- Адреса кошельков пользователя
+- Поддерживаемые активы и блокчейны
+- IP-адрес клиента
 
-For complete implementation details, see the [Session Token Authentication Guide](https://docs.cdp.coinbase.com/onramp-&-offramp/session-token-authentication).
+Полные детали реализации см. в [Session Token Authentication Guide](https://docs.cdp.coinbase.com/onramp-&-offramp/session-token-authentication).
