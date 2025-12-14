@@ -1,30 +1,30 @@
 ---
-title: ERC-20 Implementation
-sidebarTitle: Step by Step Guide
-description: Implement your own ERC-20 token.
+title: Реализация ERC-20
+sidebarTitle: Пошаговое руководство
+description: Реализуйте свой собственный токен ERC-20.
 hide_table_of_contents: false
 ---
 
-The ERC-20 is a standard that allows for the development of fungible tokens and helps sites and apps, such as exchanges, know how to find and display information about these tokens. You can leverage existing implementations, such as the one by [OpenZeppelin] to develop your own tokens.
+ERC-20 - это стандарт, который позволяет разрабатывать взаимозаменяемые (fungible) токены и помогает сайтам и приложениям, таким как биржи, знать, как находить и отображать информацию об этих токенах. Вы можете использовать существующие реализации, такие как реализация от [OpenZeppelin], для разработки собственных токенов.
 
 ---
 
-## Objectives
+## Цели
 
-By the end of this lesson you should be able to:
+К концу этого урока вы должны уметь:
 
-- Describe OpenZeppelin
-- Import the OpenZeppelin ERC-20 implementation
-- Describe the difference between the ERC-20 standard and OpenZeppelin's ERC20.sol
-- Build and deploy an ERC-20 compliant token
+- Описывать OpenZeppelin
+- Импортировать реализацию ERC-20 от OpenZeppelin
+- Описывать разницу между стандартом ERC-20 и ERC20.sol от OpenZeppelin
+- Создавать и развертывать токен, соответствующий стандарту ERC-20
 
 ---
 
-## Setting Up the Contract
+## Настройка контракта
 
-Create a new Solidity file, add the license and pragma, and import the ERC-20 implementation linked above.
+Создайте новый файл Solidity, добавьте лицензию и прагму, а также импортируйте реализацию ERC-20, ссылка на которую приведена выше.
 
-Add a contract called `MyERC20Token` that inherits from `ERC20`.
+Добавьте контракт с именем `MyERC20Token`, который наследуется от `ERC20`.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -38,9 +38,9 @@ contract MyERC20Token is ERC20 {
 }
 ```
 
-### Adding a Constructor
+### Добавление конструктора
 
-Review the constructor on line 53 of the [OpenZeppelin] implementation. It requires strings for the name and symbol you wish to use for your token. They're using a slightly different naming convention by putting the `_` after the name of the parameters. Like any other function, you can pass variables of **any** name as long as they're the right type, so feel free to continue adding the `_` in front in your contract's constructor:
+Ознакомьтесь с конструктором в строке 53 реализации [OpenZeppelin]. Он требует строки для имени и символа, которые вы хотите использовать для своего токена. Они используют немного другое соглашение об именовании, помещая `_` после имени параметров. Как и в любой другой функции, вы можете передавать переменные любого имени, если они правильного типа, поэтому не стесняйтесь продолжать добавлять `_` впереди в конструкторе вашего контракта:
 
 ```solidity
 constructor(string memory _name, string memory _symbol) ERC20(_name, _symbol) {
@@ -49,29 +49,29 @@ constructor(string memory _name, string memory _symbol) ERC20(_name, _symbol) {
 ```
 
 <Warning>
-There is neither a governing body nor built-in programmatic rules preventing you, or anyone else, from using the same name and symbol as an already in-use token. Scammers often take advantage of this fact, and even well-meaning developers can cause confusion by not being careful here.
+Не существует ни регулирующего органа, ни встроенных программных правил, которые мешали бы вам или кому-либо еще использовать то же имя и символ, что и уже используемый токен. Мошенники часто пользуются этим фактом, и даже добросовестные разработчики могут вызвать путаницу, не будучи осторожными в этом вопросе.
 </Warning>
 
 
-That's it. You're done! Deploy and test, and you should see all of the functionality called for by the standard and provided by the OpenZeppelin implementation.
+Вот и все. Вы закончили! Разверните и протестируйте, и вы должны увидеть всю функциональность, требуемую стандартом и предоставляемую реализацией OpenZeppelin.
 
 <Frame>
 ![Deployed](/images/learn/erc-20/deployed-token.png)
 </Frame>
 
-Do some testing. You'll see that the `totalSupply` and all balances are zero.
+Проведите тестирование. Вы увидите, что `totalSupply` и все балансы равны нулю.
 
-By default, the decimal for the token will be 18, which is the most common choice. Remember, there aren't decimal types yet, so 1.0 ETH is really a `uint` holding 1 \* 10\*\*18, or 1000000000000000000.
+По умолчанию десятичный знак для токена будет 18, что является наиболее распространенным выбором. Помните, что десятичных типов еще нет, поэтому 1.0 ETH на самом деле - это `uint`, содержащий 1 * 10**18, или 1000000000000000000.
 
 ---
 
-## ERC-20 Further Testing
+## Дальнейшее тестирование ERC-20
 
-Line 251 of the [OpenZeppelin] implementation contains a `_mint` function, but it's internal. As a result, you'll need to figure out a minting mechanism and add it via your own contract.
+Строка 251 реализации [OpenZeppelin] содержит функцию `_mint`, но она является internal. В результате вам нужно будет придумать механизм чеканки (minting) и добавить его через свой собственный контракт.
 
-### Minting in the Constructor
+### Минт в конструкторе
 
-One method of using the `_mint` function is to create an initial supply of tokens in the constructor. Add a call to `_mint` that awards 1 full token to the contract creator. Remember, the decimal is 18. Minting literally `1` is creating a tiny speck of dust.
+Один из способов использования функции `_mint` - создать начальное предложение токенов в конструкторе. Добавьте вызов _mint, который начисляет 1 полный токен создателю контракта. Помните, десятичный знак равен 18. Чеканка буквально 1 - это создание крошечной пылинки.
 
 ```solidity
 constructor(string memory _name, string memory _symbol) ERC20(_name, _symbol) {
@@ -79,11 +79,11 @@ constructor(string memory _name, string memory _symbol) ERC20(_name, _symbol) {
 }
 ```
 
-Redeploy. Without you needing to do anything, you should find that the `totalSupply` is now 1000000000000000000, as is the `balanceOf` the deploying address.
+Повторно разверните. Без каких-либо дополнительных действий с вашей стороны вы должны обнаружить, что `totalSupply` теперь равен 1000000000000000000, как и `balanceOf` развертывающего адреса.
 
-You can also use this to mint to other users. Go ahead and add the second and third accounts:
+Вы также можете использовать это для чеканки токенов другим пользователям. Добавьте второй и третий аккаунты:
 
-<Accordion title="Reveal code">
+<Accordion title="Показать код">
 
 ```solidity
 constructor(string memory _name, string memory _symbol) ERC20(_name, _symbol) {
@@ -96,15 +96,15 @@ constructor(string memory _name, string memory _symbol) ERC20(_name, _symbol) {
 </Accordion>
 
 
-**Switch back** to the first account and redeploy. Test to confirm that each account has the appropriate amount of tokens.
+**Вернитесь** к первому аккаунту и повторно разверните. Протестируйте, чтобы подтвердить, что каждый аккаунт имеет соответствующее количество токенов.
 
-### Testing the Transfer Function
+### Тестирование функции перевода
 
-Try using the `transfer` function to move tokens around.
+Попробуйте использовать функцию `transfer` для перемещения токенов.
 
-What happens if you try to burn a token by sending it to the zero address? Give it a try!
+Что произойдет, если вы попытаетесь сжечь токен, отправив его на нулевой адрес? Попробуйте!
 
-You'll get an error, because protecting from burning is built into the `_transfer` function.
+Вы получите ошибку, потому что защита от сжигания встроена в функцию `_transfer`.
 
 ```text
 transact to MyERC20Token.transfer pending ...
@@ -116,25 +116,25 @@ Reason provided by the contract: "ERC20: transfer to the zero address".
 Debug the transaction to get more information.
 ```
 
-### Testing the Transfer From Function
+### Тестирование функции transferFrom
 
-You might have noticed that there's another function called `transferFrom`. What's that for? Check the documentation in the contract to find out!
+Возможно, вы заметили, что есть другая функция под названием `transferFrom`. Для чего она нужна? Проверьте документацию в контракте, чтобы узнать!
 
-This function works with the `allowance` function to give the owner of one wallet permission to spend up to a specified amount of tokens owned by another. Exchanges can make use of this to allow a user to post tokens for sale at a given price without needing to take possession of them.
-
----
-
-## ERC-20 Final Thoughts
-
-The world is still figuring out how to handle all of the new possibilities tokens provide. Old laws are being applied in new ways, and new laws are being written. Different jurisdictions are doing this in unique and sometimes conflicting ways.
-
-You should consult with a lawyer in your jurisdiction before releasing your own tokens.
+Эта функция работает вместе с функцией `allowance`, чтобы дать владельцу одного кошелька разрешение потратить до указанного количества токенов, принадлежащих другому. Биржи могут использовать это, чтобы позволить пользователю выставить токены на продажу по заданной цене, не забирая их во владение.
 
 ---
 
-## Conclusion
+## Заключительные мысли по ERC-20
 
-In this lesson, you've learned how easy it is to create an ERC-20 compliant token by using the OpenZeppelin implementation. You've reviewed at least one method to mint an initial supply of tokens, and that it's up to you to figure out the best way to create your tokens and follow all relevant laws and regulations.
+Мир все еще выясняет, как справляться со всеми новыми возможностями, которые предоставляют токены. Старые законы применяются по-новому, и пишутся новые законы. Разные юрисдикции делают это уникальными, а иногда и противоречивыми способами.
+
+Вам следует проконсультироваться с юристом в вашей юрисдикции, прежде чем выпускать собственные токены.
+
+---
+
+## Заключение
+
+В этом уроке вы узнали, как легко создать токен, соответствующий стандарту ERC-20, используя реализацию OpenZeppelin. Вы рассмотрели как минимум один метод создания начального предложения токенов и поняли, что вам нужно самостоятельно решать, как лучше всего создавать свои токены и соблюдать все соответствующие законы и нормативные акты.
 
 ---
 
