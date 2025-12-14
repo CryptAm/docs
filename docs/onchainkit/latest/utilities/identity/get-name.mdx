@@ -2,15 +2,15 @@
 title: getName
 ---
 
-The `getName` utility is designed to retrieve a name from an onchain identity
-provider for a specific address.
+Утилита `getName` предназначена для получения имени из провайдера 
+ончейн-идентификации по конкретному адресу.
 
-Consider the utility instead of the hook when you
-use it with Next.js or any Node.js backend.
+Рассмотрите использование утилиты вместо хука, если
+вы работаете с Next.js или любым Node.js бэкендом.
 
-## Usage
+## Использование
 
-Get ENS name from an address:
+Получение ENS имени по адресу:
 
 <CodeGroup>
 ```tsx code
@@ -27,7 +27,7 @@ zizzamia.eth;
 
 </CodeGroup>
 
-Get Basename from an address:
+Получение Basename по адресу:
 
 <CodeGroup>
 ```tsx code
@@ -45,7 +45,7 @@ zizzamia.base.eth;
 
 </CodeGroup>
 
-Get a sliced address when address does not have an ENS name:
+Получение усеченного адреса, если у адреса нет ENS имени:
 
 <CodeGroup>
 ```tsx code
@@ -62,7 +62,7 @@ const name = await getName({ address });
 
 </CodeGroup>
 
-## Returns
+## Возвращает
 
 ```typescript
 Promise<GetNameReturnType>
@@ -74,13 +74,13 @@ type BaseMainnetName = `${string}.base.eth`;
 type BaseSepoliaName = `${string}.basetest.eth`;
 ```
 
-## Parameters
+## Параметры
 
 ```typescript
 type GetNameParams = {
-  /** Ethereum address to resolve */
+  /** Адрес Ethereum для разрешения (резолва) */
   address?: Address;
-  /** Optional chain for domain resolution */
+  /** Необязательная цепь для разрешения домена */
   chain?: Chain;
 };
 
@@ -89,6 +89,6 @@ type Address = `0x${string}`;
 type Chain = {
   id: number;
   name: string;
-  // ... other chain properties
+  // ... другие свойства цепи
 };
 ```
