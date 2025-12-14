@@ -1,239 +1,239 @@
 ---
-sidebarTitle: 'AI Prompting Guide'
-title: AI Prompting Guide
-description: Practical techniques for getting better results from AI coding assistants when building with OnchainKit.
+sidebarTitle: 'Руководство по промптингу AI'
+title: Руководство по промптингу AI
+description: Практические техники для получения лучших результатов от AI-ассистентов для написания кода при работе с OnchainKit.
 ---
 
-Get better results from AI coding assistants when building with OnchainKit. Whether you're using Cursor, GitHub Copilot, or other AI tools, these techniques will improve your workflow.
+Получайте лучшие результаты от AI-ассистентов для написания кода при работе с OnchainKit. Используете ли вы Cursor, GitHub Copilot или другие AI-инструменты - эти техники улучшат ваш рабочий процесс.
 
-## Understanding Context Windows
+## Понимание контекстного окна
 
-### Why Context Matters
+### Почему важен контекст
 
-AI coding assistants have a "context window" - the amount of text they can process at once. Think of it as working memory:
+AI-ассистенты для написания кода имеют «контекстное окно» - объем текста, который они могут обработать за один раз. Это можно сравнить с оперативной памятью:
 
-- Most assistants process thousands of tokens (roughly 4-5 words per token)
-- Everything you share consumes this limited space
-- Once full, older conversation parts may be lost
+- Большинство ассистентов обрабатывают тысячи токенов (примерно 4-5 слов на токен)
+- Все, что вы предоставляете, потребляет это ограниченное пространство
+- Как только оно заполнено, более ранние части беседы могут быть утеряны
 
-Provide relevant context upfront since AI can only work with what's in its current window.
+Предоставляйте релевантный контекст заранее, поскольку AI может работать только с тем, что находится в его текущем окне.
 
-### Optimizing for Context Windows
+### Оптимизация под контекстные окна
 
-Optimize for context windows:
+Оптимизируйте работу с контекстными окнами:
 
-1. **Share relevant info first** - Most important details upfront
-2. **Skip unnecessary content** - Avoid irrelevant code or docs
-3. **Structure requests clearly** - Use sections and formatting
-4. **Reference smartly** - Share only relevant files for large codebases
+1. **Предоставляйте релевантную информацию первой** - Самые важные детали в начале
+2. **Пропускайте ненужный контент** - Избегайте нерелевантного кода или документации
+3. **Структурируйте запросы четко** - Используйте разделы и форматирование
+4. **Ссылайтесь разумно** - Показывайте только релевантные файлы для больших кодовых баз
 
-For larger projects, create a central documentation file rather than repeatedly explaining context.
+Для крупных проектов создавайте центральный файл документации, а не объясняйте контекст повторно.
 
-## Setting Up AI Tools
+## Настройка AI-инструментов
 
-### Cursor Rules
+### Правила Cursor (Cursor Rules)
 
-Cursor Rules provide consistent context to help AI understand your codebase better.
+Правила Cursor (Cursor Rules) обеспечивают постоянный контекст, помогая AI лучше понимать вашу кодовую базу.
 
-1. Open Command Palette: `Cmd + Shift + P` (Mac) or `Ctrl + Shift + P` (Windows/Linux)
-2. Search "Cursor Rules" and create/edit rules
-3. Add project-specific rules:
+1. Откройте палитру команд: `Cmd + Shift + P` (Mac) или `Ctrl + Shift + P` (Windows/Linux)
+2. Найдите «Cursor Rules» и создайте/отредактируйте правила
+3. Добавьте специфичные для проекта правила:
    - [Next.js](https://raw.githubusercontent.com/PatrickJS/awesome-cursorrules/refs/heads/main/rules/nextjs-tailwind-typescript-apps-cursorrules-prompt/.cursorrules)
    - [Astro](https://raw.githubusercontent.com/PatrickJS/awesome-cursorrules/refs/heads/main/rules/astro-typescript-cursorrules-prompt-file/.cursorrules)
    - [Vite](https://raw.githubusercontent.com/PatrickJS/awesome-cursorrules/refs/heads/main/rules/typescript-vite-tailwind-cursorrules-prompt-file/.cursorrules)
-4. Save to apply rules to AI suggestions
+4. Сохраните, чтобы применить правила к AI-предложениям
 
-### OnchainKit Projects
+### Проекты OnchainKit
 
-Create a new OnchainKit project:
+Создайте новый проект OnchainKit:
 
 ```shell
 npm create onchain@latest
 ```
 
-After setup, generate comprehensive documentation for your project.
+После настройки сгенерируйте комплексную документацию для вашего проекта.
 
-### Creating Project Documentation
+### Создание документации проекта
 
-A project instructions file helps AI understand your codebase. Create this early and update regularly.
+Файл с инструкциями проекта помогает AI понять вашу кодовую базу. Создайте его на раннем этапе и регулярно обновляйте.
 
-**Instructions.md prompt:**
+**Промпт для Instructions.md:**
 
 ```
-Create a detailed instructions.md file for my OnchainKit project:
+Создай детальный файл instructions.md для моего проекта OnchainKit:
 
-1. Overview: Project goals and core functionality
-2. Tech Stack: Technologies, libraries, frameworks with versions
-3. Project Structure: File organization with explanations
-4. Coding Standards: Style conventions, linting rules, patterns
-5. User Stories: Key functionality from user perspective
-6. APIs and Integrations: External services and connections
+1.  Обзор: Цели проекта и основная функциональность
+2.  Технологический стек: Технологии, библиотеки, фреймворки с версиями
+3.  Структура проекта: Организация файлов с объяснениями
+4.  Стандарты кодирования: Стилевые соглашения, правила линтинга, паттерны
+5.  Пользовательские сценарии: Ключевая функциональность с точки зрения пользователя
+6.  API и интеграции: Внешние сервисы и подключения
 ```
 
 <Note>
-For architecture planning and complex design decisions, use reasoning-focused AI models. They excel at analyzing tradeoffs, edge cases, and long-term planning.
+Для планирования архитектуры и сложных дизайнерских решений используйте AI-модели, ориентированные на рассуждения. Они отлично справляются с анализом компромиссов, крайних случаев и долгосрочным планированием.
 </Note>
 
 
-## Effective Prompting Strategies
+## Эффективные стратегии промптинга
 
-### Be Specific
+### Будьте конкретны
 
-AI tools respond best to clear, direct instructions.
+AI-инструменты лучше всего реагируют на четкие и прямые инструкции.
 
-❌ "Help me with my code"
-✅ "Refactor this authentication function to use async/await instead of nested then() calls"
+❌ "Помоги с моим кодом"
+✅ "Рефактори эту функцию аутентификации, чтобы использовать async/await вместо вложенных вызовов then()"
 
-### Provide Context
+### Предоставляйте контекст
 
-**Template:**
-
-```
-I'm working on an OnchainKit project using [frameworks/libraries]. I need help with:
-
-1. Problem: [describe specific issue]
-2. Current approach: [what you've tried]
-3. Constraints: [technical limitations]
-4. Expected outcome: [what success looks like]
-
-Relevant docs: @https://onchainkit.xyz
-
-Relevant code:
-[paste your code]
-```
-
-### Iterate
-
-Start simple and refine rather than trying to get everything perfect at once.
-
-**Template:**
+**Шаблон:**
 
 ```
-Let's approach this step by step:
-1. First, implement basic [feature] with minimal functionality
-2. Review and identify improvements
-3. Add error handling and edge cases
-4. Optimize for performance
+Я работаю над проектом OnchainKit, используя [фреймворки/библиотеки]. Мне нужна помощь с:
 
-Start with step 1.
+1.  Проблема: [опишите конкретную задачу]
+2.  Текущий подход: [что вы пробовали]
+3.  Ограничения: [технические ограничения]
+4.  Ожидаемый результат: [как выглядит успех]
+
+Релевантная документация: @https://onchainkit.xyz
+
+Релевантный код:
+[вставьте ваш код]
 ```
 
-## Working with OnchainKit
+### Итерируйте
 
-### Using Documentation
+Начните с простого и уточняйте, вместо того чтобы пытаться сделать все идеально с первого раза.
 
-Reference OnchainKit documentation directly in your prompts:
-
-1. Browse [OnchainKit docs](../getting-started/overview)
-2. Find your component
-3. Reference the docs URL in your prompt
-
-**Example:**
+**Шаблон:**
 
 ```
-I'm implementing a swap component with OnchainKit. 
+Давай подойдем к этому шаг за шагом:
+1.  Сначала реализуй базовый [функционал] с минимальной функциональностью
+2.  Пересмотри и определи улучшения
+3.  Добавь обработку ошибок и пограничные случаи
+4.  Оптимизируй производительность
 
-Docs: @https://onchainkit.xyz
-
-Show me how to implement a swap that:
-1. Swaps USDC to ETH on Base
-2. Handles connection states
-3. Includes error handling
-4. Follows UX best practices
+Начни с шага 1.
 ```
 
-### Component Integration
+## Работа с OnchainKit
 
-**Token balance example:**
+### Использование документации
 
-```
-Implement a token balance display feature:
+Ссылайтесь на документацию OnchainKit прямо в своих промптах:
 
-1. Shows connected wallet's balance of [TOKEN_SYMBOL]
-2. Updates when balance changes
-3. Handles loading and error states
-4. Follows project coding standards
-5. Update instructions.md with this implementation
-```
+1. Просмотрите [OnchainKit docs](../getting-started/overview)
+2. Найдите ваш компонент
+3. Укажите URL документации в своем промпте
 
-## Debugging with AI
-
-### Debugging Prompts
-
-**Bug analysis template:**
+**Пример:**
 
 ```
-I'm encountering an issue:
+Я реализую компонент обмена (swap) с OnchainKit.
 
-1. Expected behavior: [what should happen]
-2. Actual behavior: [what's happening]
-3. Error messages: [any errors]
-4. Relevant code: [problematic code]
+Документация: @https://onchainkit.xyz
 
-Analyze step by step and help me:
-1. Identify potential causes
-2. Suggest debugging steps
-3. Propose solutions
+Покажи, как реализовать обмен, который:
+1.  Обменивает USDC на ETH в сети Base
+2.  Обрабатывает состояния подключения
+3.  Включает обработку ошибок
+4.  Следует лучшим практикам UX
 ```
 
-**Debug logging template:**
+### Интеграция компонентов
+
+**Пример отображения баланса токена:**
 
 ```
-Add comprehensive logging to this function to trace:
-1. Input values and types
-2. Function execution flow
-3. Intermediate state changes
-4. Output values or errors
+Реализуй функцию отображения баланса токена:
 
-Code:
-[paste your code]
+1.  Показывает баланс подключенного кошелька для [TOKEN_SYMBOL]
+2.  Обновляется при изменении баланса
+3.  Обрабатывает состояния загрузки и ошибок
+4.  Следует стандартам кодирования проекта
+5.  Обнови instructions.md с этой реализацией
 ```
 
-### When Stuck
+## Отладка с помощью AI
 
-**Clarification template:**
+### Промпты для отладки
+
+**Шаблон анализа ошибки:**
 
 ```
-I'm unsure how to proceed with [specific task]. Here's what I know:
-1. [problem context]
-2. [what you've tried]
-3. [specific areas needing guidance]
+Я столкнулся с проблемой:
 
-What additional information would help you assist better?
+1.  Ожидаемое поведение: [что должно произойти]
+2.  Фактическое поведение: [что происходит]
+3.  Сообщения об ошибках: [если есть ошибки]
+4.  Релевантный код: [проблемный код]
+
+Проанализируй шаг за шагом и помоги мне:
+1.  Определить возможные причины
+2.  Предложить шаги для отладки
+3.  Предложить решения
 ```
 
-## Advanced Techniques
+**Шаблон для добавления логирования отладки:**
 
-1. **Step-by-step reasoning**
+```
+Добавь комплексное логирование в эту функцию для отслеживания:
+1.  Входных значений и их типов
+2.  Потока выполнения функции
+3.  Промежуточных изменений состояния
+4.  Выходных значений или ошибок
+
+Код:
+[вставьте ваш код]
+```
+
+### Когда застряли
+
+**Шаблон для уточнения:**
+
+```
+Я не уверен, как продолжить с [конкретной задачей]. Вот что я знаю:
+1.  [контекст проблемы]
+2.  [что вы пробовали]
+3.  [конкретные области, где нужна помощь]
+
+Какая дополнительная информация поможет тебе лучше помочь?
+```
+
+## Продвинутые техники
+
+1. **Пошаговое рассуждение**
    ```
-   Analyze this code step by step and identify potential issues.
-   ```
-
-2. **Format specification**
-   ```
-   Structure your response as a tutorial with code examples.
+   Проанализируй этот код шаг за шагом и определи потенциальные проблемы.
    ```
 
-3. **Length guidance**
+2. **Спецификация формата**
    ```
-   Provide a concise explanation in 2-3 paragraphs.
-   ```
-
-4. **Clarify ambiguities**
-   ```
-   You suggested two approaches. I prefer the first with TypeScript.
+   Структурируй свой ответ как обучающее руководство с примерами кода.
    ```
 
-## Best Practices
+3. **Указание длины**
+   ```
+   Предоставь краткое объяснение в 2-3 абзаца.
+   ```
 
-1. **Understand context limitations** - AI has finite memory, prioritize important info
-2. **Provide relevant context** - Share code, errors, and project details that matter
-3. **Be specific** - Clear instructions beat vague questions
-4. **Break down complex tasks** - Iterative approaches work better
-5. **Request explanations** - Ask AI to explain generated code you don't understand
-6. **Use clear formatting** - Structure prompts with sections
-7. **Reference docs** - Include OnchainKit documentation links
-8. **Test and validate** - Always review AI-generated code before implementing
-9. **Build on context** - Reference earlier conversation parts when iterating
-10. **Provide feedback** - Tell AI what worked and what didn't
+4. **Уточнение неоднозначностей**
+   ```
+   Ты предложил два подхода. Я предпочитаю первый с TypeScript.
+   ```
+
+## Рекомендации
+
+1. **Понимайте ограничения контекста** - AI имеет конечную память, расставляйте приоритеты для важной информации
+2. **Предоставляйте релевантный контекст** - Показывайте код, ошибки и детали проекта, которые имеют значение
+3. **Будьте конкретны** - Четкие инструкции лучше расплывчатых вопросов
+4. **Разбивайте сложные задачи** - Итеративные подходы работают лучше
+5. **Запрашивайте объяснения** - Просите AI объяснить сгенерированный код, который вы не понимаете
+6. **Используйте четкое форматирование** - Структурируйте промпты разделами
+7. **Ссылайтесь на документацию** - Включайте ссылки на документацию OnchainKit
+8. **Тестируйте и проверяйте** - Всегда проверяйте код, сгенерированный AI, перед внедрением
+9. **Накапливайте контекст** - Ссылайтесь на более ранние части разговора при итерациях
+10. **Предоставляйте обратную связь** - Говорите AI, что сработало, а что нет
 
