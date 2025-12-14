@@ -2,9 +2,9 @@
 title: fetchOnrampQuote
 ---
 
-The `fetchOnrampQuote` utility provides a quote based on the asset the user would like to purchase, plus the network, fiat payment, payment currency, payment method, and country. This is useful for getting pricing information and fees before initiating a transaction.
+Утилита `fetchOnrampQuote` предоставляет расценку на основе актива, который пользователь хочет приобрести, а также сети, фиатного платежа, валюты оплаты, метода оплаты и страны. Это полезно для получения информации о ценах и комиссиях перед инициированием транзакции.
 
-## Usage
+## Использование
 
 <CodeGroup>
 ```tsx code
@@ -17,8 +17,8 @@ paymentCurrency: 'USD',
 paymentMethod: 'CARD',
 paymentAmount: '100.00',
 country: 'US',
-subdivision: 'CA', // Required for US residents
-apiKey: 'your-api-key', // Required when using without OnchainKitProvider or in non-React environment
+subdivision: 'CA', // Обязательно для резидентов США
+apiKey: 'your-api-key', // Обязателен при использовании без OnchainKitProvider или вне окружения React
 });
 
 ````
@@ -51,95 +51,95 @@ apiKey: 'your-api-key', // Required when using without OnchainKitProvider or in 
 
 </CodeGroup>
 
-## Parameters
+## Параметры
 
 ```typescript
 {
   /**
-   * ID of the crypto asset the user wants to purchase.
-   * Retrieved from the options API.
+   * ID криптоактива, который пользователь хочет приобрести.
+   * Получается из API вариантов (options API).
    */
   purchaseCurrency: string;
 
   /**
-   * Name of the network that the purchase currency should be purchased on.
-   * Retrieved from the options API. If omitted, the default network for
-   * the crypto currency is used.
+   * Название сети, в которой должна быть куплена валюта для покупки.
+   * Получается из API вариантов (options API). Если опущено, используется
+   * сеть по умолчанию для криптовалюты.
    */
   purchaseNetwork?: string;
 
   /**
-   * Fiat currency of the payment amount, e.g., USD.
+   * Фиатная валюта суммы платежа, например, USD.
    */
   paymentCurrency: string;
 
   /**
-   * ID of payment method used to complete the purchase.
-   * Retrieved from the options API.
+   * ID метода оплаты, используемого для завершения покупки.
+   * Получается из API вариантов (options API).
    */
   paymentMethod: string;
 
   /**
-   * Fiat amount the user wants to spend to purchase the crypto currency,
-   * inclusive of fees with two decimals of precision, e.g., "100.00".
+   * Фиатная сумма, которую пользователь хочет потратить на покупку криптовалюты,
+   * включая комиссии, с точностью до двух знаков после запятой, например, "100.00".
    */
   paymentAmount: string;
 
   /**
-   * ISO 3166-1 two-digit country code string representing the purchasing
-   * user's country of residence, e.g., US.
+   * Двухбуквенный код страны по стандарту ISO 3166-1, представляющий
+   * страну проживания пользователя, совершающего покупку, например, US.
    */
   country: string;
 
   /**
-   * ISO 3166-2 two-digit country subdivision code. Required if country="US"
-   * because certain states (e.g., NY) have state specific asset restrictions.
+   * Двухбуквенный код субъекта страны по стандарту ISO 3166-2. Обязателен, если country="US",
+   * поскольку в некоторых штатах (например, NY) действуют специфические ограничения на активы.
    */
   subdivision?: string;
 
    /**
-   * Optional API key for Coinbase Onramp. If not provided, the API key from
-   * OnchainKitProvider will be used. Required when using the utility without
-   * OnchainKitProvider or in a non-React environment.
+   * Необязательный API-ключ для Coinbase Onramp. Если не предоставлен,
+   * будет использован API-ключ из OnchainKitProvider. Обязателен при использовании
+   * утилиты без OnchainKitProvider или вне окружения React.
    */
   apiKey?: string;
 }
 ```
 
-## Returns
+## Возвращает
 
-`Promise<OnrampQuoteResponseData>` - Returns a promise that resolves to the quote data containing payment amounts, fees, and quote ID.
+`Promise<OnrampQuoteResponseData>` - Возвращает промис, который резолвится в данные расценки, содержащие суммы платежей, комиссии и ID расценки.
 
 ```typescript
 type OnrampQuoteResponseData = {
   /**
-   * Object with amount and currency of the total fiat payment required to complete the purchase, inclusive of any fees.
-   * The currency will match the `paymentCurrency` in the request if it is supported, otherwise it falls back to USD.
+   * Объект с суммой и валютой общего фиатного платежа, необходимого для завершения покупки, включая все комиссии.
+   * Валюта будет соответствовать `paymentCurrency` из запроса, если она поддерживается, в противном случае используется USD.
    */
   paymentTotal: OnrampAmount;
   /**
-   * Object with amount and currency of the fiat cost of the crypto asset to be purchased, exclusive of any fees.
-   * The currency will match the `paymentCurrency`.
+   * Объект с суммой и валютой фиатной стоимости криптоактива, который будет приобретен, без учета комиссий.
+   * Валюта будет соответствовать `paymentCurrency`.
    */
   paymentSubtotal: OnrampAmount;
   /**
-   * Object with amount and currency of the crypto that to be purchased.
-   * The currency will match the `purchaseCurrency` in the request.
-   * The number of decimals will be based on the crypto asset.
+   * Объект с суммой и валютой криптовалюты, которая будет приобретена.
+   * Валюта будет соответствовать `purchaseCurrency` из запроса.
+   * Количество знаков после запятой будет основано на криптоактиве.
    */
   purchaseAmount: OnrampAmount;
   /**
-   * Object with amount and currency of the fee changed by the Coinbase exchange to complete the transaction.
-   * The currency will match the `paymentCurrency`.
+   * Объект с суммой и валютой комиссии, взимаемой биржей Coinbase для завершения транзакции.
+   * Валюта будет соответствовать `paymentCurrency`.
    */
   coinbaseFee: OnrampAmount;
   /**
-   * Object with amount and currency of the network fee required to send the purchased crypto to the user's wallet.
-   * The currency will match the `paymentCurrency`.
+   * Объект с суммой и валютой сетевой комиссии, необходимой для отправки купленной криптовалюты на кошелек пользователя.
+   * Валюта будет соответствовать `paymentCurrency`.
    */
   networkFee: OnrampAmount;
   /**
-   * Reference to the quote that should be passed into the initialization parameters when launching the Coinbase Onramp widget via the SDK or URL generator.
+   * Референс расценки, который должен быть передан в параметры инициализации при запуске виджета Coinbase Onramp через SDK или генератор URL.
    */
   quoteId: string;
 };
