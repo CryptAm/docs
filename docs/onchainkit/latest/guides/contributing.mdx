@@ -1,94 +1,94 @@
 ---
-title: Contributing
+title: Внесение вклада
 ---
 
-Contributing guide for OnchainKit development.
+Руководство по внесению вклада в разработку OnchainKit.
 
-## Setup
+## Настройка
 
 ```bash
-# Clone repo
+# Клонировать репозиторий
 git clone git@github.com:coinbase/onchainkit.git
 
-# Install dependencies
+# Установить зависимости
 pnpm install
 ```
 
-Requires Node.js and pnpm. See [pnpm installation](https://pnpm.io/installation) if needed.
+Требуется Node.js и pnpm. См. [pnpm installation](https://pnpm.io/installation) если необходимо.
 
-## Codebase
+## Структура кодовой базы
 
-Monorepo structure:
+Структура монорепозитория:
 
 ```bash
 packages/onchainkit/
 └── src/
-   ├── api/                         - API related components and functions
-   ├── core/                        - Files with zero dependencies
-   ├── styles/                      - Styles
-   │   ├── index-with-tailwind.css  - CSS entrypoint
-   ├── {Component}/                 - Component folder
-   │   ├── components/              - React components
+   ├── api/                         - Компоненты и функции, связанные с API
+   ├── core/                        - Файлы без зависимостей (zero dependencies)
+   ├── styles/                      - Стили
+   │   ├── index-with-tailwind.css  - Точка входа для CSS
+   ├── {Component}/                 - Папка компонента
+   │   ├── components/              - React-компоненты
    │   │   ├── {Name}.tsx
    │   │   ├── {Name}.test.tsx
    │   │   └── {Name}.css
-   │   ├── core/                    - Utility functions
-   │   ├── index.ts                 - Entrypoint for the folder
-   │   └── types.ts                 - Export types
+   │   ├── core/                    - Утилити функции
+   │   ├── index.ts                 - Точка входа для папки
+   │   └── types.ts                 - Экспорт типов
    │
-   ├── index.ts                     - Main package entry point
-   ├── types.ts                     - Core types
-   └── OnchainKitProvider.tsx       - OnchainKit provider
+   ├── index.ts                     - Главная точка входа пакета
+   ├── types.ts                     - Основные типы
+   └── OnchainKitProvider.tsx       - Провайдер OnchainKit
 ```
 
-## Development
+## Разработка
 
 ```bash
-# Start development environment with live reload
+# Запуск среды разработки с live reload
 pnpm f:play dev
 
-# Build package
+# Сборка пакета
 pnpm f:ock build
 
-# Run tests
+# Запуск тестов
 pnpm f:ock test
 pnpm f:ock test:watch
 pnpm f:ock test:coverage
 ```
 
-Requirements:
-- 100% test coverage for all changes
-- All tests must pass
-- Follow existing code patterns
+Требования:
+- 100% покрытие тестами для всех изменений
+- Все тесты должны проходить
+- Следование существующим паттернам кода
 
-## Changelog
+## Журнал изменений (Changelog)
 
-All changes require a changelog entry. Run this command and follow the prompts:
+Все изменения требуют записи в журнал изменений. Выполните эту команду и следуйте подсказкам:
 
 ```bash
 pnpm changeset
 ```
 
-Select the appropriate bump type (usually `minor`) and write a clear description:
+Выберите подходящий тип обновления (обычно `minor`) и напишите четкое описание:
 
 ```
-- **feat**: add render props to ConnectWallet component
-- **fix**: resolve wallet connection timeout issue  
-- **docs**: update swap component examples
+- **feat**: добавление render props в компонент ConnectWallet
+- **fix**: исправление проблемы таймаута подключения кошелька
+- **docs**: обновление примеров для компонента swap
 ```
 
-Types: `feat`, `fix`, `docs`, `chore`
+Типы: `feat`, `fix`, `docs`, `chore`
 
-The system automatically adds your username and PR number when the change is merged.
+Система автоматически добавляет ваше имя пользователя и номер PR при слиянии изменений.
 
-## What We Don't Accept
+## Что мы не принимаем
 
-We don't accept PRs for:
-- Typos in comments
-- Test changes that don't fix actual functionality
-- Changelog edits
-- Minor formatting or style changes
+Мы не принимаем PR для:
+- Опечаток в комментариях
+- Изменений в тестах, которые не исправляют фактическую функциональность
+- Правок в журнале изменений
+- Незначительных изменений форматирования или стиля
 
-## Feature Requests
+## Запросы на новые функции
 
-Submit via [GitHub Issues](https://github.com/coinbase/onchainkit/issues) with "Feature Request:" label.
+Отправляйте через [GitHub Issues](https://github.com/coinbase/onchainkit/issues) с меткой "Feature Request:".
