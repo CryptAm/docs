@@ -2,9 +2,9 @@
 title: fetchOnrampOptions
 ---
 
-The `fetchOnrampOptions` utility retrieves supported fiat currencies and available crypto assets for a specific country. This information is essential for determining which assets can be purchased in the user's jurisdiction.
+Утилита `fetchOnrampOptions` получает поддерживаемые фиатные валюты и доступные криптоактивы для конкретной страны. Эта информация необходима для определения того, какие активы могут быть куплены в юрисдикции пользователя.
 
-## Usage
+## Использование
 
 <CodeGroup>
 ```tsx code
@@ -12,8 +12,8 @@ import { fetchOnrampOptions } from '@coinbase/onchainkit/fund';
 
 const options = await fetchOnrampOptions({
 country: 'US',
-subdivision: 'CA', // Required for US residents
-apiKey: 'your-api-key', // Required when using without OnchainKitProvider or in non-React environment
+subdivision: 'CA', // Обязательно для резидентов США
+apiKey: 'your-api-key', // Обязателен при использовании без OnchainKitProvider или вне окружения React
 });
 
 ````
@@ -47,44 +47,44 @@ apiKey: 'your-api-key', // Required when using without OnchainKitProvider or in 
 
 </CodeGroup>
 
-## Parameters
+## Параметры
 
 ```typescript
 {
   /**
-   * ISO 3166-1 two-letter country code string representing
-   * the purchasing user’s country of residence, e.g., US.
+   * Двухбуквенный код страны по стандарту ISO 3166-1, представляющий
+   * страну проживания пользователя, совершающего покупку, например, US.
    */
   country: string;
   /**
-   * ISO 3166-2 two-letter country subdivision code representing
-   * the purchasing user’s subdivision of residence within their country,
-   * e.g. NY. Required if the country=“US” because certain states (e.g., NY)
-   * have state specific asset restrictions.
+   * Двухбуквенный код субъекта страны по стандарту ISO 3166-2, представляющий
+   * регион проживания пользователя внутри страны, например, NY.
+   * Обязателен, если country="US", поскольку в некоторых штатах (например, NY)
+   * действуют специфические ограничения на активы.
    */
   subdivision?: string;
   /**
-   * Optional API key for Coinbase Onramp. If not provided, the API key from
-   * OnchainKitProvider will be used. Required when using the utility without
-   * OnchainKitProvider or in a non-React environment.
+   * Необязательный API-ключ для Coinbase Onramp. Если не предоставлен,
+   * будет использован API-ключ из OnchainKitProvider. Обязателен при использовании
+   * утилиты без OnchainKitProvider или вне окружения React.
    */
   apiKey?: string;
 }
 ```
 
-## Returns
+## Возвращает
 
-`Promise<OnrampOptionsResponseData>` - Returns a promise that resolves to the available options for the specified location.
+`Promise<OnrampOptionsResponseData>` - Возвращает промис, который резолвится в доступные варианты для указанного местоположения.
 
 ```typescript
 type OnrampOptionsResponseData = {
   /**
-   * List of supported fiat currencies that can be exchanged for crypto on Onramp in the given location.
-   * Each currency contains a list of available payment methods, with min and max transaction limits for that currency.
+   * Список поддерживаемых фиатных валют, которые можно обменять на криптовалюту через Onramp в данном местоположении.
+   * Каждая валюта содержит список доступных методов оплаты с минимальными и максимальными лимитами транзакций для этой валюты.
    */
   paymentCurrencies: OnrampPaymentCurrency[];
   /**
-   * List of available crypto assets that can be bought on Onramp in the given location.
+   * Список доступных криптоактивов, которые можно купить через Onramp в данном местоположении.
    */
   purchaseCurrencies: OnrampPurchaseCurrency[];
 };
