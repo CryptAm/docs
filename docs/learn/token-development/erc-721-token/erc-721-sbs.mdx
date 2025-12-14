@@ -1,40 +1,40 @@
 ---
-title: ERC-721 Token
-description: Build your own NFT based on the ERC-721 standard.
+title: Токен ERC-721
+description: Создайте свой собственный NFT на основе стандарта ERC-721.
 hide_table_of_contents: false
-sidebarTitle: Step by Step Guide
+sidebarTitle: Пошаговое руководство
 ---
 
 import { Danger } from "/snippets/danger.mdx";
 
-Punks, Apes, and birds of all kinds. You've heard about them, seen them, and may even be lucky enough to own a famous NFT. Or maybe you've just bought into a random collection and aren't sure what to do with your NFT. NFTs aren't really pictures, or anything else specific. They're a method of proving ownership of a digital asset. Anyone can right-click on a picture of a monkey and set it as their profile picture, but only the owner can use it with apps that utilize web3 ownership.
+Панки, обезьяны и птицы всех видов. Вы слышали о них, видели их и, возможно, даже достаточно удачливы, чтобы владеть известным NFT. Или, может быть, вы просто купили случайную коллекцию и не знаете, что делать со своим NFT. NFT на самом деле не являются картинками или чем-то еще конкретным. Это метод доказательства владения цифровым активом. Любой может кликнуть правой кнопкой мыши на изображение обезьяны и установить его в качестве аватара профиля, но только владелец может использовать его с приложениями, которые используют веб3-право собственности.
 
-The ERC-721 token standard is the underlying technical specification that not only makes digital ownership possible, it provides a standardized way for marketplaces, galleries, and other sites to know how to interact with these digital items.
-
----
-
-## Objectives
-
-By the end of this lesson you should be able to:
-
-- Analyze the anatomy of an ERC-721 token
-- Compare and contrast the technical specifications of ERC-20 and ERC-721
-- Review the formal specification for ERC-721
-- Build and deploy an ERC-721 compliant token
-- Use an ERC-721 token to control ownership of another data structure
+Стандарт токенов ERC-721 - это основная техническая спецификация, которая не только делает возможным цифровое владение, но и предоставляет стандартизированный способ для торговых площадок, галерей и других сайтов знать, как взаимодействовать с этими цифровыми предметами.
 
 ---
 
-## Implementing the OpenZeppelin ERC-721 Token
+## Цели
 
-JPGs may be all the rage right now but in the future, the selfie you post on social media, a text message you send to your mother, and the +4 battleaxe you wield in your favorite MMO might all be NFTs.
+К концу этого урока вы должны уметь:
 
-### Import and Setup
+- Анализировать структуру токена ERC-721
+- Сравнивать и противопоставлять технические спецификации ERC-20 и ERC-721
+- Ознакомиться с формальной спецификацией ERC-721
+- Создавать и развертывать токен, соответствующий стандарту ERC-721
+- Использовать токен ERC-721 для контроля владения другой структурой данных
 
-Start by opening the [OpenZeppelin] ERC-721 in Github. Copy the link and use it to import the ERC-721 contract. Create your own contract, called `MyERC721`, that inherits from `ERC721Token`. Add a constructor that initializes the `_name` and `_symbol`.
+---
+
+## Реализация токена ERC-721 от OpenZeppelin
+
+JPG, возможно, сейчас в тренде, но в будущем селфи, которое вы публикуете в социальных сетях, текстовое сообщение, которое вы отправляете своей матери, и боевой топор +4, который вы используете в своей любимой MMO, могут быть NFT.
+
+### Импорт и настройка
+
+Начните с открытия контракта ERC-721 от [OpenZeppelin] в Github. Скопируйте ссылку и используйте ее для импорта контракта ERC-721. Создайте свой собственный контракт с именем `MyERC721`, который наследуется от `ERC721Token`. Добавьте конструктор, который инициализирует `_name` и `_symbol`.
 
 
-<Accordion title="Reveal code">
+<Accordion title="Показать код">
 ```solidity
 // SPDX-License-Identifier: MIT
 
@@ -50,31 +50,31 @@ contract MyERC721Token is ERC721 {
 ```
 </Accordion>
 
-### Minting NFTs
+### Минт NFTs
 
-The minting function that is provided by OpenZeppelin, `_safeMint`, is `internal`. To use it to let your customers mint NFTs, you'll need to implement a function in your contract that calls the one in the imported contract.
+Функция минта, предоставляемая OpenZeppelin, `_safeMint`, является `internal`. Чтобы использовать ее для того, чтобы позволить вашим клиентам создавать NFT, вам нужно реализовать функцию в вашем контракте, которая вызывает функцию в импортированном контракте.
 
-Before you can do that, you need a way to supply the two parameters needed for `_safeMint`:
+Прежде чем вы сможете это сделать, вам нужен способ предоставить два параметра, необходимых для _safeMint:
 
-- `address to` - the owner of the new NFT
-- `uint256 tokenId` - the ID number for the new NFT
+- `address to` - владелец нового NFT
+- `uint256 tokenId` - идентификационный номер нового NFT
 
-The owner is easy, you can simply use `msg.sender` to grant ownership to the wallet doing the minting.
+Владелец прост, вы можете просто использовать `msg.sender`, чтобы предоставить право собственности кошельку, выполняющему чеканку.
 
-ID is slightly more challenging. A common practice is to simply assign the total number of NFTs, including the one being minted, as the `tokenId`. Doing so is straightforward, makes it easier to find all of the NFTs within a collection, and helps lean in to the common community perception that lower-number NFTs are better, just like other limited-edition collectibles.
+ID немного сложнее. Распространенной практикой является просто назначение общего количества NFT, включая создаваемый, в качестве `tokenId`. Это просто, облегчает поиск всех NFT в коллекции и помогает соответствовать распространенному мнению сообщества, что NFT с меньшими номерами лучше, как и другие коллекционные предметы ограниченного выпуска.
 
 <Warning>
-Obfuscating certain information, such as customer IDs, is often considered a best practice. Doing so might make it harder for an attacker who has circumvented other security functions from getting access to more data. If `134` is a valid `customer_id`, it is likely that `135` is too. The same can't be said for `bfcb51bd-c04f-42d5-8116-3def754e8c32`.
+Сокрытие определенной информации, такой как идентификаторы клиентов, часто считается лучшей практикой. Это может затруднить доступ злоумышленника, который обошел другие функции безопасности, к большему количеству данных. Если `134` является допустимым `customer_id`, вероятно, `135` тоже является. То же самое нельзя сказать о `bfcb51bd-c04f-42d5-8116-3def754e8c32`.
 
-This practice is not as useful on the blockchain, because all information is public.
+Эта практика не так полезна в блокчейне, потому что вся информация общедоступна.
 </Warning>
 
 
-To implement ID generation, simply add a `uint` called `counter` to storage and initialize it as 1, either at declaration or in the constructor.
+Для реализации генерации ID просто добавьте `uint` с именем `counter` в хранилище и инициализируйте его как 1, либо при объявлении, либо в конструкторе.
 
-Now, you can add a function called `redeemNFT` that calls `safeMint` using the `msg.sender` and `counter`, and then increments the `counter`:
+Теперь вы можете добавить функцию `redeemNFT`, которая вызывает `safeMint`, используя `msg.sender` и `counter`, а затем увеличивает `counter`:
 
-<Accordion title="Reveal code">
+<Accordion title="Показать код">
   
 ```solidity
 function redeemNFT() external {
@@ -86,25 +86,25 @@ function redeemNFT() external {
 
 
 <Danger>
-As a programmer, you've probably gone through great pains to internalize the idea of zero-indexing. Arrays start at 0. The pixel in the top-left corner of your screen is located at 0, 0.
+Как программист, вы, вероятно, приложили большие усилия, чтобы усвоить идею индексации с нуля. Массивы начинаются с 0. Пиксель в левом верхнем углу вашего экрана находится в позиции 0, 0.
 
-As a result, you need to be very careful when working with Solidity because there isn't the concept of `undefined`, and "deleted" values return to their default value, which is 0 for numbers.
+В результате вам нужно быть очень осторожным при работе с Solidity, потому что нет концепции `undefined`, а «удаленные» значения возвращаются к своему значению по умолчанию, которое для чисел равно 0.
 
-To prevent security risks, you'll need to make sure that you never give an ID or array index of 0 to anything. Otherwise, attempting to delete a value, such as a `struct` member called `authorizedSellerID` might give the wallet address stored at index 0 access to that resource.
+Чтобы предотвратить риски безопасности, вам нужно убедиться, что вы никогда не даете ID или индекс массива 0 чему-либо. В противном случае попытка удалить значение, такое как член `struct` с именем `authorizedSellerID`, может предоставить адресу кошелька, хранящемуся в индексе 0, доступ к этому ресурсу.
 </Danger>
 
 
-Deploy and test. Be sure to:
+Разверните и протестируйте. Обязательно:
 
-- Mint several NFTs
-- Transfer an NFT from one Remix account to another
-- Try to transfer an NFT to `0x0000000000000000000000000000000000000000`
+- Создайте несколько NFT
+- Переведите NFT с одного аккаунта Remix на другой
+- Попробуйте перевести NFT на `0x0000000000000000000000000000000000000000`
 
 ---
 
-## ERC-721 URIs
+## URI для ERC-721
 
-The ERC-721 standard includes the option to define a [URI] associated with each NFT. These are intended to point to a `json` file following the _ERC721 Metadata JSON Schema_
+Стандарт ERC-721 включает возможность определения [URI] связанного с каждым NFT. Они предназначены для указания на файл `json`, соответствующий Схеме JSON метаданных ERC721
 
 ```json
 {
@@ -127,7 +127,7 @@ The ERC-721 standard includes the option to define a [URI] associated with each 
 }
 ```
 
-Note that they don't have to. In the OpenZeppelin implementation, the function that returns the `_baseURI` is `virtual` and must be overridden by an inheriting contract.
+Обратите внимание, что это не обязательно. В реализации OpenZeppelin функция, возвращающая `_baseURI`, является `virtual` и должна быть переопределена наследуемым контрактом.
 
 ```
 // OpenZeppelin ERC-721
@@ -141,24 +141,24 @@ function _baseURI() internal view virtual returns (string memory) {
 }
 ```
 
-The owner of the contract can therefore choose what the value is and when, how, or if it is changeable. For example, the [Bored Ape Yacht Club] contract has a function allowing the owner to set or change the \_baseURI, changing where the metadata is stored, and potentially what is in it.
+Таким образом, владелец контракта может выбрать, каким будет значение, и когда, как или если оно может быть изменено. Например, контракт [Bored Ape Yacht Club] имеет функцию, позволяющую владельцу установить или изменить _baseURI, изменив место хранения метаданных и, возможно, их содержимое.
 
 ```solidity
-// From boredapeyachtclub.sol
+// Из boredapeyachtclub.sol
 function setBaseURI(string memory baseURI) public onlyOwner {
     _setBaseURI(baseURI);
 }
 ```
 
-The metadata for [BAYC] is [stored on IPFS], but some projects even use centralized, web2 storage options!
+Метаданные для [BAYC] [stored on IPFS], но некоторые проекты даже используют централизованные, веб2-опции хранения!
 
-### NFT Switcheroo
+### NFT Подмена
 
-[Doodles] is another NFT collection that [uses IPFS] to store metadata. Let's modify our contract to swap metadata back and forth from one collection to the other.
+[Doodles] - еще одна коллекция NFT, которая для хранения метаданных. Давайте изменим наш контракт, чтобы переключать метаданные туда-сюда между двумя коллекциями.
 
-Start by saving the IPFS metadata bases as constants, at the contract level. Add an enum to enable selection between these two choices, and an instance of that enum.
+Начните с сохранения баз IPFS метаданных как констант на уровне контракта. Добавьте перечисление для выбора между этими двумя вариантами и экземпляр этого перечисления.
 
-<Accordion title="Reveal code">
+<Accordion title="Показать код">
 
 ```solidity
     string constant BAYC = "https://ipfs.io/ipfs/QmeSjSinHpPnmXmspMjwiXyN6zS4E9zccariGR3jxcaWtq/";
@@ -170,9 +170,9 @@ Start by saving the IPFS metadata bases as constants, at the contract level. Add
 
 </Accordion>
 
-Finally, add an override of `_baseURI` that returns the appropriate selection based on which collection is active, and a function to swap the URI.
+Наконец, добавьте переопределение `_baseURI`, которое возвращает соответствующий выбор в зависимости от того, какая коллекция активна, и функцию для переключения URI.
 
-<Accordion title="Reveal code">
+<Accordion title="Показать код">
 
 ```solidity
 function _baseURI() internal override view returns(string memory) {
@@ -193,13 +193,13 @@ function switchURI() public {
 
 </Accordion>
 
-Deploy, mint some NFTs, and call `tokenURI` to find the information for token number 1. You should get:
+Разверните, создайте несколько NFT и вызовите `tokenURI`, чтобы найти информацию для токена номер 1. Вы должны получить:
 
 ```text
 https://ipfs.io/ipfs/QmeSjSinHpPnmXmspMjwiXyN6zS4E9zccariGR3jxcaWtq/1
 ```
 
-This links to the metadata json file for the first Bored Ape:
+Это ссылка на файл метаданных json для первой Bored Ape:
 
 ```json
 {
@@ -229,19 +229,19 @@ This links to the metadata json file for the first Bored Ape:
 }
 ```
 
-IPFS links don't work natively directly in the browser, but you can see the image here:
+Ссылки IPFS не работают нативно прямо в браузере, но вы можете увидеть изображение здесь:
 
 https://ipfs.io/ipfs/QmPbxeGcXhYQQNgsC6a36dDyYUcHgMLnGKnF8pVFmGsvqi/
 
-Now, call your `switchURI` function and then call `tokenURI` again for token 1.
+Теперь вызовите вашу функцию `switchURI`, а затем снова вызовите `tokenURI` для токена 1.
 
-Now, you'll get a new link for metadata:
+Теперь вы получите новую ссылку на метаданные:
 
 ```text
 https://ipfs.io/ipfs/QmPMc4tcBsMqLRuCQtPmPe84bpSjrC3Ky7t3JWuHXYB4aS/1
 ```
 
-Which contains the metadata for Doodle 1 instead of BAYC 1:
+Которая содержит метаданные для Doodle 1 вместо BAYC 1:
 
 ```json
 {
@@ -273,15 +273,15 @@ Which contains the metadata for Doodle 1 instead of BAYC 1:
 }
 ```
 
-Your robot ape is now a person with a rainbow beard!
+Ваша робот-обезьяна теперь стала человеком с радужной бородой!
 
 https://ipfs.io/ipfs/QmTDxnzcvj2p3xBrKcGv1wxoyhAn2yzCQnZZ9LmFjReuH9
 
 ---
 
-## Conclusion
+## Заключение
 
-In this lesson, you've learned how to use OpenZeppelin's ERC-721 implementation to create your own NFT contract. You've also learned how NFT metadata is stored, and that it is not necessarily immutable.
+В этом уроке вы узнали, как использовать реализацию ERC-721 от OpenZeppelin для создания собственного контракта NFT. Вы также узнали, как хранятся метаданные NFT и что они не обязательно являются неизменяемыми.
 
 ---
 
