@@ -1,80 +1,80 @@
 ---
-title: ERC-721 Tokens Exercise
-description: Exercise - Create your own NFT!
-sidebarTitle: Exercise
+title: Упражнение по токенам ERC-721
+description: Упражнение - Создайте свой собственный NFT!
+sidebarTitle: Упражнение
 hide_table_of_contents: false
 ---
 
 import { Danger } from "/snippets/danger.mdx";
 
-Create a contract that adheres to the following specifications.
+Создайте контракт, соответствующий следующим спецификациям.
 
 ---
 
-## Contract
+## Контракт
 
-Create a contract called `HaikuNFT`. Add the following to the contract:
+Создайте контракт с именем `HaikuNFT`. Добавьте следующее в контракт:
 
-- A `struct` called `Haiku` to store the `address` of the `author` and `line1`, `line2`, and `line3`
-- A public array to store these `haikus`
-- A public `mapping` to relate `sharedHaikus` from the `address` of the wallet shared with, to the id of the Haiku NFT shared
-- A public `counter` to use as the id and to track and share the total number of Haikus minted
-  - If 10 Haikus have been minted, the counter should be at 11, to serve as the next id
-  - Do **NOT** assign an id of 0 to a haiku
-- Other variables as necessary to complete the task
+- `struct` с именем `Haiku` для хранения `address` автора и строк `line1`, `line2` и `line3`
+- Публичный массив для хранения этих `haikus`
+- Публичное `mapping`  для связи `sharedHaikus` от `address` кошелька, с которым поделились, с id общего NFT хайку
+- Публичный `counter` для использования в качестве id и для отслеживания и совместного использования общего количества созданных хайку
+  - Если создано 10 хайку, счетчик должен быть на 11, чтобы служить следующим id
+  - НЕ назначайте id 0 для хайку
+- Другие переменные, необходимые для выполнения задачи
 
-Add the following functions.
+Добавьте следующие функции.
 
-### Constructor
+### Конструктор
 
-As appropriate.
+Как требуется.
 
-### Mint Haiku
+### Минт хайку
 
-Add an `external` function called `mintHaiku` that takes in the three lines of the poem. This function should mint an NFT for the minter and save their Haiku.
+Добавьте `external` функцию `mintHaiku`, которая принимает три строки стихотворения. Эта функция должна создать NFT для минтера и сохранить его хайку.
 
-Haikus must be **unique**! If any line in the Haiku has been used as any line of a previous Haiku, revert with `HaikuNotUnique()`.
+Хайку должны быть **уникальными**! Если любая строка в хайку была использована как любая строка предыдущего хайку, выполните откат (revert) с ошибкой `HaikuNotUnique()`.
 
-You **don't** have to count syllables, but it would be neat if you did! (No promises on whether or not we counted the same as you did)
+Вам **не нужно** считать слоги, но было бы здорово, если бы вы это сделали! (Не обещаем, что мы считаем так же, как и вы)
 
-### Share Haiku
+### Поделиться хайку
 
-Add a `public` function called `shareHaiku` that allows the owner of a Haiku NFT to share that Haiku with the designated `address` they are sending it `_to`. Doing so should add it to that address's entry in `sharedHaikus`.
+Добавьте `public` функцию `shareHaiku`, которая позволяет владельцу NFT хайку поделиться этим хайку с указанным `address`, на который они отправляют его `_to`. Это должно добавить его в запись этого адреса в `sharedHaikus`.
 
-If the sender isn't the owner of the Haiku, instead revert with an error of `NotYourHaiku`. Include the id of the Haiku in the error.
+Если отправитель не является владельцем хайку, вместо этого выполните откат с ошибкой `NotYourHaiku`. Включите id хайку в ошибку.
 
 <Danger>
-Remember, everything on the blockchain is public. This sharing functionality can be expanded for features similar to allowing an app user to display the selected shared haiku on their profile.
+Помните, все в блокчейне публично. Эта функция обмена может быть расширена для функций, подобных разрешению пользователю приложения отображать выбранное общее хайку в своем профиле.
 
-It does nothing to prevent anyone and everyone from seeing or copy/pasting the haiku!
+Это ничего не делает для предотвращения того, чтобы кто угодно мог видеть или копировать/вставлять хайку!
 </Danger>
 
 
-### Get Your Shared Haikus
+### Получить ваши общие хайку
 
-Add a `public` function called `getMySharedHaikus`. When called, it should return an array containing all of the haikus shared with the caller.
+Добавьте `public` функцию `getMySharedHaikus`. При вызове она должна возвращать массив, содержащий все хайку, которыми поделились с вызывающим.
 
-If there are no haikus shared with the caller's wallet, it should revert with a custom error of `NoHaikusShared`, with no arguments.
+Если с кошельком вызывающего не поделились ни одним хайку, функция должна выполнить откат с пользовательской ошибкой `NoHaikusShared`, без аргументов.
 
 ---
 
 <Warning>
-The contract specification contains actions that can only be performed once by a given address. As a result, the unit tests for a passing contract will only be successful the **first** time you test.
+Спецификация контракта содержит действия, которые могут быть выполнены только один раз данным адресом. В результате модульные тесты для проходящего контракта будут успешными только **первый** раз, когда вы тестируете.
 
-**You may need to submit a fresh deployment to pass**
+**Возможно, вам потребуется отправить новое развертывание, чтобы пройти тест**
 </Warning>
 
 
-### Submit your Contract and Earn an NFT Badge! (BETA)
+### Отправьте свой контракт и получите NFT-значок! (BETA)
 
 <Note>
-#### Hey, where'd my NFT go!?
+#### Эй, куда делся мой NFT?!
 
-[Testnets](../deployment-to-testnet/test-networks) are not permanent! Base Goerli [will soon be sunset](https://base.mirror.xyz/kkz1-KFdUwl0n23PdyBRtnFewvO48_m-fZNzPMJehM4), in favor of Base Sepolia.
+[Тестовые сети](../deployment-to-testnet/test-networks) не являются постоянными! Base Goerli [скоро будет приостановлена](https://base.mirror.xyz/kkz1-KFdUwl0n23PdyBRtnFewvO48_m-fZNzPMJehM4), в пользу Base Sepolia.
 
-As these are separate networks with separate data, your NFTs **will not** transfer over.
+Поскольку это отдельные сети с отдельными данными, ваши NFT **не будут** перенесены.
 
-**Don't worry!** We've captured the addresses of all NFT owners on Base Goerli and will include them when we release the mechanism to transfer these NFTs to mainnet later this year! You can also redeploy on Sepolia and resubmit if you'd like!
+**Не волнуйтесь!** Мы зафиксировали адреса всех владельцев NFT на Base Goerli и включим их, когда позже в этом году выпустим механизм переноса этих NFT в основную сеть! Вы также можете повторно развернуть на Sepolia и повторно отправить, если хотите!
 </Note>
 
 
