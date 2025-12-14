@@ -2,14 +2,14 @@
 title: useName
 ---
 
-The `useName` hook is used to get name from an onchain identity provider
-for a given address.
+Хук `useName` используется для получения имени из провайдера
+ончейн-идентификации по заданному адресу.
 
-It is implemented with [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) from `@tanstack/react-query`, and returns a `UseQueryResult` object, allowing you to pass through all `@tanstack/react-query` options.
+Он реализован с использованием [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) из `@tanstack/react-query`, и возвращает объект `UseQueryResult`, что позволяет передавать все опции `@tanstack/react-query`.
 
-## Usage
+## Использование
 
-Get ENS name from an address:
+Получение ENS имени по адресу:
 
 <CodeGroup>
 ```tsx code
@@ -26,7 +26,7 @@ const { data: name, isLoading } = await useName({ address });
 
 </CodeGroup>
 
-Get Basename from an address:
+Получение Basename по адресу:
 
 <CodeGroup>
 ```tsx code
@@ -44,7 +44,7 @@ const { data: name, isLoading } = await useName({ address, chain: base });
 
 </CodeGroup>
 
-## Returns
+## Возвращает
 
 ```ts
 useQuery<Promise<GetNameReturnType>>
@@ -52,15 +52,15 @@ useQuery<Promise<GetNameReturnType>>
 type GetNameReturnType = string | Basename | null;
 ```
 
-## Parameters
+## Параметры
 
 ### UseNameParams
 
 ```ts
 type UseNameParams = {
-  /** The address for which the ENS or Basename is to be fetched. */
+  /** Адрес, для которого нужно получить ENS или Basename. */
   address?: Address;
-  /** Optional chain for domain resolution */
+  /** Необязательная цепь для разрешения домена */
   chain?: Chain;
 };
 ```
