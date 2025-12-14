@@ -1,71 +1,71 @@
 ---
-title: Structs Exercise
-description: Exercise - Demonstrate your knowledge of structs.
+title: Упражнение по структурам
+description: Упражнение - продемонстрируйте свои знания о структурах.
 hide_table_of_contents: false
 sidebarTitle: Exercise
 ---
 
-Create a contract that adheres to the following specifications.
+Создайте контракт, соответствующий следующим спецификациям.
 
 ---
 
-## Contract
+## Контракт
 
-Create a contract called `GarageManager`. Add the following in storage:
+Создайте контракт с именем `GarageManager`. Добавьте следующее в хранилище:
 
-- A public mapping called `garage` to store a list of `Car`s (described below), indexed by address
+- Публичное отображение (mapping) `garage` для хранения списка `Car` (описано ниже), индексированное по адресу
 
-Add the following types and functions.
+Добавьте следующие типы и функции.
 
-### Car Struct
+### Структура Car
 
-Implement a `struct` called `Car`. It should store the following properties:
+Реализуйте `struct` с именем `Car`. Она должна хранить следующие свойства:
 
 - `make`
 - `model`
 - `color`
 - `numberOfDoors`
 
-### Add Car Garage
+### Добавление автомобиля в гараж
 
-Add a function called `addCar` that adds a car to the user's collection in the `garage`. It should:
+Добавьте функцию `addCar`, которая добавляет автомобиль в коллекцию пользователя в `garage`. Она должна:
 
-- Use `msg.sender` to determine the owner
-- Accept arguments for make, model, color, and number of doors, and use those to create a new instance of `Car`
-- Add that `Car` to the `garage` under the user's address
+- Использовать `msg.sender` для определения владельца
+- Принимать аргументы для марки, модели, цвета и количества дверей и использовать их для создания нового экземпляра `Car`
+- Добавлять этот `Car` в `garage` по адресу пользователя
 
-### Get All Cars for the Calling User
+### Получение всех автомобилей вызывающего пользователя
 
-Add a function called `getMyCars`. It should return an array with all of the cars owned by the calling user.
+Добавьте функцию `getMyCars`. Она должна возвращать массив со всеми автомобилями, принадлежащими вызывающему пользователю.
 
-### Get All Cars for Any User
+### Получение всех автомобилей для любого пользователя
 
-Add a function called `getUserCars`. It should return an array with all of the cars for any given `address`.
+Добавьте функцию `getUserCars`. Она должна возвращать массив со всеми автомобилями для любого заданного `address`.
 
-### Update Car
+### Обновление автомобиля
 
-Add a function called `updateCar`. It should accept a `uint` for the index of the car to be updated, and arguments for all of the `Car` types.
+Добавьте функцию `updateCar`. Она должна принимать `uint` для индекса обновляемого автомобиля и аргументы для всех типов `Car`.
 
-If the sender doesn't have a car at that index, it should revert with a custom `error` `BadCarIndex` and the index provided.
+Если у отправителя нет автомобиля по этому индексу, функция должна выполнить откат (revert) с пользовательской `error` `BadCarIndex` и предоставленным индексом.
 
-Otherwise, it should update that entry to the new properties.
+В противном случае она должна обновить эту запись новыми свойствами.
 
-### Reset My Garage
+### Сброс моего гаража
 
-Add a public function called `resetMyGarage`. It should delete the entry in `garage` for the sender.
+Добавьте публичную функцию `resetMyGarage`. Она должна удалить запись в `garage` для отправителя.
 
 ---
 
-### Submit your Contract and Earn an NFT Badge! (BETA)
+### Отправьте свой контракт и получите NFT-значок! (BETA)
 
 <Note>
-#### Hey, where'd my NFT go!?
+#### Эй, куда делся мой NFT?!
 
-[Testnets](/learn/deployment-to-testnet/test-networks) are not permanent! Base Goerli [will soon be sunset](https://base.mirror.xyz/kkz1-KFdUwl0n23PdyBRtnFewvO48_m-fZNzPMJehM4), in favor of Base Sepolia.
+[Тестовые сети](/learn/deployment-to-testnet/test-networks) не являются постоянными! Base Goerli [скоро будет приостановлена](https://base.mirror.xyz/kkz1-KFdUwl0n23PdyBRtnFewvO48_m-fZNzPMJehM4), в пользу Base Sepolia.
 
-As these are separate networks with separate data, your NFTs **will not** transfer over.
+Поскольку это отдельные сети с отдельными данными, ваши NFT **не будут** перенесены.
 
-**Don't worry!** We've captured the addresses of all NFT owners on Base Goerli and will include them when we release the mechanism to transfer these NFTs to mainnet later this year! You can also redeploy on Sepolia and resubmit if you'd like!
+**Не волнуйтесь!** Мы зафиксировали адреса всех владельцев NFT на Base Goerli и включим их, когда позже в этом году выпустим механизм переноса этих NFT в основную сеть! Вы также можете повторно развернуть на Sepolia и повторно отправить, если хотите!
 </Note>
 
 {/* <CafeUnitTest nftNum={7}/> */}
@@ -76,6 +76,6 @@ As these are separate networks with separate data, your NFTs **will not** transf
   height="auto"
 />
 
-<Accordion title="⚠️ Spoiler Alert: Open only if tests fail">
-Ensure your variable sizes align with their intended use, and consider the nuances of packing in Solidity. Resources: [Solidity - Layout in Storage](https://docs.soliditylang.org/en/v0.8.17/internals/layout_in_storage.html#layout-of-state-variables-in-storage), [Variables in Struct](/learn/structs/structs-sbs#setting-up-the-struct)
+<Accordion title="⚠️ Осторожно, спойлер: Открывайте только если тесты не проходят">
+Убедитесь, что размеры ваших переменных соответствуют их предполагаемому использованию, и учитывайте нюансы упаковки в Solidity. Ресурсы: [Solidity - Layout in Storage](https://docs.soliditylang.org/en/v0.8.17/internals/layout_in_storage.html#layout-of-state-variables-in-storage), [Variables in Struct](/learn/structs/structs-sbs#setting-up-the-struct)
 </Accordion>
