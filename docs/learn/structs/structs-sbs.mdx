@@ -1,33 +1,33 @@
 ---
-title: Structs
-description: Practice using structs.
+title: Структуры
+description: Практикуйтесь в использовании структур.
 hide_table_of_contents: false
-sidebarTitle: Step by Step Guide
+sidebarTitle: Пошаговое руководство
 ---
 
-The `struct` type allows you to organize related data of different types.
-
----
-
-## Objectives
-
-By the end of this lesson you should be able to:
-
-- Construct a `struct` (user-defined type) that contains several different data types
-- Declare members of the `struct` to maximize storage efficiency
-- Describe constraints related to the assignment of `struct`s depending on the types they contain
+Тип `struct` позволяет организовать связанные данные разных типов.
 
 ---
 
-## Creating a Struct
+## Цели
 
-In the last exercise, we used a `mapping` to create a relationship between an `address` and a `uint`. But what if your users have favorite colors too? Or favorite cars? You **could** create a `mapping` for each of these, but it would quickly get awkward. Instead, a [`struct`](https://docs.soliditylang.org/en/v0.8.17/types.html#structs) can be used to create a custom type that can store all of a user's favorites within one data type.
+К концу этого урока вы должны уметь:
 
-Create a new contract called `Structs`.
+- Создавать `struct` (пользовательский тип), содержащий несколько различных типов данных
+- Объявлять члены `struct` для максимизации эффективности хранилища
+- Описывать ограничения, связанные с присвоением `struct` в зависимости от содержащихся в них типов
 
-### Setting up the Struct
+---
 
-Instantiate a `struct` with the keyword, followed by a name for the type, curly brackets, and the variables that make up the type. Add a stub for `Favorites`:
+## Создание структуры
+
+В последнем упражнении мы использовали `mapping` для создания связи между `address` и `uint`. Но что, если у ваших пользователей тоже есть любимые цвета? Или любимые автомобили? Вы могли бы создать `mapping` для каждого из них, но это быстро станет неудобным. Вместо этого [`struct`](https://docs.soliditylang.org/en/v0.8.17/types.html#structs) можно использовать для создания пользовательского типа, который может хранить все избранное пользователя в одном типе данных.
+
+Создайте новый контракт с именем `Structs`.
+
+### Настройка структуры
+
+Создайте `struct` с помощью ключевого слова, за которым следует имя типа, фигурные скобки и переменные, составляющие тип. Добавьте заглушку для `Favorites`:
 
 ```solidity
 struct Favorites {
@@ -35,28 +35,28 @@ struct Favorites {
 }
 ```
 
-After consulting with the designers, we need to store the following for each address's favorites:
+После консультации с дизайнерами нам нужно хранить следующее для избранного каждого адреса:
 
-- Favorite number
-- Birth Day of Month
-- Favorite color
-- Lucky Lottery numbers
+- Любимое число
+- День рождения (число месяца)
+- Любимый цвет
+- Счастливые лотерейные номера
 
-Let's pause for a moment and do some technical design around how to save our favorites.
+Давайте остановимся на мгновение и проведем техническое проектирование того, как сохранить наши избранные данные.
 
-The product team has confirmed for us that we can safely expect that no users have a favorite number greater than 65,536, and of course, everyone is born on a day of the month between 1-31.
+Команда продукта подтвердила нам, что мы можем с уверенностью ожидать, что ни у одного пользователя нет любимого числа больше 65 536, и, конечно же, все родились в день месяца от 1 до 31.
 
-Variable [packing](https://docs.soliditylang.org/en/v0.8.17/internals/layout_in_storage.html) also works inside structs, so we could potentially save on storage by using smaller `uint`s for those variables. However, people don't change their favorite number very often, and the day of the month that they were born on never changes.
+[Упаковка переменных](https://docs.soliditylang.org/en/v0.8.17/internals/layout_in_storage.html) также работает внутри структур, поэтому мы потенциально можем сэкономить на хранилище, используя меньшие `uint` для этих переменных. Однако люди не так часто меняют свое любимое число, а день месяца, в который они родились, никогда не меняется.
 
-Therefore, it's probably more gas-efficient and less cumbersome to write other parts of the code, if we just use `uint` for both variables.
+Следовательно, вероятно, более эффективным по газу и менее громоздким для написания других частей кода будет просто использовать `uint` для обеих переменных.
 
-Favorite color can be a `string`.
+Любимый цвет может быть `string`.
 
-For Lucky Lottery Numbers, we need a collection. We could use a dynamic array, since this will be in _storage_, but we already know that the lottery has 5 numbers.
+Для счастливых лотерейных номеров нам нужна коллекция. Мы могли бы использовать динамический массив, поскольку это будет в _хранилище_, но мы уже знаем, что в лотерее 5 номеров.
 
-Try to use this information to build the `struct` on your own. You should end up with something similar to:
+Попробуйте использовать эту информацию, чтобы самостоятельно построить `struct`. У вас должно получиться что-то похожее на:
 
-<Accordion title="Reveal code">
+<Accordion title="Показать код">
 
 ```solidity
 struct Favorites {
@@ -69,9 +69,9 @@ struct Favorites {
 
 </Accordion>
 
-### Instantiating a Struct with Its Name
+### Создание экземпляра структуры с использованием ее имени
 
-There are two ways to instantiate a struct using its name. The first is similar to instantiating a new object in JavaScript:
+Есть два способа создать экземпляр структуры, используя ее имя. Первый похож на создание нового объекта в JavaScript:
 
 ```solidity
 Favorites memory myFavorites = Favorites({
@@ -82,7 +82,7 @@ Favorites memory myFavorites = Favorites({
 });
 ```
 
-You can also use a shorthand method where you skip the member names and just list a value for each one. Note that the curly brackets are **not** included in this format:
+Вы также можете использовать сокращенный метод, в котором вы пропускаете имена членов и просто перечисляете значение для каждого из них. Обратите внимание, что в этом формате фигурные скобки **не** используются:
 
 ```solidity
 Favorites memory myFavorites = Favorites(
@@ -93,23 +93,23 @@ Favorites memory myFavorites = Favorites(
 );
 ```
 
-There's no difference in gas costs with either of these methods. Use the one that makes the most sense for the given situation.
+Нет разницы в затратах газа между этими методами. Используйте тот, который имеет наибольший смысл в данной ситуации.
 
-### Saving Multiple Instances to Storage
+### Сохранение нескольких экземпляров в хранилище
 
-Next, we need to figure out the best way to organize the `Favorites` in _storage_. There are a few options, as always, each with tradeoffs. You could match the pattern you used for favorite numbers and utilize a `mapping` to match `addresses` to `Favorites`.
+Далее нам нужно выяснить лучший способ организовать `Favorites` в _хранилище_. Есть несколько вариантов, как всегда, каждый со своими компромиссами. Вы можете использовать шаблон, который вы использовали для любимых чисел, и использовать `mapping` для сопоставления `addresses` с `Favorites`.
 
-Another popular method is to use an array, which takes advantage of `.push` returning a reference to the newly added element, and the fact that the concept of _undefined_ does not exist in Solidity.
+Другой популярный метод - использовать массив, который использует преимущества того, что `.push` возвращает ссылку на только что добавленный элемент, и тот факт, что концепция _undefined_ не существует в Solidity.
 
-First, instantiate an array of `Favorites`:
+Сначала создайте массив `Favorites`:
 
 ```solidity
 Favorites[] public userFavorites;
 ```
 
-Next, add a `public` function to add submitted favorites to the list. It should take each of the members as an argument. Then, assign each argument to the new element via the reference returned by `push()`.
+Затем добавьте `public` функцию для добавления отправленных избранных данных в список. Она должна принимать каждый из членов в качестве аргумента. Затем присвойте каждый аргумент новому элементу через ссылку, возвращенную `push()`.
 
-<Accordion title="Reveal code">
+<Accordion title="Показать код">
 
 ```solidity
 function addFavorite(
@@ -118,7 +118,7 @@ function addFavorite(
     string calldata _favoriteColor,
     uint[5] calldata _lotteryNumbers
 ) public {
-    // .push() returns a reference to the new element
+    // .push() возвращает ссылку на новый элемент
     Favorites storage newFavorite = userFavorites.push();
     newFavorite.favoriteNumber = _favoriteNumber;
     newFavorite.birthDay = _birthDay;
@@ -129,9 +129,9 @@ function addFavorite(
 
 </Accordion>
 
-Alternatively, you can create an instance in memory, then `push` it to storage.
+В качестве альтернативы вы можете создать экземпляр в памяти, а затем `push` его в хранилище.
 
-<Accordion title="Reveal code">
+<Accordion title="Показать код">
 
 ```solidity
 function addFavorite(
@@ -153,30 +153,30 @@ function addFavorite(
 
 </Accordion>
 
-The gas cost is similar for each of these methods.
+Затраты газа схожи для каждого из этих методов.
 
 ---
 
-## Unexpected Behavior in Structs
+## Неожиданное поведение в структурах
 
-Structs in Solidity exhibit some properties that are unexpected, or even frustrating. Working with them often includes untangling a set of mutually-exclusive properties and needs.
+Структуры в Solidity демонстрируют некоторые неожиданные или даже разочаровывающие свойства. Работа с ними часто включает распутывание набора взаимоисключающих свойств и потребностей.
 
-### Dynamic Storage Arrays in Structs
+### Динамические массивы хранилища в структурах
 
-The product team has contacted you to let you know that the beta testers are complaining about the `lotteryNumbers`. As it turns out, not every locality has lotteries where 5 numbers are drawn. Some have 3, 4, or even 6!.
+Команда продукта связалась с вами, чтобы сообщить, что бета-тестеры жалуются на `lotteryNumbers`. Оказывается, не в каждой местности есть лотереи, в которых разыгрывается 5 номеров. В некоторых их 3, 4 или даже 6!
 
-You might think this is an easy enough change. After all, you can just remove the size from the array declaration inside `Favorites`. Go ahead and try it:
+Вы можете подумать, что это достаточно простое изменение. В конце концов, вы можете просто удалить размер из объявления массива внутри `Favorites`. Попробуйте сделать это:
 
 ```solidity
 struct Favorites {
     uint favoriteNumber;
     uint birthDay;
     string favoriteColor;
-    uint[] lotteryNumbers; // Removed the '5'
+    uint[] lotteryNumbers; // Убрали '5'
 }
 ```
 
-You'll get an error if you're using the `memory` method shown above.
+Вы получите ошибку, если используете метод `memory`, показанный выше.
 
 ```text
 from solidity:
@@ -187,35 +187,15 @@ TypeError: Invalid type for argument in function call. Invalid implicit conversi
    |             ^^^^^^^^^^^^^^^^^^^^^
 ```
 
-The simplest resolution here is to switch back to using `push()` to create an empty instance of `Favorites`, then assigning the values.
+Самое простое решение здесь — вернуться к использованию `push()` для создания пустого экземпляра `Favorites`, а затем присвоить значения.
 
-The reason this works is a little obtuse. In the failing example, an unsized `uint` array is the expected type for the argument, but a sized `uint` array is provided. Solidity cannot perform implicit conversions like this most of the time and you'll get a compiler error if you provide the wrong type for an argument, even if it is convertible.
+Причина, по которой это работает, немного непонятна. В неудачном примере ожидаемым типом аргумента является массив `uint` без размера, но предоставлен массив `uint` с размером. Solidity не может выполнять неявные преобразования подобного рода в большинстве случаев, и вы получите ошибку компилятора, если предоставите неправильный тип для аргумента, даже если он преобразуем.
 
-One exception to this rule is that Solidity **can** perform an implicit conversion during _assignment_ if the variable on the right side "fits" into the variable on the left side.
+Одним из исключений из этого правила является то, что Solidity **может** выполнять неявное преобразование во время _присваивания_, если переменная в правой части "помещается" в переменную в левой части.
 
-`uint[5]` fits in `uint[]`, so Solidity will allow it to sit 🐈.
+`uint[5]` помещается в `uint[]`, поэтому Solidity позволит ему сидеть 🐈.
 
-But what happens if you use the _getter_ for `userFavorites` to retrieve your entry?
-
-```text
-{
-	"0": "uint256: favoriteNumber 29",
-	"1": "uint256: birthDay 14",
-	"2": "string: favoriteColor red"
-}
-```
-
-What happened to the array? It's not there, and it turns out that this is [on purpose](https://github.com/ethereum/solidity/issues/1626).
-
-### Mappings Inside of Structs
-
-You may add `mappings` inside of `struct`s, subject to a few quirks and restrictions. Add `mapping (uint => uint) numberPairs;` to `Favorites`.
-
-In `addFavorites`, assign `newFavorite.numberPairs[33] = 66;`
-
-Deploy and test. So far, so good!
-
-_Déjà vu_ ahead: But what happens if you use the _getter_ for `userFavorites` to retrieve your entry?
+Но что произойдет, если вы используете геттер для `userFavorites`, чтобы получить вашу запись?
 
 ```text
 {
@@ -225,19 +205,39 @@ _Déjà vu_ ahead: But what happens if you use the _getter_ for `userFavorites` 
 }
 ```
 
-It's not there, and it turns out that this is [on purpose](https://github.com/ethereum/solidity/issues/1626).
+Что случилось с массивом? Его нет, и оказывается, что это [преднамеренно](https://github.com/ethereum/solidity/issues/1626).
 
-Another issue emerges if you try to return the struct from a public function. What if you wanted your `addFavorite` function to return a reference to the new favorite?
+### Отображения (Mappings) внутри структур
+
+Вы можете добавить `mapping` внутри `struct`, с некоторыми особенностями и ограничениями. Добавьте `mapping (uint => uint) numberPairs`; в `Favorites`.
+
+В `addFavorites` присвойте `newFavorite.numberPairs[33] = 66`;
+
+Разверните и протестируйте. Пока что все хорошо!
+
+_Дежавю_ впереди: Но что произойдет, если вы используете _геттер_ для `userFavorites`, чтобы получить вашу запись?
+
+```text
+{
+	"0": "uint256: favoriteNumber 29",
+	"1": "uint256: birthDay 14",
+	"2": "string: favoriteColor red"
+}
+```
+
+Его нет, и оказывается, что это [преднамеренно](https://github.com/ethereum/solidity/issues/1626).
+
+Другая проблема возникает, если вы попытаетесь вернуть структуру из публичной функции. Что, если вы хотите, чтобы ваша функция `addFavorite` возвращала ссылку на новое избранное?
 
 ```solidity
-// Bad code example, will not work
+// Плохой пример кода, не будет работать
 function addFavorite(
     uint _favoriteNumber,
     uint _birthDay,
     string calldata _favoriteColor,
     uint[] calldata _lotteryNumbers
 ) public returns (newFavorite memory) {
-    // .push() returns a reference to the new element
+    // .push() возвращает ссылку на новый элемент
     Favorites storage newFavorite = userFavorites.push();
     newFavorite.favoriteNumber = _favoriteNumber;
     newFavorite.birthDay = _birthDay;
@@ -249,7 +249,7 @@ function addFavorite(
 }
 ```
 
-You'll get an error. The `mapping` type cannot be returned by a `public` or `external` function, so neither can a `struct` that contains one.
+Вы получите ошибку. Тип `mapping` не может быть возвращен `public` или `external` функцией, поэтому и `struct`, содержащий его, тоже не может.
 
 ```text
 from solidity:
@@ -260,10 +260,10 @@ TypeError: Types containing (nested) mappings can only be parameters or return v
    |                       ^^^^^^^^^^^^^^^^
 ```
 
-Finally, what happens if you try to assign `newFavorite` to a `memory` variable? Again, an error occurs because `mapping`s can only be in `storage`.
+Наконец, что произойдет, если вы попытаетесь присвоить `newFavorite` переменной `memory`? Опять возникает ошибка, потому что `mapping` могут быть только в `storage`.
 
 ```solidity
-// Bad code example, will not work
+// Плохой пример кода, не будет работать
 Favorites memory secondFavorite = newFavorite;
 ```
 
@@ -276,9 +276,9 @@ TypeError: Type struct Structs.Favorites memory is only valid in storage because
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ```
 
-### Automatic Getters for Public Structs
+### Автоматические геттеры для публичных структур
 
-As with other types, if you put a `public` `struct` in storage at the contract level, the compiler will generate a getter automatically. However, these don't work quite the way you might expect. For example, imagine:
+Как и с другими типами, если вы поместите `public` `struct` в хранилище на уровне контракта, компилятор автоматически сгенерирует геттер. Однако они работают не совсем так, как вы могли бы ожидать. Например, представьте:
 
 ```solidity
 
@@ -292,25 +292,25 @@ MyStruct myStruct;
 
 ```
 
-The automatic getter for `myStruct` will **not** be:
+Автоматический геттер для `myStruct` не будет:
 
 ```solidity
-// Approximate example, not real code
+// Приблизительный пример, не реальный код
 function myStruct() public view returns (MyStruct memory) {
     return myStruct;
 }
 ```
 
-Instead, it returns the members individually:
+Вместо этого он возвращает члены по отдельности:
 
 ```solidity
-// Approximate example, not real code
+// Приблизительный пример, не реальный код
 function myStruct() public view returns (uint, uint, uint) {
     return (myStruct.first, myStruct.second, myStruct.third);
 }
 ```
 
-Create your own getter to return the data as a tuple, which will be interpreted as the appropriate type if it's called from another contract via an interface.
+Создайте свой собственный геттер, чтобы вернуть данные в виде кортежа, который будет интерпретирован как соответствующий тип, если он вызывается из другого контракта через интерфейс.
 
 ```solidity
 function getMyStruct() public view returns (MyStruct memory) {
@@ -320,6 +320,6 @@ function getMyStruct() public view returns (MyStruct memory) {
 
 ---
 
-## Conclusion
+## Заключение
 
-In this lesson, you've learned how to use the `struct` keyword to create a custom type that stores related data. You've also learned three methods of instantiating them and common patterns for storing `struct`s in storage. Finally, you've explored some of the constraints that emerge when working with more complex data types within a `struct`.
+В этом уроке вы узнали, как использовать ключевое слово `struct` для создания пользовательского типа, который хранит связанные данные. Вы также узнали три метода создания их экземпляров и общие шаблоны для хранения `struct` в хранилище. Наконец, вы исследовали некоторые ограничения, которые возникают при работе с более сложными типами данных внутри `struct`.
