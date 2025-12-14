@@ -1,65 +1,65 @@
 ---
-title: Minimal Tokens Exercise
-description: Exercise - Create your own token!
+title: Упражнение по минимальным токенам
+description: Упражнение - Создайте свой собственный токен!
 hide_table_of_contents: false
-sidebarTitle: Exercise
+sidebarTitle: Упражнение
 ---
 
-Create a contract that adheres to the following specifications.
+Создайте контракт, соответствующий следующим спецификациям.
 
 ---
 
-## Contract
+## Контракт
 
-Create a contract called `UnburnableToken`. Add the following in storage:
+Создайте контракт с именем `UnburnableToken`. Добавьте следующее в хранилище:
 
-- A public mapping called `balances` to store how many tokens are owned by each address
-- A `public uint` to hold `totalSupply`
-- A `public uint` to hold `totalClaimed`
-- Other variables as necessary to complete the task
+- Публичное отображение (mapping) `balances` для хранения количества токенов, принадлежащих каждому адресу
+- `public uint` для хранения `totalSupply`
+- `public uint` для хранения `totalClaimed`
+- Другие переменные, необходимые для выполнения задачи
 
-Add the following functions.
+Добавьте следующие функции.
 
-### Constructor
+### Конструктор
 
-Add a constructor that sets the total supply of tokens to 100,000,000.
+Добавьте конструктор, который устанавливает общее предложение токенов в 100 000 000.
 
 ### Claim
 
-Add a `public` function called `claim`. When called, so long as a number of tokens equalling the `totalSupply` have not yet been distributed, any wallet _that has not made a claim previously_ should be able to claim 1000 tokens. If a wallet tries to claim a second time, it should revert with `TokensClaimed`.
+Добавьте `public` функцию `claim`. При вызове, пока количество токенов, равное `totalSupply`, еще не было распределено, любой кошелек, _который еще не получал токены ранее_, должен иметь возможность получить 1000 токенов. Если кошелек попытается получить токены во второй раз, должен произойти откат (revert) с ошибкой `TokensClaimed`.
 
-The `totalClaimed` should be incremented by the claim amount.
+`totalClaimed` должен увеличиваться на количество полученных токенов.
 
-Once all tokens have been claimed, this function should revert with the error `AllTokensClaimed`. (We won't be able to test this, but you'll know if it's there!)
+Как только все токены будут получены, эта функция должна выполнить откат с ошибкой `AllTokensClaimed`. (Мы не сможем протестировать это, но вы будете знать, если она там есть!)
 
-### Safe Transfer
+### Безопасный перевод (Safe Transfer)
 
-Implement a `public` function called `safeTransfer` that accepts an address `_to` and an `_amount`. It should transfer tokens from the sender to the `_to` address, **only if**:
+Реализуйте `public` функцию `safeTransfer`, которая принимает адрес `_to` и `_amount`. Она должна переводить токены от отправителя на адрес `_to`, **только если**:
 
-- That address is not the zero address
-- That address has a balance of greater than zero Base Sepolia Eth
+- Этот адрес не является нулевым адресом
+- Этот адрес имеет баланс больше нуля Base Sepolia Eth
 
-A failure of either of these checks should result in a revert with an `UnsafeTransfer` error, containing the address.
+Невыполнение любого из этих условий должно привести к откату с ошибкой `UnsafeTransfer`, содержащей адрес.
 
 ---
 
-### Submit your Contract and Earn an NFT Badge! (BETA)
+### Отправьте свой контракт и получите NFT-значок! (BETA)
 
 <Note>
-#### Hey, where'd my NFT go!?
+#### Эй, куда делся мой NFT?!
 
-[Testnets](/learn/deployment-to-testnet/test-networks) are not permanent! Base Goerli [will soon be sunset](https://base.mirror.xyz/kkz1-KFdUwl0n23PdyBRtnFewvO48_m-fZNzPMJehM4), in favor of Base Sepolia.
+[Тестовые сети](/learn/deployment-to-testnet/test-networks) не являются постоянными! Base Goerli [скоро будет приостановлена](https://base.mirror.xyz/kkz1-KFdUwl0n23PdyBRtnFewvO48_m-fZNzPMJehM4), в пользу Base Sepolia.
 
-As these are separate networks with separate data, your NFTs **will not** transfer over.
+Поскольку это отдельные сети с отдельными данными, ваши NFT **не будут** перенесены.
 
-**Don't worry!** We've captured the addresses of all NFT owners on Base Goerli and will include them when we release the mechanism to transfer these NFTs to mainnet later this year! You can also redeploy on Sepolia and resubmit if you'd like!
+**Не волнуйтесь!** Мы зафиксировали адреса всех владельцев NFT на Base Goerli и включим их, когда позже в этом году выпустим механизм переноса этих NFT в основную сеть! Вы также можете повторно развернуть на Sepolia и повторно отправить, если хотите!
 </Note>
 
 
 <Warning>
-The contract specification contains actions that can only be performed once by a given address. As a result, the unit tests for a passing contract will only be successful the **first** time you test.
+Спецификация контракта содержит действия, которые могут быть выполнены только один раз данным адресом. В результате модульные тесты для проходящего контракта будут успешными только **первый** раз, когда вы тестируете.
 
-**You may need to submit a fresh deployment to pass**
+**Возможно, вам потребуется отправить новое развертывание, чтобы пройти тест**
 </Warning>
 
 
