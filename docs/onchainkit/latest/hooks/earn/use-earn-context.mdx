@@ -2,13 +2,13 @@
 title: useEarnContext
 ---
 
-Access context values from the `Earn` component. Build custom deposit and withdraw interfaces with Morpho vault data.
+Получите доступ к значениям контекста из компонента `Earn`. Создавайте кастомные интерфейсы для депозита и вывода, используя данные хранилища Morpho.
 
 <Note>
-Use within `<Earn />` or `<EarnProvider />` components.
+Используйте внутри компонентов `<Earn />` или `<EarnProvider />`.
 </Note>
 
-## Usage
+## Использование
 
 ```tsx code
 import { useEarnContext } from '@coinbase/onchainkit/earn';
@@ -25,48 +25,48 @@ const { depositAmount,
        // ...  
         } = useEarnContext();
 
-// Use the values to build a custom deposit interface!
+// Используйте значения для создания кастомного интерфейса депозита!
 ```
 
-## Returns
+## Возвращает
 
 ```ts
 type EarnContextType = {
-  /** Warns users if vault address is invalid */
+  /** Предупреждает пользователей, если адрес хранилища невалиден */
   error: Error | null;
   recipientAddress?: Address;
-  /** Balance of the underlying asset in the user's wallet, converted to the asset's decimals */
+  /** Баланс базового актива в кошельке пользователя, конвертированный с учетом десятичных знаков актива */
   walletBalance?: string;
-  /** Status of the wallet balance fetch */
+  /** Статус получения баланса кошелька */
   walletBalanceStatus: 'pending' | 'success' | 'error';
   refetchWalletBalance: () => void;
   vaultAddress: Address;
-  /** The token that is being deposited or withdrawn (the underlying asset of the vault) */
+  /** Токен, который вносится или выводится (базовый актив хранилища) */
   vaultToken: Token | undefined;
   vaultName: string | undefined;
-  /** Total deposits in the vault */
+  /** Общие депозиты в хранилище */
   deposits: string | undefined;
-  /** Total liquidity (available to borrow) in the vault */
+  /** Общая ликвидность (доступная для займа) в хранилище */
   liquidity: string | undefined;
-  /** Total APY of the vault, including rewards */
+  /** Общая APY хранилища, включая награды */
   apy: number | undefined;
   nativeApy: UseMorphoVaultReturnType['nativeApy'];
   vaultFee: UseMorphoVaultReturnType['vaultFee'];
-  /** Rewards earned by the user in the vault */
+  /** Награды, полученные пользователем в хранилище */
   rewards: UseMorphoVaultReturnType['rewards'];
-  /** The amount of underlying asset that has been deposited in the vault by the connected user */
+  /** Количество базового актива, внесенное в хранилище подключенным пользователем */
   depositedBalance?: string;
-  /** Whether the deposited balance is being fetched */
+  /** Статус получения баланса депозита */
   depositedBalanceStatus: 'pending' | 'success' | 'error';
   refetchDepositedBalance: () => void;
-  /** Interest earned by the user in the vault */
+  /** Процентный доход, полученный пользователем в хранилище */
   interestEarned?: string;
-  /** Amount that the user has typed into the deposit amount input */
+  /** Сумма, которую пользователь ввел в поле ввода суммы депозита */
   depositAmount: string;
   setDepositAmount: (amount: string) => void;
   depositAmountError: string | null;
   depositCalls: Call[];
-  /** Amount that the user has typed into the withdraw amount input */
+  /** Сумма, которую пользователь ввел в поле ввода суммы вывода */
   withdrawAmount: string;
   setWithdrawAmount: (amount: string) => void;
   withdrawAmountError: string | null;
