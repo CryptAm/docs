@@ -2,15 +2,15 @@
 title: getAvatars
 ---
 
-The `getAvatars` utility is designed to retrieve multiple avatars from an onchain identity
-provider for an array of ENS names or Basenames in a single batch request.
+Утилита `getAvatars` предназначена для получения нескольких аватаров из провайдера ончейн-идентификации
+для массива ENS имен или Basenames в одном пакетном запросе.
 
-Consider the utility instead of the hook when you
-use it with Next.js or any Node.js backend.
+Рассмотрите использование утилиты вместо хука, если
+вы работаете с Next.js или любым Node.js бэкендом.
 
-## Usage
+## Использование
 
-Get avatars for multiple ENS names:
+Получение аватаров для нескольких ENS имен:
 
 <CodeGroup>
 ```tsx code
@@ -30,7 +30,7 @@ const avatars = await getAvatars({ ensNames });
 
 </CodeGroup>
 
-Get avatars for multiple Basenames:
+Получение аватаров для нескольких Basenames:
 
 <CodeGroup>
 ```tsx code
@@ -51,7 +51,7 @@ const avatars = await getAvatars({ ensNames, chain: base });
 
 </CodeGroup>
 
-Get avatars for a mix of ENS names and Basenames:
+Получение аватаров для комбинации ENS имен и Basenames:
 
 <CodeGroup>
 ```tsx code
@@ -72,7 +72,7 @@ const avatars = await getAvatars({ ensNames, chain: base });
 
 </CodeGroup>
 
-## Returns
+## Возвращает
 
 ```typescript
 Promise<GetAvatarReturnType[]>
@@ -80,19 +80,19 @@ Promise<GetAvatarReturnType[]>
 type GetAvatarReturnType = string | null;
 ```
 
-## Parameters
+## Параметры
 
 ```typescript
 type GetAvatarsParams = {
-  /** Array of ENS names to resolve avatars for */
+  /** Массив ENS имен для получения аватаров */
   ensNames: string[];
-  /** Optional chain for domain resolution */
+  /** Необязательная цепь для разрешения домена */
   chain?: Chain;
 };
 
 type Chain = {
   id: number;
   name: string;
-  // ... other chain properties
+  // ... другие свойства цепи
 };
 ```
