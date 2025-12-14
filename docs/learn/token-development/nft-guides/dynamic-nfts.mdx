@@ -1,6 +1,6 @@
 ---
-title: 'Building dynamic NFTs'
-description: A tutorial that teaches how to make dynamic NFTs that evolve based on onchain or offchain actions.
+title: 'Создание динамических NFT'
+description: Руководство, которое учит создавать динамические NFT, эволюционирующие на основе ончейн- или оффчейн-действий.
 authors:
   - lukecd
 tags: ['nft']
@@ -9,71 +9,71 @@ hide_table_of_contents: false
  
 ---
 
-# Build a Dynamic NFT on Base with Irys
+# Создайте динамический NFT в сети Base с Irys
 
-In this tutorial, you will create a dynamic NFT using Irys's [mutability features].
+В этом руководстве вы создадите динамический NFT, используя [mutability features].
 
 ![Overview](/images/dynamic-nfts/all-characters.png)
 
-Dynamic NFTs are NFTs whose metadata evolves over time. They are commonly used in:
+Динамические NFT - это NFT, метаданные которых развиваются со временем. Они часто используются в:
 
-- Gaming projects where in-game assets evolve as players progress
-- Loyalty programs where NFTs evolve as users accumulate points
+- Игровых проектах, где внутриигровые активы эволюционируют по мере прогресса игрока
+- Программах лояльности, где NFT эволюционируют по мере накопления пользователем очков
 
-## Objectives
+## Цели
 
-By the end of this tutorial, you should be able to:
+К концу этого руководства вы должны уметь:
 
-- Permanently upload data onchain using Irys
-- Create NFT metadata and use it to mint an NFT
-- "Mutate" (change) the NFT metadata using Irys's mutability features
+- Постоянно загружать данные в ончейн-среду с помощью Irys
+- Создавать метаданные NFT и использовать их для создания NFT
+- «Изменять» (мутировать) метаданные NFT, используя возможности изменяемости Irys
 
-## Prerequisites
+## Предварительные требования
 
-1. **Setup a Coinbase Wallet:** You'll need a web3 wallet; you'll use it to deploy the NFT contract and to sign and pay for uploads to Irys. We recommend using the [Coinbase Wallet].
+1. **Настройте Coinbase Wallet:** Вам понадобится веб3-кошелек; вы будете использовать его для развертывания NFT-контракта, а также для подписи и оплаты загрузок в Irys. Мы рекомендуем использовать [Coinbase Wallet].
 
-2. **Wallet Funding:** You'll need to fund your wallet with some Base Sepolia tokens. You can do this for free using the [Base Faucet].
+2. **Пополнение кошелька:** Вам нужно будет пополнить ваш кошелек некоторым количеством токенов Base Sepolia. Вы можете сделать это бесплатно, используя [Base Faucet].
 
-## About Irys
+## О Irys
 
-[Irys] is a datachain, a blockchain optimized for data storage. Data uploaded to Irys is:
+[Irys] - это «цепочка данных» (datachain), блокчейн, оптимизированный для хранения данных. Данные, загруженные в Irys:
 
-- Permanent and immutable
-- Onchain
-- Censorship-resistant
-- Blockchain agnostic
-- Unconstrained (you can upload files of any size)
+- Постоянные и неизменяемые
+- Находятся в ончейн-среде
+- Устойчивы к цензуре
+- Агностичны к блокчейну
+- Неограничены (вы можете загружать файлы любого размера)
 
-When you store your NFT assets on Irys and mint them using a smart contract on Base, you can guarantee the NFT will be retrievable forever. Creators can rest assured that their works will endure indefinitely, while collectors can feel secure knowing their NFTs are permanently preserved.
+Когда вы храните активы вашего NFT на Irys и создаете его с помощью смарт-контракта в сети Base, вы можете гарантировать, что NFT будет доступен вечно. Создатели могут быть уверены, что их работы будут существовать бесконечно, а коллекционеры - что их NFT сохранятся навсегда.
 
 ### Irys + Base
 
-Irys has a pay-once-store-forever model and accepts payment for storage using multiple tokens, including ETH on Base.
+Irys использует модель «заплати один раз - храни вечно» и принимает оплату за хранение с использованием нескольких токенов, включая ETH в сети Base.
 
-## "Mutability"
+## "Изменяемость"
 
-Data on Irys is permanent and immutable, but you use Irys's [mutability features] to simulate mutability and create dynamic NFTs that evolve based on onchain or offchain actions.
+Данные в Irys постоянны и неизменяемы, но вы можете использовать Irys для имитации изменчивости и создания динамических NFT, которые эволюционируют на основе ончейн- или оффчейн-действий.
 
 ![Overview](/images/dynamic-nfts/mutable-references.png)
 
-Using Irys's mutability features, you create a single, static URL that is linked to a series of transactions. Then, you can add a new transaction to the series at any time, and the URL will always resolve to the most recent transaction.
+Используя возможности изменяемости Irys, вы создаете единственный статический URL, который связан с серией транзакций. Затем вы можете добавить новую транзакцию в серию в любое время, и URL всегда будет указывать на самую последнюю транзакцию.
 
-You'll mint your NFT using a mutable-style URL, and then push updates to that URL. The URL won't change, but the metadata it resolves to will.
+Вы сминтите ваш NFT, используя URL в изменяемом стиле, а затем будете отправлять обновления по этому URL. Сам URL не изменится, но метаданные, на которые он указывает, будут меняться.
 
-## About
+## О проекте
 
-This tutorial focuses on creating a SuperMon NFT, similar to one used in a web3 game that would evolve during gameplay. The NFT starts with a basic appearance and can be "upgraded" twice. You will use the Irys CLI to "mutate" the metadata, simulating the automatic changes that would occur through player interactions in an actual game.
+Это руководство фокусируется на создании NFT SuperMon, похожего на тот, что используется в веб3-игре, который будет эволюционировать в процессе игры. NFT начинается с базового внешнего вида и может быть «улучшено» дважды. Вы будете использовать Irys CLI для «мутации» метаданных, имитируя автоматические изменения, которые происходили бы через взаимодействие игроков в реальной игре.
 
-## Smart contract
+## Смарт-контракт
 
-You're building an NFT, which means you need a smart contract. Here's a simple one you can use to mint the NFT you'll create.
+Вы создаете NFT, а значит, вам нужен смарт-контракт. Вот простой, который вы можете использовать для создания NFT, который вы будете создавать.
 
 ```solidity filename="SuperMon.sol"
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-// Import OpenZeppelin's ERC721 and ERC721URIStorage contracts
-// These URLs are compatible with Remix IDE
+// Импортируем контракты ERC721 и ERC721URIStorage от OpenZeppelin
+// Эти URL совместимы с Remix IDE
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -81,12 +81,12 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract SuperMon is ERC721URIStorage {
     uint256 private _tokenIdCounter;
 
-    // No arguments in the constructor, the owner will be the contract deployer
+    // В конструкторе нет аргументов, владельцем будет развертывающий контракт
     constructor() ERC721("SuperMon", "SMON") {
         _tokenIdCounter = 0;
     }
 
-    // Mint function to create a new NFT
+    // Функция для минта (создания) нового NFT
     function mint(address to, string memory uri) public {
         uint256 tokenId = _tokenIdCounter;
         _tokenIdCounter += 1;
@@ -97,43 +97,43 @@ contract SuperMon is ERC721URIStorage {
 
 ```
 
-Deploy the smart contract using [Remix].
+Разверните смарт-контракт, используя [Remix].
 
 ## Irys CLI
 
-You'll use the [Irys CLI] to upload images and metadata.
+Вы будете использовать [Irys CLI] для загрузки изображений и метаданных.
 
-### Installing the CLI
+### Установка CLI
 
-Install the Irys CLI globally using the `-g` flag. Depending on your setup, you may need to use sudo.
+Установите Irys CLI глобально, используя флаг `-g`. В зависимости от вашей настройки, возможно, потребуется использовать sudo.
 
 ```bash
 npm i -g @irys/cli
 ```
 
-Or:
+Или:
 
 ```bash
 sudo npm i -g @irys/cli
 ```
 
-### Using private keys
+### Использование приватных ключей
 
-When executing CLI commands involving funding and signing, you must provide a private key. Use the `-w` flag to specify a private key along with the `-t` flag to signal you're using ETH on Base.
+При выполнении CLI-команд, связанных с пополнением и подписью, необходимо предоставить приватный ключ. Используйте флаг `-w` для указания приватного ключа вместе с флагом `-t`, чтобы указать, что вы используете ETH в сети Base.
 
 ```console
 irys -w <base-private-key> -t base-eth
 ```
 
-## Uploading the images
+## Загрузка изображений
 
 ![All NFTs](/images/dynamic-nfts/all-characters.png)
 
-[Download a zip containing PNGs] for each level, and save them on your local drive.
+[Download a zip containing PNGs] для каждого уровня, и сохраните их на локальном диске.
 
-Next, fund Irys with 0.1 [Base Sepolia ETH] to pay for your uploads.
+Далее пополните Irys на 0.1 [Base Sepolia ETH] чтобы оплатить ваши загрузки.
 
-> In all of these CLI examples, make sure to replace the value of the `-w` parameter with your own private key.
+> Во всех этих примерах CLI обязательно замените значение параметра `-w` на свой собственный приватный ключ.
 
 ```console
 irys fund 100000000000000000 \
@@ -143,11 +143,11 @@ irys fund 100000000000000000 \
   --provider-url https://sepolia.base.org
 ```
 
-> The `fund` command accepts a value in atomic units, 0.1 ETH is equal to 100000000000000000 in atomic units.
+> Команда `fund` принимает значение в атомарных единицах, 0.1 ETH равно 100000000000000000 в атомарных единицах.
 
-Next, use the Irys CLI to upload each of the images to the Irys Devnet.
+Далее используйте Irys CLI для загрузки каждого из изображений в Devnet Irys.
 
-> Uploads to Irys's devnet are kept for ~60 days and are paid for using free tokens available from [faucets].
+> Загрузки в devnet Irys хранятся около ~60 дней и оплачиваются бесплатными токенами, доступными через [faucets].
 
 ```console
 irys upload image-level-1.png \
@@ -169,9 +169,9 @@ irys upload image-level-3.png \
   --provider-url https://sepolia.base.org
 ```
 
-## Uploading the metadata
+## Загрузка метаданных
 
-Create three metadata files similar to the ones below. Make sure to change the value of the image field to match the URLs generated in the previous step.
+Создайте три файла метаданных, аналогичные приведенным ниже. Убедитесь, что изменили значение поля `image`, чтобы оно соответствовало URL, сгенерированным на предыдущем шаге.
 
 ```json filename="metadata-level-1.json"
 {
@@ -218,7 +218,7 @@ Create three metadata files similar to the ones below. Make sure to change the v
 }
 ```
 
-And upload **just the first file** using the Irys CLI.
+И загрузите **только первый файл**, используя Irys CLI.
 
 ```console
 irys upload metadata-level-1.json \
@@ -228,26 +228,26 @@ irys upload metadata-level-1.json \
   --provider-url https://sepolia.base.org
 ```
 
-The CLI will return a URL similar to `https://gateway.irys.xyz/94TNg3UUKyZ96Dj8eSo9DVkBiivAz9jT39jjMFeTFvm3`. To convert that to a mutable-style URL, interpolate it by adding `/mutable/` after the domain and before the transaction ID.
+CLI вернет URL, похожий на `https://gateway.irys.xyz/94TNg3UUKyZ96Dj8eSo9DVkBiivAz9jT39jjMFeTFvm3`. Чтобы преобразовать его в URL в изменяемом стиле, интерполируйте его, добавив `/mutable/` после домена и перед идентификатором транзакции.
 
-Your final URL will be similar to `https://gateway.irys.xyz/mutable/94TNg3UUKyZ96Dj8eSo9DVkBiivAz9jT39jjMFeTFvm3`.
+Ваш окончательный URL будет похож на `https://gateway.irys.xyz/mutable/94TNg3UUKyZ96Dj8eSo9DVkBiivAz9jT39jjMFeTFvm3`.
 
-## Minting the NFT
+## Минт NFT
 
-To mint your NFT in Remix:
+Чтобы создать ваш NFT в Remix:
 
-1. Return to Remix.
-2. Under "Deployed Contracts", locate your contract and expand it to see its functions.
-3. Under the `Mint` function, enter the wallet address you want to mint the NFT to and the metadata URL (e.g. `https://gateway.irys.xyz/mutable/94TNg3UUKyZ96Dj8eSo9DVkBiivAz9jT39jjMFeTFvm3`) from the previous step.
-4. Click Transact.
+1. Вернитесь в Remix.
+2. В разделе «Deployed Contracts» найдите ваш контракт и разверните его, чтобы увидеть его функции.
+3. В функции Mint введите адрес кошелька, на который вы хотите создать NFT, и URL метаданных (например, `https://gateway.irys.xyz/mutable/94TNg3UUKyZ96Dj8eSo9DVkBiivAz9jT39jjMFeTFvm3`) из предыдущего шага.
+4. Нажмите "Transact".
 
 ![Image Level 3](/images/dynamic-nfts/open-sea-mockup.jpg)
 
-You can now view the NFT on the [Opensea Testnet].
+Теперь вы можете просмотреть NFT на [Opensea Testnet].
 
-## Mutating the metadata
+## Мутация метаданных
 
-To now "mutate" the NFT, upload a new version of the metadata tagging it as having a `Root-TX` equal to the transaction ID of your first transaction. In my example, I pass the value of `94TNg3UUKyZ96Dj8eSo9DVkBiivAz9jT39jjMFeTFvm3`, however make sure to change this to match your unique transaction ID.
+Чтобы теперь «изменить» NFT, загрузите новую версию метаданных, пометив ее как имеющую `Root-TX`, равный идентификатору транзакции вашей первой транзакции. В моем примере я передаю значение`94TNg3UUKyZ96Dj8eSo9DVkBiivAz9jT39jjMFeTFvm3`, однако обязательно измените это значение, чтобы оно соответствовало вашему уникальному идентификатору транзакции.
 
 ```console
 irys upload metadata-level-2.json \
@@ -258,34 +258,34 @@ irys upload metadata-level-2.json \
   --provider-url https://rpc.sepolia.org
 ```
 
-Return to Opensea and request that it refresh your metadata.
+Вернитесь на Opensea и запросите обновление метаданных.
 
 ![Image Level 3](/images/dynamic-nfts/refresh-metadata.png)
 
-Give it a few minutes and your updated NFT should be visible.
+Подождите несколько минут, и ваше обновленное NFT должно стать видимым.
 
-## Free metadata uploads
+## Бесплатная загрузка метаданных
 
-Uploads of less than 100 KiB are free on Irys, which is more than enough for most metadata files. This means projects can let users "evolve" their NFTs without having to pay gas fees.
+Загрузки размером менее 100 КиБ бесплатны в Irys, чего более чем достаточно для большинства файлов метаданных. Это означает, что проекты могут позволить пользователям «эволюционировать» свои NFT без необходимости платить комиссию за газ.
 
-## Caching
+## Кэширование
 
-Wallets and NFT websites typically cache metadata to optimize performance, this can affect the visibility of updates to dynamic NFTs. While OpenSea offers a feature for users to manually request metadata refreshes, not all platforms provide this level of control. When building dynamic NFT projects, make sure to thoroughly test and understand the implications of caching on your platform.
+Кошельки и NFT-сайты обычно кэшируют метаданные для оптимизации производительности, что может повлиять на видимость обновлений динамических NFT. Хотя OpenSea предлагает функцию, позволяющую пользователям вручную запрашивать обновление метаданных, не все платформы предоставляют такой уровень контроля. При создании проектов с динамическими NFT обязательно тщательно тестируйте и понимайте влияние кэширования на вашу платформу.
 
 ## Irys SDK
 
-This tutorial used the Irys CLI to permanently upload data. Irys also has a JS-SDK that can be used on the [server] and in the [browser].
+В этом руководстве использовался Irys CLI для постоянной загрузки данных. У Irys также есть JS-SDK, который можно использовать на [server] и в [browser].
 
-## Conclusion
+## Заключение
 
-In this tutorial, you learned how to permanently upload data to Irys using their CLI and how to create a dynamic NFT. Data on Irys is onchain, permanent and immutable. When your NFT images and metadata are on Irys, you can guarantee to your users that the NFT will be retrievable forever.
+В этом руководстве вы узнали, как постоянно загружать данные в Irys с помощью их CLI и как создать динамический NFT. Данные в Irys находятся в ончейн-среде, постоянны и неизменяемы. Когда изображения и метаданные вашего NFT находятся на Irys, вы можете гарантировать своим пользователям, что NFT будет доступен вечно.
 
-Dynamic NFTs are commonly used with gaming projects, similar to the one we built in this tutorial. However, there are countless other applications too. For example:
+Динамические NFT часто используются в игровых проектах, подобных тому, что мы создали в этом руководстве. Однако существует бесчисленное множество других применений. Например:
 
-- **Points programs**: Create an NFT representing a user's participation in a points program. As the user earns more points, the NFT evolves.
-- **Sports NFTs**: Create an NFT from a sports team that changes whenever the team wins an important game.
-- **Holiday NFTs**: Create an NFT that changes seasonally to represent different holidays.
-- **Activity tracking**: Create a health and wellness NFT that changes based on data from an activity tracker.
+- **Программы накопления очков**: Создайте NFT, представляющее участие пользователя в программе очков. По мере того как пользователь зарабатывает больше очков, NFT эволюционирует.
+- **Спортивные NFT**: Создайте NFT спортивной команды, который меняется каждый раз, когда команда выигрывает важную игру.
+- **Праздничные NFT**: Создайте NFT, который меняется в зависимости от сезона, чтобы представлять различные праздники.
+- **Отслеживание активности**: Создайте NFT для здоровья и хорошего самочувствия, которое меняется на основе данных с трекера активности.
 
 [Irys]: https://www.irys.xyz/
 [Base Faucet]: https://docs.base.org/docs/tools/network-faucets/
