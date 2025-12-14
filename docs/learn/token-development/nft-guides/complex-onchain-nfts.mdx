@@ -1,64 +1,64 @@
 ---
-title: 'Complex Onchain NFTs'
+title: 'Сложные ончейн NFT'
 slug: /complex-onchain-nfts
-description: A tutorial that teaches how to make complex nfts that are procedurally generated and have onchain metadata and images.
+description: Руководство, которое учит создавать сложные NFT, процедурно генерируемые с метаданными и изображениями непосредственно в ончейн-среде.
 author: briandoyle81
 
 ---
 
-# Complex Onchain NFTs
+# Сложные ончейн NFT
 
-Many NFTs are dependent on offchain metadata and images. Some use immutable storage locations, such as [IPFS]. Others use traditional web locations, and many of these allow the owner of the contract to modify the URL returned by a contract when a site or user attempts to retrieve the location of the token art and metadata. This power isn't inherently bad, because we probably want someone to be able to fix the contract if the storage location goes down. However, it does introduce a requirement to trust the contract owner.
+Многие NFT зависят от метаданных и изображений, хранящихся вне цепи (offchain). Некоторые используют неизменяемые места хранения, такие как [IPFS]. Другие используют традиционные веб-локации, и многие из них позволяют владельцу контракта изменять URL, возвращаемый контрактом, когда сайт или пользователь пытается получить доступ к расположению изображения токена и его метаданных. Эта возможность не является плохой по своей сути, потому что мы, вероятно, хотим, чтобы кто-то мог исправить контракт, если место хранения перестанет работать. Однако это вводит требование доверия владельцу контракта.
 
-Although challenging, it is possible to write a smart contract that contains all the necessary logic and data to generate json metadata and SVG images, entirely onchain. It **will** be expensive to deploy, but will be as cheap as simpler contracts to mint!
+Хотя это и сложно, можно написать смарт-контракт, который содержит всю необходимую логику и данные для генерации json-метаданных и SVG-изображений полностью в ончейн-среде. Его развертывание будет дорогим, но минт **будет** таким же дешевым, как и у более простых контрактов!
 
-In this tutorial, we'll show you how to do this to create your own fully-onchain art project, similar to our [sample project].
+В этом руководстве мы покажем вам, как сделать это, чтобы создать собственный полностью ончейн-арт-проект, аналогичный нашему [sample project].
 
-## Objectives
+## Цели
 
-By the end of this tutorial you should be able to:
+К концу этого руководства вы должны уметь:
 
-- Programmatically generate and return json metadata for ERC-721 tokens
-- Deterministically construct unique SVG art in a smart contract
-- Generate deterministic, pseudorandom numbers
+- Программно генерировать и возвращать json-метаданные для токенов ERC-721
+- Детерминировано конструировать уникальное SVG-изображение в смарт-контракте
+- Генерировать детерминированные псевдослучайные числа
 
-## Prerequisites
+## Предварительные требования
 
-### ERC-721 Tokens
+### Токены ERC-721
 
-This tutorial assumes that you are able to write, test, and deploy your own ERC-721 tokens using the Solidity programming language. If you need to learn that first, check out our content in [Base Learn] or the sections specific to [ERC-721 Tokens]!
+Это руководство предполагает, что вы умеете писать, тестировать и развертывать свои собственные токены ERC-721 на языке программирования Solidity. Если вам нужно сначала изучить это, ознакомьтесь с нашими материалами на [Base Learn] или разделами, посвященными [ERC-721 Tokens]!
 
-### Vector Art
+### Векторная графика
 
-You'll need some familiarity with the SVG art format and a basic level of ability to edit and manipulate vector art. If you don't have this, find an artist friend and collaborate!
+Вам потребуется некоторое знакомство с форматом векторной графики SVG и базовые навыки редактирования и манипулирования векторной графикой. Если у вас их нет, найдите друга-художника и сотрудничайте!
 
-## Creating the Art Assets
+## Создание графических активов
 
-To start, you'll need to build a few vector art assets and mock up an example of what your NFT might look like. Later, you'll cut these up and format them in a way that your smart contract will use to assemble unique NFTs for each minter.
+Для начала вам нужно будет создать несколько векторных графических активов и сделать макет примера того, как может выглядеть ваш NFT. Позже вы разрежете их и отформатируете таким образом, чтобы ваш смарт-контракт мог использовать их для сборки уникальных NFT для каждого минтера.
 
-The mockup needs to have all of the elements you plan to have in the NFT, and you should be able to manually move things around or change colors to make it so that you can create the range of variation you want. For example:
+Макет должен содержать все элементы, которые вы планируете иметь в NFT, и вы должны иметь возможность вручную перемещать элементы или менять цвета, чтобы создать желаемый диапазон вариаций. Например:
 
-- A gradient sky in which the colors are randomized
-- One of three styles of sun, always in the same spot in the upper right corner
-- One to five clouds placed randomly in the upper half of the canvas
-- A wide mountain ridge that will always be in the middle, but slide side to side to show a different part for each NFT
-- An ocean in the foreground that is always the same
+- Градиентное небо, цвета в котором рандомизированы
+- Одно из трех стилей солнца, всегда в одном и том же месте в правом верхнем углу
+- От одного до пяти облаков, случайно расположенных в верхней половине холста
+- Широкий горный хребет, который всегда будет посередине, но будет смещаться из стороны в сторону, чтобы показывать разные части для каждого NFT
+- Океан на переднем плане, который всегда одинаков
 
-If you are an artist, or are working with one, you can use the vector drawing tool of your choice to assemble your mockup. If not, you can use a number of stock art or AI tool options to assist you. If you do, make sure you understand any relevant laws or terms of service!
+Если вы художник или работаете с ним, вы можете использовать инструмент векторного рисрования по вашему выбору для сборки макета. Если нет, вы можете воспользоваться рядом стоковых изображений или инструментов с AI для помощи. Если вы это сделаете, убедитесь, что понимаете все соответствующие законы или условия обслуживания!
 
-You can also work from ours: [Sample Art]
+Вы также можете работать с нашим примером: [Sample Art]
 
-Either way, you should end up with something similar to this:
+В любом случае, у вас должно получиться что-то похожее на это:
 
 ![Mockup](/images/onchain-generative-nfts/mockup.png)
 
-## The Art of Making it Fit
+## Искусство размещения
 
-You'll notice that the SVG is probably way too big to be placed in a smart contract. The example is 103 KB, so you'll have to be clever to make this work.
+Вы заметите, что SVG, вероятно, слишком велик, чтобы поместиться в смарт-контракт. Пример весит 103 КБ, поэтому вам придется проявить изобретательность, чтобы это сработало.
 
-You'll accomplish this task by splitting each element out of the mockup and deploying them into separate smart contracts. To do so, individually export each element, and make sure that the exported pieces are no bigger than about 15 KB. That way, you'll have enough space to fit each piece within the 24KiB limit for compiled bytecode.
+Вы выполните эту задачу, разделив каждый элемент макета и развернув их в отдельных смарт-контрактах. Для этого экспортируйте каждый элемент по отдельности и убедитесь, что экспортированные части не превышают примерно 15 КБ. Таким образом, у вас будет достаточно места, чтобы уместить каждую часть в пределах лимита в 24 КБ для скомпилированного байткода.
 
-If you're working with the sample, you'll end up with individual SVGs for:
+Если вы работаете с образцом, у вас получатся отдельные SVG для:
 
 - Sun 1: 9 KB
 - Sun 2: 9 KB
@@ -68,19 +68,19 @@ If you're working with the sample, you'll end up with individual SVGs for:
 - Cloud: 6 KB
 - Sky: 802 bytes
 
-If you don't have the tools to do this, you can find these files here: [Sample Art]
+Если у вас нет инструментов для этого, вы можете найти эти файлы здесь: [Sample Art]
 
-## Contract Architecture
+## Архитектура контракта
 
-You'll need to build and deploy a number of contracts for this project. They'll be organized in this architecture:
+Вам нужно будет создать и развернуть несколько контрактов для этого проекта. Они будут организованы по следующей архитектуре:
 
 ![Architecture](/images/onchain-generative-nfts/architecture.png)
 
-Deploying this many contracts will have a cost associated with it, but once they're deployed, this contract will cost the same as any other NFT contract. Remember, `pure` and `view` functions called outside the blockchain don't cost any gas. This means that you can use multiple contracts to assemble a relatively large graphic without additional costs!
+Развертывание такого количества контрактов будет сопряжено с определенными затратами, но после их развертывания этот контракт будет стоить столько же, сколько и любой другой NFT-контракт. Помните, что функции `pure` и `view`, вызываемые вне блокчейна, не потребляют газ. Это означает, что вы можете использовать несколько контрактов для сборки относительно большого изображения без дополнительных затрат!
 
-## Building the Contracts
+## Создание контрактов
 
-Create a new project using the toolkit of your choice, and add a contract called `LandSeaSkyNFT`. Import OpenZeppelin's ERC-721, inherit from it, and set it up with the constructor, a mint function, and a counter to keep track of the token ID:
+Создайте новый проект, используя инструментарий по вашему выбору, и добавьте контракт с именем `LandSeaSkyNFT`. Импортируйте ERC-721 от OpenZeppelin, унаследуйтесь от него и настройте с конструктором, функцией для минта и счетчиком для отслеживания идентификатора токена:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -101,11 +101,11 @@ contract LandSeaSkyNFT is ERC721 {
 }
 ```
 
-### Overriding the `_baseURI()` Function
+### Переопределение функции `_baseURI()`
 
-Normally, you'd override `_baseURI()` with the base URL for the location you select to keep your NFT metadata. This could be a website, IPFS folder, or many other possible locations.
+Обычно вы переопределяете `_baseURI()` базовым URL для выбранного вами места хранения метаданных NFT. Это может быть веб-сайт, папка IPFS или множество других возможных мест.
 
-Since this contract will be generating the .json file directly, instead set it to indicate this to the browser:
+Поскольку этот контракт будет генерировать .json файл напрямую, вместо этого установите его так, чтобы сообщить об этом браузеру:
 
 ```solidity
 function _baseURI() internal pure override returns (string memory) {
@@ -113,9 +113,9 @@ function _baseURI() internal pure override returns (string memory) {
 }
 ```
 
-### Importing the Base64 Library
+### Импорт библиотеки Base64
 
-As indicated above, you'll be returning the json metadata in [Base64] format. OpenZeppelin has a utility contract to do this. You'll also need the `Strings` library. Go ahead and import them:
+Как указано выше, вы будете возвращать метаданные json в формате [Base64]. OpenZeppelin есть утилитный контракт для этого. Вам также понадобится библиотека Strings. Импортируйте их:
 
 ```solidity
 import "@openzeppelin/contracts/utils/Base64.sol";
@@ -123,24 +123,24 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 ```
 
 <Info>
-Base64 allows the transport of binary data over the web in a reliable way. It is not a compression algorithm, and actually increased the data size by a 4/3 ratio.
+Base64 позволяет надежно передавать двоичные данные через веб. Это не алгоритм сжатия, и фактически он увеличивает размер данных в соотношении 4/3.
 </Info>
 
-### Planning the override for the `tokenURI()` Function
+### Планирование переопределения функции `tokenURI()`
 
-Next, set up your `tokenURI` function override. You'll need to write some other contracts to make this work, but you can write most of the code and stub out a plan for the rest to:
+Затем настройте переопределение функции `tokenURI`. Вам нужно будет написать несколько других контрактов, чтобы это заработало, но вы можете написать большую часть кода и набросать план для остального, чтобы:
 
-- Check and ensure the token ID exists
-- Compile the json metadata for the token, including:
-  - The `"name"` of the NFT
-  - A `"description"`
-  - The `"image"`
-- Base64 encode the above, combine it with the `_baseURI` and return it.
+- Проверить и убедиться, что идентификатор токена существует
+- Скомпилировать json-метаданные для токена, включая:
+  - `"name"` NFT
+  - `"description"`
+  - `"image"`
+- Закодировать вышеуказанное в Base64, объединить с `_baseURI` и вернуть.
 
 ```solidity
 function tokenURI(uint _tokenId) public view override returns (string memory) {
   if(_tokenId > counter) {
-    revert InvalidTokenId(_tokenId); // Don't forget to add the error above!
+    revert InvalidTokenId(_tokenId); // Не забудьте добавить ошибку выше!
   }
 
   string memory json = Base64.encode(
@@ -162,38 +162,38 @@ function tokenURI(uint _tokenId) public view override returns (string memory) {
 ```
 
 <Caution>
-Getting the quotes and commas correct when the json is broken apart like this is challenging. When debugging, look here first!
+Соблюдение правильной расстановки кавычек и запятых, когда json разбит таким образом, является сложной задачей. При отладке смотрите сюда в первую очередь!
 </Caution>
 
-### Test Your Progress
+### Проверьте свой прогресс
 
-Test your function by writing a simple test to mint an NFT, then call and log the output of the `tokenURI` function. You should get something similar to:
+Протестируйте свою функцию, написав простой тест для минта NFT, затем вызовите и выведите в лог результат функции `tokenURI`. Вы должны получить что-то похожее на:
 
 ```text
 string: data:application/json;base64,eyJuYW1lIjogIkxhbmQsIFNlYSwgYW5kIFNreSAjMSIsICJkZXNjcmlwdGlvbiI6ICJMYW5kLCBTZWEsIGFuZCBTa3kgaXMgYSBjb2xsZWN0aW9uIG9mIGdlbmVyYXRpdmUgYXJ0IHBpZWNlcyBzdG9yZWQgZW50aXJlbHkgb25jaGFpbi4iLCAiaW1hZ2UiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxUT0RPOiBCdWlsZCB0aGUgU1ZHIHdpdGggdGhlIHRva2VuIElEIGFzIHRoZSBzZWVkIn0=
 ```
 
-To see if it worked, you'll need to use a manual method to decode the base64 data; everything after the comma:
+Чтобы проверить, сработало ли, вам нужно вручную декодировать данные base64; всё, что после запятой:
 
 ```text
 eyJuYW1lIjogIkxhbmQsIFNlYSwgYW5kIFNreSAjMSIsICJkZXNjcmlwdGlvbiI6ICJMYW5kLCBTZWEsIGFuZCBTa3kgaXMgYSBjb2xsZWN0aW9uIG9mIGdlbmVyYXRpdmUgYXJ0IHBpZWNlcyBzdG9yZWQgZW50aXJlbHkgb25jaGFpbi4iLCAiaW1hZ2UiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxUT0RPOiBCdWlsZCB0aGUgU1ZHIHdpdGggdGhlIHRva2VuIElEIGFzIHRoZSBzZWVkIn0=
 ```
 
-You can use the terminal: `echo -n '<string to decode>' | base64 --decode`
+Вы можете использовать терминал: `echo -n '<string to decode>' | base64 --decode`
 
-Do so, and you'll get:
+Сделайте это, и вы получите:
 
 ```text
 {"name": "Land, Sea, and Sky #: 1", "description": "Land, Sea, and Sky is a collection of generative art pieces stored entirely onchain.", "image": "data:image/SVG+xml;base64,TODO: Build the SVG with the token ID as the seed"}
 ```
 
-## Building the SVG
+## Создание SVG
 
-Next, you need to build logic to compile a real, working SVG from the pieces you've saved. You'll also need to add some variation based on the ID of the NFT.
+Далее вам нужно создать логику для компиляции реального рабочего SVG из сохраненных частей. Вам также нужно будет добавить некоторые вариации на основе идентификатора NFT.
 
-### SVG Renderer Contract
+### Контракт для рендеринга SVG
 
-Add a new file and contract called `SVGRenderer`. It doesn't need a constructor, but it will need the `Strings` library:
+Добавьте новый файл и контракт с именем `SVGRenderer`. Ему не нужен конструктор, но понадобится библиотека `Strings`:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -207,29 +207,29 @@ contract SVGRenderer {
 }
 ```
 
-Open the exemplar SVG in a code editor, and using it as an example, build out a function that uses `abi.encodePacked` to build everything from the SVG **except** the actual art. That's much too big for one contract, so add stubs instead.
+Откройте пример SVG в редакторе кода и, используя его как образец, создайте функцию, которая использует `abi.encodePacked` для сборки всего в SVG кроме самого изображения. Оно слишком велико для одного контракта, поэтому вместо этого добавьте заглушки.
 
-Depending on the tool you used to make the SVG, there may be unneeded extras you can remove from these lines. You also **don't** need the items in `<defs>` or `<styles>`. You'll take advantage of the flexibility of the format to include those in the pieces returned by the supporting contract.
+В зависимости от инструмента, который вы использовали для создания SVG, в этих строках могут быть ненужные дополнительные элементы, которые можно удалить. Также вам не нужны элементы в `<defs>` или `<styles>`. Вы воспользуетесь гибкостью формата, чтобы включить их в части, возвращаемые вспомогательным контрактом.
 
 ```solidity
 function render(uint _tokenId) public view returns (string memory) {
   return string(
     abi.encodePacked(
       "<SVG xmlns='http://www.w3.org/2000/SVG' viewBox='0 0 1024 1024'>",
-      // TODO: Add the clouds,
-      // TODO: Add the sun,
-      // TODO: Add the land,
-      // TODO: Add the sea,
-      // TODO: Add the background,
+      // TODO: Добавить облака,
+      // TODO: Добавить солнце,
+      // TODO: Добавить сушу,
+      // TODO: Добавить море,
+      // TODO: Добавить фон,
       "</SVG>"
     )
   );
 }
 ```
 
-### Rendering the Sea
+### Рендеринг моря
 
-The sea element of this NFT will be the same for all NFTs, so it makes sense to write that contract first. Create it called, `SeaRenderer`, with a function called `render`. The `<g>` element is the root of the different pieces of the SVG, so add that and a stub for the rest.
+Элемент моря в этом NFT будет одинаковым для всех NFT, поэтому логично сначала написать этот контракт. Создайте его с именем `SeaRenderer` с функцией `render`. Элемент `<g>` является корневым для разных частей SVG, поэтому добавьте его и заглушку для остального.
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -240,32 +240,32 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract SeaRenderer {
   function render() public pure returns (string memory) {
-    return // TODO: Render the sea
+    return // TODO: Отрендерить море
   }
 }
 ```
 
-The next part is tricky, and a little messy. You'll need to combine parts of the individually exported SVG that has the sea art and all of its properties with the position data for this part of the art from the exemplar SVG. You'll then need to flatten it to a single line, and add it as a string constant.
+Следующая часть сложна и немного громоздка. Вам нужно будет объединить части индивидуально экспортированного SVG, который содержит изображение моря и все его свойства, с данными о позиции этой части изображения из примера SVG. Затем вам нужно будет свести его к одной строке и добавить в качестве строковой константы.
 
-Start by opening the Ocean SVG. Change the viewBox to `viewBox="0 0 1024 1024"`. Move the `<defs>` and `<scripts>` tag inside of the `<g>` tag. Open the SVG in the browser to make sure it hasn't broken.
+Начните с открытия SVG океана. Измените viewBox на `viewBox="0 0 1024 1024"`. Переместите теги `<defs>` и `<scripts>` внутрь тега `<g>`. Откройте SVG в браузере, чтобы убедиться, что он не сломался.
 
-Next, delete the `id` and `data-name` from the top level `<g>` and experiment with the `transform="translate(20,2.5)"` property to move the art back down to the bottom of the viewport.
+Далее удалите `id` и `data-name` из корневого `<g>` и поэкспериментируйте со свойством `transform="translate(20,2.5)"`, чтобы вернуть изображение вниз вьюпорта.
 
-With the sample art, `<g transform="translate(0,700)">` should work.
+С примером графики, `<g transform="translate(0,700)">` должно сработать.
 
-The last edits you need to make are **critical** - do a find/replace to change all of the `cls-1` and similar classnames, to `cls-land-1`! Otherwise, the classes will override one another and nothing will be the right color. Also find all instances of `linear-gradient` and do the same.
+Последние правки, которые вам нужно сделать, критически важны - выполните поиск и замену, чтобы изменить все имена классов `cls-1` и подобные на `cls-land-1`! В противном случае классы будут переопределять друг друга, и ни один цвет не будет правильным. Также найдите все экземпляры `linear-gradient` и сделайте то же самое.
 
-**Make sure** you change both the definitions, and where they're called!
+**Убедитесь**, что вы меняете и определения, и места их использования!
 
-Finally, use the tool of your choice to minify **only** the outermost `<g>` tag and its contents. This will flatten the code to a single line and remove extra empty character spaces. Doing so makes it easier to add to your contract, and makes the data smaller. Add it as a constant string to `SeaRenderer.sol`:
+Наконец, используйте инструмент по вашему выбору, чтобы минифицировать **только** самый внешний тег `<g>` и его содержимое. Это преобразует код в одну строку и удалит лишние пустые символы. Это облегчает добавление в ваш контракт и уменьшает объем данных. Добавьте его в качестве строковой константы в `SeaRenderer.sol`:
 
 ```solidity
 string constant SVG = '<g transform="translate(0,700)"<way more code></g>';
 ```
 
-You may need to do a find/replace and ensure you're using only one type of quote in the SVG.
+Возможно, вам потребуется выполнить поиск и замену и убедиться, что вы используете только один тип кавычек в SVG.
 
-Replace your `TODO` with the constant.
+Замените ваш `TODO` на константу.
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -283,11 +283,11 @@ contract SeaRenderer {
 }
 ```
 
-Test this function independently and make sure that if you paste the content inside a set of `<SVG>` tags, it renders as expected!
+Протестируйте эту функцию отдельно и убедитесь, что если вы вставите содержимое внутри тегов `<SVG>`, оно отображается как ожидалось!
 
-### Calling SeaRenderer
+### Вызов SeaRenderer
 
-Return to `SVGRenderer.sol`. Add an `interface` for the `SeaRenderer`. All of your renderer contracts will have a function called `render` that either takes a `uint _tokenId`, or no arguments, and returns a string. Because of this, you can use a single interface for all the render contracts:
+Вернитесь к `SVGRenderer.sol`. Добавьте `interface` для `SeaRenderer`. Все ваши контракты для рендеринга будут иметь функцию `render`, которая либо принимает `uint _tokenId`, либо не принимает аргументов, и возвращает строку. Из-за этого вы можете использовать единый интерфейс для всех контрактов рендеринга:
 
 ```solidity
 interface ISVGPartRenderer {
@@ -296,7 +296,7 @@ interface ISVGPartRenderer {
 }
 ```
 
-Add an instance inside the `SVGRenderer` contract for the `SeaRenderer`, and a constructor that takes an address for the `SeaRenderer`:
+Добавьте экземпляр внутри контракта `SVGRenderer` для `SeaRenderer` и конструктор, который принимает адрес для `SeaRenderer`:
 
 ```solidity
 constructor(address _seaRenderer) {
@@ -304,27 +304,27 @@ constructor(address _seaRenderer) {
 }
 ```
 
-Replace `// TODO: Add the sea,` with a call to your external function.
+Замените `// TODO: Добавить море`, вызовом вашей внешней функции.
 
 ```solidity
 function render(uint _tokenId) public view returns (string memory) {
   return string(
     abi.encodePacked(
       "<SVG xmlns='http://www.w3.org/2000/SVG' viewBox='0 0 1024 1024'>",
-      // TODO: Add the clouds,
-      // TODO: Add the sun,
-      // TODO: Add the land,
+      // TODO: Добавить облака,
+      // TODO: Добавить солнце,
+      // TODO: Добавить сушу,
       seaRenderer.render(),
-      // TODO: Add the background,
+      // TODO: Добавить фон,
       "</SVG>"
     )
   );
 }
 ```
 
-## Finishing a First Pass
+## Завершение первого прохода
 
-Return to your `LandSeaSkyNFT` contract and add an `interface` for the `SVGRenderer`.
+Вернитесь к контракту `LandSeaSkyNFT` и добавьте `interface` для `SVGRenderer`.
 
 ```solidity
 interface ISVGRenderer {
@@ -332,7 +332,7 @@ interface ISVGRenderer {
 }
 ```
 
-Add an instance of it and update the `constructor` to set it:
+Добавьте его экземпляр и обновите `constructor`, чтобы установить его:
 
 ```
 ISVGRenderer SVGRenderer;
@@ -343,10 +343,10 @@ constructor(address _SVGRenderer) ERC721("Land, Sea, and Sky", "LSS") {
 ```
 
 <Info>
-For testing purposes, it may be easier if you add functions to allow you to change these addresses after deployment. But the whole point of all this work is to make immutable, onchain NFTs, so be sure to delete them before you do your real deployment!
+Для целей тестирования может быть удобнее, если вы добавите функции, позволяющие изменять эти адреса после развертывания. Но весь смысл этой работы — создание неизменяемых ончейн-NFT, поэтому не забудьте удалить их перед реальным развертыванием!
 </Info>
 
-Finally, swap your `TODO` with a line to `Base64.encode` a call to the renderer:
+Наконец, замените ваш `TODO` строкой для `Base64.encode` вызова рендерера:
 
 ```solidity
 string memory json = Base64.encode(
@@ -364,9 +364,9 @@ string memory json = Base64.encode(
 );
 ```
 
-### Test Deploy
+### Тестовое развертывание
 
-Now is a good time to deploy to testnet and see if this first pass is working as expected. If you're using [Hardhat and Hardhat Deploy], you can use this script:
+Сейчас хорошее время для развертывания в тестовой сети, чтобы проверить, работает ли этот первый проход, как ожидалось. Если вы используете [Hardhat and Hardhat Deploy], вы можете использовать этот скрипт:
 
 ```tsx
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
@@ -400,25 +400,25 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 export default func;
 ```
 
-Deploy the contracts to Base Sepolia and verify them, or at least verify `LandSeaSkyNFT` (the above script will do this).
+Разверните контракты в Base Sepolia и верифицируйте их, или по крайней мере верифицируйте `LandSeaSkyNFT` (приведенный выше скрипт сделает это).
 
-Open the contract in [Basescan], connect with your wallet, and mint some NFTs.
+Откройте контракт в [Basescan], подключите ваш кошелек и создайте несколько NFT.
 
-**Wait a few minutes**, then open the [testnet version of Opensea] and look up your contract. It may take several minutes to show up, but when it does, if everything is working you'll see NFTs with the ocean part of the art! Neat!
+**Подождите несколько минут**, затем откройте [testnet version of Opensea] и найдите ваш контракт. Это может занять несколько минут, но когда это произойдет, и если все работает, вы увидите NFT с частью изображения океана! Отлично!
 
 ![First pass NFT](/images/onchain-generative-nfts/first_pass.png)
 
-## Adding the Sky Renderer
+## Добавление рендерера неба
 
-Great work! Much of the hardest part is done. All you need to do now is add a renderer for each of the other elements, with the twist that you'll be doing customization inside the SVGs themselves. You'll have to do a little surgery!
+Отличная работа! Большая часть самой сложной работы сделана. Теперь вам нужно просто добавить рендерер для каждого из остальных элементов, с той особенностью, что вы будете делать кастомизацию внутри самих SVG. Вам придется немного повозиться!
 
-### Preparing the SVG
+### Подготовка SVG
 
-Open the sky SVG in both an editor, and the browser. As with for the sea, the first step is to change the viewport to 1024x1024, move the `<defs>` and `<style>` elements inside the top-level `<g>`, and transform/translate that group to the correct location (0,0 will work!).
+Откройте SVG неба и в редакторе, и в браузере. Как и с морем, первый шаг - изменить вьюпорт на 1024x1024, переместить элементы `<defs>` и `<style>` внутрь корневого `<g>` и трансформировать/переместить эту группу в правильное место (0,0 сработает!).
 
-Change `cls-1` to `cls-sky-1` in both the definition and where it's used. Add `sky` to the `linear-gradient` as well.
+Измените `cls-1` на `cls-sky-1` как в определении, так и там, где он используется. Добавьте `sky` в `linear-gradient` тоже.
 
-Delete the data and layer information for this group as well. You'll end up with:
+Также удалите данные информации о слое для этой группы. В итоге получится:
 
 ```html
 <svg xmlns="http://www.w3.org/2000/SVG" viewBox="0 0 1024 1024">
@@ -450,17 +450,17 @@ Delete the data and layer information for this group as well. You'll end up with
 </svg>
 ```
 
-You have some design choices to make here. You could use deterministically chosen, but essentially random colors to make up the gradient. However, doing so will lead to the vast majority of NFTs having truly bizarre colors that don't look nice and don't look like they belong with the rest of the art.
+У вас есть несколько вариантов дизайна. Вы могли бы использовать детерминировано выбранные, но по сути случайные цвета для создания градиента. Однако это приведет к тому, что подавляющее большинство NFT будут иметь поистине причудливые цвета, которые не выглядят приятно и не гармонируют с остальным изображением.
 
-No one wants their sky to be a mix of cyan, teal, maroon, and brown!
+Никто не хочет, чтобы его небо было смесью бирюзового, темно-синего, бордового и коричневого!
 
-It might be better to add a gentle modification to the existing gradient colors and range. Start by minifying the top level `<g>` group and contents, then create **two** constant strings, one for everything before the first `<stop>` element, and one for everything after the last `<stop>` element.
+Возможно, лучше добавить небольшое изменение к существующим цветам градиента и их диапазону. Начните с минификации корневой группы `<g>` и ее содержимого, затем создайте **две** константные строки: одну для всего, что находится до первого элемента `<stop>`, и одну для всего, что после последнего элемента `<stop>`.
 
-Neither string should have the `<stop>`s. You'll make those next.
+Ни одна из строк не должна содержать `<stop>` элементы. Вы создадите их далее.
 
-### Building the Renderer Contract
+### Создание контракта для рендеринга
 
-Add a new file and contract called `SkyRenderer`. Add your strings:
+Добавьте новый файл и контракт с именем `SkyRenderer`. Добавьте ваши строки:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -479,7 +479,7 @@ contract SkyRenderer {
 }
 ```
 
-Next, add constants for the existing `offset` and `stop-color` properties:
+Далее добавьте константы для существующих свойств `offset` и `stop-color`:
 
 ```solidity
 string constant OFFSET1 = ".12";
@@ -492,7 +492,7 @@ string constant COLOR3 = "#dfd061";
 string constant COLOR4 = "#e3f9f7";
 ```
 
-Now, stub out your return for the `render` function. It will use the built in method of using `abi.encode` and casting to `string` to combine all the parts and return them.
+Теперь создайте заглушку для возвращаемого значения функции `render`. Она будет использовать встроенный метод `abi.encode` и приведение к `string` для объединения всех частей и их возврата.
 
 ```solidity
 function render(uint _tokenId) public pure returns (string memory) {
@@ -509,7 +509,7 @@ function render(uint _tokenId) public pure returns (string memory) {
 }
 ```
 
-Do the same for a function to `buildStop`:
+Сделайте то же самое для функции `buildStop`:
 
 ```solidity
 function _buildStop(
@@ -530,9 +530,9 @@ function _buildStop(
   }
 ```
 
-Now, you just need to figure out how to modify the properties based on the `_tokenId`. It needs to be "random" in the sense that every NFT should be different, but it has to be deterministic, so that you get the same art every time you load the image.
+Теперь вам просто нужно разобраться, как изменить свойства на основе `_tokenId`. Это должно быть «случайным» в том смысле, что каждый NFT должен быть разным, но оно должно быть детерминированным, чтобы вы получали одно и то же изображение каждый раз при его загрузке.
 
-First, **subtract 10** from the values and convert them to `uints` **without** decimals in each of your stop constants, and reduce the last to `80`:
+Сначала **вычтите 10** из значений и преобразуйте их в `uint` без десятичных знаков в каждой из ваших констант для стопов, и уменьшите последнюю до `80`:
 
 ```solidity
 uint constant OFFSET1 = 2;
@@ -541,9 +541,9 @@ uint constant OFFSET3 = 58;
 uint constant OFFSET4 = 80;
 ```
 
-You'll also need to update the parameter in `_buildStop`.
+Вам также нужно будет обновить параметр в `_buildStop`.
 
-Add a function to `_buildOffsetValue`. This will pick an integer between 0 and 20 for each offset, and add it to the modified offsets you just made. The result will be a change of + or 1 10 for each value (with the last being slightly different to keep it in range):
+Добавьте функцию `_buildOffsetValue`. Она будет выбирать целое число от 0 до 20 для каждого смещения и добавлять его к только что созданным модифицированным смещениям. В результате получится изменение +-10 для каждого значения (последнее будет немного другим, чтобы оставаться в диапазоне):
 
 ```solidity
 function _buildOffsetValue(
@@ -553,7 +553,7 @@ function _buildOffsetValue(
   ) internal pure returns (string memory) {
   bytes32 hash = keccak256(abi.encodePacked(_offset, _tokenId, _stopNumber));
   uint rand = uint(hash);
-  uint change = rand % 20; // Produces a number between 0 and 19
+  uint change = rand % 20; // Генерирует число от 0 до 19
   if(change >= 10) {
     return string(
       abi.encodePacked(
@@ -565,7 +565,7 @@ function _buildOffsetValue(
       return string(
       abi.encodePacked(
         '.',
-        '0', // 9 is .09, not .9
+        '0', // 9 это .09, а не .9
         Strings.toString(_offset + change)
       )
     );
@@ -573,9 +573,9 @@ function _buildOffsetValue(
 }
 ```
 
-This function uses hashing to create a pseudo-random number with the token id and stop as seeds, guaranteeing a consistent value, unique for each token and each stop within that token. It takes advantage of the way the offset property is interpreted - in this case, `".12+.20" == ".32"`.
+Эта функция использует хэширование для создания псевдослучайного числа с использованием идентификатора токена и номера стопа в качестве сидов, гарантируя постоянное значение, уникальное для каждого токена и каждого стопа внутри этого токена. Она использует то, как интерпретируется свойство offset - в данном случае `".12+.20" == ".32"`.
 
-Finally, update your `render` function to call `_buildStop`:
+Наконец, обновите вашу функцию `render`, чтобы она вызывала `_buildStop`:
 
 ```solidity
 function render(uint _tokenId) public pure returns (string memory) {
@@ -592,9 +592,9 @@ function render(uint _tokenId) public pure returns (string memory) {
 }
 ```
 
-### Incorporating the Sky Renderer
+### Интеграция SkyRenderer
 
-Return to `SVGRenderer.sol` and add an instance of `ISVGPartRenderer` for the skyRenderer. Add an argument to the `constructor` and initialize it, then call the `render` function in place of your `TODO` for the background.
+Вернитесь к `SVGRenderer.sol` и добавьте экземпляр `ISVGPartRenderer` для `skyRenderer`. Добавьте аргумент в `constructor` и инициализируйте его, затем вызовите функцию `render` вместо вашего `TODO` для фона.
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -622,9 +622,9 @@ contract SVGRenderer {
     return string(
       abi.encodePacked(
         "<SVG xmlns='http://www.w3.org/2000/SVG' viewBox='0 0 1024 1024'>",
-        // TODO: Add the clouds,
-        // TODO: Add the sun,
-        // TODO: Add the land,
+        // TODO: Добавить облака,
+        // TODO: Добавить солнце,
+        // TODO: Добавить сушу,
         skyRenderer.render(_tokenId),
         seaRenderer.render(),
         "</SVG>"
@@ -634,7 +634,7 @@ contract SVGRenderer {
 }
 ```
 
-Update your deploy script, then deploy and test as before.
+Обновите скрипт развертывания, затем разверните и протестируйте, как и раньше.
 
 ```tsx
 const SkyRenderer = await deploy('SkyRenderer', {
@@ -647,23 +647,23 @@ const SVGRenderer = await deploy('SVGRenderer', {
 });
 ```
 
-Test as before. Your NFTs now have the sky!
+Протестируйте, как и раньше. Ваши NFT теперь имеют небо!
 
-## Adding the LandRenderer
+## Добавление LandRenderer
 
-Next up is the mountain part of the SVG. For this, you'll change the horizontal translation left to right to show a different part of the mountains for each NFT.
+Следующей частью SVG являются горы. Для этого вы будете изменять горизонтальное смещение слева направо, чтобы показывать разные части гор для каждого NFT.
 
-### Preparing the SVG
+### Подготовка SVG
 
-Open the mountain SVG in both your browser and the editor. Once again, set the `viewBox` to 1024x1024 and move the `<defs>` and `<styles>` inside the top-level group (`<g>`).
+Откройте SVG гор в браузере и редакторе. Снова установите `viewBox` в 1024x1024 и переместите `<defs>` и `<styles>` внутрь корневой группы (`<g>`).
 
-Find transform/translate values that first put the mountains so that they are at the bottom, and the left-most portion is shown, then the right-most. `transform="translate(-150,350)"` and `transform="translate(-800,350)"` are about right.
+Найдите значения transform/translate, которые сначала помещают горы вниз, показывая самую левую часть, а затем самую правую. `transform="translate(-150,350)"` и `transform="translate(-800,350)"` примерно подходят.
 
-Don't forget to add `-land` to the classnames!
+Не забудьте добавить `-land` к именам классов!
 
-### Writing the Contract
+### Написание контракта
 
-Add a file and stub for the `LandRenderer`:
+Добавьте файл и заглушку для `LandRenderer`:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -686,7 +686,7 @@ contract LandRenderer {
 }
 ```
 
-Minify the top-level `<g>` element, and add a constant with everything after the opening `<g>` tag. Use similar techniques as before to generate an offset based on the token id, then build the SVG. You'll end up with something like this:
+Минифицируйте корневой элемент `<g>` и добавьте константу со всем, что после открывающего тега `<g>`. Используйте методы, аналогичные предыдущим, чтобы сгенерировать смещение на основе идентификатора токена, затем создайте SVG. У вас должно получиться что-то вроде этого:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -712,15 +712,15 @@ contract LandRenderer {
   function _buildOffset(uint _tokenId) internal pure returns (string memory) {
     bytes32 hash = keccak256(abi.encodePacked(_tokenId));
     uint rand = uint(hash);
-    uint xOffset = (rand % 650) + 150; // Produces a number between 150 and 799
+    uint xOffset = (rand % 650) + 150; // Генерирует число от 150 до 799
     return string(abi.encodePacked("-", Strings.toString(xOffset)));
   }
 }
 ```
 
-### Incorporating the LandRenderer
+### Интеграция LandRenderer
 
-Update `SVGRenderer`:
+Обновите `SVGRenderer`:
 
 ```solidity
 ISVGPartRenderer seaRenderer;
@@ -746,7 +746,7 @@ function render(uint _tokenId) public view returns (string memory) {
 }
 ```
 
-And the deploy script:
+И скрипт развертывания:
 
 ```tsx
 const LandRenderer = await deploy('LandRenderer', {
@@ -759,27 +759,27 @@ const SVGRenderer = await deploy('SVGRenderer', {
 });
 ```
 
-Test as before. It's starting to look really nice!
+Протестируйте, как и раньше. Начинает выглядеть очень хорошо!
 
 ![Progress](/images/onchain-generative-nfts/progress.png)
 
-## Adding the Sun Renderer
+## Добавление SunRenderer
 
-The sun renderer will use similar techniques as those you've already incorporated. The sun will be in the same place for all NFTs. Variation will come from each one having only one of the three suns shown in the exemplar art file.
+Рендерер солнца будет использовать методы, похожие на те, которые вы уже применили. Солнце будет находиться в одном и том же месте для всех NFT. Вариативность будет заключаться в том, что каждое NFT будет показывать только одно из трех солнц, представленных в файле примера графики.
 
-### Preparing the SVGs
+### Подготовка SVG
 
-For each of the three sun SVGs:
+Для каждого из трех SVG солнца:
 
-- Change the `viewBox` to 1024x1024
-- Move the `<defs>` and `<styles>` into the first group
-- Find the correct translation to put the sun in the upper right
-  - 750, 100 should work with the sample art
-- Add `-sun` to the classnames
+- Измените `viewBox` на 1024x1024
+- Переместите `<defs>` и `<styles>` в первую группу
+- Найдите правильный перевод, чтобы поместить солнце в правый верхний угол
+  - 750, 100 должно сработать с примером графики
+- Добавьте `-sun` к именам классов
 
-### Writing the Contracts
+### Написание контрактов
 
-The tricky part here is that you can't fit all the suns into one contract. They're too big! Instead, split them into three, similar to the original ocean renderer. For example:
+Сложность здесь в том, что вы не можете поместить все солнца в один контракт. Они слишком большие! Вместо этого разделите их на три отдельных, аналогично исходному рендереру океана. Например:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -797,9 +797,9 @@ contract SunRenderer1 {
 }
 ```
 
-### Incorporating the SunRenderer
+### Интеграция SunRenderer
 
-Add the three `SunRenderer`s as you have the other rendering contracts. You'll have to incorporate this one a little differently. Add a function that picks which `SunRenderer` to call, based on the NFT id.
+Добавьте три `SunRenderer`, как вы это делали с другими контрактами рендеринга. Вам придется интегрировать этот немного иначе. Добавьте функцию, которая выбирает, какой `SunRenderer` вызывать, на основе идентификатора NFT.
 
 ```solidity
 function pickSunRenderer(uint _tokenId) public view returns (ISVGPartRenderer) {
@@ -816,7 +816,7 @@ function pickSunRenderer(uint _tokenId) public view returns (ISVGPartRenderer) {
   }
 ```
 
-Make sure to put it after `skyRenderer` in the main `render` function!
+Убедитесь, что поместили его после `skyRenderer` в основной функции `render`!
 
 ```solidity
 function render(uint _tokenId) public view returns (string memory) {
@@ -833,19 +833,19 @@ function render(uint _tokenId) public view returns (string memory) {
 }
 ```
 
-Test it out. You've now got one of three suns in the sky for each NFT!
+Протестируйте. Теперь у каждого NFT в небе одно из трех солнц!
 
-## Adding the Cloud Renderer
+## Добавление CloudRenderer
 
-On your own, try adding the clouds. The clouds renderer should:
+Самостоятельно попробуйте добавить облака. Рендерер облаков должен:
 
-- Randomly select between one and seven clouds
-- Place those clouds randomly on the top half of the canvas
-- Be on the layer on top of the sun and sky, but below the sea and mountains
+- Случайно выбирать от одного до семи облаков
+- Размещать эти облака случайным образом в верхней половине холста
+- Находиться на слое выше солнца и неба, но ниже моря и гор
 
-## Conclusion
+## Заключение
 
-In this tutorial, you've learned how to take advantage of the fact that offchain calls to your smart contracts don't use gas to create a significantly complex system to render complicated and unique NFTs, with the metadata and art existing entirely onchain. You've also explored some techniques for creating deterministic, pseudorandom numbers, and how to use them to add variation to your art. You've dealt with some of the many caveats and quirks of programmatically combining SVG files. Finally, you've practiced building multiple contracts that interact with one another.
+В этом руководстве вы узнали, как использовать тот факт, что вызовы вашего смарт-контракта извне цепи не используют газ, чтобы создать достаточно сложную систему для рендеринга замысловатых и уникальных NFT, метаданные и изображения которых существуют полностью в ончейн-среде. Вы также изучили некоторые техники создания детерминированных псевдослучайных чисел и их использования для добавления вариативности в ваше изображение. Вы разобрались со многими оговорками и особенностями программного объединения SVG-файлов. Наконец, вы попрактиковались в создании нескольких взаимодействующих контрактов.
 
 [Base Learn]: https://base.org/learn
 [ERC-721 Tokens]: https://docs.base.org/learn/erc-721-token/erc-721-standard-video
