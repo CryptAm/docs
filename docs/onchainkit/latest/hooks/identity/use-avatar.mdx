@@ -2,12 +2,12 @@
 title: useAvatar
 ---
 
-The `useAvatar` hook is used to get avatar image URL from an onchain identity
-provider for a given name.
+Хук `useAvatar` используется для получения URL изображения аватара из провайдера
+ончейн-идентификации по заданному имени.
 
-It is implemented with [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) from `@tanstack/react-query`, and returns a `UseQueryResult` object, allowing you to pass through all `@tanstack/react-query` options.
+Он реализован с использованием [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) из `@tanstack/react-query`, и возвращает объект `UseQueryResult`, что позволяет передавать все опции `@tanstack/react-query`.
 
-## Usage
+## Использование
 
 ```tsx
 import { useAvatar } from '@coinbase/onchainkit/identity';
@@ -15,7 +15,7 @@ import { useAvatar } from '@coinbase/onchainkit/identity';
 const { data: avatar, isLoading } = useAvatar({ ensName: 'vitalik.eth' });
 ```
 
-## Returns
+## Возвращает
 
 ```ts
 useQuery<Promise<GetAvatarReturnType>>
@@ -23,15 +23,15 @@ useQuery<Promise<GetAvatarReturnType>>
 type GetAvatarReturnType = string | null;
 ```
 
-## Parameters
+## Параметры
 
 ### UseAvatarParams
 
 ```ts
 type UseAvatarParams = {
-  /** ENS name to resolve */
+  /** ENS имя для разрешения (резолва) */
   ensName: string;
-  /** Optional chain for domain resolution */
+  /** Необязательная цепь для разрешения домена */
   chain?: Chain;
 };
 ```
