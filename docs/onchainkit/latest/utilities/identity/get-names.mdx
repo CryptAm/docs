@@ -2,15 +2,15 @@
 title: getNames
 ---
 
-The `getNames` utility is designed to retrieve multiple names from an onchain identity
-provider for an array of addresses in a single batch request.
+Утилита `getNames` предназначена для получения нескольких имен из провайдера 
+ончейн-идентификации для массива адресов в одном пакетном запросе.
 
-Consider the utility instead of the hook when you
-use it with Next.js or any Node.js backend.
+Рассмотрите использование утилиты вместо хука, если
+вы работаете с Next.js или любым Node.js бэкендом.
 
-## Usage
+## Использование
 
-Get ENS names from multiple addresses:
+Получение ENS имен по нескольким адресам:
 
 <CodeGroup>
 ```tsx code
@@ -30,7 +30,7 @@ const names = await getNames({ addresses });
 
 </CodeGroup>
 
-Get Basenames from multiple addresses:
+Получение Basenames по нескольким адресам:
 
 <CodeGroup>
 ```tsx code
@@ -51,7 +51,7 @@ const names = await getNames({ addresses, chain: base });
 
 </CodeGroup>
 
-Get a mix of ENS names and sliced addresses when some addresses don't have names:
+Получение комбинации ENS имен и усеченных адресов, если у некоторых адресов нет имен:
 
 <CodeGroup>
 ```tsx code
@@ -71,7 +71,7 @@ const names = await getNames({ addresses });
 
 </CodeGroup>
 
-## Returns
+## Возвращает
 
 ```typescript
 Promise<GetNameReturnType[]>
@@ -83,13 +83,13 @@ type BaseMainnetName = `${string}.base.eth`;
 type BaseSepoliaName = `${string}.basetest.eth`;
 ```
 
-## Parameters
+## Параметры
 
 ```typescript
 type GetNamesParams = {
-  /** Array of Ethereum addresses to resolve names for */
+  /** Массив адресов Ethereum для получения имен */
   addresses: Address[];
-  /** Optional chain for domain resolution */
+  /** Необязательная цепь для разрешения домена */
   chain?: Chain;
 };
 
@@ -98,6 +98,6 @@ type Address = `0x${string}`;
 type Chain = {
   id: number;
   name: string;
-  // ... other chain properties
+  // ... другие свойства цепи
 };
 ```
