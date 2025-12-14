@@ -3,13 +3,13 @@ title: useMintDetails
 ---
 
 
-The `useMintDetails` hook implements the `getMintDetails` API, returning the data required to view an NFT to be minted.
+Хук `useMintDetails` реализует API `getMintDetails`, возвращая данные, необходимые для просмотра NFT перед его минтом.
 
-It is implemented with [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) from `@tanstack/react-query`, and returns a `UseQueryResult` object, allowing you to pass through all `@tanstack/react-query` options.
+Он реализован с использованием [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) из `@tanstack/react-query`, и возвращает объект `UseQueryResult`, что позволяет передавать все опции `@tanstack/react-query`.
 
-Before using them, make sure to obtain a [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) from Coinbase Developer Platform.
+Перед использованием убедитесь, что вы получили [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) из Coinbase Developer Platform.
 
-## Usage
+## Использование
 
 <CodeGroup>
 ```tsx code
@@ -76,52 +76,52 @@ const queryClient = new QueryClient();
 ```
 </CodeGroup>
 
-## Returns
+## Возвращает
 
 ```ts
 UseQueryResult<MintDetails>
 
 type MintDetails = {
-  /** The name of the NFT */
+  /** Название NFT */
   name: string;
-  /** The description of the NFT */
+  /** Описание NFT */
   description: string;
-  /** The image URL of the NFT */
+  /** URL изображения NFT */
   imageUrl: string;
-  /** The animation URL of the NFT */
+  /** URL анимации NFT */
   animationUrl: string;
-  /** The MIME type of the NFT */
+  /** MIME-тип NFT */
   mimeType: string;
   /** ERC721, ERC1155 */
   contractType: ContractType;
-  /** The price of the NFT */
+  /** Цена NFT */
   price: NFTPrice;
-  /** The mint fee of the NFT */
+  /** Комиссия за минт NFT */
   mintFee: NFTPrice;
-  /** The maximum number of mints per wallet */
+  /** Максимальное количество минтов на один кошелек */
   maxMintsPerWallet: number;
-  /** Whether the user is eligible to mint */
+  /** Имеет ли пользователь право на минт */
   isEligibleToMint: boolean;
-  /** The address of the creator of the NFT */
+  /** Адрес создателя NFT */
   creatorAddress: Address;
-  /** The total number of tokens */
+  /** Общее количество токенов */
   totalTokens: string;
-  /** The total number of owners of the NFT */
+  /** Общее количество владельцев NFT */
   totalOwners: string;
-  /** The network the NFT is on */
+  /** Сеть, в которой находится NFT */
   network: string;
 };
 ```
 
-## Parameters
+## Параметры
 
 ```ts
 type GetMintDetailsParams = {
-  /** The address of the token contract */
+  /** Адрес контракта токена */
   contractAddress: Address;
-  /** The address of the user */
+  /** Адрес пользователя */
   takerAddress?: Address;
-  /** The ID of the token (required for ERC1155) */
+  /** ID токена (обязательно для ERC1155) */
   tokenId?: string;
 };
 ```
