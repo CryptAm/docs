@@ -2,18 +2,18 @@
 title: fetchOnrampConfig
 ---
 
-The `fetchOnrampConfig` utility fetches the list of countries supported by Coinbase Onramp and their available payment methods. This is useful when you need to validate user eligibility or display available payment options.
+Утилита `fetchOnrampConfig` получает список стран, поддерживаемых Coinbase Onramp, и доступные в них методы оплаты. Это полезно, когда вам нужно проверить право пользователя на покупку или отобразить доступные варианты оплаты.
 
-## Usage
+## Использование
 
 <CodeGroup>
 ```tsx code
 import { fetchOnrampConfig } from '@coinbase/onchainkit/fund';
 
-// When using with OnchainKitProvider
+// При использовании с OnchainKitProvider
 const config = await fetchOnrampConfig();
 
-// When using without OnchainKitProvider or in non-React environment
+// При использовании без OnchainKitProvider или вне окружения React
 const config2 = await fetchOnrampConfig('your-api-key');
 
 ````
@@ -41,20 +41,20 @@ const config2 = await fetchOnrampConfig('your-api-key');
 
 </CodeGroup>
 
-## Parameters
+## Параметры
 
 ```typescript
 /**
- * Optional API key for Coinbase Onramp. If not provided, the API key from
- * OnchainKitProvider will be used. Required when using the utility without
- * OnchainKitProvider or in a non-React environment.
+ * Необязательный API-ключ для Coinbase Onramp. Если не предоставлен,
+ * будет использован API-ключ из OnchainKitProvider. Обязателен при использовании
+ * утилиты без OnchainKitProvider или вне окружения React.
  */
 apiKey?: string;
 ```
 
-## Returns
+## Возвращает
 
-`Promise<OnrampConfigResponseData>` - Returns a promise that resolves to the configuration data containing supported countries and their payment methods.
+`Promise<OnrampConfigResponseData>` - Возвращает промис, который резолвится в данные конфигурации, содержащие поддерживаемые страны и их методы оплаты.
 
 ```typescript
 type OnrampConfigResponseData = {
