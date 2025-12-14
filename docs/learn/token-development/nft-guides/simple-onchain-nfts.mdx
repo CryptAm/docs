@@ -1,39 +1,39 @@
 ---
-title: 'Simple Onchain NFTs'
+title: 'Простые ончейн NFT'
 slug: /simple-onchain-nfts
-description: A tutorial that teaches how to make simple nfts that are procedurally generated and have onchain metadata and images.
+description: Руководство, которое учит создавать простые NFT, процедурно генерируемые с метаданными и изображениями непосредственно в ончейн-среде.
 author: briandoyle81
 ---
 
-# Simple Onchain NFTs
+# Простые ончейн NFT
 
-Many NFTs are dependent on offchain metadata and images. Some use immutable storage locations, such as [IPFS]. Others use traditional web locations, and many of these allow the owner of the contract to modify the URL returned by a contract when a site or user attempts to retrieve the location of the token art and metadata. This power isn't inherently bad, because we probably want someone to be able to fix the contract if the storage location goes down. However, it does introduce a requirement to trust the contract owner.
+Многие NFT зависят от метаданных и изображений, хранящихся вне цепи (offchain). Некоторые используют неизменяемые места хранения, такие как [IPFS]. Другие используют традиционные веб-локации, и многие из них позволяют владельцу контракта изменять URL, возвращаемый контрактом, когда сайт или пользователь пытается получить доступ к расположению изображения токена и его метаданных. Эта возможность не является плохой по своей сути, потому что мы, вероятно, хотим, чтобы кто-то мог исправить контракт, если место хранения перестанет работать. Однако это вводит требование доверия владельцу контракта.
 
-In this tutorial, we'll show you how to do this to create a simple NFT that is fully onchain. This contract is used in our tutorials for [Thirdweb and Unreal - NFT Items] and the [Coinbase Smart Wallet].
+В этом руководстве мы покажем вам, как сделать это, чтобы создать простой NFT, который полностью находится в ончейн-среде. Этот контракт используется в наших руководствах по [Thirdweb and Unreal - NFT Items] и [Coinbase Smart Wallet].
 
-The result of this tutorial is used in other tutorials. [Below], you can find the complete contract and ABI. Feel free to use it if you're working on one of those and don't want to get sidetracked.
+Результат этого руководства используется в других руководствах. [Below], вы можете найти полный контракт и ABI. Не стесняйтесь использовать его, если вы работаете над одним из них и не хотите отвлекаться.
 
-## Objectives
+## Цели
 
-By the end of this tutorial you should be able to:
+К концу этого руководства вы должны уметь:
 
-- Programmatically generate and return json metadata for ERC-721 tokens
-- Deterministically construct unique SVG art in a smart contract
-- Generate deterministic, pseudorandom numbers
+- Программно генерировать и возвращать json-метаданные для токенов ERC-721
+- Детерминированно конструировать уникальное SVG-изображение в смарт-контракте
+- Генерировать детерминированные псевдослучайные числа
 
-## Prerequisites
+## Предварительные требования
 
-### ERC-721 Tokens
+### Токены ERC-721
 
-This tutorial assumes that you are able to write, test, and deploy your own ERC-721 tokens using the Solidity programming language. If you need to learn that first, check out our content in [Base Camp] or the sections specific to [ERC-721 Tokens]!
+Это руководство предполагает, что вы умеете писать, тестировать и развертывать свои собственные токены ERC-721 на языке программирования Solidity. Если вам нужно сначала изучить это, ознакомьтесь с нашими материалами в [Base Camp] или разделами, посвященными [ERC-721 Tokens]!
 
-### Vector Art
+### Векторная графика
 
-You'll need some familiarity with the SVG art format and a basic level of ability to edit and manipulate vector art. If you don't have this, find an artist friend and collaborate!
+Вам потребуется некоторое знакомство с форматом векторной графики SVG и базовые навыки редактирования и манипулирования векторной графикой. Если у вас их нет, найдите друга-художника и сотрудничайте!
 
-## Building the Contract
+## Создание контракта
 
-Start by setting up an [OpenZeppelin ERC-721] contract. You'll need to set up a `mintTo` function that accepts the address that should receive the NFT.
+Начните с настройки контракта [OpenZeppelin ERC-721]. Вам нужно будет настроить функцию `mintTo`, которая принимает адрес, который должен получить NFT.
 
 ```solidity filename="RandomColorNFT.sol"
 // SPDX-License-Identifier: UNLICENSED
@@ -56,19 +56,19 @@ contract RandomColorNFT is ERC721 {
 ```
 
 <Info>
-With the Smart Wallet, `msg.sender` is the users custodial address - where you want to send the NFT. This is not always the case with account abstraction. In some other implementations, `msg.sender` is the smart contract address, even if the user signs in with an EOA. Regardless, it's becoming a common practice to pass the address you want the NFT to go to explicitly.
+С Smart Wallet `msg.sender` - это кастодиальный адрес пользователя — куда вы хотите отправить NFT. Это не всегда так при использовании абстракции аккаунтов. В некоторых других реализациях `msg.sender` является адресом смарт-контракта, даже если пользователь входит с EOA. Независимо от этого, становится распространенной практикой явно передавать адрес, на который вы хотите отправить NFT.
 </Info>
 
-### Onchain Metadata
+### Ончейн-метаданные
 
-Rather than pointing to a `json` file on the traditional internet, you can put your metadata directly in the contract. To do so, first import some helper libraries:
+Вместо указания на файл `json` в традиционном интернете, вы можете поместить ваши метаданные непосредственно в контракт. Для этого сначала импортируйте вспомогательные библиотеки:
 
 ```solidity
 import "@openzeppelin/contracts/utils/Base64.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 ```
 
-Next, `override` the functions for `_baseURI` and `tokenURI` to return base 64 encoded json metadata with the appropriate information:
+Затем, `override` функции для `_baseURI` и `tokenURI` чтобы возвращать метаданные в формате json, закодированные в base64, с соответствующей информацией:
 
 ```solidity 
 function _baseURI() internal pure override returns (string memory) {
@@ -100,49 +100,49 @@ function tokenURI(uint _tokenId) public view override returns (string memory) {
 }
 ```
 
-**Be very careful** setting up the single and double quotes above and be sure to test this function to make sure the result is valid json metadata. An error here will break the NFT and it won't show up correctly in wallets or marketplaces!
+**Будьте очень внимательны** при настройке одинарных и двойных кавычек выше и обязательно протестируйте эту функцию, чтобы убедиться, что результат представляет собой корректные метаданные json. Ошибка здесь сломает NFT, и он не будет правильно отображаться в кошельках или на торговых площадках!
 
-### Onchain SVG Image
+### Ончейн SVG-изображение
 
-For this NFT, the art will consist of a simple onchain SVG containing a square with a pseudo-randomly chosen color. Check out our tutorial on [Building Onchain NFTs] if you want to try something more complicated.
+Для этого NFT изображение будет представлять собой простое ончейн SVG, содержащее квадрат с псевдослучайно выбранным цветом. Ознакомьтесь с нашим руководством по [Building Onchain NFTs] если хотите попробовать что-то более сложное.
 
-Start by scaffolding out a `render` function:
+Начните с создания каркаса функции `render`:
 
 ```solidity
 function render(uint _tokenId) public view returns (string memory) {
   return string(
     abi.encodePacked(
       "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 1024'>",
-        // TODO: add a rectangle with a random color fill
+        // TODO: добавить прямоугольник со случайным цветом заливки
       "</svg>"
     )
   );
 }
 ```
 
-Rectangles in SVG images are created with the [rect] element. To cover the whole background, you can set the width and height to the size of the `viewbox`. Although not listed directly in the MDN page for rectangles, you can add a `fill` property to add a fill color to any SVG element. You can use color names, or hex codes for colors:
+Прямоугольники в SVG-изображениях создаются с помощью элемента [rect]. Чтобы покрыть весь фон, вы можете установить ширину и высоту равными размеру `viewbox`. Хотя это не указано прямо на странице MDN для прямоугольников, вы можете добавить свойство `fill`, чтобы добавить цвет заливки любому SVG-элементу. Вы можете использовать названия цветов или шестнадцатеричные коды цветов:
 
 ```html
 <rect width="100" height="100" fill="#aabbcc" />
 ```
 
-### Generating a Random Color
+### Генерация случайного цвета
 
-Instead of a fixed color, your design calls for a unique color for each NFT. Add a function to generate this:
+Вместо фиксированного цвета ваш дизайн требует уникального цвета для каждого NFT. Добавьте функцию для его генерации:
 
 ```solidity filename="RandomColorNFT.sol"
-// Function to generate a random color hex code
+// Функция для генерации случайного шестнадцатеричного кода цвета
 function generateRandomColor() public view returns (string memory) {
-  // Generate a pseudo-random number using block.prevrandao
+  // Генерируем псевдослучайное число с помощью block.prevrandao
   uint256 randomNum = uint256(keccak256(abi.encodePacked(block.prevrandao, block.timestamp, msg.sender)));
 
-  // Extract RGB components from the random number
+  // Извлекаем RGB-компоненты из случайного числа
   bytes memory colorBytes = new bytes(3);
   colorBytes[0] = bytes1(uint8(randomNum >> 16));
   colorBytes[1] = bytes1(uint8(randomNum >> 8));
   colorBytes[2] = bytes1(uint8(randomNum));
 
-  // Convert RGB components to hex string
+  // Преобразуем RGB-компоненты в шестнадцатеричную строку
   string memory colorHex = string(abi.encodePacked(
     "#",
     toHexDigit(uint8(colorBytes[0]) >> 4),
@@ -156,7 +156,7 @@ function generateRandomColor() public view returns (string memory) {
   return colorHex;
 }
 
-// Helper function to convert a uint8 to a hex character
+// Вспомогательная функция для преобразования uint8 в шестнадцатеричный символ
 function toHexDigit(uint8 d) internal pure returns (bytes1) {
   if (d < 10) {
     return bytes1(uint8(bytes1('0')) + d);
@@ -167,18 +167,18 @@ function toHexDigit(uint8 d) internal pure returns (bytes1) {
 ```
 
 <Caution>
-Remember, randomness generated using onchain information is not fully secure. A determined attacker could manipulate a block to compromise your contract. That being said, `prevrandao` is a passable solution for anything not involving a large amount of money.
+Помните, случайность, сгенерированная с использованием ончейн-информации, не является полностью безопасной. Настойчивый злоумышленник может манипулировать блоком, чтобы скомпрометировать ваш контракт. Тем не менее, `prevrandao` является приемлемым решением для всего, что не связано с большими суммами денег.
 </Caution>
 
-### Saving the Color to the NFT
+### Сохранение цвета для NFT
 
-You'll need to generate this color with the function, then save it in a way that it can be retrieved when the `tokenURI` function is called. Add a mapping to store this relationship:
+Вам нужно будет сгенерировать этот цвет с помощью функции, а затем сохранить его таким образом, чтобы его можно было получить при вызове функции `tokenURI`. Добавьте отображение (mapping) для хранения этой связи:
 
 ```solidity
 mapping (uint => string) public tokenIdToColor;
 ```
 
-Then set the color when the token is minted:
+Затем установите цвет при создании токена:
 
 ```solidity
 function mintTo(address _to) public {
@@ -188,9 +188,9 @@ function mintTo(address _to) public {
 }
 ```
 
-### Finishing the `tokenURI` Function
+###Завершение функции `tokenURI`
 
-Update your `render` function to generate the SVG.
+Обновите вашу функцию `render`, чтобы генерировать SVG.
 
 ```solidity
 function render(uint _tokenId) public view returns (string memory) {
@@ -206,7 +206,7 @@ function render(uint _tokenId) public view returns (string memory) {
 }
 ```
 
-Then update your `tokenURI` function to use it, and return the SVG as base64 encoded data:
+Затем обновите вашу функцию `tokenURI`, чтобы использовать ее, и возвращайте SVG как данные, закодированные в base64:
 
 ```solidity
 function tokenURI(uint _tokenId) public view override returns (string memory) {
@@ -234,32 +234,32 @@ function tokenURI(uint _tokenId) public view override returns (string memory) {
 }
 ```
 
-### List of NFTs Owned
+### Список принадлежащих NFT
 
-Most ERC-721 implementations don't contain an on-contract method to retrieve a list of **all** the NFTs owned by a single address. The reason for this is that it costs extra gas go manage this list, and the information can be retrieved by using read-only services that analyze blockchain data.
+Большинство реализаций ERC-721 не содержат метода в контракте для получения списка **всех NFT**, принадлежащих одному адресу. Причина в том, что управление этим списком стоит дополнительного газа, и информацию можно получить с помощью сервисов только для чтения, анализирующих данные блокчейна.
 
-However, gas prices are getting lower, and adding this data to your contract will reduce your dependency on third-party APIs.
+Однако цены на газ снижаются, и добавление этих данных в ваш контракт уменьшит вашу зависимость от сторонних API.
 
-To track ownership in-contract, first import `EnumerableSet` from OpenZeppelin:
+Чтобы отслеживать владение внутри контракта, сначала импортируйте `EnumerableSet` из OpenZeppelin:
 
 ```solidity
 import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 ```
 
-Then enable it for `uint` sets and add a mapping to relate `addresses` to token ids.
+Затем включите его для наборов `uint` и добавьте отображение для связи `addresses` с идентификаторами токенов.
 
 ```solidity
-// Inside the RandomColorNFT contract
+// Внутри контракта RandomColorNFT
 using EnumerableSet for EnumerableSet.UintSet;
 
 mapping (address => EnumerableSet.UintSet) tokensOwned;
 ```
 
-Finally, utilize the `_update` function to handle changes of ownership, including minting:
+Наконец, используйте функцию `_update` для обработки изменений владения, включая минт:
 
 ```solidity
 function _update(address to, uint256 tokenId, address auth) internal override(ERC721) returns(address) {
-  // Only remove the token if it is not being minted
+  // Удаляем токен только если он не создается (минт)
   if (tokenId != counter){
     tokensOwned[auth].remove(tokenId);
   }
@@ -269,7 +269,7 @@ function _update(address to, uint256 tokenId, address auth) internal override(ER
 }
 ```
 
-Now that you have a list of NFTs owned by an address, you can add a function to retrieve all of them. While you're at it, add the json metadata for each token. Doing so lets you get the complete list of NFTs **and** their metadata for just one RPC call!
+Теперь, когда у вас есть список NFT, принадлежащих адресу, вы можете добавить функцию для их получения. Заодно добавьте json-метаданные для каждого токена. Это позволяет получить полный список NFT **и** их метаданные всего за один RPC-вызов!
 
 ```solidity
 function getNFftsOwned(address owner) public view returns (TokenAndMetatdata[] memory) {
@@ -282,19 +282,19 @@ function getNFftsOwned(address owner) public view returns (TokenAndMetatdata[] m
 }
 ```
 
-### Testing
+### Тестирование
 
-Write some local tests, then [deploy] and test your contract. It can be very tricky to get all the commas, brackets, and single, and double quotes all lined up properly. The surest way to make sure it is working is to check the collection on [Testnet Opensea] or similar.
+Напишите несколько локальных тестов, затем [deploy] и протестируйте ваш контракт. Может быть очень сложно правильно расставить все запятые, скобки и одинарные и двойные кавычки. Самый надежный способ убедиться, что все работает, — проверить коллекцию на [Testnet Opensea] или подобной.
 
-Remember, it can take a few minutes for them to register and add the collection. If the metadata or image don't show up correctly, use [Sepolia Basescan] to pull the `tokenURI` and an online or console base64 decoder to decode and check the json metadata and SVG image.
+Помните, что регистрация и добавление коллекции могут занять несколько минут. Если метаданные или изображение не отображаются правильно, используйте [Sepolia Basescan] чтобы получить `tokenURI`, и онлайн- или консольный декодер base64 для проверки json-метаданных и SVG-изображения.
 
 ![Random Color NFT](/images/smart-wallet/random-color-nft.png)
 
-## Conclusion
+## Заключение
 
-In this lesson, you learned how to make a simple NFT that is entirely onchain. You generated an SVG with a random color, and set up the JSON metadata for your NFT -- entirely onchain! Next, check out our tutorial for [Complex Onchain NFTs]!
+В этом уроке вы узнали, как создать простой NFT, который полностью находится в ончейн-среде. Вы сгенерировали SVG со случайным цветом и настроили JSON-метаданные для вашего NFT -- полностью в ончейн-среде! Далее ознакомьтесь с нашим руководством по [Complex Onchain NFTs]!
 
-## Random Color NFT Contract
+## Контракт Random Color NFT
 
 ```solidity filename="RandomColorNFT.sol"
 // SPDX-License-Identifier: UNLICENSED
@@ -352,7 +352,7 @@ contract RandomColorNFT is ERC721 {
   }
 
   function _update(address to, uint256 tokenId, address auth) internal override(ERC721) returns(address) {
-    // Only remove the token if it is not being minted
+    // Удаляем токен только если он не создается (минт)
     if (tokenId != counter){
       tokensOwned[auth].remove(tokenId);
     }
@@ -401,18 +401,18 @@ contract RandomColorNFT is ERC721 {
     );
   }
 
-  // Function to generate a random color hex code
+  // Функция для генерации случайного шестнадцатеричного кода цвета
   function generateRandomColor() public view returns (string memory) {
-    // Generate a pseudo-random number using block.prevrandao
+    // Генерируем псевдослучайное число с помощью block.prevrandao
     uint256 randomNum = uint256(keccak256(abi.encodePacked(block.prevrandao, block.timestamp, msg.sender)));
 
-    // Extract RGB components from the random number
+    // Извлекаем RGB-компоненты из случайного числа
     bytes memory colorBytes = new bytes(3);
     colorBytes[0] = bytes1(uint8(randomNum >> 16));
     colorBytes[1] = bytes1(uint8(randomNum >> 8));
     colorBytes[2] = bytes1(uint8(randomNum));
 
-    // Convert RGB components to hex string
+    // Преобразуем RGB-компоненты в шестнадцатеричную строку
     string memory colorHex = string(abi.encodePacked(
       "#",
       toHexDigit(uint8(colorBytes[0]) >> 4),
@@ -426,7 +426,7 @@ contract RandomColorNFT is ERC721 {
     return colorHex;
   }
 
-  // Helper function to convert a uint8 to a hex character
+  // Вспомогательная функция для преобразования uint8 в шестнадцатеричный символ
   function toHexDigit(uint8 d) internal pure returns (bytes1) {
     if (d < 10) {
       return bytes1(uint8(bytes1('0')) + d);
