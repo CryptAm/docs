@@ -1,28 +1,28 @@
 ---
-title: Minimal Token
-description: Build your own minimal token.
+title: Минимальный токен
+description: Создайте свой собственный минимальный токен.
 hide_table_of_contents: false
-sidebarTitle: Step by Step Guide
+sidebarTitle: Пошаговое руководство
 ---
 
-At their core, tokens are very simple. The technology powering famous NFT collections and fungible tokens worth vast amounts of money simply uses the EVM to keep track of who owns what, and provides a permissionless way for the owner to transfer what they own to someone new.
-
----
-
-## Objectives
-
-By the end of this lesson you should be able to:
-
-- Construct a minimal token and deploy to testnet
-- Identify the properties that make a token a token
+По своей сути токены очень просты. Технология, стоящая за известными NFT-коллекциями и взаимозаменяемыми токенами, стоящими огромных денег, просто использует EVM для отслеживания того, кому что принадлежит, и предоставляет беспермишенный (permissionless) способ для владельца передать свое владение кому-то новому.
 
 ---
 
-## Implementing a Token
+## Цели
 
-The minimal elements needed for a token are pretty basic. Start by creating a contract called `MinimalToken`. Add a `mapping` to relate user addresses to the number of tokens they possess. Finally, add a variable to track `totalSupply`:
+К концу этого урока вы должны уметь:
 
-<Accordion title="Reveal code">
+- Создавать минимальный токен и развертывать его в тестовой сети
+- Определять свойства, которые делают токен токеном
+
+---
+
+## Реализация токена
+
+Минимальные элементы, необходимые для токена, довольно просты. Начните с создания контракта с именем MinimalToken. Добавьте `mapping` для связи адресов пользователей с количеством токенов, которыми они владеют. Наконец, добавьте переменную для отслеживания `totalSupply`:
+
+<Accordion title="Показать код">
 
 ```solidity
 contract MinimalToken {
@@ -33,9 +33,9 @@ contract MinimalToken {
 
 </Accordion>
 
-Add a `constructor` that initializes the `totalSupply` at 3000 and assigns ownership to the contract creator:
+Добавьте `constructor`, который инициализирует `totalSupply` значением 3000 и присваивает право собственности создателю контракта:
 
-<Accordion title="Reveal code">
+<Accordion title="Показать код">
 
 ```solidity
 constructor() {
@@ -47,15 +47,15 @@ constructor() {
 
 </Accordion>
 
-Deploy and test to confirm that the total supply is 3000, and the balance of the first account is as well.
+Разверните и протестируйте, чтобы убедиться, что общее предложение равно 3000, и баланс первого аккаунта тоже.
 
 <Frame>
 ![Balance](/images/learn/minimal-tokens/balance.png)
 </Frame>
 
-Update the constructor and hardcode a distribution of the tokens to be evenly split between the first three test accounts:
+Обновите конструктор и жестко задайте распределение токенов, чтобы они были равномерно распределены между первыми тремя тестовыми аккаунтами:
 
-<Accordion title="Reveal code">
+<Accordion title="Показать код">
 
 ```solidity
 constructor() {
@@ -69,7 +69,7 @@ constructor() {
 
 </Accordion>
 
-Redeploy and test again. Now, each of the first three accounts should have 1000 tokens.
+Повторно разверните и снова протестируйте. Теперь каждый из первых трех аккаунтов должен иметь по 1000 токенов.
 
 <Frame>
 ![Balance](/images/learn/minimal-tokens/split-balances.png)
@@ -77,15 +77,15 @@ Redeploy and test again. Now, each of the first three accounts should have 1000 
 
 ---
 
-## Transferring Tokens
+## Перевод токенов
 
-We can set an initial distribution of tokens and we can see balances, but we're still missing a way to allow the owners of these tokens to share them or spend them.
+Мы можем установить начальное распределение токенов и видеть балансы, но нам все еще не хватает способа, позволяющего владельцам этих токенов делиться ими или тратить их.
 
-To remediate this, all we need to do is add a function that can update the balances of each party in the transfer.
+Чтобы исправить это, все, что нам нужно сделать, - это добавить функцию, которая может обновлять балансы каждой стороны при переводе.
 
-Add a `function` called `transfer` that accepts an `address` of `_to` and a `uint` for the `_amount`. You don't need to add anything for `_from`, because that should only be `msg.sender`. The function should subtract the `_amount` from the `msg.sender` and add it to `_to`:
+Добавьте `function` с именем `transfer`, которая принимает `address` `_to` и `uint` для `_amount`. Вам не нужно добавлять что-либо для `_from`, потому что это должен быть только `msg.sender`. Функция должна вычитать `_amount` из `msg.sender` и добавлять его к `_to`:
 
-<Accordion title="Reveal code">
+<Accordion title="Показать код">
 
 ```solidity
 function transfer(address _to, uint _amount) public {
@@ -96,13 +96,13 @@ function transfer(address _to, uint _amount) public {
 
 </Accordion>
 
-Double-check that you've switched back to the first address and redeploy. Then, try sending 500 tokens to the second address.
+Убедитесь, что вы вернулись к первому адресу, и повторно разверните. Затем попробуйте отправить 500 токенов на второй адрес.
 
 <Frame>
 ![Balance](/images/learn/minimal-tokens/transferred.png)
 </Frame>
 
-What happens if you try to transfer more tokens than an account has? Give it a try!
+Что произойдет, если вы попытаетесь перевести больше токенов, чем есть на аккаунте? Попробуйте!
 
 ```text
 transact to MinimalToken.transfer pending ...
@@ -114,9 +114,9 @@ Note: The called function should be payable if you send value and the value you 
 Debug the transaction to get more information.
 ```
 
-You won't be able to do it, though the `Note:` here is **misleading**. In the EVM, `payable` **only** refers to transfers of the primary token used to pay gas fees: ETH, Base ETH, Sepolia ETH, Matic, etc. It does **not** refer to the balance of our simple token.
+Вы не сможете этого сделать, хотя `Note`: здесь **вводит в заблуждение**. В EVM `payable` только относится к переводам основного токена, используемого для оплаты комиссий за газ: ETH, Base ETH, Sepolia ETH, Matic и т.д. Он не относится к балансу нашего простого токена.
 
-Instead, the transaction is reverting because of the built-in overflow/underflow protection. It's not a great programming practice to depend on this, so add an error for `InsufficientTokens` that returns the `newSenderBalance`.
+Вместо этого транзакция откатывается (revert) из-за встроенной защиты от переполнения/недополнения. Не является хорошей практикой программирования полагаться на это, поэтому добавьте ошибку `InsufficientTokens`, которая возвращает `newSenderBalance`.
 
 ```Solidity
 function transfer(address _to, uint _amount) public {
@@ -130,7 +130,7 @@ function transfer(address _to, uint _amount) public {
 }
 ```
 
-Try spending too much again. You'll get the same error in Remix:
+Попробуйте снова потратить слишком много. Вы получите ту же ошибку в Remix:
 
 ```text
 transact to MinimalToken.transfer pending ...
@@ -142,32 +142,32 @@ Note: The called function should be payable if you send value and the value you 
 Debug the transaction to get more information.
 ```
 
-However, you can use the debug tool to review the error in memory to see that it now matches your custom `error`.
+Однако вы можете использовать инструмент отладки, чтобы просмотреть ошибку в памяти, и увидеть, что она теперь соответствует вашей пользовательской `error`.
 
-## Destroying Tokens
+## Уничтожение токенов
 
-Tokens can be effectively destroyed by accident, or on purpose. Accidental destruction happens when someone sends a token to an unowned wallet address. While it's possible that some day, some lucky person will create a new wallet and find a pleasant surprise, the most likely outcome is that any given randomly chosen address will never be used, thus no one will ever have the ability to use or transfer those tokens.
+Токены могут быть эффективно уничтожены случайно или намеренно. Случайное уничтожение происходит, когда кто-то отправляет токен на непринадлежащий адрес кошелька. Хотя возможно, что когда-нибудь какой-нибудь удачливый человек создаст новый кошелек и найдет приятный сюрприз, наиболее вероятный исход заключается в том, что любой заданный случайно выбранный адрес никогда не будет использован, поэтому никто никогда не получит возможность использовать или перевести эти токены.
 
-Luckily, there are some protections here. Similar to credit card numbers, addresses have a built-in checksum that helps protect against typos. Try it out by trying to transfer tokens to the second Remix address, but change the first character in the address from `A` to `B`. You'll get an error:
+К счастью, здесь есть некоторые меры защиты. Подобно номерам кредитных карт, адреса имеют встроенную контрольную сумму, которая помогает защититься от опечаток. Попробуйте, попытавшись перевести токены на второй адрес Remix, но измените первый символ в адресе с `A` на `B`. Вы получите ошибку:
 
 ```text
 transact to MinimalToken.transfer errored: Error encoding arguments: Error: bad address checksum (argument="address", value="0xBb8483F64d9C6d1EcF9b849Ae677dD3315835cb2", code=INVALID_ARGUMENT, version=address/5.5.0) (argument=null, value="0xBb8483F64d9C6d1EcF9b849Ae677dD3315835cb2", code=INVALID_ARGUMENT, version=abi/5.5.0)
 ```
 
-A more guaranteed way to destroy, or _burn_ a token, is to transfer it to the default address `0x0000000000000000000000000000000000000000`. This address is unowned and unownable, making it mathematically impossible to retrieve any tokens that are sent to it. Redeploy and try it out by sending 1000 tokens to the zero address.
+Более надежный способ уничтожить или сжечь токен - перевести его на адрес по умолчанию `0x0000000000000000000000000000000000000000`. Этот адрес не принадлежит никому и не может быть присвоен, что делает математически невозможным получение любых токенов, отправленных на него. Повторно разверните и попробуйте, отправив 1000 токенов на нулевой адрес.
 
-The `totalSupply` remains unchanged, and the balance of the zero address is visible, but those tokens are stuck there forever.
+`totalSupply` остается неизменным, и баланс нулевого адреса виден, но эти токены застряли там навсегда.
 
 <Note>
-The [zero address] currently has a balance of more than 11,000 ETH, worth over **20 million dollars**! Its total holding of burned assets is estimated to be worth more than **200 million dollars**!!!
+[zero address] в настоящее время имеет баланс более 11 000 ETH, стоимостью **более 20 миллионов долларов**! Общая стоимость сожженных активов оценивается **более чем в 200 миллионов долларов**!!!
 </Note>
 
 
 ---
 
-## Conclusion
+## Заключение
 
-In this lesson, you've learned to implement a simple token, which is really just a system to store the balance of each address, and a mechanism to transfer them from one wallet to another. You've also learned how to permanently destroy tokens, whether by accident, or on purpose.
+В этом уроке вы научились реализовывать простой токен, который на самом деле представляет собой просто систему для хранения баланса каждого адреса и механизм для их перевода с одного кошелька на другой. Вы также узнали, как навсегда уничтожить токены, будь то случайно или намеренно.
 
 ---
 
