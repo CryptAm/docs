@@ -2,14 +2,14 @@
 title: useNames
 ---
 
-The `useNames` hook is used to get multiple names from an onchain identity provider
-for an array of addresses in a single batch request.
+Хук `useNames` используется для получения нескольких имен из провайдера 
+ончейн-идентификации для массива адресов в одном пакетном запросе.
 
-It is implemented with [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) from `@tanstack/react-query`, and returns a `UseQueryResult` object, allowing you to pass through all `@tanstack/react-query` options.
+Он реализован с использованием [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) из `@tanstack/react-query`, и возвращает объект `UseQueryResult`, что позволяет передавать все опции `@tanstack/react-query`.
 
-## Usage
+## Использование
 
-Get ENS names from multiple addresses:
+Получение ENS имен по нескольким адресам:
 
 <CodeGroup>
 ```tsx code
@@ -32,7 +32,7 @@ const { data: names, isLoading } = useNames({ addresses });
 
 </CodeGroup>
 
-Get Basenames from multiple addresses:
+Получение Basenames по нескольким адресам:
 
 <CodeGroup>
 ```tsx code
@@ -56,7 +56,7 @@ const { data: names, isLoading } = useNames({ addresses, chain: base });
 
 </CodeGroup>
 
-## Returns
+## Возвращает
 
 ```ts
 useQuery<Promise<GetNameReturnType[]>>
@@ -64,15 +64,15 @@ useQuery<Promise<GetNameReturnType[]>>
 type GetNameReturnType = string | Basename | null;
 ```
 
-## Parameters
+## Параметры
 
 ### UseNamesParams
 
 ```ts
 type UseNamesParams = {
-  /** Array of addresses to resolve ENS or Basenames for */
+  /** Массив адресов для получения ENS или Basenames */
   addresses: Address[];
-  /** Optional chain for domain resolution */
+  /** Необязательная цепь для разрешения домена */
   chain?: Chain;
 };
 ```
