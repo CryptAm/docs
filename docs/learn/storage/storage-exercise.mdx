@@ -1,84 +1,84 @@
 ---
-title: Storage Exercise
-sidebarTitle: Exercise
-description: Exercise - Demonstrate your knowledge of storage.
+title: Упражнение по работе с хранилищем
+sidebarTitle: Упражнение
+description: Упражнение - продемонстрируйте свои знания о хранилище.
 hide_table_of_contents: false
 ---
 
 import { Danger } from "/snippets/danger.mdx";
 
-Create a contract that adheres to the following specifications:
+Создайте контракт, соответствующий следующим спецификациям:
 
 ---
 
-## Contract
+## Контракт
 
-Create a single contract called `EmployeeStorage`. It should not inherit from any other contracts. It should have the following functions:
+Создайте один контракт с именем `EmployeeStorage`. Он не должен наследоваться от других контрактов. Он должен иметь следующие функции:
 
-### State Variables
+### Переменные состояния
 
-The contract should have the following state variables, optimized to minimize storage:
+Контракт должен иметь следующие переменные состояния, оптимизированные для минимизации использования хранилища:
 
-- A private variable `shares` storing the employee's number of shares owned
-  - Employees with more than 5,000 shares count as directors and are stored in another contract
-- Public variable `name` which stores the employee's name
-- A private variable `salary` storing the employee's salary
-  - Salaries range from 0 to 1,000,000 dollars
-- A public variable `idNumber` storing the employee's ID number
-  - Employee numbers are not sequential, so this field should allow any number up to 2^256-1
+- Приватная переменная `shares`, хранящая количество акций, принадлежащих сотруднику
+  - Сотрудники с более чем 5 000 акций считаются директорами и хранятся в другом контракте
+-Публичная переменная `name`, которая хранит имя сотрудника
+- Приватная переменная `salary`, хранящая зарплату сотрудника
+  - Зарплаты варьируются от 0 до 1 000 000 долларов
+- Публичная переменная `idNumber`, хранящая идентификационный номер сотрудника
+  - Номера сотрудников не являются последовательными, поэтому это поле должно позволять любое число до 2^256-1
 
-### Constructor
+### Конструктор
 
-When deploying the contract, utilize the `constructor` to set:
+При развертывании контракта используйте `constructor` для установки:
 
 - `shares`
 - `name`
 - `salary`
 - `idNumber`
 
-For the purposes of the test, you **must** deploy the contract with the following values:
+Для целей теста вы **должны** развернуть контракт со следующими значениями:
 
 - `shares` - 1000
 - `name` - Pat
 - `salary` - 50000
 - `idNumber` - 112358132134
 
-### View Salary and View Shares
+### Просмотр зарплаты и акций
 
 <Danger>
-In the world of blockchain, nothing is ever secret!\* `private` variables prevent other contracts from reading the value. You should use them as a part of clean programming practices, but marking a variable as private **does _not_ hide the value**. All data is trivially available to anyone who knows how to fetch data from the chain.
+В мире блокчейна ничто не является секретным!\* Приватные (`private`) переменные предотвращают чтение значения другими контрактами. Вы должны использовать их как часть чистых практик программирования, но пометка переменной как private **не скрывает значение**. Все данные тривиально доступны любому, кто знает, как извлекать данные из цепи.
 
-\*You can make clever use of encryption though!
+\*Хотя вы можете умно использовать шифрование!
 </Danger>
 
 
-Write a function called `viewSalary` that returns the value in `salary`.
+Напишите функцию `viewSalary`, которая возвращает значение `salary`.
 
-Write a function called `viewShares` that returns the value in `shares`.
+Напишите функцию `viewShares`, которая возвращает значение `shares`.
 
-### Grant Shares
+### Назначение акций
 
-Add a public function called `grantShares` that increases the number of shares allocated to an employee by `_newShares`. It should:
+Добавьте публичную функцию `grantShares`, которая увеличивает количество акций, выделенных сотруднику, на `_newShares`. Она должна:
 
-- Add the provided number of shares to the `shares`
-  - If this would result in more than 5000 shares, revert with a custom error called `TooManyShares` that returns the number of shares the employee would have with the new amount added
-  - If the number of `_newShares` is greater than 5000, revert with a string message, "Too many shares"
+- Добавить указанное количество акций к `shares`
+  - Если это приведет к количеству акций более 5000, выполнить откат (revert) с пользовательской ошибкой `TooManyShares`, которая возвращает количество акций, которое будет у сотрудника с добавленным новым количеством
+  - Если количество `_newShares` больше 5000, выполнить откат со строковым сообщением "Too many shares"
 
-### Check for Packing and Debug Reset Shares
+### Проверка упаковки и функция сброса акций для отладки
 
-Add the following function to your contract exactly as written below.
+Добавьте следующую функцию в ваш контракт точно так, как написано ниже.
 
 ```solidity
 /**
-* Do not modify this function.  It is used to enable the unit test for this pin
-* to check whether or not you have configured your storage variables to make
-* use of packing.
+* Не изменяйте эту функцию. Она используется для того, чтобы модульный тест для этого задания
+* мог проверить, правильно ли вы настроили ваши переменные хранилища для
+* использования упаковки.
 *
-* If you wish to cheat, simply modify this function to always return `0`
-* I'm not your boss ¯\_(ツ)_/¯
+* Если вы хотите сжульничать, просто измените эту функцию так, чтобы она всегда возвращала `0`
+* Я не ваш начальник ¯\_(ツ)_/¯
 *
-* Fair warning though, if you do cheat, it will be on the blockchain having been
-* deployed by your wallet....FOREVER!
+* Предупреждение: если вы сжульничаете, это будет в блокчейне, 
+* развернуто вашим кошельком.... НАВСЕГДА!
 */
 function checkForPacking(uint _slot) public view returns (uint r) {
     assembly {
@@ -87,7 +87,7 @@ function checkForPacking(uint _slot) public view returns (uint r) {
 }
 
 /**
-* Warning: Anyone can use this function at any time!
+* Внимание: Любой может использовать эту функцию в любое время!
 */
 function debugResetShares() public {
     shares = 1000;
@@ -96,16 +96,16 @@ function debugResetShares() public {
 
 ---
 
-### Submit your Contract and Earn an NFT Badge! (BETA)
+### Отправьте свой контракт и получите NFT-значок! (BETA)
 
 <Note>
-#### Hey, where'd my NFT go!?
+#### Эй, куда делся мой NFT?!
 
-[Testnets](/learn/deployment-to-testnet/test-networks) are not permanent! Base Goerli [will soon be sunset](https://base.mirror.xyz/kkz1-KFdUwl0n23PdyBRtnFewvO48_m-fZNzPMJehM4), in favor of Base Sepolia.
+[Тестовые сети](/learn/deployment-to-testnet/test-networks) не являются постоянными! Base Goerli [скоро будет приостановлена](https://base.mirror.xyz/kkz1-KFdUwl0n23PdyBRtnFewvO48_m-fZNzPMJehM4), в пользу Base Sepolia.
 
-As these are separate networks with separate data, your NFTs **will not** transfer over.
+Поскольку это отдельные сети с отдельными данными, ваши NFT **не будут** перенесены.
 
-**Don't worry!** We've captured the addresses of all NFT owners on Base Goerli and will include them when we release the mechanism to transfer these NFTs to mainnet later this year! You can also redeploy on Sepolia and resubmit if you'd like!
+**Не волнуйтесь!** Мы зафиксировали адреса всех владельцев NFT на Base Goerli и включим их, когда позже в этом году выпустим механизм переноса этих NFT в основную сеть! Вы также можете повторно развернуть на Sepolia и повторно отправить, если хотите!
 </Note>
 
 
