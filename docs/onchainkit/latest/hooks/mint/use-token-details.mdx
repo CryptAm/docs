@@ -3,13 +3,14 @@ title: useTokenDetails
 ---
 
 
-The `useTokenDetails` hook implements the `getTokenDetails` API, returning the data required to view an NFT.
+Хук `useTokenDetails` реализует API `getTokenDetails`, 
+возвращая данные, необходимые для просмотра NFT.
 
-It is implemented with [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) from `@tanstack/react-query`, and returns a `UseQueryResult` object, allowing you to pass through all `@tanstack/react-query` options.
+Он реализован с использованием [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) из `@tanstack/react-query`, и возвращает объект `UseQueryResult`, что позволяет передавать все опции `@tanstack/react-query`.
 
-Before using them, make sure to obtain a [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) from Coinbase Developer Platform.
+Перед использованием убедитесь, что вы получили [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) из Coinbase Developer Platform.
 
-## Usage
+## Использование
 
 <CodeGroup>
 ```tsx code
@@ -66,38 +67,38 @@ const queryClient = new QueryClient();
 ```
 </CodeGroup>
 
-## Returns
+## Возвращает
 
 ```ts
 UseQueryResult<TokenDetails>
 
 type TokenDetails = {
-  /** The name of the token */
+  /** Название токена */
   name: string;
-  /** The description of the token */
+  /** Описание токена */
   description: string;
-  /** The image URL of the token */
+  /** URL изображения токена */
   imageUrl: string;
-  /** The animation URL of the token */
+  /** URL анимации токена */
   animationUrl: string;
-  /** The MIME type of the token */
+  /** MIME-тип токена  */
   mimeType: string;
-  /** The address of the owner of the token */
+  /** Адрес владельца токена */
   ownerAddress: Address;
-  /** The last sold price of the token */
+  /** Цена последней продажи токена */
   lastSoldPrice: NFTPrice;
   /** ERC721, ERC1155 */
   contractType: ContractType;
 };
 ```
 
-## Parameters
+## Параметры
 
 ```ts
 type GetTokenDetailsParams = {
-  /** The address of the token contract */
+  /** Адрес контракта токена */
   contractAddress: Address;
-  /** The ID of the token */
+  /** ID токена */
   tokenId?: string;
 };
 ```
