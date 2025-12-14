@@ -2,14 +2,14 @@
 title: useAvatars
 ---
 
-The `useAvatars` hook is used to get multiple avatar image URLs from an onchain identity
-provider for an array of ENS names or Basenames in a single batch request.
+Хук `useAvatars` используется для получения нескольких URL изображений аватаров из провайдера
+ончейн-идентификации для массива ENS имен или Basenames в одном пакетном запросе.
 
-It is implemented with [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) from `@tanstack/react-query`, and returns a `UseQueryResult` object, allowing you to pass through all `@tanstack/react-query` options.
+Он реализован с использованием [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) из `@tanstack/react-query`, и возвращает объект `UseQueryResult`, что позволяет передавать все опции `@tanstack/react-query`.
 
-## Usage
+## Использование
 
-Get avatars for multiple ENS names:
+Получение аватаров для нескольких ENS имен:
 
 <CodeGroup>
 ```tsx code
@@ -32,7 +32,7 @@ const { data: avatars, isLoading } = useAvatars({ ensNames });
 
 </CodeGroup>
 
-Get avatars for multiple Basenames:
+Получение аватаров для нескольких Basenames:
 
 <CodeGroup>
 ```tsx code
@@ -56,7 +56,7 @@ const { data: avatars, isLoading } = useAvatars({ ensNames, chain: base });
 
 </CodeGroup>
 
-## Returns
+## Возвращает
 
 ```ts
 useQuery<Promise<GetAvatarReturnType[]>>
@@ -64,15 +64,15 @@ useQuery<Promise<GetAvatarReturnType[]>>
 type GetAvatarReturnType = string | null;
 ```
 
-## Parameters
+## Параметры
 
 ### UseAvatarsParams
 
 ```ts
 type UseAvatarsParams = {
-  /** Array of ENS names to resolve avatars for */
+  /** Массив ENS имен для получения аватаров */
   ensNames: string[];
-  /** Optional chain for domain resolution */
+  /** Необязательная цепь для разрешения домена */
   chain?: Chain;
 };
 ```
