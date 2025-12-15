@@ -1,7 +1,7 @@
 ---
-title: Themes
-sidebarTitle: Themes
-description: Customize the appearance of OnchainKit components with built-in themes or create your own
+title: Темы
+sidebarTitle: Темы
+description: Настройте внешний вид компонентов OnchainKit с помощью встроенных тем или создайте свои собственные
 ---
 
 <Frame>
@@ -10,25 +10,25 @@ description: Customize the appearance of OnchainKit components with built-in the
   height="364"/>
 </Frame>
 
-## Overview
+## Обзор
 
-OnchainKit provides flexible appearance control through two main features: `mode` and `theme`.
+OnchainKit предоставляет гибкий контроль над внешним видом через две основные возможности: `mode` и `theme`.
 
-- **Mode**: Controls the light/dark appearance with `auto`, `light`, or `dark` options
-- **Theme**: Sets the overall styling including colors, fonts, and border radius
+- **Режим**: Управляет светлым/темным оформлением с опциями `auto`, `light`, или `dark`
+- **Тема**: Задает общее оформление, включая цвета, шрифты и скругления углов
 
-Configure themes through the `OnchainKitProvider` to create a customized interface that matches your application's design.
+Настройте темы через `OnchainKitProvider`, чтобы создать кастомизированный интерфейс, соответствующий дизайну вашего приложения.
 
-## Built-in Themes
+## Встроенные темы
 
-OnchainKit includes several built-in themes. Set the theme via the `OnchainKitProvider` using `config.appearance.theme`:
+OnchainKit включает несколько встроенных тем. Установите тему через `OnchainKitProvider`, используя `config.appearance.theme`:
 
-- `default`: Multi-mode theme with light and dark variants
-- `base`: Base brand colors, available in light and dark modes  
-- `cyberpunk`: Dark-only theme with fuchsia accents and Oxanium font
-- `hacker`: Monospace theme with zinc colors and Noto Sans Mono font
+- `default`: Многомодовая тема со светлым и темным вариантами
+- `base`: Брендовые цвета Base, доступны в светлом и темном режимах
+- `cyberpunk`: Только темная тема с акцентами фуксии и шрифтом Oxanium
+- `hacker`: Моноширинная тема с цинковыми цветами и шрифтом Noto Sans Mono
 
-If no theme is specified, the `default` theme is used.
+Если тема не указана, используется тема `default`.
 
 ```tsx
 <OnchainKitProvider
@@ -43,15 +43,15 @@ If no theme is specified, the `default` theme is used.
 >
 ```
 
-## Mode
+## Режим (Mode)
 
-Control the color scheme by setting the `config.appearance.mode` property:
+Управляйте цветовой схемой, устанавливая свойство `config.appearance.mode`:
 
-- `auto`: Automatically switches between light and dark based on system preference (default)
-- `light`: Forces light mode for all components
-- `dark`: Forces dark mode for all components
+- `auto`: Автоматически переключается между светлым и темным в зависимости от системных предпочтений (по умолчанию)
+- `light`: Принудительно использует светлый режим для всех компонентов
+- `dark`: Принудительно использует темный режим для всех компонентов
 
-Note: Single-mode themes like `cyberpunk` and `hacker` ignore the mode setting.
+Примечание: Одномодовые темы, такие как `cyberpunk` и `hacker`, игнорируют настройку режима.
 
 ```tsx
 <OnchainKitProvider
@@ -66,9 +66,9 @@ Note: Single-mode themes like `cyberpunk` and `hacker` ignore the mode setting.
 >
 ```
 
-## CSS Overrides
+## CSS-переопределения
 
-Fine-tune specific aspects of an existing theme by overriding CSS variables.
+Точно настройте конкретные аспекты существующей темы, переопределяя CSS-переменные.
 
 ```css
 @layer base {
@@ -78,7 +78,7 @@ Fine-tune specific aspects of an existing theme by overriding CSS variables.
   [data-ock-theme='base-dark'],
   [data-ock-theme='cyberpunk'],
   [data-ock-theme='hacker'] {
-    /* Override specific variables */
+    /* Переопределите конкретные переменные */
     --ock-font-family: 'Roboto', sans-serif;
     --ock-radius-default: 0.5rem;
     --ock-primary: #ff6b35;
@@ -86,13 +86,13 @@ Fine-tune specific aspects of an existing theme by overriding CSS variables.
 }
 ```
 
-## Custom Theme
+## Кастомная тема
 
-Create a completely custom theme with full control over colors, fonts, and styling.
+Создайте полностью кастомную тему с полным контролем над цветами, шрифтами и оформлением.
 
-### Custom Theme Setup
+### Настройка кастомной темы
 
-Define your custom theme using CSS variables. Theme classes should include `-light` and `-dark` suffixes for multi-mode support:
+Определите вашу кастомную тему, используя CSS-переменные. Классы темы должны включать суффиксы `-light` и `-dark` для поддержки многомодовости:
 
 ```tsx
 <OnchainKitProvider
@@ -100,32 +100,32 @@ Define your custom theme using CSS variables. Theme classes should include `-lig
   chain={base}
   config={{
     appearance: {
-      mode: 'auto', // Will switch between custom-light and custom-dark
+      mode: 'auto', // Будет переключаться между custom-light и custom-dark
       theme: 'custom', // [!code focus]
     },
   }}
 >
 ```
 
-### Theme Definition
+### Определение темы
 
-Use the correct CSS variable names that match OnchainKit's theming system:
+Используйте правильные имена CSS-переменных, которые соответствуют системе темизации OnchainKit:
 
 ```css
 @layer base {
   [data-ock-theme='custom-light'] {
-    /* Typography and Shape */
+    /* Типографика и форма */
     --ock-font-family: 'Inter', sans-serif;
     --ock-radius-default: 0.75rem;
     --ock-radius-inner: 0.375rem;
 
-    /* Foreground Colors */
+    /* Цвета переднего плана (Foreground) */
     --ock-foreground: #1a1a1a;
     --ock-foreground-muted: #6b7280;
     --ock-foreground-inverse: #ffffff;
     --ock-foreground-disabled: #9ca3af;
 
-    /* Background Colors */
+    /* Цвета фона (Background) */
     --ock-background: #ffffff;
     --ock-background-hover: #f3f4f6;
     --ock-background-active: #e5e7eb;
@@ -137,34 +137,34 @@ Use the correct CSS variable names that match OnchainKit's theming system:
     --ock-background-inverse-active: #d1d5db;
     --ock-background-reverse: #1a1a1a;
 
-    /* Primary Colors */
+    /* Основные цвета (Primary) */
     --ock-primary: #3b82f6;
     --ock-primary-hover: #2563eb;
     --ock-primary-active: #1d4ed8;
     --ock-primary-washed: #dbeafe;
     --ock-primary-disabled: #93c5fd;
 
-    /* Secondary Colors */
+    /* Вторичные цвета (Secondary) */
     --ock-secondary: #e2e8f0;
     --ock-secondary-hover: #cbd5e1;
     --ock-secondary-active: #94a3b8;
 
-    /* State Colors */
+    /* Цвета состояния (State) */
     --ock-error: #dc2626;
     --ock-warning: #d97706;
     --ock-success: #16a34a;
     --ock-success-background: #bbf7d0;
 
-    /* Lines */
+    /* Линии  (Lines) */
     --ock-line: #e5e7eb;
   }
 
   [data-ock-theme='custom-dark'] {
-    /* Define dark mode variables here */
+    /* Определите переменные для темного режима здесь */
     --ock-foreground: #ffffff;
     --ock-foreground-muted: #9ca3af;
     --ock-background: #1a1a1a;
-    /* ... other dark mode variables */
+    /* ... другие переменные для темного режима */
   }
 }
 ```
