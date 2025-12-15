@@ -2,12 +2,12 @@
 title: "Earn"
 ---
 
-The `Earn` component provides a simple interface for earning interest on your crypto via Morpho vaults on Base.
+Компонент `Earn` предоставляет простой интерфейс для получения процентов на вашу криптовалюту через хранилища Morpho в сети Base.
 
 
-## Quickstart
+## Быстрый старт
 
-To use `Earn`, you'll need to provide a `vaultAddress` prop. A vault address can be obtained from Morpho's [Vaults page](https://app.morpho.org/base/earn).
+Для использования `Earn` вам необходимо предоставить пропс vaultAddress. Адрес хранилища можно получить на странице [Vaults page](https://app.morpho.org/base/earn) Morpho.
 
 ```tsx
 import { Earn } from '@coinbase/onchainkit/earn'; // [!code focus]
@@ -23,13 +23,13 @@ import { Earn } from '@coinbase/onchainkit/earn'; // [!code focus]
   height="400px"
 />
 
-## Customization
+## Кастомизация
 
-### Custom components and layouts
+### Кастомные компоненты и макеты
 
-`Earn` accepts a `children` prop that can be used to render `Earn` subcomponents or custom components.
+`Earn` принимает пропс `children`, который можно использовать для рендеринга подкомпонентов `Earn` или кастомных компонентов.
 
-For instance, you can render the `EarnDeposit` component by itself within the `Earn` component, along with any other custom components you'd like to render.
+Например, вы можете отрендерить компонент `EarnDeposit` отдельно внутри компонента `Earn`, а также любые другие кастомные компоненты, которые хотите отобразить.
 
 ```tsx
 import { Earn, EarnDeposit } from '@coinbase/onchainkit/earn';
@@ -49,7 +49,7 @@ import { Earn, EarnDeposit } from '@coinbase/onchainkit/earn';
   height="450px"
 />
 
-For more granular control, you can also render lower level subcomponents within `EarnDeposit` and `EarnWithdraw`. These subcomponents accept `className` props to customize their styles.
+Для более детального контроля вы также можете рендерить компоненты более низкого уровня внутри `EarnDeposit` и `EarnWithdraw`. Эти подкомпоненты принимают свойства `className` для кастомизации их стилей.
 
 ```tsx
 import { Earn,
@@ -77,17 +77,17 @@ import { Earn,
   height="400px"
 />
 
-### Customizing styles
+### Кастомизация стилей
 
-The `Earn` component is best styled via a [OnchainKit theme](/onchainkit/guides/themes#custom-theme). You can also override individual component styles using `className`.
+Компонент `Earn` лучше всего стилизовать с помощью [OnchainKit theme](/onchainkit/guides/themes#custom-theme). Вы также можете переопределять стили отдельных компонентов, используя `className`.
 
-## Advanced Usage
+## Продвинутое использование
 
-If you'd like to implement your own custom components, you can use `useEarnContext` within an `Earn` component to access context and build your own components.
+Если вы хотите реализовать свои собственные кастомные компоненты, вы можете использовать `useEarnContext` внутри компонента `Earn` для доступа к контексту и создания собственных компонентов.
 
-You can find the full interface for `EarnContextType` on the [Types page](/onchainkit/earn/types#earncontexttype).
+Полный интерфейс `EarnContextType` можно найти на странице [Types page](/onchainkit/earn/types#earncontexttype).
 
-Below, we use `useEarnContext` to implement a custom deposit interface by using `useEarnContext` to access the `depositAmount` and `setDepositAmount` context values.
+Ниже мы используем `useEarnContext` для реализации кастомного интерфейса депозита, получая доступ к значениям контекста `depositAmount` и `setDepositAmount`.
 
 <CodeGroup>
 ```tsx index.tsx
@@ -146,19 +146,19 @@ function CustomDepositButtons() {
   height="400px"
 />
 
-Taking advantage of the data and methods provided by `useEarnContext`, developers can implement fully custom deposit and withdraw interfaces, modifying everything from UI elements to input behavior.
+Используя данные и методы, предоставляемые `useEarnContext`, разработчики могут реализовать полностью кастомные интерфейсы для депозита и вывода, изменяя все - от элементов пользовательского интерфейса до поведения полей ввода.
 
-## Examples
+## Примеры
 
-### Sponsoring transactions
+### Спонсирование транзакций
 
-To sponsor transactions, you can use the `isSponsored` prop.
+Для спонсирования транзакций вы можете использовать свойство `isSponsored`.
 
 ```tsx
 <Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A" isSponsored />
 ```
 
-Ensure that your `OnchainKitProvider` has a `paymaster` configured:
+Убедитесь, что в вашем `OnchainKitProvider` настроен `paymaster`:
 
 ```tsx
 <OnchainKitProvider
@@ -169,40 +169,40 @@ Ensure that your `OnchainKitProvider` has a `paymaster` configured:
 ```
 
 <Tip>
-If you have a contract allowlist set on Coinbase Developer Platform, you'll need to ensure that the following contract functions are allowed:
+Если у вас установлен разрешенный список контрактов на Coinbase Developer Platform, вам нужно убедиться, что разрешены следующие функции контрактов:
 
-- `deposit` on the Morpho vault
-- `redeem` on the Morpho vault
-- `approve` on the token being deposited
+- `deposit` в хранилище Morpho
+- `redeem` в хранилище Morpho
+- `approve` на токене, который вносится
 </Tip>
 
 
-## Components
+## Компоненты
 
-The `Earn` component includes the following subcomponents:
+Компонент `Earn` включает следующие подкомпоненты:
 
-- `<Earn />` - A fully built Withdraw and Deposit component. Also includes a `children` prop to render custom components and provides `useEarnContext` to access the context values.
-- `<EarnProvider />` - A headless provider that provides the `useEarnContext` hook to the `Earn` component.
-- `<EarnDeposit />` - A fully built deposit card.
-- `<EarnWithdraw />` - A fully built withdraw card.
-- `<EarnDetails />` - A component that displays the details of the vault.
-- `<DepositAmountInput />` - A component that handles the deposit amount input.
-- `<DepositBalance />` - A component that displays the balance underlying asset in the user's wallet.
-- `<DepositButton />` - A component that triggers the deposit transaction.
-- `<WithdrawAmountInput />` - A component that handles the withdraw amount input.
-- `<WithdrawBalance />` - A component that displays how much the user can withdraw from a vault.
-- `<WithdrawButton />` - A component that triggers the withdraw transaction.
-- `<YieldDetails />` - A component that displays the yield details of the vault.
-- `<VaultDetails />` - A component that displays the vault details.
+- `<Earn />` - Полностью собранный компонент для вывода и депозита. Также включает пропс `children` для рендеринга кастомных компонентов и предоставляет `useEarnContext` для доступа к значениям контекста.
+- `<EarnProvider />` - Headless-провайдер, который предоставляет хук `useEarnContext` компоненту `Earn`.
+- `<EarnDeposit />` - Полностью собранная карточка депозита.
+- `<EarnWithdraw />` - Полностью собранная карточка вывода.
+- `<EarnDetails />` - Компонент, отображающий детали хранилища.
+- `<DepositAmountInput />` - Компонент, обрабатывающий ввод суммы депозита.
+- `<DepositBalance />` - Компонент, отображающий баланс базового актива в кошельке пользователя.
+- `<DepositButton />` - Компонент, запускающий транзакцию депозита.
+- `<WithdrawAmountInput />` - Компонент, обрабатывающий ввод суммы вывода.
+- `<WithdrawBalance />` - Компонент, отображающий, сколько пользователь может вывести из хранилища.
+- `<WithdrawButton />` - Компонент, запускающий транзакцию вывода.
+- `<YieldDetails />` - Компонент, отображающий детали доходности хранилища.
+- `<VaultDetails />` - Компонент, отображающий детали хранилища.
 
-## Hooks
+## Хуки
 
-- [`useEarnContext`](/onchainkit/hooks/use-earn-context) - A hook that provides the context values of the `Earn` component.
-- [`useBuildDepositToMorphoTx`](/onchainkit/hooks/use-build-deposit-to-morpho-tx) - A hook that builds a deposit transaction to Morpho.
-- [`useBuildWithdrawFromMorphoTx`](/onchainkit/hooks/use-build-withdraw-from-morpho-tx) - A hook that builds a withdraw transaction from Morpho.
-- [`useMorphoVault`](/onchainkit/hooks/use-morpho-vault) - A hook that provides the details of a Morpho vault.
+- [`useEarnContext`](/onchainkit/hooks/use-earn-context) - Хук, предоставляющий значения контекста компонента `Earn`.
+- [`useBuildDepositToMorphoTx`](/onchainkit/hooks/use-build-deposit-to-morpho-tx) - Хук, который создает транзакцию депозита в Morpho.
+- [`useBuildWithdrawFromMorphoTx`](/onchainkit/hooks/use-build-withdraw-from-morpho-tx) - Хук, который создает транзакцию вывода из Morpho.
+- [`useMorphoVault`](/onchainkit/hooks/use-morpho-vault) - Хук, который предоставляет детали хранилища Morpho.
 
-## Props
+## Свойства
 
 [`EarnProps`](#earnprops)
 
@@ -212,11 +212,11 @@ type EarnProps = {
   className?: string;
   vaultAddress: Address;
   isSponsored?: boolean;
-  /** An optional callback function that handles errors within the provider. */
+  /** Опциональная функция-обработчик ошибок внутри провайдера. */
   onError?: (error: TransactionError) => void;
-  /** An optional callback function that exposes the component lifecycle state */
+  /** Опциональная функция-обработчик, которая предоставляет доступ к состоянию жизненного цикла компонента */
   onStatus?: (lifecycleStatus: LifecycleStatus) => void;
-  /** An optional callback function that exposes the transaction receipt */
+  /** Опциональная функция-обработчик, которая предоставляет доступ к квитанции о транзакции */
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
 };
 ```
@@ -228,11 +228,11 @@ type EarnProviderProps = {
   children: React.ReactNode;
   vaultAddress: Address;
   isSponsored?: boolean;
-  /** An optional callback function that handles errors within the provider. */
+  /** Опциональная функция-обработчик ошибок внутри провайдера. */
   onError?: (error: TransactionError) => void;
-  /** An optional callback function that exposes the component lifecycle state */
+  /** Опциональная функция-обработчик, которая предоставляет доступ к состоянию жизненного цикла компонента */
   onStatus?: (lifecycleStatus: LifecycleStatus) => void;
-  /** An optional callback function that exposes the transaction receipt */
+  /** Опциональная функция-обработчик, которая предоставляет доступ к квитанции о транзакции */
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
 };
 ```
@@ -241,41 +241,41 @@ type EarnProviderProps = {
 
 ```ts
 type EarnContextType = {
-  /** Warns users if vault address is invalid */
+  /** Предупреждает пользователей, если адрес хранилища невалиден */
   error: Error | null;
   recipientAddress?: Address;
-  /** Balance of the underlying asset in the user's wallet, converted to the asset's decimals */
+  /** Баланс базового актива в кошельке пользователя, конвертированный с учетом десятичных знаков актива */
   walletBalance?: string;
-  /** Status of the wallet balance fetch */
+  /** Статус получения баланса кошелька */
   walletBalanceStatus: 'pending' | 'success' | 'error';
   refetchWalletBalance: () => void;
   vaultAddress: Address;
-  /** The token that is being deposited or withdrawn (the underlying asset of the vault) */
+  /** Токен, который вносится или выводится (базовый актив хранилища) */
   vaultToken: Token | undefined;
   vaultName: string | undefined;
-  /** Total deposits in the vault */
+  /** Общие депозиты в хранилище */
   deposits: string | undefined;
-  /** Total liquidity (available to borrow) in the vault */
+  /** Общая ликвидность (доступная для займа) в хранилище */
   liquidity: string | undefined;
-  /** Total APY of the vault, including rewards */
+  /** Общая APY хранилища, включая награды */
   apy: number | undefined;
   nativeApy: UseMorphoVaultReturnType['nativeApy'];
   vaultFee: UseMorphoVaultReturnType['vaultFee'];
-  /** Rewards earned by the user in the vault */
+  /** Награды, полученные пользователем в хранилище */
   rewards: UseMorphoVaultReturnType['rewards'];
-  /** The amount of underlying asset that has been deposited in the vault by the connected user */
+  /** Количество базового актива, внесенное в хранилище подключенным пользователем */
   depositedBalance?: string;
-  /** Whether the deposited balance is being fetched */
+  /** Статус получения баланса депозита */
   depositedBalanceStatus: 'pending' | 'success' | 'error';
   refetchDepositedBalance: () => void;
-  /** Interest earned by the user in the vault */
+  /** Процентный доход, полученный пользователем в хранилище */
   interestEarned?: string;
-  /** Amount that the user has typed into the deposit amount input */
+  /** Сумма, которую пользователь ввел в поле ввода суммы депозита */
   depositAmount: string;
   setDepositAmount: (amount: string) => void;
   depositAmountError: string | null;
   depositCalls: Call[];
-  /** Amount that the user has typed into the withdraw amount input */
+  /** Сумма, которую пользователь ввел в поле ввода суммы вывода */
   withdrawAmount: string;
   setWithdrawAmount: (amount: string) => void;
   withdrawAmountError: string | null;
@@ -314,22 +314,22 @@ type LifecycleStatus =
     >;
 ```
 
-Additional component props:
+Дополнительные пропсы компонентов:
 
 ```ts
-// Input components
+// Компоненты ввода
 type DepositAmountInputProps = { className?: string; };
 type WithdrawAmountInputProps = { className?: string; };
 
-// Balance components  
+// Компоненты баланса   
 type DepositBalanceProps = { className?: string; };
 type WithdrawBalanceProps = { className?: string; };
 
-// Container components
+// Контейнерные компоненты
 type EarnDepositProps = { children?: React.ReactNode; className?: string; };
 type EarnWithdrawProps = { children?: React.ReactNode; className?: string; };
 
-// Action components
+// Компоненты действий
 type DepositButtonProps = { className?: string; };
 type WithdrawButtonProps = { className?: string; };
 type EarnDetailsProps = { className?: string; };
