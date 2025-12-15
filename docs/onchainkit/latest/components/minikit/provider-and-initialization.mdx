@@ -1,11 +1,11 @@
 ---
-title: Provider & Initialization
-description: Configure OnchainKitProvider and initialize frame context
+title: Провайдер и инициализация
+description: Настройка OnchainKitProvider и инициализация контекста фрейма
 ---
 
-## OnchainKitProvider Setup
+## Настройка OnchainKitProvider
 
-The OnchainKitProvider wraps your app and provides MiniKit context to all child components. It configures wagmi, react-query, and the Farcaster connector automatically.
+OnchainKitProvider оборачивает ваше приложение и предоставляет контекст MiniKit всем дочерним компонентам. Он автоматически настраивает wagmi, react-query и коннектор Farcaster.
 
 ```tsx app/providers.tsx
 import { OnchainKitProvider } from '@coinbase/onchainkit';
@@ -36,30 +36,30 @@ export function Providers({ children }: { children: ReactNode }) {
 ```
 
 <Tip>
-The provider configures wagmi and react-query and uses the Farcaster connector when available.
+Провайдер настраивает wagmi и react-query и использует коннектор Farcaster, когда он доступен.
 </Tip>
 
-## Provider Configuration
+## Конфигурация провайдера
 
-### Required Props
+### Обязательные свойства
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `apiKey` | string | Your OnchainKit API key from Coinbase Developer Platform |
-| `chain` | Chain | The blockchain network (typically `base`) |
-
-### Optional Configuration
-
-| Property | Type | Description |
+| Свойство | Тип  | Описание    |
 |----------|------|-------------|
-| `config.appearance.mode` | 'auto' \| 'light' \| 'dark' | Theme mode for UI components |
-| `config.appearance.theme` | string | Theme name for styling |
-| `config.appearance.name` | string | App name displayed in UI |
-| `config.appearance.logo` | string | Logo URL for branding |
+| `apiKey` | string | Ваш API-ключ OnchainKit из Coinbase Developer Platform |
+| `chain` | Chain | Блокчейн-сеть (обычно `base`) |
 
-## Frame Initialization
+### Опциональная конфигурация
 
-Initialize MiniKit in your main component to signal frame readiness:
+| Свойство | Тип | Описание |
+|----------|------|-------------|
+| `config.appearance.mode` | 'auto' \| 'light' \| 'dark' | Режим темы для UI компонентов |
+| `config.appearance.theme` | string | Название темы для стилизации |
+| `config.appearance.name` | string | Название приложения, отображаемое в UI |
+| `config.appearance.logo` | string | URL логотипа для брендинга |
+
+## Инициализация фрейма
+
+Инициализируйте MiniKit в вашем основном компоненте, чтобы сигнализировать о готовности фрейма:
 
 ```tsx app/App.tsx
 'use client';
@@ -78,15 +78,15 @@ export default function App() {
 
   return (
     <div>
-      {/* Your app content */}
+      {/* Контент вашего приложения */}
     </div>
   );
 }
 ```
 
-## useMiniKit Hook
+## Хук useMiniKit
 
-The `useMiniKit` hook provides access to frame state and user context:
+Хук `useMiniKit` предоставляет доступ к состоянию фрейма и контексту пользователя:
 
 ```tsx any-component.tsx
 const { 
@@ -96,16 +96,16 @@ const {
 } = useMiniKit();
 ```
 
-### Context Properties
+### Свойства контекста
 
-| Property | Type | Description |
+| Свойство | Тип  | Описание    |
 |----------|------|-------------|
-| `context.user.fid` | string | Farcaster ID of the current user |
-| `context.client.added` | boolean | Whether user has saved the Mini App |
-| `context.location` | string | Where the Mini App was launched from |
+| `context.user.fid` | string | Farcaster ID текущего пользователя |
+| `context.client.added` | boolean | Сохранил ли пользователь мини-приложение |
+| `context.location` | string | Откуда было запущено мини-приложение |
 
 <Warning>
-Context data can be spoofed and should not be used for authentication. Use `useAuthenticate` for secure user verification.
+Данные контекста могут быть подделаны и не должны использоваться для аутентификации. Используйте `useAuthenticate` для безопасной проверки пользователя.
 </Warning>
 
 
