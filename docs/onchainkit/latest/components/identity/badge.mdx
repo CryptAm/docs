@@ -2,11 +2,11 @@
 title: "Badge"
 ---
 
-Use `Badge` component along with [`Avatar`](/onchainkit/identity/avatar) or [`Name`](/onchainkit/identity/name) components to display user attestations attached to their account
+Используйте компонент `Badge` вместе с компонентами [`Avatar`](/onchainkit/identity/avatar) или [`Name`](/onchainkit/identity/name), чтобы отображать аттестации пользователя, прикрепленные к его аккаунту.
 
-## Usage
+## Использование
 
-Badge with default colors:
+Бейдж с цветами по умолчанию:
 
 <CodeGroup>
 ```tsx tsx
@@ -33,7 +33,7 @@ import { Badge } from '@coinbase/onchainkit/identity';
   <Badge className="badge" />
 </App> */}
 
-Badge with custom colors:
+Бейдж с кастомными цветами:
 
 ```tsx
 import { Badge } from '@coinbase/onchainkit/identity';
@@ -46,9 +46,9 @@ import { Badge } from '@coinbase/onchainkit/identity';
   height="auto"
 />
 
-## Badge with Tooltip
+## Бейдж с подсказкой (Tooltip)
 
-You can enable a tooltip for the attestation badge to provide context about what the badge represents:
+Вы можете включить подсказку для бейджа аттестации, чтобы предоставить контекст о том, что он представляет:
 
 ```tsx
 import { Badge } from '@coinbase/onchainkit/identity';
@@ -68,7 +68,7 @@ import { Badge } from '@coinbase/onchainkit/identity';
   <Badge tooltip={true} className="badge" />
 </App> */}
 
-With custom tooltip text:
+С кастомным текстом подсказки:
 
 ```tsx
 import { Badge } from '@coinbase/onchainkit/identity';
@@ -88,20 +88,20 @@ import { Badge } from '@coinbase/onchainkit/identity';
   <Badge tooltip="Coinbase Verified Account" className="badge" />
 </App> */}
 
-## Props
+## Свойства
 
 [`BadgeReact`](/onchainkit/identity/types#badgereact)
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | `string` | Optional className override for top span element |
-| `tooltip` | `boolean \| string` | Controls whether the badge shows a tooltip on hover. When `true`, displays the attestation name. When a string is provided, shows that custom text instead. Defaults to `false` |
+| Свойство | Тип  | Описание    |
+|----------|------|-------------|
+| `className` | `string` | Опциональное переопределение className для верхнего span элемента |
+| `tooltip` | `boolean \| string` | Управляет показом подсказки при наведении на бейдж. При `true` отображает название аттестации. При передаче строки показывает этот кастомный текст. По умолчанию `false` |
 
-## Badge on `<Name />` and `<Avatar />`
+## Бейдж на `<Name />` и `<Avatar />`
 
-Badge with [`<Name />`](/onchainkit/identity/name), best used when [`<Name />`](/onchainkit/identity/name) are displayed alongside [`<Avatar />`](/onchainkit/identity/avatar) components.
+Бейдж с [`<Name />`](/onchainkit/identity/name), лучше всего использовать, когда [`<Name />`](/onchainkit/identity/name) отображается вместе с компонентами [`<Avatar />`](/onchainkit/identity/avatar).
 
-In both examples we use the Coinbase [Verified Account](https://base.easscan.org/schema/view/0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9) schema ID to show the Coinbase verified badge on the Name and Avatar components.
+В обоих примерах мы используем ID схемы Coinbase [Verified Account](https://base.easscan.org/schema/view/0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9), чтобы показать бейдж верификации Coinbase на компонентах Name и Avatar.
 
 ```tsx
 import { base } from 'viem/chains';
@@ -117,7 +117,7 @@ const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
   address={address}
 >
   <Name address={address}>
-    <Badge tooltip={true} /> {/* With tooltip that shows attestation name */}
+    <Badge tooltip={true} /> {/* С подсказкой, показывающей название аттестации */}
   </Name>
 </Identity>
 ```
@@ -138,7 +138,7 @@ const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
   </Identity>
 </App> */}
 
-Badge with [`<Avatar />`](/onchainkit/identity/avatar), best used when [`<Avatar />`](/onchainkit/identity/avatar) is not paired with any labels.
+Бейдж с [`<Avatar />`](/onchainkit/identity/avatar), лучше всего использовать, когда [`<Avatar />`](/onchainkit/identity/avatar) не сопровождается никакими подписями.
 
 ```tsx
 import { base } from 'viem/chains';
