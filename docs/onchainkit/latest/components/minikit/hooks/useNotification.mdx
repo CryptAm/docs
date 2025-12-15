@@ -1,46 +1,46 @@
 ---
 title: useNotification 
-description: Send notifications via a backend proxy to users who saved your Mini App 
+description: Отправка уведомлений через бэкенд-прокси пользователям, сохранившим ваше мини-приложение
 ---
 
-Defined in [@coinbase/onchainkit](https://github.com/coinbase/onchainkit)
+Определен в [@coinbase/onchainkit](https://github.com/coinbase/onchainkit)
 
 <Warning>
-This hook is now deprecated. Please follow the [Notifications Guide](/mini-apps/core-concepts/notifications) for implementation.
+Этот хук устарел. Пожалуйста, следуйте [Notifications Guide](/mini-apps/core-concepts/notifications) для реализации.
 </Warning>
 
 
 <Info>
-Allows Mini Apps to send push notifications to users who have saved your app. Notifications require a backend proxy route to handle the actual delivery and enforce rate limiting.
+Позволяет мини-приложениям отправлять push-уведомления пользователям, которые сохранили ваше приложение. Уведомления требуют бэкенд-прокси маршрута для обработки фактической доставки и применения ограничений по частоте.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="options" type="NotificationOptions" required>
-Configuration object for the notification to send.
+Объект конфигурации для отправляемого уведомления.
 
-<Expandable title="NotificationOptions properties">
+<Expandable title="Свойства NotificationOptions">
 <ParamField body="title" type="string" required>
-The notification title (maximum 100 characters).
+Заголовок уведомления (максимум 100 символов).
 </ParamField>
 
 <ParamField body="body" type="string" required>
-The notification message body (maximum 500 characters).
+Основное сообщение уведомления (максимум 500 символов).
 </ParamField>
 
 <ParamField body="targetFid" type="string" optional>
-Specific user FID to send notification to. If not provided, sends to all users who saved your Mini App.
+Конкретный FID пользователя для отправки уведомления. Если не указан, отправляется всем пользователям, которые сохранили ваше мини-приложение.
 </ParamField>
 
 <ParamField body="actionUrl" type="string" optional>
-URL to open when notification is tapped. Defaults to your Mini App URL.
+URL для открытия при нажатии на уведомление. По умолчанию используется URL вашего мини-приложения.
 </ParamField>
 </Expandable>
 </ParamField>
 
-## Required Backend Setup
+## Требуемая настройка бэкенда
 
-Notifications require a backend proxy route to handle delivery and rate limiting:
+Уведомления требуют бэкенд-прокси маршрута для обработки доставки и ограничения частоты:
 
 <RequestExample>
 ```typescript app/api/minikit/notifications/route.ts
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
   try {
     const { title, body, targetFid, actionUrl }: NotificationRequest = await request.json();
     
-    // Validate request
+    // Валидация запроса
     if (!title || !body) {
       return NextResponse.json(
         { error: 'Title and body are required' },
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Check rate limits (implement your own rate limiting logic)
+    // Проверка ограничений частоты (реализуйте свою логику ограничения частоты)
     const isRateLimited = await checkRateLimit(request);
     if (isRateLimited) {
       return NextResponse.json(
@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Forward to Farcaster notification API
+    // Перенаправление в Farcaster API уведомлений
     const response = await fetch(`${FARCASTER_API_URL}/notifications`, {
       method: 'POST',
       headers: {
@@ -118,9 +118,9 @@ export async function POST(request: NextRequest) {
 }
 
 async function checkRateLimit(request: NextRequest): Promise<boolean> {
-  // Implement your rate limiting logic here
-  // Consider using Redis or a database to track notification counts
-  // Return true if rate limit is exceeded
+  // Реализуйте свою логику ограничения частоты здесь
+  // Рассмотрите использование Redis или базы данных для отслеживания количества уведомлений
+  // Верните true, если лимит частоты превышен
   return false;
 }
 ```
@@ -148,18 +148,18 @@ async def send_notification(
     notification: NotificationRequest,
     background_tasks: BackgroundTasks
 ):
-    # Validate input
+    # Валидация ввода
     if len(notification.title) > 100:
         raise HTTPException(status_code=400, detail="Title too long")
     
     if len(notification.body) > 500:
         raise HTTPException(status_code=400, detail="Body too long")
     
-    # Check rate limits
+    # Проверка ограничений частоты
     if await is_rate_limited():
         raise HTTPException(status_code=429, detail="Rate limit exceeded")
     
-    # Prepare payload
+    # Подготовка полезной нагрузки
     payload = {
         "title": notification.title,
         "body": notification.body,
@@ -168,7 +168,7 @@ async def send_notification(
         "appId": os.getenv("MINI_APP_ID"),
     }
     
-    # Send to Farcaster API
+    # Отправка в Farcaster API
     async with httpx.AsyncClient() as client:
         response = await client.post(
             f"{FARCASTER_API_URL}/notifications",
@@ -188,12 +188,12 @@ async def send_notification(
         return response.json()
 
 async def is_rate_limited() -> bool:
-    # Implement rate limiting logic
+    # Реализуйте логику ограничения частоты
     return False
 ```
 </RequestExample>
 
-## Frontend Usage
+## Использование на фронтенде
 
 <RequestExample>
 ```tsx components/GameCompletion.tsx
@@ -291,7 +291,7 @@ export default function SocialUpdates({ userFid }) {
       await sendNotification({
         title: getNotificationTitle(updateType),
         body: getNotificationBody(updateType, details),
-        // Don't specify targetFid to notify all saved users
+        // Не указывайте targetFid, чтобы уведомить всех сохраненных пользователей
       });
     } catch (error) {
       console.error('Failed to send social update:', error);
@@ -338,16 +338,16 @@ export default function SocialUpdates({ userFid }) {
 ```
 </RequestExample>
 
-## Rate Limiting Guidelines
+## Рекомендации по ограничению частоты
 
-### Recommended Limits
-- **Per user**: Maximum 10 notifications per hour
-- **Per app**: Maximum 1000 notifications per hour
-- **Burst protection**: Maximum 3 notifications per minute
+### Рекомендуемые лимиты
+- **На пользователя**: Максимум 10 уведомлений в час
+- **На приложение**: Максимум 1000 уведомлений в час
+- **Защита от всплесков**: Максимум 3 уведомления в минуту
 
-### Implementation Strategy
+### Стратегия реализации
 ```typescript lib/rate-limit.ts
-// Redis-based rate limiting example
+// Пример ограничения частоты на основе Redis
 import Redis from 'ioredis';
 
 const redis = new Redis(process.env.REDIS_URL);
@@ -356,54 +356,54 @@ async function checkRateLimit(appId: string, userFid?: string): Promise<boolean>
   const now = Date.now();
   const hourKey = `notifications:${appId}:${Math.floor(now / 3600000)}`;
   
-  // Check app-wide limits
+  // Проверка общих лимитов приложения
   const appCount = await redis.incr(hourKey);
   await redis.expire(hourKey, 3600);
   
   if (appCount > 1000) {
-    return true; // Rate limited
+    return true; // Ограничение частоты
   }
   
-  // Check per-user limits if targeting specific user
+  // Проверка лимитов на пользователя, если указан конкретный пользователь
   if (userFid) {
     const userKey = `notifications:${appId}:user:${userFid}:${Math.floor(now / 3600000)}`;
     const userCount = await redis.incr(userKey);
     await redis.expire(userKey, 3600);
     
     if (userCount > 10) {
-      return true; // Rate limited
+      return true; // Ограничение частоты
     }
   }
   
-  return false; // Not rate limited
+  return false; // Нет ограничения частоты
 }
 ```
 
-## Best Practices
+## Рекомендации
 
-### Content Guidelines
-- **Be relevant**: Only send notifications related to user activity or time-sensitive events
-- **Personalize**: Use user-specific information when available
-- **Clear value**: Ensure each notification provides clear value to the recipient
-- **Timing**: Send notifications at appropriate times (avoid late night/early morning)
+### Рекомендации по контенту
+- **Будьте релевантны**: Отправляйте уведомления только о деятельности пользователя или срочных событиях
+- **Персонализируйте**: Используйте информацию, специфичную для пользователя, когда она доступна
+- **Четкая ценность**: Убедитесь, что каждое уведомление предоставляет четкую ценность получателю
+- **Время отправки**: Отправляйте уведомления в подходящее время (избегайте поздней ночи/раннего утра)
 
-### Technical Considerations
-- **Error handling**: Always handle notification failures gracefully
-- **Retry logic**: Implement exponential backoff for failed deliveries
-- **Analytics**: Track notification delivery rates and user engagement
-- **Privacy**: Respect user notification preferences and provide opt-out mechanisms
+### Технические соображения
+- **Обработка ошибок**: Всегда корректно обрабатывайте сбои уведомлений
+- **Логика повторных попыток**: Реализуйте экспоненциальную отсрочку для неудачных доставок
+- **Аналитика**: Отслеживайте показатели доставки уведомлений и вовлеченность пользователей
+- **Конфиденциальность**: Уважайте настройки уведомлений пользователей и предоставляйте механизмы отмены подписки
 
-### User Experience
-- **Frequency control**: Allow users to control notification frequency
-- **Category filters**: Let users choose types of notifications they want
-- **Action relevance**: Ensure notification action URLs are contextually relevant
+### Пользовательский опыт
+- **Контроль частоты**: Позволяйте пользователям контролировать частоту уведомлений
+- **Фильтры категорий**: Позволяйте пользователям выбирать типы уведомлений, которые они хотят получать
+- **Релевантность действий**: Убедитесь, что URL действий уведомлений контекстуально релевантны
 
 <Warning>
-Excessive or irrelevant notifications may lead to users removing your Mini App. Always prioritize user experience over engagement metrics.
+Чрезмерные или нерелевантные уведомления могут привести к удалению вашего мини-приложения пользователями. Всегда отдавайте приоритет пользовательскому опыту над метриками вовлеченности.
 </Warning>
 
 <Info>
-When implemented thoughtfully, notifications can significantly increase user engagement and retention for your Mini App. Focus on providing genuine value with each notification sent.
+При продуманной реализации уведомления могут значительно повысить вовлеченность и удержание пользователей вашего мини-приложения. Сосредоточьтесь на предоставлении реальной ценности с каждым отправленным уведомлением.
 </Info>
 
 
