@@ -10,22 +10,22 @@ import { Danger } from "/snippets/danger.mdx";
   height="364"/>
 </Frame>
 
-The `Buy` components provide a comprehensive interface for users to purchase [Tokens](/onchainkit/token/types#token).
+Компоненты `Buy` предоставляют комплексный интерфейс для пользователей, чтобы покупать [Tokens](/onchainkit/token/types#token).
 
-The `Buy` component supports token swaps from USDC and ETH by default with the option to provide an additional token of choice using the `fromToken` prop. In addition, users are able to purchase tokens using their Coinbase account, Apple Pay, or debit card.
+Компонент `Buy` поддерживает обмен токенов с USDC и ETH по умолчанию, с возможностью предоставить дополнительный токен на выбор, используя пропс `fromToken`. Кроме того, пользователи могут покупать токены, используя свой аккаунт Coinbase, Apple Pay или дебетовую карту.
 
 <Note>
-The Apple Pay and Debit Card onramp options are only available for Coinbase supported assets.  
+Опции пополнения через Apple Pay и дебетовую карту доступны только для активов, поддерживаемых Coinbase.
 </Note>
 
 <Note>
-This component requires a `projectId` to be set in the `OnchainKitProvider`. You can find your `projectId` on [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/onchainkit).
+Для этого компонента требуется установка `projectId` в `OnchainKitProvider`. Вы можете найти свой `projectId` на [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/onchainkit).
 </Note>
 
 
-## Usage
+## Использование
 
-Example using `@coinbase/onchainkit/buy`.
+Пример использования `@coinbase/onchainkit/buy`.
 
 ```tsx
 import { Buy } from '@coinbase/onchainkit/buy'; // [!code focus]
@@ -66,24 +66,24 @@ export default function BuyComponents() { // [!code focus]
 </App> */}
 
 <Danger>
-**Note: This interface is for demonstration purposes only.**
+**Примечание: этот интерфейс предназначен только для демонстрационных целей.**
 
-Swap and Onramp flows will execute and work out of the box when you implement the component in your own app.
+Потоки обмена и пополнения будут выполняться и работать «из коробки», когда вы внедрите компонент в свое приложение.
 </Danger>
 
 
-### Sponsor gas with Paymaster
+### Спонсирование газа с помощью Paymaster
 
-To sponsor swap transactions for your users, toggle the Paymaster using the `isSponsored` prop.
+Чтобы спонсировать транзакции обмена для ваших пользователей, включите Paymaster, используя пропс isSponsored.
 
-By default, this will use the [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/bundler-and-paymaster) Paymaster.
+По умолчанию будет использоваться Paymaster от [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/bundler-and-paymaster).
 
-You can configure sponsorship settings on the [Paymaster](https://portal.cdp.coinbase.com/products/bundler-and-paymaster) page.
-For security reasons, we recommend setting up a contract allowlist in the Portal. Without a contract allowlist defined, your Paymaster will only be able to sponsor up to $1.
+Вы можете настроить параметры спонсирования на странице [Paymaster](https://portal.cdp.coinbase.com/products/bundler-and-paymaster).
+По соображениям безопасности мы рекомендуем настроить разрешенный список контрактов в портале. Без определенного списка разрешенных контрактов ваш Paymaster сможет спонсировать только до $1.
 
-The contract used in our Swap API is Uniswap's [Universal Router](https://basescan.org/address/0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD), which is deployed on Base at `0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD`.
+Контракт, используемый в нашем API для обмена, - это [Universal Router](https://basescan.org/address/0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD), от Uniswap, который развернут в сети Base по адресу `0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD`.
 
-Note that gas sponsorship will only work for Smart Wallets.
+Обратите внимание, что спонсирование газа будет работать только для Смарт-кошельков.
 
 ```tsx
 import { Buy } from '@coinbase/onchainkit/buy'; // [!code focus]
@@ -106,35 +106,35 @@ export default function BuyComponents() { // [!code focus]
 } // [!code focus]
 ```
 
-## Props
+## Свойства
 
 [`BuyProps`](#buyprops)
 
 ```ts
 type BuyProps = {
-  /** Optional className override for top div element. */
+  /** Опциональное переопределение className для верхнего div элемента. */
   className?: string;
   config?: {
-    /** Maximum acceptable slippage for a swap (e.g., 3 for 3%). This is a percentage, not basis points. */
+    /** Максимально допустимое проскальзывание для обмена (например, 3 для 3%). Это процент, а не базисные пункты. */
     maxSlippage: number;
   };
-  /** Disables Buy button */
+  /** Отключает кнопку Buy */
   disabled?: boolean;
   experimental?: {
-    /** Whether to use a DEX aggregator. (default: false) */
+    /** Использовать ли DEX-агрегатор. (по умолчанию: false) */
     useAggregator: boolean;
   };
-  /** An optional setting to sponsor swaps with a Paymaster. (default: false) */
+  /** Опциональная настройка для спонсирования обменов через Paymaster. (по умолчанию: false) */
   isSponsored?: boolean;
-  /** An optional callback function that handles errors within the provider. */
+  /** Опциональная функция-обработчик ошибок внутри провайдера. */
   onError?: (error: SwapError) => void;
-  /** An optional callback function that exposes the component lifecycle state */
+  /** Опциональная функция-обработчик, которая предоставляет доступ к состоянию жизненного цикла компонента */
   onStatus?: (lifecycleStatus: LifecycleStatus) => void;
-  /** An optional callback function that exposes the transaction receipt */
+  /** Опциональная функция-обработчик, которая предоставляет доступ к квитанции о транзакции */
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
-  /** An optional token to swap from */
+  /** Опциональный токен, который меняется */
   fromToken?: Token;
-  /** The token to swap to */
+  /** Токен, на который происходит обмен */
   toToken: Token;
 };
 ```
