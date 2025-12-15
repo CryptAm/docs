@@ -1,15 +1,15 @@
 ---
 title: SwapSettings
 sidebarTitle: SwapSettings
-description: Customizable components for token Swap settings and slippage configuration
+description: Настраиваемые компоненты для настроек обмена токенов и конфигурации проскальзывания
 ---
 
-The `SwapSettings` component enables customizable slippage configuration in the `Swap` component.
+Компонент `SwapSettings` позволяет настраивать конфигурацию проскальзывания в компоненте `Swap`.
 
-## Usage
+## Использование
 
 ```tsx
-// omitted for brevity
+// опущено для краткости
 import {
   Swap,
   SwapSettings,
@@ -38,9 +38,9 @@ import {
   height="520px"
 />
 
-### Override styles
+### Переопределение стилей
 
-You can override component styles using `className`.
+Вы можете переопределить стили компонента, используя `className`.
 
 ```tsx
 import {
@@ -51,7 +51,7 @@ import {
   SwapSettingsSlippageTitle,
 } from '@coinbase/onchainkit/swap';
 // ---cut-before---
-// omitted for brevity
+// опущено для краткости
 <Swap>
   <SwapSettings>
     <SwapSettingsSlippageTitle className="text-[#EA580C]">
@@ -72,12 +72,12 @@ import {
   height="520px"
 />
 
-### Override icon
+### Переопределение иконки
 
-You can override the icon using the icon prop.
+Вы можете переопределить иконку, используя проп icon.
 
 ```tsx
-// suppress twoslash error
+// подавление twoslash ошибки
 declare const baseIcon: any;
 
 import {
@@ -88,7 +88,7 @@ import {
   SwapSettingsSlippageTitle,
 } from '@coinbase/onchainkit/swap';
 // ---cut-before---
-// omitted for brevity
+// опущено для краткости
 <SwapSettings icon={baseIcon}>
 // ---cut-after---
 </SwapSettings>
@@ -100,9 +100,9 @@ import {
   height="520px"
 />
 
-### Add text
+### Добавление текста
 
-You can add text next to the `SwapSettings` component using text.
+Вы можете добавить текст рядом с компонентом `SwapSettings` используя проп text.
 
 ```tsx
 import {
@@ -113,7 +113,7 @@ import {
   SwapSettingsSlippageTitle,
 } from '@coinbase/onchainkit/swap';
 // ---cut-before---
-// omitted for brevity
+// опущено для краткости
 <SwapSettings text="Settings">
 // ---cut-after---
 </SwapSettings>
@@ -125,9 +125,9 @@ import {
   height="520px"
 />
 
-### Override text
+### Переопределение текста
 
-You can override component text by providing children text.
+Вы можете переопределить текст компонента, предоставив дочерний текст.
 
 ```tsx
 import {
@@ -157,23 +157,23 @@ import {
   height="520px"
 />
 
-## Components
+## Компоненты
 
-- `<SwapSettings />` - Container component for swap slippage settings.
-- `<SwapSettingsSlippageDescription />` - Displays description text explaining the slippage setting.
-- `<SwapSettingsSlippageInput />` - Input field for users to enter their desired max slippage percentage
-- `<SwapSettingsSlippageTitle />` - Displays the title for the slippage settings section
+- `<SwapSettings />` - Компонент-контейнер для настроек проскальзывания обмена.
+- `<SwapSettingsSlippageDescription />` - Отображает описательный текст, объясняющий настройку проскальзывания.
+- `<SwapSettingsSlippageInput />` - Поле ввода для пользователей, чтобы ввести желаемый процент максимального проскальзывания
+- `<SwapSettingsSlippageTitle />` - Отображает заголовок для раздела настроек проскальзывания
 
-## Props
+## Свойства
 
 ### SwapSettingsProps
 
 ```ts
 type SwapSettingsProps = {
   children?: ReactNode;
-  className?: string; // Optional className override for top div element
-  icon?: ReactNode; // Optional icon override
-  text?: string; // Optional text override
+  className?: string; // Опциональное переопределение className для верхнего элемента div
+  icon?: ReactNode; // Опциональное переопределение иконки
+  text?: string; // Опциональное переопределение текста
 };
 ```
 
@@ -182,7 +182,7 @@ type SwapSettingsProps = {
 ```ts
 type SwapSettingsSlippageDescriptionProps = {
   children: ReactNode;
-  className?: string; // Optional className override for top div element
+  className?: string; // Опциональное переопределение className для верхнего элемента div
 };
 ```
 
@@ -190,12 +190,12 @@ type SwapSettingsSlippageDescriptionProps = {
 
 ```ts
 type SwapSettingsSlippageInputProps = {
-  className?: string; // Optional className override for top div element
+  className?: string; // Опциональное переопределение className для верхнего элемента div
   render?: (props: {
     slippageSetting: SlippageSettingsType;
     setSlippageSetting: (slippageSetting: SlippageSettingsType) => void;
     setSlippageValue: (number: number) => void;
-  }) => ReactNode; // Custom render function for complete control of slippage input rendering
+  }) => ReactNode; // Пользовательская функция рендера для полного контроля над отображением ввода проскальзывания
 };
 ```
 
@@ -204,7 +204,7 @@ type SwapSettingsSlippageInputProps = {
 ```ts
 type SwapSettingsSlippageTitleProps = {
   children: ReactNode;
-  className?: string; // Optional className override for top div element
+  className?: string; // Опциональное переопределение className для верхнего элемента div
 };
 ```
 
