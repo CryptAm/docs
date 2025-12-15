@@ -1,28 +1,28 @@
 ---
 title: usePrimaryButton
-description: Configure and handle the persistent primary button
+description: Настройка и обработка постоянной основной кнопки
 ---
 
-Defined in [@coinbase/onchainkit](https://github.com/coinbase/onchainkit)
+Определен в [@coinbase/onchainkit](https://github.com/coinbase/onchainkit)
 
 <Info>
-Configures a persistent primary button that appears at the bottom of the Mini App frame. Perfect for global actions that should always be accessible.
+Настраивает постоянную основную кнопку, которая появляется в нижней части фрейма мини-приложения. Идеально подходит для глобальных действий, которые всегда должны быть доступны.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="options" type="SetPrimaryButtonOptions" required>
-Configuration object for the primary button appearance and behavior.
+Объект конфигурации для внешнего вида и поведения основной кнопки.
 
-<Expandable title="SetPrimaryButtonOptions properties">
+<Expandable title="Свойства SetPrimaryButtonOptions">
 <ParamField body="text" type="string" required>
-The text to display on the primary button.
+Текст для отображения на основной кнопке.
 </ParamField>
 </Expandable>
 </ParamField>
 
 <ParamField body="callback" type="() => void" required>
-Function to execute when the primary button is clicked.
+Функция для выполнения при нажатии на основную кнопку.
 </ParamField>
 
 <RequestExample>
@@ -39,7 +39,7 @@ enum GameState {
 export default function GameComponent() {
   const [gameState, setGameState] = useState(GameState.STOPPED);
 
-  // Configure primary button based on game state
+  // Настройка основной кнопки в зависимости от состояния игры
   usePrimaryButton(
     { 
       text: gameState === GameState.RUNNING ? 'PAUSE GAME' : 'START GAME' 
@@ -70,7 +70,7 @@ export default function FormComponent() {
   const [formData, setFormData] = useState({ name: '', email: '' });
   const [isValid, setIsValid] = useState(false);
 
-  // Dynamic button text and action based on form state
+  // Динамический текст кнопки и действие в зависимости от состояния формы
   usePrimaryButton(
     { 
       text: isValid ? 'Submit Form' : 'Complete Form First' 
@@ -79,7 +79,7 @@ export default function FormComponent() {
       if (isValid) {
         handleSubmit();
       } else {
-        // Focus first empty field
+        // Фокус на первое пустое поле
         focusFirstEmptyField();
       }
     }
@@ -145,41 +145,41 @@ export default function CheckoutComponent() {
   );
 
   const processPurchase = async () => {
-    // Handle purchase logic
+    // Логика обработки покупки
     setStep('complete');
   };
 
   return (
     <div className="checkout-flow">
       <h2>Step: {step}</h2>
-      {/* Step-specific content */}
+      {/* Контент, специфичный для шага */}
     </div>
   );
 }
 ```
 </RequestExample>
 
-## Usage Patterns
+## Паттерны использования
 
-### Global State Management
-The primary button is perfect for actions that affect the entire app:
+### Управление глобальным состоянием
+Основная кнопка идеально подходит для действий, которые влияют на все приложение:
 
 ```tsx components/GlobalStateExamples.tsx
-// Game controls
+// Управление игрой
 usePrimaryButton(
   { text: isPlaying ? 'Pause' : 'Play' },
   toggleGameState
 );
 
-// Modal controls  
+// Управление модальным окном
 usePrimaryButton(
   { text: 'Close' },
   closeModal
 );
 ```
 
-### Form Submission
-Use for primary form actions:
+### Отправка формы
+Используйте для основных действий формы:
 
 ```tsx components/FormSubmit.tsx
 usePrimaryButton(
@@ -188,8 +188,8 @@ usePrimaryButton(
 );
 ```
 
-### Multi-Step Flows
-Navigate through complex workflows:
+### Многошаговые процессы
+Навигация по сложным рабочим процессам:
 
 ```tsx components/MultiStepFlow.tsx
 usePrimaryButton(
@@ -198,30 +198,30 @@ usePrimaryButton(
 );
 ```
 
-## Best Practices
+## Рекомендации
 
-### Button Text Guidelines
-- **Keep it action-oriented**: "Start Game", "Submit Order", "Continue"
-- **Be specific**: "Save Changes" vs generic "Submit"
-- **Indicate state**: "Pause Game" when playing, "Resume Game" when paused
-- **Stay concise**: Aim for 1-3 words when possible
+### Рекомендации по тексту кнопки
+- **Делайте ориентированным на действие**: "Начать игру", "Отправить заказ", "Продолжить"
+- **Будьте конкретны**: "Сохранить изменения" вместо общего "Отправить"
+- **Указывайте состояние**: "Пауза" во время игры, "Продолжить" на паузе
+- **Будьте краткими**: Стремитесь к 1-3 словам, когда это возможно
 
-### Layout Considerations
-- The primary button appears at the bottom of the frame
-- **Don't duplicate actions**: Avoid having the same action as an in-content button
-- **Consider mobile**: Button is optimized for thumb accessibility
-- **Test across clients**: Button appearance may vary between Farcaster clients
+### Соображения по макету
+- Основная кнопка появляется в нижней части фрейма
+- **Не дублируйте действия**: Избегайте наличия того же действия в виде кнопки в контенте
+- **Учитывайте мобильные устройства**: Кнопка оптимизирована для доступности большим пальцем
+- **Тестируйте на разных клиентах**: Внешний вид кнопки может отличаться между клиентами Farcaster
 
-### Performance Tips
-- **Memoize callbacks**: Use `useCallback` for complex button handlers
-- **Avoid frequent changes**: Don't update button text on every render
-- **Batch state updates**: Update button config and app state together
+### Советы по производительности
+- **Мемоизируйте колбэки**: Используйте useCallback для сложных обработчиков кнопок
+- **Избегайте частых изменений**: Не обновляйте текст кнопки при каждом рендере
+- **Группируйте обновления состояния**: Обновляйте конфигурацию кнопки и состояние приложения вместе
 
 ```tsx components/HandlePrimaryAction.tsx
 import { useCallback } from 'react';
 
 const handlePrimaryAction = useCallback(() => {
-  // Expensive operation
+  // Ресурсоемкая операция
   performComplexAction();
 }, [dependencies]);
 
@@ -232,11 +232,11 @@ usePrimaryButton(
 ```
 
 <Warning>
-The primary button is persistent across your entire Mini App session. Only use `usePrimaryButton` once per component tree to avoid conflicts.
+Основная кнопка сохраняется на протяжении всей сессии вашего мини-приложения. Используйте `usePrimaryButton` только один раз в дереве компонентов, чтобы избежать конфликтов.
 </Warning>
 
 <Info>
-The primary button provides a native, accessible way to surface your most important action. It's especially effective for games, forms, and multi-step workflows where users need consistent access to the next action.
+Основная кнопка предоставляет нативный, доступный способ отображения вашего самого важного действия. Она особенно эффективна для игр, форм и многошаговых рабочих процессов, где пользователям нужен постоянный доступ к следующему действию.
 </Info>
 
 
