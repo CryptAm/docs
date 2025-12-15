@@ -2,37 +2,36 @@
 title: "FundButton"
 ---
 
-The `<FundButton />` component provides a way for users to fund their wallet without leaving your app. It automatically
-detects the user's wallet type (EOA vs Smart Wallet) and directs them to the appropriate funding URL.
+Компонент `<FundButton />` предоставляет пользователям возможность пополнить свой кошелек, не покидая ваше приложение. Он автоматически определяет тип кошелька пользователя (EOA vs Смарт-кошелек) и направляет его на соответствующий URL для пополнения.
 
-If your user connects a Coinbase Smart Wallet, it provides an easy way to access the Coinbase Smart Wallet 
-[Fund](https://keys.coinbase.com/fund) flow. Users will be able to buy and receive crypto, or use their Coinbase 
-balances onchain with [Magic Spend](https://www.smartwallet.dev/guides/magic-spend).
+Если ваш пользователь подключит Coinbase Smart Wallet, он предоставляет простой способ доступа к потоку 
+[Fund](https://keys.coinbase.com/fund) для Coinbase Smart Wallet. Пользователи смогут покупать и получать
+криптовалюту или использовать свои балансы Coinbase в ончейне с помощью [Magic Spend](https://www.smartwallet.dev/guides/magic-spend).
 
-If your user connects any other EOA wallet, it provides an easy way to access [Coinbase Onramp](https://docs.cdp.coinbase.com/onramp/docs/welcome/)
-where your users will also be able to buy crypto using a fiat payment method, or transfer existing crypto from their
-Coinbase account.
+Если ваш пользователь подключит любой другой EOA-кошелек, он предоставляет простой способ доступа к [Coinbase Onramp](https://docs.cdp.coinbase.com/onramp/docs/welcome/),
+где ваши пользователи также смогут покупать криптовалюту, используя фиатный метод оплаты, или переводить существующую криптовалюту 
+со своего аккаунта Coinbase.
 
  
 
-## Walkthrough
+## Пошаговое руководство
 
 <Steps>
-  <Step title="Get your Project ID">
-  1. Get your Project ID from the [Coinbase Developer Platform Dashboard](https://portal.cdp.coinbase.com/).
+  <Step title="Получите ваш Project ID">
+  1. Получите ваш Project ID из [Coinbase Developer Platform Dashboard](https://portal.cdp.coinbase.com/).
 
 <Frame>
   <img alt="OnchainKit copy Project Id" src="/images/onchainkit/copy-project-id.png" />
 </Frame>
 
-  2. Add your Project ID to your `.env` file.
+  2. Добавьте ваш Project ID в ваш файл `.env`.
 
   ```tsx .env
   NEXT_PUBLIC_ONCHAINKIT_API_KEY=YOUR_PUBLIC_API_KEY
   NEXT_PUBLIC_CDP_PROJECT_ID=YOUR_CDP_PROJECT_ID // [!code ++]
   ```
   </Step>
-  <Step title="Add Project ID to OnchainKitProvider">
+  <Step title="Добавьте Project ID в OnchainKitProvider">
   ```tsx
   <OnchainKitProvider
     apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY} 
@@ -44,7 +43,7 @@ Coinbase account.
   ```
   </Step>
 
-  <Step title="Get sessionToken">
+  <Step title="Получите sessionToken">
  [Getting session token](https://docs.cdp.coinbase.com/onramp-&-offramp/session-token-authentication)
   </Step>
 
@@ -80,11 +79,11 @@ Coinbase account.
   </Step>
 </Steps>
 
-## Customizing the funding experience
+## Кастомизация опыта пополнения
 
-You can customize the Coinbase Onramp experience by bringing your own Onramp URL and passing it to the ```<FundButton />```
-component. We provide the [`getOnrampBuyUrl`](/onchainkit/fund/get-onramp-buy-url) utility to help you generate a Coinbase Onramp
-URL tailored to your use case.
+Вы можете кастомизировать опыт Coinbase Onramp, используя свой собственный URL Onramp и передавая его в компонент `<FundButton />`. 
+Мы предоставляем утилиту [`getOnrampBuyUrl`](/onchainkit/fund/get-onramp-buy-url), которая поможет вам сгенерировать URL Coinbase Onramp, 
+адаптированный под ваш случай использования.
 
 ```tsx
 import { FundButton, getOnrampBuyUrl } from '@coinbase/onchainkit/fund';
@@ -132,7 +131,7 @@ const onrampBuyUrl = getOnrampBuyUrl({
   </FundWrapper>
 </App> */}
 
-You can choose to have the funding URL open in a popup or a new tab using the `openIn` prop.
+Вы можете выбрать, чтобы URL для пополнения открывался во всплывающем окне или новой вкладке, используя свойство `openIn`.
 
 ```tsx
 <FundButton openIn={"tab"} sessionToken={sessionToken} />
@@ -163,9 +162,9 @@ You can choose to have the funding URL open in a popup or a new tab using the `o
   </FundWrapper>
 </App> */}
 
-## Customizing the fund button
+## Кастомизация кнопки пополнения
 
-You can override the text on the fund button using the `text` prop, and hide the icon with the `hideIcon` prop.
+Вы можете переопределить текст на кнопке пополнения, используя свойство `text`, и скрыть иконку с помощью свойства `hideIcon`.
 
 ```tsx
 <FundButton text={"Onramp"} hideIcon={true} sessionToken={sessionToken} />
@@ -196,7 +195,7 @@ You can override the text on the fund button using the `text` prop, and hide the
   </FundWrapper>
 </App> */}
 
-You can hide the text with the `hideText` prop.
+Вы можете скрыть текст с помощью свойства `hideText`.
 
 ```tsx
 <FundButton hideText={true} sessionToken={sessionToken} />
@@ -229,9 +228,9 @@ You can hide the text with the `hideText` prop.
   </FundWrapper>
 </App> */}
 
-See [`FundButtonReact`](/onchainkit/fund/types#fundbuttonreact) for the full list of customization options.
+См. [`FundButtonReact`](/onchainkit/fund/types#fundbuttonreact) для полного списка опций кастомизации.
 
-## Props
+## Свойства
 
 [`FundButtonProps`](#fundbuttonprops)
 
@@ -247,29 +246,29 @@ type FundButtonProps =
     };
 
 type FundButtonBaseProps = {
-  /** An optional CSS class name for styling the button component */
+  /** Опциональное имя CSS-класса для стилизации кнопки */
   className?: string;
-  /** An optional React node to be displayed in the button component */
+  /** Опциональный React-узел для отображения в кнопке */
   children?: ReactNode;
-  /** A optional prop to disable the fund button */
+  /** Опциональный пропс для отключения кнопки пополнения */
   disabled?: boolean;
-  /** The state of the button component */
+  /** Состояние кнопки */
   state?: FundButtonState;
-  /** An optional prop to provide a custom funding URL */
+  /** Опциональный пропс для предоставления кастомного URL для пополнения */
   fundingUrl?: string;
-  /** Whether to open the funding flow in a tab or a popup window */
+  /** Открывать ли поток пополнения во вкладке или всплывающем окне */
   openIn?: 'popup' | 'tab';
-  /** Size of the popup window if `openIn` is set to `popup` */
+  /** Размер всплывающего окна, если `openIn` установлен в `popup` */
   popupSize?: 'sm' | 'md' | 'lg';
-  /** Where to open the target if `openIn` is set to tab */
+  /** Где открывать цель, если `openIn` установлен в tab */
   target?: string;
-  /** The currency code of the fiat amount provided in the presetFiatAmount param e.g. USD, CAD, EUR. */
+  /** Код валюты фиатной суммы, указанной в параметре presetFiatAmount, например USD, CAD, EUR. */
   fiatCurrency?: string;
-  /** A callback function that will be called when the popup window is closed */
+  /** Функция-обработчик, которая будет вызвана, когда всплывающее окно закрыто */
   onPopupClose?: () => void;
-  /** A callback function that will be called when the button is clicked */
+  /** Функция-обработчик, которая будет вызвана при нажатии на кнопку */
   onClick?: () => void;
-  /** An optional prop to provide a session token. Required if no fundingUrl is provided */
+  /** Опциональный пропс для предоставления токена сессии. Обязателен, если fundingUrl не предоставлен */
   sessionToken?: string;
 };
 ```
