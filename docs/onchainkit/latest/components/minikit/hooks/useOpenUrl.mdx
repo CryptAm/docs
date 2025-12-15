@@ -1,21 +1,21 @@
 ---
 title: useOpenUrl
-description: Open URLs within or outside the frame context
+description: Открытие URL-адресов внутри или вне контекста фрейма
 ---
 
-Defined in [@coinbase/onchainkit](https://github.com/coinbase/onchainkit)
+Определен в [@coinbase/onchainkit](https://github.com/coinbase/onchainkit)
 
 <Info>
-Opens URLs in the appropriate context - either within the Mini App environment or in external browsers. Handles cross-client compatibility automatically.
+Открывает URL-адреса в соответствующем контексте - либо внутри среды мини-приложения, либо во внешних браузерах. Автоматически обрабатывает кросс-клиентную совместимость.
 </Info>
 
-## Returns
+## Возвращает
 
 <ResponseField name="openUrl" type="(url: string) => void">
-Function that opens the specified URL. Behavior depends on the URL type and client capabilities.
+Функция, которая открывает указанный URL-адрес. Поведение зависит от типа URL и возможностей клиента.
 
 <ParamField body="url" type="string" required>
-The URL to open. Can be http/https links, deep links, or other URI schemes.
+URL-адрес для открытия. Могут быть http/https ссылки, диплинки или другие URI схемы.
 </ParamField>
 </ResponseField>
 
@@ -67,11 +67,11 @@ export default function SmartLink({ href, children, className }) {
 </RequestExample>
 
 <Warning>
-URLs opened with `useOpenUrl` may open in different contexts depending on the client. Don't rely on specific opening behavior for critical functionality.
+URL-адреса, открытые с помощью `useOpenUrl`, могут открываться в разных контекстах в зависимости от клиента. Не полагайтесь на конкретное поведение открытия для критически важной функциональности.
 </Warning>
 
 <Info>
-`useOpenUrl` automatically handles cross-client compatibility and provides the best user experience for external navigation.
+`useOpenUrl` автоматически обрабатывает кросс-клиентную совместимость и обеспечивает лучший пользовательский опыт для внешней навигации.
 </Info>
 
 
