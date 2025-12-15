@@ -1,26 +1,26 @@
 ---
 title: useComposeCast
-description: Open the cast composer with prefilled content
+description: Открытие композитора кастов с предзаполненным контентом
 ---
 
-Defined in [@coinbase/onchainkit](https://github.com/coinbase/onchainkit)
+Определен в [@coinbase/onchainkit](https://github.com/coinbase/onchainkit)
 
 <Info>
-Opens the native cast composer with prefilled text and embeds. Essential for viral growth and social sharing within Mini Apps.
+Открывает нативный композитор кастов с предзаполненным текстом и встраиваниями. Важно для вирусного роста и социального шеринга внутри мини-приложений.
 </Info>
 
-## Returns
+## Возвращает
 
 <ResponseField name="composeCast" type="(params: ComposeCastParams) => void">
-Function that opens the cast composer with specified content.
+Функция, которая открывает композитор кастов с указанным контентом.
 
-<Expandable title="ComposeCastParams properties">
+<Expandable title="Свойства ComposeCastParams">
 <ParamField body="text" type="string" required>
-The text content to prefill in the composer. Keep concise and engaging.
+Текстовый контент для предзаполнения в композиторе. Сохраняйте лаконичность и вовлекающий характер.
 </ParamField>
 
 <ParamField body="embeds" type="string[]">
-Array of URLs to embed in the cast. Usually includes your Mini App URL for sharing.
+Массив URL-адресов для встраивания в каст. Обычно включает URL вашего мини-приложения для шеринга.
 </ParamField>
 </Expandable>
 </ResponseField>
@@ -124,7 +124,7 @@ export default function CustomShareDialog() {
       embeds: [window.location.href]
     });
     
-    // Clear after sharing
+    // Очистить после шеринга
     setShareText('');
   };
 
@@ -152,56 +152,56 @@ export default function CustomShareDialog() {
 ```
 </RequestExample>
 
-## Strategic Sharing Patterns
+## Стратегические паттерны шеринга
 
-### Achievement Moments
-Share at moments of user accomplishment:
+### Моменты достижений
+Публикуйте в моменты достижений пользователя:
 
 ```tsx examples/AchievementMoments.tsx
-// After quiz completion
+// После завершения квиза
 composeCast({
   text: "I'm a Ravenclaw! 🦅 What house are you?",
   embeds: [quizUrl]
 });
 
-// After NFT mint
+// После минта NFT
 composeCast({
   text: "Just minted my first collectible! 🎨",
   embeds: [mintUrl, nftImageUrl]
 });
 
-// After game milestone
+// После вехи в игре
 composeCast({
   text: "Finally beat level 50! This game is addictive 🎮",
   embeds: [gameUrl]
 });
 ```
 
-### Viral Growth Mechanics
-Design shares that encourage interaction:
+### Механики вирусного роста
+Проектируйте публикации, которые поощряют взаимодействие:
 
 ```tsx examples/ViralGrowthMechanics.tsx
-// Challenge pattern
+// Паттерн вызова
 composeCast({
   text: "Beat my time of 2:34 if you can! ⏱️",
   embeds: [challengeUrl]
 });
 
-// Social proof pattern  
+// Паттерн социального доказательства
 composeCast({
   text: "Join 50,000+ players already playing!",
   embeds: [gameUrl]
 });
 
-// FOMO pattern
+// Паттерн FOMO (страх упустить)
 composeCast({
   text: "Limited edition drop ends in 2 hours! 🔥",
   embeds: [dropUrl]
 });
 ```
 
-### Content Personalization
-Customize shares based on user activity:
+### Персонализация контента
+Настраивайте публикации на основе активности пользователя:
 
 ```tsx examples/ContentPersonalization.tsx
 import { useMiniKit, useComposeCast } from '@coinbase/onchainkit/minikit';
@@ -231,31 +231,31 @@ export default function PersonalizedShare() {
 }
 ```
 
-## Best Practices
+## Рекомендации
 
-### Text Content
-- **Keep it concise**: Farcaster has character limits
-- **Include emotional context**: Use emojis and excitement
-- **Add clear value**: Explain why others should care
-- **Include call-to-action**: "Try it yourself", "Beat my score"
+### Текстовый контент
+- **Сохраняйте лаконичность**: В Farcaster есть ограничения на количество символов
+- **Включайте эмоциональный контекст**: Используйте эмодзи и выражайте энтузиазм
+- **Добавляйте четкую ценность**: Объясняйте, почему другим должно быть интересно
+- **Включайте призыв к действию**: "Попробуй сам", "Побей мой счет"
 
-### Embed Strategy
-- **Always include your app URL** for discoverability
-- **Add relevant media**: Images, videos, other content
-- **Test embed rendering**: Ensure metadata displays correctly
+### Стратегия встраивания
+- **Всегда включайте URL вашего приложения** для возможности обнаружения
+- **Добавляйте релевантные медиа**: Изображения, видео, другой контент
+- **Тестируйте отображение встраиваний**: Убедитесь, что метаданные отображаются корректно
 
-### Timing Optimization
-- **Post-achievement**: When users feel accomplished
-- **Social moments**: When friends are likely online  
-- **Value demonstration**: After showing app benefits
-- **Avoid interruption**: Don't break user flow
+### Оптимизация времени
+- **После достижения**: Когда пользователи чувствуют себя успешными
+- **Социальные моменты**: Когда друзья, скорее всего, онлайн
+- **Демонстрация ценности**: После показа преимуществ приложения
+- **Избегайте прерываний**: Не нарушайте поток пользователя
 
 <Warning>
-The composer opens in a native overlay or new window depending on the client. Users can modify the text before posting, so don't rely on exact text for tracking. Use URL parameters or unique embeds for attribution tracking.
+Композитор открывается в нативном оверлее или новом окне в зависимости от клиента. Пользователи могут изменять текст перед публикацией, поэтому не полагайтесь на точный текст для отслеживания. Используйте параметры URL или уникальные встраивания для атрибуции отслеживания.
 </Warning>
 
 <Info>
-`useComposeCast` is one of the most powerful hooks for viral growth. Strategic implementation of sharing at the right moments can significantly increase your Mini App's reach and user acquisition.
+`useComposeCast` - один из самых мощных хуков для вирусного роста. Стратегическая реализация шеринга в правильные моменты может значительно увеличить охват и привлечение пользователей вашего мини-приложения.
 </Info>
 
 
