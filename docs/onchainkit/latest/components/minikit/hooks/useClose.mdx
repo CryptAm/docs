@@ -1,18 +1,18 @@
 ---
 title: useClose
-description: Programmatically close the Mini App frame
+description: Программное закрытие фрейма мини-приложения
 ---
 
-Defined in [@coinbase/onchainkit](https://github.com/coinbase/onchainkit)
+Определен в [@coinbase/onchainkit](https://github.com/coinbase/onchainkit)
 
 <Info>
-Allows Mini Apps to close themselves programmatically. Useful for completion flows, cancellation actions, or after successful operations.
+Позволяет мини-приложениям закрываться программно. Полезно для процессов завершения, действий отмены или после успешных операций.
 </Info>
 
-## Returns
+## Возвращает
 
 <ResponseField name="close" type="() => void">
-Function that closes the Mini App frame and returns the user to the host application.
+Функция, которая закрывает фрейм мини-приложения и возвращает пользователя в хост-приложение.
 </ResponseField>
 
 <RequestExample>
@@ -43,7 +43,7 @@ export default function PurchaseFlow() {
       await processPurchase();
       setIsComplete(true);
       
-      // Auto-close after successful purchase
+      // Автоматическое закрытие после успешной покупки
       setTimeout(() => {
         close();
       }, 2000);
@@ -84,7 +84,7 @@ export default function ConfirmClose() {
   };
 
   const confirmClose = () => {
-    // Save any pending data
+    // Сохраните любые ожидающие данные
     savePendingChanges();
     close();
   };
@@ -112,28 +112,28 @@ export default function ConfirmClose() {
 ```
 </RequestExample>
 
-## Usage Patterns
+## Паттерны использования
 
-### Completion Flows
-Close automatically after successful operations:
+### Процессы завершения
+Автоматически закрывайте после успешных операций:
 
 ```tsx components/CompletionFlow.tsx
 const handleGameComplete = async () => {
   await saveScore(finalScore);
   
-  // Show completion screen briefly
+  // Показать экран завершения ненадолго
   setShowCompletion(true);
   
-  // Auto-close after celebration
+  // Автоматически закрыть после празднования
   setTimeout(close, 3000);
 };
 ```
 
-### Navigation Replacement
-Use close instead of navigation for simple flows:
+### Замена навигации
+Используйте закрытие вместо навигации для простых процессов:
 
 ```tsx components/NavigationReplacement.tsx
-// Instead of navigating back, close the frame
+// Вместо возврата назад закройте фрейм
 const handleCancel = () => {
   if (hasUnsavedChanges) {
     confirmAndClose();
@@ -143,8 +143,8 @@ const handleCancel = () => {
 };
 ```
 
-### Error Recovery
-Provide escape routes for error states:
+### Восстановление после ошибок
+Предоставьте пути для выхода из состояний ошибки:
 
 ```tsx components/ErrorScreen.tsx
 if (hasUnrecoverableError) {
@@ -158,37 +158,37 @@ if (hasUnrecoverableError) {
 }
 ```
 
-## Best Practices
+## Рекомендации
 
-### User Experience
-- **Confirm important actions**: Ask before closing if user has unsaved work
-- **Provide feedback**: Show completion states before auto-closing
-- **Quick escape**: Always provide a way to close, especially in error states
+### Пользовательский опыт
+- **Подтверждайте важные действия**: Спрашивайте перед закрытием, если у пользователя есть несохраненная работа
+- **Предоставляйте обратную связь**: Показывайте состояния завершения перед автоматическим закрытием
+- **Быстрый выход**: Всегда предоставляйте способ закрытия, особенно в состояниях ошибки
 
-### Technical Considerations
-- **Save state**: Persist important data before closing
-- **Clean up**: Cancel ongoing requests or timers
-- **Analytics**: Track close events for UX insights
+### Технические соображения
+- **Сохраняйте состояние**: Сохраняйте важные данные перед закрытием
+- **Очищайте ресурсы**: Отменяйте ожидающие запросы или таймеры
+- **Аналитика**: Отслеживайте события закрытия для получения инсайтов о UX
 
 ```tsx components/HandleClose.tsx
 const handleClose = () => {
-  // Clean up
+  // Очистка
   cancelPendingRequests();
   clearIntervals();
   
-  // Track analytics
+  // Отслеживание аналитики
   analytics.track('mini_app_closed', {
     session_duration: Date.now() - sessionStart,
     completion_state: currentState
   });
   
-  // Close
+  // Закрытие
   close();
 };
 ```
 
 <Info>
-`useClose` provides a clean exit for Mini Apps. Use it thoughtfully to create polished user experiences that feel native to the host application flow.
+`useClose` обеспечивает аккуратный выход для мини-приложений. Используйте его обдуманно, чтобы создавать отполированные пользовательские интерфейсы, которые выглядят нативно в потоке хост-приложения.
 </Info>
 
 
