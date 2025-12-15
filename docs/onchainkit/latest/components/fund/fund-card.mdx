@@ -8,35 +8,35 @@ title: "FundCard"
   height="364"/>
 </Frame>
 
-The `<FundCard />` component provides a complete fiat onramp experience within your app. It includes:
+Компонент `<FundCard />` предоставляет полный опыт фиатного пополнения (onramp) внутри вашего приложения. Он включает:
 
-- Amount input with fiat/crypto switching
-- Payment method selection (Coinbase, Apple Pay, Debit Card)
-- Automatic exchange rate updates
-- Smart handling of payment method restrictions (based on country and subdivision)
+- Ввод суммы с переключением между фиатом и криптовалютой
+- Выбор метода оплаты (Coinbase, Apple Pay, дебетовая карта)
+- Автоматическое обновление курса обмена
+- Умная обработка ограничений методов оплаты (на основе страны и региона)
 
 <Note>
-The Apple Pay and Debit Card onramp options are only available for Coinbase supported assets.  
+Опции пополнения через Apple Pay и дебетовую карту доступны только для активов, поддерживаемых Coinbase.
 </Note>
 
 
 <Tip>
-To use the `FundCard` component, you'll need to provide a Client API Key in `OnchainKitProvider`. You can get one following our [Getting Started](/onchainkit/getting-started#get-your-client-api-key) steps.
+Для использования компонента `FundCard` вам потребуется предоставить Client API Key в `OnchainKitProvider`. Вы можете получить его, следуя шагам в нашем руководстве [Getting Started](/onchainkit/getting-started#get-your-client-api-key).
 </Tip>
 
 
 <Note>
-This component requires a `projectId` to be set in the `OnchainKitProvider`. You can find your `projectId` on [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/onchainkit).
+Для этого компонента требуется установка `projectId` в `OnchainKitProvider`. Вы можете найти свой `projectId` на [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/onchainkit).
 </Note>
 
 <Note>
-You'll need a session token for authentication. Learn how to obtain one in the [session token documentation](https://docs.cdp.coinbase.com/onramp-&-offramp/session-token-authentication).
+Вам потребуется токен сессии для аутентификации. Узнайте, как его получить, в [session token documentation](https://docs.cdp.coinbase.com/onramp-&-offramp/session-token-authentication).
 </Note>
 
 
-## Usage
+## Использование
 
-### Drop in the `<FundCard />` component
+### Добавьте компонент `<FundCard />`
 
 ```tsx
 import { FundCard } from '@coinbase/onchainkit/fund';
@@ -76,11 +76,11 @@ const sessionToken = "YOUR_SESSION_TOKEN";
   </FundWrapper>
 </App> */}
 
-## Customization
+## Кастомизация
 
-### Custom Header and Button Text
+### Кастомный заголовок и текст кнопки
 
-You can customize the header and button text:
+Вы можете кастомизировать заголовок и текст кнопки:
 
 ```tsx
 <FundCard
@@ -127,9 +127,9 @@ You can customize the header and button text:
   </FundWrapper>
 </App> */}
 
-### Custom Currency
+### Кастомная валюта
 
-You can specify which fiat currency to use:
+Вы можете указать, какую фиатную валюту использовать:
 
 ```tsx
 <FundCard
@@ -140,9 +140,9 @@ You can specify which fiat currency to use:
 />
 ```
 
-### Preset Amount Inputs
+### Предустановленные суммы для ввода
 
-You can specify preset amount buttons:
+Вы можете указать кнопки с предустановленными суммами:
 
 ```tsx
 const presetAmountInputs = ['10', '20', '50'] as const;
@@ -157,13 +157,13 @@ const presetAmountInputs = ['10', '20', '50'] as const;
 ```
 
 <Note>
-**Note: 3 preset amount inputs are required in order to show the preset amount buttons.**
+**Примечание: Для отображения кнопок с предустановленными суммами требуется 3 варианта суммы.**
 </Note>
 
 
-### Custom Content
+### Кастомный контент
 
-You can provide custom children to completely customize the card content while keeping the fund button functionality:
+Вы можете предоставить кастомные дочерние элементы, чтобы полностью кастомизировать содержимое карточки, сохраняя функциональность кнопки пополнения:
 
 ```tsx
 <FundCard
@@ -183,7 +183,7 @@ You can provide custom children to completely customize the card content while k
 </FundCard>
 ```
 
-You can also reuse the existing children from the default implementation and add your own custom content.
+Вы также можете повторно использовать дочерние элементы из реализации по умолчанию и добавить свой собственный кастомный контент.
 
 ```tsx
 import {
@@ -214,7 +214,7 @@ import {
 ```
 
 <Note>
-**Note:** If you are using the custom components then you are going to need to access the state of the `FundCard` component. You can do this by using the `useFundContext` hook.
+**Примечание:** Если вы используете кастомные компоненты, вам потребуется доступ к состоянию компонента `FundCard`. Вы можете сделать это с помощью хука `useFundContext`.
 </Note>
 
 
@@ -250,7 +250,7 @@ const {
  } = useFundContext();
 ```
 
-## Props
+## Свойства
 
 [`FundCardProps`](#fundcardprops)
 
@@ -266,7 +266,7 @@ type FundCardProps = {
   currency?: string;
   className?: string;
   presetAmountInputs?: PresetAmountInputs;
-  /** An optional prop to provide a session token. Required if no fundingUrl is provided */
+  /** Опциональный пропс для предоставления токена сессии. Обязателен, если fundingUrl не предоставлен */
   sessionToken?: string;
 } & LifecycleEvents;
 ```
@@ -280,7 +280,7 @@ type FundCardSubmitButtonProps =
         state: 'default' | 'success' | 'error' | 'loading';
         onClick: () => void;
         disabled: boolean;
-      }) => React.ReactNode; // Custom render function for complete control of submit button rendering
+      }) => React.ReactNode; // Кастомная функция рендеринга для полного контроля над отображением кнопки отправки
       children?: never;
     }
   | {
@@ -289,7 +289,7 @@ type FundCardSubmitButtonProps =
     };
 ```
 
-## Related Components
+## Связанные компоненты
 
 - [`<FundButton />`](/onchainkit/fund/fund-button)
 
