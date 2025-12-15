@@ -1,24 +1,24 @@
 ---
 title: useViewProfile
-description: Navigate to Farcaster profiles from your Mini App
+description: Навигация к профилям Farcaster из вашего мини-приложения
 ---
 
-Defined in [@coinbase/onchainkit](https://github.com/coinbase/onchainkit)
+Определен в [@coinbase/onchainkit](https://github.com/coinbase/onchainkit)
 
 <Info>
-Opens Farcaster user profiles within the host application. Defaults to the current user's profile if no FID is specified.
+Открывает профили пользователей Farcaster в хост-приложении. По умолчанию использует профиль текущего пользователя, если FID не указан.
 </Info>
 
-## Parameters
+## Параметры
 
 <ParamField body="fid" type="string" optional>
-The Farcaster ID of the profile to view. If not provided, defaults to the current user's FID from the MiniKit context.
+Farcaster ID профиля для просмотра. Если не указан, по умолчанию используется FID текущего пользователя из контекста MiniKit.
 </ParamField>
 
-## Returns
+## Возвращает
 
 <ResponseField name="viewProfile" type="() => void">
-Function that opens the specified Farcaster profile when called.
+Функция, которая открывает указанный профиль Farcaster при вызове.
 </ResponseField>
 
 <RequestExample>
@@ -26,7 +26,7 @@ Function that opens the specified Farcaster profile when called.
 import { useViewProfile } from '@coinbase/onchainkit/minikit';
 
 export default function ProfileButton() {
-  const viewProfile = useViewProfile(); // Uses current user's FID
+  const viewProfile = useViewProfile(); // Использует FID текущего пользователя
 
   return (
     <button onClick={viewProfile}>
@@ -95,8 +95,8 @@ import { useViewProfile, useMiniKit } from '@coinbase/onchainkit/minikit';
 
 export default function SocialActions() {
   const { context } = useMiniKit();
-  const viewMyProfile = useViewProfile(); // Current user
-  const viewHostProfile = useViewProfile(context.client.clientFid); // Host app profile
+  const viewMyProfile = useViewProfile(); // Текущий пользователь
+  const viewHostProfile = useViewProfile(context.client.clientFid); // Профиль хост-приложения
 
   return (
     <div className="social-actions">
@@ -113,10 +113,10 @@ export default function SocialActions() {
 ```
 </RequestExample>
 
-## Usage Patterns
+## Паттерны использования
 
-### User Discovery
-Enable users to explore profiles of other participants:
+### Обнаружение пользователей
+Позволяйте пользователям исследовать профили других участников:
 
 ```tsx components/ProfileList.tsx
 const ProfileList = ({ users }) => {
@@ -145,8 +145,8 @@ const UserProfileCard = ({ fid, name }) => {
 };
 ```
 
-### Social Gaming
-Connect players in multiplayer experiences:
+### Социальные игры
+Соединяйте игроков в многопользовательских играх:
 
 ```tsx components/GameLobby.tsx
 const GameLobby = ({ players }) => {
@@ -171,8 +171,8 @@ const PlayerChip = ({ player }) => {
 };
 ```
 
-### Creator Attribution
-Link to content creators and collaborators:
+### Атрибуция создателей
+Ссылайтесь на создателей контента и соавторов:
 
 ```tsx components/ContentAttribution.tsx
 const ContentAttribution = ({ creator }) => {
@@ -192,16 +192,16 @@ const ContentAttribution = ({ creator }) => {
 };
 ```
 
-## Best Practices
+## Рекомендации
 
-### User Experience
-- **Clear call-to-action**: Use descriptive button text like "View Profile" or user names
-- **Visual feedback**: Indicate clickable profile elements with appropriate styling
-- **Context awareness**: Show relevant profile actions based on the user's relationship
+### Пользовательский опыт
+- **Четкий призыв к действию**: Используйте описательный текст кнопки, например "Посмотреть профиль" или имена пользователей
+- **Визуальная обратная связь**: Обозначайте кликабельные элементы профиля соответствующим стилем
+- **Осведомленность о контексте**: Показывайте соответствующие действия профиля на основе отношений пользователя
 
-### Performance Optimization
-- **Memoize profile handlers**: Use the same hook instance for the same FID
-- **Batch profile data**: Load profile information efficiently when displaying multiple users
+### Оптимизация производительности
+- **Мемоизация обработчиков профиля**: Используйте тот же экземпляр хука для того же FID
+- **Пакетная загрузка данных профиля**: Загружайте информацию профиля эффективно при отображении нескольких пользователей
 
 ```tsx components/ProfileActions.tsx
 import { useMemo } from 'react';
@@ -209,7 +209,7 @@ import { useMemo } from 'react';
 const ProfileActions = ({ userFid }) => {
   const viewProfile = useViewProfile(userFid);
   
-  // Memoize to avoid recreating the handler
+  // Мемоизация, чтобы избежать повторного создания обработчика
   const handleProfileView = useMemo(() => viewProfile, [viewProfile]);
   
   return (
@@ -220,10 +220,10 @@ const ProfileActions = ({ userFid }) => {
 };
 ```
 
-### Accessibility
-- **Keyboard navigation**: Ensure profile links are keyboard accessible
-- **Screen reader support**: Use semantic HTML and ARIA labels
-- **Focus management**: Handle focus appropriately when returning from profile views
+### Доступность
+- **Навигация с клавиатуры**: Обеспечьте доступность ссылок на профиль с клавиатуры
+- **Поддержка скринридеров**: Используйте семантический HTML и ARIA-метки
+- **Управление фокусом**: Корректно обрабатывайте фокус при возврате из просмотра профилей
 
 ```tsx components/AccessibleProfileLink.tsx
 const AccessibleProfileLink = ({ fid, userName }) => {
@@ -241,11 +241,11 @@ const AccessibleProfileLink = ({ fid, userName }) => {
 ```
 
 <Info>
-Profile viewing behavior may vary between Farcaster clients. In Base App, profiles open within the app context. In other clients, the experience may differ based on their implementation.
+Поведение просмотра профиля может отличаться между клиентами Farcaster. В Base App профили открываются в контексте приложения. В других клиентах опыт может отличаться в зависимости от их реализации.
 </Info>
 
 <Warning>
-Always validate FIDs before passing them to `useViewProfile`. Invalid FIDs may cause errors or unexpected behavior in the host application.
+Всегда проверяйте FID перед передачей в `useViewProfile`. Неверные FID могут вызвать ошибки или неожиданное поведение в хост-приложении.
 </Warning>
 
 
