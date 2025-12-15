@@ -1,38 +1,38 @@
 ---
-title: "Troubleshooting"
+title: "Решение проблем"
 ---
 
-Running into issues? This guide covers the most common problems and how to fix them. Can't find your issue? Check our [GitHub Issues](https://github.com/coinbase/onchainkit/issues) or ask in [Discord](https://discord.gg/invite/buildonbase).
+Возникли проблемы? Это руководство охватывает наиболее распространенные проблемы и способы их решения. Не нашли свою проблему? Проверьте наши [GitHub Issues](https://github.com/coinbase/onchainkit/issues) или спросите в [Discord](https://discord.gg/invite/buildonbase).
 
-## Common Issues
+## Распространенные проблемы
 
-### Environment Setup
+### Настройка окружения
 
-- **Missing Project ID**
+- **Отсутствует Project ID**
 
-  - Error: "Project ID is required for this component"
-  - Solution: Add your Project ID to the OnchainKitProvider:
+  - Ошибка: "Project ID is required for this component"
+  - Решение: Добавьте ваш Project ID в OnchainKitProvider:
 
 ```tsx
 <OnchainKitProvider
   apiKey="YOUR_API_KEY"
-  projectId="YOUR_PROJECT_ID" // Get this from portal.cdp.coinbase.com
+  projectId="YOUR_PROJECT_ID" // Получите это на portal.cdp.coinbase.com
   chain={base}
 >
 ```
 
-- **Contracts Not Available**
-  - Error: "Contracts are not available" or "Contracts not available for LifecycleStatus"
-  - Solutions:
-    - Double-check your OnchainKit API key is set correctly
-    - Make sure you're using an API key from [portal.cdp.coinbase.com](https://portal.cdp.coinbase.com)
-    - Verify your environment variables are properly exposed to the client
+- **Контракты недоступны**
+  - Ошибка: "Contracts are not available" or "Contracts not available for LifecycleStatus"
+  - Решения:
+    - Убедитесь, что ваш API-ключ OnchainKit установлен правильно
+    - Убедитесь, что вы используете API-ключ с [portal.cdp.coinbase.com](https://portal.cdp.coinbase.com)
+    - Проверьте, что ваши переменные окружения правильно экспортируются на клиент
 
-### Dependencies
+### Зависимости
 
-- **Version Compatibility**
-  - Issue: Compilation failures or TypeScript errors
-  - Solution: Make sure you're using compatible package versions:
+- **Совместимость версий**
+  - Проблема: Ошибки компиляции или TypeScript
+  - Решение: Убедитесь, что вы используете совместимые версии пакетов:
 
 ```json
 {
@@ -46,12 +46,12 @@ Running into issues? This guide covers the most common problems and how to fix t
 }
 ```
 
-### Provider Configuration
+### Конфигурация провайдера
 
-- **Missing OnchainKitProvider**
+- **Отсутствует OnchainKitProvider**
 
-  - Issue: Missing OnchainKitProvider context values
-  - Solution: Wrap your app with OnchainKitProvider. See our [setup guide](/getting-started/manual-installation) for details:
+  - Проблема: Отсутствуют значения контекста OnchainKitProvider
+  - Решение: Оберните ваше приложение в OnchainKitProvider. Подробности см. в нашем [setup guide](/getting-started/manual-installation):
 
 ```tsx
 import { OnchainKitProvider } from '@coinbase/onchainkit';
@@ -69,43 +69,43 @@ export default function App({ children }) {
 }
 ```
 
-### Wallet Connection
+### Подключение кошелька
 
-- **Connection Failed**
+- **Не удалось подключить**
 
-  - Error: "Unable to connect wallet"
-  - Solutions:
-    - Make sure your wallet extension is installed and unlocked
-    - Check that you're on a supported network
-    - Try switching networks in your wallet
-    - Verify your RPC endpoints are working
+  - Ошибка: "Unable to connect wallet"
+  - Решения:
+    - Убедитесь, что расширение вашего кошелька установлено и разблокировано
+    - Проверьте, что вы находитесь в поддерживаемой сети
+    - Попробуйте переключить сеть в вашем кошельке
+    - Убедитесь, что ваши RPC-эндпоинты работают
 
-- **Chain Switching Issues**
-  - Error: "Failed to switch chain"
-  - Solutions:
-    - Make sure the chain is supported by OnchainKit
-    - Check that your wallet has the right permissions
-    - Verify your RPC endpoints are set up correctly
-    - Try manually adding the chain to your wallet first
+- **Проблемы с переключением сети**
+  - Ошибка: "Failed to switch chain"
+  - Решения:
+    - Убедитесь, что цепь поддерживается OnchainKit
+    - Проверьте, что ваш кошелек имеет правильные разрешения
+    - Убедитесь, что ваши RPC-эндпоинты настроены корректно
+    - Попробуйте сначала вручную добавить цепь в ваш кошелек
 
-### Transaction Issues
+### Проблемы с транзакциями
 
-- **Gas Estimation Failed**
-  - Error: "Gas estimation failed"
-  - Solutions:
-    - Make sure you have enough ETH for gas fees
-    - Double-check your transaction parameters
-    - Verify you're on the right network
+- **Не удалось оценить газ**
+  - Ошибка: "Gas estimation failed"
+  - Решения:
+    - Убедитесь, что у вас достаточно ETH для оплаты комиссий за газ
+    - Перепроверьте параметры вашей транзакции
+    - Убедитесь, что вы находитесь в правильной сети
 
-### Module Resolution
+### Разрешение модулей
 
-- **Module Resolution Errors**
-  - Error: "Cannot find module ... or its corresponding type declarations"
-  - Solution: OnchainKit only supports ES Modules, not CommonJS. Use Node 22+ and set `"moduleResolution": "NodeNext"` in your TypeScript config for the best experience.
+- **Ошибки разрешения модулей**
+  - Ошибка: "Cannot find module ... or its corresponding type declarations"
+  - Решение: OnchainKit поддерживает только ES Modules, а не CommonJS. Для лучшего опыта используйте Node 22+ и установите `"moduleResolution": "NodeNext"` в вашем конфиге TypeScript.
 
-## Getting Help
+## Получение помощи
 
-Need more help?
+Нужна дополнительная помощь?
 
 - [Discord Community](https://discord.gg/invite/buildonbase)
 - [GitHub Issues](https://github.com/coinbase/onchainkit/issues)
