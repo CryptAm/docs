@@ -1,56 +1,56 @@
 ---
 title: useMiniKit
-description: Access frame context and control readiness state
+description: Доступ к контексту фрейма и управление состоянием готовности
 ---
 
-Defined in [@coinbase/onchainkit](https://github.com/coinbase/onchainkit)
+Определен в [@coinbase/onchainkit](https://github.com/coinbase/onchainkit)
 
 <Info>
-Primary hook for accessing MiniKit frame context and managing frame readiness. This hook provides essential Mini App state and user context information.
+Основной хук для доступа к контексту фрейма MiniKit и управления готовностью фрейма. Этот хук предоставляет важную информацию о состоянии мини-приложения и контексте пользователя.
 </Info>
 
-## Returns
+## Возвращает
 
 <ResponseField name="context" type="MiniKitContext">
-Frame context information provided by the host application.
+Информация о контексте фрейма, предоставленная хост-приложением.
 
-<Expandable title="MiniKitContext properties">
+<Expandable title="Свойства MiniKitContext">
 <ResponseField name="user" type="object">
-User information from the host application.
+Информация о пользователе из хост-приложения.
 
-<Expandable title="User properties">
+<Expandable title="Свойства User">
 <ResponseField name="fid" type="string">
-Farcaster ID of the current user. Can be spoofed - use for analytics only.
+Farcaster ID текущего пользователя. Может быть подделан - используйте только для аналитики.
 </ResponseField>
 </Expandable>
 </ResponseField>
 
 <ResponseField name="client" type="object">
-Information about the host client application.
+Информация о хост-клиентском приложении.
 
-<Expandable title="Client properties">
+<Expandable title="Свойства Client">
 <ResponseField name="added" type="boolean">
-Whether the user has saved this Mini App to their collection.
+Сохранил ли пользователь это мини-приложение в свою коллекцию.
 </ResponseField>
 
 <ResponseField name="clientFid" type="string">
-Farcaster ID of the host client. Base App: "309857".
+Farcaster ID хост-клиента. Base App: "309857".
 </ResponseField>
 </Expandable>
 </ResponseField>
 
 <ResponseField name="location" type="string">
-Where the Mini App was launched from (e.g., "cast", "launcher", "notification").
+Откуда было запущено мини-приложение (например, "cast", "launcher", "notification").
 </ResponseField>
 </Expandable>
 </ResponseField>
 
 <ResponseField name="isFrameReady" type="boolean">
-Whether the frame has signaled readiness to the host application.
+Сигнализировал ли фрейм о готовности хост-приложению.
 </ResponseField>
 
 <ResponseField name="setFrameReady" type="() => void">
-Function to signal frame readiness to the host application. Call this once your Mini App has finished loading.
+Функция для сигнализации о готовности фрейма хост-приложению. Вызовите ее, когда ваше мини-приложение завершит загрузку.
 </ResponseField>
 
 <RequestExample>
@@ -111,7 +111,7 @@ export default function AnalyticsTracker() {
   const { context } = useMiniKit();
 
   useEffect(() => {
-    // ✅ Safe: Use context for analytics
+    // ✅ Безопасно: Используйте контекст для аналитики
     analytics.track('mini_app_opened', {
       userFid: context.user.fid,
       client: context.client.clientFid,
@@ -125,10 +125,10 @@ export default function AnalyticsTracker() {
 ```
 </RequestExample>
 
-## Usage Notes
+## Примечания по использованию
 
-### Frame Readiness
-Always call `setFrameReady()` once your Mini App has finished initial loading:
+### Готовность фрейма
+Всегда вызывайте `setFrameReady()`, когда ваше мини-приложение завершит начальную загрузку:
 
 ```tsx components/FrameReady.tsx
 useEffect(() => {
@@ -138,34 +138,34 @@ useEffect(() => {
 }, [setFrameReady, isFrameReady]);
 ```
 
-### Context Data Security
+### Безопасность данных контекста
 
 <Warning>
-Context data can be spoofed by malicious actors. Never use context data for authentication or security-critical operations. Use `useAuthenticate` for verified user identity.
+Данные контекста могут быть подделаны злоумышленниками. Никогда не используйте данные контекста для аутентификации или операций, критичных к безопасности. Используйте `useAuthenticate` для проверенной идентификации пользователя.
 </Warning>
 
 ```tsx
-// ❌ Don't use for authentication
+// ❌ Не используйте для аутентификации
 const isAuthenticated = !!context.user.fid; // Can be spoofed!
 
-// ✅ Use for analytics and UX hints only
-const userHint = context.user.fid; // For analytics tracking
+// ✅ Используйте только для аналитики и подсказок UX
+const userHint = context.user.fid; // Для отслеживания аналитики
 ```
 
-### Client Detection
-Use client detection to provide platform-specific experiences:
+### Определение клиента
+Используйте определение клиента для предоставления специфичных для платформы функций:
 
 ```tsx components/ClientDetection.tsx
 const isBaseApp = context.client.clientFid === '309857';
 const isFarcaster = context.client.clientFid === '1';
 
 if (isBaseApp) {
-  // Enable Base App specific features
+  // Включите функции, специфичные для Base App
 }
 ```
 
 <Info>
-The `useMiniKit` hook must be used within a component that's wrapped by `MiniKitProvider`. This hook provides the foundation for all Mini App functionality and should be one of the first hooks you use in your application.
+Хук `useMiniKit` должен использоваться внутри компонента, обернутого в `MiniKitProvider`. Этот хук предоставляет основу для всей функциональности мини-приложения и должен быть одним из первых хуков, которые вы используете в своем приложении.
 </Info>
 
 
