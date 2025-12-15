@@ -2,11 +2,11 @@
 title: "Address"
 ---
 
-The `Address` component is used to render a shortened user account address.
+Компонент `Address` используется для отображения сокращенного адреса аккаунта пользователя.
 
-## Usage
+## Использование
 
-Sliced account address:
+Усеченный адрес аккаунта:
 
 ```tsx
 import { Address } from '@coinbase/onchainkit/identity';
@@ -21,9 +21,9 @@ import { Address } from '@coinbase/onchainkit/identity';
   <Address address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
 </App> */}
 
-### Display full address
+### Отображение полного адреса
 
-Set `isSliced` to false, to display the full address:
+Установите `isSliced` в значение false, чтобы отобразить полный адрес:
 
 ```tsx
 import { Address } from '@coinbase/onchainkit/identity';
@@ -39,9 +39,9 @@ import { Address } from '@coinbase/onchainkit/identity';
   <Address address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" isSliced={false}/>
 </App> */}
 
-### Override styles
+### Переопределение стилей
 
-You can override component styles using `className`.
+Вы можете переопределить стили компонента, используя `className`.
 
 ```tsx
 import { Address } from '@coinbase/onchainkit/identity';
@@ -59,19 +59,19 @@ import { Address } from '@coinbase/onchainkit/identity';
   <Address className="bg-emerald-400 px-2 py-1 rounded" address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1"/>
 </App> */}
 
-## Props
+## Свойства
 
 [`AddressProps`](#addressprops)
 
 ```ts
 type AddressProps = {
-  /** The Ethereum address to render. */
+  /** Адрес Ethereum для отображения. */
   address?: Address | null;
-  /** Optional className override for top span element. */
+  /** Опциональное переопределение className для верхнего span элемента. */
   className?: string;
-  /** Determines if the displayed address should be sliced. (defaults: true) */
+  /** Определяет, должен ли отображаемый адрес быть усеченным. (по умолчанию: true) */
   isSliced?: boolean;
-  /** Defaults to true. Optional boolean to disable copy address on click functionality. */
+  /** По умолчанию true. Опциональный boolean для отключения функции копирования адреса при клике. */
   hasCopyAddressOnClick?: boolean;
 };
 ```
