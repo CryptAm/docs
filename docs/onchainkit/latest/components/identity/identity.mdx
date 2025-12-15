@@ -2,11 +2,11 @@
 title: "Identity"
 ---
 
-`Identity` is a React context provider and arranges identity components.
+`Identity` - это React context provider и компонент для организации компонентов идентичности.
 
-## Usage
+## Использование
 
-Show user avatar, name with attestation and address:
+Показ аватара пользователя, имени с аттестацией и адреса:
 
 ```tsx
 import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
@@ -41,9 +41,9 @@ import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/ide
   </Identity>
 </App> */}
 
-### Badge with Tooltip
+### Бейдж с подсказкой (Tooltip)
 
-You can enable a tooltip for the attestation badge to provide context about what the badge represents:
+Вы можете включить подсказку для бейджа аттестации, чтобы предоставить контекст о том, что он представляет:
 
 ```tsx
 import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
@@ -80,7 +80,7 @@ import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/ide
   </Identity>
 </App> */}
 
-You can also provide custom tooltip text:
+Вы также можете предоставить кастомный текст подсказки:
 ```tsx
 // @errors: 2304 2552
 import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
@@ -117,7 +117,7 @@ import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/ide
   </Identity>
 </App> */}
 
-Modify any styles with `className` prop.
+Изменяйте любые стили с помощью свойства `className`.
 
 ```tsx
 // @errors: 2304 2552 2657
@@ -160,7 +160,7 @@ import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/ide
   </Identity>
 </App> */}
 
-Choose which identity components to render:
+Выберите, какие компоненты идентичности рендерить:
 
 ```tsx
 import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
@@ -212,21 +212,21 @@ import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/ide
   </Identity>
 </App> */}
 
-## Props
+## Свойства
 
 [`IdentityProps`](#identityprops)
 
 ```ts
 type IdentityProps = {
-  /** The Ethereum address to fetch the avatar and name for. */
+  /** Адрес Ethereum для получения аватара и имени. */
   address?: Address;
-  /** Optional chain for domain resolution */
+  /** Необязательная цепь для разрешения домена */
   chain?: Chain;
-  /** Child components */
+  /** Дочерние компоненты */
   children: ReactNode;
-  /** Optional className override for top div element. */
+  /** Опциональное переопределение className для верхнего div элемента. */
   className?: string;
-  /** The Ethereum address of the schema to use for EAS attestation. */
+  /** Адрес Ethereum схемы для использования с EAS аттестацией. */
   schemaId?: Address | null;
 };
 ```
