@@ -2,15 +2,15 @@
 title: "Connected"
 ---
 
-The `Connected` component provides conditional rendering based on wallet connection state. It renders children when a wallet is connected, and shows a fallback UI when no wallet is connected.
+Компонент `Connected` обеспечивает условный рендеринг в зависимости от состояния подключения кошелька. Он рендерит дочерние элементы, когда кошелек подключен, и показывает запасной UI (fallback), когда кошелек не подключен.
 
-This component simplifies building wallet-aware user interfaces by handling the common pattern of showing different content for connected vs. disconnected states.
+Этот компонент упрощает создание пользовательских интерфейсов, учитывающих состояние кошелька, обрабатывая распространенный паттерн отображения разного контента для состояний «подключен» и «не подключен».
 
-## Usage
+## Использование
 
-### Basic usage
+### Базовое использование
 
-The simplest usage shows children when connected and a `ConnectWallet` button when disconnected:
+Самый простой вариант показывает дочерние элементы при подключении и кнопку `ConnectWallet` при отключении:
 
 ```tsx
 import { Connected } from '@coinbase/onchainkit/connected';
@@ -24,11 +24,11 @@ export default function MyComponent() {
 }
 ```
 
-When no wallet is connected, this automatically renders a `ConnectWallet` button.
+Когда кошелек не подключен, это автоматически отображает кнопку `ConnectWallet`.
 
-### Custom fallback
+### Кастомный запасной UI (Custom fallback)
 
-Provide a custom fallback UI for when no wallet is connected:
+Предоставьте кастомный запасной UI для случая, когда кошелек не подключен:
 
 ```tsx
 import { Connected } from '@coinbase/onchainkit/connected';
@@ -49,9 +49,9 @@ export default function MyComponent() {
 }
 ```
 
-### No fallback
+### Без запасного UI (No fallback)
 
-Pass `null` as the fallback to render nothing when disconnected:
+Передайте `null` в качестве fallback, чтобы ничего не рендерить при отключении:
 
 ```tsx
 import { Connected } from '@coinbase/onchainkit/connected';
@@ -65,9 +65,9 @@ export default function MyComponent() {
 }
 ```
 
-### Connecting state
+### Состояние подключения
 
-Show a loading state while the wallet is connecting:
+Показывайте состояние загрузки, пока кошелек подключается:
 
 ```tsx
 import { Connected } from '@coinbase/onchainkit/connected';
@@ -93,11 +93,11 @@ export default function MyComponent() {
 }
 ```
 
-## Advanced Usage
+## Продвинутое использование
 
-### Building complex flows
+### Создание сложных потоков
 
-Use `Connected` to create sophisticated user flows that adapt to connection state:
+Используйте `Connected` для создания сложных пользовательских потоков, адаптирующихся к состоянию подключения:
 
 ```tsx
 import { Connected } from '@coinbase/onchainkit/connected';
@@ -142,9 +142,9 @@ export default function MintFlow() {
 }
 ```
 
-### Conditional navigation
+### Условная навигация
 
-Hide navigation items when wallet is not connected:
+Скрывайте элементы навигации, когда кошелек не подключен:
 
 ```tsx
 import { Connected } from '@coinbase/onchainkit/connected';
@@ -169,7 +169,7 @@ export default function Navigation() {
 }
 ```
 
-## Props
+## Свойства
 
 ```ts
 type ConnectedProps<TFallback extends ReactNode | undefined = undefined> =
@@ -179,21 +179,21 @@ type ConnectedProps<TFallback extends ReactNode | undefined = undefined> =
 
 type ConnectedBaseProps<TFallback extends ReactNode | undefined> = {
   /**
-   * The content to render when there is a connected account.
+   * Контент для рендеринга, когда есть подключенный аккаунт.
    */
   children: ReactNode;
   /**
-   * The content to render when there is no connected account.
-   * If undefined, defaults to rendering the `<ConnectWallet />` button.
-   * Pass `null` to render nothing.
+   * Контент для рендеринга, когда нет подключенного аккаунта.
+   * Если не определен, по умолчанию рендерится кнопка `<ConnectWallet />`.
+   * Передайте `null`, чтобы ничего не рендерить.
    */
   fallback?: TFallback;
   /**
-   * If defined, the content to render when there is no connected account
-   * and `useAccount().status` is "connecting".
+   * Если определен, контент для рендеринга, когда нет подключенного аккаунта
+   * и `useAccount().status` имеет значение "connecting".
    */
   connecting?: ReactNode;
 };
 ```
 
-When no `fallback` prop is provided, the component accepts all props that `ConnectWallet` accepts as passthrough props.
+Когда пропс `fallback` не предоставлен, компонент принимает все пропсы, которые принимает `ConnectWallet`, в качестве сквозных (passthrough) свойств.
