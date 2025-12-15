@@ -2,15 +2,15 @@
 title: "Signature"
 ---
 
-The `<Signature />` components provide a wrapper around the useSignTypedData and useSignMessage wagmi hooks.
-These hooks handle EIP712 signatures and personal_sign messages, falling back to eth_sign.
+Компоненты `<Signature />` предоставляют обертку вокруг wagmi хуков useSignTypedData и useSignMessage.
+Эти хуки обрабатывают EIP712 подписи и сообщения personal_sign, с откатом к eth_sign.
 
 
-## Quick start
+## Быстрый старт
 
-You can use the `Signature` component with the default implementation without passing any subcomponents or pass any subcomponents to fully customize the UI.
+Вы можете использовать компонент `Signature` с реализацией по умолчанию, не передавая никаких подкомпонентов, или передать любые подкомпоненты для полной кастомизации UI.
 
-### Default implementation for EIP712 signatures
+### Реализация по умолчанию для подписей EIP712
 
 <CodeGroup>
 ```tsx Signature.tsx
@@ -102,7 +102,7 @@ export const message = {
 {/* <EIP712Signature /> */}
 
 
-### Default implementation for personal_sign messages
+### Реализация по умолчанию для сообщений personal_sign
 
 ```tsx Signature.tsx
 import { Signature } from '@coinbase/onchainkit/signature';
@@ -121,43 +121,43 @@ import { Signature } from '@coinbase/onchainkit/signature';
 />
 {/* <PersonalSignSignature /> */}
 
-## Components
+## Компоненты
 
-The Signature components provide a complete signature flow:
+Компоненты Signature предоставляют полный процесс подписи:
 
-### Core Component
+### Основной компонент
 
-- `<Signature />` - Main container that manages the signature lifecycle
+- `<Signature />` - Основной контейнер, который управляет жизненным циклом подписи
 
-### `<Signature />` subcomponents
+### Подкомпоненты `<Signature />`
 
-- `<SignatureButton />` - Handles signature initiation with customizable labels
-- `<SignatureStatus />` - Displays current signature status and actions
-- `<SignatureToast />` - Shows toast notifications for signature events
+- `<SignatureButton />` - Обрабатывает инициацию подписи с настраиваемыми метками
+- `<SignatureStatus />` - Отображает текущий статус подписи и действия
+- `<SignatureToast />` - Показывает уведомления для событий подписи
 
-### `<SignatureStatus />` and `<SignatureToast />` subcomponents
+### Подкомпоненты  `<SignatureStatus />` и `<SignatureToast />`
 
-- `<SignatureLabel />` - Displays status text ("Success", "Confirm in wallet", etc.)
-- `<SignatureIcon />` - Shows status icons (pending, success, error)
+- `<SignatureLabel />` - Отображает текст статуса ("Успешно", "Подтвердите в кошельке" и т.д.)
+- `<SignatureIcon />` - Показывает иконки статуса (ожидание, успех, ошибка)
 
-## Component API
+## API компонентов
 
 ### Signature
 
-Main wrapper component that manages the signature flow.
+Основной компонент-обертка, который управляет процессом подписи.
 
 ```tsx
 <Signature
-  // Required for EIP-712 typed data
+  // Обязательно для типизированных данных EIP-712
   domain={domain}
   types={types}
   message={message}
   primaryType="Test"
 
-  // OR for personal_sign
+  // ИЛИ для personal_sign
   message="Hello World"
 
-  // Optional props
+  // Опциональные свойства
   label="Sign"
   onSuccess={(signature: string) => {}}
   onError={(error: APIError) => {}}
@@ -170,15 +170,15 @@ Main wrapper component that manages the signature flow.
 
 ### SignatureButton
 
-Button component that triggers the signature request.
+Компонент кнопки, который запускает запрос на подпись.
 
 ```tsx
 <SignatureButton
-  label="Sign Message" // Default: "Sign"
-  connectLabel="Connect Wallet" // Default: "Connect Wallet"
-  errorLabel="Try Again" // Default: "Try again"
-  successLabel="Signed!" // Default: "Signed"
-  pendingLabel="Signing..." // Default: "Signing..."
+  label="Sign Message" // По умолчанию: "Sign"
+  connectLabel="Connect Wallet" // По умолчанию: "Connect Wallet"
+  errorLabel="Try Again" // По умолчанию: "Try again"
+  successLabel="Signed!" // По умолчанию: "Signed"
+  pendingLabel="Signing..." // По умолчанию: "Signing..."
   disabled={false}
   className="custom-class"
 />
@@ -186,42 +186,42 @@ Button component that triggers the signature request.
 
 ### SignatureStatus
 
-Container for signature status information.
+Контейнер для информации о статусе подписи.
 
 ```tsx
 <SignatureStatus className="custom-class">
   <SignatureLabel />
-  {/* Custom status content */}
+  {/* Пользовательский контент статуса */}
 </SignatureStatus>
 ```
 
 ### SignatureToast
 
-Toast notification for signature events.
+Уведомление для событий подписи.
 
 ```tsx
 <SignatureToast
-  durationMs={5000} // Default: 5000
-  position="bottom-center" // Default: "bottom-center"
+  durationMs={5000} // По умолчанию: 5000
+  position="bottom-center" // По умолчанию: "bottom-center"
   className="custom-class"
 >
   <SignatureIcon />
   <SignatureLabel />
-  {/* Custom toast content */}
+  {/* Пользовательский контент уведомления */}
 </SignatureToast>
 ```
 
-## Lifecycle States
+## Состояния жизненного цикла
 
-The signature flow has the following states:
+Процесс подписи имеет следующие состояния:
 
-- `init` - Initial state
-- `pending` - Waiting for wallet signature
-- `success` - Signature completed successfully
-- `error` - Error occurred during signing
-- `reset` - Component reset to initial state
+- `init` - Начальное состояние
+- `pending` - Ожидание подписи кошелька
+- `success` - Подпись успешно завершена
+- `error` - Произошла ошибка при подписании
+- `reset` - Компонент сброшен в начальное состояние
 
-Access the current state through the `onStatus` callback:
+Получите доступ к текущему состоянию через колбэк `onStatus`:
 
 ```tsx
 <Signature
@@ -238,15 +238,15 @@ Access the current state through the `onStatus` callback:
 />
 ```
 
-## Error Handling
+## Обработка ошибок
 
-Errors are handled automatically and displayed in the UI. Common errors include:
+Ошибки обрабатываются автоматически и отображаются в UI. Распространенные ошибки включают:
 
-- User rejected request
-- Invalid message format
-- Wallet connection issues
+- Пользователь отклонил запрос
+- Неверный формат сообщения
+- Проблемы с подключением кошелька
 
-Custom error handling:
+Пользовательская обработка ошибок:
 
 ```tsx
 <Signature
@@ -257,11 +257,11 @@ Custom error handling:
 />
 ```
 
-## Message Types
+## Типы сообщений
 
-The `<Signature />` component supports two types of messages:
+Компонент `<Signature />` поддерживает два типа сообщений:
 
-### EIP-712 Typed Data
+### Типизированные данные EIP-712
 
 ```tsx
 <Signature
@@ -293,33 +293,33 @@ The `<Signature />` component supports two types of messages:
 />
 ```
 
-## Props
+## Свойства
 
 [`SignatureProps`](#signatureprops)
 
 ```ts
 type SignatureProps = {
-  /** Chain ID for the signature */
+  /** Chain ID для подписи  */
   chainId?: number;
-  /** Optional className override for top div element */
+  /** Опциональное переопределение className для верхнего элемента div */
   className?: string;
-  /** Callback when signature is successful */
+  /** Колбэк при успешной подписи */
   onSuccess?: (signature: string) => void;
-  /** Callback for lifecycle status changes */
+  /** Колбэк для изменений статуса жизненного цикла */
   onStatus?: (status: LifecycleStatus) => void;
-  /** Callback for errors */
+  /** Колбэк для ошибок */
   onError?: (error: APIError) => void;
-  /** Time in milliseconds to reset component state after completion */
+  /** Время в миллисекундах для сброса состояния компонента после завершения */
   resetAfter?: number;
 } & (
-  // EIP712 typed data signature
+  // Подпись типизированных данных EIP712
   | {
       message: SignTypedDataParameters['message'];
       domain?: SignTypedDataParameters['domain'];
       types: SignTypedDataParameters['types'];
       primaryType: SignTypedDataParameters['primaryType'];
     }
-  // Simple message signature
+  // Подпись простого сообщения
   | {
       message: SignMessageParameters['message'];
       domain?: never;
@@ -327,13 +327,13 @@ type SignatureProps = {
       primaryType?: never;
     }
 ) & (
-  // With custom children components
+  // С пользовательскими дочерними компонентами
   | {
       children: React.ReactNode;
       label?: never;
       disabled?: never;
     }
-  // Default implementation with label
+  // Реализация по умолчанию с меткой
   | {
       children?: never;
       label?: React.ReactNode;
@@ -369,14 +369,14 @@ type LifecycleStatus =
     };
 ```
 
-## SignatureButton Component
+## Компонент SignatureButton
 
-The `<SignatureButton />` component provides a customizable button for triggering signature operations. It automatically handles different states and provides a render prop for complete customization:
+Компонент `<SignatureButton />` предоставляет настраиваемую кнопку для запуска операций подписи. Он автоматически обрабатывает различные состояния и предоставляет проп рендера для полной кастомизации:
 
 ```tsx
 import { SignatureButton } from '@coinbase/onchainkit/signature';
 
-// Custom button using render prop
+// Пользовательская кнопка с использованием пропа рендера
 <SignatureButton
   render={({ label, onClick, context }) => (
     <button 
@@ -393,13 +393,13 @@ import { SignatureButton } from '@coinbase/onchainkit/signature';
 
 ```ts
 type SignatureButtonProps = {
-  className?: string; // CSS class to apply to the button
-  disabled?: boolean; // Whether the button is disabled
-  label?: ReactNode; // Text displayed on the button in pending state
-  errorLabel?: ReactNode; // Text displayed when signature fails
-  successLabel?: ReactNode; // Text displayed after successful signature
-  pendingLabel?: ReactNode; // Text displayed while waiting for signature
-  disconnectedLabel?: ReactNode; // Text displayed when wallet is disconnected
+  className?: string; // CSS-класс для применения к кнопке
+  disabled?: boolean; // Отключена ли кнопка
+  label?: ReactNode; // Текст, отображаемый на кнопке в состоянии ожидания
+  errorLabel?: ReactNode; // Текст, отображаемый при неудачной подписи
+  successLabel?: ReactNode; // Текст, отображаемый после успешной подписи
+  pendingLabel?: ReactNode; // Текст, отображаемый во время ожидания подписи
+  disconnectedLabel?: ReactNode; // Текст, отображаемый при отключенном кошельке
   render?: ({
     label,
     onClick,
@@ -408,12 +408,12 @@ type SignatureButtonProps = {
     label: ReactNode;
     onClick: () => void;
     context: SignatureContextType;
-  }) => ReactNode; // Custom render function for complete control of button rendering
+  }) => ReactNode; // Пользовательская функция рендера для полного контроля над отображением кнопки
 };
 ```
 
-## Related Components
+## Связанные компоненты
 
-- [`<Wallet />`](/onchainkit/wallet/wallet) - Handles the wallet connection
-- [`<Transaction />`](/onchainkit/transaction/transaction) - Handles transaction signing
+- [`<Wallet />`](/onchainkit/wallet/wallet) - Обрабатывает подключение кошелька
+- [`<Transaction />`](/onchainkit/transaction/transaction) - Обрабатывает подписание транзакций
 
