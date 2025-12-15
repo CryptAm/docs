@@ -1,36 +1,36 @@
 ---
 title: useAuthenticate
-description: Cryptographically authenticate users with Sign In with Farcaster
+description: Криптографическая аутентификация пользователей с помощью Sign In with Farcaster
 ---
 
-Defined in [@coinbase/onchainkit](https://github.com/coinbase/onchainkit)
+Определен в [@coinbase/onchainkit](https://github.com/coinbase/onchainkit)
 
 <Info>
-Provides cryptographically secure user authentication using Sign In with Farcaster (SIWF). Returns verified user identity and signature for secure operations.
+Обеспечивает криптографически безопасную аутентификацию пользователей с использованием Sign In with Farcaster (SIWF). Возвращает проверенную личность пользователя и подпись для безопасных операций.
 </Info>
 
-## Returns
+## Возвращает
 
 <ResponseField name="user" type="AuthenticatedUser | null">
-Authenticated user object with verified identity, or null if not authenticated.
+Объект аутентифицированного пользователя с проверенной личностью или null, если не аутентифицирован.
 
-<Expandable title="AuthenticatedUser properties">
+<Expandable title="Свойства AuthenticatedUser">
 <ResponseField name="fid" type="string">
-Verified Farcaster ID of the authenticated user.
+Проверенный Farcaster ID аутентифицированного пользователя.
 </ResponseField>
 
 <ResponseField name="signature" type="string">
-Cryptographic signature proving user identity.
+Криптографическая подпись, подтверждающая личность пользователя.
 </ResponseField>
 
 <ResponseField name="message" type="string">
-The signed message used for authentication.
+Подписанное сообщение, использованное для аутентификации.
 </ResponseField>
 </Expandable>
 </ResponseField>
 
 <ResponseField name="authenticate" type="() => Promise<AuthenticatedUser | null>">
-Function to trigger the authentication flow. Returns verified user data on success.
+Функция для запуска процесса аутентификации. Возвращает проверенные данные пользователя при успехе.
 </ResponseField>
 
 <RequestExample>
@@ -48,7 +48,7 @@ export default function AuthButton() {
       const authenticatedUser = await authenticate();
       if (authenticatedUser) {
         console.log('Authenticated user:', authenticatedUser.fid);
-        // Save to your backend
+        // Сохраните в вашем бэкенде
         await saveUserSession(authenticatedUser);
       }
     } catch (error) {
@@ -109,24 +109,24 @@ export default function ProtectedFeature() {
 </RequestExample>
 
 
-### Context vs Authentication
-Use the right tool for the job:
+### Контекст vs Аутентификация
+Используйте правильный инструмент для задачи:
 
 ```tsx components/SecurityExample.tsx
 import { useAuthenticate, useMiniKit } from '@coinbase/onchainkit/minikit';
 
 export default function SecurityExample() {
-  const { user } = useAuthenticate(); // For security
-  const { context } = useMiniKit();   // For UX 
+  const { user } = useAuthenticate(); // Для безопасности
+  const { context } = useMiniKit();   // Для UX (пользовательского опыта)
 
   return (
     <div>
-      {/* Safe: UX personalization with context */}
+      {/* Безопасно: Персонализация UX с помощью контекста */}
       {context.user.fid && (
         <p>Hi there, user {context.user.fid}!</p>
       )}
       
-      {/* Safe: Security with authentication */}
+      {/* Безопасно: Безопасность с аутентификацией */}
       {user && (
         <SecureUserDashboard verifiedFid={user.fid} />
       )}
@@ -138,7 +138,7 @@ export default function SecurityExample() {
 
 
 <Info>
-`useAuthenticate` provides cryptographic proof of user identity. Always verify signatures server-side for security-critical operations. Use `useMiniKit` context only for UX hints and analytics.
+`useAuthenticate` предоставляет криптографическое подтверждение личности пользователя. Всегда проверяйте подписи на стороне сервера для операций, критичных к безопасности. Используйте контекст `useMiniKit` только для подсказок UX и аналитики.
 </Info>
 
 
