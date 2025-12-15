@@ -1,12 +1,12 @@
 ---
-title: "Wagmi & Viem Integration"
+title: "Интеграция Wagmi & Viem"
 ---
 
-OnchainKit automatically sets up Wagmi and TanStack Query providers for you. However, you can provide your own custom Wagmi configuration for advanced use cases like custom connectors, chains, or storage options.
+OnchainKit автоматически настраивает провайдеры Wagmi и TanStack Query за вас. Однако вы можете предоставить свою собственную кастомную конфигурацию Wagmi для продвинутых случаев использования, таких как кастомные коннекторы, цепи или настройки хранения.
 
-## Default Setup
+## Настройка по умолчанию
 
-By default, OnchainKitProvider handles all the provider setup internally:
+По умолчанию OnchainKitProvider обрабатывает всю настройку провайдеров внутри себя:
 
 ```tsx
 <OnchainKitProvider
@@ -17,15 +17,15 @@ By default, OnchainKitProvider handles all the provider setup internally:
 </OnchainKitProvider>
 ```
 
-This automatically includes:
+Это автоматически включает:
 
-- Wagmi configuration with Coinbase Wallet connector
-- TanStack Query client for caching
-- Optimized defaults for most applications
+- Конфигурацию Wagmi с коннектором Coinbase Wallet
+- TanStack Query клиент для кэширования
+- Оптимизированные настройки по умолчанию для большинства приложений
 
-## Custom Wagmi Configuration
+## Кастомная конфигурация Wagmi
 
-For advanced control over wallet connectors, chains, or other Wagmi settings, wrap OnchainKitProvider with your own Wagmi providers:
+Для продвинутого контроля над коннекторами кошельков, цепями или другими настройками Wagmi оберните OnchainKitProvider своими собственными провайдерами Wagmi:
 
 <CodeGroup>
 
@@ -43,7 +43,7 @@ export function getConfig() {
         preference: 'smartWalletOnly',
         version: '4',
       }),
-      metaMask(), // Add additional connectors
+      metaMask(), // Добавьте дополнительные коннекторы
     ],
     storage: createStorage({
       storage: cookieStorage,
@@ -95,18 +95,18 @@ export function Providers(props: {
 
 </CodeGroup>
 
-## When to Use Custom Configuration
+## Когда использовать кастомную конфигурацию
 
-Consider custom Wagmi configuration when you need:
+Рассмотрите возможность использования кастомной конфигурации Wagmi, когда вам нужно:
 
-- **Multiple chains** beyond the primary chain
-- **Advanced caching** with custom QueryClient settings
-- **SSR support** with cookie-based persistence
-- **Custom transports** or RPC configurations
+- **Несколько цепей** помимо основной цепи
+- **Продвинутое кэширование** с кастомными настройками QueryClient
+- **Поддержка SSR** с хранением на основе кук
+- **Кастомные транспорты** или RPC-конфигурации
 
-## Common Patterns
+## Распространенные паттерны
 
-### Multi-chain Support
+### Поддержка нескольких цепей
 
 ```tsx wagmi.ts
 import { base, mainnet, optimism } from 'viem/chains';
@@ -114,7 +114,7 @@ import { base, mainnet, optimism } from 'viem/chains';
 export function getConfig() {
   return createConfig({
     chains: [base, mainnet, optimism],
-    // ... other config
+    // ... другая конфигурация
     transports: {
       [base.id]: http(),
       [mainnet.id]: http(),
@@ -124,7 +124,7 @@ export function getConfig() {
 }
 ```
 
-### Custom Query Client
+### Кастомный Query Client
 
 ```tsx providers.tsx
 const [queryClient] = useState(() => new QueryClient({
@@ -136,7 +136,7 @@ const [queryClient] = useState(() => new QueryClient({
 }));
 ```
 
-### Environment-specific Configuration
+### Конфигурация в зависимости от окружения
 
 ```tsx wagmi.ts
 const isDevelopment = process.env.NODE_ENV === 'development';
@@ -144,14 +144,14 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 export function getConfig() {
   return createConfig({
     chains: isDevelopment ? [baseSepolia] : [base],
-    // ... development vs production settings
+    // ... настройки для разработки и продакшена
   });
 }
 ```
 
-## Important Notes
+## Важные замечания
 
-- Always place custom Wagmi and Query providers **outside** of OnchainKitProvider
-- OnchainKit components will use your custom Wagmi configuration automatically
-- The `chain` prop on OnchainKitProvider should match your primary chain
-- Custom configurations require additional setup but provide maximum flexibility
+- Всегда размещайте кастомные провайдеры Wagmi и Query вне OnchainKitProvider
+- Компоненты OnchainKit будут автоматически использовать вашу кастомную конфигурацию Wagmi
+- Пропс chain в OnchainKitProvider должен соответствовать вашей основной цепи
+- Кастомные конфигурации требуют дополнительной настройки, но предоставляют максимальную гибкость
