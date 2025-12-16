@@ -1,10 +1,10 @@
 ---
 title: <NFTCard /> · OnchainKit
 sidebarTitle: <NFTCard />
-description: View NFTs with OnchainKit
+description: Просмотр NFT с помощью OnchainKit
 ---
 
-The `NFTCard` component provides an easy way to view any NFT.  Just enter the NFT contract address and token Id and include the child components you want to render.
+Компонент `NFTCard` предоставляет простой способ просмотра любого NFT. Просто введите адрес контракта NFT и идентификатор токена и включите дочерние компоненты, которые вы хотите отобразить.
 
 <Frame>
 <img alt="Checkout"
@@ -13,23 +13,23 @@ The `NFTCard` component provides an easy way to view any NFT.  Just enter the NF
 />
 </Frame>
 
-## Prerequisites
+## Предварительные требования
 
-Before using the `NFTCard` component, ensure you've completed the [Getting Started](/onchainkit/getting-started) steps.
+Перед использованием компонента `NFTCard` убедитесь, что вы выполнили шаги [Getting Started](/onchainkit/getting-started).
 
-To use the `NFTCard` component, you'll need to provide an API Key in `OnchainKitProvider`. You can get one following our [Getting Started](/onchainkit/getting-started#get-your-public-api-key) steps.
+Чтобы использовать компонент `NFTCard`, вам необходимо предоставить API-ключ в `OnchainKitProvider`. Вы можете получить его, следуя нашим шагам [Getting Started](/onchainkit/getting-started#get-your-public-api-key).
 
-### Starting a new project
+### Создание нового проекта
 
-If you're starting a new project, we recommend using `create onchain` to scaffold your project.
+Если вы начинаете новый проект, мы рекомендуем использовать `create onchain` для создания структуры вашего проекта.
 
 ```bash
 npm create onchain@latest
 ```
 
-### Adding to an existing project
+### Добавление в существующий проект
 
-If you're adding `NFTCard` to an existing project, simply install OnchainKit.
+Если вы добавляете `NFTCard` в существующий проект, просто установите OnchainKit.
 
 <CodeGroup>
 ```bash npm
@@ -49,11 +49,11 @@ bun add @coinbase/onchainkit
 ```
 </CodeGroup>
 
-Wrap the `<OnchainKitProvider />` around your app, following the steps in [Getting Started](/onchainkit/getting-started#add-providers).
+Оберните `<OnchainKitProvider />` вокруг вашего приложения, следуя шагам в [Getting Started](/onchainkit/getting-started#add-providers).
 
-## Quickstart
+## Быстрый старт
 
-The `NFTCardDefault` component is a simplified version of the `NFTCard` component, designed to streamline the integration process for developers.  Instead of manually defining each subcomponent, developers can use this shorthand version which renders our suggested implementation of the component and includes `NFTTitle`, `NFTMedia`, `NFTOwner`, `NFTLastSoldPrice` and `NFTNetwork`.
+Компонент `NFTCardDefault` является упрощенной версией компонента `NFTCard`, предназначенной для упрощения процесса интеграции для разработчиков. Вместо ручного определения каждого подкомпонента разработчики могут использовать эту сокращенную версию, которая отображает нашу рекомендуемую реализацию компонента и включает `NFTTitle`, `NFTMedia`, `NFTOwner`, `NFTLastSoldPrice` и `NFTNetwork`.
 
 ```tsx
 import { NFTCardDefault } from '@coinbase/onchainkit/nft'; // [!code focus]
@@ -64,10 +64,10 @@ import { NFTCardDefault } from '@coinbase/onchainkit/nft'; // [!code focus]
 />  // [!code focus]
 ```
 
-If you'd like more customization you can follow the steps below to customize which subcomponents are rendered.
+Если вы хотите больше кастомизации, вы можете выполнить следующие шаги, чтобы настроить, какие подкомпоненты отображаются.
 
 <Steps>
-  <Step title="Add the NFTCard">
+  <Step title="Добавьте NFTCard">
 
   ```tsx
   // @noErrors: 2741 - Property children missing in type
@@ -80,7 +80,7 @@ If you'd like more customization you can follow the steps below to customize whi
   </NFTCard>
   ```
   </Step>
-  <Step title="Add the NFTCard components">
+  <Step title="Добавьте компоненты NFTCard">
   ```tsx
   import { NFTCard } from '@coinbase/onchainkit/nft';
   import {
@@ -113,13 +113,13 @@ If you'd like more customization you can follow the steps below to customize whi
   </Step>
 </Steps>
 
-That's it! You've now created an NFT card.
+Вот и все! Вы создали карточку NFT.
 
-## Customization
+## Кастомизация
 
-### Add the NFTCard subcomponents in any order
+### Добавляйте подкомпоненты NFTCard в любом порядке
 
-If you prefer to have the title above the media, you can easily change the order of the subcomponents and they will render in the new order.
+Если вы предпочитаете, чтобы заголовок был над медиа, вы можете легко изменить порядок подкомпонентов, и они будут отображаться в новом порядке.
 
 ```tsx
 import { NFTCard } from '@coinbase/onchainkit/nft';
@@ -146,9 +146,9 @@ import {
 />
 {/* <ViewCardTitleAbove /> */}
 
-### Customize the `<NFTMedia />` aspect ratio
+### Настройте соотношение сторон `<NFTMedia />`
 
-By default, we display all media scaled to fit the card.  If you would prefer to show the media at its original aspect ratio you can set `square={false}` on the `<NFTMedia />` component.
+По умолчанию мы отображаем все медиа масштабированными под размер карточки. Если вы предпочитаете показывать медиа в исходном соотношении сторон, вы можете установить `square={false}` для компонента `<NFTMedia />`.
 
 ```tsx
 import { NFTCard } from '@coinbase/onchainkit/nft';
@@ -166,14 +166,14 @@ import {
 ```
 
 <Tabs>
-  <Tab title="Scaled to fit (default)">
+  <Tab title="Масштабировано по размеру (по умолчанию)">
     <iframe
       src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-nft-card--card-scaled&viewMode=story&dark=true&hero=true"
       width="100%"
       height="580px"
     />
   </Tab>
-  <Tab title="Original Aspect Ratio">
+  <Tab title="Исходное соотношение сторон">
     <iframe
       src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-nft-card--card-not-scaled&viewMode=story&dark=true&hero=true"
       width="100%"
@@ -185,9 +185,9 @@ import {
 |-----------------|------------|
 | <ViewCardScaled square={true} /> | <ViewCardScaled square={false} /> | */}
 
-### Override styles
+### Переопределение стилей
 
-We recommend style customization by setting a custom [OnchainKit theme](/onchainkit/guides/themes#custom-theme). You can also override individual component styles using `className`.
+Мы рекомендуем настраивать стили, установив пользовательскую [OnchainKit theme](/onchainkit/guides/themes#custom-theme). Вы также можете переопределить стили отдельных компонентов, используя `className`.
 
 ```tsx
 import { NFTCard } from '@coinbase/onchainkit/nft';
@@ -217,11 +217,11 @@ export default function NFTComponent() {
 />
 {/* <ViewCardOverrideStyles /> */}
 
-## Advanced Usage
+## Расширенное использование
 
-### Bring your own data
+### Используйте свои собственные данные
 
-The default `NFTCard` implementation uses Coinbase Developer Platform to provide the data and requires an API key.  If you would like to use your own data, you can use the `useNFTData` prop to pass in a hook which fetches the NFT data from a source of your choice.  As long as this hook returns an object with the same shape as the [`NFTData`](/onchainkit/mint/types#nftdata) type, the NFTCard will render.
+Реализация `NFTCard` по умолчанию использует Coinbase Developer Platform для предоставления данных и требует API-ключа. Если вы хотите использовать свои собственные данные, вы можете использовать свойство `useNFTData` для передачи хука, который получает данные NFT из источника по вашему выбору. Пока этот хук возвращает объект с той же структурой, что и тип [`NFTData`](/onchainkit/mint/types#nftdata), NFTCard будет отображаться.
 
 ```tsx
 import { NFTCard } from '@coinbase/onchainkit/nft';
@@ -252,15 +252,15 @@ export default function NFTComponent() {
 }
 ```
 
-### Listening to the component lifecycle
+### Отслеживание жизненного цикла компонента
 
-You can use our NFT [`LifecycleStatus`](/onchainkit/mint/types#lifecyclestatus) and the `onStatus` prop to listen to transaction states.
+Вы можете использовать наш NFT [`LifecycleStatus`](/onchainkit/mint/types#lifecyclestatus) и свойство `onStatus` для отслеживания состояний транзакции.
 
-NFTCard has 4 lifecycle states:
-* `init` - The component is initialized
-* `error` - The component has encountered an error
-* `mediaLoading` - The media is loading
-* `success` - The media has been loaded
+NFTCard имеет 4 состояния жизненного цикла:
+* `init` - Компонент инициализирован
+* `error` - Компонент столкнулся с ошибкой
+* `mediaLoading` - Медиа загружается
+* `success` - Медиа загружено
 
 ```tsx
 import { NFTCard } from '@coinbase/onchainkit/nft';
@@ -272,11 +272,11 @@ const statusHandler = (status: LifecycleStatus) => { // [!code focus]
   const { statusName, statusData } = status; // [!code focus]
   switch (statusName) { // [!code focus]
     case 'success': // [!code focus]
-      // handle success
+      // обработка успеха
     case 'error': // [!code focus]
-      // handle error
+      // обработка ошибки
     default: // [!code focus]
-      // handle 'init' state
+      // обработка состояния 'init'
   } // [!code focus]
 } // [!code focus]
 
@@ -290,21 +290,21 @@ const statusHandler = (status: LifecycleStatus) => { // [!code focus]
 // ---cut-after---
 ```
 
-## Example use cases
-- **Display your favorite NFT:** Create your own gallery showcasing your favorite NFTs
-- **Display a minted in game avatar:** Allow your users to mint and then view a minted avatar
+## Примеры использования
+- **Отображение вашего любимого NFT**: Создайте свою собственную галерею, демонстрирующую ваши любимые NFT
+- **Отображение аватара, сминтинного в игре**: Позвольте вашим пользователям создавать и затем просматривать сминтинный аватар
 
-## Components
+## Компоненты
 
-The `NFTCard` component can be customized with the following components:
+Компонент `NFTCard` может быть кастомизирован с помощью следующих компонентов:
 
-- `<NFTMedia square={boolean}/>` - The media for the NFT, this includes support for images, videos and audio NFTs.
-- `<NFTTitle />` - The title of the NFT.
-- `<NFTOwner />` - Displays the Owners Avatar, name or address and badge (if applicable).
-- `<NFTLastSoldPrice />` - The last sold price of the NFT in native currency and USD.
-- `<NFTNetwork />` - The network the NFT is on, currently only BASE NFTs are supported.
+- `<NFTMedia square={boolean}/>` - Медиа для NFT, включает поддержку изображений, видео и аудио NFT.
+- `<NFTTitle />` - Заголовок NFT.
+- `<NFTOwner />` - Отображает аватар владельца, имя или адрес и значок (если применимо).
+- `<NFTLastSoldPrice />` - Последняя цена продажи NFT в нативной валюте и USD.
+- `<NFTNetwork />` - Сеть, в которой находится NFT, в настоящее время поддерживаются только NFT на BASE.
 
-## Props
+## Свойства 
 
 - [`LifecycleStatus`](/onchainkit/mint/types#lifecyclestatus)
 - [`NFTCardReact`](/onchainkit/mint/types#nftcardreact)
