@@ -1,50 +1,50 @@
 ---
-title: 'Paymaster (ERC20): Set up your Paymaster to require ERC20 tokens'
+title: 'Paymaster (ERC20): Настройте своего Paymaster для приема токенов ERC20'
 sidebar_label: ERC20 Paymaster
 ---
 
-<Accordion title="Expand for images and click to enlarge">
+<Accordion title="Развернуть для просмотра изображений (кликните для увеличения)">
 <Frame caption="Paymaster - ERC20 Policy">
 <img src="/images/paymaster/pb-paymaster-policy-erc20.png" width="700" alt="Paymaster ERC20 Policy" />
 </Frame>
 </Accordion>
 
 
-### Billing
+### Биллинг
 
-Because you’re receiving the ERC20 tokens back, CDP will meter all the token transfers, and bill you at the end of the month similar to the regular sponsored gas flow (based on the USD value of the ERC20 at the time your wallet receives). This gives you the flexibility to decide what to do with the tokens. The Paymaster's regular 7% service fee applies to this volume and is factored into the ERC20 quote your users receive and accept.
+Поскольку вы получаете токены ERC20 обратно, CDP будет учитывать все переводы токенов и выставлять счет в конце месяца аналогично обычному спонсируемому потоку оплаты газа (на основе стоимости ERC20 в USD на момент получения токенов вашим кошельком). Это дает вам гибкость в решении, что делать с токенами. Стандартная сервисная комиссия Paymaster в размере 7% применяется к этому объему и учитывается в котировке ERC20, которую получают и принимают ваши пользователи.
 
-Note: existing Paymaster specific CDP credits continue to apply for regular sponsored Paymaster volume but not ERC20 Paymaster volume.
+Примечание: существующие CDP-кредиты, специфичные для Paymaster, продолжают действовать для обычного спонсируемого объема Paymaster, но не для объема Paymaster ERC20.
 
-### Configuring your policy
+### Настройка вашей политики
 
-**To allows your users to pay their gas in an ERC20 token, your policy needs to be configured to reject regular sponsorship.**
+**Чтобы позволить вашим пользователям оплачивать газ токенами ERC20, ваша политика должна быть настроена на отказ от обычного спонсирования.**
 
-This allows you to configure customizations such as
+Это позволяет настраивать такие параметры, как:
 
-- Fully sponsor 3 UserOperations per user per day - any additional UserOperations will require users to pay using ERC20 token
-- Fully sponsor UserOperations up to $1 per week - any additional UserOperations will require users to pay using ERC20 token
-- Never fully sponsor any UserOperations - all UserOperations will require users to pay using an ERC20 token
+- Полностью спонсировать 3 UserOperations на одного пользователя в день - любые дополнительные UserOperations потребуют от пользователей оплаты с использованием токена ERC20.
+- Полностью спонсировать UserOperations на сумму до $1 в неделю - любые дополнительные UserOperations потребуют от пользователей оплаты с использованием токена ERC20.
+- Никогда не спонсировать UserOperations полностью - все UserOperations потребуют от пользователей оплаты с использованием токена ERC20.
 
-**If you only want the third option (always require users to pay using erc20 token) we recommend setting your `Per User Address Max` to `.01`.**
+**Если вам нужен только третий вариант (всегда требовать от пользователей оплаты токеном ERC20), мы рекомендуем установить значение `Per User Address Max` равным `.01`.**
 
-We also recommend creating a separate project to test your ERC20 custom flows so it doesn’t affect any existing regular sponsorship flows that you have.
+Также мы рекомендуем создать отдельный проект для тестирования ваших пользовательских потоков ERC20, чтобы это не повлияло на существующие потоки обычного спонсирования.
 
 
-<Accordion title="Expand for images and click to enlarge">
+<Accordion title="Развернуть для просмотра изображений (кликните для увеличения)">
 <Frame caption="Paymaster - ERC20 Policy Flow">
 <img src="/images/paymaster/pb-paymaster-policy-erc20-flow.png" width="700" alt="Paymaster ERC20 Policy Flow" />
 </Frame>
 </Accordion>
 
-### Integration guide & code examples
+### Руководство по интеграции и примеры кода
 
-The ERC20 Paymaster fits seamlessly into any existing regular sponsored Paymaster integration. The only difference is that you need to configure your smart wallet to `approve` our Paymaster contract to spend your user’s ERC20 tokens.
+Paymaster ERC20 бесшовно интегрируется в любую существующую интеграцию с обычным спонсируемым Paymaster. Единственное отличие - вам необходимо настроить ваш смарт-кошелек на вызов `approve` для нашего контракта Paymaster, чтобы он мог тратить токены ERC20 вашего пользователя.
 
-- Paymaster Contract Address (Sepolia): `0x709a4bae3db73a8e717aefca13e88512f738b27f`
-- Paymaster Contract Address (Mainnet): `0x2FAEB0760D4230Ef2aC21496Bb4F0b47D634FD4c`
+- Адрес контракта Paymaster (Sepolia): `0x709a4bae3db73a8e717aefca13e88512f738b27f`
+- Адрес контракта Paymaster (Mainnet): `0x2FAEB0760D4230Ef2aC21496Bb4F0b47D634FD4c`
 
-For example, the code below is almost identical to the `index.js` in the [Paymaster quickstart guide](https://docs.cdp.coinbase.com/paymaster/docs/paymaster-bundler-qs-headless). The only difference is that we added an `approve` function call to the `calls` field.
+Например, код ниже почти идентичен файлу `index.js` [Paymaster quickstart guide](https://docs.cdp.coinbase.com/paymaster/docs/paymaster-bundler-qs-headless). Единственная разница в том, что мы добавили вызов функции `approve` в поле `calls`.
 
 ```
 //index.js
@@ -54,10 +54,10 @@ import { createBundlerClient } from "viem/account-abstraction";
 import { account, client, RPC_URL } from "./config.js";
 import { abi } from "./example-app-abi.js";
 
-// Logs your deterministic public address generated by your private key
+// Логирует детерминированный публичный адрес, сгенерированный вашим приватным ключом
 console.log(`Minting nft to ${account.address}`)
 
-// The bundler is a special node that gets your UserOperation on chain
+// Бандлер - это специальный узел, который размещает вашу UserOperation в цепи
 const bundlerClient = createBundlerClient({
   account,
   client,
@@ -65,7 +65,7 @@ const bundlerClient = createBundlerClient({
   chain: baseSepolia,
 });
 
-// Approves our paymaster to spend your users erc20 tokens. The example below uses USDC
+// Разрешает нашему paymaster тратить токены ERC20 вашего пользователя. В примере ниже используется USDC
 const tokenAddress = "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
 const tokenAmount = 1000000 // 1 USDC
 const paymasterAddress = "0x709a4bae3db73a8e717aefca13e88512f738b27f"
@@ -78,7 +78,7 @@ const approve = {
   })
 }
 
-// The call for your app. You will have change this depending on your dapp's abi
+// Вызов для вашего приложения. Вам нужно будет изменить это в зависимости от ABI вашего dapp
 const nftContractAddress = "0x66519FCAee1Ed65bc9e0aCc25cCD900668D3eD49"
 const mintTo = {
   abi: abi,
@@ -88,7 +88,7 @@ const mintTo = {
 };
 const calls = [approve, mintTo]
 
-// Pads the preVerificationGas (or any other gas limits you might want) to ensure your UserOperation lands onchain
+// Увеличивает preVerificationGas (или любые другие лимиты газа) для гарантии размещения UserOperation в цепи
 account.userOperation = {
   estimateGas: async (userOperation) => {
     const estimate = await bundlerClient.estimateUserOperationGas(userOperation);
@@ -98,7 +98,7 @@ account.userOperation = {
   },
 };
 
-// Sign and send the UserOperation
+// Подписать и отправить UserOperation
 try {
   const userOpHash = await bundlerClient.sendUserOperation({
     account,
@@ -120,10 +120,10 @@ try {
 }
 ```
 
-Please consider checking for your user's ERC20 `allowance` before adding the additional ERC20 `approve` function call. This will save on gas costs for your users as our Paymaster is already allowed to spend their funds.
+Пожалуйста, рассмотрите возможность проверки `allowance` (разрешения) токена ERC20 для вашего пользователя перед добавлением дополнительного вызова функции `approve` для ERC20. Это позволит сэкономить на комиссии газа для ваших пользователей, если нашему Paymaster уже разрешено тратить их средства.
 
 ```
-// Checks for allowance
+// Проверяет allowance (разрешение)
 const allowance = await client.readContract({
   abi: parseAbi(["function allowance(address owner, address spender) returns (uint256)"]),
   address: tokenAddress,
@@ -137,30 +137,30 @@ if (allowance < tokenAmount) {
 }
 ```
 
-### Specification
+### Спецификация
 
-The CDP ERC20 Paymaster uses both `pm_getPaymasterStubData` and `pm_getPaymasterData` JSON-RPC requests specified by ERC-7677 and an additional API `pm_getAcceptedPaymentTokens`. We step through each request and response below.
+CDP Paymaster ERC20 использует JSON-RPC запросы `pm_getPaymasterStubData` и `pm_getPaymasterData`, указанные в ERC-7677, а также дополнительный API `pm_getAcceptedPaymentTokens`. Мы рассмотрим каждый запрос и ответ ниже.
 
 #### pm_getPaymasterStubData and pm_getPaymasterData
 
-1. The paymaster will use the specified ERC20 for payment if specified in the 7677 context field under `erc20`.
-2. Upon rejection / failure the paymaster should return a `data` field in the JSONRPC response which could be used to approve the paymaster and includes:
+1. Paymaster будет использовать указанный токен ERC20 для оплаты, если он указан в поле контекста `erc20` стандарта 7677.
+2. При отклонении / неудаче paymaster должен вернуть поле `data` в ответе JSONRPC, которое может быть использовано для одобрения paymaster и включает:
 
-- `acceptedTokens` array which is a struct including the token address
-- `paymasterAddress` field which is the paymaster address which will perform the token transfers.
+- Массив `acceptedTokens`, который является структурой, включающей адрес токена.
+- Поле `paymasterAddress`, которое является адресом paymaster, выполняющего перевод токенов.
 
-3. Upon success the paymaster will return a `tokenPayment` field in the result. This includes:
+3. При успехе paymaster вернет поле `tokenPayment` в результате. Оно включает:
 
-- `tokenAddress` address of the token used for payment
-- `maxFee` the maximum fee to show in the UI
-- `decimals` decimals to use in the UI
-- `name` name of the token
+- `tokenAddress` - адрес токена, используемого для оплаты.
+- `maxFee` - максимальная комиссия для отображения в UI.
+- `decimals` - количество десятичных знаков для использования в UI.
+- `name` - название токена.
 
-Smart wallet will simulate the transaction to ensure success and accurate information.
+Смарт-кошелек проведет симуляцию транзакции для обеспечения успешности и точности информации.
 
-##### Request
+##### Запрос
 
-This is a standard V0.6 Entrypoint request example with the additional context for the specified token to be used.
+Это пример стандартного запроса Entrypoint V0.6 с дополнительным контекстом для указания используемого токена.
 
 ```json
 {
@@ -190,9 +190,9 @@ This is a standard V0.6 Entrypoint request example with the additional context f
 }
 ```
 
-##### Response
+##### Ответ
 
-Successful response:
+Успешный ответ:
 
 ```json
 {
@@ -210,7 +210,7 @@ Successful response:
 }
 ```
 
-Rejection response:
+Ответ с отклонением:
 
 ```json
 {
@@ -233,10 +233,10 @@ Rejection response:
 
 #### pm_getAcceptedPaymentTokens
 
-`pm_getAcceptedPaymentTokens` returns an array of tokens the paymaster will accept for payment.
-The request contains the entrypoint and the chain id with optional context.
+`pm_getAcceptedPaymentTokens` возвращает массив токенов, которые paymaster принимает для оплаты.
+Запрос содержит entrypoint, идентификатор цепи и необязательный контекст.
 
-##### Request
+##### Запрос
 
 ```json
 {
@@ -247,7 +247,7 @@ The request contains the entrypoint and the chain id with optional context.
 }
 ```
 
-##### Response
+##### Ответ
 
 ```json
 {
@@ -264,9 +264,8 @@ The request contains the entrypoint and the chain id with optional context.
 }
 ```
 
-### Troubleshooting
+### Устранение неполадок
 
 `request denied - max address sponsorship value reached 0x4D44afB8D98c9984F381E60Ac855D89C73f40e45 and sender can not pay with an accepted ERC20”`
 
-The first part of the error signifies why the regular fully sponsored transaction was not accepted. This is to be expected. However, if the “sender can not pay with an accepted ERC20”, check to make sure that the user has enough ERC20 tokens in their wallet to pay for the gas and your wallet approved our Paymaster to spend those tokens.
-
+Первая часть ошибки указывает на причину, по которой обычная полностью спонсируемая транзакция не была принята. Это ожидаемо. Однако, если "sender can not pay with an accepted ERC20", проверьте, что у пользователя достаточно токенов ERC20 в кошельке для оплаты газа и что ваш кошелек одобрил наш Paymaster для траты этих токенов.
