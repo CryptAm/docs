@@ -1,25 +1,25 @@
 ---
-title: Paymaster Security
-sidebar_label: Security
+title: Безопасность Paymaster
+sidebar_label: Безопасность
 ---
 
-It is important to understand where you are using your Paymaster endpoint as anyone who has your key can send requests to sponsor transactions.
+Важно понимать, в каком контексте используется ваш эндпоинт Paymaster, поскольку любой, у кого есть ваш ключ, может отправлять запросы на спонсирование транзакций.
 
-We strongly recommend setting up a contract allowlist on your paymaster configuration which will lock down your paymaster to only sponsor transactions on your wallet.
+Мы настоятельно рекомендуем настроить разрешенный список контрактов (allowlist) в конфигурации вашего paymaster. Это ограничит работу paymaster, позволяя ему спонсировать транзакции только для ваших конкретных контрактов.
 
-Further security measures such as setting up a paymaster Proxy so that your api key is not leaked is also recommended.
+Также рекомендуется применять дополнительные меры безопасности, такие как настройка прокси для paymaster, чтобы предотвратить утечку вашего API-ключа.
 
-If you are in a situation where you can not add a contract allowlist due to dynamic calls to contracts that are not on policy then you must set up a paymaster proxy on your backend such that your api token does not get leaked.
+Если вы находитесь в ситуации, когда не можете добавить контракт в allowlist из-за динамических вызовов к контрактам, не указанным в политике, вы должны настроить прокси для paymaster на вашем бэкенде, чтобы ваш API-токен не был скомпрометирован.
 
-Set sponsorship limits to further ensure you're only sponsoring what you want to.
+Установите лимиты спонсирования, чтобы дополнительно гарантировать, что вы оплачиваете только то, что планируете.
 
-## Paymaster Proxy
+## Прокси для Paymaster
 
-Creating an API to proxy calls to your paymaster service is important for two reasons.
+Создание API для проксирования вызовов к вашему сервису paymaster важно по двум причинам:
 
-- Allows you to protect any API secret.
-- Allows you to add extra validation on what requests you want to sponsor.
+- Позволяет защитить любой API-секрет.
+- Позволяет добавить дополнительную валидацию для запросов, которые вы хотите спонсировать.
 
-You can see more details on implementing a paymaster proxy at [smartwallet.dev](https://www.smartwallet.dev/guides/paymasters).
+Вы можете найти больше деталей по реализации прокси для paymaster на сайте [smartwallet.dev](https://www.smartwallet.dev/guides/paymasters).
 
 
