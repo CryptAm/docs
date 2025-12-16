@@ -3,9 +3,9 @@ title: formatAmount
 ---
 
 
-The `formatAmount` utility is designed for consistent number formatting.
+Утилита `formatAmount` предназначена для консистентного форматирования чисел.
 
-## Usage
+## Использование
 
 <CodeGroup>
 ```tsx code
@@ -15,16 +15,16 @@ const amount = formatAmount('10000', { minimumFractionDigits: 2 });
 ```
 
 ```ts return value
-'10,000.00'; // if in U.S. English locale
+'10,000.00'; // если локаль U.S. English
 
-'10.000,00'; // if in EU country locale
+'10.000,00'; // если локаль страны EU
 ```
 </CodeGroup>
 
-## Returns
+## Возвращает
 
-`string` - The formatted amount.
+`string` - Отформатированное количество.
 
-## Parameters
+## Параметры
 
 [`FormatAmountOptions`](/onchainkit/token/types#formatamountoptions)
