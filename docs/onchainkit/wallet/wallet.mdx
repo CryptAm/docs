@@ -1,22 +1,22 @@
 ---
 title: <Wallet /> · OnchainKit
 sidebarTitle: <Wallet />
-description: The `<Wallet />` components provide an interface for users to connect their Smart Wallet with their identity information like Basename and ETH balance.
+description: Компоненты `<Wallet />` предоставляют интерфейс для пользователей, чтобы подключить их смарт-кошелек с информацией об идентификации, такой как Basename и баланс ETH.
 ---
 
-The `<Wallet />` components provide an interface for users to connect their
-Smart Wallet with their identity information like Basename and ETH balance.
+Компоненты `<Wallet />` предоставляют интерфейс для пользователей, чтобы подключить
+их смарт-кошелек с информацией об идентификации, такой как Basename и баланс ETH.
 
-It features built-in polished user experiences for both web and mobile web,
-making it incredibly easy to enhance with drop-in components.
+Они оснащены встроенными отполированными пользовательскими интерфейсами как для веб,
+так и для мобильного веба, что делает их невероятно простыми для улучшения с помощью компонентов.
 
-Before using them, ensure you've completed all [Getting Started steps](/onchainkit/getting-started).
+Перед их использованием убедитесь, что вы выполнили все [Getting Started steps](/onchainkit/getting-started).
 
-## Quick start
+## Быстрый старт
 
-To streamline the integration process and integrate a simplified version of the `Wallet` component, you can render the `Wallet` component without children. 
+Чтобы упростить процесс интеграции и внедрить упрощенную версию компонента `Wallet`, вы можете отобразить компонент `Wallet` без дочерних элементов.
 
-If you'd like more customization, follow the implementation guide for our `Wallet` component below where you can manually define each subcomponent and prop.
+Если вам требуется больше кастомизации, следуйте руководству по реализации для нашего компонента `Wallet` ниже, где вы можете вручную определить каждый дочерний компонент и свойство.
 
 ```tsx
 import { Wallet } from '@coinbase/onchainkit/wallet';
@@ -33,14 +33,14 @@ import { Wallet } from '@coinbase/onchainkit/wallet';
   <Wallet />
 </WalletComponents> */}
 
-## Walkthrough
+## Пошаговое руководство
 
 <Steps>
-  <Step title="Set up your wallet connections">
-  Kick off your wallet connection setup by configuring the `wagmi` provider.
+  <Step title="Настройка подключений кошелька">
+  Начните настройку подключения кошелька, сконфигурировав провайдер `wagmi`.
 
-  And make sure to update the `appName` as that will be displayed to
-  the user when they connect their wallet.
+  И не забудьте обновить `appName`, так как это имя будет показано 
+  пользователю при подключении кошелька.
 
   ```tsx
   // @noErrors: 2554
@@ -68,14 +68,14 @@ import { Wallet } from '@coinbase/onchainkit/wallet';
   ```
 
   </Step>
-  <Step title="Drop in the <Wallet /> components">
-  Experience the magic by simply dropping in the `<Wallet />` component
-  and watch it seamlessly come to life.
+  <Step title="Добавление компонентов <Wallet />">
+  Испытайте магию, просто вставив компонент `<Wallet />`, и наблюдайте,
+  как он плавно оживает.
 
-  Additionally, you can see the [`<Identity>`](/onchainkit/identity/identity) components
-  like [`<Avatar>`](/onchainkit/identity/avatar), [`<Name>`](/onchainkit/identity/name),
-  and [`<Address>`](/onchainkit/identity/address) are used in a composable way.
-  Explore their documentation pages to discover various customization options.
+  Кроме того, вы можете видеть, что компоненты [`<Identity>`](/onchainkit/identity/identity)
+  такие как [`<Avatar>`](/onchainkit/identity/avatar), [`<Name>`](/onchainkit/identity/name),
+  и [`<Address>`](/onchainkit/identity/address) используются композиционным способом.
+  Изучите их страницы документации, чтобы открыть для себя различные варианты настройки.
 
   ```tsx
   import {
@@ -137,14 +137,14 @@ import { Wallet } from '@coinbase/onchainkit/wallet';
   </WalletComponents> */}
 
   </Step>
-  <Step title="Drop in pre-made wallet components">
-  Expand the user experience with pre-made components like [`<WalletDropdownLink>`](/onchainkit/wallet/wallet-dropdown-link),
+  <Step title="Добавление готовых компонентов кошелька">
+  Расширьте пользовательский опыт с помощью готовых компонентов, таких как [`<WalletDropdownLink>`](/onchainkit/wallet/wallet-dropdown-link),
   [`<WalletDropdownBasename>`](/onchainkit/wallet/wallet-dropdown-basename),
   [`<WalletDropdownFundLink>`](/onchainkit/wallet/wallet-dropdown-fund-link),
-  or `<EthBalance>`, to help you build a seamless wallet experience for your users.
+  или `<EthBalance>`, чтобы помочь вам создать плавный опыт работы с кошельком для ваших пользователей.
 
-  The `<WalletDropdownLink>` is highly versatile and will likely be your go-to choice
-  for adding more links to the dropdown, connecting your users to various pages of your onchain app.
+  `<WalletDropdownLink>` очень универсален и, скорее всего, станет вашим основным выбором для добавления дополнительных
+  ссылок в выпадающий список, соединяя ваших пользователей с различными страницами вашего ончейн-приложения.
 
   ```tsx
   import {
@@ -164,7 +164,7 @@ import { Wallet } from '@coinbase/onchainkit/wallet';
     EthBalance, // [!code focus]
   } from '@coinbase/onchainkit/identity';
 
-  // omitted for brevity
+  // опущено для краткости
 
   <Wallet>
     <ConnectWallet>
@@ -228,12 +228,12 @@ import { Wallet } from '@coinbase/onchainkit/wallet';
   </Step>
 </Steps>
 
-## Customize Connect button text and style
+## Кастомизация текста и стиля кнопки подключения
 
-Each OnchainKit component offers the flexibility to customize `className`
-and adjust the style of the React components it represents.
+Каждый компонент OnchainKit предлагает гибкость для настройки `className`
+и изменения стиля представляемых им React-компонентов.
 
-Customize the connect wallet text by using the `disconnectedLabel` prop on the `<ConnectWallet />` component.
+Настройте текст подключения кошелька, используя свойство `disconnectedLabel` в компоненте `<ConnectWallet />`.
 
 ```tsx
 import {
@@ -252,7 +252,7 @@ import {
 } from '@coinbase/onchainkit/identity';
 import { color } from '@coinbase/onchainkit/theme';
 // ---cut-before---
-// omitted for brevity
+// опущено для краткости
 
 <Wallet>
   <ConnectWallet className='bg-blue-800' disconnectedLabel='Log In'>
@@ -311,11 +311,11 @@ import { color } from '@coinbase/onchainkit/theme';
   </Wallet>
 </WalletComponents> */}
 
-## Example usage
+## Пример использования
 
-### Usage with Sign In With Ethereum (SIWE)
+### Использование с Sign In With Ethereum (SIWE)
 
-To use [Sign In With Ethereum (SIWE)](https://docs.login.xyz/general-information/siwe-overview) with OnchainKit, you can use the `onConnect` prop in the `<ConnectWallet />` component. This will trigger the SIWE prompt when the user connects their wallet.
+Чтобы использовать [Sign In With Ethereum (SIWE)](https://docs.login.xyz/general-information/siwe-overview) с OnchainKit, вы можете использовать свойство `onConnect` в компоненте `<ConnectWallet />`. Это вызовет запрос SIWE, когда пользователь подключит свой кошелек.
 
 ```tsx
 import { ConnectWallet } from '@coinbase/onchainkit/wallet';
@@ -342,32 +342,32 @@ export function WalletComponents() {
 
 ```
 
-## Components
+## Компоненты
 
-The components are designed to work together hierarchically. For each component, ensure the following:
+Компоненты предназначены для совместной иерархической работы. Для каждого компонента убедитесь в следующем:
 
-- `<Wallet />` - Serves as the main container for all wallet-related components.
-- `<ConnectWallet />` - Handles the wallet connection process. Place child components inside to customize the connect button appearance.
-- `<AppWithWalletModal />` - Enables a wallet aggregation experience.
-- `<WalletDropdown />` - Contains additional wallet information and options. Place inside the `<Wallet />` component.
-- `<Identity />` - Displays user identity information. Place inside `<WalletDropdown />` for a complete profile view.
-- `<WalletDropdownBasename />` - Displays the user's Basename within the dropdown.
-- `<WalletDropdownLink />` - Creates a custom link within the dropdown. Use the `icon` prop to add an icon, and `href` to specify the destination.
-- `<WalletDropdownDisconnect />` - Provides a disconnect option within the dropdown.
+- `<Wallet />` - Служит основным контейнером для всех компонентов, связанных с кошельком.
+- `<ConnectWallet />` - Обрабатывает процесс подключения кошелька. Размещайте дочерние компоненты внутри, чтобы настроить внешний вид кнопки подключения.
+- `<AppWithWalletModal />` - Включает опыт агрегации кошельков.
+- `<WalletDropdown />` - Содержит дополнительную информацию и опции кошелька. Размещайте внутри компонента `<Wallet />`.
+- `<Identity />` - Отображает информацию об идентификации пользователя. Размещайте внутри `<WalletDropdown />` для полного представления профиля.
+- `<WalletDropdownBasename />` - Отображает Basename пользователя внутри выпадающего списка.
+- `<WalletDropdownLink />` - Создает пользовательскую ссылку внутри выпадающего списка. Используйте свойство `icon` для добавления иконки и `href` для указания назначения.
+- `<WalletDropdownDisconnect />` - Предоставляет опцию отключения внутри выпадающего списка.
 
-Additional components for customizing the wallet interface include:
+Дополнительные компоненты для настройки интерфейса кошелька включают:
 
-- `<Avatar />` - Displays the user's avatar image.
-- `<Name />` - Shows the user's name or ENS.
-- `<Badge />` - Can be used to display additional user status or information.
-- `<Address />` - Shows the user's wallet address.
-- `<EthBalance />` - Displays the user's ETH balance.
+- `<Avatar />` - Отображает изображение аватара пользователя.
+- `<Name />` - Показывает имя пользователя или ENS.
+- `<Badge />` - Может использоваться для отображения дополнительного статуса или информации о пользователе.
+- `<Address />` - Показывает адрес кошелька пользователя.
+- `<EthBalance />` - Отображает баланс ETH пользователя.
 
-The Wallet component automatically handles the wallet connection state and updates the UI accordingly.
-You need to wrap your application or relevant part of it with these components
-to provide a complete wallet interaction experience.
+Компонент Wallet автоматически обрабатывает состояние подключения кошелька и соответствующим образом обновляет пользовательский интерфейс.
+Вам нужно обернуть ваше приложение или соответствующую его часть этими компонентами,
+чтобы обеспечить полноценный опыт взаимодействия с кошельком.
 
-## Component types
+## Типы компонентов
 
 - [`WalletReact`](/onchainkit/wallet/types#walletreact)
 - [`ConnectWalletReact`](/onchainkit/wallet/types#connectwalletreact)
