@@ -1,26 +1,26 @@
 ---
-title: 'Paymaster & Bundler Troubleshooting'
-sidebar_label: Troubleshooting
+title: 'Устранение неполадок Paymaster и Bundler'
+sidebar_label: Устранение неполадок
 ---
 
-This tutorial explains how to debug common issues you may face when sending UserOperations.
+В этом руководстве объясняется, как устранять распространенные проблемы, с которыми вы можете столкнуться при отправке UserOperations.
 
-## Execution reverted
+## Исполнение отменено
 
-The UserOperation was able to make it onchain, but an error occurred in one of the smart contracts it interacted with, and thus the entire operation had to be reverted. This can be due to
+UserOperation был размещен в цепи, но произошла ошибка в одном из смарт-контрактов, с которыми он взаимодействовал, и поэтому вся операция была отменена. Это может быть связано с:
 
-- Not enough gas to pay for execution
-  - Try increasing the `preVerificationGas` or `callGasLimit` padding
-- An issue with the `callData` of your UserOperations
-  - This is an issue with your dapp's smart contract, which you will need to debug.
+- Недостаточно газа для оплаты исполнения
+  - Попробуйте увеличить резерв для `preVerificationGas` или `callGasLimit`
+- Проблема с `callData` вашей UserOperation
+  - Это проблема со смарт-контрактом вашего dapp, которую вам необходимо отладить.
 
-You can use a tool like [Tenderly](https://dashboard.tenderly.co/) to help simulate and debug the UserOperation.
+Для симуляции и отладки UserOperation вы можете использовать такой инструмент, как [Tenderly](https://dashboard.tenderly.co/).
 
-### Issue regarding gas estimation
+### Проблема, связанная с оценкой газа
 
-If you think the issue may be related to gas, simulate using the Entrypoint contract, `0x5ff137d4b0fdcd49dca30c7cf57e578a026d2789`, and pasting in your UserOperation into the `tuple` field.
+Если вы считаете, что проблема может быть связана с газом, выполните симуляцию, используя контракт Entrypoint, `0x5ff137d4b0fdcd49dca30c7cf57e578a026d2789`, и вставив вашу UserOperation в поле `tuple`.
 
-For example, your UserOperation may look something like
+Например, ваша UserOperation может выглядеть так:
 
 ```
 {
@@ -38,9 +38,9 @@ For example, your UserOperation may look something like
 }
 ```
 
-You can use the `simulateHandleOp` function and pass that UserOperation in the `op` field (don't forget to add array brackets around it, because technically it handles a "bundle" of UserOperations).
+Вы можете использовать функцию `simulateHandleOp` и передать эту UserOperation в поле `op` (не забудьте добавить квадратные скобки вокруг нее, поскольку технически она обрабатывает «пачку» UserOperations).
 
-<Accordion title="Expand for images and click to enlarge">
+<Accordion title="Развернуть для просмотра изображений (кликните для увеличения)">
 <Frame caption="Tenderly - Entrypoint">
 <img
   src="/images/paymaster/pb-paymaster-tenderly-entrypoint.png"
@@ -50,9 +50,9 @@ You can use the `simulateHandleOp` function and pass that UserOperation in the `
 </Frame>
 </Accordion>
 
-### Execution reverted with data
+### Исполнение отменено с данными
 
-Error may look something like this
+Ошибка может выглядеть примерно так:
 
 ```
 cause: {
@@ -62,19 +62,19 @@ cause: {
 }
 ```
 
-You can use a tool like https://bia.is/tools/abi-decoder/ to upload your ABI, enter the data in, and decode the error message. Try using the ABI of every smart contract your dapp could be interacting with.
+Вы можете использовать такой инструмент, как https://bia.is/tools/abi-decoder/ чтобы загрузить свой ABI, ввести данные и декодировать сообщение об ошибке. Попробуйте использовать ABI каждого смарт-контракта, с которым ваш dapp может взаимодействовать.
 
-### Execution reverted for an unknown reason
+### Исполнение отменено по неизвестной причине
 
-Similar to above, except your contract is reverting without any error codes. Try reviewing your smart contract's code, your `callData`, and using [Tenderly](https://dashboard.tenderly.co/) to debug. It may help to have your [contract verified.](https://book.getfoundry.sh/reference/forge/forge-verify-contract)
+Аналогично предыдущему, за исключением того, что ваш контракт отменяется без каких-либо кодов ошибок. Попробуйте проверить код вашего смарт-контракта, ваш `callData` и использовать [Tenderly](https://dashboard.tenderly.co/), для отладки. Возможно, поможет [верификация вашего аккаунта.](https://book.getfoundry.sh/reference/forge/forge-verify-contract)
 
-The example below shows you how to debug your own smart contract.
+Пример ниже показывает, как отлаживать собственный смарт-контракт.
 
-- `Insert any address` - Enter your smart contract's address here
-- `Enter raw input data` - Enter the `callData` of your contract's function (right after `callData = encodeFunctionData()`)
+- `Insert any address` - Введите адрес вашего смарт-контракта здесь.
+- `Enter raw input data` - Введите `callData` функции вашего контракта (сразу после `callData = encodeFunctionData()`)
 
-<Accordion title="Expand for images and click to enlarge">
-<Frame caption="Tenderly - Contract Debug">
+<Accordion title="Развернуть для просмотра изображений (кликните для увеличения)">
+<Frame caption="Tenderly - Отладка контракта">
 <img
   src="/images/paymaster/pb-paymaster-tenderly-dev-debug.png"
   width="700"
@@ -83,11 +83,11 @@ The example below shows you how to debug your own smart contract.
 </Frame>
 </Accordion>
 
-## Invalid chain id
+## Неверный идентификатор цепи 
 
-You might be using the mainnet RPC url instead of the testnet RPC url (or vis versa). Make sure you select the right network in the CDP portal
+Возможно, вы используете RPC URL основной сети вместо тестовой (или наоборот). Убедитесь, что вы выбрали правильную сеть в портале CDP.
 
-<Accordion title="Expand for images and click to enlarge">
+<Accordion title="Развернуть для просмотра изображений (кликните для увеличения)">
 <Frame caption="Paymaster chain">
 <img
   src="/images/paymaster/pb-paymaster-chainid.png"
@@ -97,11 +97,11 @@ You might be using the mainnet RPC url instead of the testnet RPC url (or vis ve
 </Frame>
 </Accordion>
 
-## Invalid UserOperation signature or paymaster signature
+## Недействительная подпись UserOperation или подпись paymaster
 
 ```
 UserOperation rejected because account signature check failed (or paymaster signature, if the paymaster uses its data as signature).
 ```
 
-This likely means that you updated the UserOperation after getting a signature from our Paymaster service. Our Paymster signs the UserOperation with the UserOperation itself, so make sure you're not making any changes to the UserOperation after it's already been signed by our Paymaster `paymasterClient.getPaymasterData()`. If you need to adjust things like `callData`, `preVerificationGas`, or `callGasLimit`, you will need to receive a new signature from our Paymaster. Also if you're handling multiple UserOperation, make sure the paymaster signature matches the right UserOperation.
+Вероятно, это означает, что вы изменили UserOperation после получения подписи от нашего сервиса Paymaster. Наш Paymaster подписывает UserOperation самими данными UserOperation, поэтому убедитесь, что вы не вносите никаких изменений в UserOperation после того, как она уже была подписана нашим Paymaster (`paymasterClient.getPaymasterData()`). Если вам нужно скорректировать такие параметры, как `callData`, `preVerificationGas` или `callGasLimit`, вам потребуется получить новую подпись от нашего Paymaster. Также, если вы обрабатываете несколько UserOperations, убедитесь, что подпись paymaster соответствует правильной UserOperation.
 
