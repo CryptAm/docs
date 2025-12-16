@@ -1,10 +1,10 @@
 ---
 title: <NFTMintCard /> · OnchainKit
 sidebarTitle: <NFTMintCard />
-description: Mint NFTs with OnchainKit
+description: Минт NFT с помощью OnchainKit
 ---
 
-The `NFTMintCard` component provides an easy way to mint an NFT. Just enter the NFT contract address and token Id (for ERC1155 contracts) and include the subcomponents you want to render.
+Компонент `NFTMintCard` предоставляет простой способ создания NFT. Просто введите адрес контракта NFT и идентификатор токена (для контрактов ERC1155) и включите подкомпоненты, которые вы хотите отобразить.
 
 <Frame>
 <img alt="Checkout"
@@ -13,23 +13,23 @@ The `NFTMintCard` component provides an easy way to mint an NFT. Just enter the 
 />
 </Frame>
 
-## Prerequisites
+## Предварительные требования
 
-Before using the `NFTMintCard` component, ensure you've completed the [Getting Started](/onchainkit/getting-started) steps.
+Перед использованием компонента `NFTMintCard` убедитесь, что вы выполнили шаги [Getting Started](/onchainkit/getting-started).
 
-To use the `NFTMintCard` component, you'll need to provide an API Key in `OnchainKitProvider`. You can get one following our [Getting Started](/onchainkit/getting-started#get-your-public-api-key) steps.
+Чтобы использовать компонент `NFTMintCard`, вам необходимо предоставить API-ключ в `OnchainKitProvider`. Вы можете получить его, следуя нашим шагам [Getting Started](/onchainkit/getting-started#get-your-public-api-key).
 
-### Starting a new project
+### Создание нового проекта
 
-If you're starting a new project, we recommend using `create onchain` to scaffold your project.
+Если вы начинаете новый проект, мы рекомендуем использовать `create onchain` для создания структуры вашего проекта.
 
 ```bash
 npm create onchain@latest
 ```
 
-### Adding to an existing project
+### Добавление в существующий проект
 
-If you're adding `NFTMintCard` to an existing project, simply install OnchainKit.
+Если вы добавляете `NFTMintCard` в существующий проект, просто установите OnchainKit.
 
 <CodeGroup>
 ```bash npm
@@ -49,11 +49,11 @@ bun add @coinbase/onchainkit
 ```
 </CodeGroup>
 
-Wrap the `<OnchainKitProvider />` around your app, following the steps in [Getting Started](/onchainkit/getting-started#add-providers).
+Оберните `<OnchainKitProvider />` вокруг вашего приложения, следуя шагам в [Getting Started](/onchainkit/getting-started#add-providers).
 
-## Quickstart
+## Быстрый старт
 
-The `NFTMintCardDefault` component is a simplified version of the `NFTMintCard` component, designed to streamline the integration process for developers. Instead of manually defining each subcomponent, developers can use this shorthand version which renders our suggested implementation of the component and includes `NFTCreator`, `NFTMedia`, `NFTCollectionTitle`, `NFTQuantitySelector`, `NFTAssetCost` and `NFTMintButton`.
+Компонент `NFTMintCardDefault` является упрощенной версией компонента `NFTMintCard`, предназначенной для упрощения процесса интеграции для разработчиков. Вместо ручного определения каждого подкомпонента разработчики могут использовать эту сокращенную версию, которая отображает нашу рекомендуемую реализацию компонента и включает `NFTCreator`, `NFTMedia`, `NFTCollectionTitle`, `NFTQuantitySelector`, `NFTAssetCost` и `NFTMintButton`.
 
 ```tsx
 import { NFTMintCardDefault } from '@coinbase/onchainkit/nft'; // [!code focus]
@@ -63,10 +63,10 @@ import { NFTMintCardDefault } from '@coinbase/onchainkit/nft'; // [!code focus]
 />  // [!code focus]
 ```
 
-If you'd like more customization you can follow the steps below to customize which subcomponents are rendered.
+Если вы хотите больше кастомизации, вы можете выполнить следующие шаги, чтобы настроить, какие подкомпоненты отображаются.
 
 <Steps>
-  <Step title="Add the NFTMintCard">
+  <Step title="Добавьте NFTMintCard">
   ```tsx
   // @noErrors: 2741 - Property children missing in type
   import { NFTMintCard } from '@coinbase/onchainkit/nft'; // [!code focus]
@@ -113,17 +113,17 @@ If you'd like more customization you can follow the steps below to customize whi
   </Step>
 </Steps>
 
-That's it! You've now created an NFT mint card.
+Вот и все! Вы создали карточку для минта NFT.
 
-## Not sure what to mint?
+## Не уверены, что именно создавать?
 
-You can create your own NFT to mint at [Coinbase Wallets create a Mint flow](https://wallet.coinbase.com/home/create). Just follow the instructions to create your NFT and then copy the contract address out of the url into an NFTMintCard.
+Вы можете создать свой собственный NFT для минта в [Coinbase Wallets create a Mint flow](https://wallet.coinbase.com/home/create). Просто следуйте инструкциям, чтобы создать ваш NFT, а затем скопируйте адрес контракта из URL в NFTMintCard.
 
-## Customization
+## Кастомизация
 
-### Add the NFTMintCard components in any order
+### Добавляйте компоненты NFTMintCard в любом порядке
 
-If you prefer to have the collection title above the media, you can easily change the order of the subcomponents and they will render in the new order.
+Если вы предпочитаете, чтобы название коллекции было над медиа, вы можете легко изменить порядок подкомпонентов, и они будут отображаться в новом порядке.
 
 ```tsx
 import { NFTMintCard } from '@coinbase/onchainkit/nft';
@@ -147,9 +147,9 @@ import { NFTCollectionTitle } from '@coinbase/onchainkit/nft/mint';
 />
 {/* <MintCardTitleAbove /> */}
 
-### Customize the `<NFTMedia />` aspect ratio
+### Настройте соотношение сторон `<NFTMedia />`
 
-By default, we display all media scaled to fit the card. If you would prefer to show the media at its original aspect ratio you can set `square={false}` on the `<NFTMedia />` component.
+По умолчанию мы отображаем все медиа масштабированными под размер карточки. Если вы предпочитаете показывать медиа в исходном соотношении сторон, вы можете установить `square={false}` для компонента `<NFTMedia />`.
 
 ```tsx
 import { NFTMintCard } from '@coinbase/onchainkit/nft';
@@ -166,7 +166,7 @@ import {
 ```
 
 <Tabs>
-  <Tab title="Scaled to fit (default) ">
+  <Tab title="Масштабировано по размеру (по умолчанию)">
     <iframe
       src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-nft-mintcard--card-scaled&viewMode=story&dark=true&hero=true"
       width="100%"
@@ -185,9 +185,9 @@ import {
 | ------------------------------- | -------------------------------- |
 | <MintCardScaled square={true}/> | <MintCardScaled square={false}/> | */}
 
-### Override styles
+### Переопределение стилей
 
-We recommend style customization by setting a custom [OnchainKit theme](/onchainkit/guides/themes#custom-theme). You can also override individual component styles using `className`.
+Мы рекомендуем настраивать стили, установив пользовательскую [OnchainKit theme](/onchainkit/guides/themes#custom-theme). Вы также можете переопределить стили отдельных компонентов, используя `className`.
 
 ```tsx
 import { NFTMintCard } from '@coinbase/onchainkit/nft';
@@ -216,17 +216,17 @@ export default function NFTComponent() {
 />
 {/* <MintCardOverrideStyles/> */}
 
-## Compatibility
+## Совместимость
 
-The mint component uses a custom buildMintTransaction implementation which supports Coinbase mints as well as [`these supported platforms on reservoir`](https://docs.reservoir.tools/docs/minting#platform-support). If your contract is not supported, please follow the [`bring your own data instructions`](#bring-your-own-data) below.
+Компонент минта использует пользовательскую реализацию `buildMintTransaction`, которая поддерживает минты Coinbase, а также [`these supported platforms on reservoir`](https://docs.reservoir.tools/docs/minting#platform-support). Если ваш контракт не поддерживается, пожалуйста, следуйте инструкциям [`bring your own data instructions`](#bring-your-own-data) ниже.
 
-## Advanced Usage
+## Расширенное использование
 
-### Bring your own data
+### Используйте свои собственные данные
 
-The default `NFTMintCard` implementation uses Coinbase Developer Platform to provide the data and requires an API key. You can use the `useNFTData` prop to pass in a hook which fetches the NFT data from a source of your choice. As long as this hook returns an object with the same shape as the [`NFTData`](/onchainkit/mint/types#nftdata) type, the NFTMintCard will render.
+Реализация `NFTMintCard` по умолчанию использует Coinbase Developer Platform для предоставления данных и требует API-ключа. Вы можете использовать свойство `useNFTData` для передачи хука, который получает данные NFT из источника по вашему выбору. Пока этот хук возвращает объект с той же структурой, что и тип [`NFTData`](/onchainkit/mint/types#nftdata), NFTMintCard будет отображаться.
 
-You can also use a custom `buildMintTransaction` function to create your own Mint transaction.
+Вы также можете использовать пользовательскую функцию `buildMintTransaction` для создания своей собственной транзакции минта.
 
 ```tsx
 // @noErrors: 2739
@@ -262,19 +262,19 @@ export default function NFTComponent() {
 }
 ```
 
-### Listening to the component lifecycle
+### Отслеживание жизненного цикла компонента
 
-You can use our NFT [`LifecycleStatus`](/onchainkit/mint/types#lifecyclestatus) and the `onStatus` prop to listen to transaction states.
+Вы можете использовать наш NFT [`LifecycleStatus`](/onchainkit/mint/types#lifecyclestatus) и свойство `onStatus` для отслеживания состояний транзакции.
 
-NFTMintCard has 6 lifecycle states:
+NFTMintCard имеет 6 состояний жизненного цикла:
 
-- `init` - The component is initialized
-- `error` - The component has encountered an error
-- `mediaLoading` - The media is loading
-- `mediaLoaded` - The media has been loaded
-- `transactionPending` - The mint transaction is pending
-- `transactionLegacyExecuted` - The mint transaction has been executed
-- `success` - The mint transaction has been successful
+- `init` - Компонент инициализирован
+- `error` - Компонент столкнулся с ошибкой
+- `mediaLoading` - Медиа загружается
+- `mediaLoaded` - Медиа загружено
+- `transactionPending` - Транзакция минта ожидает выполнения
+- `transactionLegacyExecuted` - Транзакция минта была выполнена
+- `success` - Транзакция минта была успешной
 
 ```tsx
 import { NFTMintCard } from '@coinbase/onchainkit/nft';
@@ -286,11 +286,11 @@ const statusHandler = (status: LifecycleStatus) => { // [!code focus]
   const { statusName, statusData } = status; // [!code focus]
   switch (statusName) { // [!code focus]
     case 'success': // [!code focus]
-      // handle success
+      // обработка успеха
     case 'error': // [!code focus]
-      // handle error
+      // обработка ошибки
     default: // [!code focus]
-      // handle 'init' state
+      // обработка состояния 'init'
   } // [!code focus]
 } // [!code focus]
 
@@ -303,23 +303,23 @@ const statusHandler = (status: LifecycleStatus) => { // [!code focus]
 // ---cut-after---
 ```
 
-## Example use cases
+## Примеры использования
 
-- **Create a gallery of your mintable NFTs:** Create a gallery of NFTs you created for users to mint
-- **Minted in game avatar:** Allow your users to mint and then view a minted avatar
+- **Создайте галерею ваших NFT для минта:** Создайте галерею NFT, которые вы создали для пользователей, чтобы они могли сминтить
+- **Сминченный внутриигровой аватар:** Позвольте вашим пользователям создать, а затем просмотреть сминтинный аватар
 
-## Components
+## Компоненты
 
-The `NFTMintCard` component can be customized with the following components:
+Компонент `NFTMintCard` может быть кастомизирован с помощью следующих компонентов:
 
-- `<NFTCreator />` - The creator of the NFT.
-- `<NFTMedia square={boolean}/>` - The media for the NFT, this includes support for images, videos and audio NFTs.
-- `<NFTCollectionTitle />` - The title of the NFT collection.
-- `<NFTQuantitySelector />` - The quantity selector for the NFT.
-- `<NFTAssetCost />` - The cost of the NFT in native currency and USD.
-- `<NFTMintButton />` - The mint button for the NFT.
+- `<NFTCreator />` - Создатель NFT.
+- `<NFTMedia square={boolean}/>` - Медиа для NFT, включает поддержку изображений, видео и аудио NFT.
+- `<NFTCollectionTitle />` - Название коллекции NFT.
+- `<NFTQuantitySelector />` - Селектор количества для NFT.
+- `<NFTAssetCost />` - Стоимость NFT в нативной валюте и USD.
+- `<NFTMintButton />` - Кнопка минта для NFT.
 
-## Props
+## Свойства 
 
 - [`LifecycleStatus`](/onchainkit/mint/types#lifecyclestatus)
 - [`NFTMintCardReact`](/onchainkit/mint/types#nftmintcardreact)
