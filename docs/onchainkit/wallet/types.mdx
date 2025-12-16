@@ -1,18 +1,18 @@
 ---
-title: Wallet components & utilities types
+title: Типы компонентов и утилит Wallet
 sidebarTitle: Wallet
-description: Glossary of Types in Wallet components & utilities.
+description: Глоссарий типов в компонентах и утилитах Wallet.
 ---
 
 ## `ConnectWalletReact`
 
 ```ts
 type ConnectWalletReact = {
-  children?: React.ReactNode; // Children can be utilized to display customized content when the wallet is connected.
-  className?: string; // Optional className override for button element
-  text?: string; // Optional text override for button. Note: Prefer using `disconnectedLabel` prop instead as this will be deprecated in a future version.
-  disconnectedLabel?: React.ReactNode; // Optional text override for button.
-  onConnect?: () => void; // Optional callback function that is called when the wallet is connected. Can be used to trigger SIWE prompts or other actions.
+  children?: React.ReactNode; // Дочерние элементы можно использовать для отображения пользовательского контента, когда кошелек подключен.
+  className?: string; // Необязательное переопределение className для элемента кнопки
+  text?: string; // Необязательное переопределение текста для кнопки. Примечание: предпочтительнее использовать проп `disconnectedLabel`, так как эта опция будет удалена в будущей версии.
+  disconnectedLabel?: React.ReactNode; // Необязательное переопределение текста для кнопки.
+  onConnect?: () => void; // Необязательная функция обратного вызова, которая вызывается при подключении кошелька. Может использоваться для запуска запросов SIWE или других действий.
 };
 ```
 
@@ -45,8 +45,8 @@ export type IsWalletACoinbaseSmartWalletResponse =
 
 ```ts
 type WalletContextType = {
-  address?: Address | null; // The Ethereum address to fetch the avatar and name for.
-  chain?: Chain; // Optional chain for domain resolution
+  address?: Address | null; // Адрес Ethereum, для которого нужно получить аватар и имя.
+  chain?: Chain; // Необязательная цепь для разрешения домена
   isConnectModalOpen: boolean;
   setIsConnectModalOpen: Dispatch<SetStateAction<boolean>>;
   isSubComponentOpen: boolean;
@@ -82,14 +82,14 @@ type WalletReact = {
 } & (
   | { draggable?: true; draggableStartingPosition?: { x: number; y: number } }
   | { draggable?: false; draggableStartingPosition?: never }
-); // discriminated union to allow for optional draggable and draggableStartingPosition
+); // discriminated union для опциональных draggable и draggableStartingPosition
 ```
 
 ## `WalletDropdownBasenameReact`
 
 ```ts
 type WalletDropdownBasenameReact = {
-  className?: string; // Optional className override for the element
+  className?: string; // Необязательное переопределение className для элемента
 };
 ```
 
@@ -98,7 +98,7 @@ type WalletDropdownBasenameReact = {
 ```ts
 type WalletDropdownReact = {
   children?: React.ReactNode;
-  className?: string; // Optional className override for top div element;
+  className?: string; // Необязательное переопределение className для верхнего div-элемента;
   classNames?: {
     container?: string;
     qr?: WalletAdvancedQrReceiveProps['classNames'];
@@ -112,8 +112,8 @@ type WalletDropdownReact = {
 
 ```ts
 export type WalletDropdownDisconnectReact = {
-  className?: string; // Optional className override for the element
-  text?: string; // Optional text override for the button
+  className?: string; // Необязательное переопределение className для элемента
+  text?: string; // Необязательное переопределение текста для кнопки
 };
 ```
 
@@ -121,13 +121,13 @@ export type WalletDropdownDisconnectReact = {
 
 ```ts
 export type WalletDropdownFundLinkReact = {
-  className?: string; // Optional className override for the element
-  icon?: ReactNode; // Optional icon override
-  openIn?: 'popup' | 'tab'; // Whether to open the funding flow in a tab or a popup window
-  popupSize?: 'sm' | 'md' | 'lg'; // Size of the popup window if `openIn` is set to `popup`
-  rel?: string; // Specifies the relationship between the current document and the linked document
-  target?: string; // Where to open the target if `openIn` is set to tab
-  text?: string; // Optional text override
+  className?: string; // Необязательное переопределение className для элемента
+  icon?: ReactNode; // Необязательное переопределение иконки
+  openIn?: 'popup' | 'tab'; // Открыть поток пополнения во вкладке или всплывающем окне
+  popupSize?: 'sm' | 'md' | 'lg'; // Размер всплывающего окна, если `openIn` установлен в `popup`
+  rel?: string; // Определяет связь между текущим документом и связанным документом
+  target?: string; // Где открывать цель, если `openIn` установлен в tab
+  text?: string; // Необязательное переопределение текста
 };
 ```
 
@@ -136,7 +136,7 @@ export type WalletDropdownFundLinkReact = {
 ```ts
 export type WalletDropdownLinkReact = {
   children: string;
-  className?: string; // Optional className override for the element
+  className?: string; // Необязательное переопределение className для элемента
   href: string;
   icon?: 'wallet' & ReactNode;
   rel?: string;
