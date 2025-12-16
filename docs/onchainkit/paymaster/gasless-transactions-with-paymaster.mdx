@@ -1,158 +1,158 @@
 ---
-sidebarTitle: 'Gasless Transactions on Base using a Paymaster'
-title: Gasless Transactions on Base using Base Paymaster
-description: Learn how to leverage the Base Paymaster for seamless, gasless transactions on the Coinbase Cloud Developer Platform.
+sidebarTitle: 'Бесплатные транзакции на Base с использованием Paymaster'
+title: Gasless Бесплатные транзакции на Base с использованием Base Paymaster
+description: Узнайте, как использовать Base Paymaster в Coinbase Cloud Developer Platform для проведения транзакций без оплаты газа пользователями.
 ---
 
 import { Danger } from "/snippets/danger.mdx";
 
-Still trying to onboard users to your app? Want to break free from the worries of gas transactions and sponsor them for your users on Base? Look no further!
+Все еще пытаетесь привлечь пользователей в свое приложение? Хотите избавиться от проблем с оплатой газа и спонсировать его для пользователей на Base? Ответ найден!
 
-Base transaction fees are less than a penny, but the concept of gas can be confusing for new users. Abstract this away and improve your UX by using the Base Paymaster. The Base Paymaster allows you to batch multi-step transactions and create custom gasless experiences. Sponsor up to $10k monthly on mainnet (unlimited on testnet). To request an increase in limit, reach out in [Discord].
+Комиссии за транзакции на Base обычно составляют меньше цента, но сама концепция газа может сбивать с толку новых пользователей. Сделайте этот процесс невидимым и улучшите пользовательский опыт с помощью Base Paymaster. Base Paymaster позволяет вам пакетировать многошаговые транзакции и создавать пользовательский опыт без оплаты газа. Спонсируйте до $10 000 в месяц в мейннете (неограниченно в тестнете). Чтобы запросить увеличение лимита, обратитесь в [Discord].
 
-## Objectives
+## Цели
 
-- Configure security measures to ensure safe and reliable transactions
-- Manage and allocate resources for sponsored transactions
-- Subsidize transaction fees for users, enhancing the user experience by making transactions free for them
-- Set up and manage sponsored transactions on various schedules, including weekly, monthly, and daily cadences
+- Настроить меры безопасности для обеспечения безопасных и надежных транзакций.
+- Управлять и распределять ресурсы для спонсируемых транзакций.
+- Субсидировать комиссии за транзакции для пользователей, улучшая их опыт за счет бесплатных транзакций.
+- Настраивать и управлять спонсируемыми транзакциями с различной периодичностью: еженедельной, ежемесячной и ежедневной.
 
-## Prerequisites
+## Предварительные требования
 
-This tutorial assumes you have a Coinbase Cloud Developer Platform account. If not, sign up on the [CDP site].
+Данное руководство предполагает, что у вас есть аккаунт **Coinbase Cloud Developer Platform**. Если нет, зарегистрируйтесь на [CDP site].
 
-### Coinbase CDP account
+### Аккаунт Coinbase CDP 
 
-This is your access point to the Coinbase Cloud Developer Platform, where you can manage projects and utilize tools like the Paymaster.
+Это ваша точка доступа к Coinbase Cloud Developer Platform, где вы можете управлять проектами и использовать инструменты, такие как Paymaster.
 
-### Familiarity with Smart Accounts and ERC 4337
+### Знакомство со смарт-аккаунтами и ERC 4337
 
-Understanding Smart Accounts and the ERC 4337 standard is crucial as they are the backbone of executing advanced transaction patterns and account abstractions on the Ethereum network.
+Понимание смарт-аккаунтов и стандарта ERC 4337 крайне важно, поскольку они являются основой для выполнения расширенных шаблонов транзакций и абстракции аккаунтов в сети Ethereum.
 
 ### Foundry
 
-Foundry is a development environment, testing framework, and smart contract toolkit for Ethereum. It's essential for deploying and testing smart contracts.
+Foundry - это среда разработки, фреймворк для тестирования и набор инструментов для смарт-контрактов Ethereum. Он необходим для развертывания и тестирования смарт-контрактов.
 
-## Set Up a Base Paymaster & Bundler
+## Настройка Base Paymaster & Bundler
 
-In this section, you will configure a Paymaster to sponsor payments on behalf of a specific smart contract for a specified amount. First, navigate to the Coinbase Developer Platform, create or select your project, and click on the Paymaster tool from the left navigation. Then, go to the Configuration tab and save the RPC URL to your clipboard, which will be needed for later steps in your index.js file.
+В этом разделе вы настроите Paymaster для спонсирования платежей от имени определенного смарт-контракта на определенную сумму. Сначала перейдите в Coinbase Developer Platform, создайте или выберите проект и нажмите на инструмент Paymaster в левой панели навигации. Затем перейдите на вкладку Configuration и скопируйте RPC URL в буфер обмена. Он понадобится на следующих шагах в вашем файле index.js.
 
-Navigate to the [Coinbase Developer Platform]:
+Перейдите на [Coinbase Developer Platform]:
 
-Create or select your project of choice from the upper left corner of your screen.
+Создайте или выберите нужный проект в верхнем левом углу экрана.
 
 <Frame>
 ![cdp-home.png](/images/gasless-transaction-on-base/cdp-select-project.png)
 </Frame>
 
-Click on the `Paymaster` tool on the left navigation:\*\* [Paymaster Tool]
+Нажмите на инструмент `Paymaster` в левой панели навигации:\*\* [Paymaster Tool]
 
 <Frame>
 ![cdp-paymaster-tool.png](/images/gasless-transaction-on-base/cdp-paymaster.png)
 </Frame>
 
-Click on `Configuration` at the top of the screen
+Нажмите `Configuration` в верхней части экрана.
 
 <Frame>
 ![cdp-paymaster-tool.png](/images/gasless-transaction-on-base/cdp-config.png)
 </Frame>
 
-Save the RPC URL to your paymaster to your clipboard. You will need it in your `index.js` file in a later step.
+Скопируйте RPC URL вашего paymaster в буфер обмена. Он понадобится в вашем файле `index.js` на следующем шаге.
 
-### Allowlist a Sponsorable Contract
+### Добавление контракта в разрешенный список (Allowlist) для спонсирования
 
-Sponsoring transactions are beneficial to easing the onboarding and UX of a decentralized application. As a developer, you want to ensure this is done in the most secure and cost-effective manner. Start by allowlisting a contract of your choice.
+Спонсирование транзакций полезно для упрощения онбординга и улучшения UX децентрализованного приложения. Как разработчик, вы хотите обеспечить максимальную безопасность и экономическую эффективность этого процесса. Начните с добавления в разрешенный список контракта по вашему выбору.
 
-Select **Base Mainnet**
+Выберите **Base Mainnet**
 
-From the configuration page, select `Base Mainnet` from the dropdown menu. Then, enable your paymaster by clicking on the toggle button to the right of the screen.
+На странице конфигурации выберите `Base Mainnet` из выпадающего меню. Затем активируйте свой paymaster, нажав на переключатель справа на экране.
 
 <Frame>
 ![cdp-project-selection.png](/images/gasless-transaction-on-base/cdp-select-project.png)
 </Frame>
 
-Allowlist the NFT contract and the mintTo functions:
+Добавьте NFT-контракт и функцию mintTo в разрешенный список:
 
-Click the `Add` button to add a contract.
+Нажмите кнопку `Add`, чтобы добавить контракт.
 
-Add the following contract: [`0x83bd615eb93eE1336acA53e185b03B54fF4A17e8`](https://basescan.org/token/0x83bd615eb93ee1336aca53e185b03b54ff4a17e8)
+Добавьте следующий контракт: [`0x83bd615eb93eE1336acA53e185b03B54fF4A17e8`](https://basescan.org/token/0x83bd615eb93ee1336aca53e185b03b54ff4a17e8)
 
-Put `mintTo(address)` as the function to allowlist then click `Save` at the bottom of the page.
+Укажите `mintTo(address)` как функцию для добавления в разрешенный список, затем нажмите `Save` в нижней части страницы.
 
 <Frame>
 ![cdp-allowlist-contracts.png](/images/gasless-transaction-on-base/cdp-allowlist-contract.png)
 </Frame>
 
 <Info>
-**Use your own contract**
+**Используйте свой контракт**
 
-You will be using this [simple NFT contract]deployed on Base mainnet for our example. Feel free to use a contract of your choice.
+Для нашего примера вы будете использовать этот [simple NFT contract], развернутый в основной сети Base. Вы можете использовать любой контракт по своему выбору.
 </Info>
 
 
-### Global & Per User Limits:
+### Глобальные и пользовательские лимиты:
 
-Scroll down to the “Per User Limit” section
+Прокрутите вниз до раздела “Per User Limit”
 
-You can set a Paymaster policy that specifies either a specific dollar amount or a number of UserOperations. You can enable a 'limit cycle' that allows this policy to refresh every week. This feature enables applications to sponsor smart wallets on a weekly, daily, or monthly basis, either by amount or by number of UserOperations.
+Вы можете установить политику Paymaster, которая определяет либо конкретную сумму в долларах, либо количество UserOperations. Вы можете включить «цикл лимита», который позволяет этой политике обновляться каждую неделю. Эта функция позволяет приложениям спонсировать смарт-кошельки на еженедельной, ежедневной или ежемесячной основе, либо по сумме, либо по количеству UserOperations.
 
-Set the max USD to $0.05 and the max UserOperation to 1 to create a policy with a maximum sponsorship limit of $0.05 and a maximum of 1 UserOperation per user.
+Установите максимум в долларах на $0.05 и максимум UserOperations на 1, чтобы создать политику с максимальным лимитом спонсирования в $0.05 и максимум 1 UserOperation на пользователя.
 
 <Info>
-**Limit Cycles**
+**Циклы лимитов**
 
-Limit Cycles enables applications to sponsor smart wallets on a weekly, daily, or monthly basis, either by amount or by number of UserOperations. These limits reset based on the cadence selected in the dropdown menu.
+Функция Limit Cycles позволяет приложениям спонсировать смарт-кошельки на еженедельной, ежедневной или ежемесячной основе, либо по сумме, либо по количеству UserOperations. Эти лимиты сбрасываются в соответствии с выбранной периодичностью в выпадающем меню.
 </Info>
 
 
-Set the Global limit:
+Установите глобальный лимит:
 
-This setting allows you to define the maximum amount of gas or USD that can be sponsored globally across all users. It helps control the total expenditure on gas sponsorship, ensuring that the allocated budget is not exceeded. For example, setting a global limit of $1 means that the Paymaster will sponsor transactions until the total gas cost reaches $1.
+Эта настройка позволяет вам определить максимальную сумму газа или USD, которая может быть спонсирована глобально для всех пользователей. Это помогает контролировать общие расходы на спонсирование газа, гарантируя, что выделенный бюджет не будет превышен. Например, установка глобального лимита в $1 означает, что Paymaster будет спонсировать транзакции, пока общая стоимость газа не достигнет $1.
 
-Set your global policy to be `$.07` by entering the amount in the text field and clicking the `Save` button.
+Установите свою глобальную политику на `$.07`, введя сумму в текстовое поле и нажав кнопку `Save`.
 
 <Frame>
 ![cdp-allowlist-contracts.png](/images/gasless-transaction-on-base/cdp-global-user-limits.png)
 </Frame>
 
-## Test Your Paymaster policy
+## Тестирование вашей политики Paymaster
 
-You will now test the policy that was created.
+Теперь вы протестируете созданную политику.
 
 <Note>
-**The Use of Foundry**
+**Использование Foundry**
 
-In this tutorial, You use foundry to create two key pairs that will allow us to create Smart Accounts that you will sponsor transactions on behalf of. You will **not** need to send any funds (ETH) to these wallets. You may use private keys of wallets you own as an alternative.
+В этом руководстве вы используете Foundry для создания двух пар ключей, которые позволят создать смарт-аккаунты, от имени которых вы будете спонсировать транзакции. Вам не нужно отправлять какие-либо средства (ETH) на эти кошельки. В качестве альтернативы вы можете использовать приватные ключи уже существующих у вас кошельков.
 
-Foundry depends on Rust to work. If you do not have rust install:
+Foundry зависит от Rust. Если у вас не установлен Rust:
 
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-For more information, see the [Foundry Book installation guide](https://book.getfoundry.sh/getting-started/installation).
+Для получения дополнительной информации см. [Foundry Book installation guide](https://book.getfoundry.sh/getting-started/installation).
 </Note>
 
 
-Open a terminal and install Foundry by running:
+Откройте терминал и установите Foundry, выполнив команду:
 
 ```bash
 curl -L https://foundry.paradigm.xyz | bash
 ```
 
-Install the Foundry toolchain installer:
+Установите установщик инструментов Foundry:
 
 ```bash
 foundryup
 ```
 
-Create a directory named `sponsored_transactions`:
+Создайте директорию с именем `sponsored_transactions`:
 
 ```bash
 mkdir sponsored_transactions
 ```
 
-Change into the new directory, initialize a node project, install two dependencies `viem` and `permissionless` and create a file titled `index.js`:
+Перейдите в новую директорию, инициализируйте проект node, установите две зависимости `viem` и `permissionless` и создайте файл с названием `index.js`:
 
 ```bash
 cd sponsored_transactions
@@ -162,8 +162,8 @@ npm install viem
 touch index.js
 ```
 
-In the `index.js` file, import the dependencies from viem and permissionless.
-These dependencies will allow us to connect to Base, create our smart accounts, initialize a paymaster, and send our encoded data to the network.
+В файле `index.js` импортируйте зависимости из viem и permissionless.
+Эти зависимости позволят подключиться к Base, создать наши смарт-аккаунты, инициализировать paymaster и отправить наши закодированные данные в сеть.
 
 ```javascript
 import { http, createPublicClient, encodeFunctionData } from 'viem';
@@ -173,29 +173,29 @@ import { privateKeyToSimpleSmartAccount } from 'permissionless/accounts';
 import { createPimlicoPaymasterClient } from 'permissionless/clients/pimlico';
 ```
 
-### Set Constants for Your Paymaster & Bundler endpoint
+### Установка констант для эндпоинта Paymaster & Bundler
 
 <Info>
-**Find your Paymaster & Bundler endpoint**
+**Найдите ваш эндпоинт Paymaster & Bundler**
 
-The Paymaster & Bundler endpoint is the URL for your Coinbase Developer Platform (CDP) Paymaster.
+Эндпоинт Paymaster & Bundler - это URL для вашего Paymaster в Coinbase Developer Platform (CDP).
 
-This was saved in the previous section and follows this format: `https://api.developer.coinbase.com/rpc/v1/base/<SPECIAL-KEY>`
+Он был сохранен в предыдущем разделе и имеет следующий формат: `https://api.developer.coinbase.com/rpc/v1/base/<SPECIAL-KEY>`
 
-Navigate to the [Paymaster Tool] and select the `Configuration` tab at the top of the screen to obtain your RPC URL.
+Перейдите в [Paymaster Tool] и выберите вкладку `Configuration` в верхней части экрана, чтобы получить ваш RPC URL.
 </Info>
 
 
 <Danger>
-**Secure your endpoints**
+**Обезопасьте свои эндпоинты**
 
-You will create a constant for our Paymaster & Bundler endpoint obtained from cdp.portal.coinbase.com. The most secure way to do this is by using a proxy. For the purposes of this demo, hardcode it into our `index.js` file. For product, we highly recommend using a [proxy service].
+Вы создадите константу для нашего эндпоинта Paymaster & Bundler, полученного с cdp.portal.coinbase.com. Наиболее безопасный способ сделать это - использовать прокси. Для целей этой демонстрации мы жестко закодируем его в наш файл `index.js`. Для продакшена мы настоятельно рекомендуем использовать [proxy service].
 </Danger>
 
 
-You will also need the address of the entrypoint contract for Base. A full list of entrypoint contracts and their addresses can be found [here](https://docs.alchemy.com/reference/factory-addresses).
+Вам также понадобится адрес контракта entrypoint для Base. Полный список контрактов entrypoint и их адресов можно найти [здесь](https://docs.alchemy.com/reference/factory-addresses).
 
-Add the following to lines of code after your import statements:
+Добавьте следующие строки кода после ваших импортов:
 
 ```javascript
 const rpcUrl = https://api.developer.coinbase.com/rpc/v1/base/<SPECIAL-KEY> //Paymaster & Bundler endpoint
@@ -209,9 +209,9 @@ const baseEntryPoint = '0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789';
 const baseFactoryAddress = '0x15Ba39375ee2Ab563E8873C8390be6f2E2F50232';
 ```
 
-Now, create a public client. Public clients enable our application to interact with the Ethereum blockchain. They use JSON-RPC API methods to perform actions such as retrieving block numbers, transactions, and reading from smart contracts. Learn more about this on viem.
+Теперь создайте публичный клиент. Публичные клиенты позволяют нашему приложению взаимодействовать с блокчейном Ethereum. Они используют методы JSON-RPC API для выполнения таких действий, как получение номеров блоков, транзакций и чтение данных из смарт-контрактов. Узнайте больше об этом на viem.
 
-Initialize a public client named `publicClient` and set the chain to `base` and the transport to our `rpcURL` variable:
+Инициализируйте публичный клиент с именем `publicClient` и установите цепочку на `base`, а транспорт на нашу переменную `rpcURL`:
 
 ```javascript
 const publicClient = createPublicClient({
@@ -220,17 +220,17 @@ const publicClient = createPublicClient({
 });
 ```
 
-### Create Two Smart Accounts
+### Создание двух смарт-аккаунтов
 
-Now, you are going to create two `SimpleAccounts` for this demonstration. Collectively, these two accounts will help us test the security policies you set at both the global level and the per-account user operation level.
+Теперь вы создадите два `SimpleAccounts` для этой демонстрации. Вместе эти два аккаунта помогут нам протестировать политики безопасности, установленные как на глобальном уровне, так и на уровне пользовательских операций (UserOperations) для каждого аккаунта.
 
-To do so, you'll first need two private keys that will be used to create the Smart Accounts using Foundry. Open a terminal and run the following command **twice**:
+Для этого вам сначала понадобятся два приватных ключа, которые будут использоваться для создания смарт-аккаунтов с помощью Foundry. Откройте терминал и выполните следующую команду **дважды**:
 
 ```bash
 cast wallet new
 ```
 
-You will see something like this:
+Вы увидите что-то вроде этого:
 
 ```bash
 > cast wallet new
@@ -244,14 +244,14 @@ Address: 0x5f8e5bC8620542...D6F005cfD9
 Private key: 0xbcd6fbc1dfa3c9...634793138897
 ```
 
-Use the newly generated private keys as the parameter to the `privateKeyToSimpleSmartAccount` function and set the factory address to
+Используйте только что сгенерированные приватные ключи в качестве параметра для функции `privateKeyToSimpleSmartAccount` и установите адрес фабрики.
 
 <Danger>
-**Secure your private keys**
+**Обезопасьте свои приватные ключи**
 
-Be sure to store your private keys somewhere safe. Committing these to a public code repository will give anyone access to your smart accounts.
+Обязательно сохраните свои приватные ключи в надежном месте. Их размещение в публичном репозитории кода предоставит любому доступ к вашим смарт-аккаунтам.
 
-Saving them to a `.env` file is safest.
+Самый безопасный способ  сохранить их в файле `.env`.
 </Danger>
 
 
@@ -269,17 +269,17 @@ const simpleAccount2 = await privateKeyToSimpleSmartAccount(publicClient, {
 });
 ```
 
-Let’s break down what’s happening here:
-Private key : the private key to the wallet that your created either using Foundry or a wallet that you own. Either is fine.
+Давайте разберем, что здесь происходит:
+Приватный ключ: приватный ключ кошелька, который вы создали с помощью Foundry или кошелька, который у вас уже есть. Оба варианта подходят.
 
-Factory address is the address to the smart account factory deployed on base. Account factories are smart contracts that facilitate the creation of new wallet contracts. You make view a more comprehensive [list of factory addresses] on Alchemy.
+Адрес фабрики - это адрес фабрики смарт-аккаунтов, развернутой на Base. Фабрики аккаунтов - это смарт-контракты, которые облегчают создание новых контрактов кошельков. Вы можете просмотреть более полный [list of factory addresses] на Alchemy.
 
-Entrypoint is the entrypoint contract for Base.
+Entrypoint - это контракт точки входа для Base.
 
 <Tip>
-**Find the correct entrypoint address**
+**Найдите правильный адрес entrypoint**
 
-Make an JSON RPC request to a node using the `` method to get the correct entrpoint contract. Here's an example for Base using a Coinbase Base Node:
+Выполните JSON RPC запрос к ноде, используя метод `eth_supportedEntryPoints` чтобы получить правильный контракт точки входа. Вот пример для Base с использованием ноды Coinbase Base:
 
 ```
 curl --request POST \
@@ -291,9 +291,9 @@ curl --request POST \
 </Tip>
 
 
-### Initialize Paymaster and Create Accounts
+### Инициализация Paymaster и создание аккаунтов
 
-Initialize the paymaster and smart account client for both smart accounts:
+Инициализируйте paymaster и клиент смарт-аккаунта для обоих смарт-аккаунтов:
 
 ```javascript
 const cloudPaymaster = createPimlicoPaymasterClient({
@@ -321,18 +321,18 @@ const smartAccountClient2 = createSmartAccountClient({
 });
 ```
 
-To sponsor transactions you will need the ABI and the address of the contracts you want to support.
+Для спонсирования транзакций вам понадобится ABI и адрес контрактов, которые вы хотите поддержать.
 
 <Info>
-**Sponsor any contract**
+**Спонсируйте любой контракт**
 
-Feel free to use your own contract to interact with the Paymaster. For learning purposes, you will interact with an ERC-721 contract deployed on the Base mainnet. You will call the mintTo function, which takes an address as its only parameter.
+Не стесняйтесь использовать свой собственный контракт для взаимодействия с Paymaster. В учебных целях вы будете взаимодействовать с контрактом ERC-721, развернутым в основной сети Base. Вы вызовете функцию mintTo, которая принимает адрес в качестве единственного параметра.
 </Info>
 
 
-You will be interacting with the NFT + ABI from a simple NFT contract deployed at: `0x83bd615eb93eE1336acA53e185b03B54fF4A17e8`
+Вы будете взаимодействовать с NFT + ABI из простого NFT-контракта, развернутого по адресу: `0x83bd615eb93eE1336acA53e185b03B54fF4A17e8`
 
-Copy and paste the NFT's abi into `index.js`
+Скопируйте и вставьте ABI NFT в `index.js`
 
 ```javascript
 const abi = [
@@ -524,9 +524,9 @@ const abi = [
 ];
 ```
 
-### Encode the Function Call
+### Кодирование вызова функции
 
-Encode the `mintTo` function call with the parameter being the address of the first smart wallet
+Закодируйте вызов функции `mintTo` с параметром, который является адресом первого смарт-кошелька.
 
 ```javascript
 const callData = encodeFunctionData({
@@ -536,7 +536,7 @@ const callData = encodeFunctionData({
 });
 ```
 
-Create a function called `sendTransactionFromAccount1` in order to send the transaction request and store the response in a variable named `txHash`:
+Создайте функцию под названием `sendTransactionFromAccount1` для отправки запроса на транзакцию и сохранения ответа в переменной `txHash`:
 
 ```javascript
 async function sendTransactionFromAccount1() {
@@ -556,30 +556,30 @@ async function sendTransactionFromAccount1() {
 }
 ```
 
-Call the function at the bottom of the `index.js` file:
+Вызовите функцию внизу файла `index.js`:
 
 ```javascript
 async function sendTransactionFromAccount1() {
-  // previous lines of code ...
+  // предыдущие строки кода ...
 }
 
 sendTransactionFromAccount1();
 ```
 
-Run the following line of code from your terminal, ensuring you are in the root folder:
+Запустите следующую строку кода из вашего терминала, убедившись, что находитесь в корневой папке:
 
 ```bash
 node index.js
 ```
 
-The first attempt should be successful with the following output:
+Первая попытка должна быть успешной со следующим выводом:
 
 ```bash
 ✅ Transaction successfully sponsored!
 🔍 View on Etherscan: https://basescan.org/tx/0x1439431b0bf333f8106bc1815a532fdec18d62c3ee1c07a10d07711c6e5a2e56
 ```
 
-Run the script again but this time you should get an error that contains a `code` and `message` similar to this:
+Запустите скрипт снова, но на этот раз вы должны получить ошибку, содержащую `code` и `message` например:
 
 ```json
 {
@@ -588,44 +588,44 @@ Run the script again but this time you should get an error that contains a `code
 }
 ```
 
-Awesome! Errors, in this case, are good. This means our Paymaster policy works and prevents unwanted sponsorship.
+Отлично! Ошибки в данном случае — это хорошо. Это означает, что наша политика Paymaster работает и предотвращает нежелательное спонсирование.
 
-Navigate back to your CDP portal and update the number of UserOperations to `2`.
+Вернитесь на портал CDP и обновите количество UserOperations до `2`.
 
-Give it about 10-15 minutes for the changes to take affect then run `node index.js` again to send a new transaction.
+Подождите около 10-15 минут, чтобы изменения вступили в силу, затем снова запустите `node index.js`, чтобы отправить новую транзакцию.
 
-It should return a successful prompt:
+Должен появиться успешный запрос:
 
 ```bash
 ✅ Transaction successfully sponsored for account 1!
 🔍 View on Etherscan: https://basescan.org/tx/0x1439431b0bf333f8106bc1815a532fdec18d62c3ee1c07a10d07711c6e5a2e56
 ```
 
-Looking back at our Paymaster configuration, you'll see that you've used about $0.03 of our $0.05 global limit, and for account 1, you've hit our UserOperation limit.
+Вернувшись к конфигурации нашего Paymaster, вы увидите, что использовали около $0.03 из нашего глобального лимита в $0.05, а для аккаунта 1 достигли лимита UserOperations.
 
-Now, let's send another transaction, this time using the second account.
+Теперь давайте отправим еще одну транзакцию, на этот раз используя второй аккаунт.
 
-Before you do that, let's update the per-wallet UserOperation limit to 10. Since gas is cheap on Base, you may need to do a few transactions before you hit our global limit of $0.07.
+Прежде чем сделать это, давайте обновим лимит UserOperations на кошелек до 10. Поскольку газ на Base дешевый, вам, возможно, придется сделать несколько транзакций, прежде чем будет достигнут наш глобальный лимит в $0.07.
 
 <Info>
-**Increase the global limit**
+**Увеличьте глобальный лимит**
 
-You may get a warning to increase the global limit and that is okay for now...
+Вы можете получить предупреждение о необходимости увеличения глобального лимита, и это нормально на данный момент...
 
 [Image-of-policy]
 </Info>
 
 
-Navigate back to the [UI] and update the policy to 10 and hit the `Save` button.
+Вернитесь в и обновите политику до 10, затем нажмите кнопку `Save`.
 
 [image of updated policy]
 
-### Testing Global Limits
+### Тестирование глобальных лимитов
 
-Back in your code editor, open the `index.js` file and create a function called `sendTransactionFromAccount2` and run place it at the bottom on the `index.js` file:
+Вернитесь в редактор кода, откройте файл `index.js` и создайте функцию `sendTransactionFromAccount2`, а затем поместите ее внизу файла `index.js`:
 
 ```javascript
-// previous lines of code ...
+// предыдущие строки кода ...
 
 async function sendTransactionFromAccount2() {
   try {
@@ -647,9 +647,9 @@ async function sendTransactionFromAccount2() {
 sendTransactionFromAccount2();
 ```
 
-Run the `sendTransactionFromAccount2()` function a few times to help reach your global limit.
+Запустите функцию `sendTransactionFromAccount2()` несколько раз, чтобы помочь достичь глобального лимита.
 
-You should eventually encounter an error similar to this:
+В конце концов вы должны столкнуться с ошибкой, похожей на эту:
 
 ```json
 {
@@ -658,13 +658,13 @@ You should eventually encounter an error similar to this:
 }
 ```
 
-Congrats! Your global limit has been hit.
+Поздравляем! Достигнут глобальный лимит.
 
-Navigate back to the cloud portal and increase the global policy to your choosing. Run `node index.js` again and you should be able to successfully sponsor a transaction.
+Вернитесь в облачный портал и увеличьте глобальную политику по вашему выбору. Снова запустите `node index.js`, и вы сможете успешно спонсировать транзакцию.
 
-## Conclusion
+## Заключение
 
-In this tutorial, you learned to set up and configure the Base Paymaster on the Coinbase Developer Platform, allowing you to sponsor gasless transactions for your users. This enhances the user experience by abstracting away gas fees and making transactions more accessible and cost-effective.
+В этом руководстве вы научились настраивать и конфигурировать Base Paymaster на платформе Coinbase Developer Platform, что позволяет вам спонсировать транзакции без газа для ваших пользователей. Это улучшает пользовательский опыт, абстрагируя комиссии за газ и делая транзакции более доступными и экономически эффективными.
 
 ---
 
