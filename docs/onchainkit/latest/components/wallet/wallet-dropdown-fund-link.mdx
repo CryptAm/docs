@@ -1,30 +1,30 @@
 ---
 title: WalletDropdownFundLink
 sidebarTitle: WalletDropdownFundLink
-description: Component that provides funding link functionality in wallet dropdown
+description: Компонент, предоставляющий функциональность ссылки на пополнение в выпадающем списке кошелька
 ---
 
-The `WalletDropdownFundLink` works just like the [`FundButton`](/onchainkit/fund/fund-button) except that it's inside your wallet
-dropdown menu.
+Компонент `WalletDropdownFundLink` работает так же, как [`FundButton`](/onchainkit/fund/fund-button), за исключением того, что он
+находится внутри вашего меню выпадающего списка кошелька.
 
-If your user connects a Coinbase Smart Wallet, it provides an easy way to access the Coinbase Smart Wallet
-[Fund](https://keys.coinbase.com/fund) flow. Users will be able to buy and receive crypto, or use their Coinbase
-balances onchain with [Magic Spend](https://www.smartwallet.dev/guides/magic-spend).
+Если ваш пользователь подключает Coinbase Smart Wallet, он предоставляет простой способ доступа к процессу пополнения Coinbase Smart Wallet
+[Fund](https://keys.coinbase.com/fund). Пользователи смогут покупать и получать криптовалюту или использовать свои балансы Coinbase
+в ончейне с помощью [Magic Spend](https://www.smartwallet.dev/guides/magic-spend).
 
-If your user connects any other EOA wallet, it provides an easy way to access [Coinbase Onramp](https://docs.cdp.coinbase.com/onramp/docs/welcome/)
-where your users will also be able to buy crypto using a fiat payment method, or transfer existing crypto from their
-Coinbase account.
+Если ваш пользователь подключает любой другой EOA-кошелек, он предоставляет простой способ доступа к [Coinbase Onramp](https://docs.cdp.coinbase.com/onramp/docs/welcome/),
+где ваши пользователи также смогут покупать криптовалюту, используя фиатный платежный метод, или переводить существующую криптовалюту со своего
+аккаунта Coinbase.
 
 <Tip>
-**Coinbase Onramp Support**
+**Поддержка Coinbase Onramp**
 
-If you would like to provide non Coinbase Smart Wallet users with an easy way to access Coinbase Onramp, please make
-sure you go through the `FundButton` [walkthrough](/onchainkit/fund/fund-button#walkthrough) to configure your Project ID. Otherwise
-only Coinbase Smart Wallet users will be able to use the `WalletDropdownFundLink`.
+Если вы хотите предоставить пользователям, не использующим Coinbase Smart Wallet, простой способ доступа к Coinbase Onramp, пожалуйста, убедитесь,
+что вы прошли [walkthrough](/onchainkit/fund/fund-button#walkthrough) по настройке FundButton, чтобы настроить ваш `Project ID`. В противном случае
+только пользователи Coinbase Smart Wallet смогут использовать `WalletDropdownFundLink`.
 </Tip>
 
 
-## Usage
+## Использование
 
 ```tsx
 import {
@@ -73,9 +73,9 @@ export function WalletComponents() {
   height="400"
 />
 
-### Override text
+### Переопределение текста
 
-You can override component text using the `text` prop.
+Вы можете переопределить текст компонента, используя свойство `text`.
 
 ```tsx
 <WalletDropdownFundLink text="Add crypto" /> // [!code focus]
@@ -87,9 +87,9 @@ You can override component text using the `text` prop.
   height="400"
 />
 
-### Override icon
+### Переопределение иконки
 
-You can override the icon using the `icon` prop.
+Вы можете переопределить иконку, используя свойство `icon`.
 
 ```tsx
 <WalletDropdownFundLink icon={<walletDropdownLinkCustomBaseIconSvg />} /> // [!code focus]
@@ -101,9 +101,9 @@ You can override the icon using the `icon` prop.
   height="400"
 />
 
-### Customizing the popup size
+### Настройка размера всплывающего окна
 
-You're able to customize the size of the popup window using the `popupSize` prop. Valid values are `sm`, `md`, and `lg`.
+Вы можете настроить размер всплывающего окна с помощью свойства `popupSize`. Допустимые значения `sm`, `md`, и `lg`.
 
 ```tsx
 <WalletDropdownFundLink popupSize="sm" /> // [!code focus]
@@ -115,9 +115,9 @@ You're able to customize the size of the popup window using the `popupSize` prop
   height="400"
 />
 
-### Override default behavior
+### Переопределение поведения по умолчанию
 
-You can override default link behavior by using the `openIn` prop. Valid values are `popup` and `tab`.
+Вы можете переопределить поведение ссылки по умолчанию, используя свойство `openIn`. Допустимые значения: `popup` и `tab`.
 
 ```tsx
 <WalletDropdownFundLink openIn="tab" target="_blank" /> // [!code focus]
@@ -129,9 +129,9 @@ You can override default link behavior by using the `openIn` prop. Valid values 
   height="400"
 />
 
-### Override funding URL
+### Переопределение URL пополнения
 
-You can override the default URL by using the `fundingUrl` prop.
+Вы можете переопределить URL по умолчанию, используя свойство `fundingUrl`.
 
 ```tsx
 <WalletDropdownFundLink fundingUrl={"https://base.org"} openIn="tab" target="_blank" /> // [!code focus]
@@ -143,17 +143,17 @@ You can override the default URL by using the `fundingUrl` prop.
   height="400"
 />
 
-## Props
+## Свойства
 
 ```ts
 type WalletDropdownFundLinkProps = {
-  className?: string; // Optional className override for the element
-  icon?: ReactNode; // Optional icon override
-  openIn?: 'popup' | 'tab'; // Whether to open the funding flow in a tab or a popup window
-  popupSize?: 'sm' | 'md' | 'lg'; // Size of popup window (only works for custom funding links or Coinbase Smart Wallet)
-  rel?: string; // Specifies the relationship between the current document and the linked document
-  target?: string; // Where to open the target if openIn is set to tab
-  text?: string; // Optional text override
-  fundingUrl?: string; // Optional funding URL override
+  className?: string; // Опциональное переопределение className для элемента
+  icon?: ReactNode; // Опциональное переопределение иконки
+  openIn?: 'popup' | 'tab'; // Открывать процесс пополнения во вкладке или всплывающем окне
+  popupSize?: 'sm' | 'md' | 'lg'; // Размер всплывающего окна (работает только для пользовательских ссылок на пополнение или Coinbase Smart Wallet)
+  rel?: string; // Определяет отношение между текущим документом и связанным документом
+  target?: string; // Где открывать цель, если openIn установлен в tab
+  text?: string; // Опциональное переопределение текста
+  fundingUrl?: string; // Опциональное переопределение URL пополнения
 };
 ```
