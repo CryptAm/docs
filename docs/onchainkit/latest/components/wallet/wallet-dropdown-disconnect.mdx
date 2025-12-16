@@ -1,12 +1,12 @@
 ---
 title: WalletDropdownDisconnect
 sidebarTitle: WalletDropdownDisconnect
-description: Component for wallet disconnection functionality
+description: Компонент для функциональности отключения кошелька
 ---
 
-The `WalletDropdownDisconnect` component is used to disconnect the wallet from the application.
+Компонент `WalletDropdownDisconnect` используется для отключения кошелька от приложения.
 
-## Usage
+## Использование
 
 ```tsx
 import {
@@ -53,12 +53,12 @@ export function WalletComponents() {
   height="400"
 />
 
-### Override styles
+### Переопределение стилей
 
-You can override component styles using `className`.
+Вы можете переопределить стили компонента, используя `className`.
 
 ```tsx
-// omitted for brevity
+// опущено для краткости
 
 <WalletDropdownDisconnect className="hover:bg-red-500" /> // [!code focus]
 ```
@@ -69,12 +69,12 @@ You can override component styles using `className`.
   height="400"
 />
 
-### Override text
+### Переопределение текста
 
-You can override component text using `text`.
+Вы можете переопределить текст компонента, используя `text`.
 
 ```tsx
-// omitted for brevity
+// опущено для краткости
 
 <WalletDropdownDisconnect text="Log out" /> // [!code focus]
 ```
@@ -85,11 +85,11 @@ You can override component text using `text`.
   height="400"
 />
 
-## Props
+## Свойства
 
 ```ts
 type WalletDropdownDisconnectProps = {
-  className?: string; // Optional className override for the element
-  text?: string; // Optional text override for the button
+  className?: string; // Опциональное переопределение className для элемента
+  text?: string; // Опциональное переопределение текста для кнопки
 };
 ```
