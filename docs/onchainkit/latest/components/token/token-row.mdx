@@ -1,14 +1,14 @@
 ---
 title: TokenRow
 sidebarTitle: TokenRow
-description: Component that displays token information in a row format
+description: Компонент, отображающий информацию о токене в формате строки
 ---
 
-The `TokenRow` component displays token information in a row format to be used in list components.
+Компонент `TokenRow` отображает информацию о токене в формате строки для использования в компонентах списков.
 
-## Usage
+## Использование
 
-Token with an image url
+Токен с URL изображения
 
 ```tsx
 import { TokenRow } from '@coinbase/onchainkit/token';
@@ -24,7 +24,7 @@ const token = { ... };
   height="auto"
 />
 
-Token without an image url
+Токен без URL изображения
 
 ```tsx
 import { TokenRow } from '@coinbase/onchainkit/token';
@@ -40,7 +40,7 @@ const token = { ... };
   height="auto"
 />
 
-Token with an amount
+Токен с суммой
 
 ```tsx
 import { TokenRow } from '@coinbase/onchainkit/token';
@@ -57,7 +57,7 @@ const token = { ... };
   height="auto"
 />
 
-Variations with `hideImage` and `hideSymbol`
+Варианты с `hideImage` и `hideSymbol`
 
 ```tsx
 import { TokenRow } from '@coinbase/onchainkit/token';
@@ -75,18 +75,18 @@ const token = { ... };
   height="auto"
 />
 
-## Props
+## Свойства
 
 ### TokenRowProps
 
 ```ts
 type TokenRowProps = {
-  amount?: string; // Token amount
+  amount?: string; // Сумма токена
   className?: string;
   hideImage?: boolean;
   hideSymbol?: boolean;
-  onClick?: (token: Token) => void; // Component on click handler
-  token: Token; // Rendered token
+  onClick?: (token: Token) => void; // Обработчик клика по компоненту
+  token: Token; // Отображаемый токен
   as?: React.ElementType;
 };
 ```
