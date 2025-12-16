@@ -1,12 +1,12 @@
 ---
 title: TokenSelectDropdown
 sidebarTitle: TokenSelectDropdown
-description: Dropdown component for token selection
+description: Компонент выпадающего списка для выбора токена
 ---
 
-The `TokenSelectDropdown` component is a dropdown component that selects a token in a given list of tokens.
+Компонент `TokenSelectDropdown` - это выпадающий компонент, который выбирает токен из заданного списка токенов.
 
-## Usage
+## Использование
 
 ```tsx
 import { TokenSelectDropdown, Token } from '@coinbase/onchainkit/token';
@@ -53,15 +53,15 @@ const setToken = (token: Token) => {};
   height="auto"
 />
 
-## Props
+## Свойства
 
 ### TokenSelectDropdownProps
 
 ```ts
 type TokenSelectDropdownProps = {
-  options: Token[]; // List of tokens
-  setToken: (token: Token) => void; // Token setter
-  token?: Token; // Selected token
+  options: Token[]; // Список токенов
+  setToken: (token: Token) => void; // Функция установки токена
+  token?: Token; // Выбранный токен
 };
 ```
 
