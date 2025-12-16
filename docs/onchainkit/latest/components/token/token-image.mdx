@@ -1,14 +1,14 @@
 ---
 title: TokenImage
 sidebarTitle: TokenImage
-description: Image component that displays token images with fallback to symbol
+description: Компонент изображения, который отображает изображения токенов с фолбэком на символ
 ---
 
-The `TokenImage` component is an image that crops token image to a circle with an adjustable size.
+Компонент `TokenImage` - это изображение, которое обрезает изображение токена до круга с регулируемым размером.
 
-With `token` props has no image, render partial token symbol and deterministic dark color.
+Если у свойства `token` нет изображения, отображается часть символа токена и детерминированный темный цвет.
 
-## Usage
+## Использование
 
 `TokenImage` with an url
 
@@ -39,7 +39,7 @@ import { TokenImage } from '@coinbase/onchainkit/token';
   height="auto"
 />
 
-`TokenImage` with null as src
+`TokenImage` с null в качестве src
 
 ```tsx
 import { TokenImage } from '@coinbase/onchainkit/token';
@@ -78,14 +78,14 @@ import { TokenImage } from '@coinbase/onchainkit/token';
   height="auto"
 />
 
-## Props
+## Свойства
 
 ### TokenImageProps
 
 ```ts
 type TokenImageProps = {
-  className?: string; // Optional additional CSS class to apply to the component
-  size?: number; // size of the image in px (default: 24)
+  className?: string; // Опциональный дополнительный CSS-класс для применения к компоненту
+  size?: number; // размер изображения в px (по умолчанию: 24)
   token: Token;
 };
 ```
