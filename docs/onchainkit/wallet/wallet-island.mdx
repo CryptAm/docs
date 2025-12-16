@@ -1,7 +1,7 @@
 ---
 title: <WalletIsland /> · OnchainKit
 sidebarTitle: <WalletIsland />
-description: The `<WalletIsland />` component provides an advanced Wallet interface for users.
+description: Компонент `<WalletIsland />` предоставляет расширенный интерфейс кошелька для пользователей.
 ---
 
 <Frame>
@@ -10,45 +10,45 @@ description: The `<WalletIsland />` component provides an advanced Wallet interf
   height="364"/>
 </Frame>
 
-`WalletIsland` is our flagship implementation of the new advanced Wallet
-components, providing an advanced Wallet interface for users, including:
+`WalletIsland` - это наша флагманская реализация новых расширенных компонентов
+Wallet, предоставляющая пользователям расширенный интерфейс кошелька, включающий:
 
-- a QR code for receiving funds
-- a link to buy crypto with fiat
-- a swap interface
-- the user's token portfolio
-- a button that moves anywhere on the screen
+- QR-код для получения средств
+- Ссылку для покупки криптовалюты за фиат
+- Интерфейс обмена (swap)
+- Портфель токенов пользователя
+- Кнопку, которую можно перемещать в любое место на экране
 
-Designed for desktop experiences, `WalletIsland` component gives
-users a seamless way to interact with their wallet and manage their assets.
+Разработанный для настольных устройств, компонент `WalletIsland` предоставляет
+пользователям плавный способ взаимодействия со своим кошельком и управления активами.
 
-Before using these components, ensure you've completed all [Getting Started steps](/onchainkit/getting-started).
+Перед использованием этих компонентов убедитесь, что вы выполнили все [Getting Started steps](/onchainkit/getting-started).
 
 <Note>
-This component requires a `projectId` and an `apiKey`to be set in the `OnchainKitProvider`. You
-can find your both of these values on [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/onchainkit).
+Для работы этого компонента требуется, чтобы в `OnchainKitProvider` были установлены `projectId` и `apiKey`. 
+Вы можете найти оба этих значения на [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/onchainkit).
 </Note>
 
 
 <Note>
-Please note: token balances are only available for Base mainnet and Ethereum mainnet.
-You can control the network in the `OnchainKitProvider` by setting the `chain` prop.
+Обратите внимание: балансы токенов доступны только для основной сети Base и основной сети Ethereum. 
+Вы можете управлять сетью в `OnchainKitProvider`, установив свойство `chain`.
 </Note>
 
 
-## Quick start
+## Быстрый старт
 
-Advanced `Wallet` has two default implementations:
+Расширенный `Wallet` имеет две стандартные реализации:
 
 - `WalletAdvancedDefault`
 - `WalletIsland`
 
-`WalletAdvancedDefault` provides the user with an advanced wallet
-interface, anchored to the screen like our standard `Wallet` component.
-`WalletIsland` provides the same powerful interface, while enabling
-the user to drag the component around the window.
+`WalletAdvancedDefault` предоставляет пользователю расширенный интерфейс
+кошелька, прикрепленный к экрану, как и наш стандартный компонент `Wallet`.
+`WalletIsland` предоставляет такой же мощный интерфейс, позволяя 
+пользователю перетаскивать компонент по окну.
 
-If you'd like more customization, follow the implementation guide below.
+Если вам требуется больше кастомизации, следуйте руководству по реализации ниже.
 
 ```tsx
 import { WalletAdvancedDefault } from '@coinbase/onchainkit/wallet';
@@ -59,11 +59,11 @@ import { WalletIsland } from '@coinbase/onchainkit/wallet';
 </>
 ```
 
-You will see two Wallet buttons below. Right below is `WalletAdvancedDefault`.
-This version will stay anchored to its current position.
+Вы увидите две кнопки Wallet ниже. Прямо под этим текстом находится `WalletAdvancedDefault`.
+Эта версия останется закрепленной на своей текущей позиции.
 
-`WalletIsland` is in the bottom-right corner of the window. Feel free to drag
-it around.
+`WalletIsland` находится в правом нижнем углу окна. Не стесняйтесь перетаскивать
+его.
 
 <iframe
   src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-wallet-island--main&viewMode=story&dark=true&hero=true"
@@ -75,32 +75,32 @@ it around.
   <WalletIsland />
 </WalletComponents> */}
 
-While this behavior is more noticeable with the `WalletIsland` component, you'll
-notice that for both components, the `WalletAdvanced` container will appear in
-different positions depending on the component's location in the window:
+Хотя это поведение более заметно у компонента `WalletIsland`, вы заметите, что для
+обоих компонентов контейнер `WalletAdvanced` будет появляться в разных позициях 
+в зависимости от расположения компонента в окне:
 
-- If there is sufficient space to the right, it will be left-aligned.
-- If there is not enough space to the right, it will be right-aligned.
-- If there is enough space below, it will open below.
-- If there is not enough space below, it will open above.
+- Если справа достаточно места, он будет выровнен по левому краю.
+- Если справа недостаточно места, он будет выровнен по правому краю.
+- Если снизу достаточно места, он откроется снизу.
+- Если снизу недостаточно места, он откроется сверху.
 
 <Note>
-If you are attempting to use this component and the Buy button is not working,
-make sure you have a `projectId` configured correctly in your providers.
+Если вы пытаетесь использовать этот компонент, и кнопка «Купить» не работает, 
+убедитесь, что у вас правильно настроен `projectId` в ваших провайдерах.
 
-If transaction history is not loading, make sure you have an `apiKey` configured
-correctly in your providers.
+Если история транзакций не загружается, убедитесь, что у вас правильно настроен 
+`apiKey` в ваших провайдерах.
 </Note>
 
 
-## Configuring `WalletIsland` and advanced `Wallet`
+## Настройка `WalletIsland` и расширенного `Wallet`
 
-Experience the magic by simply dropping in `<Wallet />` and advanced `Wallet`
-components, and watch your component seamlessly come to life.
+Испытайте магию, просто вставив компоненты `<Wallet />` и расширенного `Wallet`, 
+и наблюдайте, как ваш компонент плавно оживает.
 
-As with [`WalletDefault`](/onchainkit/wallet/wallet) , `WalletAdvancedDefault` leverages
-several [`<Identity>`](/onchainkit/identity/identity) components like [`<Avatar>`](/onchainkit/identity/avatar),
-[`<Name>`](/onchainkit/identity/name), and [`<Address>`](/onchainkit/identity/address).
+Как и [`WalletDefault`](/onchainkit/wallet/wallet) , `WalletAdvancedDefault` использует 
+несколько компонентов [`<Identity>`](/onchainkit/identity/identity), таких как [`<Avatar>`](/onchainkit/identity/avatar),
+[`<Name>`](/onchainkit/identity/name), и [`<Address>`](/onchainkit/identity/address).
 
 We've introduces several advanced wallet components, including
 `<WalletAdvancedAddressDetails>`, `<WalletAdvancedTokenHoldings>`, and
@@ -159,10 +159,10 @@ export function YourWalletAdvanced() {
   </Wallet>
 </WalletComponents> */}
 
-When customizing your advanced `Wallet` implementation, use the `draggable` prop on
-`Wallet` to enable draggability. `draggable` defaults to `false`, but
-when `draggable` is set to `true`, you can also set a `draggableStartingPosition` prop to
-specify the initial position of your `WalletIsland`.
+При кастомизации вашей расширенной реализации `Wallet` используйте свойство `draggable` на 
+`Wallet`, чтобы включить возможность перетаскивания. `draggable` по умолчанию
+имеет значение `false`, но когда `draggable` установлено в `true`, вы также можете установить свойство
+`draggableStartingPosition`, чтобы указать начальную позицию вашего `WalletIsland`..
 
 ```tsx
 import {
@@ -203,14 +203,14 @@ export function DraggableWalletAdvanced() {
 }
 ```
 
-## Customize Connect button text and style
+## Кастомизация текста и стиля кнопки подключения
 
-Each OnchainKit component offers the flexibility to customize `className`
-and adjust the style of the React components it represents.
+Каждый компонент OnchainKit предлагает гибкость для настройки `className`
+и изменения стиля представляемых им React-компонентов.
 
-Explore the options for customizing the Connect button text and style [here](/onchainkit/wallet/wallet#customize-connect-button-text-and-style).
+Изучите варианты настройки текста и стиля кнопки подключения [здесь](/onchainkit/wallet/wallet#customize-connect-button-text-and-style).
 
-## Using Wallet Modal
+## Использование модального окна кошелька
 
 <Frame>
 <img
@@ -222,46 +222,46 @@ Explore the options for customizing the Connect button text and style [here](/on
 />
 </Frame>
 
-Wallet modal offers users multiple wallet connection options. Explore these options
-[here](/onchainkit/wallet/wallet-modal).
+Модальное окно кошелька предлагает пользователям несколько вариантов подключения кошелька. Изучите эти варианты
+[здесь](/onchainkit/wallet/wallet-modal).
 
-## Example usage
+## Пример использования
 
-### Usage with Sign In With Ethereum (SIWE)
+### Использование с Sign In With Ethereum (SIWE)
 
-To use [Sign In With Ethereum (SIWE)](https://docs.login.xyz/general-information/siwe-overview) with OnchainKit,
-check out our [SIWE example](/onchainkit/wallet/wallet#usage-with-sign-in-with-ethereum-siwe).
+Чтобы использовать [Sign In With Ethereum (SIWE)](https://docs.login.xyz/general-information/siwe-overview) с OnchainKit, 
+ознакомьтесь с нашим [SIWE example](/onchainkit/wallet/wallet#usage-with-sign-in-with-ethereum-siwe).
 
-## Components
+## Компоненты
 
-The components are designed to work together hierarchically. For each component, ensure the following:
+Компоненты предназначены для совместной иерархической работы. Для каждого компонента убедитесь в следующем:
 
-- `<Wallet />` - Serves as the main container for all wallet-related components.
-- `<WalletDropdown />` - Contains additional wallet information and options. Place inside the `<Wallet />` component.
-- `<WalletAdvancedWalletActions />` - Provides wallet actions like View Transaction History, view QR Code, and Disconnect wallet. Place inside the `<WalletDropdown />` component.
-- `<WalletAdvancedAddressDetails />` - Displays user address, avatar, and portfolio balance in fiat. Place inside the `<WalletDropdown />` component.
-- `<WalletAdvancedTransactionActions />` - Buttons for buying crypto with fiat, transferring crypto, and swapping. Place inside the `<WalletDropdown />` component.
-- `<WalletAdvancedTokenHoldings />` - Displays token balances and their value in fiat. Place inside the `<WalletDropdown />` component.
-- `<ConnectWallet />` - Handles the wallet connection process. Place child components inside to customize the connect button appearance.
-- `<AppWithWalletModal />` - Enables a wallet aggregation experience.
-- `<Identity />` - Displays user identity information. Place inside `<WalletDropdown />` for a complete profile view.
-- `<WalletDropdownBasename />` - Displays the user's Basename within the dropdown.
-- `<WalletDropdownLink />` - Creates a custom link within the dropdown. Use the `icon` prop to add an icon, and `href` to specify the destination.
-- `<WalletDropdownDisconnect />` - Provides a disconnect option within the dropdown.
+- `<Wallet />` - Служит основным контейнером для всех компонентов, связанных с кошельком.
+- `<WalletDropdown />` - Содержит дополнительную информацию и опции кошелька. Размещайте внутри компонента `<Wallet />`.
+- `<WalletAdvancedWalletActions />` - Предоставляет действия с кошельком, такие как просмотр истории транзакций, просмотр QR-кода и отключение кошелька. Размещайте внутри компонента `<WalletDropdown />`.
+- `<WalletAdvancedAddressDetails />` - Отображает адрес пользователя, аватар и баланс портфеля в фиате. Размещайте внутри компонента `<WalletDropdown />`.
+- `<WalletAdvancedTransactionActions />` - Кнопки для покупки криптовалюты за фиат, перевода криптовалюты и обмена (swap). Размещайте внутри компонента `<WalletDropdown />`.
+- `<WalletAdvancedTokenHoldings />` - Отображает балансы токенов и их стоимость в фиате. Размещайте внутри компонента `<WalletDropdown />`.
+- `<ConnectWallet />` - Обрабатывает процесс подключения кошелька. Размещайте дочерние компоненты внутри, чтобы настроить внешний вид кнопки подключения.
+- `<AppWithWalletModal />` - Включает опыт агрегации кошельков.
+- `<Identity />` - Отображает информацию об идентификации пользователя. Размещайте внутри `<WalletDropdown />` для полного представления профиля.
+- `<WalletDropdownBasename />` - Отображает Basename пользователя внутри выпадающего списка.
+- `<WalletDropdownLink />` - Создает пользовательскую ссылку внутри выпадающего списка. Используйте свойство `icon` для добавления иконки и `href` для указания назначения.
+- `<WalletDropdownDisconnect />` - Предоставляет опцию отключения внутри выпадающего списка.
 
-Additional components for customizing the wallet interface include:
+Дополнительные компоненты для настройки интерфейса кошелька включают:
 
-- `<Avatar />` - Displays the user's avatar image.
-- `<Name />` - Shows the user's name or ENS.
-- `<Badge />` - Can be used to display additional user status or information.
-- `<Address />` - Shows the user's wallet address.
-- `<EthBalance />` - Displays the user's ETH balance.
+- `<Avatar />` - Отображает изображение аватара пользователя.
+- `<Name />` - Показывает имя пользователя или ENS.
+- `<Badge />` - Может использоваться для отображения дополнительного статуса или информации о пользователе.
+- `<Address />` - Показывает адрес кошелька пользователя.
+- `<EthBalance />` - Отображает баланс ETH пользователя.
 
-The Wallet component automatically handles the wallet connection state and updates the UI accordingly.
-You need to wrap your application or relevant part of it with these components
-to provide a complete wallet interaction experience.
+Компонент Wallet автоматически обрабатывает состояние подключения кошелька и соответствующим образом обновляет пользовательский интерфейс.
+Вам нужно обернуть ваше приложение или соответствующую его часть этими компонентами, 
+чтобы обеспечить полноценный опыт взаимодействия с кошельком.
 
-## Component types
+## Типы компонентов
 
 - [`WalletReact`](/onchainkit/wallet/types#walletreact)
 - [`ConnectWalletReact`](/onchainkit/wallet/types#connectwalletreact)
