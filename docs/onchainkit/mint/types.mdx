@@ -1,7 +1,7 @@
 ---
-title: NFT components & utilities Types
-description: Glossary of Types in NFT components & utilities.
-sidebarTitle: Mint
+title: Типы компонентов и утилит NFT
+description: Глоссарий типов в компонентах и утилитах NFT.
+sidebarTitle: Минт
 ---
 
 ## `LifecycleStatus`
@@ -38,8 +38,8 @@ export type LifecycleStatus =
       };
     }
   | {
-      // NFTCard success state represents media loaded
-      // NFTMintCard success state represents successful Mint
+      // Состояние успеха для NFTCard означает загруженный медиафайл
+      // Состояние успеха для NFTMintCard означает успешный минт
       statusName: 'success';
       statusData: {
         transactionReceipts?: TransactionReceipt[];
@@ -53,25 +53,25 @@ export type LifecycleStatus =
 type NFTCardReact = {
   children: React.ReactNode;
 
-  // Optional className override for top div element.
+  // Необязательное переопределение className для верхнего div-элемента.
   className?: string;
 
-  // Contract address of the NFT
+  // Адрес контракта NFT (hex-строка)
   contractAddress: Hex;
 
-   // Required Token ID of the NFT
+   // Обязательный идентификатор токена (Token ID) NFT
   tokenId: string;
 
-  // Optional hook to override the default useNftData hook
+  // Необязательный хук для переопределения хука useNftData по умолчанию
   useNFTData?: UseNFTData;
 
-   // An optional callback function that handles errors within the provider.
+   // Необязательная функция обратного вызова для обработки ошибок внутри провайдера.
   onError?: (error: NFTError) => void;
 
-  // An optional callback function that exposes the component lifecycle state
+  // Необязательная функция обратного вызова, предоставляющая доступ к состоянию жизненного цикла компонента
   onStatus?: (lifecycleStatus: LifecycleStatus) => void;
 
-  // card will not pass transactionReceipt
+  // Для карточки (card) transactionReceipt не передается
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
 };
 ```
@@ -81,31 +81,31 @@ type NFTCardReact = {
 type NFTMintCardReact = {
   children: ReactNode;
 
-  // Optional className override for top div element.
+  // Необязательное переопределение className для верхнего div-элемента.
   className?: string;
 
-  // Contract address of the NFT
+  // Адрес контракта NFT (hex-строка)
   contractAddress: Hex;
 
-  // Token ID of the NFT only required for ERC1155
+  // Идентификатор токена (Token ID) требуется только для ERC1155
   tokenId?: string;
 
-  // Optional boolean to determine if the mint is sponsored by paymaster
+  // Необязательный флаг, определяющий, спонсируется ли минт через paymaster
   isSponsored?: boolean;
 
-  // Optional hook to override the default useNFTData hook
+  // Необязательный хук для переопределения хука useNFTData по умолчанию
   useNFTData?: UseNFTData;
 
-  // Optional function to override the default function that builds the mint transaction
+  // Необязательная функция для переопределения функции по умолчанию, которая создает транзакцию минта
   buildMintTransaction?: BuildMintTransaction;
 
-  // An optional callback function that handles errors within the provider.
+  // Необязательная функция обратного вызова для обработки ошибок внутри провайдера.
   onError?: (error: NFTError) => void;
 
-  // An optional callback function that exposes the component lifecycle state
+  // Необязательная функция обратного вызова, предоставляющая доступ к состоянию жизненного цикла компонента
   onStatus?: (lifecycleStatus: LifecycleStatus) => void;
 
-  // MintCard will pass transactionReceipt
+  // MintCard передаст transactionReceipt
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
 };
 ```
@@ -113,31 +113,31 @@ type NFTMintCardReact = {
 ## `NFTData`
 ```ts
 type NFTData = {
-  // card components
-  name?: string; // required for NFTTitle and NFTCollectionTitle
-  description?: string; // not currently used
-  imageUrl?: string; // required for NFTMedia
-  animationUrl?: string; // required for NFTMedia (audio and video types)
-  /* supported mimeTypes:
-   * image = image/*
-   * video = video/*
-   * audio = audio/* | application/*
+  // компоненты карточки (card)
+  name?: string; // требуется для NFTTitle и NFTCollectionTitle
+  description?: string; // в настоящее время не используется
+  imageUrl?: string; // требуется для NFTMedia
+  animationUrl?: string; // требуется для NFTMedia (типы audio и video)
+  /* Поддерживаемые mimeTypes:
+   * изображение = image/*
+   * видео = video/*
+   * аудио = audio/* | application/*
    */
-  lastSoldPrice?: NFTPrice; // required for NFTLastSoldPrice
-  mimeType?: string; // required for NFTMedia (falls back to image)
+  lastSoldPrice?: NFTPrice; // требуется для NFTLastSoldPrice
+  mimeType?: string; // требуется для NFTMedia (возвращается к изображению по умолчанию)
 
-  // mint components
-  ownerAddress?: `0x${string}`; // required for NFTOwner
+  // компоненты минта
+  ownerAddress?: `0x${string}`; // требуется для NFTOwner
   contractType?: ContractType;
-  mintDate?: Date; // required for NFTMintDate
-  price?: NFTPrice; // required for NFTAssetCost, NftTotalCost
-  mintFee?: NFTPrice; // required for NFTTotalCost
-  creatorAddress?: Hex; // required for NFTCreator
-  maxMintsPerWallet?: number; // required for NFTMintButton
-  isEligibleToMint?: boolean; // required for NFTMintButton
-  totalOwners?: string; // required for NFTMinters
-  recentOwners?: Address[]; // required for NFTMinters
-  network?: string; // required for default BuildMintTransaction implementation
+  mintDate?: Date; // требуется для NFTMintDate
+  price?: NFTPrice; // требуется для NFTAssetCost, NftTotalCost
+  mintFee?: NFTPrice; // требуется для NFTTotalCost
+  creatorAddress?: Hex; // требуется для NFTCreator
+  maxMintsPerWallet?: number; // требуется для NFTMintButton
+  isEligibleToMint?: boolean; // требуется для NFTMintButton
+  totalOwners?: string; // требуется для NFTMinters
+  recentOwners?: Address[]; // требуется для NFTMinters
+  network?: string; // требуется для реализации BuildMintTransaction по умолчанию
 };
 ```
 
