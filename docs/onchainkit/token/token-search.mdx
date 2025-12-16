@@ -2,13 +2,13 @@
 title: "`<TokenSearch />`"
 ---
 
-The `<TokenSearch />` is a search component with an optional debounce delay.
+`<TokenSearch />` - это компонент поиска с необязательной задержкой устранения дребезга (debounce).
 
-If you want to handle debounce delay outside of this component, set `delayMs` to `0`.
+Если вы хотите обрабатывать задержку устранения дребезга вне этого компонента, установите `delayMs` в `0`.
 
-## Usage
+## Использование
 
-Use [`getTokens`](/onchainkit/api/get-tokens) and `<TokenSearch />` combined to search the [`Token`](/onchainkit/token/types#token).
+Используйте [`getTokens`](/onchainkit/api/get-tokens) и `<TokenSearch />` вместе для поиска [`Token`](/onchainkit/token/types#token).
 
 ```tsx
 // @noErrors: 7006 2322 1128 - 'value' implicitly has any type, Type GetTokensResponse is not assignable to type Token[]
@@ -22,11 +22,11 @@ import type { Token } from '@coinbase/onchainkit/token'; // [!code focus]
 
 ...
 
-// example of async onChange handler
+// пример асинхронного обработчика onChange
 const handleChange = useCallback((value: string) => {
   async function getData(value) {
     const tokens: Token[] = await getTokens({ search: value }); // [!code focus]
-    // Do something with tokens here
+    // Сделайте что-нибудь с полученными токенами здесь
   }
   getData(value);
 }, []);
@@ -50,6 +50,6 @@ const handleChange = useCallback((value: string) => {
   <TokenSearch onChange={(value) => console.log('Search term:', value)} delayMs={200} />
 </App> */}
 
-## Props
+## Свойства
 
 [`TokenSearchReact`](/onchainkit/token/types#tokensearchreact)
