@@ -1,6 +1,6 @@
 ---
-title: Token components & utilities Types
-description: Glossary of Types in Token components & utilities.
+title: Типы компонентов и утилит Token
+description: Глоссарий типов в компонентах и утилитах Token.
 sidebarTitle: Token
 ---
 
@@ -8,28 +8,28 @@ sidebarTitle: Token
 
 ```ts
 type FormatAmountOptions = {
-  locale?: string; // User locale (default: browser locale)
-  minimumFractionDigits?: number; // Minimum fraction digits for number decimals (default: 0)
-  maximumFractionDigits?: number; // Maximum fraction digits for number decimals (default: 0)
+  locale?: string; // Локаль пользователя (по умолчанию: локаль браузера)
+  minimumFractionDigits?: number; // Минимальное количество цифр дробной части числа (по умолчанию: 0)
+  maximumFractionDigits?: number; // Максимальное количество цифр дробной части числа (по умолчанию: 0)
 };
 ```
 
 ## `FormatAmountResponse`
 
 ```ts
-type FormatAmountResponse = string; // See Number.prototype.toLocaleString for more info
+type FormatAmountResponse = string; // См. Number.prototype.toLocaleString для получения дополнительной информации
 ```
 
 ## `Token`
 
 ```ts
 type Token = {
-  address: Address; // The address of the token contract
-  chainId: number; // The chain id of the token contract
-  decimals: number; // The number of token decimals
-  image: string | null; // A string url of the token logo
+  address: Address; // Адрес контракта токена
+  chainId: number; // Идентификатор цепи (chain id) контракта токена
+  decimals: number; // Количество десятичных знаков токена
+  image: string | null; // URL-строка логотипа токена
   name: string;
-  symbol: string; // A ticker symbol or shorthand, up to 11 characters
+  symbol: string; // Тикер-символ или сокращение, до 11 символов
 };
 ```
 
@@ -37,10 +37,10 @@ type Token = {
 
 ```ts
 type TokenChipReact = {
-  token: Token; // Rendered token
+  token: Token; // Отображаемый токен
   onClick?: (token: Token) => void;
   className?: string;
-  isPressable?: boolean; // Default: true
+  isPressable?: boolean; // По умолчанию: true
 };
 ```
 
@@ -48,8 +48,8 @@ type TokenChipReact = {
 
 ```ts
 type TokenImageReact = {
-  className?: string; // Optional additional CSS class to apply to the component
-  size?: number; // size of the image in px (default: 24)
+  className?: string; // Необязательный дополнительный CSS-класс для применения к компоненту
+  size?: number; // размер изображения в пикселях (px) (по умолчанию: 24)
   token: Token;
 };
 ```
@@ -58,12 +58,12 @@ type TokenImageReact = {
 
 ```ts
 type TokenRowReact = {
-  amount?: string; // Token amount
+  amount?: string; // Количество токена
   className?: string;
   hideImage?: boolean;
   hideSymbol?: boolean;
-  onClick?: (token: Token) => void; // Component on click handler
-  token: Token; // Rendered token
+  onClick?: (token: Token) => void; // Обработчик нажатия на компонент
+  token: Token; // Отображаемый токен
 };
 ```
 
@@ -72,8 +72,8 @@ type TokenRowReact = {
 ```ts
 type TokenSearchReact = {
   className?: string;
-  delayMs?: number; // Debounce delay in milliseconds
-  onChange: (value: string) => void; // Search callback function
+  delayMs?: number; // Задержка устранения дребезга (debounce) в миллисекундах
+  onChange: (value: string) => void; // Функция обратного вызова поиска
 };
 ```
 
@@ -82,9 +82,9 @@ type TokenSearchReact = {
 ```ts
 type TokenSelectDropdownReact = {
   className?: string;
-  isOpen: boolean; // Determines carot icon direction
-  onClick: () => void; // Button on click handler
-  token?: Token; // Selected token
+  isOpen: boolean; // Определяет направление иконки-стрелки
+  onClick: () => void; // Обработчик нажатия на кнопку
+  token?: Token; // Выбранный токен
 };
 ```
 
@@ -92,9 +92,9 @@ type TokenSelectDropdownReact = {
 
 ```ts
 type TokenSelectDropdownReact = {
-  options: Token[]; // List of tokens
-  setToken: (token: Token) => void; // Token setter
-  token?: Token; // Selected token
+  options: Token[]; // Список токенов
+  setToken: (token: Token) => void; // Функция установки токена
+  token?: Token; // Выбранный токен
 };
 ```
 
@@ -102,8 +102,8 @@ type TokenSelectDropdownReact = {
 
 ```ts
 type TokenSelectModalReact = {
-  options: Token[]; // List of tokens
-  setToken: (token: Token) => void; // Token setter
-  token?: Token; // Selected token
+  options: Token[]; // Список токенов
+  setToken: (token: Token) => void; // Функция установки токена
+  token?: Token; // Выбранный токен
 };
 ```
