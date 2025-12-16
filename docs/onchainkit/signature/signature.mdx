@@ -1,19 +1,19 @@
 ---
 title: <Signature /> · OnchainKit
 sidebarTitle: <Signature />
-description: The `<Signature />` component supports signing EIP712 and personal_sign messages.
+description: Компонент `<Signature />` поддерживает подписание сообщений EIP712 и personal_sign.
 ---
 
-The `<Signature />` components provide a wrapper around the useSignTypedData and useSignMessage wagmi hooks.
-These hooks handle EIP712 signatures and personal_sign messages, falling back to eth_sign.
+Компоненты `<Signature />` предоставляют обертку вокруг хуков wagmi `useSignTypedData` и `useSignMessage`.
+Эти хуки обрабатывают подписи EIP712 и сообщения personal_sign, с откатом на eth_sign.
 
-Before using them, ensure you've completed all [Getting Started steps](/onchainkit/getting-started).
+Перед их использованием убедитесь, что вы выполнили все [Getting Started steps](/onchainkit/getting-started).
 
-## Quick start
+## Быстрый старт
 
-You can use the `Signature` component with the default implementation without passing any subcomponents or pass any subcomponents to fully customize the UI.
+Вы можете использовать компонент `Signature` со стандартной реализацией, не передавая никаких дочерних компонентов, или передать дочерние компоненты для полной кастомизации пользовательского интерфейса.
 
-### Default implementation for EIP712 signatures
+### Стандартная реализация для подписей EIP712
 
 <CodeGroup>
 ```tsx Signature.tsx
@@ -107,7 +107,7 @@ export const message = {
 {/* <EIP712Signature /> */}
 
 
-### Default implementation for personal_sign messages
+### Стандартная реализация для сообщений personal_sign
 
 ```tsx Signature.tsx
 import { Signature } from '@coinbase/onchainkit/signature';
@@ -126,48 +126,48 @@ import { Signature } from '@coinbase/onchainkit/signature';
 />
 {/* <PersonalSignSignature /> */}
 
-## Components
+## Компоненты
 
-The Signature components provide a complete signature flow:
+Компоненты Signature предоставляют полный процесс подписания:
 
-### Core Component
+### Основной компонент
 
-- `<Signature />` - Main container that manages the signature lifecycle
+- `<Signature />` - Основной контейнер, управляющий жизненным циклом подписания.
 
-### `<Signature />` subcomponents
+### Дочерние компоненты `<Signature />`
 
-- `<SignatureButton />` - Handles signature initiation with customizable labels
-- `<SignatureStatus />` - Displays current signature status and actions
-- `<SignatureToast />` - Shows toast notifications for signature events
+- `<SignatureButton />` - Обрабатывает инициацию подписи с настраиваемыми метками.
+- `<SignatureStatus />` - Отображает текущий статус подписания и действия.
+- `<SignatureToast />` - Показывает уведомления toast для событий подписания.
 
-### `<SignatureStatus />` and `<SignatureToast />` subcomponents
+### Дочерние компоненты `<SignatureStatus />` и `<SignatureToast />`
 
-- `<SignatureLabel />` - Displays status text ("Success", "Confirm in wallet", etc.)
-- `<SignatureIcon />` - Shows status icons (pending, success, error)
+- `<SignatureLabel />` - Отображает текстовый статус («Успех», «Подтвердите в кошельке» и т.д.).
+- `<SignatureIcon />` - Показывает иконки статуса (в ожидании, успех, ошибка).
 
-## Component API
+## API компонентов
 
 ### Signature
 
-Main wrapper component that manages the signature flow.
+Основной компонент-обертка, управляющий процессом подписания.
 
 ```tsx
 <Signature
-  // Required for EIP-712 typed data
+  // Обязательно для типизированных данных EIP-712
   domain={domain}
   types={types}
   message={message}
   primaryType="Test"
 
-  // OR for personal_sign
+  // ИЛИ для personal_sign
   message="Hello World"
 
-  // Optional props
+  // Необязательные свойства
   label="Sign"
   onSuccess={(signature: string) => {}}
   onError={(error: APIError) => {}}
   onStatus={(status: LifecycleStatus) => {}}
-  resetAfter={5000} // ms to reset after success
+  resetAfter={5000} // время в мс для сброса после успеха
   className="custom-class"
   disabled={false}
 />
@@ -175,15 +175,15 @@ Main wrapper component that manages the signature flow.
 
 ### SignatureButton
 
-Button component that triggers the signature request.
+Компонент кнопки, который запускает запрос на подпись.
 
 ```tsx
 <SignatureButton
-  label="Sign Message" // Default: "Sign"
-  connectLabel="Connect Wallet" // Default: "Connect Wallet"
-  errorLabel="Try Again" // Default: "Try again"
-  successLabel="Signed!" // Default: "Signed"
-  pendingLabel="Signing..." // Default: "Signing..."
+  label="Sign Message" // По умолчанию: "Sign"
+  connectLabel="Connect Wallet" // По умолчанию: "Connect Wallet"
+  errorLabel="Try Again" // По умолчанию: "Try again"
+  successLabel="Signed!" // По умолчанию: "Signed"
+  pendingLabel="Signing..." // По умолчанию: "Signing..."
   disabled={false}
   className="custom-class"
 />
@@ -191,42 +191,42 @@ Button component that triggers the signature request.
 
 ### SignatureStatus
 
-Container for signature status information.
+Контейнер для информации о статусе подписания.
 
 ```tsx
 <SignatureStatus className="custom-class">
   <SignatureLabel />
-  {/* Custom status content */}
+  {/* Пользовательский контент статуса */}
 </SignatureStatus>
 ```
 
 ### SignatureToast
 
-Toast notification for signature events.
+Уведомление toast для событий подписания.
 
 ```tsx
 <SignatureToast
-  durationMs={5000} // Default: 5000
-  position="bottom-center" // Default: "bottom-center"
+  durationMs={5000} // По умолчанию: 5000
+  position="bottom-center" // По умолчанию: "bottom-center"
   className="custom-class"
 >
   <SignatureIcon />
   <SignatureLabel />
-  {/* Custom toast content */}
+  {/* Пользовательский контент toast */}
 </SignatureToast>
 ```
 
-## Lifecycle States
+## Состояния жизненного цикла
 
-The signature flow has the following states:
+Процесс подписания имеет следующие состояния:
 
-- `init` - Initial state
-- `pending` - Waiting for wallet signature
-- `success` - Signature completed successfully
-- `error` - Error occurred during signing
-- `reset` - Component reset to initial state
+- `init` - Начальное состояние.
+- `pending` - Ожидание подписи от кошелька.
+- `success` - Подписание успешно завершено.
+- `error` - Произошла ошибка при подписании.
+- `reset` - Компонент сброшен в начальное состояние.
 
-Access the current state through the `onStatus` callback:
+Доступ к текущему состоянию через колбэк `onStatus`:
 
 ```tsx
 <Signature
@@ -243,15 +243,15 @@ Access the current state through the `onStatus` callback:
 />
 ```
 
-## Error Handling
+## Обработка ошибок
 
-Errors are handled automatically and displayed in the UI. Common errors include:
+Ошибки обрабатываются автоматически и отображаются в пользовательском интерфейсе. Распространенные ошибки включают:
 
-- User rejected request
-- Invalid message format
-- Wallet connection issues
+- Пользователь отклонил запрос.
+- Неверный формат сообщения.
+- Проблемы с подключением к кошельку.
 
-Custom error handling:
+Пользовательская обработка ошибок:
 
 ```tsx
 <Signature
@@ -262,11 +262,11 @@ Custom error handling:
 />
 ```
 
-## Message Types
+## Типы сообщений
 
-The `<Signature />` component supports two types of messages:
+Компонент `<Signature />` поддерживает два типа сообщений:
 
-### EIP-712 Typed Data
+### Типизированные данные EIP-712
 
 ```tsx
 <Signature
@@ -298,7 +298,7 @@ The `<Signature />` component supports two types of messages:
 />
 ```
 
-## Component types
+## Типы компонентов
 
 - [`SignatureReact`](/onchainkit/signature/types#signaturereact)
 - [`SignatureButtonProps`](/onchainkit/signature/types#signaturebuttonprops)
@@ -311,8 +311,8 @@ The `<Signature />` component supports two types of messages:
 - [`MessageData`](/onchainkit/signature/types#messagedata)
 - [`SignatureProviderProps`](/onchainkit/signature/types#signatureproviderprops)
 
-## Related Components
+## Связанные компоненты
 
-- [`<Wallet />`](/onchainkit/wallet/wallet) - Handles the wallet connection
-- [`<Transaction />`](/onchainkit/transaction/transaction) - Handles transaction signing
+- [`<Wallet />`](/onchainkit/wallet/wallet) - Обрабатывает подключение кошелька.
+- [`<Transaction />`](/onchainkit/transaction/transaction) - Обрабатывает подписание транзакций.
 
