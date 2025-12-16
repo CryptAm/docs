@@ -1,12 +1,12 @@
 ---
 title: TokenChip
 sidebarTitle: TokenChip
-description: Button component that displays token symbol
+description: Кнопочный компонент, отображающий символ токена
 ---
 
-The `TokenChip` component is a button that displays the token symbol.
+Компонент `TokenChip` - это кнопка, которая отображает символ токена.
 
-## Usage
+## Использование
 
 ```tsx
 import { TokenChip } from '@coinbase/onchainkit/token';
@@ -31,13 +31,13 @@ const token = {
   height="auto"
 />
 
-## Props
+## Свойства 
 
 ### TokenChipProps
 
 ```ts
 type TokenChipProps = {
-  token: Token; // Rendered token
+  token: Token; // Отображаемый токен
   onClick?: (token: Token) => void;
   className?: string;
   isPressable?: boolean;
