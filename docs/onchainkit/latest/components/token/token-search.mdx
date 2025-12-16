@@ -1,16 +1,16 @@
 ---
 title: TokenSearch
 sidebarTitle: TokenSearch
-description: Search component with debounce delay (deprecated)
+description: Компонент поиска с задержкой дебаунса (устарел)
 ---
 
-The `<TokenSearch />` is a search component with an optional debounce delay.
+`<TokenSearch />` - это компонент поиска с опциональной задержкой дебаунса.
 
-If you want to handle debounce delay outside of this component, set `delayMs` to `0`.
+Если вы хотите обрабатывать задержку дебаунса вне этого компонента, установите `delayMs` в `0`.
 
-## Usage
+## Использование
 
-Use [`getTokens`](/onchainkit/api/get-tokens) and `<TokenSearch />` combined to search the [`Token`](/onchainkit/token/types#token).
+Используйте [`getTokens`](/onchainkit/api/get-tokens) и `<TokenSearch />` вместе для поиска [`Token`](/onchainkit/token/types#token).
 
 ```tsx
 import { useCallback } from 'react';
@@ -23,11 +23,11 @@ import type { Token } from '@coinbase/onchainkit/token'; // [!code focus]
 
 ...
 
-// example of async onChange handler
+// пример асинхронного обработчика onChange
 const handleChange = useCallback((value: string) => {
   async function getData(value) {
     const tokens: Token[] = await getTokens({ search: value }); // [!code focus]
-    // Do something with tokens here
+    // Сделайте что-то с токенами здесь
   }
   getData(value);
 }, []);
@@ -48,12 +48,12 @@ const handleChange = useCallback((value: string) => {
   height="auto"
 />
 
-## Props
+## Свойства
 
 ```ts
 type TokenSearchProps = {
   className?: string;
-  delayMs?: number; // Debounce delay in milliseconds
-  onChange: (value: string) => void; // Search callback function
+  delayMs?: number; // Задержка дебаунса в миллисекундах
+  onChange: (value: string) => void; // Функция обратного вызова поиска
 };
 ```
