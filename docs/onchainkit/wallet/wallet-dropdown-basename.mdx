@@ -2,14 +2,14 @@
 title: <WalletDropdownBasename />
 ---
 
-The `WalletDropdownBasename` component adds a [Basename](https://www.base.org/names) tab to the Wallet Component. This tab serves two purposes:
+Компонент `WalletDropdownBasename` добавляет вкладку [Basename](https://www.base.org/names) в компонент Wallet. Эта вкладка служит двум целям:
 
-1. For users with a Basename: It provides a link to their Basename profile page.
-2. For users without a Basename: It provides a link to a page where they can create one.
+1. Для пользователей с Basename: предоставляет ссылку на их профильную страницу Basename.
+2. Для пользователей без Basename: предоставляет ссылку на страницу, где они могут его создать.
 
-This component enhances the wallet interface by providing easy access to Basename functionality, whether for viewing an existing profile or setting up a new one.
+Этот компонент улучшает интерфейс кошелька, обеспечивая легкий доступ к функциональности Basename, будь то просмотр существующего профиля или настройка нового.
 
-## Usage
+## Использование
 
 ```tsx
 import {
@@ -76,12 +76,12 @@ export function WalletComponents() {
   </Wallet>
 </WalletComponents> */}
 
-### Override styles
+### Переопределение стилей
 
-You can override component styles using `className`.
+Вы можете переопределить стили компонента, используя `className`.
 
 ```tsx
-// omitted for brevity
+// опущено для краткости
 
 <WalletDropdownBasename className="hover:bg-red-500" /> // [!code focus]
 ```
@@ -110,5 +110,5 @@ You can override component styles using `className`.
   </Wallet>
 </WalletComponents> */}
 
-## Props
+## Свойства
 - [`WalletDropdownBasenameReact`](/onchainkit/wallet/types#walletdropdownbasenamereact)
