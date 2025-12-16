@@ -1,15 +1,15 @@
 ---
 title: <SwapSettings /> · OnchainKit
 sidebarTitle: <SwapSettings />
-description: Customizable components for token Swap settings and slippage configuration
+description: Настраиваемые компоненты для параметров обмена токенами и конфигурации проскальзывания (slippage)
 ---
 
-The `SwapSettings` component enables customizable slippage configuration in the `Swap` component.
+Компонент `SwapSettings` позволяет настраивать конфигурацию проскальзывания (slippage) в компоненте `Swap`.
 
-## Usage
+## Использование
 
 ```tsx
-// omitted for brevity
+// опущено для краткости
 import {
   Swap,
   SwapSettings,
@@ -81,9 +81,9 @@ import {
   </SwapWrapper>
 </App> */}
 
-### Override styles
+### Переопределение стилей
 
-You can override component styles using `className`.
+Вы можете переопределить стили компонентов, используя `className`.
 
 ```tsx
 import {
@@ -94,7 +94,7 @@ import {
   SwapSettingsSlippageTitle,
 } from '@coinbase/onchainkit/swap';
 // ---cut-before---
-// omitted for brevity
+// опущено для краткости
 <Swap>
   <SwapSettings>
     <SwapSettingsSlippageTitle className="text-[#EA580C]">
@@ -158,9 +158,9 @@ import {
   </SwapWrapper>
 </App> */}
 
-### Override icon
+### Переопределение иконки
 
-You can override the icon using the icon prop.
+Вы можете переопределить иконку, используя свойство `icon`.
 
 ```tsx
 // suppress twoslash error
@@ -174,7 +174,7 @@ import {
   SwapSettingsSlippageTitle,
 } from '@coinbase/onchainkit/swap';
 // ---cut-before---
-// omitted for brevity
+// опущено для краткости
 <SwapSettings icon={baseIcon}>
 // ---cut-after---
 </SwapSettings>
@@ -229,9 +229,9 @@ import {
   </SwapWrapper>
 </App> */}
 
-### Add text
+### Добавление текста
 
-You can add text next to the `SwapSettings` component using text.
+Вы можете добавить текст рядом с компонентом `SwapSettings` используя свойство `text`.
 
 ```tsx
 import {
@@ -242,7 +242,7 @@ import {
   SwapSettingsSlippageTitle,
 } from '@coinbase/onchainkit/swap';
 // ---cut-before---
-// omitted for brevity
+// опущено для краткости
 <SwapSettings text="Settings">
 // ---cut-after---
 </SwapSettings>
@@ -297,9 +297,9 @@ import {
   </SwapWrapper>
 </App> */}
 
-### Override text
+### Переопределение текста
 
-You can override component text by providing children text.
+Вы можете переопределить текст компонента, предоставив дочерний текст.
 
 ```tsx
 import {
@@ -311,7 +311,7 @@ import {
 } from '@coinbase/onchainkit/swap';
 <Swap>
 // ---cut-before---
-// omitted for brevity
+// опущено для краткости
 
 <SwapSettingsSlippageTitle>
   Slippage Settings
@@ -371,14 +371,14 @@ import {
   </SwapWrapper>
 </App> */}
 
-## Components
+## Компоненты
 
-- `<SwapSettings />` - Container component for swap slippage settings.
-- `<SwapSettingsSlippageDescription />` - Displays description text explaining the slippage setting.
-- `<SwapSettingsSlippageInput />` - Input field for users to enter their desired max slippage percentage
-- `<SwapSettingsSlippageTitle />` - Displays the title for the slippage settings section
+- `<SwapSettings />` - Контейнерный компонент для настроек проскальзывания (slippage) при обмене.
+- `<SwapSettingsSlippageDescription />` - Отображает пояснительный текст для настройки проскальзывания.
+- `<SwapSettingsSlippageInput />` - Поле ввода, в котором пользователь может указать желаемый максимальный процент проскальзывания.
+- `<SwapSettingsSlippageTitle />` - Отображает заголовок для раздела настроек проскальзывания.
 
-## Props
+## Свойства
 
 - [`SwapSettingsReact`](/onchainkit/swap/types#swapsettingsreact)
 - [`SwapSettingsSlippageDescriptionReact`](/onchainkit/swap/types#swapsettingsslippagedescriptionreact)
