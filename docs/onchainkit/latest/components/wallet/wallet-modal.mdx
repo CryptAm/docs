@@ -1,7 +1,7 @@
 ---
 title: WalletModal
 sidebarTitle: WalletModal
-description: Modal component providing multiple wallet connection options
+description: Модальный компонент, предоставляющий несколько вариантов подключения кошелька
 ---
 
 <Frame>
@@ -14,28 +14,28 @@ description: Modal component providing multiple wallet connection options
 />
 </Frame>
 
-`WalletModal` offers users multiple wallet connection options. The modal automatically appears when users click the `ConnectWallet` component and provides several connection paths:
+`WalletModal` предлагает пользователям несколько вариантов подключения кошелька. Модальное окно автоматически появляется, когда пользователи нажимают на компонент `ConnectWallet`, и предоставляет несколько путей подключения:
 
-1. Quickly create a new smart wallet for new users
-2. Coinbase Wallet connection (supporting both smart wallets and EOA)
-3. MetaMask connection
-4. Phantom connection
-5. Rabby, Frame, and Trust Wallet connections (optional)
+1. Быстрое создание нового смарт-аккаунта для новых пользователей
+2. Подключение Coinbase Wallet (поддерживает как смарт-аккаунты, так и EOA)
+3. Подключение MetaMask
+4. Подключение Phantom
+5. Подключение Rabby, Frame и Trust Wallet (опционально)
 
-## Walkthrough
+## Пошаговое руководство
 
 <Steps>
-  <Step title="Configure the OnchainKitProvider with modal settings:">
+  <Step title="Настройте OnchainKitProvider с параметрами модального окна:">
   ```tsx providers.tsx
   <OnchainKitProvider
     apiKey={process.env.ONCHAINKIT_API_KEY}
     chain={base}
     config={{
       appearance: {
-        name: 'Your App Name',        // Displayed in modal header
-        logo: 'https://your-logo.com',// Displayed in modal header
+        name: 'Название вашего приложения',        // Отображается в заголовке модального окна logo
+        logo: 'https://your-logo.com',// Отображается в заголовке модального окна mode
         mode: '400',                 // 'light' | 'dark' | '400'
-        theme: 'default',             // 'default' or custom theme
+        theme: 'default',             // 'default' или пользовательская тема
       },
       wallet: { // [!code focus]
         display: 'modal', // [!code focus]
@@ -49,7 +49,7 @@ description: Modal component providing multiple wallet connection options
   ```
 
   </Step>
-  <Step title="Use the ConnectWallet component in your UI:">
+  <Step title="Используйте компонент ConnectWallet в вашем UI:">
   ```tsx App.tsx
   <Wallet>
     <ConnectWallet>
@@ -96,31 +96,31 @@ description: Modal component providing multiple wallet connection options
   </Step>
 </Steps>
 
-## Components
+## Компоненты
 
-The Wallet Modal components are designed to work together hierarchically:
+Компоненты модального окна кошелька предназначены для совместной иерархической работы:
 
-- `<OnchainKitProvider />` - Configures the modal settings and appearance
-- `<ConnectWallet />` - Triggers the modal to open when clicked
-- `<WalletModal />` - The modal interface itself, containing:
-  - Smart wallet creation flow
-  - Coinbase Wallet connection
-  - MetaMask connection
-  - Phantom connection
-  - Rabby, Trust, and Frame Wallet connections (if enabled)
-  - Terms and privacy policy links
+- `<OnchainKitProvider />` - Настраивает параметры и внешний вид модального окна
+- `<ConnectWallet />` - Запускает открытие модального окна при нажатии
+- `<WalletModal />` - Сам интерфейс модального окна, содержащий:
+  - Процесс создания смарт-аккаунта
+  - Подключение Coinbase Wallet
+  - Подключение MetaMask
+  - Подключение Phantom
+  - Подключение Rabby, Trust и Frame Wallet (если включено)
+  - Ссылки на условия использования и политику конфиденциальности
 
-The modal automatically handles:
+Модальное окно автоматически обрабатывает:
 
-- Wallet connection states
-- Error handling
-- Mobile/desktop responsive behavior
-- Theme customization
-- Terms/privacy policy display
+- Состояния подключения кошелька
+- Обработку ошибок
+- Адаптивное поведение для мобильных/настольных устройств
+- Кастомизацию темы
+- Отображение условий использования/политики конфиденциальности
 
-## Additional Wallet Support
+## Дополнительная поддержка кошельков
 
-By default, the wallet modal includes Coinbase Wallet, MetaMask, and Phantom as connection options. You can enable additional wallet support by configuring the `supportedWallets` object in the `OnchainKitProvider`:
+По умолчанию модальное окно кошелька включает Coinbase Wallet, MetaMask и Phantom в качестве вариантов подключения. Вы можете включить дополнительную поддержку кошельков, настроив объект `supportedWallets` в `OnchainKitProvider`:
 
 ```tsx
 <OnchainKitProvider
@@ -149,4 +149,4 @@ By default, the wallet modal includes Coinbase Wallet, MetaMask, and Phantom as 
 </OnchainKitProvider>
 ```
 
-Each wallet can be individually enabled or disabled as needed. If no `supportedWallets` configuration is provided, the additional wallets will be disabled by default.
+Каждый кошелек может быть индивидуально включен или отключен по мере необходимости. Если конфигурация `supportedWallets` не предоставлена, дополнительные кошельки будут отключены по умолчанию.
