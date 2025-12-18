@@ -1,37 +1,37 @@
 ---
-title: 'Use Sub Accounts'
-description: 'Learn how to create and use Sub Accounts using Base Account SDK'
+title: 'Использование суб-аккаунтов'
+description: 'Узнайте, как создавать и использовать суб-аккаунты с помощью SDK Base Account'
 ---
 
 import { GithubRepoCard } from "/snippets/GithubRepoCard.mdx"
 
-## What are Sub Accounts?
+## Что такое суб-аккаунты?
 
-Sub Accounts allow you to provision app-specific wallet accounts for your users that are embedded directly in your application. Once created, you can interact with them just as you would with any other wallet via the wallet provider or popular onchain libraries like OnchainKit, wagmi, and viem.
+Суб-аккаунты (Sub Accounts) позволяют создавать для ваших пользователей специфичные для приложения кошельки, которые встроены непосредственно в ваше приложение. После создания вы можете взаимодействовать с ними так же, как и с любым другим кошельком, через провайдер кошелька или популярные ончейн-библиотеки, такие как OnchainKit, wagmi и viem.
 
 <Note>
-Looking for a full implementation? Jump to the [Complete Integration Example](/base-account/improve-ux/sub-accounts#complete-integration-example).
+Ищете полную реализацию? Перейдите к [Complete Integration Example](/base-account/improve-ux/sub-accounts#complete-integration-example).
 </Note>
 
-## Key Benefits
+## Ключевые преимущества
 
-- **Frictionless transactions**: Eliminate repeated signing prompts for high frequency and agentic use cases or take full control of the transaction flow.
-- **No funding flows required**: Spend Permissions allow Sub Accounts to spend directly from the universal Base Account's balance.
-- **User control**: Users can manage all their sub accounts at [account.base.app](https://account.base.app).
+- **Беспрепятственные транзакции**: Устраните повторяющиеся запросы на подпись для сценариев с высокой частотой операций или автономных агентов (AI agents) или возьмите полный контроль над процессом транзакции.
+- **Не требуются пополнения**: Разрешения на расходование (Spend Permissions) позволяют суб-аккаунтам тратить средства напрямую с баланса универсального Base Account пользователя.
+- **Контроль со стороны пользователя**: Пользователи могут управлять всеми своими суб-аккаунтами на [account.base.app](https://account.base.app).
 
 <Note>
-If you would like to see a live demo of Sub Accounts in action, check out our [Sub Accounts Demo](https://sub-accounts-fc.vercel.app).
+Если вы хотите увидеть живую демонстрацию работы суб-аккаунтов, ознакомьтесь с нашим [Sub Accounts Demo](https://sub-accounts-fc.vercel.app).
 </Note>
 
 <Tip>
 **Spend Permissions** 
 
-Sub Accounts are optimized for use with Spend Permissions to allow your app to take advantage of the user's existing Base Account balances. See the [Spend Permissions](/base-account/improve-ux/spend-permissions) guide for more information about how they work.
+Суб-аккаунты оптимизированы для использования вместе с Разрешениями на расходование (Spend Permissions), что позволяет вашему приложению использовать существующие балансы Base Account пользователя. Подробнее о том, как это работает, читайте в руководстве по [Spend Permissions](/base-account/improve-ux/spend-permissions).
 </Tip>
 
-## Installation
+## Установка
 
-Install the Base Account SDK:
+Установите SDK Base Account:
 
 <CodeGroup>
 ```bash npm
@@ -51,9 +51,9 @@ bun add @base-org/account
 ```
 </CodeGroup>
 
-## Quickstart
+## Быстрый старт
 
-The fastest way to adopt Sub Accounts is to set `creation` to `on-connect` and `defaultAccount` to `sub` in the SDK configuration.
+Самый быстрый способ начать использовать суб-аккаунты - установить для параметров конфигурации SDK значения `creation`: `on-connect` и `defaultAccount`: `sub`.
 
 ```tsx
 const sdk = createBaseAccountSDK({
@@ -65,52 +65,52 @@ const sdk = createBaseAccountSDK({
 });
 ```
 
-This will automatically create a Sub Account for the user when they connect their Base Account and transactions will automatically be sent from the Sub Account unless you specify the `from` parameter in your transaction request to be the universal account address. Spend Permissions will also be automatically requested for the Sub Account as your app needs them.
+Это автоматически создаст суб-аккаунт для пользователя при подключении его Base Account, и транзакции будут автоматически отправляться с этого суб-аккаунта, если вы не укажете в запросе транзакции параметр `from` как адрес универсального аккаунта. Разрешения на расходование также будут автоматически запрашиваться для суб-аккаунта по мере необходимости вашему приложению.
 
-This is what the user will see when they connect their Base Account and automatic Sub Accounts are enabled:
+Вот что увидит пользователь при подключении своего Base Account, когда включены автоматические суб-аккаунты:
 
 <div style={{ display: 'flex', justifyContent: 'center'}}>
   <img src="/images/base-account/SubAccountCreationConnect.png" alt="Sub Account Creation Flow" style={{ width: '300px', height: 'auto' }} />
 </div>
 
 <Tip>
-We recommend using a [Paymaster](/base-account/improve-ux/sponsor-gas/paymasters) to sponsor gas to ensure the best user experience when integrating Sub Accounts. You can set a paymaster to be used for all transactions by configuring the `paymasterUrls` parameter in the SDK configuration. See the [createBaseAccount](/base-account/reference/core/createBaseAccount#param-paymaster-urls) reference for more information.
+Мы рекомендуем использовать [Paymaster](/base-account/improve-ux/sponsor-gas/paymasters) для спонсирования комиссий, чтобы обеспечить наилучший пользовательский опыт при интеграции суб-аккаунтов. Вы можете настроить paymaster для использования во всех транзакциях, указав параметр `paymasterUrls` в конфигурации SDK. Подробнее см. в справочнике по [createBaseAccount](/base-account/reference/core/createBaseAccount#param-paymaster-urls).
 </Tip>
 
-## Using Sub Accounts
+## Использование суб-аккаунтов
 
-### Initialize the SDK
+### Инициализация SDK
 
-First, set up the Base Account SDK. Be sure to customize the `appName` and `appLogoUrl` to match your app as this will be displayed in the wallet connection popup and in the account.base.app dashboard. You can also customize the `appChainIds` to be the chains that your app supports.
+Сначала настройте SDK Base Account. Обязательно укажите `appName` и `appLogoUrl`, соответствующие вашему приложению, так как они будут отображаться во всплывающем окне подключения кошелька и в панели управления account.base.app. Вы также можете настроить `appChainIds` на цепи, которые поддерживает ваше приложение.
 
 ```tsx
 import { createBaseAccountSDK, getCryptoKeyAccount } from '@base-org/account';
 import { base } from 'viem/chains';
 
-// Initialize SDK with Sub Account configuration
+// Инициализация SDK с конфигурацией суб-аккаунта
 const sdk = createBaseAccountSDK({
   appName: 'Base Account SDK Demo',
   appLogoUrl: 'https://base.org/logo.png',
   appChainIds: [base.id],
 });
 
-// Get an EIP-1193 provider
+// Получить провайдер EIP-1193
 const provider = sdk.getProvider()
 ```
 
-### Create a Sub Account
+### Создание суб-аккаунта
 
 <Tip>
-Make sure to authenticate the user with their Base Account before creating a Sub Account.
-For that, you can choose one of the following options:
-- Follow the [Authenticate users](/base-account/guides/authenticate-users) guide
-- Simply use `provider.request({ method: 'eth_requestAccounts' });` for a simple wallet connection
+Убедитесь, что пользователь аутентифицирован с помощью своего Base Account перед созданием суб-аккаунта.
+Для этого вы можете выбрать один из следующих вариантов:
+- Следуйте руководству [Authenticate users](/base-account/guides/authenticate-users)
+- Или просто используйте `provider.request({ method: 'eth_requestAccounts' });` для простого подключения кошелька
 </Tip>
 
-Create a Sub Account for your application using the provider's [wallet_addSubAccount](/base-account/reference/core/provider-rpc-methods/wallet_addSubAccount) RPC method. When no `publicKey` parameter is provided, a non-extractable browser CryptoKey is generated and used to sign on behalf of the Sub Account.
+Создайте суб-аккаунт для вашего приложения, используя RPC-метод провайдера [wallet_addSubAccount](/base-account/reference/core/provider-rpc-methods/wallet_addSubAccount). Когда параметр `publicKey` не указан, генерируется неизвлекаемый ключ браузера (CryptoKey), который используется для подписи от имени суб-аккаунта.
 
 ```tsx
-// Create sub account
+// Создать суб-аккаунт
 const subAccount = await provider.request({
   method: 'wallet_addSubAccount',
   params: [
@@ -125,7 +125,7 @@ const subAccount = await provider.request({
 console.log('Sub Account created:', subAccount.address);
 ```
 
-Alternatively, you can use the SDK convenience method:
+Альтернативно, вы можете использовать удобный метод SDK:
 
 ```tsx
 const subAccount = await sdk.subAccount.create();
@@ -133,24 +133,24 @@ const subAccount = await sdk.subAccount.create();
 console.log('Sub Account created:', subAccount.address);
 ```
 
-This is what the user will see when prompted to create a Sub Account:
+Вот что увидит пользователь при запросе на создание суб-аккаунта:
 
 <div style={{ display: 'flex', justifyContent: 'center'}}>
   <img src="/images/base-account/SubAccountCreation.png" alt="Sub Account Creation Flow" style={{ width: '300px', height: 'auto' }} />
 </div>
 
-### Get Existing Sub Account
+### Получение существующего суб-аккаунта
 
-Retrieve an existing Sub Account using the provider's [wallet_getSubAccounts](/base-account/reference/core/provider-rpc-methods/wallet_getSubAccounts) RPC method. This will return the Sub Account associated with the app's domain and is useful to check if a Sub Account already exists for the user to determine if one needs to be created.
+Получите существующий суб-аккаунт, используя RPC-метод провайдера [wallet_getSubAccounts](/base-account/reference/core/provider-rpc-methods/wallet_getSubAccounts). Это вернет суб-аккаунт, связанный с доменом приложения, и полезно для проверки существования суб-аккаунта у пользователя, чтобы определить, нужно ли его создавать.
 
 ```tsx
-// Get the universal account
+// Получить универсальный аккаунт
 const [universalAddress] = await provider.request({
   method: "eth_requestAccounts",
   params: []
 })
 
-// Get sub account for universal account
+// Получить суб-аккаунт для универсального аккаунта
 const { subAccounts: [subAccount] } = await provider.request({
   method: 'wallet_getSubAccounts',
   params: [{
@@ -166,33 +166,33 @@ if (subAccount) {
 }
 ```
 
-Alternatively, you can use the SDK convenience method:
+Альтернативно, вы можете использовать удобный метод SDK:
 
 ```tsx
 const subAccount = await sdk.subAccount.get();
 
 console.log('Sub Account:', subAccount);
 ```
-### Send transactions
+### Отправка транзакций
 
-To send transactions from the connected sub account you can use EIP-5792 `wallet_sendCalls` or `eth_sendTransaction`. You need to specify the `from` parameter to be the sub account address.
+Чтобы отправлять транзакции с подключенного суб-аккаунта, вы можете использовать `wallet_sendCalls` (EIP-5792) или `eth_sendTransaction`. Вам необходимо указать параметр `from` как адрес суб-аккаунта.
 
 <Tip>
-When the Sub Account is connected, it is the second account in the array returned by `eth_requestAccounts` or `eth_accounts`. `wallet_addSubAccount` needs to be called in each session before the Sub Account can be used. It will not trigger a new Sub Account creation if one already exists. 
+Когда суб-аккаунт подключен, он является вторым аккаунтом в массиве, возвращаемом `eth_requestAccounts` или `eth_accounts`. Метод `wallet_addSubAccount` необходимо вызывать в каждой сессии перед использованием суб-аккаунта. Это не вызовет новое создание суб-аккаунта, если он уже существует.
 
-If you are using `mode: 'auto'`, the Sub Account will be the first account in the array.
+Если вы используете `mode: 'auto'`, суб-аккаунт будет первым аккаунтом в массиве.
 </Tip>
 
-First, get all the accounts that are available, of which the sub account will be the second account:
+Сначала получите все доступные аккаунты, где суб-аккаунт будет вторым:
 
 ```tsx
 const [universalAddress, subAccountAddress] = await provider.request({
-  method: "eth_requestAccounts", // or "eth_accounts" if already connected
+  method: "eth_requestAccounts", // или "eth_accounts", если уже подключен
   params: []
 })
 ```
 
-Then, send the transaction from the sub account:
+Затем отправьте транзакцию от имени суб-аккаунта:
 
 **`wallet_sendCalls`**
 
@@ -202,7 +202,7 @@ const callsId = await provider.request({
   params: [{
     version: "2.0",
     atomicRequired: true,
-    from: subAccountAddress, // Specify the sub account address
+    from: subAccountAddress, // Указываем адрес суб-аккаунта
     calls: [{
       to: '0x...',
       data: '0x...',
@@ -224,7 +224,7 @@ console.log('Calls sent:', callsId);
 const tx = await provider.request({
   method: 'eth_sendTransaction',
   params: [{
-    from: subAccountAddress, // Specify the sub account address
+    from: subAccountAddress, // Указываем адрес суб-аккаунта
     to: '0x...',
     data: '0x...',
     value: '0x...',
@@ -234,13 +234,13 @@ const tx = await provider.request({
 console.log('Transaction sent:', tx);
 ```
 
-We recommend using `wallet_sendCalls` in conjunction with a paymaster to ensure the best user experience. See the [Paymasters](/base-account/improve-ux/sponsor-gas/paymasters) guide for more information.
+Мы рекомендуем использовать `wallet_sendCalls` вместе с paymaster для обеспечения наилучшего пользовательского опыта. Подробнее см. в руководстве по [Paymasters](/base-account/improve-ux/sponsor-gas/paymasters).
 
-## Advanced Usage
+## Расширенное использование
 
-### Import an existing account
+### Импорт существующего аккаунта
 
-If you already have a deployed Smart Contract Account and would like to turn it into a Sub Account of the connected Base Account, you can import it as a Sub Account using the provider RPC method:
+Если у вас уже есть развернутый смарт-контракт аккаунт, и вы хотите сделать его суб-аккаунтом подключенного Base Account, вы можете импортировать его как суб-аккаунт, используя RPC-метод провайдера:
 
 ```tsx
 const subAccount = await provider.request({
@@ -250,7 +250,7 @@ const subAccount = await provider.request({
       account: {
         type: 'deployed',
         address: '0xYourSmartContractAccountAddress',
-        chainId: 8453 // the chain the account is deployed on
+        chainId: 8453 // цепь, на которой развернут аккаунт
       },
     }
   ],
@@ -261,18 +261,17 @@ console.log('Sub Account added:', subAccount.address);
 
 <Note>
 
-Before the Sub Account is imported, you will need to add the Base Account address as an owner of the Sub Account. This currently needs to be done manually
-by calling the [`addOwnerAddress`](https://github.com/coinbase/smart-wallet/blob/a8c6456f3a6d5d2dea08d6336b3be13395cacd42/src/MultiOwnable.sol#L101) or [`addOwnerPublicKey`](https://github.com/coinbase/smart-wallet/blob/a8c6456f3a6d5d2dea08d6336b3be13395cacd42/src/MultiOwnable.sol#L109) functions on the Smart Contract of the Sub Account that was imported and setting the Base Account address as the owner.
+Перед импортом суб-аккаунта вам необходимо добавить адрес Base Account в качестве владельца (owner) суб-аккаунта. В настоящее время это необходимо делать вручную путем вызова функций [`addOwnerAddress`](https://github.com/coinbase/smart-wallet/blob/a8c6456f3a6d5d2dea08d6336b3be13395cacd42/src/MultiOwnable.sol#L101) или [`addOwnerPublicKey`](https://github.com/coinbase/smart-wallet/blob/a8c6456f3a6d5d2dea08d6336b3be13395cacd42/src/MultiOwnable.sol#L109) в смарт-контракте импортируемого суб-аккаунта, указав адрес Base Account в качестве владельца.
 
-Additionally, only Coinbase Smart Wallet contracts are currently supported for importing as a Sub Account into your Base Account.
+Кроме того, на данный момент только контракты Coinbase Smart Wallet поддерживаются для импорта в качестве суб-аккаунта в ваш Base Account.
 
-The Coinbase Smart Wallet contract ABI can be found on [GitHub](https://github.com/base/account-sdk/blob/master/packages/account-sdk/src/sign/base-account/utils/constants.ts#L8).
+ABI контракта Coinbase Smart Wallet можно найти на [GitHub](https://github.com/base/account-sdk/blob/master/packages/account-sdk/src/sign/base-account/utils/constants.ts#L8).
 </Note>
 
 
-### Add Owner Account
+### Добавление владельца (Owner) аккаунта
 
-Sub Accounts automatically detect when an ownership update is needed when a signature is required and will prompt the user to approve the update before signing. However, you can also add an owner to a Sub Account manually using the SDK convenience method:
+Суб-аккаунты автоматически обнаруживают необходимость обновления прав владения, когда требуется подпись, и запрашивают у пользователя подтверждение перед подписанием. Однако вы также можете добавить владельца к суб-аккаунту вручную, используя удобный метод SDK:
 
 ```tsx
 const ownerAccount = await sdk.subAccount.addOwner({
@@ -284,43 +283,43 @@ const ownerAccount = await sdk.subAccount.addOwner({
 console.log('Owner added to Sub Account');
 ```
 
-This generates a transaction to call the `addOwnerAddress` or `addOwnerPublicKey` functions on the Sub Account's smart contract to add the owner.
+Это создает транзакцию для вызова функций `addOwnerAddress` или `addOwnerPublicKey` в смарт-контракте суб-аккаунта, чтобы добавить владельца.
 
 <Note>
-Ownership changes are expected if the user signs in to your app on a new device or browser.
+Изменения прав владения ожидаемы, если пользователь входит в ваше приложение на новом устройстве или в другом браузере.
 
-Ensure you do not lose your app's Sub Account signer keys when using the SDK on the server (e.g. Node.js) as updating the owner requires a signature from the user, which cannot be requested from server contexts.
+Убедитесь, что вы не теряете ключи для подписи суб-аккаунта вашего приложения при использовании SDK на сервере (например, Node.js), так как обновление владельца требует подписи от пользователя, которую нельзя запросить в серверном контексте.
 </Note>
 
-## Auto Spend Permissions
+## Автоматические разрешения на расходование (Auto Spend Permissions)
 
-Auto Spend Permissions allows Sub Accounts to access funds from their parent Base Account when transaction balances are insufficient. This feature can also establish ongoing spend permissions, enabling future transactions to execute without user approval prompts, reducing friction in your app's transaction flow.
+Функция Auto Spend Permissions позволяет суб-аккаунтам получать доступ к средствам из их родительского Base Account, когда баланса суб-аккаунта недостаточно для транзакции. Эта функция также может устанавливать постоянные разрешения на расходование, позволяя выполнять будущие транзакции без запросов на подтверждение пользователя, что снижает трение в процессе транзакций вашего приложения.
 
-This feature is **enabled by default** when using Sub Accounts.
+Эта функция **включена по умолчанию** при использовании суб-аккаунтов.
 
-### How it works
+### Как это работает
 
-**First-time transaction flow:**
-When a Sub Account attempts its first transaction, Base Account displays a popup for user approval. During this approval process, Base Account:
+**Поток первой транзакции:**
+Когда суб-аккаунт пытается совершить свою первую транзакцию, Base Account отображает всплывающее окно для подтверждения пользователем. В процессе этого подтверждения Base Account:
 
-- Automatically detects any missing tokens (native or ERC-20) needed for the transaction
-- Requests a transfer of the required funds from the parent Base Account to the Sub Account to fulfill the current transaction
-- Allows the user to optionally grant ongoing spend permissions for future transactions in that token
+- Автоматически определяет отсутствующие токены (нативные или ERC-20), необходимые для транзакции
+- Запрашивает перевод необходимых средств из родительского Base Account в суб-аккаунт для выполнения текущей транзакции
+- Позволяет пользователю при желании предоставить постоянные разрешения на расходование для будущих транзакций в этом токене
 
-**Subsequent transactions:**
-If the user granted spend permissions, future transactions follow this priority:
+**Последующие транзакции:**
+Если пользователь предоставил разрешения на расходование, будущие транзакции следуют такому приоритету:
 
-1. First, attempt using existing Sub Account balances and granted spend permissions
-2. If insufficient, prompt the user to authorize additional transfers and/or spend permissions from their Base Account
+1. Сначала используется существующий баланс суб-аккаунта и предоставленные разрешения на расходование
+2. Если средств недостаточно, пользователю предлагается авторизовать дополнительные переводы и/или разрешения на расходование со своего Base Account
 
 <Warning>
-Spend permission requests are limited to the first token when multiple transfers are needed for a single transaction. Additional tokens require separate approvals.
+Запросы на разрешение расходования ограничены первым токеном, когда для одной транзакции требуется несколько переводов. Для дополнительных токенов требуются отдельные разрешения.
 </Warning>
 
 
-### Configuration
+### Конфигурация
 
-If your users' Sub Accounts will be funded manually, you can disable Auto Spend Permissions by setting `funding` to `manual` in your SDK configuration:
+Если суб-аккаунты ваших пользователей будут пополняться вручную, вы можете отключить Auto Spend Permissions, установив для параметра `funding` значение `manual` в конфигурации SDK:
 
 ```tsx
 const sdk = createBaseAccountSDK({
@@ -328,24 +327,24 @@ const sdk = createBaseAccountSDK({
   appLogoUrl: 'https://base.org/logo.png',
   appChainIds: [base.id],
   subAccounts: {
-    funding: 'manual', // Disable auto spend permissions
+    funding: 'manual', // Отключить автоматические разрешения на расходование
   }
 });
 ```
 
 
-## Technical Details
+## Технические детали
 
-Base Account's self-custodial design requires a user passkey prompt for each wallet interaction, such as transactions or message signing. While this ensures user awareness and approval of every wallet interaction, it can impact user experience in applications requiring frequent wallet interactions.
+Самокастодиальный дизайн Base Account требует запроса на подтверждение с помощью passkey для каждого взаимодействия с кошельком, такого как транзакции или подпись сообщений. Хотя это обеспечивает осведомленность и одобрение пользователем каждого действия, это может повлиять на пользовательский опыт в приложениях, требующих частых взаимодействий с кошельком.
 
-To support Base Account with user experiences that need more developer control over wallet interactions, we've built Sub Accounts in conjunction with [ERC-7895](https://eip.tools/eip/7895), a new wallet RPC for creating hierarchical relationships between wallet accounts.
+Для поддержки Base Account в сценариях, где разработчикам требуется больший контроль над взаимодействиями с кошельком, мы создали суб-аккаунты совместно с [ERC-7895](https://eip.tools/eip/7895) - новым RPC-методом кошелька для создания иерархических отношений между аккаунтами кошельков.
 
-These Sub Accounts are linked to the end user's Base Account through an onchain relationship. When combined with our [Spend Permission feature](/base-account/improve-ux/spend-permissions), this creates a powerful foundation for provisioning and funding app accounts securely, while giving you ample control over building the user experience that makes the most sense for your application.
+Эти суб-аккаунты связаны с Base Account конечного пользователя через ончейн-отношения. В сочетании с нашей функцией [Spend Permission](/base-account/improve-ux/spend-permissions) это создает мощную основу для безопасного создания и финансирования аккаунтов приложений, предоставляя вам широкий контроль для создания оптимального пользовательского опыта.
 
 
-## Complete Integration Example
+## Пример полной интеграции
 
-Here's a full React component that demonstrates Sub Account creation and usage:
+Вот полный React-компонент, демонстрирующий создание и использование суб-аккаунта:
 
 ```tsx
 import { createBaseAccountSDK } from "@base-org/account";
@@ -379,7 +378,7 @@ export default function SubAccountDemo() {
   const [loadingUniversal, setLoadingUniversal] = useState(false);
   const [status, setStatus] = useState("");
 
-  // Initialize SDK and crypto account
+  // Инициализация SDK и криптоаккаунта
   useEffect(() => {
     const initializeSDK = async () => {
       try {
@@ -388,7 +387,7 @@ export default function SubAccountDemo() {
           appChainIds: [baseSepolia.id],
         });
 
-        // Get the provider
+        // Получить провайдер
         const providerInstance = sdkInstance.getProvider();
         setProvider(providerInstance);
 
@@ -412,7 +411,7 @@ export default function SubAccountDemo() {
     setStatus("Connecting wallet...");
 
     try {
-      // Connect to the wallet
+      // Подключиться к кошельку
       const accounts = (await provider.request({
         method: "eth_requestAccounts",
         params: [],
@@ -422,7 +421,7 @@ export default function SubAccountDemo() {
       setUniversalAddress(universalAddr);
       setConnected(true);
 
-      // Check for existing sub account
+      // Проверить наличие существующего суб-аккаунта
       const response = (await provider.request({
         method: "wallet_getSubAccounts",
         params: [
@@ -500,7 +499,7 @@ export default function SubAccountDemo() {
             {
               version: "2.0",
               atomicRequired: true,
-              chainId: `0x${baseSepolia.id.toString(16)}`, // Convert to hex
+              chainId: `0x${baseSepolia.id.toString(16)}`, // Конвертировать в hex
               from,
               calls,
               capabilities: {
