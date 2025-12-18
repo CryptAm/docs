@@ -1,22 +1,22 @@
 ---
-title: "Use Coinbase Balances Onchain"
-description: "How to use Coinbase balances onchain with Base Account"
+title: "Использование балансов Coinbase в ончейн-среде"
+description: "Как использовать балансы Coinbase в ончейн-среде с помощью Base Account"
 ---
 
-With MagicSpend, Base Account users can use their Coinbase balances onchain. This means users can easily start using onchain apps without needing to onramp funds into their wallet.
+Благодаря функции MagicSpend пользователи Base Account могут использовать свои балансы Coinbase в ончейн-операциях. Это означает, что пользователи могут легко начать использовать ончейн-приложения без необходимости пополнять баланс (onramp) в своем кошельке.
 
-This also means that apps might not have all the balance information typically available to them by reading onchain data. Base Account indicates that this is the case by responding to [`wallet_getCapabilities` RPC calls](https://eip5792.xyz/reference/getCapabilities) with the `auxiliaryFunds` capability for each chain Base Account users can use their Coinbase balances on.
+Это также означает, что приложениям может быть недоступна вся информация о балансе, которая обычно получается путем чтения ончейн-данных. Base Account указывает на это, отвечая на [RPC-запросы `wallet_getCapabilities`](https://eip5792.xyz/reference/getCapabilities) возможностью (capability) `auxiliaryFunds` для каждой цепи, на которой пользователи Base Account могут использовать свои балансы Coinbase.
 
-If your app supports Base Account, it should not assume it knows the full balances available to a user if the `auxiliaryFunds` capability is present on a given chain. For example, if your app disables a transaction button if it sees that the wallet has insufficient funds, your app should take `auxiliaryFunds` into account and enable the button if the account has `auxiliaryFunds` on the chain the user is transacting on.
+Если ваше приложение поддерживает Base Account, оно не должно предполагать, что знает все доступные пользователю балансы, если для данной цепи присутствует возможность `auxiliaryFunds`. Например, если ваше приложение отключает кнопку транзакции, когда видит, что в кошельке недостаточно средств, оно должно учитывать `auxiliaryFunds` и активировать кнопку, если у аккаунта есть `auxiliaryFunds` в цепи, где пользователь совершает транзакцию.
 
-## Why it matters
+## Почему это важно
 
-MagicSpend makes onboarding smoother by letting users pay gas or send funds even when their onchain wallet balance is **zero**. Your interface should therefore _never_ disable an action just because the onchain balance is insufficient.
+MagicSpend упрощает вовлечение пользователей, позволяя им оплачивать комиссии или отправлять средства, даже когда баланс их ончейн-кошелька равен **нулю**. Следовательно, ваш интерфейс _никогда_ не должен отключать действие только из-за недостаточного ончейн-баланса.
 
 
-1. Ensure you have the user’s `address` stored in your component state (from your wallet connection flow).
+1. Убедитесь, что `address` пользователя сохранен в состоянии вашего компонента (из вашего потока подключения кошелька).
 
-2. Drop the component below into your UI. It will check whether MagicSpend (`auxiliaryFunds`) is available for that address on Base and if not, disable the send button accordingly.
+2. Добавьте приведенный ниже компонент в ваш интерфейс. Он проверит, доступна ли MagicSpend (`auxiliaryFunds`) для данного адреса на Base, и в противном случае соответствующим образом отключит кнопку отправки.
 
 ```tsx title="SendButton.tsx"
 import { useEffect, useState } from "react";
@@ -31,14 +31,14 @@ const sdk = createBaseAccountSDK({
 const provider = sdk.getProvider();
 
 interface Props {
-  address?: string; // wallet address from your app state
+  address?: string; // адрес кошелька из состояния вашего приложения
 }
 
 export function SendButton({ address }: Props) {
   const [hasAuxFunds, setHasAuxFunds] = useState<boolean | null>(null);
 
   useEffect(() => {
-    if (!address) return; // Wallet not connected yet
+    if (!address) return; // Кошелек еще не подключен
 
     (async () => {
       try {
@@ -67,24 +67,24 @@ export function SendButton({ address }: Props) {
 }
 ```
 
-### What the code does
+### Что делает этот код
 
-1. Receives the current `address` from your own wallet logic.
-2. Calls `wallet_getCapabilities` whenever the address changes.
-3. Reads `auxiliaryFunds.supported` for the Base chain (`8453`).
-4. Enables the button when MagicSpend is available; otherwise shows “Insufficient Balance”.
+1. Получает текущий `address` из вашей собственной логики работы с кошельком.
+2. Вызывает `wallet_getCapabilities` при каждом изменении адреса.
+3. Считывает `auxiliaryFunds.supported` для цепи Base (`8453`).
+4. Активирует кнопку, когда MagicSpend доступен; в противном случае показывает "Недостаточно средств".
 
-## Base Pay integrates Magic Spend by default
+## Base Pay интегрирует Magic Spend по умолчанию
 
-Thanks to [Magic Spend](/base-account/improve-ux/magic-spend), [Base Pay](/base-account/guides/accept-payments) allows users to pay with their USDC balance on Coinbase by default.
+Благодаря [Magic Spend](/base-account/improve-ux/magic-spend), [Base Pay](/base-account/guides/accept-payments) позволяет пользователям по умолчанию оплачивать с помощью своего баланса USDC на Coinbase.
 
 <div style={{ display: 'flex', justifyContent: 'center' }}>
   <img src="/images/base-account/CoinbaseSpend.png" alt="Pay with Coinbase on Base Account" style={{ width: '300px', height: 'auto' }} />
 </div>
 ---
 
-## Next steps
+## Следующие шаги
 
-- Handle loading/error states if you need fine-grained UX
-- Combine this check with your existing onchain balance logic for fallback flows
+- Обрабатывайте состояния загрузки/ошибок, если требуется детальный контроль над пользовательским опытом
+- Объедините эту проверку с вашей существующей логикой проверки ончейн-баланса для резервных сценариев
 
