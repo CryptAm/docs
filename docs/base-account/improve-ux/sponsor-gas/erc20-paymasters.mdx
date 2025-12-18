@@ -1,25 +1,25 @@
 ---
-title: "Pay Gas in ERC20 tokens"
-description: "Base Account enables users to pay for gas in ERC20 tokens"
+title: "Оплата комиссий токенами ERC20"
+description: "Base Account позволяет пользователям оплачивать комиссии (gas) токенами стандарта ERC20"
 ---
 
 
-Base Account enables users to pay for gas in ERC20 tokens!
-Tokens can be accepted for payment by passed in app paymasters in addition to a set of universally supported tokens, such as USDC (this set to be expanded soon).
+Base Account позволяет пользователям оплачивать комиссии (gas) токенами стандарта ERC20!
+Токены могут быть приняты в качестве оплаты через переданные в приложении paymaster'ы, в дополнение к набору универсально поддерживаемых токенов, таких как USDC (этот набор будет расширен в ближайшее время).
 
-This guide outlines how to set up your own app paymaster which will accept your token as payment.
+Это руководство описывает, как настроить собственный paymaster для вашего приложения, который будет принимать ваш токен в качестве оплаты.
 
-### Choose a paymaster service provider
+### Выберите провайдера услуги paymaster
 
-As a prerequisite, you'll need to obtain a paymaster service URL from a paymaster service provider. ERC20 paymasters have additional requirements that will be outlined below.
+В качестве предварительного условия вам необходимо получить URL службы paymaster от провайдера. Paymaster'ы для токенов ERC20 имеют дополнительные требования, которые будут описаны ниже.
 
-We recommend the [Coinbase Developer Platform](https://www.coinbase.com/developer-platform) paymaster as it is fully set up to work with Base Account ERC20 token gas payments out of the box. CDP is also offering up to $15k in gas credits as part of the [Base Gasless Campaign](/base-account/more/base-gasless-campaign).
+Мы рекомендуем paymaster от [Coinbase Developer Platform](https://www.coinbase.com/developer-platform), поскольку он полностью готов к работе с оплатой комиссий токенами ERC20 в Base Account "из коробки". CDP также предлагает до $15 тыс. в виде грантов на газ в рамках [Base Gasless Campaign](/base-account/more/base-gasless-campaign).
 
-Otherwise if using a different paymaster provider, it must conform to the specification outlined in [ERC20 Compatible Paymasters](#erc20-compatible-paymasters) to correctly work with Base Account.
+Если вы используете другого провайдера paymaster, он должен соответствовать спецификации, изложенной в разделе [ERC20 Compatible Paymasters](#erc20-compatible-paymasters) чтобы корректно работать с Base Account.
 
-### App setup for custom token
+### Настройка приложения для пользовательского токена
 
-Once you have a paymaster that is compatible with ERC20 gas payments on Base Account, you are only responsible for including the approvals to the paymaster for your token. It is recommended to periodically top up the allowance once they hit some threshold.
+После того как у вас есть paymaster, совместимый с оплатой комиссий токенами ERC20 в Base Account, ваша задача - только включить разрешения (approvals) для вашего токена в адрес paymaster. Рекомендуется периодически пополнять разрешение, когда его остаток достигает определенного порога.
 
 ```js
 
@@ -39,7 +39,7 @@ const mintTo = {
 
 calls = [mintTo]
 
-// Checks for allowance
+// Проверяем allowance (разрешенную сумму)
 const allowance = await client.readContract({
   abi: parseAbi(["function allowance(address owner, address spender) returns (uint256)"]),
   address: tokenAddress,
@@ -48,7 +48,7 @@ const allowance = await client.readContract({
 })
 
 if (allowance < minTokenThreshold) {
-   // include approval for $20 in calls so that the paymaster will be able to move the token to accept payment
+   // Добавляем вызов approve на $20 в список calls, чтобы paymaster мог переместить токены для принятия оплаты
    calls.push({
         abi: ["function approve(address,uint)"],
         functionName: "approve",
@@ -58,34 +58,34 @@ if (allowance < minTokenThreshold) {
 }
 ```
 
-That is it! Base Account will handle the rest as long as it is compatible as outlined below.
+Это всё! Base Account позаботится об остальном, при условии что paymaster совместим, как описано ниже.
 
-### ERC20 Compatible Paymasters
+### Совместимые с ERC20 Paymaster
 
-Coinbase Developer Platform is compatible out of the box and we will be working with other teams to include support soon!
+Coinbase Developer Platform совместим "из коробки", и мы работаем с другими командами, чтобы вскоре добавить поддержку и у них!
 
-The paymaster must handle the `pm_getPaymasterStubData` and `pm_getPaymasterData` JSON-RPC requests specified by ERC-7677 in addition to `pm_getAcceptedPaymentTokens`. We step through each request and response below.
+Paymaster должен обрабатывать JSON-RPC запросы `pm_getPaymasterStubData` и `pm_getPaymasterData`, указанные в ERC-7677, в дополнение к `pm_getAcceptedPaymentTokens`. Мы разберем каждый запрос и ответ ниже.
 
 #### pm_getPaymasterStubData and pm_getPaymasterData
 
-1. The paymaster must use the specified ERC20 for payment if specified in the 7677 context field under `erc20`.
-2. Upon rejection / failure the paymaster should return a `data` field in the JSONRPC response which could be used to approve the paymaster and includes:
+1. Paymaster должен использовать указанный токен ERC20 для оплаты, если он указан в поле контекста `erc20` согласно спецификации 7677.
+2. При отказе / неудаче paymaster должен возвращать поле `data` в JSONRPC-ответе, которое может быть использовано для выдачи разрешения (approve) paymaster'у. Оно должно включать:
 
-- `acceptedTokens` array which is a struct including the token address
-- `paymasterAddress` field which is the paymaster address which will perform the token transfers.
+- Массив `acceptedTokens`, который представляет собой структуру, содержащую адрес токена.
+- Поле `paymasterAddress` - адрес paymaster'а, который будет выполнять перевод токенов.
 
-3. Upon success the paymaster must return a `tokenPayment` field in the result. This includes:
+3. При успехе paymaster должен возвращать поле `tokenPayment` в результате. Оно включает:
 
-- `tokenAddress` address of the token used for payment
-- `maxFee` the maximum fee to show in the UI
-- `decimals` decimals to use in the UI
-- `name` name of the token
+- `tokenAddress` - адрес токена, использованного для оплаты.
+- `maxFee` - максимальная комиссия для отображения в интерфейсе.
+- `decimals` - количество знаков после запятой (децималы) для использования в интерфейсе.
+- `name` - название токена.
 
-Base Account will simulate the transaction to ensure success and accurate information.
+Base Account выполнит симуляцию транзакции, чтобы убедиться в успехе и точности информации.
 
-##### Request
+##### Запрос
 
-This is a standard V0.6 Entrypoint request example with the additional context for the specified token to be used.
+Это пример стандартного запроса Entrypoint V0.6 с дополнительным контекстом для указания токена, который следует использовать.
 
 ```json
 {
@@ -115,9 +115,9 @@ This is a standard V0.6 Entrypoint request example with the additional context f
 }
 ```
 
-##### Response
+##### Ответ
 
-Successful response:
+Успешный ответ:
 
 ```json
 {
@@ -135,7 +135,7 @@ Successful response:
 }
 ```
 
-Rejection response:
+Ответ при отказе:
 
 ```json
 {
@@ -158,10 +158,10 @@ Rejection response:
 
 #### pm_getAcceptedPaymentTokens
 
-`pm_getAcceptedPaymentTokens` returns an array of tokens the paymaster will accept for payment.
-The request contains the entrypoint and the chain id with optional context.
+`pm_getAcceptedPaymentTokens` возвращает массив токенов, которые paymaster примет в качестве оплаты.
+Запрос содержит адрес Entrypoint и идентификатор цепи (Chain ID) с опциональным контекстом.
 
-##### Request
+##### Запрос
 
 ```json
 {
@@ -171,7 +171,7 @@ The request contains the entrypoint and the chain id with optional context.
 }
 ```
 
-##### Response
+##### Ответ
 
 ```json
 {
