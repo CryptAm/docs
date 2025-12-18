@@ -1,14 +1,14 @@
 ---
-title: "Batch Transactions"
+title: "Пакетные транзакции"
 ---
 
-With Base Account, you can send multiple onchain calls in a single transaction. Doing so improves the UX of multi-step interactions by reducing them to a single click. A common example of where you might want to leverage batch transactions is an ERC-20 `approve` followed by a swap.
+С помощью Base Account вы можете отправлять несколько ончейн-вызовов в одной транзакции. Это улучшает пользовательский опыт (UX) многошаговых операций, сводя их к одному клику. Типичный пример, где можно использовать пакетные транзакции - это вызов `approve` для токена ERC-20, за которым следует обмен (swap).
 
-You can submit batch transactions by using the `wallet_sendCalls` RPC method, defined in [EIP-5792](https://eips.ethereum.org/EIPS/eip-5792).
+Вы можете отправлять пакетные транзакции, используя RPC-метод `wallet_sendCalls`, определенный в [EIP-5792](https://eips.ethereum.org/EIPS/eip-5792).
 
-## Installation
+## Установка
 
-Install the Base Account SDK:
+Установите SDK Base Account:
 
 <CodeGroup>
 ```bash npm
@@ -28,11 +28,11 @@ bun add @base-org/account
 ```
 </CodeGroup>
 
-## Setup
+## Настройка
 
-### Initialize the SDK
+### Инициализация SDK
 
-Import and create the Base Account SDK instance:
+Импортируйте и создайте экземпляр SDK Base Account:
 
 ```tsx
 import { createBaseAccountSDK, base } from '@base-org/account';
@@ -46,11 +46,11 @@ const sdk = createBaseAccountSDK({
 const provider = sdk.getProvider();
 ```
 
-## Basic Batch Transaction
+## Базовая пакетная транзакция
 
-### Simple Multiple Transfers
+### Простые множественные переводы
 
-Send multiple ETH transfers in a single transaction:
+Отправьте несколько переводов ETH в одной транзакции:
 
 ```tsx
 import { createBaseAccountSDK, getCryptoKeyAccount, base } from '@base-org/account';
@@ -66,32 +66,32 @@ const provider = sdk.getProvider();
 
 async function sendBatchTransfers() {
   try {
-    // Get crypto account
+    // Получаем криптоаккаунт
     const cryptoAccount = await getCryptoKeyAccount();
     const fromAddress = cryptoAccount?.account?.address;
 
-    // Prepare batch calls
+    // Подготавливаем пакет вызовов
     const calls = [
       {
         to: '0xd8da6bf26964af9d7eed9e03e53415d37aa96045',
         value: numberToHex(parseEther('0.001')), // 0.001 ETH
-        data: '0x', // Empty data for simple transfer
+        data: '0x', // Пустые данные для простого перевода
       },
       {
         to: '0x742d35Cc6634C0532925a3b844Bc9e7595f6E456',
         value: numberToHex(parseEther('0.001')), // 0.001 ETH  
-        data: '0x', // Empty data for simple transfer
+        data: '0x', // Пустые данные для простого перевода
       }
     ];
 
-    // Send batch transaction
+    // Отправляем пакетную транзакцию
     const result = await provider.request({
       method: 'wallet_sendCalls',
       params: [{
         version: '2.0.0',
         from: fromAddress,
         chainId: numberToHex(base.constants.CHAIN_IDS.base),
-        atomicRequired: true, // All calls must succeed or all fail
+        atomicRequired: true, // Все вызовы должны завершиться успешно, иначе все будут отменены
         calls: calls
       }]
     });
@@ -105,17 +105,17 @@ async function sendBatchTransfers() {
 }
 ```
 
-## Contract Interactions
+## Взаимодействие с контрактами
 
-### ERC-20 Approve and Transfer
+### Approve и перевод токена ERC-20
 
-A common pattern is to approve and then transfer ERC-20 tokens:
+Часто встречающийся паттерн - утвердить (approve), а затем перевести токены ERC-20:
 
 ```tsx
 import { createBaseAccountSDK, getCryptoKeyAccount, base } from '@base-org/account';
 import { numberToHex, parseUnits, encodeFunctionData } from 'viem';
 
-// ERC-20 ABI for approve and transfer functions
+// ABI ERC-20 для функций approve и transfer
 const erc20Abi = [
   {
     name: 'approve',
@@ -150,8 +150,8 @@ async function approveAndTransfer() {
   const cryptoAccount = await getCryptoKeyAccount();
   const fromAddress = cryptoAccount?.account?.address;
 
-  const tokenAddress = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'; // USDC on Base
-  const spenderAddress = '0x3fc91a3afd70395cd496c647d5a6cc9d4b2b7fad'; // Example spender
+  const tokenAddress = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'; // USDC на Base
+  const spenderAddress = '0x3fc91a3afd70395cd496c647d5a6cc9d4b2b7fad'; // Пример получателя разрешения
   const recipientAddress = '0xd8da6bf26964af9d7eed9e03e53415d37aa96045';
   const amount = parseUnits('10', 6); // 10 USDC (6 decimals)
 
@@ -191,11 +191,11 @@ async function approveAndTransfer() {
 }
 ```
 
-## Advanced Features
+## Расширенные возможности
 
-### Checking Wallet Capabilities
+### Проверка возможностей кошелька
 
-Before sending batch transactions, you can check if the wallet supports atomic batching:
+Перед отправкой пакетных транзакций вы можете проверить, поддерживает ли кошелек атомарное объединение (atomic batching):
 
 ```tsx
 async function checkCapabilities() {
@@ -226,9 +226,9 @@ async function checkCapabilities() {
 }
 ```
 
-### Non-Atomic Batching
+### Неатомарное объединение
 
-Sometimes you want calls to execute sequentially, even if some fail:
+Иногда требуется, чтобы вызовы выполнялись последовательно, даже если некоторые из них завершатся неудачей:
 
 ```tsx
 const result = await provider.request({
@@ -237,15 +237,15 @@ const result = await provider.request({
     version: '2.0.0',
     from: fromAddress,
     chainId: numberToHex(base.constants.CHAIN_IDS.base),
-    atomicRequired: false, // Allow partial execution
+    atomicRequired: false, // Разрешить частичное выполнение
     calls: calls
   }]
 });
 ```
 
-## Error Handling
+## Обработка ошибок
 
-Handle common batch transaction errors:
+Обработка типичных ошибок пакетных транзакций:
 
 ```tsx
 async function sendBatchWithErrorHandling(calls: any[]) {
