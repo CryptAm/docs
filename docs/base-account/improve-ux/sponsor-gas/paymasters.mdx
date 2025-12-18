@@ -1,32 +1,31 @@
 ---
-title: "Sponsor Gas"
-description: "Use Paymasters to sponsor your users' transactions"
+title: "Спонсирование комиссий"
+description: "Используйте Paymaster'ы для спонсирования транзакций ваших пользователей"
 ---
 
-One of the biggest UX enhancements unlocked by Base Account is the ability for app developers to sponsor their users' transactions.
-If your app supports Base Account, you can start sponsoring your users'
-transactions by using [standardized Paymaster service communication](https://erc7677.xyz) enabled by [new wallet RPC methods](https://eip5792.xyz).
+Одним из ключевых улучшений пользовательского опыта, которое предоставляет Base Account, является возможность для разработчиков приложений спонсировать транзакции своих пользователей.
+Если ваше приложение поддерживает Base Account, вы можете начать спонсировать транзакции пользователей, используя [стандартизированную коммуникацию со службой Paymaster](https://erc7677.xyz) обеспечиваемую [новыми RPC-методами кошелька](https://eip5792.xyz).
 
-This guide is specific to using Base Account, you can find our more about using Paymasters with Base in
-the [Base Go Gasless page](/cookbook/go-gasless).
+Данное руководство специфично для использования Base Account. Более подробную информацию об использовании Paymaster'ов на Base вы можете найти 
+на странице [Base Go Gasless page](/cookbook/go-gasless).
 
-## Implementation Guide
+## Руководство по реализации
 
 <Steps>
-  <Step title="Set up your Paymaster service">
-  As a prerequisite, you'll need to obtain a Paymaster service URL from a Paymaster service provider.
+  <Step title="Настройте вашу службу Paymaster">
+  В качестве предварительного условия вам необходимо получить URL службы Paymaster от провайдера этой услуги.
 
-  We'll use [Coinbase Developer Platform](https://www.coinbase.com/developer-platform) as a Paymaster service provider,
-  currently offering up to $15k in gas credits as part of the [Base Gasless Campaign](/base-account/more/base-gasless-campaign).
+  Мы будем использовать [Coinbase Developer Platform](https://www.coinbase.com/developer-platform) в качестве провайдера услуг Paymaster,
+  который в настоящее время предлагает до $15 тыс. в виде грантов на газ в рамках [Base Gasless Campaign](/base-account/more/base-gasless-campaign).
 
   <Warning>
-  **ERC-7677-Compliant Paymaster Providers**
+  **Провайдеры Paymaster, совместимые с ERC-7677**
 
-  If you choose to use a different Paymaster service provider, ensure they are [ERC-7677-compliant](https://www.erc7677.xyz/ecosystem/paymasters).
+  Если вы решите использовать другого провайдера услуг Paymaster, убедитесь, что он [совместим с ERC-7677](https://www.erc7677.xyz/ecosystem/paymasters).
 
   </Warning>
 
-  Once you have signed up for [Coinbase Developer Platform](https://www.coinbase.com/developer-platform), you get your Paymaster service URL by navigating to **Onchain Tools > Paymaster** as shown below:
+  После регистрации в [Coinbase Developer Platform](https://www.coinbase.com/developer-platform), вы получите URL вашей службы Paymaster, перейдя в раздел **Onchain Tools > Paymaster**, как показано ниже:
 
   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 <Frame>
@@ -37,20 +36,20 @@ the [Base Go Gasless page](/cookbook/go-gasless).
       loading="lazy"
     />
 </Frame>
-    <em>How to get your Paymaster service URL</em>
+    <em>Как получить URL вашей службы Paymaster</em>
   </div>
 
   <Warning>
-  **Should you create a proxy for your Paymaster service?**
+  **Стоит ли создавать прокси для вашей службы Paymaster?**
 
-  We recommend using a proxy to protect the Paymaster service URL to prevent it from being exposed/leaked on a frontend client.
+  Мы рекомендуем использовать прокси для защиты URL службы Paymaster, чтобы предотвратить его раскрытие/утечку на клиентской стороне (frontend).
 
-  For local development, you can use the same URL for the Paymaster service and the proxy.
+  Для локальной разработки вы можете использовать один и тот же URL для службы Paymaster и прокси.
 
   </Warning>
 
-  Once you have your Paymaster service URL, you can proceed to setting up your contracts allowlist.
-  This is a list of contracts and function calls that you want to be sponsored by the Paymaster.
+  Получив URL службы Paymaster, вы можете перейти к настройке разрешительного списка (allowlist) контрактов.
+  Это список контрактов и вызовов функций, которые вы хотите, чтобы Paymaster спонсировал.
 
   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 <Frame>
@@ -61,27 +60,27 @@ the [Base Go Gasless page](/cookbook/go-gasless).
       loading="lazy"
     />
 </Frame>
-    <em>How to set your Paymaster contracts allowlist</em>
+    <em>Как настроить разрешительный список контрактов Paymaster</em>
   </div>
 
-  Congrats! You've set up your Paymaster service and contracts allowlist.
-  It's time to set up the Base Account SDK.
+  Поздравляем! Вы настроили службу Paymaster и разрешительный список контрактов.
+  Пришло время настроить SDK для Base Account.
 
   <Check>
-  **You can also choose to create custom advanced policies !**
+  **Вы также можете создать собственные расширенные политики!**
 
-  You can create a `willSponsor` function to add some extra validation if you need more control over the policy enforcement.
+  При необходимости более тонкого контроля над применением политик вы можете создать функцию `willSponsor` для дополнительной валидации.
 
-  `willSponsor` is most likely not needed if you are using [Coinbase Developer Platform](https://www.coinbase.com/developer-platform) as it has built-in policy enforcement features,
-  but know that this is still possible if you need it.
+  Скорее всего, функция `willSponsor` не понадобится, если вы используете [Coinbase Developer Platform](https://www.coinbase.com/developer-platform)так как он имеет встроенные функции применения политик,
+  но знайте, что эта возможность всё равно доступна, если она вам нужна.
 
   </Check>
   
   </Step>
-  <Step title="Setup Base Account SDK">
-  Install and initialize the Base Account SDK to interact with Base Account:
+  <Step title="Настройка SDK Base Account">
+  Установите и инициализируйте SDK Base Account для взаимодействия со смарт-аккаунтом:
 
-  ### Installation
+  ### Установка
 
   <CodeGroup>
   ```bash npm
@@ -101,7 +100,7 @@ the [Base Go Gasless page](/cookbook/go-gasless).
   ```
   </CodeGroup>
 
-  ### Initialize the SDK
+  ### Инициализация SDK
 
   ```tsx
   import { createBaseAccountSDK, base } from '@base-org/account';
@@ -109,32 +108,32 @@ the [Base Go Gasless page](/cookbook/go-gasless).
   const sdk = createBaseAccountSDK({
     appName: 'Paymaster Demo',
     appLogoUrl: 'https://base.org/logo.png',
-    appChainIds: [base.constants.CHAIN_IDS.baseSepolia], // or base.constants.CHAIN_IDS.base for mainnet
+    appChainIds: [base.constants.CHAIN_IDS.baseSepolia], // или base.constants.CHAIN_IDS.base для мейннета
   });
 
   const provider = sdk.getProvider();
   ```
 
   </Step>
-  <Step title="Send transactions with Paymaster service capability">
-  Once you have your Paymaster service set up, you can now use `wallet_sendCalls` with paymaster capabilities to sponsor transactions.
+  <Step title="Отправка транзакций с поддержкой Paymaster">
+  После настройки службы Paymaster вы можете использовать метод `wallet_sendCalls` с возможностями paymaster для спонсирования транзакций.
 
   <Note>
-  **Pass in the proxy URL**
+  **Передавайте URL прокси**
 
-  If you set up a proxy in your app's backend as recommended in step (1) above, you'll want to pass in the proxy URL you created.
+  Если вы настроили прокси в бэкенде вашего приложения, как рекомендуется в шаге (1) выше, вам нужно передать созданный вами URL прокси.
 
   </Note>
 
-  ### Basic Sponsored Transaction
+  ### Базовая спонсируемая транзакция
 
-  Here's how to send a sponsored transaction using the `wallet_sendCalls` RPC method:
+  Вот как отправить спонсируемую транзакцию с помощью RPC-метода `wallet_sendCalls`:
 
   ```tsx
   import { createBaseAccountSDK, getCryptoKeyAccount, base } from '@base-org/account';
   import { numberToHex, encodeFunctionData, parseEther } from 'viem';
 
-  // Example NFT contract ABI
+  // Пример ABI контракта NFT
   const nftABI = [
     {
       name: 'safeMint',
@@ -155,7 +154,7 @@ the [Base Go Gasless page](/cookbook/go-gasless).
     const provider = sdk.getProvider();
     
     try {
-      // Get the user's account
+      // Получаем аккаунт пользователя
       const cryptoAccount = await getCryptoKeyAccount();
       const fromAddress = cryptoAccount?.account?.address;
       
@@ -163,10 +162,10 @@ the [Base Go Gasless page](/cookbook/go-gasless).
         throw new Error('No account found');
       }
 
-      // Your Paymaster service URL (use your proxy URL)
+      // URL вашей службы Paymaster (используйте URL вашего прокси)
       const paymasterServiceUrl = process.env.NEXT_PUBLIC_PAYMASTER_PROXY_SERVER_URL;
       
-      // Prepare the transaction call
+      // Подготавливаем вызов транзакции
       const nftAddress = '0x119Ea671030FBf79AB93b436D2E20af6ea469a19';
       const calls = [
         {
@@ -180,7 +179,7 @@ the [Base Go Gasless page](/cookbook/go-gasless).
         }
       ];
 
-      // Send the transaction with paymaster capabilities
+      // Отправляем транзакцию с возможностями paymaster
       const result = await provider.request({
         method: 'wallet_sendCalls',
         params: [{
@@ -205,9 +204,9 @@ the [Base Go Gasless page](/cookbook/go-gasless).
   }
   ```
 
-  ### Multiple Sponsored Transactions
+  ### Несколько спонсируемых транзакций
 
-  You can also batch multiple transactions and have them all sponsored:
+  Вы также можете объединить несколько транзакций в пакет (batch), и все они будут спонсированы:
 
   ```tsx
   async function sendMultipleSponsoredTransactions() {
@@ -223,17 +222,17 @@ the [Base Go Gasless page](/cookbook/go-gasless).
 
     const paymasterServiceUrl = process.env.NEXT_PUBLIC_PAYMASTER_PROXY_SERVER_URL;
 
-    // Multiple calls in a single sponsored transaction
+    // Несколько вызовов в одной спонсируемой транзакции
     const calls = [
       {
         to: '0xd8da6bf26964af9d7eed9e03e53415d37aa96045',
         value: numberToHex(parseEther('0.001')),
-        data: '0x' // Simple ETH transfer
+        data: '0x' // Простой перевод ETH
       },
       {
         to: '0x742d35Cc6634C0532925a3b844Bc9e7595f6E456',
         value: numberToHex(parseEther('0.001')),
-        data: '0x' // Another ETH transfer
+        data: '0x' // Еще один перевод ETH
       }
     ];
 
@@ -256,9 +255,9 @@ the [Base Go Gasless page](/cookbook/go-gasless).
   }
   ```
 
-  ### Check Paymaster Capabilities
+  ### Проверка поддержки Paymaster
 
-  Before sending sponsored transactions, you can check if the wallet supports paymaster services:
+  Перед отправкой спонсируемых транзакций вы можете проверить, поддерживает ли кошелек услуги paymaster:
 
   ```tsx
   async function checkPaymasterSupport() {
@@ -294,8 +293,8 @@ the [Base Go Gasless page](/cookbook/go-gasless).
   }
   ```
 
-  That's it! Base Account will handle the rest. If your Paymaster service is able to sponsor the transaction,
-  in the UI Base Account will indicate to your user that the transaction is sponsored.
+  Вот и всё! Base Account позаботится обо всём остальном. Если ваша служба Paymaster может спонсировать транзакцию,
+  в интерфейсе Base Account укажет вашему пользователю, что транзакция спонсируется.
 
   </Step>
 </Steps>
