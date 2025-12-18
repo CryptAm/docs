@@ -1,41 +1,41 @@
 ---
-title: "Use Spend Permissions"
-description: "Learn how to use Spend Permissions to allow a trusted spender to spend user assets"
+title: "Использование разрешений на расходование"
+description: "Узнайте, как использовать Spend Permissions для предоставления доверенной стороне права расходовать активы пользователя"
 ---
 
-## Overview
+## Обзор
 
-Spend Permissions let you designate a trusted `spender` that can move assets out of a user's Base Account on their behalf.
+Разрешения на расходование (Spend Permissions) позволяют назначить доверенную сторону (`spender`), которая может перемещать активы из Base Account пользователя от его имени.
 
-After the user signs the permission, the `spender` can initiate transfers within the limits you define — no additional prompts, pop-ups, or signatures needed from the user. This powers seamless experiences such as subscription renewals, algorithmic trading, and automated payouts.
+После того как пользователь подписывает разрешение, `spender` может инициировать переводы в пределах установленных вами лимитов - без дополнительных запросов, всплывающих окон или подписей от пользователя. Это обеспечивает бесперебойную работу для таких сценариев, как продление подписок, алгоритмическая торговля и автоматические выплаты.
 
-Read more about the Spend Permission Manager contract and supported chains on [GitHub](https://github.com/coinbase/spend-permissions).
+Подробнее о контракте менеджера Spend Permissions и поддерживаемых цепях читайте на [GitHub](https://github.com/coinbase/spend-permissions).
 
 <Callout type="info">
-  Spend Permissions for Base App Mini Apps are coming soon and will be supported in a future update.
+  Поддержка Spend Permissions для мини-приложений Base App появится в ближайшем будущем и будет добавлена в одном из следующих обновлений.
 </Callout>
 
 <Note>
-If you're using Sub Accounts, learn how Base Account can automatically fund Sub Accounts and optionally skip approval prompts using [Auto Spend Permissions](/base-account/improve-ux/sub-accounts#auto-spend-permissions).
+Если вы используете Суб-аккаунты (Sub Accounts), узнайте, как Base Account может автоматически пополнять их и, при желании, пропускать запросы на подтверждение, используя [Auto Spend Permissions](/base-account/improve-ux/sub-accounts#auto-spend-permissions).
 </Note>
 
-## Usage
+## Использование
 
-### Request a Spend Permission
+### Запрос разрешения на расходование
 
-You create an EIP-712 payload that describes the permission and ask the user to sign it. Store the resulting signature along with the permission data so you can register the permission on-chain later. The SDK helper below handles construction and signing for you.
+Вы создаете полезную нагрузку (payload) EIP-712, описывающую разрешение, и просите пользователя подписать её. Сохраните полученную подпись вместе с данными разрешения, чтобы позднее зарегистрировать его в блокчейне. Помощник SDK ниже позаботится о формировании и подписании за вас.
 
-| Field Name  | Type      | Description                                                                              |
-| ----------- | --------- | ---------------------------------------------------------------------------------------- |
-| `account`   | `address` | Smart account this spend permission is valid for                                         |
-| `spender`   | `address` | Entity that can spend `account`'s tokens                                                 |
-| `token`     | `address` | Token address (ERC-7528 native token or ERC-20 contract)                                 |
-| `allowance` | `uint160` | Maximum allowed value to spend within each `period`                                      |
-| `period`    | `uint48`  | Time duration for resetting used `allowance` on a recurring basis (seconds)              |
-| `start`     | `uint48`  | Timestamp this spend permission is valid starting at (inclusive, unix seconds)           |
-| `end`       | `uint48`  | Timestamp this spend permission is valid until (exclusive, unix seconds)                 |
-| `salt`      | `uint256` | Arbitrary data to differentiate unique spend permissions with otherwise identical fields |
-| `extraData` | `bytes`   | Arbitrary data to attach to a spend permission which may be consumed by the `spender`    |
+| Название поля  | Тип       | Описание                                                                                             |
+| -------------- | --------- | ---------------------------------------------------------------------------------------------------- |
+| `account`      | `address` | Смарт-аккаунт, для которого действительно данное разрешение на расходование                          |
+| `spender`      | `address` | Субъект, который может расходовать токены `account`                                                  |
+| `token`        | `address` | Адрес токена (нативный токен ERC-7528 или контракт ERC-20)                                           |
+| `allowance`    | `uint160` | Максимальное допустимое значение для расходования в течение каждого `period`                         |
+| `period`       | `uint48`  | Продолжительность времени для сброса использованного `allowance` на регулярной основе (в секундах)   |
+| `start`        | `uint48`  | Метка времени, начиная с которой разрешение действительно (включительно, Unix секунды)               |
+| `end`          | `uint48`  | Метка времени, до которой разрешение действительно (исключительно, Unix секунды)                     |
+| `salt`         | `uint256` | Произвольные данные для различения уникальных разрешений с идентичными остальными полями             |
+| `extraData`    | `bytes`   | Произвольные данные, прикрепляемые к разрешению, которые могут быть использованы стороной `spender`  |
 
 ```tsx
 import { requestSpendPermission } from "@base-org/account/spend-permission";
@@ -52,7 +52,7 @@ const permission = await requestSpendPermission({
   account: "0x...",
   spender: "0x...",
   token: "0x...",
-  chainId: 8453, // or any other supported chain
+  chainId: 8453, // или любой другая поддерживаемая цепь
   allowance: 1_000_000n,
   periodInDays: 30,
   provider: sdk.getProvider(),
@@ -61,29 +61,29 @@ const permission = await requestSpendPermission({
 console.log("Spend Permission:", permission);
 ```
 
-### Use the Spend Permission
+### Использование разрешения на расходование
 
-Using a permission is 2 steps:
+Использование разрешения состоит из 2 шагов:
 
-1. **Prepare the calls** — Call `prepareSpendCallData` with the permission and the requested `amount`.
-2. **Submit the calls** — Submit the calls using your app's spender account.
+1. **Подготовка вызовов** — Вызовите `prepareSpendCallData` с разрешением и запрашиваемой `amount`.
+2. **Отправка вызовов** — Отправьте вызовы, используя смарт-аккаунт spender вашего приложения.
 
-`prepareSpendCallData` returns an array of calls needed to spend the tokens:
+`prepareSpendCallData` возвращает массив вызовов, необходимых для расходования токенов:
 
-- `approveWithSignature` — When the permission is not yet registered onchain, this call would be prepended to the `spend` call.
-- `spend` — The call to spend the tokens from the user's Base Account.
+- `approveWithSignature` — Когда разрешение еще не зарегистрировано в блокчейне, этот вызов будет добавлен перед вызовом `spend`.
+- `spend` — Вызов для расходования токенов из Base Account пользователя.
 
 ```tsx
 import { prepareSpendCallData } from "@base-org/account/spend-permission";
 
-// returns [approveWithSignatureCall, spendCall]
+// возвращает [approveWithSignatureCall, spendCall]
 const spendCalls = await prepareSpendCallData({
   permission,
-  amount, // optional; omit to spend the remaining allowance
+  amount, // опционально; опустите, чтобы потратить оставшийся лимит
 });
 
-// If your app spender account supports wallet_sendCalls, submit them in batch using wallet_sendCalls
-// this is an example on how to do it using wallet_sendCalls in provider interface
+// Если смарт-аккаунт spender вашего приложения поддерживает wallet_sendCalls, отправьте их пакетно, используя wallet_sendCalls
+// это пример того, как это сделать через интерфейс provider
 await provider.request({
   method: "wallet_sendCalls",
   params: [
@@ -96,8 +96,8 @@ await provider.request({
   ],
 });
 
-// If your app spender account doesn't support wallet_sendCalls, submit them in order using eth_sendTransaction
-// this is an example on how to do it using eth_sendTransaction in provider interface
+// Если смарт-аккаунт spender вашего приложения не поддерживает wallet_sendCalls, отправьте их по порядку, используя eth_sendTransaction
+// это пример того, как это сделать через интерфейс provider
 await Promise.all(
   spendCalls.map((call) =>
     provider.request({
@@ -114,20 +114,20 @@ await Promise.all(
 ```
 
 <Note>
-**About the `spendCalls` array**
+**О массиве `spendCalls`**
 
-This array has 2 calls when submitting the permission onchain for *the first time*.
-When the permission is already registered onchain, this array has only 1 call (the `spend` call).
+Этот массив содержит 2 вызова при первой регистрации разрешения в блокчейне.
+Когда разрешение уже зарегистрировано, массив содержит только 1 вызов (вызов `spend`).
 
-For most use cases, you don't need to worry about this.
+Для большинства случаев использования вам не нужно об этом беспокоиться.
 </Note>
 
-### Revoke a Spend Permission
+### Отзыв разрешения на расходование
 
-You can revoke a permission in two ways:
+Вы можете отозвать разрешение двумя способами:
 
-- Request user approval via request to user's Base Account using `requestRevoke`.
-- Revoke silently from your app's spender by submitting the call returned from `prepareRevokeCallData`.
+- Запросить подтверждение пользователя через его Base Account с помощью `requestRevoke`.
+- Отозвать автоматически со смарт-аккаунта spender вашего приложения, отправив вызов, возвращенный функцией `prepareRevokeCallData`.
 
 ```tsx
 import {
@@ -135,7 +135,7 @@ import {
   prepareRevokeCallData,
 } from "@base-org/account/spend-permission";
 
-// Option A: User-initiated revoke (wallet popup)
+// Вариант А: Отзыв, инициированный пользователем (всплывающее окно кошелька)
 try {
   const hash = await requestRevoke(permission);
   console.log("Revoke succeeded", hash);
@@ -143,11 +143,11 @@ try {
   console.warn("Revoke was rejected or failed");
 }
 
-// Option B: Silent revoke by your app's spender account
+// Вариант Б: Автоматический отзыв со смарт-аккаунта spender вашего приложения
 const revokeCall = await prepareRevokeCallData(permission);
 
-// Submit the revoke call using your app's spender account
-// this is an example on how to do it using wallet_sendCalls in provider interface
+// Отправьте вызов отзыва, используя смарт-аккаунт spender вашего приложения
+// это пример того, как это сделать через интерфейс provider
 await provider.request({
   method: "wallet_sendCalls",
   params: [
@@ -160,8 +160,8 @@ await provider.request({
   ],
 });
 
-// If your app spender account doesn't support wallet_sendCalls, submit the revoke call using eth_sendTransaction
-// this is an example on how to do it using eth_sendTransaction in provider interface
+// Если смарт-аккаунт spender вашего приложения не поддерживает wallet_sendCalls, отправьте вызов отзыва, используя eth_sendTransaction
+// это пример того, как это сделать через интерфейс provider
 await provider.request({
   method: "eth_sendTransaction",
   params: [
@@ -173,7 +173,7 @@ await provider.request({
 });
 ```
 
-## API Reference
+## Справочник API
 
 - [requestSpendPermission](/base-account/reference/spend-permission-utilities/requestSpendPermission)
 - [prepareSpendCallData](/base-account/reference/spend-permission-utilities/prepareSpendCallData)
@@ -183,7 +183,7 @@ await provider.request({
 - [fetchPermission](/base-account/reference/spend-permission-utilities/fetchPermission)
 - [getPermissionStatus](/base-account/reference/spend-permission-utilities/getPermissionStatus)
 
-## Complete Integration Example
+## Пример полной интеграции
 
 ```typescript
 import {
@@ -207,17 +207,17 @@ const sdk = createBaseAccountSDK({
 
 const spender = "0xAppSpenderAddress";
 
-// 1) Fetch a specific permission by its hash
-// Use fetchPermission when you already know the permission hash
-// (e.g., stored from a previous session or passed as a parameter)
+// 1) Получить конкретное разрешение по его хэшу
+// Используйте fetchPermission, когда уже знаете хэш разрешения
+// (например, сохраненный из предыдущей сессии или переданный как параметр)
 const permission = await fetchPermission({
   permissionHash: "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
   provider: sdk.getProvider(),
 });
 
-// Alternative: Fetch all permissions for a spender
-// Use fetchPermissions when you need to see all available permissions
-// and want to choose which one to use
+// Альтернатива: Получить все разрешения для spender
+// Используйте fetchPermissions, когда нужно увидеть все доступные разрешения
+// и выбрать, какое из них использовать
 // const permissions = await fetchPermissions({
 //   account: "0xUserBaseAccountAddress",
 //   chainId: 84532,
@@ -227,10 +227,10 @@ const permission = await fetchPermission({
 // const permission = permissions.at(0);
 
 // ========================================
-// When there IS an existing permission
+// Когда разрешение УЖЕ существует
 // ========================================
 
-// 2. check the status of permission
+// 2. Проверить статус разрешения
 try {
   const { isActive, remainingSpend } = await getPermissionStatus(permission);
   const amount = 1000n;
@@ -242,14 +242,14 @@ try {
   throw new Error("No spend permission available");
 }
 
-// 3. prepare the calls
+// 3. Подготовить вызовы
 const [approveCall, spendCall] = await prepareSpendCallData({
   permission,
   amount,
 });
 
-// 4. execute the calls using your app's spender account
-// this is an example using wallet_sendCalls, in production it could be using eth_sendTransaction.
+// 4. Выполнить вызовы, используя смарт-аккаунт spender вашего приложения
+// это пример использования wallet_sendCalls, в продакшене можно использовать eth_sendTransaction.
 await provider.request({
   method: "wallet_sendCalls",
   params: [
@@ -263,10 +263,10 @@ await provider.request({
 });
 
 // ========================================
-// When there is NOT an existing permission
+// Когда разрешение НЕ существует
 // ========================================
 
-// 2. request a spend permission to use
+// 2. Запросить разрешение на расходование для использования
 const newPermission = await requestSpendPermission({
   account: "0xUserBaseAccountAddress",
   spender,
@@ -277,14 +277,14 @@ const newPermission = await requestSpendPermission({
   provider: sdk.getProvider(),
 });
 
-// 3. prepare the calls
+// 3. Подготовить вызовы
 const spendCalls = await prepareSpendCallData({
   permission: newPermission,
   amount: 1_000n,
 });
 
-// 4. execute the calls using your app's spender account
-// this is an example using eth_sendTransaction. If your app account supports wallet_sendCalls, use wallet_sendCalls to batch the calls instead.
+// 4. Выполнить вызовы, используя смарт-аккаунт spender вашего приложения
+// это пример использования eth_sendTransaction. Если смарт-аккаунт вашего приложения поддерживает wallet_sendCalls, используйте wallet_sendCalls для пакетной отправки.
 await Promise.all(
   spendCalls.map((call) =>
     provider.request({
@@ -300,7 +300,7 @@ await Promise.all(
 );
 
 // ========================================
-// Request user to revoke spend permission
+// Запросить у пользователя отзыв разрешения
 // ========================================
 
 try {
@@ -311,7 +311,7 @@ try {
 }
 
 // ========================================
-// Revoke spend permission in the background
+// Отозвать разрешение в фоновом режиме
 // ========================================
 
 const revokeCall = await prepareRevokeCallData(permission);
@@ -329,11 +329,11 @@ await provider.request({
 });
 ```
 
-## Example Use Case
+## Пример использования
 
-Let's say you're building an AI agent that can autonomously purchase [Zora Creator Coins](https://docs.zora.co/coins) using secure [Spend Permissions](/base-account/improve-ux/spend-permissions) on Base.
+Предположим, вы создаете AI-агента, который может автономно покупать [Zora Creator Coins](https://docs.zora.co/coins), используя безопасные [Spend Permissions](/base-account/improve-ux/spend-permissions) на Base.
 
-This example demonstrates how to combine Base Account's [Spend Permissions](/base-account/improve-ux/spend-permissions) with Coinbase Developer Platform (CDP) [Server Wallets](https://docs.cdp.coinbase.com/server-wallets/v2/introduction/quickstart) and [Trade API](https://docs.cdp.coinbase.com/trade-api/quickstart) for seamless, gas-free AI agent transactions.
+Этот пример демонстрирует, как объединить [Spend Permissions](/base-account/improve-ux/spend-permissions) Base Account с [Server Wallets](https://docs.cdp.coinbase.com/server-wallets/v2/introduction/quickstart) and [Trade API](https://docs.cdp.coinbase.com/trade-api/quickstart) от Coinbase Developer Platform (CDP) для бесперебойных, не требующих комиссий транзакций AI-агента.
 
 <Frame>
 
@@ -345,19 +345,19 @@ This example demonstrates how to combine Base Account's [Spend Permissions](/bas
 
 <CardGroup cols={2}>
   <Card
-    title="Live Demo"
+    title="Живая демонстрация"
     icon="rocket"
     href="https://base-agent-spend-permissions.vercel.app"
   >
-    Try the live application and see spend permissions in action
+    Протестируйте живое приложение и посмотрите, как работают разрешения на расходование
   </Card>
   <Card
-    title="Source Code"
+    title="Исходный код"
     icon="github"
     href="https://github.com/base/demos/tree/master/base-account/agent-spend-permissions"
   >
-    Explore the complete implementation on GitHub
+    Изучите полную реализацию на GitHub
   </Card>
 </CardGroup>
 
-**Learn more:** [AI Agent with Spend Permissions](/cookbook/spend-permissions-ai-agent)
+**Узнать больше:** [AI Agent with Spend Permissions](/cookbook/spend-permissions-ai-agent)
