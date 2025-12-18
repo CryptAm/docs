@@ -3,36 +3,35 @@ title: "Popup Tips"
 ---
 
 
-## Overview
-When a Base Account is connected and Coinbase Wallet SDK receives a request, it opens 
-[keys.coinbase.com](https://keys.coinbase.com/) in a popup window and passes the request to the popup for handling. 
-Keep the following points in mind when working with the Base Account popup.
+## Обзор
+Когда подключен Base Account (смарт-аккаунт) и Coinbase Wallet SDK получает запрос, он открывает сайт 
+[keys.coinbase.com](https://keys.coinbase.com/) во всплывающем окне (popup) и передает запрос в это окно для обработки.
+При работе со всплывающим окном Base Account учитывайте следующие моменты.
 
-## Default blocking behavior
-- Most modern browsers block all popups by default, unless they are triggered by a click. 
-- If a popup is blocked the browser shows a notification to the user, allowing them to manage popup settings.
+## Поведение блокировки по умолчанию
+- Большинство современных браузеров по умолчанию блокируют все всплывающие окна, если они не вызваны кликом пользователя.
+- Если окно заблокировано, браузер показывает пользователю уведомление, позволяя управлять настройками всплывающих окон.
 
-### What to do about it
-- Ensure there is no additional logic between the button click and the request to open the Base Account popup, 
-as browsers might perceive the request as programmatically initiated. 
-- If logic is unavoidable, keep it minimal and test thoroughly in all supported browsers.
+### Что с этим делать
+- Убедитесь, что между кликом по кнопке и запросом на открытие окна Base Account нет дополнительной логики, так как браузеры могут воспринимать такой запрос как программно инициированный.
+- Если логика неизбежна, сведите ее к минимуму и тщательно тестируйте во всех поддерживаемых браузерах.
+
 
 ## `Cross-Origin-Opener-Policy` 
-If the Base Account popup opens and displays an error or infinite spinner, it may be due to the dapp's `Cross-Origin-Opener-Policy`. Be sure to use a directive that allows the Base Account popup to function. 
+Если окно Base Account открывается и показывает ошибку или бесконечный спиннер, это может быть связано с заголовком `Cross-Origin-Opener-Policy` вашего dapp. Убедитесь, что используется директива, которая позволяет окну Base Account функционировать.
 
-- ✅ Allows Base Account popup to function
-  - `unsafe-none` (default)
-  - `same-origin-allow-popups` (recommended)
-- ❌ Breaks Base Account popup
+- ✅ Позволяет работать окну Base Account
+  - `unsafe-none` (по умолчанию)
+  - `same-origin-allow-popups` (рекомендуется)
+- ❌ Ломает работу окна Base Account
   - `same-origin`
 
-For more detailed information refer to the [MDN docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Opener-Policy).
+Для получения более подробной информации обратитесь к [документации MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Opener-Policy).
 
 
-## Base Account popup 'linger' behavior
-- Sometimes a dapp may programmatically make a followup request based on the response to a previous request. 
-Normally, browsers block these programmatic requests to open popups. 
-- To address this, after the Base Account popup responds to a request, it will linger for 200ms to listen for another incoming request before closing. 
-  - If a request is received *during* this 200ms window, it will be received and handled within the same popup window. 
-  - If a request is received *after* the 200ms window and the popup has closed, opening the Base Account popup will be blocked by the browser. 
+## Поведение окна Base Account: "задержка" перед закрытием
+- Иногда dapp может программно отправлять последующий запрос на основе ответа на предыдущий запрос. Обычно браузеры блокируют такие программные запросы на открытие всплывающих окон.
+- Чтобы решить эту проблему, после того как окно Base Account ответит на запрос, оно будет оставаться открытым в течение 200 мс, "прислушиваясь" к возможному следующему входящему запросу, прежде чем закрыться.
+  - Если запрос получен в течение этого 200-миллисекундного интервала, он будет принят и обработан в том же самом всплывающем окне.
+  - Если запрос получен после истечения 200 мс и окно уже закрылось, попытка открыть окно Base Account будет заблокирована браузером.
  
