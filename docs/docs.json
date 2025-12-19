@@ -51,7 +51,7 @@
             ]
           },
           {
-            "group": "Build with AI",
+            "group": "Создание с помощью ИИ",
             "pages": ["get-started/ai-prompting", "get-started/prompt-library"]
           }
         ],
