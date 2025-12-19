@@ -533,7 +533,7 @@
                     "pages": ["onchainkit/latest/components/checkout/checkout"]
                   },
                   {
-                    "group": "Заработок",
+                    "group": "Доход",
                     "pages": ["onchainkit/latest/components/earn/earn"]
                   },
                   {
@@ -622,7 +622,7 @@
                 "group": "Утилити",
                 "pages": [
                   {
-                    "group": "Заработок",
+                    "group": "Доход",
                     "pages": [
                       "onchainkit/latest/utilities/earn/build-deposit-to-morpho-tx",
                       "onchainkit/latest/utilities/earn/build-withdraw-from-morpho-tx"
@@ -667,7 +667,7 @@
                 "group": "Хуки",
                 "pages": [
                   {
-                    "group": "Заработок",
+                    "group": "Доход",
                     "pages": [
                       "onchainkit/latest/hooks/earn/use-earn-context",
                       "onchainkit/latest/hooks/earn/use-build-deposit-to-morpho-tx",
@@ -766,7 +766,7 @@
                     "pages": ["onchainkit/checkout/checkout"]
                   },
                   {
-                    "group": "Заработок",
+                    "group": "Доход",
                     "pages": ["onchainkit/earn/earn"]
                   },
                   {
@@ -867,7 +867,7 @@
                     ]
                   },
                   {
-                    "group": "Заработок",
+                    "group": "Доход",
                     "pages": [
                       "onchainkit/api/build-deposit-to-morpho-tx",
                       "onchainkit/api/build-withdraw-from-morpho-tx",
