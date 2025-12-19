@@ -25,15 +25,15 @@
         "tab": "Get Started",
         "groups": [
           {
-            "group": "Introduction",
+            "group": "Введение",
             "pages": ["get-started/base"]
           },
           {
-            "group": "Browse by",
+            "group": "Смотреть по категории",
             "pages": ["get-started/products", "get-started/use-cases"]
           },
           {
-            "group": "Quickstart",
+            "group": "Быстрый старт",
             "pages": [
               "get-started/build-app",
               "get-started/launch-token",
@@ -42,7 +42,7 @@
             ]
           },
           {
-            "group": "Builder Support",
+            "group": "Поддержка разработчиков",
             "pages": [
               "get-started/get-funded",
               "get-started/base-services-hub",
@@ -58,22 +58,22 @@
         "global": {
           "anchors": [
             {
-              "anchor": "Status",
+              "anchor": "Статус",
               "href": "https://status.base.org/",
               "icon": "signal-bars"
             },
             {
-              "anchor": "Faucet",
+              "anchor": "Кран",
               "href": "https://docs.base.org/base-chain/tools/network-faucets",
               "icon": "gas-pump"
             },
             {
-              "anchor": "Bridge",
+              "anchor": "Мост",
               "href": "https://docs.base.org/base-chain/network-information/bridges-mainnet",
               "icon": "coin"
             },
             {
-              "anchor": "Blog",
+              "anchor": "Блог",
               "href": "https://blog.base.dev/",
               "icon": "scroll"
             }
@@ -84,7 +84,7 @@
         "tab": "Base Chain",
         "groups": [
           {
-            "group": "Quickstart",
+            "group": "Быстрый старт",
             "pages": [
               "base-chain/quickstart/why-base",
               "base-chain/quickstart/deploy-on-base",
@@ -94,7 +94,7 @@
             ]
           },
           {
-            "group": "Network Information",
+            "group": "Информация о сети",
             "pages": [
               "base-chain/network-information/base-contracts",
               "base-chain/network-information/network-fees",
@@ -112,7 +112,7 @@
             ]
           },
           {
-            "group": "Node Operators",
+            "group": "Операторы узлов",
             "pages": [
               "base-chain/node-operators/run-a-base-node",
               "base-chain/node-operators/performance-tuning",
@@ -121,7 +121,7 @@
             ]
           },
           {
-            "group": "Tools",
+            "group": "Инструменты",
             "pages": [
               "base-chain/tools/base-products",
               "base-chain/tools/onchain-registry-api",
@@ -138,7 +138,7 @@
             ]
           },
           {
-            "group": "Security",
+            "group": "Безопасность",
             "pages": [
               "base-chain/security/security-council",
               "base-chain/security/avoid-malicious-flags",
@@ -154,27 +154,27 @@
               "icon": "github"
             },
             {
-              "anchor": "Status",
+              "anchor": "Статус",
               "href": "https://status.base.org/",
               "icon": "signal-bars"
             },
             {
-              "anchor": "Chain Stats",
+              "anchor": "Статистика чейна",
               "href": "https://www.base.org/stats",
               "icon": "chart-line"
             },
             {
-              "anchor": "Explorer",
+              "anchor": "Обозреватель",
               "href": "https://basescan.org/",
               "icon": "magnifying-glass"
             },
             {
-              "anchor": "Support",
+              "anchor": "Поддержка",
               "href": "https://discord.com/invite/buildonbase",
               "icon": "discord"
             },
             {
-              "anchor": "Blog",
+              "anchor": "Блог",
               "href": "https://blog.base.dev/",
               "icon": "scroll"
             }
@@ -185,11 +185,11 @@
         "tab": "Base Account",
         "groups": [
           {
-            "group": "Introduction",
+            "group": "Введение",
             "pages": ["base-account/overview/what-is-base-account"]
           },
           {
-            "group": "Quickstart",
+            "group": "Быстрый старт",
             "pages": [
               "base-account/quickstart/web",
               "base-account/quickstart/web-react",
@@ -197,7 +197,7 @@
             ]
           },
           {
-            "group": "Guides",
+            "group": "Руководства",
             "pages": [
               "base-account/guides/authenticate-users",
               "base-account/guides/accept-payments",
@@ -212,7 +212,7 @@
             ]
           },
           {
-            "group": "Framework Integrations",
+            "group": "Интеграции с фреймворками",
             "pages": [
               {
                 "group": "Wagmi/Viem",
@@ -239,7 +239,7 @@
             ]
           },
           {
-            "group": "Reference",
+            "group": "Справочник",
             "pages": [
               {
                 "group": "Account SDK",
@@ -253,7 +253,7 @@
                     ]
                   },
                   {
-                    "group": "Subscriptions",
+                    "group": "Подписки",
                     "pages": [
                       "base-account/reference/base-pay/subscriptions-overview",
                       "base-account/reference/base-pay/subscribe",
@@ -275,10 +275,10 @@
                 ]
               },
               {
-                "group": "Provider",
+                "group": "Провайдер",
                 "pages": [
                   {
-                    "group": "Methods",
+                    "group": "Методы",
                     "pages": [
                       "base-account/reference/core/provider-rpc-methods/request-overview",
                       "base-account/reference/core/provider-rpc-methods/wallet_connect",
@@ -324,7 +324,7 @@
                     ]
                   },
                   {
-                    "group": "Capabilities",
+                    "group": "Возможности",
                     "pages": [
                       "base-account/reference/core/capabilities/overview",
                       "base-account/reference/core/capabilities/signInWithEthereum",
@@ -338,7 +338,7 @@
                 ]
               },
               {
-                "group": "UI Elements",
+                "group": "UI элементы",
                 "pages": [
                   "base-account/reference/ui-elements/base-pay-button",
                   "base-account/reference/ui-elements/sign-in-with-base-button",
@@ -346,7 +346,7 @@
                 ]
               },
               {
-                "group": "Onchain Contracts",
+                "group": "Ончейн контракты",
                 "pages": [
                   "base-account/reference/onchain-contracts/spend-permissions",
                   "base-account/reference/onchain-contracts/smart-wallet",
@@ -356,10 +356,10 @@
             ]
           },
           {
-            "group": "More",
+            "group": "Дополнительно",
             "pages": [
               {
-                "group": "Troubleshooting",
+                "group": "Решение проблем",
                 "pages": [
                   "base-account/more/troubleshooting/usage-details/popups",
                   "base-account/more/troubleshooting/usage-details/gas-usage",
@@ -381,7 +381,7 @@
               "base-account/basenames/basenames-onchainkit-tutorial"            ]
           },
           {
-            "group": "Contribute",
+            "group": "Вклад",
             "pages": [
               "base-account/contribute/contribute-to-base-account-docs",
               "base-account/contribute/security-and-bug-bounty"
@@ -396,7 +396,7 @@
               "icon": "github"
             },
             {
-              "anchor": "Support",
+              "anchor": "Поддержка",
               "href": "https://discord.com/invite/buildonbase",
               "icon": "discord"
             }
@@ -407,11 +407,11 @@
         "tab": "Base App",
         "groups": [
           {
-            "group": "Introduction",
+            "group": "Введение",
             "pages": ["base-app/introduction/beta-faq"]
           },
           {
-            "group": "Chat Agents",
+            "group": "Чат-агенты",
             "pages": [
               "base-app/agents/chat-agents",
               "base-app/agents/building-quality-agents",
@@ -430,7 +430,7 @@
         "tab": "Mini Apps",
         "groups": [
           {
-            "group": "Quickstart",
+            "group": "Быстрый старт",
             "pages": [
               "mini-apps/quickstart/migrate-existing-apps",
               "mini-apps/quickstart/create-new-miniapp",
@@ -439,7 +439,7 @@
             ]
           },
           {
-            "group": "Core Concepts",
+            "group": "Основные концепции",
             "pages": [
               "mini-apps/core-concepts/manifest",
               "mini-apps/core-concepts/context",
@@ -451,14 +451,14 @@
             ]
           },
           {
-            "group": "Technical Guides",
+            "group": "Технические руководства",
             "pages": [
               "mini-apps/technical-guides/sign-manifest",
               "mini-apps/technical-guides/neynar-notifications"
             ]
           },
           {
-            "group": "Featured Guidelines",
+            "group": "Ключевые рекомендации",
             "pages": [
               "mini-apps/featured-guidelines/overview",
               "mini-apps/featured-guidelines/product-guidelines",
@@ -468,7 +468,7 @@
             ]
           },
           {
-            "group": "Growth Playbook",
+            "group": "Плейбук роста",
             "pages": [
               "mini-apps/introduction/overview",
               "mini-apps/growth/optimize-onboarding",
@@ -477,7 +477,7 @@
             ]
           },
           {
-            "group": "Troubleshooting",
+            "group": "Решение проблем",
             "pages": [
               "mini-apps/troubleshooting/common-issues",
               "mini-apps/troubleshooting/base-app-compatibility",
@@ -485,7 +485,7 @@
             ]
           },
           {
-            "group": "Resources",
+            "group": "Ресурсы",
             "pages": [
               "mini-apps/resources/templates",
               "mini-apps/resources/design-resources",
@@ -501,7 +501,7 @@
             "version": "latest",
             "groups": [
               {
-                "group": "Getting started",
+                "group": "Начало работы",
                 "pages": [
                   "onchainkit/latest/getting-started/overview",
                   "onchainkit/latest/getting-started/quickstart-guide",
@@ -510,7 +510,7 @@
                 ]
               },
               {
-                "group": "Configuration",
+                "group": "Конфигурация",
                 "pages": [
                   "onchainkit/latest/configuration/onchainkit-provider",
                   "onchainkit/latest/configuration/wagmi-viem-integration",
@@ -518,30 +518,30 @@
                 ]
               },
               {
-                "group": "Components",
+                "group": "Компоненты",
                 "pages": [
                   {
                     "group": "Appchain",
                     "pages": ["onchainkit/latest/components/appchain/bridge"]
                   },
                   {
-                    "group": "Buy",
+                    "group": "Покупка",
                     "pages": ["onchainkit/latest/components/buy/buy"]
                   },
                   {
-                    "group": "Checkout",
+                    "group": "Проверка",
                     "pages": ["onchainkit/latest/components/checkout/checkout"]
                   },
                   {
-                    "group": "Earn",
+                    "group": "Заработок",
                     "pages": ["onchainkit/latest/components/earn/earn"]
                   },
                   {
-                    "group": "Fund",
+                    "group": "Финансирование",
                     "pages": ["onchainkit/latest/components/fund/fund-button", "onchainkit/latest/components/fund/fund-card"]
                   },
                   {
-                    "group": "Identity",
+                    "group": "Идентификация",
                     "pages": [
                       "onchainkit/latest/components/identity/identity",
                       "onchainkit/latest/components/identity/address",
@@ -553,7 +553,7 @@
                     ]
                   },
                   {
-                    "group": "Mint",
+                    "group": "Минт",
                     "pages": ["onchainkit/latest/components/mint/nft-card", "onchainkit/latest/components/mint/nft-mint-card"]
                   },
                   {
@@ -562,7 +562,7 @@
                       "onchainkit/latest/components/minikit/overview",
                       "onchainkit/latest/components/minikit/provider-and-initialization",
                       {
-                        "group": "Hooks",
+                        "group": "Хуки",
                         "pages": [
                           "onchainkit/latest/components/minikit/hooks/useMiniKit",
                           "onchainkit/latest/components/minikit/hooks/useOpenUrl",
@@ -579,15 +579,15 @@
                     ]
                   },
                   {
-                    "group": "Signature",
+                    "group": "Подпись",
                     "pages": ["onchainkit/latest/components/signature/signature"]
                   },
                   {
-                    "group": "Swap",
+                    "group": "Обмен",
                     "pages": ["onchainkit/latest/components/swap/swap", "onchainkit/latest/components/swap/swap-settings"]
                   },
                   {
-                    "group": "Token",
+                    "group": "Токен",
                     "pages": [
                       "onchainkit/latest/components/token/token-chip",
                       "onchainkit/latest/components/token/token-image",
@@ -597,11 +597,11 @@
                     ]
                   },
                   {
-                    "group": "Transaction",
+                    "group": "Транзакция",
                     "pages": ["onchainkit/latest/components/transaction/transaction"]
                   },
                   {
-                    "group": "Wallet",
+                    "group": "Кошелек",
                     "pages": [
                       "onchainkit/latest/components/wallet/wallet",
                       "onchainkit/latest/components/wallet/wallet-dropdown-basename",
@@ -613,23 +613,23 @@
                     ]
                   },
                   {
-                    "group": "Connected",
+                    "group": "Подключение",
                     "pages": ["onchainkit/latest/components/connected/connected"]
                   }
                 ]
               },
               {
-                "group": "Utilities",
+                "group": "Утилити",
                 "pages": [
                   {
-                    "group": "Earn",
+                    "group": "Заработок",
                     "pages": [
                       "onchainkit/latest/utilities/earn/build-deposit-to-morpho-tx",
                       "onchainkit/latest/utilities/earn/build-withdraw-from-morpho-tx"
                     ]
                   },
                   {
-                    "group": "Fund",
+                    "group": "Финансирование",
                     "pages": [
                       "onchainkit/latest/utilities/fund/get-onramp-buy-url",
                       "onchainkit/latest/utilities/fund/fetch-onramp-config",
@@ -640,7 +640,7 @@
                     ]
                   },
                   {
-                    "group": "Identity",
+                    "group": "Идентификация",
                     "pages": [
                       "onchainkit/latest/utilities/identity/get-address",
                       "onchainkit/latest/utilities/identity/get-attestations",
@@ -651,11 +651,11 @@
                     ]
                   },
                   {
-                    "group": "Token",
+                    "group": "Токен",
                     "pages": ["onchainkit/latest/utilities/token/format-amount"]
                   },
                   {
-                    "group": "Wallet",
+                    "group": "Кошелек",
                     "pages": [
                       "onchainkit/latest/utilities/wallet/is-valid-aa-entrypoint",
                       "onchainkit/latest/utilities/wallet/is-wallet-a-coinbase-smart-wallet"
@@ -664,10 +664,10 @@
                 ]
               },
               {
-                "group": "Hooks",
+                "group": "Хуки",
                 "pages": [
                   {
-                    "group": "Earn",
+                    "group": "Заработок",
                     "pages": [
                       "onchainkit/latest/hooks/earn/use-earn-context",
                       "onchainkit/latest/hooks/earn/use-build-deposit-to-morpho-tx",
@@ -676,7 +676,7 @@
                     ]
                   },
                   {
-                    "group": "Identity",
+                    "group": "Идентификация",
                     "pages": [
                       "onchainkit/latest/hooks/identity/use-address",
                       "onchainkit/latest/hooks/identity/use-avatar",
@@ -686,7 +686,7 @@
                     ]
                   },
                   {
-                    "group": "Mint",
+                    "group": "Минт",
                     "pages": [
                       "onchainkit/latest/hooks/mint/use-token-details",
                       "onchainkit/latest/hooks/mint/use-mint-details"
@@ -695,7 +695,7 @@
                 ]
               },
               {
-                "group": "Guides",
+                "group": "Руководства",
                 "pages": [
                   "onchainkit/latest/guides/ai-prompting-guide",
                   "onchainkit/latest/guides/contributing"
@@ -707,7 +707,7 @@
             "version": "v0.38.x",
             "groups": [
               {
-                "group": "Introduction",
+                "group": "Введение",
                 "pages": [
                   "onchainkit/getting-started",
                   "onchainkit/guides/telemetry",
@@ -715,7 +715,7 @@
                 ]
               },
               {
-                "group": "Installation",
+                "group": "Установка",
                 "pages": [
                   "onchainkit/installation/nextjs",
                   "onchainkit/installation/vite",
@@ -724,14 +724,14 @@
                 ]
               },
               {
-                "group": "Config",
+                "group": "Конфигурация",
                 "pages": [
                   "onchainkit/config/onchainkit-provider",
                   "onchainkit/config/supplemental-providers"
                 ]
               },
               {
-                "group": "Guides",
+                "group": "Руководства",
                 "pages": [
                   "onchainkit/guides/lifecycle-status",
                   "onchainkit/guides/tailwind",
@@ -743,7 +743,7 @@
                 ]
               },
               {
-                "group": "Templates",
+                "group": "Шаблоны",
                 "pages": [
                   "onchainkit/templates/onchain-nft-app",
                   "onchainkit/templates/onchain-commerce-app",
@@ -751,33 +751,33 @@
                 ]
               },
               {
-                "group": "Components",
+                "group": "Компоненты",
                 "pages": [
                   {
                     "group": "Appchain",
                     "pages": ["onchainkit/appchain/bridge"]
                   },
                   {
-                    "group": "Buy",
+                    "group": "Покупка",
                     "pages": ["onchainkit/buy/buy"]
                   },
                   {
-                    "group": "Checkout",
+                    "group": "Проверка",
                     "pages": ["onchainkit/checkout/checkout"]
                   },
                   {
-                    "group": "Earn",
+                    "group": "Заработок",
                     "pages": ["onchainkit/earn/earn"]
                   },
                   {
-                    "group": "Fund",
+                    "group": "Финансирование",
                     "pages": [
                       "onchainkit/fund/fund-button",
                       "onchainkit/fund/fund-card"
                     ]
                   },
                   {
-                    "group": "Identity",
+                    "group": "Идентификация",
                     "pages": [
                       "onchainkit/identity/identity",
                       "onchainkit/identity/address",
@@ -789,7 +789,7 @@
                     ]
                   },
                   {
-                    "group": "Mint",
+                    "group": "Минт",
                     "pages": [
                       "onchainkit/mint/nft-card",
                       "onchainkit/mint/nft-mint-card"
@@ -797,14 +797,14 @@
                   },
                   "onchainkit/signature/signature",
                   {
-                    "group": "Swap",
+                    "group": "Обмен",
                     "pages": [
                       "onchainkit/swap/swap",
                       "onchainkit/swap/swap-settings"
                     ]
                   },
                   {
-                    "group": "Token",
+                    "group": "Токен",
                     "pages": [
                       "onchainkit/token/token-chip",
                       "onchainkit/token/token-image",
@@ -815,7 +815,7 @@
                   },
                   "onchainkit/transaction/transaction",
                   {
-                    "group": "Wallet",
+                    "group": "Кошелек",
                     "pages": [
                       "onchainkit/wallet/wallet",
                       "onchainkit/wallet/wallet-dropdown-basename",
@@ -832,7 +832,7 @@
                 "group": "API",
                 "pages": [
                   {
-                    "group": "Mint",
+                    "group": "Минт",
                     "pages": [
                       "onchainkit/api/get-token-details",
                       "onchainkit/api/get-mint-details",
@@ -840,34 +840,34 @@
                     ]
                   },
                   {
-                    "group": "Swap",
+                    "group": "Обмен",
                     "pages": [
                       "onchainkit/api/build-swap-transaction",
                       "onchainkit/api/get-swap-quote"
                     ]
                   },
                   {
-                    "group": "Token",
+                    "group": "Токен",
                     "pages": ["onchainkit/api/get-tokens"]
                   },
                   {
-                    "group": "Wallet",
+                    "group": "Кошелек",
                     "pages": ["onchainkit/api/get-portfolios"]
                   }
                 ]
               },
               {
-                "group": "Utilities",
+                "group": "Утилити",
                 "pages": [
                   {
-                    "group": "Config",
+                    "group": "Конфигурация",
                     "pages": [
                       "onchainkit/config/is-base",
                       "onchainkit/config/is-ethereum"
                     ]
                   },
                   {
-                    "group": "Earn",
+                    "group": "Заработок",
                     "pages": [
                       "onchainkit/api/build-deposit-to-morpho-tx",
                       "onchainkit/api/build-withdraw-from-morpho-tx",
@@ -877,7 +877,7 @@
                     ]
                   },
                   {
-                    "group": "Fund",
+                    "group": "Финансирование",
                     "pages": [
                       "onchainkit/fund/get-onramp-buy-url",
                       "onchainkit/fund/fetch-onramp-config",
@@ -888,7 +888,7 @@
                     ]
                   },
                   {
-                    "group": "Identity",
+                    "group": "Идентификация",
                     "pages": [
                       "onchainkit/identity/get-address",
                       "onchainkit/identity/get-attestations",
@@ -904,18 +904,18 @@
                     ]
                   },
                   {
-                    "group": "Mint",
+                    "group": "Минт",
                     "pages": [
                       "onchainkit/hooks/use-token-details",
                       "onchainkit/hooks/use-mint-details"
                     ]
                   },
                   {
-                    "group": "Token",
+                    "group": "Токен",
                     "pages": ["onchainkit/token/format-amount"]
                   },
                   {
-                    "group": "Wallet",
+                    "group": "Кошелек",
                     "pages": [
                       "onchainkit/wallet/is-valid-aa-entrypoint",
                       "onchainkit/wallet/is-wallet-a-coinbase-smart-wallet"
@@ -924,7 +924,7 @@
                 ]
               },
               {
-                "group": "Types",
+                "group": "Типы",
                 "pages": [
                   "onchainkit/api/types",
                   "onchainkit/appchain/types",
@@ -942,7 +942,7 @@
                 ]
               },
               {
-                "group": "Contribution",
+                "group": "Вклад",
                 "pages": [
                   "onchainkit/guides/contribution",
                   "onchainkit/guides/reporting-bug"
@@ -964,7 +964,7 @@
               "icon": "gamepad"
             },
             {
-              "anchor": "Support",
+              "anchor": "Поддержка",
               "href": "https://discord.com/invite/buildonbase",
               "icon": "discord"
             }
@@ -975,7 +975,7 @@
         "tab": "Cookbook",
         "groups": [
           {
-            "group": "Use Cases",
+            "group": "Примеры использования",
             "pages": [
               "cookbook/onboard-any-user",
               "cookbook/accept-crypto-payments",
@@ -991,14 +991,14 @@
             ]
           },
           {
-            "group": "Build with AI",
+            "group": "Создание с помощью AI",
             "pages": ["cookbook/ai-prompting", "cookbook/base-builder-mcp"]
           },
           {
-            "group": "Vibe Code a Mini App",
+            "group": "Вайб кодинг мини-приложений",
             "pages": [
               {
-                "group": "Foundations",
+                "group": "Базовые принципы",
                 "pages": [
                   "cookbook/introduction-to-mini-apps",
                   "cookbook/ai-powered-development-fundamentals",
@@ -1006,14 +1006,14 @@
                 ]
               },
               {
-                "group": "Documentation & Reading",
+                "group": "Документация и материалы",
                 "pages": [
                   "cookbook/essential-documentation-resources",
                   "cookbook/ai-assisted-documentation-reading"
                 ]
               },
               {
-                "group": "Building",
+                "group": "Создание",
                 "pages": [
                   "cookbook/successful-miniapps-in-tba",
                   "cookbook/minikit/build-your-mini-app-with-prompt",
@@ -1022,7 +1022,7 @@
                 ]
               },
               {
-                "group": "Add MiniKit to Your App",
+                "group": "Добавление MiniKit в ваше приложение",
                 "pages": [
                   "cookbook/minikit/install",
                   "cookbook/minikit/add-minikit",
@@ -1045,16 +1045,16 @@
         "tab": "Learn",
         "groups": [
           {
-            "group": "Building Onchain",
+            "group": "Разработка в ончейн",
             "pages": ["learn/welcome"]
           },
           {
-            "group": "Onchain Concepts",
+            "group": "Основы ончейн",
             "pages": [
               "learn/onchain-concepts/core-concepts",
               "learn/onchain-concepts/understanding-the-onchain-tech-stack",
               {
-                "group": "Web2 vs Building Onchain",
+                "group": "Web2 vs Разработка в ончейн",
                 "pages": [
                   "learn/onchain-concepts/building-onchain-wallets",
                   "learn/onchain-concepts/building-onchain-identity",
@@ -1070,7 +1070,7 @@
             ]
           },
           {
-            "group": "Introduction to Ethereum",
+            "group": "Введение в Ethereum",
             "pages": [
               "learn/introduction-to-ethereum/introduction-to-ethereum-vid",
               "learn/introduction-to-ethereum/ethereum-dev-overview-vid",
@@ -1081,10 +1081,10 @@
             ]
           },
           {
-            "group": "Onchain App Development",
+            "group": "Разработка ончейн приложений",
             "pages": [
               {
-                "group": "Frontend Setup",
+                "group": "Настройка фронтенда",
                 "pages": [
                   "learn/onchain-app-development/frontend-setup/overview",
                   "learn/onchain-app-development/frontend-setup/building-an-onchain-app",
@@ -1095,14 +1095,14 @@
                 ]
               },
               {
-                "group": "Writing to Contracts",
+                "group": "Запись в контракты",
                 "pages": [
                   "learn/onchain-app-development/writing-to-contracts/useWriteContract",
                   "learn/onchain-app-development/writing-to-contracts/useSimulateContract"
                 ]
               },
               {
-                "group": "Reading and Displaying Data",
+                "group": "Чтение и отображение данных",
                 "pages": [
                   "learn/onchain-app-development/reading-and-displaying-data/useReadContract",
                   "learn/onchain-app-development/reading-and-displaying-data/useAccount",
@@ -1110,7 +1110,7 @@
                 ]
               },
               {
-                "group": "Account Abstraction",
+                "group": "Абстракция аккаунта",
                 "pages": [
                   "learn/onchain-app-development/account-abstraction/gasless-transactions-with-paymaster",
                   "learn/onchain-app-development/account-abstraction/account-abstraction-on-base-using-biconomy",
@@ -1119,14 +1119,14 @@
                 ]
               },
               {
-                "group": "Cross-Chain Development",
+                "group": "Кросс-чейн разработка",
                 "pages": [
                   "learn/onchain-app-development/cross-chain/bridge-tokens-with-layerzero",
                   "learn/onchain-app-development/cross-chain/send-messages-and-tokens-from-base-chainlink"
                 ]
               },
               {
-                "group": "Finance",
+                "group": "Финансы",
                 "pages": [
                   "learn/onchain-app-development/finance/access-real-time-asset-data-pyth-price-feeds",
                   "learn/onchain-app-development/finance/access-real-world-data-chainlink",
@@ -1134,21 +1134,21 @@
                 ]
               },
               {
-                "group": "Deploy with Fleek",
+                "group": "Развертывание с Fleek",
                 "pages": ["learn/onchain-app-development/deploy-with-fleek"]
               }
             ]
           },
           {
-            "group": "Smart Contract Development",
+            "group": "Разработка смарт-контрактов",
             "pages": [
               {
-                "group": "Introduction to Solidity",
+                "group": "Введение в Solidity",
                 "pages": [
                   "learn/introduction-to-solidity/introduction-to-solidity-overview",
                   "learn/introduction-to-solidity/anatomy-of-a-smart-contract-vid",
                   {
-                    "group": "Introduction to Solidity",
+                    "group": "Введение в Solidity",
                     "pages": [
                       "learn/introduction-to-solidity/introduction-to-solidity-vid",
                       "learn/introduction-to-solidity/solidity-overview",
@@ -1161,7 +1161,7 @@
                 ]
               },
               {
-                "group": "Contracts and Basic Functions",
+                "group": "Контракты и основные функции",
                 "pages": [
                   "learn/contracts-and-basic-functions/intro-to-contracts-vid",
                   "learn/contracts-and-basic-functions/hello-world-step-by-step",
@@ -1170,7 +1170,7 @@
                 ]
               },
               {
-                "group": "Deploying to a Testnet",
+                "group": "Развертывание в тестовой сети",
                 "pages": [
                   "learn/deployment-to-testnet/overview-of-test-networks-vid",
                   "learn/deployment-to-testnet/test-networks",
@@ -1180,7 +1180,7 @@
                 ]
               },
               {
-                "group": "Control Structures",
+                "group": "Структуры управления",
                 "pages": [
                   "learn/control-structures/standard-control-structures-vid",
                   "learn/control-structures/loops-vid",
@@ -1190,7 +1190,7 @@
                 ]
               },
               {
-                "group": "Storage in Solidity",
+                "group": "Хранилище в Solidity",
                 "pages": [
                   "learn/storage/simple-storage-video",
                   "learn/storage/simple-storage-sbs",
@@ -1200,7 +1200,7 @@
                 ]
               },
               {
-                "group": "Arrays in Solidity",
+                "group": "Массивы в Solidity",
                 "pages": [
                   "learn/arrays/arrays-in-solidity-vid",
                   "learn/arrays/writing-arrays-in-solidity-vid",
@@ -1212,7 +1212,7 @@
                 ]
               },
               {
-                "group": "The Mapping Type",
+                "group": "Тип данных Mapping",
                 "pages": [
                   "learn/mappings/mappings-vid",
                   "learn/mappings/using-msg-sender-vid",
@@ -1222,7 +1222,7 @@
                 ]
               },
               {
-                "group": "Advanced Functions",
+                "group": "Расширенные возможности функций",
                 "pages": [
                   "learn/advanced-functions/function-visibility-vid",
                   "learn/advanced-functions/function-visibility",
@@ -1231,7 +1231,7 @@
                 ]
               },
               {
-                "group": "Structs",
+                "group": "Структуры",
                 "pages": [
                   "learn/structs/structs-vid",
                   "learn/structs/structs-sbs",
@@ -1239,7 +1239,7 @@
                 ]
               },
               {
-                "group": "Inheritance",
+                "group": "Наследование",
                 "pages": [
                   "learn/inheritance/inheritance-vid",
                   "learn/inheritance/inheritance-sbs",
@@ -1251,7 +1251,7 @@
                 ]
               },
               {
-                "group": "Imports",
+                "group": "Импорты",
                 "pages": [
                   "learn/imports/imports-vid",
                   "learn/imports/imports-sbs",
@@ -1259,7 +1259,7 @@
                 ]
               },
               {
-                "group": "Errors",
+                "group": "Ошибки",
                 "pages": [
                   "learn/error-triage/error-triage-vid",
                   "learn/error-triage/error-triage",
@@ -1267,7 +1267,7 @@
                 ]
               },
               {
-                "group": "The new Keyword",
+                "group": "Ключевое слово new",
                 "pages": [
                   "learn/new-keyword/creating-a-new-contract-vid",
                   "learn/new-keyword/new-keyword-sbs",
@@ -1275,7 +1275,7 @@
                 ]
               },
               {
-                "group": "Contract to Contract Interactions",
+                "group": "Взаимодействие между контрактами",
                 "pages": [
                   "learn/interfaces/intro-to-interfaces-vid",
                   "learn/interfaces/calling-another-contract-vid",
@@ -1284,17 +1284,17 @@
                 ]
               },
               {
-                "group": "Events",
+                "group": "События",
                 "pages": ["learn/events/hardhat-events-sbs"]
               },
               {
-                "group": "Address and Payable",
+                "group": "Типы Address и Payable",
                 "pages": ["learn/address-and-payable/address-and-payable"]
               }
             ]
           },
           {
-            "group": "Development with Foundry",
+            "group": "Разработка с Foundry",
             "pages": [
               "learn/foundry/deploy-with-foundry",
               "learn/foundry/setup-with-base",
@@ -1304,10 +1304,10 @@
             ]
           },
           {
-            "group": "Development with Hardhat",
+            "group": "Разработка с Hardhat",
             "pages": [
               {
-                "group": "Hardhat Setup and Overview",
+                "group": "Настройка и обзор Hardhat",
                 "pages": [
                   "learn/hardhat/hardhat-setup-overview/hardhat-overview-vid",
                   "learn/hardhat/hardhat-setup-overview/creating-a-project-vid",
@@ -1315,7 +1315,7 @@
                 ]
               },
               {
-                "group": "Testing with Typescript",
+                "group": "Тестирование с Typescript",
                 "pages": [
                   "learn/hardhat/hardhat-testing/testing-overview-vid",
                   "learn/hardhat/hardhat-testing/writing-tests-vid",
@@ -1331,7 +1331,7 @@
                 ]
               },
               {
-                "group": "Deploying Smart Contracts",
+                "group": "Развертывание смарт-контрактов",
                 "pages": [
                   "learn/hardhat/hardhat-deploy/installing-hardhat-deploy-vid",
                   "learn/hardhat/hardhat-deploy/setup-deploy-script-vid",
@@ -1342,21 +1342,21 @@
                 ]
               },
               {
-                "group": "Verifying Smart Contracts",
+                "group": "Верификация смарт-контрактов",
                 "pages": [
                   "learn/hardhat/hardhat-verify/hardhat-verify-vid",
                   "learn/hardhat/hardhat-verify/hardhat-verify-sbs"
                 ]
               },
               {
-                "group": "Mainnet Forking",
+                "group": "Форк майннета",
                 "pages": [
                   "learn/hardhat/hardhat-forking/mainnet-forking-vid",
                   "learn/hardhat/hardhat-forking/hardhat-forking"
                 ]
               },
               {
-                "group": "Hardhat Tools and Testing",
+                "group": "Инструменты и тестирование Hardhat",
                 "pages": [
                   "learn/hardhat/hardhat-tools-and-testing/overview",
                   "learn/hardhat/hardhat-tools-and-testing/debugging-smart-contracts",
@@ -1369,10 +1369,10 @@
             ]
           },
           {
-            "group": "Token Development",
+            "group": "Разработка токенов",
             "pages": [
               {
-                "group": "Introduction to Tokens",
+                "group": "Введение в разработку токенов",
                 "pages": [
                   "learn/token-development/intro-to-tokens/intro-to-tokens-vid",
                   "learn/token-development/intro-to-tokens/misconceptions-about-tokens-vid",
@@ -1380,7 +1380,7 @@
                 ]
               },
               {
-                "group": "Minimal Tokens",
+                "group": "Минимальные токены",
                 "pages": [
                   "learn/token-development/minimal-tokens/creating-a-minimal-token-vid",
                   "learn/token-development/minimal-tokens/transferring-a-minimal-token-vid",
@@ -1389,7 +1389,7 @@
                 ]
               },
               {
-                "group": "ERC-20 Tokens",
+                "group": "ERC-20 токены",
                 "pages": [
                   "learn/token-development/erc-20-token/analyzing-erc-20-vid",
                   "learn/token-development/erc-20-token/erc-20-standard",
@@ -1400,7 +1400,7 @@
                 ]
               },
               {
-                "group": "ERC-721 Tokens",
+                "group": "ERC-721 токены",
                 "pages": [
                   "learn/token-development/erc-721-token/erc-721-standard-video",
                   "learn/token-development/erc-721-token/erc-721-standard",
@@ -1412,7 +1412,7 @@
                 ]
               },
               {
-                "group": "NFT Guides",
+                "group": "NFT руководства",
                 "pages": [
                   "learn/token-development/nft-guides/signature-mint",
                   "learn/token-development/nft-guides/dynamic-nfts",
@@ -1424,7 +1424,7 @@
             ]
           },
           {
-            "group": "Exercise Contracts",
+            "group": "Контракты для заданий",
             "pages": ["learn/exercise-contracts"]
           }
         ]
